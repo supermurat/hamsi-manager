@@ -2,11 +2,11 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="pt_BR">
 <context>
-    <name>OrganizasyonizMInTheAmarok</name>
+    <name>HamsiManagerInTheAmarok</name>
     <message>
         <location filename="main.js" line="47"/>
-        <source>Organize With OrganizasyonizM</source>
-        <translation>Organizar com OrganizasyonizM</translation>
+        <source>Organize With Hamsi Manager</source>
+        <translation>Organizar com Hamsi Manager</translation>
     </message>
     <message>
         <location filename="main.js" line="47"/>
@@ -20,8 +20,8 @@
     </message>
     <message>
         <location filename="main.js" line="47"/>
-        <source>Please once run OrganizasyonizM.OrganizasyonizM if is not installed on your system, please download from http://www.mixdigitall.com/OrganizasyonizM and install it.</source>
-        <translation>Uma vez executado OrganizasyonizM, se o mesmo não estiver instalado em seu sistema, faça o download a partir de http://www.mixdigitall.com/OrganizasyonizM e instale-o.</translation>
+        <source>Please once run Hamsi Manager.Hamsi Manager if is not installed on your system, please download from http://hamsiapps.com/HamsiManager and install it.</source>
+        <translation>Uma vez executado Hamsi Manager, se o mesmo não estiver instalado em seu sistema, faça o download a partir de http://hamsiapps.com/HamsiManager e instale-o.</translation>
     </message>
 </context>
 </TS>
