@@ -67,7 +67,7 @@ if RoutineChecks.checkPyQt4Exist():
                             str(kde4LangKode+".qm")):
                 languageFile = MTranslator()
                 languageFile.load((Universals.sourcePath+"/Languages/HamsiManager_"+
-                            str(kde4LangKode+".qm")).decode("utf-8"))
+                            str(kde4LangKode+".qm")).decode(Settings.defaultFileSystemEncoding))
                 HamsiManagerApp.installTranslator(languageFile)
             Universals.aboutOfHamsiManager = aboutOfHamsiManager
         else:
@@ -76,21 +76,21 @@ if RoutineChecks.checkPyQt4Exist():
                 aboutFileContent = InputOutputs.readFromFile(Universals.sourcePath+"/Languages/About_"+ str(Universals.MySettings["language"]))
             else:
                 aboutFileContent = InputOutputs.readFromFile(Universals.sourcePath+"/Languages/About_en_GB")
-            Universals.aboutOfHamsiManager = aboutFileContent.decode("utf-8")
+            Universals.aboutOfHamsiManager = aboutFileContent.decode(Settings.defaultFileSystemEncoding)
             if InputOutputs.isFile(Universals.sourcePath+"/Languages/HamsiManagerWithQt_"+
                             str(Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()
                 languageFile.load((Universals.sourcePath+"/Languages/HamsiManagerWithQt_"+
-                            str(Universals.MySettings["language"]+".qm")).decode("utf-8"))
+                            str(Universals.MySettings["language"]+".qm")).decode(Settings.defaultFileSystemEncoding))
                 HamsiManagerApp.installTranslator(languageFile)
         HamsiManagerApp.setApplicationName("HamsiManager")
         HamsiManagerApp.setApplicationVersion(RoutineChecks.__version__)
         HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
         HamsiManagerApp.setOrganizationName("Hamsi Apps")
         MApplication.setQuitOnLastWindowClosed(True)
-        MDir.setSearchPaths("Images", MStringList((Universals.themePath + "/Images/").decode("utf-8")))
-        MDir.setSearchPaths("Source", MStringList((Universals.sourcePath+"/").decode("utf-8")))
-        MDir.setSearchPaths("root", MStringList((Universals.sourcePath+"/../").decode("utf-8")))
+        MDir.setSearchPaths("Images", MStringList((Universals.themePath + "/Images/").decode(Settings.defaultFileSystemEncoding)))
+        MDir.setSearchPaths("Source", MStringList((Universals.sourcePath+"/").decode(Settings.defaultFileSystemEncoding)))
+        MDir.setSearchPaths("root", MStringList((Universals.sourcePath+"/../").decode(Settings.defaultFileSystemEncoding)))
         if InputOutputs.isFile(Universals.themePath + "/Style.qss"):
             HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(Universals.themePath + "/Style.qss"))
         MTextCodec.setCodecForTr(MTextCodec.codecForName("UTF-8"))
