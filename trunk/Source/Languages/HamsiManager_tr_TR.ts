@@ -477,18 +477,18 @@
     </message>
     <message>
         <location filename="Source/QuickMake.py" line="152"/>
-        <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Are you want to organize parant directory with OrganizasyonizM?</source>
-        <translation>&quot;%s&quot; : böyle bir dosya bulunamadı.&lt;br&gt;Bir üst dizini OrganizasyonizM ile organize etmek ister misiniz?</translation>
+        <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Are you want to organize parant directory with Hamsi Manager?</source>
+        <translation>&quot;%s&quot; : böyle bir dosya bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
         <location filename="Source/QuickMake.py" line="158"/>
-        <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Are you want to organize parant directory with OrganizasyonizM?</source>
-        <translation>&quot;%s&quot; : böyle bir dizin bulunamadı.&lt;br&gt;Bir üst dizini OrganizasyonizM ile organize etmek ister misiniz?</translation>
+        <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Are you want to organize parant directory with Hamsi Manager?</source>
+        <translation>&quot;%s&quot; : böyle bir dizin bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
         <location filename="Source/QuickMake.py" line="164"/>
-        <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Are you want to organize parant directory with OrganizasyonizM?</source>
-        <translation>&quot;%s&quot; : böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Bir üst dizini OrganizasyonizM ile organize etmek ister misiniz?</translation>
+        <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Are you want to organize parant directory with Hamsi Manager?</source>
+        <translation>&quot;%s&quot; : böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
         <location filename="Source/InputOutputs/__init__.py" line="487"/>
@@ -682,13 +682,13 @@
     </message>
     <message>
         <location filename="install.py" line="184"/>
-        <source>If the path you selected is an &quot;OrganizasyonizM&quot; installation path, &lt;b&gt;I recommend you to delete the older files.&lt;/b&gt;&lt;br&gt;Do you want me to clear the installation path/folder for you?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt; Your personal settings are &lt;b&gt;never deleted&lt;/b&gt;.</source>
-        <translation>Belirttiğiniz kurulum dizini gerçekten bir &quot;OrganizasyonizM&quot; kurulum dizini ise &lt;b&gt;mevcut olan eski dosyaları silmenizi öneriyoruz.&lt;/b&gt;&lt;br&gt;Kurulum dizininin içeriğini temizleyelim mi?&lt;br&gt;&lt;b&gt;Not :&lt;/b&gt; Kişisel ayarlarınız &lt;b&gt;asla silinmez&lt;/b&gt;.</translation>
+        <source>If the path you selected is an &quot;Hamsi Manager&quot; installation path, &lt;b&gt;I recommend you to delete the older files.&lt;/b&gt;&lt;br&gt;Do you want me to clear the installation path/folder for you?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt; Your personal settings are &lt;b&gt;never deleted&lt;/b&gt;.</source>
+        <translation>Belirttiğiniz kurulum dizini gerçekten bir &quot;Hamsi Manager&quot; kurulum dizini ise &lt;b&gt;mevcut olan eski dosyaları silmenizi öneriyoruz.&lt;/b&gt;&lt;br&gt;Kurulum dizininin içeriğini temizleyelim mi?&lt;br&gt;&lt;b&gt;Not :&lt;/b&gt; Kişisel ayarlarınız &lt;b&gt;asla silinmez&lt;/b&gt;.</translation>
     </message>
     <message>
         <location filename="install.py" line="176"/>
-        <source>The selected path is OrganizasyonizM source directory.&lt;br&gt;Please choose a valid installation path.</source>
-        <translation>Seçtiğiniz dizin OrganizasyonizM`im kaynak dizinidir.&lt;br&gt;Lütfen geçerli bir kurulum dizini belirtiniz.</translation>
+        <source>The selected path is Hamsi Manager source directory.&lt;br&gt;Please choose a valid installation path.</source>
+        <translation>Seçtiğiniz dizin Hamsi Manager`im kaynak dizinidir.&lt;br&gt;Lütfen geçerli bir kurulum dizini belirtiniz.</translation>
     </message>
     <message>
         <location filename="install.py" line="261"/>
@@ -702,13 +702,13 @@
     </message>
     <message>
         <location filename="install.py" line="261"/>
-        <source>OrganizasyonizM Installer is running with user privileges.&lt;br&gt;Do you want to run OrganizasyonizM installer with root rights?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt;The other users on your system has to inherit these permissions and install the program to a location other than their /home directories.</source>
-        <translation>OrganizasyonizM Kurulum Aracı kullanıcı yetkileri ile çalışıyor.&lt;br&gt;OrganizasyonizM Kurulum Aracını root yetkileri ile çalıştırmak ister misiniz?&lt;br&gt;&lt;b&gt;Not: &lt;/b&gt;OrganizasyonizM&apos;i kendi ev dizininizin (/home/evim) dışında bir dizine kurmak isterseniz root olarak çalıştırmanız gerekiyor.</translation>
+        <source>Hamsi Manager Installer is running with user privileges.&lt;br&gt;Do you want to run Hamsi Manager installer with root rights?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt;The other users on your system has to inherit these permissions and install the program to a location other than their /home directories.</source>
+        <translation>Hamsi Manager Kurulum Aracı kullanıcı yetkileri ile çalışıyor.&lt;br&gt;Hamsi Manager Kurulum Aracını root yetkileri ile çalıştırmak ister misiniz?&lt;br&gt;&lt;b&gt;Not: &lt;/b&gt;Hamsi Manager&apos;i kendi ev dizininizin (/home/evim) dışında bir dizine kurmak isterseniz root olarak çalıştırmanız gerekiyor.</translation>
     </message>
     <message>
         <location filename="install.py" line="266"/>
-        <source>OrganizasyonizM Installer</source>
-        <translation>OrganizasyonizM Kurulum Aracı</translation>
+        <source>Hamsi Manager Installer</source>
+        <translation>Hamsi Manager Kurulum Aracı</translation>
     </message>
     <message>
         <location filename="install.py" line="115"/>
@@ -815,8 +815,8 @@
     </message>
     <message>
         <location filename="Source/Bars.py" line="220"/>
-        <source>About OrganizasyonizM</source>
-        <translation>OrganizasyonizM Hakkında</translation>
+        <source>About Hamsi Manager</source>
+        <translation>Hamsi Manager Hakkında</translation>
     </message>
     <message>
         <location filename="Source/Bars.py" line="192"/>
@@ -885,8 +885,8 @@
     </message>
     <message>
         <location filename="Source/Bars.py" line="146"/>
-        <source>OrganizasyonizM can not run as root.</source>
-        <translation>OrganizasyonizM root olarak çalıştırılamadı.</translation>
+        <source>Hamsi Manager can not run as root.</source>
+        <translation>Hamsi Manager root olarak çalıştırılamadı.</translation>
     </message>
     <message>
         <location filename="Source/Bars.py" line="163"/>
@@ -1230,8 +1230,8 @@
     <name>MyPlugins/InTheAmarok</name>
     <message>
         <location filename="Source/MyPlugins/InTheAmarok/__init__.py" line="5"/>
-        <source>OrganizasyonizM In The Amarok</source>
-        <translation>Amarok&apos;ta OrganizasyonizM</translation>
+        <source>Hamsi Manager In The Amarok</source>
+        <translation>Amarok&apos;ta Hamsi Manager</translation>
     </message>
 </context>
 <context>
@@ -1259,18 +1259,18 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
-        <source>Organize With OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile Düzenle</translation>
+        <source>Organize With Hamsi Manager</source>
+        <translation>Hamsi Manager ile Düzenle</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
-        <source>You can organize with OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile düzenleyebilirsiniz</translation>
+        <source>You can organize with Hamsi Manager</source>
+        <translation>Hamsi Manager ile düzenleyebilirsiniz</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
-        <source>You can continue to edit the folder you select with OrganizasyonizM</source>
-        <translation>Dizini düzeltmeye OrganizasyonizM ile devam edebilirsiniz</translation>
+        <source>You can continue to edit the folder you select with Hamsi Manager</source>
+        <translation>Dizini düzeltmeye Hamsi Manager ile devam edebilirsiniz</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="22"/>
@@ -1279,8 +1279,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="40"/>
-        <source>Auto emend with OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile otomatik olarak düzelt</translation>
+        <source>Auto emend with Hamsi Manager</source>
+        <translation>Hamsi Manager ile otomatik olarak düzelt</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="40"/>
@@ -1294,8 +1294,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="49"/>
-        <source>Pack it with OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile paketle</translation>
+        <source>Pack it with Hamsi Manager</source>
+        <translation>Hamsi Manager ile paketle</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="58"/>
@@ -1304,8 +1304,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="58"/>
-        <source>Check directory icon with OrganizasyonizM</source>
-        <translation>Dizinin simgesini OrganizasyonizM ile kontrol et</translation>
+        <source>Check directory icon with Hamsi Manager</source>
+        <translation>Dizinin simgesini Hamsi Manager ile kontrol et</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="67"/>
@@ -1314,8 +1314,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="67"/>
-        <source>Clear empty directories with OrganizasyonizM</source>
-        <translation>Boş dizinleri OrganizasyonizM ile sil</translation>
+        <source>Clear empty directories with Hamsi Manager</source>
+        <translation>Boş dizinleri Hamsi Manager ile sil</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="76"/>
@@ -1324,8 +1324,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="76"/>
-        <source>Clear unneededs with OrganizasyonizM</source>
-        <translation>Gereksizleri OrganizasyonizM ile temizle</translation>
+        <source>Clear unneededs with Hamsi Manager</source>
+        <translation>Gereksizleri Hamsi Manager ile temizle</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="85"/>
@@ -1334,8 +1334,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="85"/>
-        <source>Clear ignoreds with OrganizasyonizM</source>
-        <translation>Yok sayılanları OrganizasyonizM ile sil</translation>
+        <source>Clear ignoreds with Hamsi Manager</source>
+        <translation>Yok sayılanları Hamsi Manager ile sil</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="31"/>
@@ -1344,8 +1344,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="31"/>
-        <source>Auto emend with OrganizasyonizM (With Contents)</source>
-        <translation>OrganizasyonizM ile otomatik olarak düzelt (İçeriği İle)</translation>
+        <source>Auto emend with Hamsi Manager (With Contents)</source>
+        <translation>Hamsi Manager ile otomatik olarak düzelt (İçeriği İle)</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="94"/>
@@ -1354,8 +1354,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="94"/>
-        <source>Copy path to clipboard with OrganizasyonizM</source>
-        <translation>Yolu OrganizasyonizM ile panoya kopyala</translation>
+        <source>Copy path to clipboard with Hamsi Manager</source>
+        <translation>Yolu Hamsi Manager ile panoya kopyala</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="103"/>
@@ -1364,8 +1364,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="103"/>
-        <source>Build file tree with OrganizasyonizM</source>
-        <translation>Dosya ağacını OrganizasyonizM ile oluştur</translation>
+        <source>Build file tree with Hamsi Manager</source>
+        <translation>Dosya ağacını Hamsi Manager ile oluştur</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="112"/>
@@ -1374,8 +1374,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="112"/>
-        <source>Remove sub files with OrganizasyonizM</source>
-        <translation>Alt dosyaları OrganizasyonizM ile sil</translation>
+        <source>Remove sub files with Hamsi Manager</source>
+        <translation>Alt dosyaları Hamsi Manager ile sil</translation>
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="121"/>
@@ -1384,8 +1384,8 @@
     </message>
     <message>
         <location filename="Source/MyPlugins/Krusader/__init__.py" line="121"/>
-        <source>Clear it with OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile Temizle</translation>
+        <source>Clear it with Hamsi Manager</source>
+        <translation>Hamsi Manager ile Temizle</translation>
     </message>
 </context>
 <context>
@@ -1487,8 +1487,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="513"/>
-        <source>&lt;font color=red&gt;* :Requires a restart of OrganizasyonizM.&lt;/font&gt;</source>
-        <translation>&lt;font color=red&gt;* : OrganizasyonizM`i yeniden başlatmanızı gerektirir.&lt;/font&gt;</translation>
+        <source>&lt;font color=red&gt;* :Requires a restart of Hamsi Manager.&lt;/font&gt;</source>
+        <translation>&lt;font color=red&gt;* : Hamsi Manager`i yeniden başlatmanızı gerektirir.&lt;/font&gt;</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="246"/>
@@ -1497,8 +1497,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="246"/>
-        <source>In order to apply the changes you have to restart OrganizasyonizM.&lt;br&gt;Do you want to restart now?</source>
-        <translation>Yaptığınız ayarların tamamen aktifleşmesi için OrganizasyonizM`i yeniden başlatmanız gerekmektedir.&lt;br&gt;Şimdi yeniden başlatmak istermisiniz?</translation>
+        <source>In order to apply the changes you have to restart Hamsi Manager.&lt;br&gt;Do you want to restart now?</source>
+        <translation>Yaptığınız ayarların tamamen aktifleşmesi için Hamsi Manager`i yeniden başlatmanız gerekmektedir.&lt;br&gt;Şimdi yeniden başlatmak istermisiniz?</translation>
     </message>
     <message>
         <location filename="Source/SpecialTools.py" line="817"/>
@@ -1557,8 +1557,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="556"/>
-        <source>You can select OrganizasyonizM`s style.</source>
-        <translation>OrganizasyonizM`in stilini seçebilirsiniz.</translation>
+        <source>You can select Hamsi Manager`s style.</source>
+        <translation>Hamsi Manager`in stilini seçebilirsiniz.</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="558"/>
@@ -1842,18 +1842,18 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="563"/>
-        <source>You can select OrganizasyonizM`s language.</source>
-        <translation>OrganizasyonizM`in dilini seçebilirsiniz.</translation>
+        <source>You can select Hamsi Manager`s language.</source>
+        <translation>Hamsi Manager`in dilini seçebilirsiniz.</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="1190"/>
-        <source>KDE4 Language Will Be Reinstalled Into OrganizasyonizM</source>
-        <translation>KDE4`ün Dili OrganizasyonizM`e Tekrar Kurulacak</translation>
+        <source>KDE4 Language Will Be Reinstalled Into Hamsi Manager</source>
+        <translation>KDE4`ün Dili Hamsi Manager`e Tekrar Kurulacak</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="1190"/>
-        <source>Are you sure you want to reinstall kde4 language into OrganizasyonizM?</source>
-        <translation>KDE4`ün dilini OrganizasyonizM`e tekrar kurmak istediğinizden emin misiniz?</translation>
+        <source>Are you sure you want to reinstall kde4 language into Hamsi Manager?</source>
+        <translation>KDE4`ün dilini Hamsi Manager`e tekrar kurmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="1195"/>
@@ -1997,8 +1997,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="596"/>
-        <source>All created by OrganizasyonizM error logs and temp files is deleted.</source>
-        <translation>OrganizasyonizM tarafından oluşturulan hata kayıtları ve geçici dosyalar silindi.</translation>
+        <source>All created by Hamsi Manager error logs and temp files is deleted.</source>
+        <translation>Hamsi Manager tarafından oluşturulan hata kayıtları ve geçici dosyalar silindi.</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="1232"/>
@@ -2097,8 +2097,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="557"/>
-        <source>You can select OrganizasyonizM`s theme.</source>
-        <translation>OrganizasyonizM`in temasını seçebilirsiniz.</translation>
+        <source>You can select Hamsi Manager`s theme.</source>
+        <translation>Hamsi Manager`in temasını seçebilirsiniz.</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="559"/>
@@ -2377,7 +2377,7 @@
     </message>
 </context>
 <context>
-    <name>OrganizasyonizM</name>
+    <name>HamsiManager</name>
     <message>
         <location filename="Source/StartupControl.py" line="119"/>
         <source>Your System&apos;s &quot;File System Encoding&quot; Type Different</source>
@@ -2395,13 +2395,13 @@
     </message>
     <message>
         <location filename="Source/StartupControl.py" line="127"/>
-        <source>New options and new features added to OrganizasyonizM. Are you want to change or verify new options?</source>
-        <translation>OrganizasyonizM&apos;e yeni seçenekler ve yeni özellikler eklendi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
+        <source>New options and new features added to Hamsi Manager. Are you want to change or verify new options?</source>
+        <translation>Hamsi Manager&apos;e yeni seçenekler ve yeni özellikler eklendi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
     </message>
     <message>
         <location filename="Source/StartupControl.py" line="135"/>
-        <source>New options and new features added to OrganizasyonizM. Changed default values of few settings. Are you want to change or verify new options?</source>
-        <translation>OrganizasyonizM&apos;e yeni seçenekler ve yeni özellikler eklendi. Bazı ayarların varsayılan değerleri değiştirildi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
+        <source>New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?</source>
+        <translation>Hamsi Manager&apos;e yeni seçenekler ve yeni özellikler eklendi. Bazı ayarların varsayılan değerleri değiştirildi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
     </message>
 </context>
 <context>
@@ -2843,8 +2843,8 @@
     </message>
     <message>
         <location filename="Source/Records.py" line="19"/>
-        <source>OrganizasyonizM Log File - Time Created : </source>
-        <translation>OrganizasyonizM Kayıt Dosyası - Oluşturulma Zamanı : </translation>
+        <source>Hamsi Manager Log File - Time Created : </source>
+        <translation>Hamsi Manager Kayıt Dosyası - Oluşturulma Zamanı : </translation>
     </message>
     <message>
         <location filename="Source/Records.py" line="84"/>
@@ -2858,8 +2858,8 @@
     </message>
     <message>
         <location filename="Source/Records.py" line="71"/>
-        <source>OrganizasyonizM Log File - Time Clear : </source>
-        <translation>OrganizasyonizM Kayıt Dosyası - Temizleme Zamanı : </translation>
+        <source>Hamsi Manager Log File - Time Clear : </source>
+        <translation>Hamsi Manager Kayıt Dosyası - Temizleme Zamanı : </translation>
     </message>
     <message>
         <location filename="Source/Records.py" line="91"/>
@@ -2951,8 +2951,8 @@
     </message>
     <message>
         <location filename="Source/ReportBug.py" line="183"/>
-        <source>&lt;b&gt;Please check the following: ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;If you have received this error when you were checking the last folder, reset the &quot;Last Directory&quot;,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;If you have received this error due to your changed settings, reset the &quot;Settings&quot;,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;If you continue to receive this error even after resetting the settings, reset &quot;All&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;You can enable OrganizasyonizM to run as normal.&lt;br&gt;Please take a moment to send us the error report.&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Bu hatayı ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;Girmiş olduğunuz son dizini okuma sırasında alıyorsanız &quot;Son Dizini&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;Son yapmış olduğunuz ayarlar neticesinde alıyorsanız &quot;Ayarları&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;Ayarları sıfırladıktan sonrada almaya devam ediyorsanız &quot;Hepsini&quot; sıfırlayarak,&lt;br&gt;&lt;br&gt;&lt;b&gt;OrganizasyonizM`in açılmasını sağlayabilirsiniz.&lt;br&gt;Lütfen hatayı bize bildiriniz.&lt;/b&gt;</translation>
+        <source>&lt;b&gt;Please check the following: ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;If you have received this error when you were checking the last folder, reset the &quot;Last Directory&quot;,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;If you have received this error due to your changed settings, reset the &quot;Settings&quot;,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;If you continue to receive this error even after resetting the settings, reset &quot;All&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;You can enable Hamsi Manager to run as normal.&lt;br&gt;Please take a moment to send us the error report.&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Bu hatayı ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;Girmiş olduğunuz son dizini okuma sırasında alıyorsanız &quot;Son Dizini&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;Son yapmış olduğunuz ayarlar neticesinde alıyorsanız &quot;Ayarları&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;Ayarları sıfırladıktan sonrada almaya devam ediyorsanız &quot;Hepsini&quot; sıfırlayarak,&lt;br&gt;&lt;br&gt;&lt;b&gt;Hamsi Manager`in açılmasını sağlayabilirsiniz.&lt;br&gt;Lütfen hatayı bize bildiriniz.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="Source/ReportBug.py" line="197"/>
@@ -2981,8 +2981,8 @@
     </message>
     <message>
         <location filename="Source/StartupControl.py" line="163"/>
-        <source>&quot;%s&quot; is not in this module.Please download and install OrganizasyonizM again.</source>
-        <translation>&quot;%s&quot; modülde mevcut değil.Lütfen OrganizasyonizM`i tekrar indirip kurunuz.</translation>
+        <source>&quot;%s&quot; is not in this module.Please download and install Hamsi Manager again.</source>
+        <translation>&quot;%s&quot; modülde mevcut değil.Lütfen Hamsi Manager`i tekrar indirip kurunuz.</translation>
     </message>
     <message>
         <location filename="Source/StartupControl.py" line="165"/>
@@ -3000,12 +3000,12 @@
         <translation>&quot;%s&quot; modülü olmadan uygulama çalışmayacaktır.</translation>
     </message>
     <message>
-        <location filename="OrganizasyonizM.py" line="227"/>
+        <location filename="Hamsi Manager.py" line="227"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation>Kritik bir hata oluştu.Detaylara bakmak istiyorsanız &quot;%s&quot; dosyasına bakabilirsiniz.Eğer Mümkünse bu hatanın detaylarını bize göndermenizi rica ederiz.</translation>
     </message>
     <message>
-        <location filename="OrganizasyonizM.py" line="228"/>
+        <location filename="Hamsi Manager.py" line="228"/>
         <source>Thanks in advance for your interest.</source>
         <translation>İlginiz için şimdiden teşekkür ederiz.</translation>
     </message>
@@ -3493,8 +3493,8 @@
     </message>
     <message>
         <location filename="Source/SpecialTools.py" line="589"/>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;OrganizasyonizM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;izM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Organizasyon&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
-        <translation>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Önce&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Ara&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Yerine Yaz&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Sonra&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;OrganizasyonizM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;izM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Organizasyon&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</translation>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Hamsi Manager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;izM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Organizasyon&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
+        <translation>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Önce&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Ara&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Yerine Yaz&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Sonra&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Hamsi Manager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;izM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Organizasyon&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</translation>
     </message>
     <message>
         <location filename="Source/SpecialTools.py" line="60"/>
@@ -3536,8 +3536,8 @@
     <name>StatusBar</name>
     <message>
         <location filename="Source/Bars.py" line="574"/>
-        <source>OrganizasyonizM running as root</source>
-        <translation>OrganizasyonizM root olarak çalıştırılıyor</translation>
+        <source>Hamsi Manager running as root</source>
+        <translation>Hamsi Manager root olarak çalıştırılıyor</translation>
     </message>
     <message>
         <location filename="Source/Bars.py" line="577"/>
@@ -4045,8 +4045,8 @@
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="99"/>
-        <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://www.mixdigitall.com/OrganizasyonizM&quot;.</source>
-        <translation>Güncelleme bilgierine ulaşılamıyor.Lütfen daha sonra tekrar deneyiniz.&lt;br&gt;Eğer bu hatayı sık sık alıyorsanız lütfen &quot;http://www.mixdigitall.com/OrganizasyonizM&quot;`i ziyaret ediniz.</translation>
+        <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://www.mixdigitall.com/Hamsi Manager&quot;.</source>
+        <translation>Güncelleme bilgierine ulaşılamıyor.Lütfen daha sonra tekrar deneyiniz.&lt;br&gt;Eğer bu hatayı sık sık alıyorsanız lütfen &quot;http://www.mixdigitall.com/Hamsi Manager&quot;`i ziyaret ediniz.</translation>
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="97"/>
@@ -4095,18 +4095,18 @@
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="78"/>
-        <source>New release is available. Please download and install.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</source>
-        <translation>Yeni sürüm mevcut.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</translation>
+        <source>New release is available. Please download and install.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
+        <translation>Yeni sürüm mevcut.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="84"/>
-        <source>Version %s is available. Please download and install the new release.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</source>
-        <translation>%s isimli sürüm yayımlandı.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;%s Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</translation>
+        <source>Version %s is available. Please download and install the new release.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
+        <translation>%s isimli sürüm yayımlandı.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;%s Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="87"/>
-        <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</source>
-        <translation>Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</translation>
+        <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
+        <translation>Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="177"/>
@@ -4115,8 +4115,8 @@
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="177"/>
-        <source>Please restart OrganizasyonizM now.</source>
-        <translation>Lütfen OrganizasyonizM`i yeniden başlatınız.</translation>
+        <source>Please restart Hamsi Manager now.</source>
+        <translation>Lütfen Hamsi Manager`i yeniden başlatınız.</translation>
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="177"/>
