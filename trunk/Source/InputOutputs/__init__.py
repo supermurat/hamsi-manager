@@ -707,15 +707,16 @@ class InputOutputs:
         cover = None
         imageFiles = []
         for fileName in listDir(_path):
-            if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
-                cover = fileName
-                break
-            if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).decode("utf-8").lower()) != 0:
-                imageFiles.append(fileName)
-                for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
-                    if str(fileName.split(".")[0]).lower()==str(coverName).lower():
-                        cover = fileName
-                        break
+            if isFile(_path + "/" + fileName):
+                if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
+                    cover = fileName
+                    break
+                if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).decode("utf-8").lower()) != 0:
+                    imageFiles.append(fileName)
+                    for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
+                        if str(fileName.split(".")[0]).lower()==str(coverName).lower():
+                            cover = fileName
+                            break
         if cover == None and len(imageFiles)>0:
             for imgFile in imageFiles:
                 cover = imgFile
