@@ -225,7 +225,7 @@ class ReportBug(MDialog):
                     '<TABLE><TR><TD align="right"><input name="send" type="submit" value="&nbsp;&nbsp;&nbsp;%s&nbsp;&nbsp;&nbsp;&nbsp;"></TD></TR></TABLE>'+
                     '<INPUT TYPE="hidden" name="error" value="~ERRORDETAILS~" />'+
                     '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
-                    '<INPUT TYPE="hidden" name="toControl" value="HamsiManager" />'+
+                    '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
                     '<INPUT TYPE="hidden" name="l" value="' + str(Universals.MySettings["language"]) + '" />'+
                     '<INPUT TYPE="hidden" name="v" value="' + str(__intversion__) + '" /></form>'+
                     '~ADDITIONALDETAILS~</center></body></html>'
