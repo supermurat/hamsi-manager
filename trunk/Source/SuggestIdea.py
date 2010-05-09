@@ -5,6 +5,7 @@ import sys,os
 from MyObjects import *
 import Universals
 import Settings
+from RoutineChecks import __intversion__
 
 class SuggestIdea(MDialog):
     def __init__(self):
@@ -47,7 +48,9 @@ class SuggestIdea(MDialog):
                     '<TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="mail" value=""></input></TD></TR></TABLE>'+
                     '<TABLE><TR><TD align="right"><input name="send" type="submit" value="&nbsp;&nbsp;&nbsp;%s&nbsp;&nbsp;&nbsp;&nbsp;"></TD></TR></TABLE>'+
                     '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
-                    '<INPUT TYPE="hidden" name="toControl" value="HamsiManager" /></form>'+
+                    '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
+                    '<INPUT TYPE="hidden" name="l" value="' + str(Universals.MySettings["language"]) + '" />'+
+                    '<INPUT TYPE="hidden" name="v" value="' + str(__intversion__) + '" /></form>'+
                     '</center></body></html>'
                     ) % (
                     str(translate("SuggestIdea", "<b>Idea :</b>")), 
