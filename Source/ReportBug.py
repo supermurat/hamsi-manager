@@ -147,7 +147,6 @@ class ReportBug(MDialog):
         self.teErrorDetails = MTextEdit()  
         self.wvWeb = QtWebKit.QWebView()
         self.createErrorPage(errorDetails)
-        self.connect(self.wvWeb,SIGNAL("loadStarted()"),self.loadStarted)
         self.connect(self.wvWeb,SIGNAL("loadProgress(int)"),self.loading)
         try:
             self.teErrorDetails.setHtml(errorDetails.replace("<hr>", "").decode("utf-8"))
@@ -272,10 +271,6 @@ class ReportBug(MDialog):
     def errorDetailsChanged(self):
         self.createErrorPage(unicode(self.teErrorDetails.toHtml(), "utf-8"))
         pass
-    
-    def loadStarted(self):
-        if self.isLoading:
-            self.teErrorDetails.setEnabled(False) 
     
     def loading(self, _value):
         if self.isLoading:

@@ -764,8 +764,13 @@ class SearchAndReplace(MWidget):
         
         def itemChanged(self, _item):
             if self.isShowChanges==True:
-                try:
-                    if _item.row()==self.item(self.rowCount()-1, _item.column()).row():
+                #try:
+                    lastRowNo = -1
+                    for rowNo in range(self.rowCount(), 0, -1):
+                        if self.isRowHidden(rowNo -1)==False:
+                            lastRowNo = rowNo -1
+                            break
+                    if _item.row()==lastRowNo and self.item(lastRowNo, 1).text()!="" :
                         self.setRowCount(self.rowCount()+1)
                         self.isShowChanges = False
                         self.setItem(self.rowCount()-1, 1, MTableWidgetItem(u""))
@@ -780,7 +785,7 @@ class SearchAndReplace(MWidget):
                         twiItem2.setCheckState(Mt.Unchecked)
                         self.setItem(self.rowCount()-1, 5, twiItem2)
                         self.isShowChanges = True
-                except:pass
+                #except:pass
         
         def save(self):
             for rowNo in range(self.rowCount()):
@@ -796,7 +801,8 @@ class SearchAndReplace(MWidget):
                     if self.isRowHidden(rowNo):
                         Settings.searchAndReplaceTable("delete", str(self.item(rowNo, 0).text()))
                     else:
-                        Settings.searchAndReplaceTable("update", str(self.item(rowNo, 0).text()), str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
+                        if str(self.item(rowNo, 1).text()).strip()!="":
+                            Settings.searchAndReplaceTable("update", str(self.item(rowNo, 0).text()), str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
                 except:
                     if str(self.item(rowNo, 1).text()).strip()!="":
                         insertedId = Settings.searchAndReplaceTable("add", str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
