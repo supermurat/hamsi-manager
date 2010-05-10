@@ -41,7 +41,7 @@ class MyPlugins(MDialog):
         self.lstwPluginList.clear()
         for plugin in InputOutputs.getMyPluginsNames():
             exec "from " + plugin + " import pluginName , pluginVersion, isInstallable"
-            if isInstallable()==False:
+            if isInstallable():
                 mySetting = Settings.universalSetting()
                 installedVersion = str(mySetting.value(pluginName.decode("utf-8")).toString())
                 if installedVersion == "":
