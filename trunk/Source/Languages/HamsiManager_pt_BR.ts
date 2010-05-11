@@ -351,6 +351,49 @@
     </message>
 </context>
 <context>
+    <name>HamsiManager</name>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="126"/>
+        <source>Your System&apos;s &quot;File System Encoding&quot; Type Different</source>
+        <translation>Seu diferente tipo de sistema de codificação do sistema de arquivo</translation>
+    </message>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="126"/>
+        <source>Your system&apos;s &quot;File System Encoding&quot; type different from the settings you select. Are you sure you want to continue?If you are not sure press the &quot;No&quot;.</source>
+        <translation>Seu diferente tipo de sistema de codificação do sistema de arquivo da definições que você seleciou. Você tem certeza que deseja continuar? Se você não tem certeza, pressione &quot;Não&quot;.</translation>
+    </message>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="142"/>
+        <source>Added New Options And New Features</source>
+        <translation>Adicionados novas opções e novos recursos</translation>
+    </message>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="134"/>
+        <source>New options and new features added to Hamsi Manager. Are you want to change or verify new options?</source>
+        <translation>Novas opções e novos recursos adicionados ao Hamsi Manager. Você deseja alterar ou verificar as novas opções?</translation>
+    </message>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="142"/>
+        <source>New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?</source>
+        <translation>Novas opções e novos recursos adicionados ao Hamsi Manager. Alterado os valores padrão de algumas configurações. Você deseja alterar ou verificar as novas opções?</translation>
+    </message>
+    <message>
+        <location filename="Source/OldAppName.py" line="120"/>
+        <source>The Old Version Was Detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Source/OldAppName.py" line="103"/>
+        <source>OrganizasyonizM setting directory was detected.Are you want to delete &quot;%s&quot;?&lt;br&gt;Note:This directory will not be used anymore.You can delete this directory.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Source/OldAppName.py" line="120"/>
+        <source>Executable OrganizasyonizM file was detected in your system.Are you want to delete &quot;%s&quot; and creat new Executable Hamsi Manager(&quot;%s&quot;)?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ImageDetails</name>
     <message>
         <location filename="Source/Details/ImageDetails.py" line="42"/>
@@ -381,17 +424,17 @@
 <context>
     <name>InputOutputs</name>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="832"/>
+        <location filename="Source/InputOutputs/__init__.py" line="848"/>
         <source>Checking Empty Directories</source>
         <translation>Verificando diretórios vazios</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="853"/>
+        <location filename="Source/InputOutputs/__init__.py" line="869"/>
         <source>Deleting Empty Directories</source>
         <translation>Excluindo diretórios vazios</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="856"/>
+        <location filename="Source/InputOutputs/__init__.py" line="872"/>
         <source>Empty Directories Deleted</source>
         <translation>Diretórios vazios excluídos</translation>
     </message>
@@ -401,7 +444,7 @@
         <translation>Nome do arquivo atual</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="870"/>
+        <location filename="Source/InputOutputs/__init__.py" line="886"/>
         <source>Current Directory Name</source>
         <translation>Nome do diretório atual</translation>
     </message>
@@ -421,7 +464,7 @@
         <translation>Acesso negado</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="630"/>
+        <location filename="Source/InputOutputs/__init__.py" line="631"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation>Alterando a pasta (dos arquivos)</translation>
     </message>
@@ -481,27 +524,27 @@
         <translation>&quot;%s&quot; : já existe uma pasta com o mesmo nome.&lt;br&gt;Adicionar esse arquivo na pasta atual?</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="280"/>
+        <location filename="Source/InputOutputs/__init__.py" line="281"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Add your files to the current folder?</source>
         <translation>&quot;%s&quot; : já existe uma pasta com o mesmo nome.&lt;br&gt;Adicionar seus arquivos na pasta atual?</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="870"/>
+        <location filename="Source/InputOutputs/__init__.py" line="886"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation>&quot;%s&quot; : já existe uma pasta com o mesmo nome.&lt;br&gt;Por favor, escolha outro nome para o arquivo!</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="487"/>
+        <location filename="Source/InputOutputs/__init__.py" line="488"/>
         <source>Directory Deleted</source>
         <translation>Diretório excluído</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="857"/>
+        <location filename="Source/InputOutputs/__init__.py" line="873"/>
         <source>Project Directory Deleted</source>
         <translation>Diretório do projeto excluído</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="859"/>
+        <location filename="Source/InputOutputs/__init__.py" line="875"/>
         <source>Project Directory Cleaned</source>
         <translation>Diretório do projeto limpo</translation>
     </message>
@@ -509,12 +552,12 @@
 <context>
     <name>InputOutputs/Files</name>
     <message>
-        <location filename="Source/InputOutputs/Files.py" line="26"/>
+        <location filename="Source/InputOutputs/Files.py" line="29"/>
         <source>Reading File Informations</source>
         <translation>Lendo informações do arquivo</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Files.py" line="70"/>
+        <location filename="Source/InputOutputs/Files.py" line="77"/>
         <source>Writing File Informations</source>
         <translation>Gravando informações no arquivo</translation>
     </message>
@@ -522,12 +565,12 @@
 <context>
     <name>InputOutputs/Folders</name>
     <message>
-        <location filename="Source/InputOutputs/Folders.py" line="26"/>
+        <location filename="Source/InputOutputs/Folders.py" line="29"/>
         <source>Reading Directory Informations</source>
         <translation>Lendo informações do diretório</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Folders.py" line="70"/>
+        <location filename="Source/InputOutputs/Folders.py" line="77"/>
         <source>Writing Directory Informations</source>
         <translation>Gravando informações no diretório</translation>
     </message>
@@ -535,22 +578,22 @@
 <context>
     <name>InputOutputs/Musics</name>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="117"/>
+        <location filename="Source/InputOutputs/Musics.py" line="118"/>
         <source>Reading Music Tags</source>
         <translation>Lendo rótulos da música</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="119"/>
+        <location filename="Source/InputOutputs/Musics.py" line="120"/>
         <source>Possible ID3 Mismatch</source>
         <translation>Possível descompasso ID3</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="119"/>
+        <location filename="Source/InputOutputs/Musics.py" line="120"/>
         <source>Some of the files presented in the table may not support ID3 technology.&lt;br&gt;Please check the files and make sure they support ID3 information before proceeding.</source>
         <translation>Alguns dos arquivos apresentados na tabela podem não suportar a tecnologia ID3.&lt;br&gt;Por favor, verifique os arquivos e certifique-se se eles suportam informações ID3 antes de prosseguir.</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="243"/>
+        <location filename="Source/InputOutputs/Musics.py" line="257"/>
         <source>Writing Music Tags</source>
         <translation>Gravando rótulos da música</translation>
     </message>
@@ -558,12 +601,12 @@
 <context>
     <name>InputOutputs/SubFolders</name>
     <message>
-        <location filename="Source/InputOutputs/SubFolders.py" line="29"/>
+        <location filename="Source/InputOutputs/SubFolders.py" line="32"/>
         <source>Reading File Informations</source>
         <translation>Lendo informações do arquivo</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/SubFolders.py" line="74"/>
+        <location filename="Source/InputOutputs/SubFolders.py" line="81"/>
         <source>Writing File Informations</source>
         <translation>Gravando informações no arquivo</translation>
     </message>
@@ -571,154 +614,164 @@
 <context>
     <name>Install</name>
     <message>
-        <location filename="install.py" line="58"/>
+        <location filename="install.py" line="59"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>
     <message>
-        <location filename="install.py" line="147"/>
+        <location filename="install.py" line="156"/>
         <source>Forward</source>
         <translation>Avançar</translation>
     </message>
     <message>
-        <location filename="install.py" line="60"/>
+        <location filename="install.py" line="61"/>
         <source>Install</source>
         <translation>Instalar</translation>
     </message>
     <message>
-        <location filename="install.py" line="184"/>
+        <location filename="install.py" line="195"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="install.py" line="70"/>
+        <location filename="install.py" line="74"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="install.py" line="94"/>
+        <location filename="install.py" line="102"/>
         <source>Please Select A Folder For Installation.</source>
         <translation>Por favor, selecione uma pasta para instalação.</translation>
     </message>
     <message>
-        <location filename="install.py" line="96"/>
+        <location filename="install.py" line="104"/>
         <source>Browse</source>
         <translation>Navegar</translation>
     </message>
     <message>
-        <location filename="install.py" line="109"/>
+        <location filename="install.py" line="117"/>
         <source>Create Desktop Shortcut.</source>
         <translation>Criar atalho no desktop.</translation>
     </message>
     <message>
-        <location filename="install.py" line="111"/>
+        <location filename="install.py" line="119"/>
         <source>Installation Complete.</source>
         <translation>Instalação completa.</translation>
     </message>
     <message>
-        <location filename="install.py" line="126"/>
+        <location filename="install.py" line="134"/>
         <source>Please select a folder for installation.</source>
         <translation>Por favor, selecione uma pasta para instalação.</translation>
     </message>
     <message>
-        <location filename="install.py" line="152"/>
+        <location filename="install.py" line="162"/>
         <source>Accept</source>
         <translation>Aceitar</translation>
     </message>
     <message>
-        <location filename="install.py" line="181"/>
+        <location filename="install.py" line="192"/>
         <source>Creating Installation Folder...</source>
         <translation>Criando pasta de instalação...</translation>
     </message>
     <message>
-        <location filename="install.py" line="184"/>
+        <location filename="install.py" line="195"/>
         <source>The Installation Path You Selected Is Not Empty.</source>
         <translation>O local de instalação que você selecionou não está vazio.</translation>
     </message>
     <message>
-        <location filename="install.py" line="189"/>
+        <location filename="install.py" line="200"/>
         <source>Yes (Recommended)</source>
         <translation>Sim (Recomendado)</translation>
     </message>
     <message>
-        <location filename="install.py" line="194"/>
+        <location filename="install.py" line="205"/>
         <source>No (Overwrite)</source>
         <translation>Não (Substituir)</translation>
     </message>
     <message>
-        <location filename="install.py" line="190"/>
+        <location filename="install.py" line="201"/>
         <source>Clearing Installation Path...</source>
         <translation>Apagar local de instalação...</translation>
     </message>
     <message>
-        <location filename="install.py" line="201"/>
+        <location filename="install.py" line="212"/>
         <source>Copying Files And Folders...</source>
         <translation>Copiando arquivos e pastas...</translation>
     </message>
     <message>
-        <location filename="install.py" line="224"/>
+        <location filename="install.py" line="235"/>
         <source>The path you selected is not valid.</source>
         <translation>O local que você selecionou não é válido.</translation>
     </message>
     <message>
-        <location filename="install.py" line="224"/>
+        <location filename="install.py" line="235"/>
         <source>The selected path points to a file not a folder.&lt;br&gt;Please choose a valid installation path.</source>
         <translation>O local selecionado aponta para um arquivo não uma pasta.&lt;br&gt;Por favor, escolha um local de instalação válido.</translation>
     </message>
     <message>
-        <location filename="install.py" line="230"/>
+        <location filename="install.py" line="241"/>
         <source>Finalizing Installation</source>
         <translation>Concluindo instalação</translation>
     </message>
     <message>
-        <location filename="install.py" line="230"/>
+        <location filename="install.py" line="241"/>
         <source>Are You Sure You Want To Quit?</source>
         <translation>Tem certeza de que deseja sair?</translation>
     </message>
     <message>
-        <location filename="install.py" line="262"/>
+        <location filename="install.py" line="273"/>
         <source>Yes</source>
         <translation>Sim</translation>
     </message>
     <message>
-        <location filename="install.py" line="176"/>
+        <location filename="install.py" line="187"/>
         <source>The selected path is Hamsi Manager source directory.&lt;br&gt;Please choose a valid installation path.</source>
         <translation>O local selecionado é o diretório origem de Hamsi Manager.&lt;br&gt;Por favor, escolha um local de instalação válido.</translation>
     </message>
     <message>
-        <location filename="install.py" line="184"/>
+        <location filename="install.py" line="195"/>
         <source>If the path you selected is an &quot;Hamsi Manager&quot; installation path, &lt;b&gt;I recommend you to delete the older files.&lt;/b&gt;&lt;br&gt;Do you want me to clear the installation path/folder for you?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt; Your personal settings are &lt;b&gt;never deleted&lt;/b&gt;.</source>
         <translation>Se o local que vocẽ escolheu é um local de instalação de &quot;Hamsi Manager&quot;, &lt;b&gt;eu recomendo que você exclua os arquivos mais antigos.&lt;/b&gt;&lt;br&gt;Você deseja apagar o(a) local/pasta de instalação?&lt;br&gt;&lt;b&gt;Observação: &lt;/b&gt;Suas configurações pessoais &lt;b&gt;não serão excluídas&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="install.py" line="261"/>
+        <location filename="install.py" line="272"/>
         <source>Are You Want To Run As Root?</source>
         <translation>Tem certeza de que deseja executar como root?</translation>
     </message>
     <message>
-        <location filename="install.py" line="261"/>
+        <location filename="install.py" line="272"/>
         <source>Hamsi Manager Installer is running with user privileges.&lt;br&gt;Do you want to run Hamsi Manager installer with root rights?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt;The other users on your system has to inherit these permissions and install the program to a location other than their /home directories.</source>
         <translation>Instalador Hamsi Manager é executado com privilégios de usuário.&lt;br&gt;Você deseja executar o instalador Hamsi Manager com direitos de root?&lt;br&gt; &lt;b&gt;Observação: &lt;/b&gt;Os outros usuários em seu sistema tem que herdar estas permissões e instalar o programa para um local diferente do seu diretório /home.</translation>
     </message>
     <message>
-        <location filename="install.py" line="261"/>
+        <location filename="install.py" line="272"/>
         <source>No (Continue as is)</source>
         <translation>Não (Continuar como está)</translation>
     </message>
     <message>
-        <location filename="install.py" line="266"/>
+        <location filename="install.py" line="277"/>
         <source>Hamsi Manager Installer</source>
         <translation>Instalador Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="install.py" line="115"/>
+        <location filename="install.py" line="124"/>
         <source>Add To The System</source>
         <translation>Adicionar ao sistema</translation>
     </message>
     <message>
-        <location filename="install.py" line="241"/>
+        <location filename="install.py" line="252"/>
         <source>Desktop</source>
         <translation>Desktop</translation>
+    </message>
+    <message>
+        <location filename="install.py" line="69"/>
+        <source>Check Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Source/test.py" line="39"/>
+        <source>%s added to mail list.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1088,17 +1141,17 @@
 <context>
     <name>MusicTable</name>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="148"/>
+        <location filename="Source/InputOutputs/Musics.py" line="150"/>
         <source>Artist</source>
         <translation>Artista</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="153"/>
+        <location filename="Source/InputOutputs/Musics.py" line="156"/>
         <source>Title</source>
         <translation>Título</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="158"/>
+        <location filename="Source/InputOutputs/Musics.py" line="162"/>
         <source>Album</source>
         <translation>Álbum</translation>
     </message>
@@ -1118,32 +1171,32 @@
         <translation>Reproduzir</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="181"/>
+        <location filename="Source/InputOutputs/Musics.py" line="186"/>
         <source>Track No</source>
         <translation>Sem faixa</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="193"/>
+        <location filename="Source/InputOutputs/Musics.py" line="201"/>
         <source>Year</source>
         <translation>Ano</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="198"/>
+        <location filename="Source/InputOutputs/Musics.py" line="207"/>
         <source>Genre</source>
         <translation>Gênero</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="204"/>
+        <location filename="Source/InputOutputs/Musics.py" line="214"/>
         <source>Comment</source>
         <translation>Comentário</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="210"/>
+        <location filename="Source/InputOutputs/Musics.py" line="221"/>
         <source>Lyrics</source>
         <translation>Lyrics</translation>
     </message>
     <message>
-        <location filename="Source/Tables/MusicTable.py" line="146"/>
+        <location filename="Source/Tables/MusicTable.py" line="148"/>
         <source>Cannot Show Erroneous Information.</source>
         <translation>Não foi possível mostrar informações erradas.</translation>
     </message>
@@ -1176,60 +1229,65 @@
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="36"/>
+        <location filename="Source/MyPlugins/__init__.py" line="37"/>
         <source>My Plug-ins</source>
         <translation>Meus plug-ins</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="73"/>
+        <location filename="Source/MyPlugins/__init__.py" line="85"/>
         <source>Plug-in Installation Is Complete</source>
         <translation>Instalação dos plug-ins está concluído</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="76"/>
+        <location filename="Source/MyPlugins/__init__.py" line="89"/>
         <source>Plug-in Already Installed</source>
         <translation>Plug-ins já instalado</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="79"/>
+        <location filename="Source/MyPlugins/__init__.py" line="93"/>
         <source>Plug-in Installation Failed</source>
         <translation>Falha na instalação do plug-in</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="73"/>
+        <location filename="Source/MyPlugins/__init__.py" line="85"/>
         <source>&quot;%s&quot; is installed on your system.</source>
         <translation>&quot;%s&quot; está instalado no seu sistema.</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="76"/>
+        <location filename="Source/MyPlugins/__init__.py" line="89"/>
         <source>&quot;%s&quot; already installed on your system.</source>
         <translation>&quot;%s&quot; já está instalado no seu sistema.</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="79"/>
+        <location filename="Source/MyPlugins/__init__.py" line="93"/>
         <source>&quot;%s&quot; failed to install on your system.</source>
         <translation>&quot;%s&quot; falhou ao instalar no seu sistema.</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="46"/>
+        <location filename="Source/MyPlugins/__init__.py" line="48"/>
         <source>Could Not Be Determined</source>
         <translation>Não pode ser determinada</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="48"/>
+        <location filename="Source/MyPlugins/__init__.py" line="50"/>
         <source>Have A New Version</source>
         <translation>Tem uma nova versão</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="50"/>
+        <location filename="Source/MyPlugins/__init__.py" line="52"/>
         <source>Installed</source>
         <translation>Instalada</translation>
+    </message>
+    <message>
+        <location filename="Source/MyPlugins/__init__.py" line="55"/>
+        <source>Could not find the appropriate plug-in to your system</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MyPlugins/InTheAmarok</name>
     <message>
-        <location filename="Source/MyPlugins/InTheAmarok/__init__.py" line="5"/>
+        <location filename="Source/MyPlugins/InTheAmarok/__init__.py" line="6"/>
         <source>Hamsi Manager In The Amarok</source>
         <translation>Hamsi Manager no Amarok</translation>
     </message>
@@ -1237,7 +1295,7 @@
 <context>
     <name>MyPlugins/KDE4_CM</name>
     <message>
-        <location filename="Source/MyPlugins/KDE4_CM/__init__.py" line="5"/>
+        <location filename="Source/MyPlugins/KDE4_CM/__init__.py" line="6"/>
         <source>For KDE4 Applications` Context Menus</source>
         <translation>Menus de contexto para os programas do KDE4</translation>
     </message>
@@ -1245,7 +1303,7 @@
 <context>
     <name>MyPlugins/KDE4_SM</name>
     <message>
-        <location filename="Source/MyPlugins/KDE4_SM/__init__.py" line="5"/>
+        <location filename="Source/MyPlugins/KDE4_SM/__init__.py" line="6"/>
         <source>For KDE4 Applications` Service Menus</source>
         <translation>Menus de serviços para os programas do KDE4</translation>
     </message>
@@ -1253,137 +1311,137 @@
 <context>
     <name>MyPlugins/Krusader</name>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="6"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="7"/>
         <source>Krusader`s User Actions Menu</source>
         <translation>Menu ações do usuário do Krusader</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="18"/>
         <source>Organize With Hamsi Manager</source>
         <translation>Organizar com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="18"/>
         <source>You can organize with Hamsi Manager</source>
         <translation>Você pode organizar com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="18"/>
         <source>You can continue to edit the folder you select with Hamsi Manager</source>
         <translation>Você pode continuar a editar a pasta que você selecionou com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="22"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="27"/>
         <source>Auto Emend Directory</source>
         <translation>Corrigir automaticamente diretório</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="40"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="45"/>
         <source>Auto emend with Hamsi Manager</source>
         <translation>Corrigir automaticamente com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="31"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="36"/>
         <source>Auto Emend Directory (With Contents)</source>
         <translation>Corrigir automaticamente diretório (Com conteúdos)</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="31"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="36"/>
         <source>Auto emend with Hamsi Manager (With Contents)</source>
         <translation>Corrigir automaticamente com Hamsi Manager (Com conteúdos)</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="40"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="45"/>
         <source>Auto Emend File</source>
         <translation>Corrigir automaticamente arquivo</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="49"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="54"/>
         <source>Pack It</source>
         <translation>Empacotá-lo</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="49"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="54"/>
         <source>Pack it with Hamsi Manager</source>
         <translation>Empacotá-lo com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="58"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="63"/>
         <source>Check Directory Icon</source>
         <translation>Verificar ícone do diretório</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="58"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="63"/>
         <source>Check directory icon with Hamsi Manager</source>
         <translation>Verificar ícone do diretório com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="67"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="72"/>
         <source>Clear Empty Directories</source>
         <translation>Apagar diretórios vazios</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="67"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="72"/>
         <source>Clear empty directories with Hamsi Manager</source>
         <translation>Apagar diretórios vazios com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="76"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="81"/>
         <source>Clear Unneededs</source>
         <translation>Apagar desnecessários</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="76"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="81"/>
         <source>Clear unneededs with Hamsi Manager</source>
         <translation>Apagar desnecessários com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="85"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="90"/>
         <source>Clear Ignoreds</source>
         <translation>Apagar ignorados</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="85"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="90"/>
         <source>Clear ignoreds with Hamsi Manager</source>
         <translation>Apagar ignorados com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="94"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="99"/>
         <source>Copy Path To Clipboard</source>
         <translation>Copiar caminho para a área de transferência</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="94"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="99"/>
         <source>Copy path to clipboard with Hamsi Manager</source>
         <translation>Copiar caminho para a área de transferência com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="103"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="108"/>
         <source>Build File Tree</source>
         <translation>Construir árvore de arquivo</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="103"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="108"/>
         <source>Build file tree with Hamsi Manager</source>
         <translation>Construir árvore de arquivo com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="112"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="117"/>
         <source>Remove Sub Files</source>
         <translation>Remover arquivos recursivamente</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="112"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="117"/>
         <source>Remove sub files with Hamsi Manager</source>
         <translation>Remover arquivos recursivamente com Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="121"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="126"/>
         <source>Clear It</source>
         <translation>Apagá-lo</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="121"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="126"/>
         <source>Clear it with Hamsi Manager</source>
         <translation>Apagá-lo com Hamsi Manager</translation>
     </message>
@@ -1486,7 +1544,7 @@
         <translation>A fim de aplicar as alterações, você tem que reiniciar Hamsi Manager.&lt;br&gt;Você deseja reiniciar agora?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1325"/>
+        <location filename="Source/Options.py" line="1331"/>
         <source>Yes</source>
         <translation>Sim</translation>
     </message>
@@ -1506,7 +1564,7 @@
         <translation>Estilo do programa</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="892"/>
+        <location filename="Source/Options.py" line="898"/>
         <source>Priority Icon Names</source>
         <translation>Prioridade dos nomes dos ícones</translation>
     </message>
@@ -1581,82 +1639,82 @@
         <translation>Registros de erros</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1067"/>
+        <location filename="Source/Options.py" line="1073"/>
         <source>Unnecessary Files</source>
         <translation>Arquivos desnecessários</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1068"/>
+        <location filename="Source/Options.py" line="1074"/>
         <source>Unnecessary File Extensions</source>
         <translation>Extensões de arquivo desnecessários</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="831"/>
+        <location filename="Source/Options.py" line="837"/>
         <source>Files To Be Ignored</source>
         <translation>Arquivos a serem ignorados</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="832"/>
+        <location filename="Source/Options.py" line="838"/>
         <source>File Extensions To Be Ignored</source>
         <translation>Extensões de arquivo a serem ignorados</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="844"/>
+        <location filename="Source/Options.py" line="850"/>
         <source>&lt;font color=red&gt;The files you selected will be deleted permanently from your system!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: file1.abc; file2.def;...&lt;/font&gt;</source>
         <translation>&lt;font color=red&gt;Os arquivos que você selecionou serão excluídos permanentemente do seu sistema!&lt;/font&gt;&lt;font color=blue&gt;Exemplo: arquivo1.abc; arquivo2.def;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="845"/>
+        <location filename="Source/Options.py" line="851"/>
         <source>&lt;font color=red&gt;The file extensions you selected will be deleted permanently from your system!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: mood; db;...&lt;/font&gt;</source>
         <translation>&lt;font color=red&gt;As extensões de arquivos que você selecionou serão excluídos permanentemente do seu sistema!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Exemplo: mood; db;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="848"/>
+        <location filename="Source/Options.py" line="854"/>
         <source>If the folders contain only the files that have the extensions which match the criteria you selected here, they will be recognized as empty and will be deleted.&lt;br&gt;&lt;font color=blue&gt;Example: m3u; pls;...&lt;/font&gt;</source>
         <translation>Se as pastas contêm apenas os arquivos com as extensões que correspondem aos critérios que você selecionou aqui, elas serão reconhecidas como vazias e serão excluídas.&lt;br&gt;&lt;font color=blue&gt;Example: m3u; pls;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="922"/>
+        <location filename="Source/Options.py" line="928"/>
         <source>File System Character Set</source>
         <translation>Definir caracter do sistema de arquivos</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="924"/>
+        <location filename="Source/Options.py" line="930"/>
         <source>Graphics Files` Extensions</source>
         <translation>Extensões de arquivos gráficos</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="925"/>
+        <location filename="Source/Options.py" line="931"/>
         <source>Music Files` Extensions</source>
         <translation>Extensões de arquivos de música</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="926"/>
+        <location filename="Source/Options.py" line="932"/>
         <source>Please Select The Object Set You Want To Use</source>
         <translation>Por favor, selecione o objeto que você deseja utilizar</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="927"/>
+        <location filename="Source/Options.py" line="933"/>
         <source>Do You Want To Use PyKDE4?</source>
         <translation>Você deseja usar PyKDE4?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="930"/>
+        <location filename="Source/Options.py" line="936"/>
         <source>The files with the extension you have selected will be recognized as graphics files.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: png;jpg;gif;...&lt;/font&gt;</source>
         <translation>Os arquivos com a extensão que você selecionou serão reconhecidos como arquivos gráficos.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Não recomendamos fazer nenhuma alteração se você não está definitivamente certo. Prossiga por sua própria responsabilidade!&lt;/b&gt;&lt;/font&gt;&lt;font color=blue&gt;Exemplo: png, jpg, gif ;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="931"/>
+        <location filename="Source/Options.py" line="937"/>
         <source>The files with the extension you have selected will be recognized as music files.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: mp3;...&lt;/font&gt;</source>
         <translation>Os arquivos com a extensão que você selecionou serão reconhecidos como arquivos de música.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Não recomendamos fazer nenhuma alteração se você não está definitivamente certo. Prossiga por sua própria responsabilidade!&lt;/b&gt;&lt;/font&gt;&lt;font color=blue&gt;Exemplo: mp3;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="932"/>
+        <location filename="Source/Options.py" line="938"/>
         <source>KPlease select the object set you want to use (the object types installed on your system will be presented in the Options dialog.)</source>
         <translation>Por favor, selecione o objeto que pretende utilizar (os tipos de objetos instalados em seu sistema serão apresentado na caixa de diálogo Opções.)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="933"/>
+        <location filename="Source/Options.py" line="939"/>
         <source>&lt;font color=blue&gt;You can use PyKDE4 for better desktop integration.&lt;/font&gt;</source>
         <translation>&lt;font color=blue&gt;Você pode usar PyKDE4 para uma melhor integração do Desktop.&lt;/font&gt;</translation>
     </message>
@@ -1691,132 +1749,132 @@
         <translation>Excluir linha</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="984"/>
+        <location filename="Source/Options.py" line="990"/>
         <source>Player Name</source>
         <translation>Nome do tocador</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="985"/>
+        <location filename="Source/Options.py" line="991"/>
         <source>Player Path (Name)</source>
         <translation>Caminho do tocador (Nome)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="986"/>
+        <location filename="Source/Options.py" line="992"/>
         <source>Player Arguments</source>
         <translation>Argumentos do tocador</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="987"/>
+        <location filename="Source/Options.py" line="993"/>
         <source>Player Sound Playback Device Pointer</source>
         <translation>Tocar som apontado pelo dispositivo de reprodução</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="988"/>
+        <location filename="Source/Options.py" line="994"/>
         <source>Player Sound Playback Device</source>
         <translation>Tocar som do dispositivo de reprodução</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="989"/>
+        <location filename="Source/Options.py" line="995"/>
         <source>Please select the player you want to use.&lt;br&gt;If installed, the following players will be presented in the Options dialog and you will be able to select the one you want to use.&lt;br&gt;Mplayer&lt;br&gt;Phonon (Recommended)&lt;br&gt;Phonon (PySide) (Recommended)&lt;br&gt;tkSnack</source>
         <translation>Por favor, selecione o tocador que deseja utilizar.&lt;br&gt;Se instalado, os seguintes tocadores serão apresentados na caixa de diálogo Opções, e você será capaz de selecionar o que você deseja utilizar.&lt;br&gt;Mplayer&lt;br&gt;Phonon (Recomendado)&lt;br&gt;Phonon (PySide) (Recomendado)&lt;br&gt;tkSnack</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="992"/>
+        <location filename="Source/Options.py" line="998"/>
         <source>Please enter the path of the player program you want to use.&lt;br&gt;&lt;font color=red&gt;Default value: mplayer&lt;/font&gt;</source>
         <translation>Por favor, indique o caminho do programa de reprodução que pretende utilizar.&lt;br&gt;&lt;font color=red&gt;Valor padrão: mplayer&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="993"/>
+        <location filename="Source/Options.py" line="999"/>
         <source>Please enter the player arguments.&lt;br&gt;&lt;font color=red&gt;Default value(s): -slave -quiet&lt;/font&gt;</source>
         <translation>Por favor, digite os argumentos do tocador.&lt;br&gt;&lt;font color=red&gt;Valor(es) padrão: -slave -quiet&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="994"/>
+        <location filename="Source/Options.py" line="1000"/>
         <source>The argument used to point to the sound device you want to use.&lt;br&gt;&lt;font color=red&gt;Default value: -ao&lt;/font&gt;</source>
         <translation>O argumento utilizado para apontar para o dispositivo de som que pretende utilizar.&lt;br&gt;&lt;font color=red&gt;Valor padrão: -ao&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="995"/>
+        <location filename="Source/Options.py" line="1001"/>
         <source>The sound device you want to use.&lt;br&gt;&lt;font color=red&gt;Default value: alsa&lt;/font&gt;</source>
         <translation>O dispositivo de som que você deseja utilizar.&lt;br&gt;&lt;font color=red&gt;Valor padrão: alsa&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1069"/>
+        <location filename="Source/Options.py" line="1075"/>
         <source>Unnecessary Folders</source>
         <translation>Pastas desnecessárias</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1038"/>
+        <location filename="Source/Options.py" line="1044"/>
         <source>Close When Cleaned And Packed?</source>
         <translation>Fechar depois de limpas e empacotadas?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1042"/>
+        <location filename="Source/Options.py" line="1048"/>
         <source>Please select the files that you DO NOT want to be included in the package</source>
         <translation>Por favor, selecione os arquivos que você NÃO deseja incluir no pacote</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1041"/>
+        <location filename="Source/Options.py" line="1047"/>
         <source>Please select the file extensions that you DO NOT want to be included in the package</source>
         <translation>Por favor, selecione as extensões de arquivos que você NÃO deseja incluir no pacote</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1045"/>
+        <location filename="Source/Options.py" line="1051"/>
         <source>Close the package manager when the folder is cleaned and packed?</source>
         <translation>Fechar o gerenciador de pacotes quando a pasta estiver limpa e empacotada?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1123"/>
+        <location filename="Source/Options.py" line="1129"/>
         <source>Bookmarks</source>
         <translation>Favoritos</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1124"/>
+        <location filename="Source/Options.py" line="1130"/>
         <source>Search-Replace Parameters</source>
         <translation>Parâmetros de pesquisar-substituir</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1125"/>
+        <location filename="Source/Options.py" line="1131"/>
         <source>Program Settings</source>
         <translation>Configurações do programa</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1126"/>
+        <location filename="Source/Options.py" line="1132"/>
         <source>All</source>
         <translation>Todos</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1320"/>
+        <location filename="Source/Options.py" line="1326"/>
         <source>No (Cancel)</source>
         <translation>Não (Cancelar)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1320"/>
+        <location filename="Source/Options.py" line="1326"/>
         <source>Are You Sure You Want To Reset?</source>
         <translation>Você tem certeza que deseja redefinir?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1272"/>
+        <location filename="Source/Options.py" line="1278"/>
         <source>Are you sure you want to reset your bookmarks?</source>
         <translation>Você tem certeza que deseja redefinir os seus favoritos?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1327"/>
+        <location filename="Source/Options.py" line="1333"/>
         <source>Back Up And Reset</source>
         <translation>Cópida de segurança e redefinir</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1288"/>
+        <location filename="Source/Options.py" line="1294"/>
         <source>Do you want to reset your find-replace (automatic) settings?</source>
         <translation>Você deseja redefinir suas configurações (automática) de pesquisa-substituição?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1304"/>
+        <location filename="Source/Options.py" line="1310"/>
         <source>Do you want to reset program settings?</source>
         <translation>Você deseja redefinir as configurações do programa?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1320"/>
+        <location filename="Source/Options.py" line="1326"/>
         <source>Are you sure you want to reset all settings?</source>
         <translation>Você tem certeza que deseja redefinir todas as configurações?</translation>
     </message>
@@ -1846,7 +1904,7 @@
         <translation>Mostrar diálogo de criação rápida</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="893"/>
+        <location filename="Source/Options.py" line="899"/>
         <source>Change Directory Icon If Is Already Exist</source>
         <translation>Alterar ícone do diretório se já existe</translation>
     </message>
@@ -1866,7 +1924,7 @@
         <translation>Você deseja mostrar o diálogo de criação rápida em execução com linha de comando ou meus plug-ins?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="899"/>
+        <location filename="Source/Options.py" line="905"/>
         <source>Are you want to change directory icon if is already exist?</source>
         <translation>Você deseja alterar o ícone do diretório, se já existe?</translation>
     </message>
@@ -1976,57 +2034,57 @@
         <translation>Tudo criado pelo Hamsi Manager, os registros de erros e arquivos temporários serão excluídos.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="928"/>
+        <location filename="Source/Options.py" line="934"/>
         <source>You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!&lt;br&gt;Default is &quot;%s&quot;.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>Você pode escolher o conjunto de caracteres do seu sistema operacional e/ou sistema de arquivos. Os registros serão salvos de acordo com o conjunto de caracteres de sua escolha.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Se você acha que o conjunto de caracteres está errado, você pode mudar isso. No entanto, não recomendamos fazer quaisquer alterações se você não está definitivamente certo. Senão, proceda por sua própria responsabilidade!&lt;br&gt;Padrão é &quot;%s&quot;.&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1109"/>
+        <location filename="Source/Options.py" line="1115"/>
         <source>Backup Settings</source>
         <translation>Cópida de segurança das configurações</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1110"/>
+        <location filename="Source/Options.py" line="1116"/>
         <source>Restore Settings</source>
         <translation>Restaurar configurações</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1111"/>
+        <location filename="Source/Options.py" line="1117"/>
         <source>Reset Settings</source>
         <translation>Redefinir configurações</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1170"/>
+        <location filename="Source/Options.py" line="1176"/>
         <source>Reinstall Language</source>
         <translation>Reinstalar idioma</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1190"/>
+        <location filename="Source/Options.py" line="1196"/>
         <source>KDE4 Language Will Be Reinstalled Into Hamsi Manager</source>
         <translation>Idioma KDE4 será reinstalado em Hamsi Manager</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1190"/>
+        <location filename="Source/Options.py" line="1196"/>
         <source>Are you sure you want to reinstall kde4 language into Hamsi Manager?</source>
         <translation>Você tem certeza que deseja reinstalar idioma kde4 em Hamsi Manager?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1195"/>
+        <location filename="Source/Options.py" line="1201"/>
         <source>Language Reinstallation Completed</source>
         <translation>Reinstalação do idioma concluído</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1195"/>
+        <location filename="Source/Options.py" line="1201"/>
         <source>Language has successfully been reinstalled.</source>
         <translation>O idioma foi reinstalado com sucesso.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1232"/>
+        <location filename="Source/Options.py" line="1238"/>
         <source>Backup Succesfully</source>
         <translation>Cópia de segurança com sucesso</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1232"/>
+        <location filename="Source/Options.py" line="1238"/>
         <source>Backup operation was performed successfully.</source>
         <translation>Operação de cópida de segurança foi executada com sucesso.</translation>
     </message>
@@ -2106,87 +2164,87 @@
         <translation>Expressão regular</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="826"/>
+        <location filename="Source/Options.py" line="832"/>
         <source>Unnecessary Directories (If Is Empty)</source>
         <translation>Diretórios desnecessários (Se estão vazios)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="827"/>
+        <location filename="Source/Options.py" line="833"/>
         <source>Unnecessary Directories</source>
         <translation>Diretórios desnecessários</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="830"/>
+        <location filename="Source/Options.py" line="836"/>
         <source>Directories To Be Ignored</source>
         <translation>Diretórios a serem ignorados</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="842"/>
+        <location filename="Source/Options.py" line="848"/>
         <source>&lt;font color=red&gt;The directories (empty) you selected will be deleted permanently from your system!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: directory1;directory2;...&lt;/font&gt;</source>
         <translation>&lt;font color=red&gt;Os diretórios (vazios) que você selecionou serão excluídos de forma permanente do seu sistema!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Exemplo: diretorio1;diretorio2;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="843"/>
+        <location filename="Source/Options.py" line="849"/>
         <source>&lt;font color=red&gt;The directories you selected will be deleted permanently from your system!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: directory1;directory2;...&lt;/font&gt;</source>
         <translation>&lt;font color=red&gt;Os diretórios que você selecionou serão excluídos permanentemente do seu sistema!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Exemplo: diretorio1;diretorio2;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="846"/>
+        <location filename="Source/Options.py" line="852"/>
         <source>If the folders contain only the directories that match the criteria you selected here, they will be recognized as empty and will be deleted.&lt;br&gt;&lt;font color=blue&gt;Example: directory1;directory2;...&lt;/font&gt;</source>
         <translation>Se as pastas contem apenas os diretórios que correspondem aos critérios que você selecionou aqui, eles serão reconhecidos como vazios e serão excluídos.&lt;br&gt;&lt;font color=blue&gt;Exemplo: diretorio1; diretorio2;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="847"/>
+        <location filename="Source/Options.py" line="853"/>
         <source>If the folders contain only the files that match the criteria you selected here, they will be recognized as empty and will be deleted.&lt;br&gt;&lt;font color=blue&gt;Example: file1.abc; file2.def;...&lt;/font&gt;</source>
         <translation>Se as pastas contem apenas os arquivos que correspondem aos critérios que você selecionou aqui, eles serão reconhecidos como vazios e serão excluídos.&lt;br&gt;&lt;font color=blue&gt;Exemplo: arquivo1.abc; arquivo2.def;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="923"/>
+        <location filename="Source/Options.py" line="929"/>
         <source>Move To Trash</source>
         <translation>Mover para a lixeira</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="929"/>
+        <location filename="Source/Options.py" line="935"/>
         <source>Would you like to move files to the trash files to be deleted?&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;This process can cause slow!&lt;/b&gt;&lt;/font&gt;</source>
         <translation>Você gostaria de mover os arquivos para a lixeira para serem excluídos? &lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Este processo pode causar lentidão! &lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1071"/>
+        <location filename="Source/Options.py" line="1077"/>
         <source>Auto Clean Subfolders</source>
         <translation>Limpar automaticamente sub-pastas</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1077"/>
+        <location filename="Source/Options.py" line="1083"/>
         <source>You have to select to clear the subfolders automatically.</source>
         <translation>Você selecionou para apagar as subpastas automaticamente.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1166"/>
+        <location filename="Source/Options.py" line="1172"/>
         <source>Clear My Answers</source>
         <translation>Limpar minhas respostas</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1167"/>
+        <location filename="Source/Options.py" line="1173"/>
         <source>Clear my answers to the notification messages</source>
         <translation>Limpar minhas respostas das mensagens de notificação</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1177"/>
+        <location filename="Source/Options.py" line="1183"/>
         <source>Your Answers Will Be Cleared</source>
         <translation>Suas respostas serão limpas</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1177"/>
+        <location filename="Source/Options.py" line="1183"/>
         <source>Are you sure you want to clear your answers to the notification messages?</source>
         <translation>Tem certeza que deseja limpar suas respostas das mensagens de notificação?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1181"/>
+        <location filename="Source/Options.py" line="1187"/>
         <source>Your Answers Cleared</source>
         <translation>Suas repostas foram limpas</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1181"/>
+        <location filename="Source/Options.py" line="1187"/>
         <source>Cleared your answers to the notification messages.All notification messages will be asked again.</source>
         <translation>Suas repostas foram limpas das mensagens de notificação. Todas as mensagens de notificação serão solicitadas novamente.</translation>
     </message>
@@ -2201,7 +2259,7 @@
         <translation>Você pode alterar as configurações de limpeza específicas nesta seção.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1070"/>
+        <location filename="Source/Options.py" line="1076"/>
         <source>General Cleaning</source>
         <translation>Limpeza Geral</translation>
     </message>
@@ -2226,182 +2284,154 @@
         <translation>Valor padrão:</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="833"/>
+        <location filename="Source/Options.py" line="839"/>
         <source>General Cleaning (Table Saved)</source>
         <translation>Limpeza Geral (Tabela salva)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="834"/>
+        <location filename="Source/Options.py" line="840"/>
         <source>General Cleaning (Moved Or Changed)</source>
         <translation>Limpeza Geral (Movido ou alterado)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="835"/>
+        <location filename="Source/Options.py" line="841"/>
         <source>General Cleaning (Copied Or Changed)</source>
         <translation>Limpeza Geral (Copiado ou alterado)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="836"/>
+        <location filename="Source/Options.py" line="842"/>
         <source>General Cleaning (Moved File)</source>
         <translation>Limpeza Geral (Arquivo movido)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="837"/>
+        <location filename="Source/Options.py" line="843"/>
         <source>Clean Subfolders (Table Saved)</source>
         <translation>Apagar subpastas (Tabela salva)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="838"/>
+        <location filename="Source/Options.py" line="844"/>
         <source>Clean Subfolders (Moved Or Changed)</source>
         <translation>Apagar subpastas (Movida ou alterada)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="839"/>
+        <location filename="Source/Options.py" line="845"/>
         <source>Clean Subfolders (Copied Or Changed)</source>
         <translation>Apagar subpastas (Copiada ou alterada)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="840"/>
+        <location filename="Source/Options.py" line="846"/>
         <source>Clean Subfolders (Moved File)</source>
         <translation>Apagar subpastas (Arquivo movido)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="849"/>
+        <location filename="Source/Options.py" line="855"/>
         <source>Do you want to general cleaning when table saved?</source>
         <translation>Você deseja realizar uma limpeza geral ao salavr a tabela?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="850"/>
+        <location filename="Source/Options.py" line="856"/>
         <source>Do you want to general cleaning when directory moved or changed?</source>
         <translation>Você deseja realizar uma limpeza geral ao mover ou alterar o diretório?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="851"/>
+        <location filename="Source/Options.py" line="857"/>
         <source>Do you want to general cleaning when directory copied or changed?</source>
         <translation>Você deseja realizar uma limpeza geral ao copiar ou alterar o diretório?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="852"/>
+        <location filename="Source/Options.py" line="858"/>
         <source>Do you want to general cleaning when file moved?</source>
         <translation>Você deseja realizar uma limpeza geral ao mover o arquivo?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="853"/>
+        <location filename="Source/Options.py" line="859"/>
         <source>Do you want to clear the subfolders when table saved?</source>
         <translation>Você deseja limpar as subpastas ao salvar a tabela?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="854"/>
+        <location filename="Source/Options.py" line="860"/>
         <source>Do you want to clear the subfolders when directory moved or changed?</source>
         <translation>Você deseja limpar as subpastas ao mover ou alterar o diretório?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="855"/>
+        <location filename="Source/Options.py" line="861"/>
         <source>Do you want to clear the subfolders when directory copied or changed?</source>
         <translation>Você deseja limpar as subpastas ao copiar ou alterar o diretório?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="856"/>
+        <location filename="Source/Options.py" line="862"/>
         <source>Do you want to clear the subfolders when file moved?</source>
         <translation>Você deseja limpar as subpastas ao mover o arquivo?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="894"/>
+        <location filename="Source/Options.py" line="900"/>
         <source>Change Directory Icon (Table Saved)</source>
         <translation>Alterar ícone do diretóriod (ao salvar a Tabela)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="895"/>
+        <location filename="Source/Options.py" line="901"/>
         <source>Change Directory Icon (Moved Or Changed)</source>
         <translation>Alterar ícone do diretóriod (ao Mover ou Alterar)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="896"/>
+        <location filename="Source/Options.py" line="902"/>
         <source>Change Directory Icon (Copied Or Changed)</source>
         <translation>Alterar ícone do diretóriod (ao Copiar ou Alterar)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="897"/>
+        <location filename="Source/Options.py" line="903"/>
         <source>Change Directory Icon (Moved File)</source>
         <translation>Alterar ícone do diretóriod (ao Mover arquivo)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="900"/>
+        <location filename="Source/Options.py" line="906"/>
         <source>Do you want to change directory icon when table saved?</source>
         <translation>Você deseja alterar o ícone do diretório ao salvar a tabela?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="901"/>
+        <location filename="Source/Options.py" line="907"/>
         <source>Do you want to change directory icon when directory moved or changed?</source>
         <translation>Você deseja alterar o ícone do diretório ao mover ou alterar o diretório?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="902"/>
+        <location filename="Source/Options.py" line="908"/>
         <source>Do you want to change directory icon when directory copied or changed?</source>
         <translation>Você deseja alterar o ícone do diretório ao copiar ou alterar o diretório?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="903"/>
+        <location filename="Source/Options.py" line="909"/>
         <source>Do you want to change directory icon when file moved?</source>
         <translation>Você deseja alterar o ícone do diretório ao mover o arquivo?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1076"/>
+        <location filename="Source/Options.py" line="1082"/>
         <source>Do you want to general cleaning?</source>
         <translation>Você deseja realizar uma limpeza geral?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1075"/>
+        <location filename="Source/Options.py" line="1081"/>
         <source>Please select the files that you want to be deleted</source>
         <translation>Por favor, selecione os arquivo que você deseja ser excluídos</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1074"/>
+        <location filename="Source/Options.py" line="1080"/>
         <source>Please select the file extensions that you want to be deleted</source>
         <translation>Por favor, selecione as extensões dos arquivos que você deseja serem excluídos</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1066"/>
+        <location filename="Source/Options.py" line="1072"/>
         <source>Delete Empty Directories</source>
         <translation>Apagar diretórios vazios</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1072"/>
+        <location filename="Source/Options.py" line="1078"/>
         <source>Are you want to delete empty directories?</source>
         <translation>Você tem certeza que deseja excluir diretórios vazios?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="898"/>
+        <location filename="Source/Options.py" line="904"/>
         <source>The file names you selected will be folder icons first.&lt;br&gt;If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.&lt;br&gt;&lt;font color=blue&gt;Example: cover; icon...&lt;/font&gt;</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>HamsiManager</name>
-    <message>
-        <location filename="Source/StartupControl.py" line="119"/>
-        <source>Your System&apos;s &quot;File System Encoding&quot; Type Different</source>
-        <translation>Seu diferente tipo de sistema de codificação do sistema de arquivo</translation>
-    </message>
-    <message>
-        <location filename="Source/StartupControl.py" line="119"/>
-        <source>Your system&apos;s &quot;File System Encoding&quot; type different from the settings you select. Are you sure you want to continue?If you are not sure press the &quot;No&quot;.</source>
-        <translation>Seu diferente tipo de sistema de codificação do sistema de arquivo da definições que você seleciou. Você tem certeza que deseja continuar? Se você não tem certeza, pressione &quot;Não&quot;.</translation>
-    </message>
-    <message>
-        <location filename="Source/StartupControl.py" line="135"/>
-        <source>Added New Options And New Features</source>
-        <translation>Adicionados novas opções e novos recursos</translation>
-    </message>
-    <message>
-        <location filename="Source/StartupControl.py" line="127"/>
-        <source>New options and new features added to Hamsi Manager. Are you want to change or verify new options?</source>
-        <translation>Novas opções e novos recursos adicionados ao Hamsi Manager. Você deseja alterar ou verificar as novas opções?</translation>
-    </message>
-    <message>
-        <location filename="Source/StartupControl.py" line="135"/>
-        <source>New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?</source>
-        <translation>Novas opções e novos recursos adicionados ao Hamsi Manager. Alterado os valores padrão de algumas configurações. Você deseja alterar ou verificar as novas opções?</translation>
     </message>
 </context>
 <context>
@@ -2870,27 +2900,27 @@
 <context>
     <name>ReportBug</name>
     <message>
-        <location filename="Hamsi Manager.py" line="228"/>
+        <location filename="HamsiManager.py" line="230"/>
         <source>Thanks in advance for your interest.</source>
         <translation>Agradecemos antecipadamente pelo seu interesse.</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="157"/>
+        <location filename="Source/RoutineChecks.py" line="174"/>
         <source>Missing Module</source>
         <translation>Módulo faltando</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="161"/>
+        <location filename="Source/RoutineChecks.py" line="178"/>
         <source>Error In Module</source>
         <translation>Erro no módulo</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="165"/>
+        <location filename="Source/RoutineChecks.py" line="182"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="172"/>
+        <location filename="Source/RoutineChecks.py" line="189"/>
         <source>Critical Error!</source>
         <translation>Erro crítico!</translation>
     </message>
@@ -2945,52 +2975,52 @@
         <translation>Mostrar detalhes do arquivo</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="175"/>
+        <location filename="Source/ReportBug.py" line="177"/>
         <source>Please Report This Bug!..</source>
         <translation>Por favor, relate essa falha!..</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="183"/>
+        <location filename="Source/ReportBug.py" line="185"/>
         <source>I Have A Suggestion!</source>
         <translation>Eu tenho uma sugestão!</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="193"/>
+        <location filename="Source/ReportBug.py" line="195"/>
         <source>Last Directory</source>
         <translation>Último diretório</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="197"/>
+        <location filename="Source/ReportBug.py" line="199"/>
         <source>All</source>
         <translation>Todos</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="195"/>
+        <location filename="Source/ReportBug.py" line="197"/>
         <source>Settings</source>
         <translation>Configurações</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="183"/>
+        <location filename="Source/ReportBug.py" line="185"/>
         <source>Ignore</source>
         <translation>Ignorar</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="227"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>&lt;b&gt;Error description :&lt;/b&gt; &lt;br&gt;(Be can null)&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Please write what you did before you received the error here.</source>
         <translation>&lt;b&gt;Descrição do erro :&lt;/b&gt; &lt;br&gt;(Pode ser nulo)&lt;br&gt;&lt;b&gt;Observação:&lt;/b&gt; Por favor, escreva aqui o que você estava fazendo antes de ter recebido o erro.</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="227"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>&lt;b&gt;Name and Surname :&lt;/b&gt; (Be can null)</source>
         <translation>&lt;b&gt;Nome e resumo :&lt;/b&gt; (Pode ser nulo)</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="227"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>&lt;b&gt;E-mail address :&lt;/b&gt; (Be can null)&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Will be kept strictly confidential. It will be used solely to report you back once the problem is solved..</source>
         <translation>&lt;b&gt;E-mail :&lt;/b&gt; (Pode ser nulo)&lt;br&gt;&lt;b&gt;Observação:&lt;/b&gt; Será mantido estritamente confidencial. Ele será usado apenas para relatar de volta a você, uma vez que o problema esteja resolvido..</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="227"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>Report Bug</source>
         <translation>Relatar falha</translation>
     </message>
@@ -3000,7 +3030,7 @@
         <translation>Por favor, verifique suas informações pessoais a partir desta tabela.</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="260"/>
+        <location filename="Source/ReportBug.py" line="264"/>
         <source>&lt;b&gt;(Is Encoded With %s.)&lt;/b&gt;</source>
         <translation>&lt;b&gt;(Está codificado com %s.)&lt;/b&gt;</translation>
     </message>
@@ -3010,22 +3040,22 @@
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="227"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>Thank you for sending us your error report. You have already contributed a lot to make the next release even better..&lt;br&gt;</source>
         <translation>Obrigado por nos enviar o seu relatório de erro. Você já contribuiu muito para tornar o próximo lançamento ainda melhor..&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="Hamsi Manager.py" line="227"/>
+        <location filename="HamsiManager.py" line="229"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation>Um erro crítico ocorreu. Se você deseja olhar em detalhes &quot;%s&quot;, você pode ver o arquivo Se possível, pedimos que nos envie os detalhes do erro.</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="159"/>
+        <location filename="Source/RoutineChecks.py" line="176"/>
         <source>Application will not work without the module &quot;%s&quot;.</source>
         <translation>O programa não funciona sem o módulo &quot;%s&quot;.</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="163"/>
+        <location filename="Source/RoutineChecks.py" line="180"/>
         <source>&quot;%s&quot; is not in this module.Please download and install Hamsi Manager again.</source>
         <translation>&quot;%s&quot; não está neste módulo. Por favor, baixe e instale Hamsi Manager novamente.</translation>
     </message>
@@ -3070,9 +3100,14 @@
         <translation>Nenhum tipo de tabela : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="183"/>
+        <location filename="Source/ReportBug.py" line="185"/>
         <source>&lt;b&gt;Please check the following: ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;If you have received this error when you were checking the last folder, reset the &quot;Last Directory&quot;,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;If you have received this error due to your changed settings, reset the &quot;Settings&quot;,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;If you continue to receive this error even after resetting the settings, reset &quot;All&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;You can enable Hamsi Manager to run as normal.&lt;br&gt;Please take a moment to send us the error report.&lt;/b&gt;</source>
         <translation>&lt;b&gt;Por favor, verifique o seguinte:&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;1)&lt;/b&gt; Se você recebeu esse erro quando você estava verificando a última pasta, redefina &quot;O último diretório&quot;,&lt;br&gt;&lt;b&gt;2)&lt;/b&gt; Se você recebeu este erro devido a suas configurações alteradas, redefina as &quot;Configurações&quot;,&lt;br&gt;&lt;b&gt;3)&lt;/b&gt; Se você continuar a receber este erro, mesmo depois redefinir as configurações, redefina &quot;Todos&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;Você pode habilitar o Hamsi Manager para executar normalmente.&lt;br&gt;Por favor, tome um momento para nos enviar o relatório de erro.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="Source/ReportBug.py" line="146"/>
+        <source>Check Update</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3244,22 +3279,22 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="Source/Settings.py" line="490"/>
+        <location filename="Source/Settings.py" line="507"/>
         <source>Do You Want To Back Up?</source>
         <translation>Você fazer a cópia de segurança (backup)?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="490"/>
+        <location filename="Source/Settings.py" line="507"/>
         <source>Do you want to back up current data?</source>
         <translation>Você deseja fazer a cópia de segurança dos dados atuais?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="531"/>
+        <location filename="Source/Settings.py" line="548"/>
         <source>Do You Want To Back Up Current Data?</source>
         <translation>Você deseja fazer a cópia de segurança dos dados atuais?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="531"/>
+        <location filename="Source/Settings.py" line="548"/>
         <source>Do you want to back up current data before restoring?</source>
         <translation>Você deseja fazer a cópia de segurança dos dados atuais antes de restaurar?</translation>
     </message>
@@ -3427,11 +3462,6 @@
         <translation>Coluna: </translation>
     </message>
     <message>
-        <location filename="Source/SpecialTools.py" line="589"/>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Hamsi Manager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;izM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Organizasyon&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
-        <translation>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Antes&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Pesquisar&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Substituir&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Depois&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Hamsi Manager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;izM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Organizasyon&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</translation>
-    </message>
-    <message>
         <location filename="Source/SpecialTools.py" line="822"/>
         <source>Case Insensitive</source>
         <translation>Não diferenciar maiúsculas de minúsculas</translation>
@@ -3531,6 +3561,11 @@
         <source>Special Tools</source>
         <translation>Ferramentas especiais</translation>
     </message>
+    <message>
+        <location filename="Source/SpecialTools.py" line="589"/>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;HamsiManager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;ager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;HamsiMan&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StatusBar</name>
@@ -3589,37 +3624,37 @@
 <context>
     <name>SuggestIdea</name>
     <message>
-        <location filename="Source/SuggestIdea.py" line="17"/>
+        <location filename="Source/SuggestIdea.py" line="18"/>
         <source>Close (Please Suggest Idea First.)</source>
         <translation>Fechar (Por favor, sugera uma ideia primeiro.)</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="33"/>
+        <location filename="Source/SuggestIdea.py" line="34"/>
         <source>Please Suggest Idea</source>
         <translation>Por favor, sugira uma ideia</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>&lt;b&gt;Idea :&lt;/b&gt;</source>
         <translation>&lt;b&gt;Ideia :&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>&lt;b&gt;Name and Surname :&lt;/b&gt;</source>
         <translation>&lt;b&gt;Nome and Sobrenome :&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>&lt;b&gt;E-mail address :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Will be kept strictly confidential. It will be used solely to learn information about of your idea.</source>
         <translation>&lt;b&gt;E-mail :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Nota:&lt;/b&gt;Será mantido estritamente confidencial. Ele será usado apenas para saber de informações sobre sua ideia.</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>Suggest Idea</source>
         <translation>Sugerir ideia</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>Thank you for sending us your idea. You have contributed a lot to make the next release even better.&lt;br&gt;</source>
         <translation>Obrigado por nos enviar sua idéia. Você contribuiu muito para fazer a próxima versão ainda melhor. &lt;br&gt;</translation>
     </message>
@@ -3645,22 +3680,22 @@
         <translation>Ignorar seleção</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="22"/>
+        <location filename="Source/Tables/__init__.py" line="21"/>
         <source>Folder Table</source>
         <translation>Tabela de pasta</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="23"/>
+        <location filename="Source/Tables/__init__.py" line="22"/>
         <source>File Table</source>
         <translation>Tabela de arquivo</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="24"/>
+        <location filename="Source/Tables/__init__.py" line="23"/>
         <source>Music Table</source>
         <translation>Tabela de música</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="25"/>
+        <location filename="Source/Tables/__init__.py" line="24"/>
         <source>Subfolder Table</source>
         <translation>Tabela de subpasta</translation>
     </message>
@@ -3735,97 +3770,97 @@
         <translation>Mudança selecionada</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="390"/>
+        <location filename="Source/Tables/__init__.py" line="394"/>
         <source>There Are Unsaved Information</source>
         <translation>Existem informações não salvas</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="390"/>
+        <location filename="Source/Tables/__init__.py" line="394"/>
         <source>Do you want to save these information?</source>
         <translation>Você deseja salvar essas informações?</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="402"/>
+        <location filename="Source/Tables/__init__.py" line="406"/>
         <source>Yes</source>
         <translation>Sim</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="410"/>
+        <location filename="Source/Tables/__init__.py" line="414"/>
         <source>No</source>
         <translation>Não</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="408"/>
+        <location filename="Source/Tables/__init__.py" line="412"/>
         <source>Hidden Field</source>
         <translation>Ocultar campo</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="415"/>
+        <location filename="Source/Tables/__init__.py" line="419"/>
         <source>Yes To All</source>
         <translation>Sim para todos</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="412"/>
+        <location filename="Source/Tables/__init__.py" line="416"/>
         <source>Action Cancelled</source>
         <translation>Ação cancelada</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="412"/>
+        <location filename="Source/Tables/__init__.py" line="416"/>
         <source>You have cancelled the action.&lt;br&gt;You can make the necessary changes and reperform the action.</source>
         <translation>Você cancelou a ação.&lt;br&gt;Você pode fazer as mudanças necessárias e voltar a realizar a ação.</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="496"/>
+        <location filename="Source/Tables/__init__.py" line="500"/>
         <source>Table Contents</source>
         <translation>Conteúdos da tabela</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="991"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1007"/>
         <source>Save As</source>
         <translation>Salvar como</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="490"/>
+        <location filename="Source/Tables/__init__.py" line="494"/>
         <source>Table Exported</source>
         <translation>Tabela exportada</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="1017"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1033"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="986"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1002"/>
         <source>HTML</source>
         <translation>HTML</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="989"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1005"/>
         <source>Plain Text</source>
         <translation>Texto</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="408"/>
+        <location filename="Source/Tables/__init__.py" line="412"/>
         <source>&quot;%s&quot;: you have hidden this field in the table.&lt;br&gt;Do you want to activate this field and perform the action?</source>
         <translation>&quot;%s&quot;: você ocultou este campo na tabela.&lt;br&gt;Você deseja ativar este campo e voltar a realizar a ação?</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="490"/>
+        <location filename="Source/Tables/__init__.py" line="494"/>
         <source>Table contents are exported to file: &quot;%s&quot;.</source>
         <translation>Os conteúdos da tabela serão exportados para o arquivo: &quot;%s&quot;.</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="1007"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1023"/>
         <source>File Tree</source>
         <translation>Árvore de aquivos</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="1000"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1016"/>
         <source>File Tree Created</source>
         <translation>Árvore de aquivos criada</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="1000"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1016"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation>Árvore de aquivos criada no arquivo: &quot;%s&quot;.</translation>
     </message>
@@ -3833,6 +3868,16 @@
         <location filename="Source/Tables/__init__.py" line="46"/>
         <source>Re Correct</source>
         <translation>Recorrigir</translation>
+    </message>
+    <message>
+        <location filename="Source/Tables/__init__.py" line="370"/>
+        <source>Did Not Change Any Things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Source/Tables/__init__.py" line="370"/>
+        <source>Did not change any things in this table.Please check the criteria you select.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4019,109 +4064,124 @@
 <context>
     <name>UpdateControl</name>
     <message>
-        <location filename="Source/UpdateControl.py" line="24"/>
+        <location filename="Source/UpdateControl.py" line="27"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="25"/>
+        <location filename="Source/UpdateControl.py" line="29"/>
         <source>Download and Install</source>
         <translation>Baixar e instalar</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="27"/>
+        <location filename="Source/UpdateControl.py" line="33"/>
         <source>Details</source>
         <translation>Detalhes</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="47"/>
+        <location filename="Source/UpdateControl.py" line="64"/>
         <source>Checking for the updates</source>
         <translation>Verifcando atualizações</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="78"/>
+        <location filename="Source/UpdateControl.py" line="104"/>
         <source>New release is available. Please download and install.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Uma nova versão está disponível. Por favor, baixe e instale.&lt;br&gt;Para mais informações: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="84"/>
+        <location filename="Source/UpdateControl.py" line="112"/>
         <source>Version %s is available. Please download and install the new release.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Versão %s está disponível. Por favor, baixe e instale o novo lançamento.&lt;br&gt;%s Para mais informações: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="87"/>
+        <location filename="Source/UpdateControl.py" line="115"/>
         <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Para mais informações: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="88"/>
+        <location filename="Source/UpdateControl.py" line="116"/>
         <source>You are already using the latest release.</source>
         <translation>Você já está usando a última versão.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="89"/>
+        <location filename="Source/UpdateControl.py" line="117"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="99"/>
+        <location filename="Source/UpdateControl.py" line="130"/>
         <source>Cannot Fetch Release Information</source>
         <translation>Não foi possível obter informações do lançamento</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="97"/>
+        <location filename="Source/UpdateControl.py" line="128"/>
         <source>Download complete.</source>
         <translation>Download concluído.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="120"/>
+        <location filename="Source/UpdateControl.py" line="151"/>
         <source>Downloading Latest Release...</source>
         <translation>Baixando última versão...</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="130"/>
+        <location filename="Source/UpdateControl.py" line="161"/>
         <source>You Can Click Cancel To Update Without Saving The Package.</source>
         <translation>Você pode clicar em Cancelar para atualizar sem salvar o pacote.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="153"/>
+        <location filename="Source/UpdateControl.py" line="187"/>
         <source>Cannot Read Source.</source>
         <translation>Não foi possível ler fonte.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="153"/>
+        <location filename="Source/UpdateControl.py" line="187"/>
         <source>Cannot read source package. Please retry later.</source>
         <translation>Não foi possível ler fonte do pacote. Por favor, tente novamente mais tarde.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="160"/>
+        <location filename="Source/UpdateControl.py" line="203"/>
         <source>Installing The Latest Release</source>
         <translation>Instalando a última versão</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="161"/>
+        <location filename="Source/UpdateControl.py" line="204"/>
         <source>Latest release downloaded, initializing installation.</source>
         <translation>Última versão baixada, iniciando instalação.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="99"/>
-        <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://www.mixdigitall.com/Hamsi Manager&quot;.</source>
-        <translation>Não foi possível obter informações da versão. Por favor, tente novamente mais tarde.&lt;br&gt;Se você está constantemente recebendo este erro, por favor, visite &quot;http://www.mixdigitall.com/Hamsi Manager&quot;.</translation>
-    </message>
-    <message>
-        <location filename="Source/UpdateControl.py" line="177"/>
+        <location filename="Source/UpdateControl.py" line="212"/>
         <source>Update Will Be Complete</source>
         <translation>Atualização está completa</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="177"/>
+        <location filename="Source/UpdateControl.py" line="212"/>
         <source>Please restart Hamsi Manager now.</source>
         <translation>Por favor, reinicie Hamsi Manager agora.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="177"/>
+        <location filename="Source/UpdateControl.py" line="212"/>
         <source>Restart</source>
         <translation>Reiniciar</translation>
+    </message>
+    <message>
+        <location filename="Source/UpdateControl.py" line="31"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Source/UpdateControl.py" line="46"/>
+        <source>Remind Me Later And Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Source/UpdateControl.py" line="130"/>
+        <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://hamsiapps.com/HamsiManager&quot;.</source>
+        <translation>Não foi possível obter informações da versão. Por favor, tente novamente mais tarde.&lt;br&gt;Se você está constantemente recebendo este erro, por favor, visite &quot;http://hamsiapps.com/HamsiManager&quot;.</translation>
+    </message>
+    <message>
+        <location filename="Source/UpdateControl.py" line="163"/>
+        <source>Save As</source>
+        <translation>Salvar como</translation>
     </message>
 </context>
 </TS>

@@ -143,7 +143,7 @@ class MenuBar(MMenuBar):
                 if Execute.executeHamsiManagerAsRoot(""):
                     Universals.MainWindow.close()
                 else:
-                    Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "HamsiManager can not run as root."))
+                    Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
             elif actionName==translate("MenuBar", "Quit"):
                 Universals.MainWindow.close()
             elif actionName==translate("MenuBar", "HTML Format"):
