@@ -76,7 +76,7 @@ if RoutineChecks.checkPyQt4Exist():
                 aboutFileContent = InputOutputs.readFromFile(Universals.sourcePath+"/Languages/About_"+ str(Universals.MySettings["language"]))
             else:
                 aboutFileContent = InputOutputs.readFromFile(Universals.sourcePath+"/Languages/About_en_GB")
-            Universals.aboutOfHamsiManager = aboutFileContent.decode(Settings.defaultFileSystemEncoding)
+            Universals.aboutOfHamsiManager = aboutFileContent.decode("utf-8")
             if InputOutputs.isFile(Universals.sourcePath+"/Languages/HamsiManagerWithQt_"+
                             str(Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()
