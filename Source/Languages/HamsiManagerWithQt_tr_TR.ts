@@ -351,6 +351,49 @@
     </message>
 </context>
 <context>
+    <name>HamsiManager</name>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="126"/>
+        <source>Your System&apos;s &quot;File System Encoding&quot; Type Different</source>
+        <translation>Sisteminizin &quot;Dosya Sistemi Kodlaması&quot; Tipi Farklı</translation>
+    </message>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="126"/>
+        <source>Your system&apos;s &quot;File System Encoding&quot; type different from the settings you select. Are you sure you want to continue?If you are not sure press the &quot;No&quot;.</source>
+        <translation>Sisteminizin &quot;Dosya Sistemi Kodlaması&quot; tipi seçtiğiniz tipten farklı. Devam etmek istediğinizden emin misiniz? Eğer emin değilseniz &quot;Hayır&quot; butonuna basınız.</translation>
+    </message>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="142"/>
+        <source>Added New Options And New Features</source>
+        <translation>Yeni Seçenekler Ve Özellikler Eklendi</translation>
+    </message>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="134"/>
+        <source>New options and new features added to Hamsi Manager. Are you want to change or verify new options?</source>
+        <translation>Hamsi Manager&apos;e yeni seçenekler ve yeni özellikler eklendi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
+    </message>
+    <message>
+        <location filename="Source/RoutineChecks.py" line="142"/>
+        <source>New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?</source>
+        <translation>Hamsi Manager&apos;e yeni seçenekler ve yeni özellikler eklendi. Bazı ayarların varsayılan değerleri değiştirildi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
+    </message>
+    <message>
+        <location filename="Source/OldAppName.py" line="120"/>
+        <source>The Old Version Was Detected</source>
+        <translation>Eski Bir Versiyon Tespit Edildi</translation>
+    </message>
+    <message>
+        <location filename="Source/OldAppName.py" line="103"/>
+        <source>OrganizasyonizM setting directory was detected.Are you want to delete &quot;%s&quot;?&lt;br&gt;Note:This directory will not be used anymore.You can delete this directory.</source>
+        <translation>OrganizasyonizM`e ait bir ayar dizini tespit edildi.&quot;%s&quot; dizinini silmek ister misiniz?&lt;br&gt;Not:Bu dizin artık hiç kullanılmayacak.Bu dizini silebilirsiniz.</translation>
+    </message>
+    <message>
+        <location filename="Source/OldAppName.py" line="120"/>
+        <source>Executable OrganizasyonizM file was detected in your system.Are you want to delete &quot;%s&quot; and creat new Executable Hamsi Manager(&quot;%s&quot;)?</source>
+        <translation>Çalıştırılabilir bir OrganizasyonizM dosyası sisteminizde tespit edildi.&quot;%s&quot; dosyasını silip yeni bir çalıştırılabilir Hamsi Manager dosyası(&quot;%s&quot;) oluşturmak ister misiniz?</translation>
+    </message>
+</context>
+<context>
     <name>ImageDetails</name>
     <message>
         <location filename="Source/Details/ImageDetails.py" line="42"/>
@@ -386,7 +429,7 @@
         <translation>Erişim Engellendi</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="849"/>
+        <location filename="Source/InputOutputs/__init__.py" line="872"/>
         <source>Empty Directories Deleted</source>
         <translation>Boş Dizinler Silindi</translation>
     </message>
@@ -421,27 +464,27 @@
         <translation>Mevcut Dosya Adı</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="280"/>
+        <location filename="Source/InputOutputs/__init__.py" line="281"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Add your files to the current folder?</source>
         <translation>&quot;%s&quot; isimli bir dizin zaten var.&lt;br&gt;Dosyalarınız mevcut dizine eklensin mi?</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="630"/>
+        <location filename="Source/InputOutputs/__init__.py" line="631"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation>Dosyaların Dizini Değiştiriliyor</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="825"/>
+        <location filename="Source/InputOutputs/__init__.py" line="848"/>
         <source>Checking Empty Directories</source>
         <translation>Boş Dizinler Kontrol Ediliyor</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="846"/>
+        <location filename="Source/InputOutputs/__init__.py" line="869"/>
         <source>Deleting Empty Directories</source>
         <translation>Boş Dizinler Siliniyor</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="863"/>
+        <location filename="Source/InputOutputs/__init__.py" line="886"/>
         <source>Current Directory Name</source>
         <translation>Mevcut Dizin Adı</translation>
     </message>
@@ -451,7 +494,7 @@
         <translation>Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="863"/>
+        <location filename="Source/InputOutputs/__init__.py" line="886"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation>&quot;%s&quot; isimli bir dosya var.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!</translation>
     </message>
@@ -477,31 +520,31 @@
     </message>
     <message>
         <location filename="Source/QuickMake.py" line="152"/>
-        <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Are you want to organize parant directory with OrganizasyonizM?</source>
-        <translation>&quot;%s&quot; : böyle bir dosya bulunamadı.&lt;br&gt;Bir üst dizini OrganizasyonizM ile organize etmek ister misiniz?</translation>
+        <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Are you want to organize parant directory with Hamsi Manager?</source>
+        <translation>&quot;%s&quot; : böyle bir dosya bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
         <location filename="Source/QuickMake.py" line="158"/>
-        <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Are you want to organize parant directory with OrganizasyonizM?</source>
-        <translation>&quot;%s&quot; : böyle bir dizin bulunamadı.&lt;br&gt;Bir üst dizini OrganizasyonizM ile organize etmek ister misiniz?</translation>
+        <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Are you want to organize parant directory with Hamsi Manager?</source>
+        <translation>&quot;%s&quot; : böyle bir dizin bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
         <location filename="Source/QuickMake.py" line="164"/>
-        <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Are you want to organize parant directory with OrganizasyonizM?</source>
-        <translation>&quot;%s&quot; : böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Bir üst dizini OrganizasyonizM ile organize etmek ister misiniz?</translation>
+        <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Are you want to organize parant directory with Hamsi Manager?</source>
+        <translation>&quot;%s&quot; : böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="487"/>
+        <location filename="Source/InputOutputs/__init__.py" line="488"/>
         <source>Directory Deleted</source>
         <translation>Dizin Silindi</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="850"/>
+        <location filename="Source/InputOutputs/__init__.py" line="873"/>
         <source>Project Directory Deleted</source>
         <translation>Proje Dizini Silindi</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="852"/>
+        <location filename="Source/InputOutputs/__init__.py" line="875"/>
         <source>Project Directory Cleaned</source>
         <translation>Proje Dizini Temizlendi</translation>
     </message>
@@ -509,12 +552,12 @@
 <context>
     <name>InputOutputs/Files</name>
     <message>
-        <location filename="Source/InputOutputs/Files.py" line="26"/>
+        <location filename="Source/InputOutputs/Files.py" line="29"/>
         <source>Reading File Informations</source>
         <translation>Dosya Bilgileri Okunuyor</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Files.py" line="70"/>
+        <location filename="Source/InputOutputs/Files.py" line="77"/>
         <source>Writing File Informations</source>
         <translation>Dosya Bilgileri Yazılıyor</translation>
     </message>
@@ -522,12 +565,12 @@
 <context>
     <name>InputOutputs/Folders</name>
     <message>
-        <location filename="Source/InputOutputs/Folders.py" line="26"/>
+        <location filename="Source/InputOutputs/Folders.py" line="29"/>
         <source>Reading Directory Informations</source>
         <translation>Dizin Bilgileri Okunuyor</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Folders.py" line="70"/>
+        <location filename="Source/InputOutputs/Folders.py" line="77"/>
         <source>Writing Directory Informations</source>
         <translation>Dizin Bilgileri Yazılıyor</translation>
     </message>
@@ -535,22 +578,22 @@
 <context>
     <name>InputOutputs/Musics</name>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="117"/>
+        <location filename="Source/InputOutputs/Musics.py" line="118"/>
         <source>Reading Music Tags</source>
         <translation>Müzik Etiketleri Okunuyor</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="119"/>
+        <location filename="Source/InputOutputs/Musics.py" line="120"/>
         <source>Possible ID3 Mismatch</source>
         <translation>ID3 Uyumsuzluğu Olabilir</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="119"/>
+        <location filename="Source/InputOutputs/Musics.py" line="120"/>
         <source>Some of the files presented in the table may not support ID3 technology.&lt;br&gt;Please check the files and make sure they support ID3 information before proceeding.</source>
         <translation>Tabloda gösterilen bazı dosyalar ID3 tekonolojisini desteklemiyor olabilir.&lt;br&gt;Lütfen işlem yapmadan önce durumdan emin olunuz.</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="243"/>
+        <location filename="Source/InputOutputs/Musics.py" line="257"/>
         <source>Writing Music Tags</source>
         <translation>Müzik Etiketleri Yazılıyor</translation>
     </message>
@@ -558,12 +601,12 @@
 <context>
     <name>InputOutputs/SubFolders</name>
     <message>
-        <location filename="Source/InputOutputs/SubFolders.py" line="29"/>
+        <location filename="Source/InputOutputs/SubFolders.py" line="32"/>
         <source>Reading File Informations</source>
         <translation>Dosya Bilgileri Okunuyor</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/SubFolders.py" line="74"/>
+        <location filename="Source/InputOutputs/SubFolders.py" line="81"/>
         <source>Writing File Informations</source>
         <translation>Dosya Bilgileri Yazılıyor</translation>
     </message>
@@ -571,154 +614,159 @@
 <context>
     <name>Install</name>
     <message>
-        <location filename="install.py" line="58"/>
+        <location filename="install.py" line="59"/>
         <source>Back</source>
         <translation>Geri</translation>
     </message>
     <message>
-        <location filename="install.py" line="147"/>
+        <location filename="install.py" line="156"/>
         <source>Forward</source>
         <translation>İleri</translation>
     </message>
     <message>
-        <location filename="install.py" line="60"/>
+        <location filename="install.py" line="61"/>
         <source>Install</source>
         <translation>Kur</translation>
     </message>
     <message>
-        <location filename="install.py" line="184"/>
+        <location filename="install.py" line="195"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="install.py" line="70"/>
+        <location filename="install.py" line="74"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="install.py" line="94"/>
+        <location filename="install.py" line="102"/>
         <source>Please Select A Folder For Installation.</source>
         <translation>Lütfen Kurulum İçin Bir Dizin Seçiniz.</translation>
     </message>
     <message>
-        <location filename="install.py" line="96"/>
+        <location filename="install.py" line="104"/>
         <source>Browse</source>
         <translation>Gözat</translation>
     </message>
     <message>
-        <location filename="install.py" line="109"/>
+        <location filename="install.py" line="117"/>
         <source>Create Desktop Shortcut.</source>
         <translation>Masaüstüne Kısayol Oluştur.</translation>
     </message>
     <message>
-        <location filename="install.py" line="111"/>
+        <location filename="install.py" line="119"/>
         <source>Installation Complete.</source>
         <translation>Kurulum İşlemi Tamamlandı.</translation>
     </message>
     <message>
-        <location filename="install.py" line="126"/>
+        <location filename="install.py" line="134"/>
         <source>Please select a folder for installation.</source>
         <translation>Kurulum İçin Bir Dizin Seçiniz.</translation>
     </message>
     <message>
-        <location filename="install.py" line="152"/>
+        <location filename="install.py" line="162"/>
         <source>Accept</source>
         <translation>Kabul Ediyorum</translation>
     </message>
     <message>
-        <location filename="install.py" line="181"/>
+        <location filename="install.py" line="192"/>
         <source>Creating Installation Folder...</source>
         <translation>Kurulum Dizini Oluşturuluyor...</translation>
     </message>
     <message>
-        <location filename="install.py" line="184"/>
+        <location filename="install.py" line="195"/>
         <source>The Installation Path You Selected Is Not Empty.</source>
         <translation>Belirttiğiniz Kurulum Dizini Dolu.</translation>
     </message>
     <message>
-        <location filename="install.py" line="189"/>
+        <location filename="install.py" line="200"/>
         <source>Yes (Recommended)</source>
         <translation>Evet (Öneriyoruz)</translation>
     </message>
     <message>
-        <location filename="install.py" line="194"/>
+        <location filename="install.py" line="205"/>
         <source>No (Overwrite)</source>
         <translation>Hayır (Üzerlerine Yazar)</translation>
     </message>
     <message>
-        <location filename="install.py" line="190"/>
+        <location filename="install.py" line="201"/>
         <source>Clearing Installation Path...</source>
         <translation>Kurulum Dizini Temizleniyor...</translation>
     </message>
     <message>
-        <location filename="install.py" line="201"/>
+        <location filename="install.py" line="212"/>
         <source>Copying Files And Folders...</source>
         <translation>Dizinler Ve Dosyalar Kopyalanıyor...</translation>
     </message>
     <message>
-        <location filename="install.py" line="224"/>
+        <location filename="install.py" line="235"/>
         <source>The path you selected is not valid.</source>
         <translation>Belirttiğiniz Kurulum Dizini Geçersiz!..</translation>
     </message>
     <message>
-        <location filename="install.py" line="224"/>
+        <location filename="install.py" line="235"/>
         <source>The selected path points to a file not a folder.&lt;br&gt;Please choose a valid installation path.</source>
         <translation>Belirttiğiniz kurulum dizini bir dosyayı işaret ediyor.&lt;br&gt;Lütfen geçerli bir kurulum dizini belirtiniz.</translation>
     </message>
     <message>
-        <location filename="install.py" line="230"/>
+        <location filename="install.py" line="241"/>
         <source>Finalizing Installation</source>
         <translation>Kurulum Sonlandırılıyor</translation>
     </message>
     <message>
-        <location filename="install.py" line="230"/>
+        <location filename="install.py" line="241"/>
         <source>Are You Sure You Want To Quit?</source>
         <translation>Çıkmak İstediğinizden Emin Misiniz?</translation>
     </message>
     <message>
-        <location filename="install.py" line="262"/>
+        <location filename="install.py" line="273"/>
         <source>Yes</source>
         <translation>Evet</translation>
     </message>
     <message>
-        <location filename="install.py" line="184"/>
-        <source>If the path you selected is an &quot;OrganizasyonizM&quot; installation path, &lt;b&gt;I recommend you to delete the older files.&lt;/b&gt;&lt;br&gt;Do you want me to clear the installation path/folder for you?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt; Your personal settings are &lt;b&gt;never deleted&lt;/b&gt;.</source>
-        <translation>Belirttiğiniz kurulum dizini gerçekten bir &quot;OrganizasyonizM&quot; kurulum dizini ise &lt;b&gt;mevcut olan eski dosyaları silmenizi öneriyoruz.&lt;/b&gt;&lt;br&gt;Kurulum dizininin içeriğini temizleyelim mi?&lt;br&gt;&lt;b&gt;Not :&lt;/b&gt; Kişisel ayarlarınız &lt;b&gt;asla silinmez&lt;/b&gt;.</translation>
+        <location filename="install.py" line="195"/>
+        <source>If the path you selected is an &quot;Hamsi Manager&quot; installation path, &lt;b&gt;I recommend you to delete the older files.&lt;/b&gt;&lt;br&gt;Do you want me to clear the installation path/folder for you?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt; Your personal settings are &lt;b&gt;never deleted&lt;/b&gt;.</source>
+        <translation>Belirttiğiniz kurulum dizini gerçekten bir &quot;Hamsi Manager&quot; kurulum dizini ise &lt;b&gt;mevcut olan eski dosyaları silmenizi öneriyoruz.&lt;/b&gt;&lt;br&gt;Kurulum dizininin içeriğini temizleyelim mi?&lt;br&gt;&lt;b&gt;Not :&lt;/b&gt; Kişisel ayarlarınız &lt;b&gt;asla silinmez&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="install.py" line="176"/>
-        <source>The selected path is OrganizasyonizM source directory.&lt;br&gt;Please choose a valid installation path.</source>
-        <translation>Seçtiğiniz dizin OrganizasyonizM`im kaynak dizinidir.&lt;br&gt;Lütfen geçerli bir kurulum dizini belirtiniz.</translation>
+        <location filename="install.py" line="187"/>
+        <source>The selected path is Hamsi Manager source directory.&lt;br&gt;Please choose a valid installation path.</source>
+        <translation>Seçtiğiniz dizin Hamsi Manager`im kaynak dizinidir.&lt;br&gt;Lütfen geçerli bir kurulum dizini belirtiniz.</translation>
     </message>
     <message>
-        <location filename="install.py" line="261"/>
+        <location filename="install.py" line="272"/>
         <source>No (Continue as is)</source>
         <translation>Hayır (Böyle Devam Et)</translation>
     </message>
     <message>
-        <location filename="install.py" line="261"/>
+        <location filename="install.py" line="272"/>
         <source>Are You Want To Run As Root?</source>
         <translation>Root Olarak Çalıştırmak İster Misiniz?</translation>
     </message>
     <message>
-        <location filename="install.py" line="261"/>
-        <source>OrganizasyonizM Installer is running with user privileges.&lt;br&gt;Do you want to run OrganizasyonizM installer with root rights?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt;The other users on your system has to inherit these permissions and install the program to a location other than their /home directories.</source>
-        <translation>OrganizasyonizM Kurulum Aracı kullanıcı yetkileri ile çalışıyor.&lt;br&gt;OrganizasyonizM Kurulum Aracını root yetkileri ile çalıştırmak ister misiniz?&lt;br&gt;&lt;b&gt;Not: &lt;/b&gt;OrganizasyonizM&apos;i kendi ev dizininizin (/home/evim) dışında bir dizine kurmak isterseniz root olarak çalıştırmanız gerekiyor.</translation>
+        <location filename="install.py" line="272"/>
+        <source>Hamsi Manager Installer is running with user privileges.&lt;br&gt;Do you want to run Hamsi Manager installer with root rights?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt;The other users on your system has to inherit these permissions and install the program to a location other than their /home directories.</source>
+        <translation>Hamsi Manager Kurulum Aracı kullanıcı yetkileri ile çalışıyor.&lt;br&gt;Hamsi Manager Kurulum Aracını root yetkileri ile çalıştırmak ister misiniz?&lt;br&gt;&lt;b&gt;Not: &lt;/b&gt;Hamsi Manager&apos;i kendi ev dizininizin (/home/evim) dışında bir dizine kurmak isterseniz root olarak çalıştırmanız gerekiyor.</translation>
     </message>
     <message>
-        <location filename="install.py" line="266"/>
-        <source>OrganizasyonizM Installer</source>
-        <translation>OrganizasyonizM Kurulum Aracı</translation>
+        <location filename="install.py" line="277"/>
+        <source>Hamsi Manager Installer</source>
+        <translation>Hamsi Manager Kurulum Aracı</translation>
     </message>
     <message>
-        <location filename="install.py" line="115"/>
+        <location filename="install.py" line="124"/>
         <source>Add To The System</source>
         <translation>Sisteme Ekle</translation>
     </message>
     <message>
-        <location filename="install.py" line="241"/>
+        <location filename="install.py" line="252"/>
         <source>Desktop</source>
         <translation>Masaüstü</translation>
+    </message>
+    <message>
+        <location filename="install.py" line="69"/>
+        <source>Check Update</source>
+        <translation>Güncellemeleri Kontrol Et</translation>
     </message>
 </context>
 <context>
@@ -815,8 +863,8 @@
     </message>
     <message>
         <location filename="Source/Bars.py" line="220"/>
-        <source>About OrganizasyonizM</source>
-        <translation>OrganizasyonizM Hakkında</translation>
+        <source>About Hamsi Manager</source>
+        <translation>Hamsi Manager Hakkında</translation>
     </message>
     <message>
         <location filename="Source/Bars.py" line="192"/>
@@ -885,8 +933,8 @@
     </message>
     <message>
         <location filename="Source/Bars.py" line="146"/>
-        <source>OrganizasyonizM can not run as root.</source>
-        <translation>OrganizasyonizM root olarak çalıştırılamadı.</translation>
+        <source>Hamsi Manager can not run as root.</source>
+        <translation>Hamsi Manager root olarak çalıştırılamadı.</translation>
     </message>
     <message>
         <location filename="Source/Bars.py" line="163"/>
@@ -1098,7 +1146,7 @@
         <translation>Hemen Çalmaya Başla</translation>
     </message>
     <message>
-        <location filename="Source/Tables/MusicTable.py" line="146"/>
+        <location filename="Source/Tables/MusicTable.py" line="148"/>
         <source>Cannot Show Erroneous Information.</source>
         <translation>Hatalı Bilgi Gösterilemiyor.</translation>
     </message>
@@ -1108,42 +1156,42 @@
         <translation>Dosya Adı</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="148"/>
+        <location filename="Source/InputOutputs/Musics.py" line="150"/>
         <source>Artist</source>
         <translation>Sanatçı</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="153"/>
+        <location filename="Source/InputOutputs/Musics.py" line="156"/>
         <source>Title</source>
         <translation>Şarkı</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="158"/>
+        <location filename="Source/InputOutputs/Musics.py" line="162"/>
         <source>Album</source>
         <translation>Albüm</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="181"/>
+        <location filename="Source/InputOutputs/Musics.py" line="186"/>
         <source>Track No</source>
         <translation>Parça No</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="193"/>
+        <location filename="Source/InputOutputs/Musics.py" line="201"/>
         <source>Year</source>
         <translation>Yıl</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="198"/>
+        <location filename="Source/InputOutputs/Musics.py" line="207"/>
         <source>Genre</source>
         <translation>Tarz</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="204"/>
+        <location filename="Source/InputOutputs/Musics.py" line="214"/>
         <source>Comment</source>
         <translation>Yorum</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/Musics.py" line="210"/>
+        <location filename="Source/InputOutputs/Musics.py" line="221"/>
         <source>Lyrics</source>
         <translation>Şarkı Sözü</translation>
     </message>
@@ -1176,68 +1224,73 @@
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="36"/>
+        <location filename="Source/MyPlugins/__init__.py" line="37"/>
         <source>My Plug-ins</source>
         <translation>Eklentilerim</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="73"/>
+        <location filename="Source/MyPlugins/__init__.py" line="85"/>
         <source>Plug-in Installation Is Complete</source>
         <translation>Eklenti Başarıyla Kuruldu</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="76"/>
+        <location filename="Source/MyPlugins/__init__.py" line="89"/>
         <source>Plug-in Already Installed</source>
         <translation>Eklenti Zaten Kurulu</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="79"/>
+        <location filename="Source/MyPlugins/__init__.py" line="93"/>
         <source>Plug-in Installation Failed</source>
         <translation>Eklenti Kurulamadı</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="73"/>
+        <location filename="Source/MyPlugins/__init__.py" line="85"/>
         <source>&quot;%s&quot; is installed on your system.</source>
         <translation>&quot;%s&quot; sisteminize kuruldu.</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="76"/>
+        <location filename="Source/MyPlugins/__init__.py" line="89"/>
         <source>&quot;%s&quot; already installed on your system.</source>
         <translation>&quot;%s&quot; sisteminize zaten kurulu.</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="79"/>
+        <location filename="Source/MyPlugins/__init__.py" line="93"/>
         <source>&quot;%s&quot; failed to install on your system.</source>
         <translation>&quot;%s&quot; sisteminize kurulurken hata oluştu.</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="46"/>
+        <location filename="Source/MyPlugins/__init__.py" line="48"/>
         <source>Could Not Be Determined</source>
         <translation>Tespit Edilemedi</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="48"/>
+        <location filename="Source/MyPlugins/__init__.py" line="50"/>
         <source>Have A New Version</source>
         <translation>Yeni Bir Versiyon Var</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/__init__.py" line="50"/>
+        <location filename="Source/MyPlugins/__init__.py" line="52"/>
         <source>Installed</source>
         <translation>Kuruldu</translation>
+    </message>
+    <message>
+        <location filename="Source/MyPlugins/__init__.py" line="55"/>
+        <source>Could not find the appropriate plug-in to your system</source>
+        <translation>Sisteminize uygun bir eklenti bulunamadı</translation>
     </message>
 </context>
 <context>
     <name>MyPlugins/InTheAmarok</name>
     <message>
-        <location filename="Source/MyPlugins/InTheAmarok/__init__.py" line="5"/>
-        <source>OrganizasyonizM In The Amarok</source>
-        <translation>Amarok&apos;ta OrganizasyonizM</translation>
+        <location filename="Source/MyPlugins/InTheAmarok/__init__.py" line="6"/>
+        <source>Hamsi Manager In The Amarok</source>
+        <translation>Amarok&apos;ta Hamsi Manager</translation>
     </message>
 </context>
 <context>
     <name>MyPlugins/KDE4_CM</name>
     <message>
-        <location filename="Source/MyPlugins/KDE4_CM/__init__.py" line="5"/>
+        <location filename="Source/MyPlugins/KDE4_CM/__init__.py" line="6"/>
         <source>For KDE4 Applications` Context Menus</source>
         <translation>KDE4 Uygulamalarının İçerik Menüsü İçin</translation>
     </message>
@@ -1245,7 +1298,7 @@
 <context>
     <name>MyPlugins/KDE4_SM</name>
     <message>
-        <location filename="Source/MyPlugins/KDE4_SM/__init__.py" line="5"/>
+        <location filename="Source/MyPlugins/KDE4_SM/__init__.py" line="6"/>
         <source>For KDE4 Applications` Service Menus</source>
         <translation>KDE4 Uygulamalarının Servis Menüsü İçin</translation>
     </message>
@@ -1253,139 +1306,139 @@
 <context>
     <name>MyPlugins/Krusader</name>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="6"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="7"/>
         <source>Krusader`s User Actions Menu</source>
         <translation>Krusader`ın Kullanıcı Eylemleri Menüsü</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
-        <source>Organize With OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile Düzenle</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="18"/>
+        <source>Organize With Hamsi Manager</source>
+        <translation>Hamsi Manager ile Düzenle</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
-        <source>You can organize with OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile düzenleyebilirsiniz</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="18"/>
+        <source>You can organize with Hamsi Manager</source>
+        <translation>Hamsi Manager ile düzenleyebilirsiniz</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="13"/>
-        <source>You can continue to edit the folder you select with OrganizasyonizM</source>
-        <translation>Dizini düzeltmeye OrganizasyonizM ile devam edebilirsiniz</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="18"/>
+        <source>You can continue to edit the folder you select with Hamsi Manager</source>
+        <translation>Dizini düzeltmeye Hamsi Manager ile devam edebilirsiniz</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="22"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="27"/>
         <source>Auto Emend Directory</source>
         <translation>Dizini Otomatik Olarak Düzelt</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="40"/>
-        <source>Auto emend with OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile otomatik olarak düzelt</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="45"/>
+        <source>Auto emend with Hamsi Manager</source>
+        <translation>Hamsi Manager ile otomatik olarak düzelt</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="40"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="45"/>
         <source>Auto Emend File</source>
         <translation>Dosyayı Otomatik Olarak Düzelt</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="49"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="54"/>
         <source>Pack It</source>
         <translation>Paketle</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="49"/>
-        <source>Pack it with OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile paketle</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="54"/>
+        <source>Pack it with Hamsi Manager</source>
+        <translation>Hamsi Manager ile paketle</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="58"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="63"/>
         <source>Check Directory Icon</source>
         <translation>Dizinin Simgesini Kontrol Et</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="58"/>
-        <source>Check directory icon with OrganizasyonizM</source>
-        <translation>Dizinin simgesini OrganizasyonizM ile kontrol et</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="63"/>
+        <source>Check directory icon with Hamsi Manager</source>
+        <translation>Dizinin simgesini Hamsi Manager ile kontrol et</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="67"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="72"/>
         <source>Clear Empty Directories</source>
         <translation>Boş Dizinleri Sil</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="67"/>
-        <source>Clear empty directories with OrganizasyonizM</source>
-        <translation>Boş dizinleri OrganizasyonizM ile sil</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="72"/>
+        <source>Clear empty directories with Hamsi Manager</source>
+        <translation>Boş dizinleri Hamsi Manager ile sil</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="76"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="81"/>
         <source>Clear Unneededs</source>
         <translation>Gereksizleri Temizle</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="76"/>
-        <source>Clear unneededs with OrganizasyonizM</source>
-        <translation>Gereksizleri OrganizasyonizM ile temizle</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="81"/>
+        <source>Clear unneededs with Hamsi Manager</source>
+        <translation>Gereksizleri Hamsi Manager ile temizle</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="85"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="90"/>
         <source>Clear Ignoreds</source>
         <translation>Yok Sayılanları Sil</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="85"/>
-        <source>Clear ignoreds with OrganizasyonizM</source>
-        <translation>Yok sayılanları OrganizasyonizM ile sil</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="90"/>
+        <source>Clear ignoreds with Hamsi Manager</source>
+        <translation>Yok sayılanları Hamsi Manager ile sil</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="31"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="36"/>
         <source>Auto Emend Directory (With Contents)</source>
         <translation>Dizini Otomatik Olarak Düzelt (İçeriği İle)</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="31"/>
-        <source>Auto emend with OrganizasyonizM (With Contents)</source>
-        <translation>OrganizasyonizM ile otomatik olarak düzelt (İçeriği İle)</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="36"/>
+        <source>Auto emend with Hamsi Manager (With Contents)</source>
+        <translation>Hamsi Manager ile otomatik olarak düzelt (İçeriği İle)</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="94"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="99"/>
         <source>Copy Path To Clipboard</source>
         <translation>Yolu Panoya Kopyala</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="94"/>
-        <source>Copy path to clipboard with OrganizasyonizM</source>
-        <translation>Yolu OrganizasyonizM ile panoya kopyala</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="99"/>
+        <source>Copy path to clipboard with Hamsi Manager</source>
+        <translation>Yolu Hamsi Manager ile panoya kopyala</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="103"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="108"/>
         <source>Build File Tree</source>
         <translation>Dosya Ağacı Oluştur</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="103"/>
-        <source>Build file tree with OrganizasyonizM</source>
-        <translation>Dosya ağacını OrganizasyonizM ile oluştur</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="108"/>
+        <source>Build file tree with Hamsi Manager</source>
+        <translation>Dosya ağacını Hamsi Manager ile oluştur</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="112"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="117"/>
         <source>Remove Sub Files</source>
         <translation>Alt Dosyaları Sil</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="112"/>
-        <source>Remove sub files with OrganizasyonizM</source>
-        <translation>Alt dosyaları OrganizasyonizM ile sil</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="117"/>
+        <source>Remove sub files with Hamsi Manager</source>
+        <translation>Alt dosyaları Hamsi Manager ile sil</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="121"/>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="126"/>
         <source>Clear It</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="Source/MyPlugins/Krusader/__init__.py" line="121"/>
-        <source>Clear it with OrganizasyonizM</source>
-        <translation>OrganizasyonizM ile Temizle</translation>
+        <location filename="Source/MyPlugins/Krusader/__init__.py" line="126"/>
+        <source>Clear it with Hamsi Manager</source>
+        <translation>Hamsi Manager ile Temizle</translation>
     </message>
 </context>
 <context>
@@ -1476,7 +1529,7 @@
         <translation>Seçenekler</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1325"/>
+        <location filename="Source/Options.py" line="1331"/>
         <source>Yes</source>
         <translation>Evet</translation>
     </message>
@@ -1487,8 +1540,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="513"/>
-        <source>&lt;font color=red&gt;* :Requires a restart of OrganizasyonizM.&lt;/font&gt;</source>
-        <translation>&lt;font color=red&gt;* : OrganizasyonizM`i yeniden başlatmanızı gerektirir.&lt;/font&gt;</translation>
+        <source>&lt;font color=red&gt;* :Requires a restart of Hamsi Manager.&lt;/font&gt;</source>
+        <translation>&lt;font color=red&gt;* : Hamsi Manager`i yeniden başlatmanızı gerektirir.&lt;/font&gt;</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="246"/>
@@ -1497,8 +1550,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="246"/>
-        <source>In order to apply the changes you have to restart OrganizasyonizM.&lt;br&gt;Do you want to restart now?</source>
-        <translation>Yaptığınız ayarların tamamen aktifleşmesi için OrganizasyonizM`i yeniden başlatmanız gerekmektedir.&lt;br&gt;Şimdi yeniden başlatmak istermisiniz?</translation>
+        <source>In order to apply the changes you have to restart Hamsi Manager.&lt;br&gt;Do you want to restart now?</source>
+        <translation>Yaptığınız ayarların tamamen aktifleşmesi için Hamsi Manager`i yeniden başlatmanız gerekmektedir.&lt;br&gt;Şimdi yeniden başlatmak istermisiniz?</translation>
     </message>
     <message>
         <location filename="Source/SpecialTools.py" line="817"/>
@@ -1531,7 +1584,7 @@
         <translation>Uygulama Stili</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="892"/>
+        <location filename="Source/Options.py" line="898"/>
         <source>Priority Icon Names</source>
         <translation>Öncelikli Simge İsimleri</translation>
     </message>
@@ -1557,13 +1610,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="556"/>
-        <source>You can select OrganizasyonizM`s style.</source>
-        <translation>OrganizasyonizM`in stilini seçebilirsiniz.</translation>
-    </message>
-    <message>
-        <location filename="Source/Options.py" line="898"/>
-        <source>The file names you selected will be folder icons first.&lt;br&gt;If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.&lt;br&gt;&lt;font color=blue&gt;Example: cover; icon...&lt;/font&gt;</source>
-        <translation>Belirttiğiniz dosya isimleri öncelikli olarak dizin simgesi haline gelecektir.&lt;br&gt;Eğer belirttiğiniz dosya ismi mevcut değilse dizindeki ilk grafik dosyası dizin simgesi olarak belirlenecektir.&lt;br&gt;&lt;font color=blue&gt;Örnek : kapak;cover;simge...&lt;/font&gt;</translation>
+        <source>You can select Hamsi Manager`s style.</source>
+        <translation>Hamsi Manager`in stilini seçebilirsiniz.</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="558"/>
@@ -1581,82 +1629,82 @@
         <translation>Kaç günde bir güncelleme kontrolü yapılmasını istersiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1067"/>
+        <location filename="Source/Options.py" line="1073"/>
         <source>Unnecessary Files</source>
         <translation>Gereksiz Dosyalar</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1068"/>
+        <location filename="Source/Options.py" line="1074"/>
         <source>Unnecessary File Extensions</source>
         <translation>Gereksiz Dosya Uzantıları</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="831"/>
+        <location filename="Source/Options.py" line="837"/>
         <source>Files To Be Ignored</source>
         <translation>Yok Sayılacak Dosyalar</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="832"/>
+        <location filename="Source/Options.py" line="838"/>
         <source>File Extensions To Be Ignored</source>
         <translation>Yok Sayılacak Dosya Uzantıları</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="844"/>
+        <location filename="Source/Options.py" line="850"/>
         <source>&lt;font color=red&gt;The files you selected will be deleted permanently from your system!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: file1.abc; file2.def;...&lt;/font&gt;</source>
         <translation>&lt;font color=red&gt;Belirttiğiniz dosyalar sistemden tamamen silinecektir.&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Örnek : dosya1.abc;dosya2.def;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="845"/>
+        <location filename="Source/Options.py" line="851"/>
         <source>&lt;font color=red&gt;The file extensions you selected will be deleted permanently from your system!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: mood; db;...&lt;/font&gt;</source>
         <translation>&lt;font color=red&gt;Belirttiğiniz dosya uzantılı dosyalar sistemden tamamen silinecektir.&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Örnek : mood;db;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="848"/>
+        <location filename="Source/Options.py" line="854"/>
         <source>If the folders contain only the files that have the extensions which match the criteria you selected here, they will be recognized as empty and will be deleted.&lt;br&gt;&lt;font color=blue&gt;Example: m3u; pls;...&lt;/font&gt;</source>
         <translation>Dizinlerin içerisinde sadece burada belirttiğiniz dosya uzantılarına sahip dosyalar varsa dizin boş olarak algılanacak ve silinecektir.&lt;br&gt;&lt;font color=blue&gt;Örnek : m3u;pls;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="922"/>
+        <location filename="Source/Options.py" line="928"/>
         <source>File System Character Set</source>
         <translation>Dosya Sisteminizin Karakter Seti</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="924"/>
+        <location filename="Source/Options.py" line="930"/>
         <source>Graphics Files` Extensions</source>
         <translation>Grafik Dosyalarının Uzantıları</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="925"/>
+        <location filename="Source/Options.py" line="931"/>
         <source>Music Files` Extensions</source>
         <translation>Müzik Dosyalarının Uzantıları</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="926"/>
+        <location filename="Source/Options.py" line="932"/>
         <source>Please Select The Object Set You Want To Use</source>
         <translation>Kullanmak istediğiniz nesne setini seçiniz</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="927"/>
+        <location filename="Source/Options.py" line="933"/>
         <source>Do You Want To Use PyKDE4?</source>
         <translation>PyKDE4`ü kullanmak ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="928"/>
+        <location filename="Source/Options.py" line="934"/>
         <source>You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!&lt;br&gt;Default is &quot;%s&quot;.&lt;/b&gt;&lt;/font&gt;</source>
         <translation>İşletim sisteminizin ve/veya dosya sisteminizin karakter setini seçebilirsiniz.Kayıtlar seçtiğiniz karakter setine göre yapılacaktır.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Varsayılan karakter setinin yanlış olduğunu düşünüyorsanız değiştirebilirsiniz.Emin olmadan değişiklik yapmanızı önermiyoruz.Yapacağınız değişiklikler sizin sorumluluğunuzdadır!&lt;br&gt;Varsayılan değer &quot;%s&quot;&apos;dir.&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="930"/>
+        <location filename="Source/Options.py" line="936"/>
         <source>The files with the extension you have selected will be recognized as graphics files.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: png;jpg;gif;...&lt;/font&gt;</source>
         <translation>Belirttiğiniz uzantılara sahip dosyalar grafik dosyaları olarak algılanacaktır.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Emin olmadan değişiklik yapmanızı önermiyoruz.Yapacağınız değişiklikler sizin sorumluluğunuzdadır.&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Örnek : png;jpg;gif;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="931"/>
+        <location filename="Source/Options.py" line="937"/>
         <source>The files with the extension you have selected will be recognized as music files.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: mp3;...&lt;/font&gt;</source>
         <translation>Belirttiğiniz uzantılara sahip dosyalar müzik dosyaları olarak algılanacaktır.&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Emin olmadan değişiklik yapmanızı önermiyoruz.Yapacağınız değişiklikler sizin sorumluluğunuzdadır.&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Örnek : mp3;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="932"/>
+        <location filename="Source/Options.py" line="938"/>
         <source>KPlease select the object set you want to use (the object types installed on your system will be presented in the Options dialog.)</source>
         <translation>Kullanmak istediğiniz nesne setini seçiniz.(Sisteminizde kurulu olan nesne setleri Seçeneklerde belirecektir.)</translation>
     </message>
@@ -1696,137 +1744,137 @@
         <translation>Satırı Sil</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="984"/>
+        <location filename="Source/Options.py" line="990"/>
         <source>Player Name</source>
         <translation>Oynatıcı Adı</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="985"/>
+        <location filename="Source/Options.py" line="991"/>
         <source>Player Path (Name)</source>
         <translation>Oynatıcı Yolu (Adı)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="986"/>
+        <location filename="Source/Options.py" line="992"/>
         <source>Player Arguments</source>
         <translation>Oynatıcı Argumanları</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="987"/>
+        <location filename="Source/Options.py" line="993"/>
         <source>Player Sound Playback Device Pointer</source>
         <translation>Oynatici Ses Aygıtı Belirteci</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="988"/>
+        <location filename="Source/Options.py" line="994"/>
         <source>Player Sound Playback Device</source>
         <translation>Oynatici Ses Aygıtı</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="989"/>
+        <location filename="Source/Options.py" line="995"/>
         <source>Please select the player you want to use.&lt;br&gt;If installed, the following players will be presented in the Options dialog and you will be able to select the one you want to use.&lt;br&gt;Mplayer&lt;br&gt;Phonon (Recommended)&lt;br&gt;Phonon (PySide) (Recommended)&lt;br&gt;tkSnack</source>
         <translation>Kullanmak istediğiniz oynatıcıyı seçiniz.&lt;br&gt;Eğer sisteminizde kuruluysa aşağıdaki oynatıcılar seçneklerde belirecektir ve istediğinizi seçebileceksiniz.&lt;br&gt;Mplayer&lt;br&gt;Phonon (Önerilir)&lt;br&gt;Phonon (PySide) (Önerilir)&lt;br&gt;tkSnack</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="992"/>
+        <location filename="Source/Options.py" line="998"/>
         <source>Please enter the path of the player program you want to use.&lt;br&gt;&lt;font color=red&gt;Default value: mplayer&lt;/font&gt;</source>
         <translation>Kullanmak istediğiniz oynatıcı yolunu giriniz.&lt;br&gt;&lt;font color=red&gt;Varsayılan Değer : mplayer&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="993"/>
+        <location filename="Source/Options.py" line="999"/>
         <source>Please enter the player arguments.&lt;br&gt;&lt;font color=red&gt;Default value(s): -slave -quiet&lt;/font&gt;</source>
         <translation>Kullanmak istediğiniz oynatıcı argumanlarını belirtiniz.&lt;br&gt;&lt;font color=red&gt;Varsayılan Değer : -slave -quiet&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="994"/>
+        <location filename="Source/Options.py" line="1000"/>
         <source>The argument used to point to the sound device you want to use.&lt;br&gt;&lt;font color=red&gt;Default value: -ao&lt;/font&gt;</source>
         <translation>Kullanmak istediğiniz ses aygıtını belirtmek için gereken arguman.&lt;br&gt;&lt;font color=red&gt;Varsayılan Değer : -ao&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="995"/>
+        <location filename="Source/Options.py" line="1001"/>
         <source>The sound device you want to use.&lt;br&gt;&lt;font color=red&gt;Default value: alsa&lt;/font&gt;</source>
         <translation>Kullanmak istediğiniz ses aygıtı.&lt;br&gt;&lt;font color=red&gt;Varsayılan Değer : alsa&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1069"/>
+        <location filename="Source/Options.py" line="1075"/>
         <source>Unnecessary Folders</source>
         <translation>Gereksiz Dizinler</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1038"/>
+        <location filename="Source/Options.py" line="1044"/>
         <source>Close When Cleaned And Packed?</source>
         <translation>Temizlenip Paketlenince Kapatılsın Mı?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1042"/>
+        <location filename="Source/Options.py" line="1048"/>
         <source>Please select the files that you DO NOT want to be included in the package</source>
         <translation>Paket dosyada bulunmasını istemediğiniz dosyaları belirtiniz</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1041"/>
+        <location filename="Source/Options.py" line="1047"/>
         <source>Please select the file extensions that you DO NOT want to be included in the package</source>
         <translation>Paket dosyada bulunmasını istemediğiniz dosyaların uzantılarını belirtiniz</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1045"/>
+        <location filename="Source/Options.py" line="1051"/>
         <source>Close the package manager when the folder is cleaned and packed?</source>
         <translation>Paketleyici Penceresi Seçilen Dizin Temizlenip Paketlenince Kapatılsın Mı?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1123"/>
+        <location filename="Source/Options.py" line="1129"/>
         <source>Bookmarks</source>
         <translation>Yer İmleri</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1124"/>
+        <location filename="Source/Options.py" line="1130"/>
         <source>Search-Replace Parameters</source>
         <translation>Ara-Değiştir Girdileri</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1125"/>
+        <location filename="Source/Options.py" line="1131"/>
         <source>Program Settings</source>
         <translation>Program Ayarları</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1126"/>
+        <location filename="Source/Options.py" line="1132"/>
         <source>All</source>
         <translation>Hepsi</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1320"/>
+        <location filename="Source/Options.py" line="1326"/>
         <source>No (Cancel)</source>
         <translation>Hayır (İptal Et)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1327"/>
+        <location filename="Source/Options.py" line="1333"/>
         <source>Back Up And Reset</source>
         <translation>Yedekleyip Sıfırla</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1320"/>
+        <location filename="Source/Options.py" line="1326"/>
         <source>Are You Sure You Want To Reset?</source>
         <translation>Sıfırlamak İstediğinizden Emin Misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1272"/>
+        <location filename="Source/Options.py" line="1278"/>
         <source>Are you sure you want to reset your bookmarks?</source>
         <translation>Yer imlerinizi sıfırlamak istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1288"/>
+        <location filename="Source/Options.py" line="1294"/>
         <source>Do you want to reset your find-replace (automatic) settings?</source>
         <translation>Ara-Değiştir(Otomatik) girdilerinizi sıfırlamak istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1304"/>
+        <location filename="Source/Options.py" line="1310"/>
         <source>Do you want to reset program settings?</source>
         <translation>Program ayarlarınızı sıfırlamak istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1320"/>
+        <location filename="Source/Options.py" line="1326"/>
         <source>Are you sure you want to reset all settings?</source>
         <translation>Tüm girdilerinizi sıfırlamak istediğiniziden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="933"/>
+        <location filename="Source/Options.py" line="939"/>
         <source>&lt;font color=blue&gt;You can use PyKDE4 for better desktop integration.&lt;/font&gt;</source>
         <translation>&lt;font color=blue&gt;Daha iyi bir masaüstü entegrasyonu için PyKDE4 ü kullanabilirsiniz.&lt;/font&gt;</translation>
     </message>
@@ -1847,31 +1895,31 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="563"/>
-        <source>You can select OrganizasyonizM`s language.</source>
-        <translation>OrganizasyonizM`in dilini seçebilirsiniz.</translation>
+        <source>You can select Hamsi Manager`s language.</source>
+        <translation>Hamsi Manager`in dilini seçebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1190"/>
-        <source>KDE4 Language Will Be Reinstalled Into OrganizasyonizM</source>
-        <translation>KDE4`ün Dili OrganizasyonizM`e Tekrar Kurulacak</translation>
+        <location filename="Source/Options.py" line="1196"/>
+        <source>KDE4 Language Will Be Reinstalled Into Hamsi Manager</source>
+        <translation>KDE4`ün Dili Hamsi Manager`e Tekrar Kurulacak</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1190"/>
-        <source>Are you sure you want to reinstall kde4 language into OrganizasyonizM?</source>
-        <translation>KDE4`ün dilini OrganizasyonizM`e tekrar kurmak istediğinizden emin misiniz?</translation>
+        <location filename="Source/Options.py" line="1196"/>
+        <source>Are you sure you want to reinstall kde4 language into Hamsi Manager?</source>
+        <translation>KDE4`ün dilini Hamsi Manager`e tekrar kurmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1195"/>
+        <location filename="Source/Options.py" line="1201"/>
         <source>Language Reinstallation Completed</source>
         <translation>Dil Kurulumu Tamamlandı</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1195"/>
+        <location filename="Source/Options.py" line="1201"/>
         <source>Language has successfully been reinstalled.</source>
         <translation>Dil kurulumu başarıyla tamamlandı.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1170"/>
+        <location filename="Source/Options.py" line="1176"/>
         <source>Reinstall Language</source>
         <translation>Dili Tekrar Kur</translation>
     </message>
@@ -1896,7 +1944,7 @@
         <translation>Hızlı Yap Penceresini Göster</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="893"/>
+        <location filename="Source/Options.py" line="899"/>
         <source>Change Directory Icon If Is Already Exist</source>
         <translation>Dizin Simgesi Varkende Simgeyi Değiştir</translation>
     </message>
@@ -1906,7 +1954,7 @@
         <translation>Komut satırından veya eklentilerim ile çalıştırılırken hızlı yap penceresinin gösterilmesini ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="899"/>
+        <location filename="Source/Options.py" line="905"/>
         <source>Are you want to change directory icon if is already exist?</source>
         <translation>Dizinlerinizin simgesi geçerli bir simge olduğu zamanda da simgenin yenisiyle değiştirilmesini ister misiniz?</translation>
     </message>
@@ -2002,16 +2050,16 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="596"/>
-        <source>All created by OrganizasyonizM error logs and temp files is deleted.</source>
-        <translation>OrganizasyonizM tarafından oluşturulan hata kayıtları ve geçici dosyalar silindi.</translation>
+        <source>All created by Hamsi Manager error logs and temp files is deleted.</source>
+        <translation>Hamsi Manager tarafından oluşturulan hata kayıtları ve geçici dosyalar silindi.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1232"/>
+        <location filename="Source/Options.py" line="1238"/>
         <source>Backup Succesfully</source>
         <translation>Yedek Başarıyla Alındı</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1232"/>
+        <location filename="Source/Options.py" line="1238"/>
         <source>Backup operation was performed successfully.</source>
         <translation>Yedek işlemi başarılı bir şekilde tamamlandı.</translation>
     </message>
@@ -2021,17 +2069,17 @@
         <translation>&quot;%s&quot; hatalı ayarlanmış.Otomatik olarak düzeltmek ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1109"/>
+        <location filename="Source/Options.py" line="1115"/>
         <source>Backup Settings</source>
         <translation>Ayarları Yedekle</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1110"/>
+        <location filename="Source/Options.py" line="1116"/>
         <source>Restore Settings</source>
         <translation>Ayarları Geri Yükle</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1111"/>
+        <location filename="Source/Options.py" line="1117"/>
         <source>Reset Settings</source>
         <translation>Ayarları Sıfırla</translation>
     </message>
@@ -2102,8 +2150,8 @@
     </message>
     <message>
         <location filename="Source/Options.py" line="557"/>
-        <source>You can select OrganizasyonizM`s theme.</source>
-        <translation>OrganizasyonizM`in temasını seçebilirsiniz.</translation>
+        <source>You can select Hamsi Manager`s theme.</source>
+        <translation>Hamsi Manager`in temasını seçebilirsiniz.</translation>
     </message>
     <message>
         <location filename="Source/Options.py" line="559"/>
@@ -2111,87 +2159,87 @@
         <translation>Kayıt dosyasının boyutunu seçebilirsiniz.(Kilobayt)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="826"/>
+        <location filename="Source/Options.py" line="832"/>
         <source>Unnecessary Directories (If Is Empty)</source>
         <translation>Gereksiz Dizinler (Eğer Boş İse)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="827"/>
+        <location filename="Source/Options.py" line="833"/>
         <source>Unnecessary Directories</source>
         <translation>Gereksiz Dizinler</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="830"/>
+        <location filename="Source/Options.py" line="836"/>
         <source>Directories To Be Ignored</source>
         <translation>Yok Sayılacak Dizinler</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="842"/>
+        <location filename="Source/Options.py" line="848"/>
         <source>&lt;font color=red&gt;The directories (empty) you selected will be deleted permanently from your system!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: directory1;directory2;...&lt;/font&gt;</source>
         <translation>&lt;font color=red&gt;Seçtiğiniz dizinler (boş olanlar) sisteminizden tamamen silinecektir!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Örnek: dizin1;dizin2;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="843"/>
+        <location filename="Source/Options.py" line="849"/>
         <source>&lt;font color=red&gt;The directories you selected will be deleted permanently from your system!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Example: directory1;directory2;...&lt;/font&gt;</source>
         <translation>&lt;font color=red&gt;Seçtiğiniz dizinler sisteminizden tamamen silinecektir!&lt;/font&gt;&lt;br&gt;&lt;font color=blue&gt;Örnek: dizin1;dizin2;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="846"/>
+        <location filename="Source/Options.py" line="852"/>
         <source>If the folders contain only the directories that match the criteria you selected here, they will be recognized as empty and will be deleted.&lt;br&gt;&lt;font color=blue&gt;Example: directory1;directory2;...&lt;/font&gt;</source>
         <translation>Dizinlerin içerisinde sadece burada belirttiğiniz dizinler varsa dizin boş olarak algılanacak ve silinecektir.&lt;br&gt;&lt;font color=blue&gt;Örnek : dizin1;dizin2;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="847"/>
+        <location filename="Source/Options.py" line="853"/>
         <source>If the folders contain only the files that match the criteria you selected here, they will be recognized as empty and will be deleted.&lt;br&gt;&lt;font color=blue&gt;Example: file1.abc; file2.def;...&lt;/font&gt;</source>
         <translation>Dizinlerin içerisinde sadece burada belirttiğiniz dosyalar varsa dizin boş olarak algılanacak ve silinecektir.&lt;br&gt;&lt;font color=blue&gt;Örnek : dosya1.abc;dosya2.def;...&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="923"/>
+        <location filename="Source/Options.py" line="929"/>
         <source>Move To Trash</source>
         <translation>Çöpe Taşı</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="929"/>
+        <location filename="Source/Options.py" line="935"/>
         <source>Would you like to move files to the trash files to be deleted?&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;This process can cause slow!&lt;/b&gt;&lt;/font&gt;</source>
         <translation>Silinen dosyaları çöp kutusuna taşımak istermisiniz?&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Bu işlem yavaşlamaya sebep olabilir!&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1071"/>
+        <location filename="Source/Options.py" line="1077"/>
         <source>Auto Clean Subfolders</source>
         <translation>Alt Dizinleri Otomatik Temizle</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1077"/>
+        <location filename="Source/Options.py" line="1083"/>
         <source>You have to select to clear the subfolders automatically.</source>
         <translation>Alt dizinleri otomatik olarak temizlemek için işaretlemelisiniz.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1166"/>
+        <location filename="Source/Options.py" line="1172"/>
         <source>Clear My Answers</source>
         <translation>Cevaplarımı Sil</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1167"/>
+        <location filename="Source/Options.py" line="1173"/>
         <source>Clear my answers to the notification messages</source>
         <translation>Uyarı mesajlarına verdiğim cevaplarımı sil</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1177"/>
+        <location filename="Source/Options.py" line="1183"/>
         <source>Your Answers Will Be Cleared</source>
         <translation>Cevaplarınız Silinecek</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1177"/>
+        <location filename="Source/Options.py" line="1183"/>
         <source>Are you sure you want to clear your answers to the notification messages?</source>
         <translation>Uyarı mesajlarına verdiğiniz cevapları gerçekten silmek istiyor musunuz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1181"/>
+        <location filename="Source/Options.py" line="1187"/>
         <source>Your Answers Cleared</source>
         <translation>Cevaplarınız Silindi</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1181"/>
+        <location filename="Source/Options.py" line="1187"/>
         <source>Cleared your answers to the notification messages.All notification messages will be asked again.</source>
         <translation>Uyarı mesajlarına verdiğiniz cevaplar silindi.Tüm uyarı mesajları size tekrar sorulacak.</translation>
     </message>
@@ -2206,7 +2254,7 @@
         <translation>Bu bölümden temizleyiciye özel ayarları yapabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1070"/>
+        <location filename="Source/Options.py" line="1076"/>
         <source>General Cleaning</source>
         <translation>Genel Temizlik</translation>
     </message>
@@ -2231,177 +2279,154 @@
         <translation>Varsayılan Değer : </translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="833"/>
+        <location filename="Source/Options.py" line="839"/>
         <source>General Cleaning (Table Saved)</source>
         <translation>Genel Temizlik (Tablo Kaydında)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="834"/>
+        <location filename="Source/Options.py" line="840"/>
         <source>General Cleaning (Moved Or Changed)</source>
         <translation>Genel Temizlik (Taşınınca / Değişince)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="835"/>
+        <location filename="Source/Options.py" line="841"/>
         <source>General Cleaning (Copied Or Changed)</source>
         <translation>Genel Temizlik (Kopyalanınca / Değişince)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="836"/>
+        <location filename="Source/Options.py" line="842"/>
         <source>General Cleaning (Moved File)</source>
         <translation>Genel Temizlik (Dosya Taşınınca)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="837"/>
+        <location filename="Source/Options.py" line="843"/>
         <source>Clean Subfolders (Table Saved)</source>
         <translation>Alt Dizinleri Temizle (Tablo Kaydında)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="838"/>
+        <location filename="Source/Options.py" line="844"/>
         <source>Clean Subfolders (Moved Or Changed)</source>
         <translation>Alt Dizinleri Temizle (Taşınınca / Değişince)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="839"/>
+        <location filename="Source/Options.py" line="845"/>
         <source>Clean Subfolders (Copied Or Changed)</source>
         <translation>Alt Dizinleri Temizle (Kopyalanınca / Değişince)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="840"/>
+        <location filename="Source/Options.py" line="846"/>
         <source>Clean Subfolders (Moved File)</source>
         <translation>Alt Dizinleri Temizle (Dosya Taşınınca)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="849"/>
+        <location filename="Source/Options.py" line="855"/>
         <source>Do you want to general cleaning when table saved?</source>
         <translation>Tablo kaydedilince genel temizlik yapılmasını ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="850"/>
+        <location filename="Source/Options.py" line="856"/>
         <source>Do you want to general cleaning when directory moved or changed?</source>
         <translation>Dizin taşınınca veya değiştirilince genel temizlik yapılmasını ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="851"/>
+        <location filename="Source/Options.py" line="857"/>
         <source>Do you want to general cleaning when directory copied or changed?</source>
         <translation>Dizin kopyalanınca veya değiştirilince genel temizlik yapılmasını ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="852"/>
+        <location filename="Source/Options.py" line="858"/>
         <source>Do you want to general cleaning when file moved?</source>
         <translation>Dosya taşınınca genel temizlik yapılmasını ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="853"/>
+        <location filename="Source/Options.py" line="859"/>
         <source>Do you want to clear the subfolders when table saved?</source>
         <translation>Tablo kaydedilince alt dizinlerde temizlensin mi?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="854"/>
+        <location filename="Source/Options.py" line="860"/>
         <source>Do you want to clear the subfolders when directory moved or changed?</source>
         <translation>Dizin taşınınca veya değiştirilince alt dizinlerde temizlensin mi?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="855"/>
+        <location filename="Source/Options.py" line="861"/>
         <source>Do you want to clear the subfolders when directory copied or changed?</source>
         <translation>Dizin kopyalanınca veya değiştirilince alt dizinlerde temizlensin mi?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="856"/>
+        <location filename="Source/Options.py" line="862"/>
         <source>Do you want to clear the subfolders when file moved?</source>
         <translation>Dosya taşınınca alt dizinlerde temizlensin mi?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="894"/>
+        <location filename="Source/Options.py" line="900"/>
         <source>Change Directory Icon (Table Saved)</source>
         <translation>Simgeyi Değiştir (Tablo Kaydında)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="895"/>
+        <location filename="Source/Options.py" line="901"/>
         <source>Change Directory Icon (Moved Or Changed)</source>
         <translation>Simgeyi Değiştir (Taşınınca / Değişince)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="896"/>
+        <location filename="Source/Options.py" line="902"/>
         <source>Change Directory Icon (Copied Or Changed)</source>
         <translation>Simgeyi Değiştir (Kopyalanınca / Değişince)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="897"/>
+        <location filename="Source/Options.py" line="903"/>
         <source>Change Directory Icon (Moved File)</source>
         <translation>Simgeyi Değiştir (Dosya Taşınınca)</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="900"/>
+        <location filename="Source/Options.py" line="906"/>
         <source>Do you want to change directory icon when table saved?</source>
         <translation>Tablo kaydedilince dizin simgesinin değiştirilmesini ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="901"/>
+        <location filename="Source/Options.py" line="907"/>
         <source>Do you want to change directory icon when directory moved or changed?</source>
         <translation>Dizin taşınınca veya değiştirilince dizin simgesinin değiştirilmesini ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="902"/>
+        <location filename="Source/Options.py" line="908"/>
         <source>Do you want to change directory icon when directory copied or changed?</source>
         <translation>Dizin kopyalanınca veya değiştirilince dizin simgesinin değiştirilmesini ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="903"/>
+        <location filename="Source/Options.py" line="909"/>
         <source>Do you want to change directory icon when file moved?</source>
         <translation>Dosya taşınınca dizin simgesinin değiştirilmesini ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1076"/>
+        <location filename="Source/Options.py" line="1082"/>
         <source>Do you want to general cleaning?</source>
         <translation>Genel temizlik yapılmasınız ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1075"/>
+        <location filename="Source/Options.py" line="1081"/>
         <source>Please select the files that you want to be deleted</source>
         <translation>Lütfen silinmesini istediğiniz dosyaları seçiniz</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1074"/>
+        <location filename="Source/Options.py" line="1080"/>
         <source>Please select the file extensions that you want to be deleted</source>
         <translation>Lütfen silinmesini istediğiniz dosya uzantılarını seçiniz</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1066"/>
+        <location filename="Source/Options.py" line="1072"/>
         <source>Delete Empty Directories</source>
         <translation>Boş Dizinleri Sil</translation>
     </message>
     <message>
-        <location filename="Source/Options.py" line="1072"/>
+        <location filename="Source/Options.py" line="1078"/>
         <source>Are you want to delete empty directories?</source>
         <translation>Boş dizinleri silmek ister misiniz?</translation>
     </message>
-</context>
-<context>
-    <name>OrganizasyonizM</name>
     <message>
-        <location filename="Source/StartupControl.py" line="119"/>
-        <source>Your System&apos;s &quot;File System Encoding&quot; Type Different</source>
-        <translation>Sisteminizin &quot;Dosya Sistemi Kodlaması&quot; Tipi Farklı</translation>
-    </message>
-    <message>
-        <location filename="Source/StartupControl.py" line="119"/>
-        <source>Your system&apos;s &quot;File System Encoding&quot; type different from the settings you select. Are you sure you want to continue?If you are not sure press the &quot;No&quot;.</source>
-        <translation>Sisteminizin &quot;Dosya Sistemi Kodlaması&quot; tipi seçtiğiniz tipten farklı. Devam etmek istediğinizden emin misiniz? Eğer emin değilseniz &quot;Hayır&quot; butonuna basınız.</translation>
-    </message>
-    <message>
-        <location filename="Source/StartupControl.py" line="135"/>
-        <source>Added New Options And New Features</source>
-        <translation>Yeni Seçenekler Ve Özellikler Eklendi</translation>
-    </message>
-    <message>
-        <location filename="Source/StartupControl.py" line="127"/>
-        <source>New options and new features added to OrganizasyonizM. Are you want to change or verify new options?</source>
-        <translation>OrganizasyonizM&apos;e yeni seçenekler ve yeni özellikler eklendi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
-    </message>
-    <message>
-        <location filename="Source/StartupControl.py" line="135"/>
-        <source>New options and new features added to OrganizasyonizM. Changed default values of few settings. Are you want to change or verify new options?</source>
-        <translation>OrganizasyonizM&apos;e yeni seçenekler ve yeni özellikler eklendi. Bazı ayarların varsayılan değerleri değiştirildi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
+        <location filename="Source/Options.py" line="904"/>
+        <source>The file names you selected will be folder icons first.&lt;br&gt;If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.&lt;br&gt;&lt;font color=blue&gt;Example: cover; icon...&lt;/font&gt;</source>
+        <translation>Belirttiğiniz dosya isimleri öncelikli olarak dizin simgesi haline gelecektir.&lt;br&gt;Eğer belirttiğiniz dosya ismi mevcut değilse dizindeki ilk grafik dosyası dizin simgesi olarak belirlenecektir.&lt;br&gt;&lt;font color=blue&gt;Örnek : kapak;cover;simge...&lt;/font&gt;</translation>
     </message>
 </context>
 <context>
@@ -2843,8 +2868,8 @@
     </message>
     <message>
         <location filename="Source/Records.py" line="19"/>
-        <source>OrganizasyonizM Log File - Time Created : </source>
-        <translation>OrganizasyonizM Kayıt Dosyası - Oluşturulma Zamanı : </translation>
+        <source>Hamsi Manager Log File - Time Created : </source>
+        <translation>Hamsi Manager Kayıt Dosyası - Oluşturulma Zamanı : </translation>
     </message>
     <message>
         <location filename="Source/Records.py" line="84"/>
@@ -2858,8 +2883,8 @@
     </message>
     <message>
         <location filename="Source/Records.py" line="71"/>
-        <source>OrganizasyonizM Log File - Time Clear : </source>
-        <translation>OrganizasyonizM Kayıt Dosyası - Temizleme Zamanı : </translation>
+        <source>Hamsi Manager Log File - Time Clear : </source>
+        <translation>Hamsi Manager Kayıt Dosyası - Temizleme Zamanı : </translation>
     </message>
     <message>
         <location filename="Source/Records.py" line="91"/>
@@ -2890,132 +2915,132 @@
         <translation>Son Sinyali Gönderen (Nesne Adı,Nesne Metni) :</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="61"/>
+        <location filename="Source/ReportBug.py" line="63"/>
         <source>Contents Directory : </source>
         <translation>İçerik Dizini : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="69"/>
+        <location filename="Source/ReportBug.py" line="71"/>
         <source>File Information : </source>
         <translation>Dosya Bilgileri : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="77"/>
+        <location filename="Source/ReportBug.py" line="79"/>
         <source>File Details : </source>
         <translation>Dosya Detayları : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="173"/>
+        <location filename="Source/ReportBug.py" line="177"/>
         <source>Please Report This Bug!..</source>
         <translation>Lütfen Hatayı Bildiriniz!..</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="181"/>
+        <location filename="Source/ReportBug.py" line="185"/>
         <source>I Have A Suggestion!</source>
         <translation>Bir Önerimiz Var!</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="225"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>Report Bug</source>
         <translation>Hatayı Bildir</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="276"/>
+        <location filename="Source/ReportBug.py" line="278"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="142"/>
+        <location filename="Source/ReportBug.py" line="144"/>
         <source>Close (Please Report This Bug First.)</source>
         <translation>Kapat (Lütfen Önce Hatayı Bildiriniz)</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="143"/>
+        <location filename="Source/ReportBug.py" line="145"/>
         <source>Show Details File</source>
         <translation>Detay Dosyasını Göster</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="191"/>
+        <location filename="Source/ReportBug.py" line="195"/>
         <source>Last Directory</source>
         <translation>Son Dizini</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="193"/>
+        <location filename="Source/ReportBug.py" line="197"/>
         <source>Settings</source>
         <translation>Ayarları</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="181"/>
+        <location filename="Source/ReportBug.py" line="185"/>
         <source>Ignore</source>
         <translation>Görmezden Gel</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="181"/>
-        <source>&lt;b&gt;Please check the following: ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;If you have received this error when you were checking the last folder, reset the &quot;Last Directory&quot;,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;If you have received this error due to your changed settings, reset the &quot;Settings&quot;,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;If you continue to receive this error even after resetting the settings, reset &quot;All&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;You can enable OrganizasyonizM to run as normal.&lt;br&gt;Please take a moment to send us the error report.&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Bu hatayı ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;Girmiş olduğunuz son dizini okuma sırasında alıyorsanız &quot;Son Dizini&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;Son yapmış olduğunuz ayarlar neticesinde alıyorsanız &quot;Ayarları&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;Ayarları sıfırladıktan sonrada almaya devam ediyorsanız &quot;Hepsini&quot; sıfırlayarak,&lt;br&gt;&lt;br&gt;&lt;b&gt;OrganizasyonizM`in açılmasını sağlayabilirsiniz.&lt;br&gt;Lütfen hatayı bize bildiriniz.&lt;/b&gt;</translation>
+        <location filename="Source/ReportBug.py" line="185"/>
+        <source>&lt;b&gt;Please check the following: ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;If you have received this error when you were checking the last folder, reset the &quot;Last Directory&quot;,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;If you have received this error due to your changed settings, reset the &quot;Settings&quot;,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;If you continue to receive this error even after resetting the settings, reset &quot;All&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;You can enable Hamsi Manager to run as normal.&lt;br&gt;Please take a moment to send us the error report.&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Bu hatayı ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;Girmiş olduğunuz son dizini okuma sırasında alıyorsanız &quot;Son Dizini&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;Son yapmış olduğunuz ayarlar neticesinde alıyorsanız &quot;Ayarları&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;Ayarları sıfırladıktan sonrada almaya devam ediyorsanız &quot;Hepsini&quot; sıfırlayarak,&lt;br&gt;&lt;br&gt;&lt;b&gt;Hamsi Manager`in açılmasını sağlayabilirsiniz.&lt;br&gt;Lütfen hatayı bize bildiriniz.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="195"/>
+        <location filename="Source/ReportBug.py" line="199"/>
         <source>All</source>
         <translation>Hepsini</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="258"/>
+        <location filename="Source/ReportBug.py" line="264"/>
         <source>&lt;b&gt;(Is Encoded With %s.)&lt;/b&gt;</source>
         <translation>&lt;b&gt;(%s İle Kodlanabildi.)&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="63"/>
+        <location filename="Source/ReportBug.py" line="65"/>
         <source>Table Contents : </source>
         <translation>Tablo İçeriği : </translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="157"/>
+        <location filename="Source/RoutineChecks.py" line="174"/>
         <source>Missing Module</source>
         <translation>Eksik Modül</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="161"/>
+        <location filename="Source/RoutineChecks.py" line="178"/>
         <source>Error In Module</source>
         <translation>Modülde Hata Var</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="163"/>
-        <source>&quot;%s&quot; is not in this module.Please download and install OrganizasyonizM again.</source>
-        <translation>&quot;%s&quot; modülde mevcut değil.Lütfen OrganizasyonizM`i tekrar indirip kurunuz.</translation>
+        <location filename="Source/RoutineChecks.py" line="180"/>
+        <source>&quot;%s&quot; is not in this module.Please download and install Hamsi Manager again.</source>
+        <translation>&quot;%s&quot; modülde mevcut değil.Lütfen Hamsi Manager`i tekrar indirip kurunuz.</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="165"/>
+        <location filename="Source/RoutineChecks.py" line="182"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="172"/>
+        <location filename="Source/RoutineChecks.py" line="189"/>
         <source>Critical Error!</source>
         <translation>Kritik Hata!</translation>
     </message>
     <message>
-        <location filename="Source/StartupControl.py" line="159"/>
+        <location filename="Source/RoutineChecks.py" line="176"/>
         <source>Application will not work without the module &quot;%s&quot;.</source>
         <translation>&quot;%s&quot; modülü olmadan uygulama çalışmayacaktır.</translation>
     </message>
     <message>
-        <location filename="OrganizasyonizM.py" line="226"/>
+        <location filename="HamsiManager.py" line="229"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation>Kritik bir hata oluştu.Detaylara bakmak istiyorsanız &quot;%s&quot; dosyasına bakabilirsiniz.Eğer Mümkünse bu hatanın detaylarını bize göndermenizi rica ederiz.</translation>
     </message>
     <message>
-        <location filename="OrganizasyonizM.py" line="227"/>
+        <location filename="HamsiManager.py" line="230"/>
         <source>Thanks in advance for your interest.</source>
         <translation>İlginiz için şimdiden teşekkür ederiz.</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="225"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>&lt;b&gt;Error description :&lt;/b&gt; &lt;br&gt;(Be can null)&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Please write what you did before you received the error here.</source>
         <translation>&lt;b&gt;Hata Açıklaması :&lt;/b&gt; &lt;br&gt;(Boş bırakabilirsiniz)&lt;br&gt;&lt;b&gt;Not:&lt;/b&gt;Hatayı almadan önce yaptığınız son işlemi bu alanda belirtmeniz önemle rica olunur.</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="225"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>&lt;b&gt;Name and Surname :&lt;/b&gt; (Be can null)</source>
         <translation>&lt;b&gt;Adınız ve Soyadınız :&lt;/b&gt; (Boş bırakabilirsiniz)</translation>
     </message>
@@ -3025,54 +3050,59 @@
         <translation>Lütfen kişisel bilgilerinizi aşağıdaki tablodan kontrol ediniz.</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="225"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>&lt;b&gt;E-mail address :&lt;/b&gt; (Be can null)&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Will be kept strictly confidential. It will be used solely to report you back once the problem is solved..</source>
         <translation>&lt;b&gt;Mail Adresiniz :&lt;/b&gt; (Boş bırakabilirsiniz)&lt;br&gt;&lt;b&gt;Not:&lt;/b&gt;Problem çözülünce size haber vermek için kullanılacaktır..</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="225"/>
+        <location filename="Source/ReportBug.py" line="231"/>
         <source>Thank you for sending us your error report. You have already contributed a lot to make the next release even better..&lt;br&gt;</source>
         <translation>Göndermiş olduğunuz hata bildirimi için teşekkür ederiz.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="88"/>
+        <location filename="Source/ReportBug.py" line="90"/>
         <source>Active Dialog`s Titles : </source>
         <translation>Aktif Diyalogların Başlıkları : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="97"/>
+        <location filename="Source/ReportBug.py" line="99"/>
         <source>Application Version : </source>
         <translation>Uygulama Versiyonu : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="131"/>
+        <location filename="Source/ReportBug.py" line="133"/>
         <source>Table Type No : </source>
         <translation>Tablo Tarzı Numarası : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="101"/>
+        <location filename="Source/ReportBug.py" line="103"/>
         <source>Is Starting Successfully : </source>
         <translation>Başlangıç Başarılı Mı : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="103"/>
+        <location filename="Source/ReportBug.py" line="105"/>
         <source>Is Reporting Manuel : </source>
         <translation>Kişisel Bildirim Mi : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="105"/>
+        <location filename="Source/ReportBug.py" line="107"/>
         <source>Is Quick Make : </source>
         <translation>Hızlı Yap Aktif Mi :</translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="107"/>
+        <location filename="Source/ReportBug.py" line="109"/>
         <source>Quick Make Parameters : </source>
         <translation>Hızlı Yap Parametreleri : </translation>
     </message>
     <message>
-        <location filename="Source/ReportBug.py" line="109"/>
+        <location filename="Source/ReportBug.py" line="111"/>
         <source>My Parameters : </source>
         <translation>Parametrelerim : </translation>
+    </message>
+    <message>
+        <location filename="Source/ReportBug.py" line="146"/>
+        <source>Check Update</source>
+        <translation>Güncellemeleri Kontrol Et</translation>
     </message>
 </context>
 <context>
@@ -3244,22 +3274,22 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="Source/Settings.py" line="490"/>
+        <location filename="Source/Settings.py" line="507"/>
         <source>Do You Want To Back Up?</source>
         <translation>Yedeklemek İstermisiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="490"/>
+        <location filename="Source/Settings.py" line="507"/>
         <source>Do you want to back up current data?</source>
         <translation>Mevcut Bilgileri Yedeklemek İstermisiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="531"/>
+        <location filename="Source/Settings.py" line="548"/>
         <source>Do You Want To Back Up Current Data?</source>
         <translation>Mevcut Bilgileri Yedeklemek İstermisiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="531"/>
+        <location filename="Source/Settings.py" line="548"/>
         <source>Do you want to back up current data before restoring?</source>
         <translation>Geri yükleme işleminden önce mevcut bilgilerinizi yedeklemek ister misiniz?</translation>
     </message>
@@ -3492,11 +3522,6 @@
         <translation>Ara - Değiştir</translation>
     </message>
     <message>
-        <location filename="Source/SpecialTools.py" line="589"/>
-        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;OrganizasyonizM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;izM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Organizasyon&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
-        <translation>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Önce&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Ara&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Yerine Yaz&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Sonra&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;OrganizasyonizM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;izM&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Organizasyon&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</translation>
-    </message>
-    <message>
         <location filename="Source/SpecialTools.py" line="60"/>
         <source>After X</source>
         <translation>X.`den Sonrası</translation>
@@ -3531,13 +3556,18 @@
         <source>Special Tools</source>
         <translation>Özel Araçlar</translation>
     </message>
+    <message>
+        <location filename="Source/SpecialTools.py" line="589"/>
+        <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;HamsiManager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;ager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;HamsiMan&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
+        <translation>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Önce&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Ara&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Değiştir&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Sonra&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;HamsiManager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;ager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;HamsiMan&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</translation>
+    </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <location filename="Source/Bars.py" line="574"/>
-        <source>OrganizasyonizM running as root</source>
-        <translation>OrganizasyonizM root olarak çalıştırılıyor</translation>
+        <source>Hamsi Manager running as root</source>
+        <translation>Hamsi Manager root olarak çalıştırılıyor</translation>
     </message>
     <message>
         <location filename="Source/Bars.py" line="577"/>
@@ -3589,37 +3619,37 @@
 <context>
     <name>SuggestIdea</name>
     <message>
-        <location filename="Source/SuggestIdea.py" line="17"/>
+        <location filename="Source/SuggestIdea.py" line="18"/>
         <source>Close (Please Suggest Idea First.)</source>
         <translation>Kapat (Lütfen Önce Öneride Bulununuz)</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="33"/>
+        <location filename="Source/SuggestIdea.py" line="34"/>
         <source>Please Suggest Idea</source>
         <translation>Lütfen Öneride Bulununuz</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>&lt;b&gt;Idea :&lt;/b&gt;</source>
         <translation>&lt;b&gt;Öneri :&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>&lt;b&gt;Name and Surname :&lt;/b&gt;</source>
         <translation>&lt;b&gt;Adınız ve Soyadınız :&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>&lt;b&gt;E-mail address :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Will be kept strictly confidential. It will be used solely to learn information about of your idea.</source>
         <translation>&lt;b&gt;Mail Adresiniz :&lt;/b&gt;&lt;br&gt;&lt;b&gt;Not:&lt;/b&gt;Kesinlikle gizli tutulacaktır. Bu sadece senin fikrin hakkında daha fazla bilgi edinmek için kullanılacaktır.</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>Suggest Idea</source>
         <translation>Öneride Bulun</translation>
     </message>
     <message>
-        <location filename="Source/SuggestIdea.py" line="52"/>
+        <location filename="Source/SuggestIdea.py" line="55"/>
         <source>Thank you for sending us your idea. You have contributed a lot to make the next release even better.&lt;br&gt;</source>
         <translation>Fikrinizi bize gönderdiğiniz için teşekkür ederiz. Bir sonraki sürümün daha iyi olması için katkıda bulundunuz.&lt;br&gt;</translation>
     </message>
@@ -3650,22 +3680,22 @@
         <translation>Seçilenleri Değiştir</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="22"/>
+        <location filename="Source/Tables/__init__.py" line="21"/>
         <source>Folder Table</source>
         <translation>Dizin Tablosu</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="23"/>
+        <location filename="Source/Tables/__init__.py" line="22"/>
         <source>File Table</source>
         <translation>Dosya Tablosu</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="24"/>
+        <location filename="Source/Tables/__init__.py" line="23"/>
         <source>Music Table</source>
         <translation>Müzik Tablosu</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="25"/>
+        <location filename="Source/Tables/__init__.py" line="24"/>
         <source>Subfolder Table</source>
         <translation>Altdizin Tablosu</translation>
     </message>
@@ -3735,97 +3765,97 @@
         <translation>Sistemden Sil</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="390"/>
+        <location filename="Source/Tables/__init__.py" line="394"/>
         <source>There Are Unsaved Information</source>
         <translation>Kaydedilmemiş Bilgiler Mevcut</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="390"/>
+        <location filename="Source/Tables/__init__.py" line="394"/>
         <source>Do you want to save these information?</source>
         <translation>Kaydedilmemiş bilgileri kaydetmek istermisiniz?</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="402"/>
+        <location filename="Source/Tables/__init__.py" line="406"/>
         <source>Yes</source>
         <translation>Evet</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="410"/>
+        <location filename="Source/Tables/__init__.py" line="414"/>
         <source>No</source>
         <translation>Hayır</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="408"/>
+        <location filename="Source/Tables/__init__.py" line="412"/>
         <source>Hidden Field</source>
         <translation>Gizli Alan</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="415"/>
+        <location filename="Source/Tables/__init__.py" line="419"/>
         <source>Yes To All</source>
         <translation>Hepsine Evet</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="408"/>
+        <location filename="Source/Tables/__init__.py" line="412"/>
         <source>&quot;%s&quot;: you have hidden this field in the table.&lt;br&gt;Do you want to activate this field and perform the action?</source>
         <translation>&quot;%s&quot; alanını tabloda gizlediniz.&lt;br&gt;Bu alanı aktifleştirip ilgili işlemi gerçekleştirmek istiyormusunuz?</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="412"/>
+        <location filename="Source/Tables/__init__.py" line="416"/>
         <source>Action Cancelled</source>
         <translation>İşlem İptal Edildi</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="412"/>
+        <location filename="Source/Tables/__init__.py" line="416"/>
         <source>You have cancelled the action.&lt;br&gt;You can make the necessary changes and reperform the action.</source>
         <translation>İşlemi iptal ettiniz.&lt;br&gt;Gerekli düzenlemeleri yapıp işlemi tekrarlayabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="496"/>
+        <location filename="Source/Tables/__init__.py" line="500"/>
         <source>Table Contents</source>
         <translation>Tablo İçeriği</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="984"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1007"/>
         <source>Save As</source>
         <translation>Farklı Kaydet</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="490"/>
+        <location filename="Source/Tables/__init__.py" line="494"/>
         <source>Table Exported</source>
         <translation>Tablo Aktarıldı</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="1010"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1033"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Source/Tables/__init__.py" line="490"/>
+        <location filename="Source/Tables/__init__.py" line="494"/>
         <source>Table contents are exported to file: &quot;%s&quot;.</source>
         <translation>Tablo içeriği: &quot;%s&quot; dosyasına aktarıldı.</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="979"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1002"/>
         <source>HTML</source>
         <translation>HTML</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="982"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1005"/>
         <source>Plain Text</source>
         <translation>Düz Metin</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="1000"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1023"/>
         <source>File Tree</source>
         <translation>Dosya Ağacı</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="993"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1016"/>
         <source>File Tree Created</source>
         <translation>Dosya Ağacı Oluşturuldu</translation>
     </message>
     <message>
-        <location filename="Source/InputOutputs/__init__.py" line="993"/>
+        <location filename="Source/InputOutputs/__init__.py" line="1016"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation>Dosya ağacı &quot;%s&quot; dosyasında oluşturuldu.</translation>
     </message>
@@ -3833,6 +3863,16 @@
         <location filename="Source/Tables/__init__.py" line="46"/>
         <source>Re Correct</source>
         <translation>Tekrar Düzelt</translation>
+    </message>
+    <message>
+        <location filename="Source/Tables/__init__.py" line="370"/>
+        <source>Did Not Change Any Things</source>
+        <translation>Hiç Bir Şey Değişmedi</translation>
+    </message>
+    <message>
+        <location filename="Source/Tables/__init__.py" line="370"/>
+        <source>Did not change any things in this table.Please check the criteria you select.</source>
+        <translation>Bu tabloda hiç bir şey değişmedi.Lütfen seçtiğiniz kriterleri kontrol ediniz.</translation>
     </message>
 </context>
 <context>
@@ -4019,109 +4059,124 @@
 <context>
     <name>UpdateControl</name>
     <message>
-        <location filename="Source/UpdateControl.py" line="24"/>
+        <location filename="Source/UpdateControl.py" line="27"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="25"/>
+        <location filename="Source/UpdateControl.py" line="29"/>
         <source>Download and Install</source>
         <translation>İndir ve Kur</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="27"/>
+        <location filename="Source/UpdateControl.py" line="33"/>
         <source>Details</source>
         <translation>Detaylar</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="47"/>
+        <location filename="Source/UpdateControl.py" line="64"/>
         <source>Checking for the updates</source>
         <translation>Güncellemeler Kontrol Ediliyor</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="88"/>
+        <location filename="Source/UpdateControl.py" line="116"/>
         <source>You are already using the latest release.</source>
         <translation>Mevcut son sürümü kullanıyorsunuz.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="99"/>
-        <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://www.mixdigitall.com/OrganizasyonizM&quot;.</source>
-        <translation>Güncelleme bilgierine ulaşılamıyor.Lütfen daha sonra tekrar deneyiniz.&lt;br&gt;Eğer bu hatayı sık sık alıyorsanız lütfen &quot;http://www.mixdigitall.com/OrganizasyonizM&quot;`i ziyaret ediniz.</translation>
-    </message>
-    <message>
-        <location filename="Source/UpdateControl.py" line="97"/>
+        <location filename="Source/UpdateControl.py" line="128"/>
         <source>Download complete.</source>
         <translation>ndirme işlemi bitti.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="153"/>
+        <location filename="Source/UpdateControl.py" line="187"/>
         <source>Cannot read source package. Please retry later.</source>
         <translation>Kaynak paket okunamıyor.Lütfen daha sonra tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="161"/>
+        <location filename="Source/UpdateControl.py" line="204"/>
         <source>Latest release downloaded, initializing installation.</source>
         <translation>Son sürüm indirildi,şimdi kurulum başlıyor.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="89"/>
+        <location filename="Source/UpdateControl.py" line="117"/>
         <source>Ok</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="99"/>
+        <location filename="Source/UpdateControl.py" line="130"/>
         <source>Cannot Fetch Release Information</source>
         <translation>Güncelleme Bilgilerine Ulaşılamadı</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="120"/>
+        <location filename="Source/UpdateControl.py" line="151"/>
         <source>Downloading Latest Release...</source>
         <translation>Son Sürüm İndiriliyor...</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="130"/>
+        <location filename="Source/UpdateControl.py" line="161"/>
         <source>You Can Click Cancel To Update Without Saving The Package.</source>
         <translation>Paketi Kaydetmeden Güncellemek İçin İptale Basabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="153"/>
+        <location filename="Source/UpdateControl.py" line="187"/>
         <source>Cannot Read Source.</source>
         <translation>Kaynak Okunamıyor.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="160"/>
+        <location filename="Source/UpdateControl.py" line="203"/>
         <source>Installing The Latest Release</source>
         <translation>Son Sürüm Kuruluyor</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="78"/>
-        <source>New release is available. Please download and install.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</source>
-        <translation>Yeni sürüm mevcut.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</translation>
+        <location filename="Source/UpdateControl.py" line="104"/>
+        <source>New release is available. Please download and install.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
+        <translation>Yeni sürüm mevcut.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="84"/>
-        <source>Version %s is available. Please download and install the new release.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</source>
-        <translation>%s isimli sürüm yayımlandı.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;%s Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</translation>
+        <location filename="Source/UpdateControl.py" line="112"/>
+        <source>Version %s is available. Please download and install the new release.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
+        <translation>%s isimli sürüm yayımlandı.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;%s Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="87"/>
-        <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</source>
-        <translation>Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;OrganizasyonizM&lt;/a&gt;</translation>
+        <location filename="Source/UpdateControl.py" line="115"/>
+        <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
+        <translation>Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="177"/>
+        <location filename="Source/UpdateControl.py" line="212"/>
         <source>Update Will Be Complete</source>
         <translation>Güncelleme Tamamlanacak</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="177"/>
-        <source>Please restart OrganizasyonizM now.</source>
-        <translation>Lütfen OrganizasyonizM`i yeniden başlatınız.</translation>
+        <location filename="Source/UpdateControl.py" line="212"/>
+        <source>Please restart Hamsi Manager now.</source>
+        <translation>Lütfen Hamsi Manager`i yeniden başlatınız.</translation>
     </message>
     <message>
-        <location filename="Source/UpdateControl.py" line="177"/>
+        <location filename="Source/UpdateControl.py" line="212"/>
         <source>Restart</source>
         <translation>Yeniden Başlat</translation>
+    </message>
+    <message>
+        <location filename="Source/UpdateControl.py" line="31"/>
+        <source>Download</source>
+        <translation>İndir</translation>
+    </message>
+    <message>
+        <location filename="Source/UpdateControl.py" line="46"/>
+        <source>Remind Me Later And Close</source>
+        <translation>Bana Sonra Hatırlat Ve Kapat</translation>
+    </message>
+    <message>
+        <location filename="Source/UpdateControl.py" line="130"/>
+        <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://hamsiapps.com/HamsiManager&quot;.</source>
+        <translation>Güncelleme bilgierine ulaşılamıyor.Lütfen daha sonra tekrar deneyiniz.&lt;br&gt;Eğer bu hatayı sık sık alıyorsanız lütfen &quot;http://hamsiapps.com/HamsiManager&quot;`i ziyaret ediniz.</translation>
+    </message>
+    <message>
+        <location filename="Source/UpdateControl.py" line="163"/>
+        <source>Save As</source>
+        <translation>Farklı Kaydet</translation>
     </message>
 </context>
 <context>
