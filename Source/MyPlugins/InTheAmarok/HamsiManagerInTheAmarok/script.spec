@@ -11,7 +11,7 @@ Comment[tr]=Çalan parçayı ve içinde bulunduğu dizini Hamsi Manager ile düz
 Comment[pt_BR]=O diretório de canções e as cancões tocadas estão organizadas com Hamsi Manager
 
 X-KDE-PluginInfo-Author=Murat DEMİR
-X-KDE-PluginInfo-Email=mxd@mixdigitall.com
+X-KDE-PluginInfo-Email=mopened@gmail.com
 X-KDE-PluginInfo-Name=Hamsi Manager In The Amarok
 X-KDE-PluginInfo-Name[tr]=Amarok`ta Hamsi Manager
 X-KDE-PluginInfo-Name[pt_BR]=Hamsi Manager no Amarok

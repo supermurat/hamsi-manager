@@ -29,11 +29,11 @@ if RoutineChecks.checkPyQt4Exist():
             programName = ki18n ("Hamsi Manager")
             version     = RoutineChecks.__version__
             license     = KAboutData.License_GPL_V3
-            copyright   = ki18n (u"Murat DEMİR (mxd@mixdigitall.com)")
+            copyright   = ki18n (u"Murat DEMİR (mopened@gmail.com)")
             kde4LangKode= str(KLocale(Universals.Catalog).language())+"_"+str(KLocale(Universals.Catalog).country()).upper()
             text        = ki18n ("")
             homePage    = "hamsiapps.com"
-            bugEmail    = u"Murat DEMIR (mxd@mixdigitall.com)"
+            bugEmail    = u"Murat DEMIR (mopened@gmail.com)"
             if InputOutputs.isFile(Universals.sourcePath+"/Languages/About_"+ kde4LangKode):
                 aboutFileContent = InputOutputs.readFromFile(Universals.sourcePath+"/Languages/About_"+ kde4LangKode)
             else:
@@ -42,7 +42,7 @@ if RoutineChecks.checkPyQt4Exist():
             aboutOfHamsiManager = KAboutData (appName, Universals.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor (ki18n("Murat DEMİR"), ki18n("Project Manager and Project Developer<br>Proje Sorumlusu ve Proje Geliştiricisi"), 
-                                "mxd@mixdigitall.com", "hamsiapps.com")
+                                "mopened@gmail.com", "hamsiapps.com")
             aboutOfHamsiManager.addCredit(ki18n("Tolga Balcı"), ki18n("Translate to English. (Voluntary)<br>İngilizce Çevirisi. (Gönüllü) (V0.7.x)"), 
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
             aboutOfHamsiManager.addCredit(ki18n("Márcio Moraes"), ki18n("Translate to Brazilian Portuguese. (Voluntary)<br>Brezilya Portekizcesi diline çeviri. (Gönüllü) (V0.8.7 - ~)"), 

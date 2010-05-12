@@ -29,8 +29,8 @@ if RoutineChecks.checkPyQt4Exist():
     HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager.png"))
     HamsiManagerApp.setApplicationName("InstallHamsiManager")
     HamsiManagerApp.setApplicationVersion(RoutineChecks.__version__)
-    HamsiManagerApp.setOrganizationDomain("mixdigitall.com")
-    HamsiManagerApp.setOrganizationName("MXD mixdigitall")
+    HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
+    HamsiManagerApp.setOrganizationName("Hamsi Apps")
     import MyConfigure
     class Main(MWidget):
         def __init__(self, parent=None):
