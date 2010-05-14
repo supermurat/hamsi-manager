@@ -212,6 +212,9 @@ class UpdateControl(MDialog):
         Dialogs.show(translate("UpdateControl", "Update Will Be Complete"),
                         translate("UpdateControl", "Please restart Hamsi Manager now."),
                         translate("UpdateControl", "Restart"))
+        if InputOutputs.isFile(Universals.HamsiManagerDirectory+"/Update.py")==False:
+            if InputOutputs.isFile(Universals.HamsiManagerDirectory+"/ConfigureUpdate.py"):
+                InputOutputs.moveFileOrDir(Universals.HamsiManagerDirectory+"/ConfigureUpdate.py", Universals.HamsiManagerDirectory+"/Update.py")
         executeWithPython(Universals.HamsiManagerDirectory+"/Update.py "+str(_fileName))
         self.close()
         self.parent().close()

@@ -708,16 +708,32 @@ class Settings():
             if InputOutputs.isFile(Universals.getKDE4HomePath() + "share/config/HamsiManagerrc"):
                 InputOutputs.removeFile(Universals.getKDE4HomePath() + "share/config/HamsiManagerrc")
         if oldVersion<840:
-            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
-            cur = con.cursor()
-            cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
-            cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
-            con.commit()
-            con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
-            cur = con.cursor()
-            cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
-            cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
-            con.commit()
+            try:
+                con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+                cur = con.cursor()
+                cur.execute("SELECT * FROM dbProperties where keyName='version'")
+                bookmarksDBVersion = int(cur.fetchall()[0][1])
+            except:
+                bookmarksDBVersion = 0
+            try:
+                con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+                cur = con.cursor()
+                cur.execute("SELECT * FROM dbProperties where keyName='version'")
+                searchAndReplaceTableDBVersion = int(cur.fetchall()[0][1])
+            except:
+                searchAndReplaceTableDBVersion = 0
+            if bookmarksDBVersion<1:
+                con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+                cur = con.cursor()
+                cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
+                cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
+                con.commit()
+            if searchAndReplaceTableDBVersion<1:
+                con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+                cur = con.cursor()
+                cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
+                cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
+                con.commit()
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():
