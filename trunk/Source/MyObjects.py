@@ -85,7 +85,7 @@ if Universals.MySettings.keys().count("isActivePyKDE4")>0:
             KLocale = kdecore.KLocale
         except:
             Universals.isActivePyKDE4 = False
-        
+            
 def getMyDialog():
     try:
         if Universals.MainWindow.objectName()=="RealMainWindow":
@@ -105,4 +105,4 @@ def moveToCenter(_dialog):
     _dialog.move(int((desk.width() - _dialog.width()) / 2),
       int((desk.height() - _dialog.height()) / 2))
     
-    
+Universals.isLoadedMyObjects = True

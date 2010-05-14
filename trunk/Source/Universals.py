@@ -5,7 +5,7 @@ from os import path
 from datetime import timedelta, datetime
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, sourcePath, getDateValue, isActivePyKDE4, getKDE4HomePath
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, sourcePath, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects
     MainWindow = None 
     isStartingSuccessfully = False
     MySettings = {}
@@ -27,6 +27,7 @@ class Universals():
     executableHamsiManagerPath = str(sys.argv[0])
     isCanBeShowOnMainWindow = False
     isActivePyKDE4 = False
+    isLoadedMyObjects = False
     if executableHamsiManagerPath.find("HamsiManager")==-1 or executableHamsiManagerPath.find("./HamsiManager")!=-1:
         executableHamsiManagerPath = HamsiManagerDirectory + "/HamsiManager.py"
     
@@ -58,8 +59,9 @@ class Universals():
                 MySettings["isActivePyKDE4"] = "False"
         InputOutputs.systemsCharSet = MySettings["systemsCharSet"]
         if eval(MySettings["isActivePyKDE4"].title())==True:
-            isActivePyKDE4 = True
-            InputOutputs.isMoveToTrash = eval(MySettings["isMoveToTrash"].title())
+            if isLoadedMyObjects==False:
+                isActivePyKDE4 = True
+                InputOutputs.isMoveToTrash = eval(MySettings["isMoveToTrash"].title())
         themePath = sourcePath + "/Themes/" + MySettings["themeName"]
     
     def getListFromStrint(_listString):

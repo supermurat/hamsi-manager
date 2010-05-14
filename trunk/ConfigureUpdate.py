@@ -26,8 +26,6 @@ class Update():
         if len(sys.argv)>1:
             sourceFile = str(sys.argv[1])
             if sys.argv[1]=="-ConfigureUpdate":
-                import MyConfigure
-                MyConfigure.installKDE4Languages()
                 removeFileOrDir(sys.path[1]+"/Update.py")
                 copyFileOrDir(sys.path[1]+"/ConfigureUpdate.py", sys.path[1]+"/Update.py")
                 popen = os.popen("\"" + sys.executable+"\" "+sys.path[1]+ "/Update.py -ConfiguredUpdate", "w")
@@ -43,16 +41,19 @@ class Update():
         if isRun==True and isFile(sourceFile):
             tempDir = str(tempfile.gettempdir()) + "/HamsiManager-" + str(random.randrange(0, 1000000))
             import tarfile
-            while 1==1:
+            intSleepTime = 0
+            while intSleepTime<6:
                 try:
                     try:tar = tarfile.open(sourceFile.encode(systemsCharSet), "r:gz")
                     except:tar = tarfile.open(sourceFile, "r:gz")
                     break
                 except:
+                    intSleepTime +=1
                     time.sleep(1)
             try:tar.extractall(tempDir.encode(systemsCharSet), members=tar.getmembers())
             except:tar.extractall(tempDir, members=tar.getmembers())
             tar.close()
+            time.sleep(4)
             for file in listDir(tempDir+"/HamsiManager"):
                 if file!="Update.py" and file!="install.py":
                     moveFileOrDir(tempDir+"/HamsiManager/"+file,sys.path[1]+"/"+file)
