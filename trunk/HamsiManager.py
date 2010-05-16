@@ -7,7 +7,7 @@ sys.setdefaultencoding("utf-8")
 if sys.path[0]=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Source")
-sys.path.insert(2,sys.path[0]+"/SearchEngines")
+sys.path.insert(2,sys.path[0]+"/Source/SearchEngines")
 
 import RoutineChecks
 if RoutineChecks.checkPyQt4Exist():
