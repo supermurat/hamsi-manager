@@ -16,4 +16,10 @@ Installation Steps :
 * Double click to "install.py" or write "python ./install.py" to console(Konsole,Terminal...).
 * You can install with "Hamsi Manager Installer". (Graphical User Interface (GUI))
 
+System Requirements : 
+* Python 2.5 or 2.6 ( 2.4 and earlier not tested) http://www.python.org/download
+* PyQt4 http://www.riverbankcomputing.co.uk/software/pyqt/download
+* PyKDE4 (Is not requirement but however it is very better than) http://techbase.kde.org/Development/Languages/Python
+
+
 Details in "http://hamsiapps.com/en/HamsiManager"
