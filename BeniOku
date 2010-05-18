@@ -12,4 +12,10 @@ Kurulum Basamakları :
 * "install.py" dosyasına çifttıklayınız veya konsola(Konsole,Terminal...) "python ./install.py" yazınız.
 * "Hamsi Manager Kurulum Aracı" ile kurulumu gerçekleştirebilirsiniz.(Grafiksel Kullanıcı Arayüzü (GUI))
 
+Sistem Gereksinimleri : 
+* Python 2.5 veya 2.6 ( 2.4 test edilmedi) http://www.python.org/download
+* PyQt4 http://www.riverbankcomputing.co.uk/software/pyqt/download
+* PyKDE4 (Bu bir gereksinim değildir fakat daha iyi bir masaüstü entegrasyonu sunmaktadır) http://techbase.kde.org/Development/Languages/Python
+
+
 Daha detaylı türkçe bilgi için lütfen "http://hamsiapps.com/HamsiManager" adresini ziyaret ediniz.

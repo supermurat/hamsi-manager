@@ -4,7 +4,7 @@ import Universals
 import Settings
 from MyObjects import translate
 pluginName = str(translate("MyPlugins/InTheAmarok", "Hamsi Manager In The Amarok"))
-pluginVersion = "0.1"
+pluginVersion = "0.3"
 pluginFiles = []
 pluginDirectory = "HamsiManagerInTheAmarok"
 installThisPlugin = None
