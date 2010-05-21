@@ -2,8 +2,8 @@
 import sys
 import os
 __author__ = "Murat Demir (murat@mopened.com)"
-__version__ = "V0.8.50"
-__intversion__ = 850
+__version__ = "V0.8.51"
+__intversion__ = 851
 __copyright__ = "Copyleft"
 __license__ = "GPLv3"
 __settingVersion__ = "850"

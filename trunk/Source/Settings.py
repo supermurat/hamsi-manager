@@ -452,12 +452,16 @@ class Settings():
         elif _makeBackUp==True:
             makeBackUp(_table)
         sqlCommands , databaseFiles= [], []
-        if _table=="bookmarks" or _table=="All":
+        if _table=="bookmarksOfDirectories" or _table=="bookmarks" or _table=="All":
             sqlCommands.append(["CREATE TABLE bookmarksOfDirectories ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'label' TEXT)", 
                                 "insert into bookmarksOfDirectories(bookmark,value,label) values('Home','"+Universals.userDirectoryPath+"','')", 
                                 "insert into bookmarksOfDirectories(bookmark,value,label) values('MNT','/mnt','')", 
-                                "insert into bookmarksOfDirectories(bookmark,value,label) values('MEDIA','/media','')", 
-                                "CREATE TABLE bookmarksOfSpecialTools ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'label' TEXT)", 
+                                "insert into bookmarksOfDirectories(bookmark,value,label) values('MEDIA','/media','')"])
+            databaseFiles.append("bookmarks.sqlite")
+        if _table=="bookmarksOfSpecialTools" or _table=="bookmarks" or _table=="All":
+            if len(sqlCommands)==0:
+                sqlCommands.append(["SELECT 'control'"])
+            sqlCommands[-1] += ["CREATE TABLE bookmarksOfSpecialTools ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'label' TEXT)", 
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Artist - Title ;right;113', 'music')",
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Artist - Title , File Name  ;left;113', 'music')",
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Track No - Title , File Name  ;left;113', 'music')",
@@ -473,10 +477,10 @@ class Settings():
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory , File Name  ;right;102', 'subfolder')",
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Directory  ;right;102', 'subfolder')",
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory , File Name  ;right;102', 'file')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Directory  ;right;102', 'file')",
-                                "CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)", 
-                                "insert into dbProperties (keyName, value) values ('version', '1')"])
-            databaseFiles.append("bookmarks.sqlite")
+                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Directory  ;right;102', 'file')"]
+        if _table=="bookmarksOfDirectories" or _table=="bookmarksOfSpecialTools" or _table=="bookmarks" or _table=="All":
+            sqlCommands[-1] += ["CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)", 
+                                "insert into dbProperties (keyName, value) values ('version', '1')"]
         if _table=="searchAndReplaceTable" or _table=="All":
             sqlCommands.append(["CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER)", 
                                 "insert into searchAndReplaceTable (searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp) values('http://','',1,1,0)", 
@@ -737,6 +741,24 @@ class Settings():
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():
+        try:
+            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+            cur = con.cursor()
+            cur.execute("SELECT * FROM bookmarksOfDirectories")
+        except:
+            reFillDatabases("bookmarksOfDirectories")
+        try:
+            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+            cur = con.cursor()
+            cur.execute("SELECT * FROM bookmarksOfSpecialTools")
+        except:
+            reFillDatabases("bookmarksOfSpecialTools")
+        try:
+            con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+            cur = con.cursor()
+            cur.execute("SELECT * FROM searchAndReplaceTable")
+        except:
+            reFillDatabases("searchAndReplaceTable")
         try:
             con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
             cur = con.cursor()
