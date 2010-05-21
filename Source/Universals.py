@@ -36,7 +36,7 @@ class Universals():
         HamsiManagerApp = _app
         MainWindow = _main
         
-    def fillMySettings(_setAgain=False):
+    def fillMySettings(_setAgain=False, _isCheckUpdate=True):
         global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4
         import Settings, InputOutputs
         sets = Settings.setting()
@@ -48,10 +48,11 @@ class Universals():
             if MySettings.keys().count(keyValue)==0 or _setAgain:
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
         newSettingVersion = str(MySettings["settingsVersion"])
-        if newSettingVersion!=settingVersion:
-            newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion)
-            isShowVerifySettings = True
-        Settings.checkDatabases()
+        if _isCheckUpdate:
+            if newSettingVersion!=settingVersion:
+                newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion)
+                isShowVerifySettings = True
+            Settings.checkDatabases()
         if eval(MySettings["isActivePyKDE4"].title())==True:
             try:
                 import PyKDE4
