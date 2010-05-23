@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="pt_BR">
+<!DOCTYPE TS><TS version="1.1" language="pt_BR">
 <context>
     <name>Bookmarks</name>
     <message>
@@ -380,17 +379,17 @@
     <message>
         <location filename="Source/OldAppName.py" line="120"/>
         <source>The Old Version Was Detected</source>
-        <translation type="unfinished"></translation>
+        <translation>A versão antiga foi detectada</translation>
     </message>
     <message>
         <location filename="Source/OldAppName.py" line="103"/>
         <source>OrganizasyonizM setting directory was detected.Are you want to delete &quot;%s&quot;?&lt;br&gt;Note:This directory will not be used anymore.You can delete this directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>O diretório de configuração do OrganizasyonizM foi detectado. Você deseja excluir &quot;%s&quot;?&lt;br&gt;Nota: Este diretório não será mais utilizado. Você pode excluir este diretório.</translation>
     </message>
     <message>
         <location filename="Source/OldAppName.py" line="120"/>
         <source>Executable OrganizasyonizM file was detected in your system.Are you want to delete &quot;%s&quot; and creat new Executable Hamsi Manager(&quot;%s&quot;)?</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo executável de OrganizasyonizM foi detectado no seu sistema. Você deseja excluir &quot;%s&quot; e criar um novo executável (&quot;%s&quot;) para Hamsi Manager?</translation>
     </message>
 </context>
 <context>
@@ -766,12 +765,7 @@
     <message>
         <location filename="install.py" line="69"/>
         <source>Check Update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Source/test.py" line="39"/>
-        <source>%s added to mail list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar atualizações</translation>
     </message>
 </context>
 <context>
@@ -1281,7 +1275,7 @@
     <message>
         <location filename="Source/MyPlugins/__init__.py" line="55"/>
         <source>Could not find the appropriate plug-in to your system</source>
-        <translation type="unfinished"></translation>
+        <translation>Não foi possível localizar o plug-in apropriado para o seu sistema</translation>
     </message>
 </context>
 <context>
@@ -2431,7 +2425,7 @@
     <message>
         <location filename="Source/Options.py" line="904"/>
         <source>The file names you selected will be folder icons first.&lt;br&gt;If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.&lt;br&gt;&lt;font color=blue&gt;Example: cover; icon...&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Os nomes dos arquivos que você selecionou irão ser ícones de pastas primeiro.&lt;br&gt;Se o nome do aquivo que você selecionou não existe, o primeiro arquivo gráfico na pasta será definido como ícone da pasta.&lt;br&gt;&lt;font color=blue&gt;Exemplo: capa; ícone...&lt;/font&gt;</translation>
     </message>
 </context>
 <context>
@@ -3107,7 +3101,7 @@
     <message>
         <location filename="Source/ReportBug.py" line="146"/>
         <source>Check Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar atualizações</translation>
     </message>
 </context>
 <context>
@@ -3279,22 +3273,22 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="Source/Settings.py" line="507"/>
+        <location filename="Source/Settings.py" line="511"/>
         <source>Do You Want To Back Up?</source>
         <translation>Você fazer a cópia de segurança (backup)?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="507"/>
+        <location filename="Source/Settings.py" line="511"/>
         <source>Do you want to back up current data?</source>
         <translation>Você deseja fazer a cópia de segurança dos dados atuais?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="548"/>
+        <location filename="Source/Settings.py" line="552"/>
         <source>Do You Want To Back Up Current Data?</source>
         <translation>Você deseja fazer a cópia de segurança dos dados atuais?</translation>
     </message>
     <message>
-        <location filename="Source/Settings.py" line="548"/>
+        <location filename="Source/Settings.py" line="552"/>
         <source>Do you want to back up current data before restoring?</source>
         <translation>Você deseja fazer a cópia de segurança dos dados atuais antes de restaurar?</translation>
     </message>
@@ -3564,7 +3558,7 @@
     <message>
         <location filename="Source/SpecialTools.py" line="589"/>
         <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;HamsiManager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;ager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;HamsiMan&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Antes&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Pesquisar&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Substituir&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Depois&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;HamsiManager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;ager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;HamsiMan&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</translation>
     </message>
 </context>
 <context>
@@ -3872,12 +3866,12 @@
     <message>
         <location filename="Source/Tables/__init__.py" line="370"/>
         <source>Did Not Change Any Things</source>
-        <translation type="unfinished"></translation>
+        <translation>Não alterar nada</translation>
     </message>
     <message>
         <location filename="Source/Tables/__init__.py" line="370"/>
         <source>Did not change any things in this table.Please check the criteria you select.</source>
-        <translation type="unfinished"></translation>
+        <translation>Não altere nada neste quadro. Por favor, verifique os critérios que você selecionou.</translation>
     </message>
 </context>
 <context>
@@ -4166,12 +4160,12 @@
     <message>
         <location filename="Source/UpdateControl.py" line="31"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Download</translation>
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="46"/>
         <source>Remind Me Later And Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Lembre-me mais tarde e feche</translation>
     </message>
     <message>
         <location filename="Source/UpdateControl.py" line="130"/>
