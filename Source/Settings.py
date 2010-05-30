@@ -55,7 +55,8 @@ class Settings():
                   "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove", 
                   "isDeleteEmptyDirectories", 
                   "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories", 
-                  "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate"
+                  "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate", 
+                  "isShowTransactionDetails"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -284,7 +285,8 @@ class Settings():
                 "isCleanerDeleteEmptyDirectories": "True", 
                 "isPackagerDeleteEmptyDirectories": "True", 
                 "remindMeLaterForUpdate": "-1", 
-                "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S")
+                "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S"), 
+                "isShowTransactionDetails": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -378,7 +380,8 @@ class Settings():
                 "isCleanerDeleteEmptyDirectories": "bool", 
                 "isPackagerDeleteEmptyDirectories": "bool", 
                 "remindMeLaterForUpdate": ["int", range(-1, 7)], 
-                "remindMeLaterShowDateForUpdate": "date"
+                "remindMeLaterShowDateForUpdate": "date", 
+                "isShowTransactionDetails": "bool"
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
@@ -738,6 +741,8 @@ class Settings():
                 cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
                 cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
                 con.commit()
+        if oldVersion<853:
+            newSettingsKeys = newSettingsKeys + ["isShowTransactionDetails"]
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():

@@ -2,11 +2,11 @@
 import sys
 import os
 __author__ = "Murat Demir (murat@mopened.com)"
-__version__ = "V0.8.52"
-__intversion__ = 852
+__version__ = "V0.8.53"
+__intversion__ = 853
 __copyright__ = "Copyleft"
 __license__ = "GPLv3"
-__settingVersion__ = "850"
+__settingVersion__ = "851"
 
 myArgvs = []
 isQuickMake = False

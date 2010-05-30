@@ -538,7 +538,7 @@ class General(MWidget):
         self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
         self.keysOfSettings = ["applicationStyle", "themeName", "isSaveActions", "maxRecordFileSize", 
                                 "isMinimumWindowMode", "updateInterval", "isShowQuickMakeWindow", 
-                                "language"]
+                                "isShowTransactionDetails", "language"]
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -552,6 +552,7 @@ class General(MWidget):
                     translate("Options", "Activate Minimal Window Mode"), 
                     translate("Options", "Update Interval (in days)"), 
                     translate("Options", "Show Quick Make Dialog"),  
+                    translate("Options", "Show Transaction Details"),  
                     translate("Options", "Application Language")]
         self.toolTips = [translate("Options", "You can select Hamsi Manager`s style."),
                     translate("Options", "You can select Hamsi Manager`s theme."),
@@ -559,10 +560,11 @@ class General(MWidget):
                     translate("Options", "You can select record file size.(Kilobytes)"), 
                     translate("Options", "You have to activate this if you want to work as little number of windows as possible."), 
                     translate("Options", "Which interval (in days) do you want to set to check the updates?"), 
-                    translate("Options", "Are you want to show quick make dialog in runed with command line or my plugins?"), 
+                    translate("Options", "Are you want to show quick make dialog in runed with command line or my plugins?"),
+                    translate("Options", "Are you want to show transaction details after save table?"), 
                     translate("Options", "You can select Hamsi Manager`s language.")]
         self.typesOfValues = [["options", 1], ["options", 4], "Yes/No", ["number", 3], 
-                                "Yes/No", ["number", 2], "Yes/No", ["options", 0]]
+                                "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 0]]
         styles = Settings.getStyles()
         themes = InputOutputs.getInstalledThemes()
         self.valuesOfOptions = [InputOutputs.getInstalledLanguagesNames(), styles, 
