@@ -21,7 +21,7 @@ class MenuBar(MMenuBar):
         self.menus[-1].setObjectName(translate("MenuBar", "Edit"))
         self.menus.append(MMenu(translate("MenuBar", "View"), self))
         self.menus[-1].setObjectName(translate("MenuBar", "View"))
-        if eval(Universals.MySettings["isSaveActions"].title())==True:
+        if Universals.getBoolValue("isSaveActions"):
             self.menus.append(MMenu(translate("MenuBar", "Actions"), self))
             self.menus[-1].addAction(translate("MenuBar", "Show Last Action")).setObjectName(translate("MenuBar", "Show Last Action"))
             self.menus[-1].setObjectName(translate("MenuBar", "Actions"))

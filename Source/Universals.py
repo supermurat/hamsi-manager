@@ -5,7 +5,7 @@ from os import path
 from datetime import timedelta, datetime
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, sourcePath, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, sourcePath, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue
     MainWindow = None 
     isStartingSuccessfully = False
     MySettings = {}
@@ -53,16 +53,16 @@ class Universals():
                 newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion)
                 isShowVerifySettings = True
             Settings.checkDatabases()
-        if eval(MySettings["isActivePyKDE4"].title())==True:
+        if getBoolValue("isActivePyKDE4"):
             try:
                 import PyKDE4
             except:
                 MySettings["isActivePyKDE4"] = "False"
         InputOutputs.systemsCharSet = MySettings["systemsCharSet"]
-        if eval(MySettings["isActivePyKDE4"].title())==True:
+        if getBoolValue("isActivePyKDE4"):
             if isLoadedMyObjects==False:
                 isActivePyKDE4 = True
-                InputOutputs.isMoveToTrash = eval(MySettings["isMoveToTrash"].title())
+                InputOutputs.isMoveToTrash = getBoolValue("isMoveToTrash")
         themePath = sourcePath + "/Themes/" + MySettings["themeName"]
     
     def getListFromStrint(_listString):
@@ -74,7 +74,12 @@ class Universals():
     
     def getDateValue(_key):
         return datetime.strptime(MySettings[_key], "%Y %m %d %H %M %S")
-        
+    
+    def getBoolValue(_key):
+        if eval(MySettings[_key].title())==True:
+            return True
+        return False
+     
     def setMySetting(_key, _value):
         global MySettings
         MySettings[_key] = str(_value)

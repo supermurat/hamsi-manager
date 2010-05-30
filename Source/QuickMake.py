@@ -66,7 +66,7 @@ class QuickMake():
                 isCorrectCommand = False
             if isCorrectCommand:
                 if isShowQuickMakeWindow:
-                    if eval(Universals.MySettings["isShowQuickMakeWindow"].title())==True:
+                    if Universals.getBoolValue("isShowQuickMakeWindow"):
                         self.quickMakeWindow.createWindow(actionName, makeThisAction, isShowEmendWidgets)
                         self.quickMakeWindow.show()
                     else:
@@ -231,7 +231,7 @@ class QuickMakeWindow(MyDialog):
     def emendFile(self):
         try:
             if self.checkSource(QuickMakeParameters[1], "file"):
-                if eval(Universals.MySettings["isShowQuickMakeWindow"].title())==True:
+                if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(QuickMakeParameters[1], True)
@@ -248,7 +248,7 @@ class QuickMakeWindow(MyDialog):
     def emendDirectory(self):
         try:
             if self.checkSource(QuickMakeParameters[1], "directory"):
-                if eval(Universals.MySettings["isShowQuickMakeWindow"].title())==True:
+                if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(QuickMakeParameters[1], True)
@@ -266,7 +266,7 @@ class QuickMakeWindow(MyDialog):
     def emendDirectoryWithContents(self):
         try:
             if self.checkSource(QuickMakeParameters[1], "directory"):
-                if eval(Universals.MySettings["isShowQuickMakeWindow"].title())==True:
+                if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(QuickMakeParameters[1], True)
@@ -281,7 +281,7 @@ class QuickMakeWindow(MyDialog):
                         objectType = "directory"
                     InputOutputs.moveOrChange(newDirName + "/" + fileAndDirs, 
                               newDirName + "/" + Organizer.emend(fileAndDirs), objectType)
-                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenFileMove"].title())==True:
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                     InputOutputs.checkIcon(newDirName)
                 InputOutputs.complateSmartCheckIcon()
                 Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),

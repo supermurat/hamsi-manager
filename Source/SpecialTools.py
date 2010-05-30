@@ -17,7 +17,7 @@ class SpecialTools(MWidget):
         self.tbAddToBefore = MToolButton(self)
         self.btChange = MToolButton(self)
         self.tbAddToAfter = MToolButton(self)
-        self.isShowAdvancedSelections = eval(Universals.MySettings["isShowAdvancedSelections"].title())
+        self.isShowAdvancedSelections = Universals.getBoolValue("isShowAdvancedSelections")
         self.tabwTabs = MTabWidget(self)
         self.specialActions = SpecialActions(self.tabwTabs)
         self.searchAndReplace = SearchAndReplace(self.tabwTabs)

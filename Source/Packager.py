@@ -104,7 +104,7 @@ class Packager(MyDialog):
                 InputOutputs.removeFileOrDir(tempDir, True)
                 Dialogs.show(translate("Packager", "Project Is Packed"),
                             translate("Packager", "You can now start sharing it."))
-            if eval(Universals.MySettings["isCloseOnCleanAndPackage"].title())==True:
+            if Universals.getBoolValue("isCloseOnCleanAndPackage"):
                 self.close()
             Universals.isCanBeShowOnMainWindow = True
         except:

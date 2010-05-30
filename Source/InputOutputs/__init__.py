@@ -453,7 +453,7 @@ class InputOutputs:
             if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
             if isFile(_path+"/"+name):
                 dontRemovingFilesCount+=1
-                if eval(Universals.MySettings["isDeleteEmptyDirectories"].title())==True:
+                if Universals.getBoolValue("isDeleteEmptyDirectories"):
                     for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
                         try:
                             if str(f)==name:
@@ -470,7 +470,7 @@ class InputOutputs:
                 dontRemovingFilesCount+=1
                 if _isAutoCleanSubFolder==False:
                     break
-                if eval(Universals.MySettings["isDeleteEmptyDirectories"].title())==True:
+                if Universals.getBoolValue("isDeleteEmptyDirectories"):
                     for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
                         try:
                             if str(f)==name:
@@ -479,7 +479,7 @@ class InputOutputs:
                         except:pass
                 if clearEmptyDirectories(_path+"/"+name, _isShowState):
                     dontRemovingFilesCount-=1
-        if dontRemovingFilesCount==0 and eval(Universals.MySettings["isDeleteEmptyDirectories"].title())==True:
+        if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
             if _isShowState: Dialogs.showState(translate("InputOutputs", "Deleting Empty Directories"), 0, 1)
             clearIgnoreds(_path)
             removeDir(_path)
@@ -563,8 +563,8 @@ class InputOutputs:
             _newPath = checkDestination(_oldPath, _newPath, _isQuiet)
         if isChange==True and _newPath:
             if _objectType=="directory" and _actionType=="auto":
-                if eval(Universals.MySettings["isClearEmptyDirectoriesWhenMoveOrChange"].title())==True:
-                    if clearEmptyDirectories(_oldPath, True, True, eval(Universals.MySettings["isAutoCleanSubFolderWhenMoveOrChange"].title())):
+                if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
+                    if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                         return False
             for tDir in appendingDirectories:
                 if _newPath==tDir:
@@ -578,14 +578,14 @@ class InputOutputs:
             if isChange==True:
                 moveFileOrDir(_oldPath,_newPath)
             if _objectType=="directory" and _actionType=="auto":
-                if eval(Universals.MySettings["isClearEmptyDirectoriesWhenMoveOrChange"].title())==True:
-                    if clearEmptyDirectories(_newPath, True, True, eval(Universals.MySettings["isAutoCleanSubFolderWhenMoveOrChange"].title())):
+                if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
+                    if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                         return getBaseName(_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
-                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenMoveOrChange"].title())==True:
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                     checkIcon(_newPath)
             elif _actionType=="auto":
-                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenFileMove"].title())==True:
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                     checkIcon(getDirName(_oldPath))
                     checkIcon(getDirName(_newPath))
             return getBaseName(_newPath)
@@ -600,8 +600,8 @@ class InputOutputs:
             _newPath = checkDestination(_oldPath, _newPath, _isQuiet)
         if isChange==True and _newPath:
             if _objectType=="directory" and _actionType=="auto":
-                if eval(Universals.MySettings["isClearEmptyDirectoriesWhenCopyOrChange"].title())==True:
-                    if clearEmptyDirectories(_oldPath, True, True, eval(Universals.MySettings["isAutoCleanSubFolderWhenCopyOrChange"].title())):
+                if Universals.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
+                    if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
                         return False
             for tDir in appendingDirectories:
                 if _newPath==tDir:
@@ -614,7 +614,7 @@ class InputOutputs:
             if isChange==True:
                 copyFileOrDir(_oldPath,_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
-                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenCopyOrChange"].title())==True:
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                     checkIcon(_newPath)
             return getBaseName(_newPath)
         else:
@@ -629,10 +629,10 @@ class InputOutputs:
             for no in range(0,len(_values)):
                 moveOrChange(_values[no][0], _values[no][1], getObjectType(_values[no][0]))
                 Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
-            if eval(Universals.MySettings["isClearEmptyDirectoriesWhenFileMove"].title())==True:
-                if clearEmptyDirectories(currentDirectoryPath, True, True, eval(Universals.MySettings["isAutoCleanSubFolderWhenFileMove"].title())):
+            if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                if clearEmptyDirectories(currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
                     return getDirName(currentDirectoryPath)
-            if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenFileMove"].title())==True:
+            if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                 checkIcon(currentDirectoryPath)
         return currentDirectoryPath
         
@@ -745,7 +745,7 @@ class InputOutputs:
                         elif rows[rowNo][5]!="." and isFile(rows[rowNo][5:]):
                             isFileExist=True
                         if isFileExist:
-                            if eval(Universals.MySettings["isChangeExistIcon"].title())==False:
+                            if Universals.getBoolValue("isChangeExistIcon")==False:
                                 isChange = False
                     isChanging = True
                     rows[rowNo] = "Icon=./" + _iconName 
@@ -786,8 +786,8 @@ class InputOutputs:
         import Dialogs
         if checkSource(_path, "directory"):
             _path = str(_path)
-            if eval(Universals.MySettings["isClearEmptyDirectoriesWhenPath"].title())==True:
-                clearEmptyDirectories(_path, _isShowState, _isShowState, eval(Universals.MySettings["isAutoCleanSubFolderWhenPath"].title()))
+            if Universals.getBoolValue("isClearEmptyDirectoriesWhenPath"):
+                clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
             for f in Universals.getListFromStrint(Universals.MySettings["packagerUnneededFiles"]):
                 if isFile(_path+"/"+f):
                     removeFile(_path+"/"+f)
@@ -817,7 +817,7 @@ class InputOutputs:
                     dontRemovingFilesCount+=1
                     if clearPackagingDirectory(_path+"/"+name)==False:
                         dontRemovingFilesCount-=1
-            if dontRemovingFilesCount==0 and eval(Universals.MySettings["isPackagerDeleteEmptyDirectories"].title())==True:
+            if dontRemovingFilesCount==0 and Universals.getBoolValue("isPackagerDeleteEmptyDirectories"):
                 if _isShowState: Dialogs.showState(translate("InputOutputs", "Deleting Empty Directories"), 0, 1)
                 removeDir(_path)
                 if _isCloseState: 
@@ -834,8 +834,8 @@ class InputOutputs:
         import Dialogs
         if checkSource(_path, "directory"):
             _path = str(_path)
-            if eval(Universals.MySettings["isClearEmptyDirectoriesWhenClear"].title())==True:
-                clearEmptyDirectories(_path, _isShowState, _isShowState, eval(Universals.MySettings["isAutoCleanSubFolderWhenClear"].title()))
+            if Universals.getBoolValue("isClearEmptyDirectoriesWhenClear"):
+                clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))
             for f in Universals.getListFromStrint(Universals.MySettings["cleanerUnneededFiles"]):
                 if isFile(_path+"/"+f):
                     removeFile(_path+"/"+f)
@@ -865,7 +865,7 @@ class InputOutputs:
                     dontRemovingFilesCount+=1
                     if clearPackagingDirectory(_path+"/"+name)==False:
                         dontRemovingFilesCount-=1
-            if dontRemovingFilesCount==0 and eval(Universals.MySettings["isCleanerDeleteEmptyDirectories"].title())==True:
+            if dontRemovingFilesCount==0 and Universals.getBoolValue("isCleanerDeleteEmptyDirectories"):
                 if _isShowState: Dialogs.showState(translate("InputOutputs", "Deleting Empty Directories"), 0, 1)
                 removeDir(_path)
                 if _isCloseState: 

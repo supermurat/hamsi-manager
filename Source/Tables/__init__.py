@@ -56,8 +56,8 @@ class Tables(MTableWidget):
         self.isOpenDetailsOnNewWindow.setIcon(MIcon("Images:openDetailsOnNewWindow.png"))
         self.isOpenDetailsOnNewWindow.setCheckable(True)
         self.isOpenDetailsOnNewWindow.setAutoRaise(True)
-        self.tbIsRunOnDoubleClick.setChecked(eval(Universals.MySettings["isRunOnDoubleClick"].title()))
-        self.isOpenDetailsOnNewWindow.setChecked(eval(Universals.MySettings["isOpenDetailsInNewWindow"].title()))
+        self.tbIsRunOnDoubleClick.setChecked(Universals.getBoolValue("isRunOnDoubleClick"))
+        self.isOpenDetailsOnNewWindow.setChecked(Universals.getBoolValue("isOpenDetailsInNewWindow"))
         MObject.connect(self.pbtnShowDetails, SIGNAL("clicked()"), self.showDetails)
         self.tbGoBack = MToolButton()
         self.tbGoForward = MToolButton()
@@ -110,19 +110,19 @@ class Tables(MTableWidget):
         self.isShowOldValues.setObjectName(translate("Tables", "Show Also Previous Information"))
         self.isShowOldValues.setToolTip(translate("Tables", "Show Also Previous Information"))
         self.isShowOldValues.setCheckable(True)
-        self.isShowOldValues.setChecked(eval(Universals.MySettings["isShowOldValues"].title()))
+        self.isShowOldValues.setChecked(Universals.getBoolValue("isShowOldValues"))
         self.isChangeAll = MAction(MIcon(u"Images:changeAll.png"),
                         translate("Tables", "Ignore Selection"),self)
         self.isChangeAll.setObjectName(translate("Tables", "Ignore Selection"))
         self.isChangeAll.setToolTip(translate("Tables", "Ignore Selection"))
         self.isChangeAll.setCheckable(True)
-        self.isChangeAll.setChecked(eval(Universals.MySettings["isChangeAll"].title()))
+        self.isChangeAll.setChecked(Universals.getBoolValue("isChangeAll"))
         self.isChangeSelected = MAction(MIcon(u"Images:changeSelected.png"),
                         translate("Tables", "Change Selected"),self)
         self.isChangeSelected.setObjectName(translate("Tables", "Change Selected"))
         self.isChangeSelected.setToolTip(translate("Tables", "Change Selected"))
         self.isChangeSelected.setCheckable(True)
-        self.isChangeSelected.setChecked(eval(Universals.MySettings["isChangeSelected"].title()))
+        self.isChangeSelected.setChecked(Universals.getBoolValue("isChangeSelected"))
         if self.isChangeAll.isChecked():
             self.isChangeSelected.setEnabled(False)
         _TableToolsBar.addAction(self.isShowOldValues)
@@ -355,13 +355,13 @@ class Tables(MTableWidget):
             Records.setTitle(tableTypesNames[tableType])
             import InputOutputs
             InputOutputs.activateSmartCheckIcon()
-            if eval(Universals.MySettings["isClearEmptyDirectoriesWhenSave"].title())==True:
-                if InputOutputs.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, eval(Universals.MySettings["isAutoCleanSubFolderWhenSave"].title())):
+            if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
+                if InputOutputs.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                     Universals.MainWindow.FileManager.makeRefresh(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))
                     return True
             if self.rowCount()!=0:
                 newCurrentDirectoryPath = self.saveSubTable(self)
-                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenSave"].title())==True:
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                     if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
                         InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
             InputOutputs.complateSmartCheckIcon()
@@ -370,7 +370,7 @@ class Tables(MTableWidget):
                 Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
                              translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
             else:
-                if eval(Universals.MySettings["isShowTransactionDetails"].title())==True:
+                if Universals.getBoolValue("isShowTransactionDetails"):
                     Dialogs.show(translate("Tables", "Transaction Details"), 
                                  str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
             if self.rowCount()!=0:

@@ -20,13 +20,13 @@ class Records():
     
     def setTitle(_title):
         global isSetedTitle, recordContents
-        if Universals.MySettings.keys().count("isSaveActions")==0 or eval(Universals.MySettings["isSaveActions"].title()):
+        if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
             recordContents += str(_title) + "\n"
         isSetedTitle = True
     
     def add(_action, _previous="", _now=""):
         global recordContents
-        if Universals.MySettings.keys().count("isSaveActions")==0 or eval(Universals.MySettings["isSaveActions"].title()):
+        if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
             if recordType==0 or (recordType==1 and Universals.isDebugMode):
                 recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "<<<<<<<" + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"'\n"
         
@@ -41,7 +41,7 @@ class Records():
         
     def saveAllRecords():
         global recordContents, isSetedTitle
-        if Universals.MySettings.keys().count("isSaveActions")==0 or eval(Universals.MySettings["isSaveActions"].title()):
+        if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
             if InputOutputs.isFile(Settings.recordFilePath)==False:
                 create()
             setRecordType(1)

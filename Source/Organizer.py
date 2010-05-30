@@ -14,9 +14,9 @@ class Organizer:
     def emend(_inputString, _isFileOrDirectory=False, _isCorrectCaseSensitive=True, _isRichText=False):
         _inputString = str(_inputString)
         if len(_inputString)==0: return ""
-        if eval(Universals.MySettings["isClearFirstAndLastSpaceChars"].title())==True:
+        if Universals.getBoolValue("isClearFirstAndLastSpaceChars"):
             _inputString = _inputString.strip()
-        if eval(Universals.MySettings["isEmendIncorrectChars"].title())==True:
+        if Universals.getBoolValue("isEmendIncorrectChars"):
             try:_inputString = unicode(_inputString)
             except:_inputString = unicode(_inputString, encoding="iso-8859-9")
             oldChars = ["Ý","ý", "þ", "Ð",
@@ -70,14 +70,14 @@ class Organizer:
                 _inputString = _inputString.replace(oldChars[x],newChars[x])
             if Universals.MySettings["fileReNamerType"]==Universals.fileReNamerTypeNamesKeys[1]:
                 _inputString = quote(_inputString)
-            if eval(Universals.MySettings["isCorrectFileNameWithSearchAndReplaceTable"].title())==True:
+            if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
                 _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
         else:
             if _isCorrectCaseSensitive:
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructure"])
             _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
         if _isRichText==False:
-            if eval(Universals.MySettings["isCorrectDoubleSpaceChars"].title())==True:
+            if Universals.getBoolValue("isCorrectDoubleSpaceChars"):
                 isFinded=_inputString.find("  ")
                 while isFinded!=-1:
                     _inputString=_inputString.replace("  "," ")

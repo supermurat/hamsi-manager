@@ -129,7 +129,7 @@ class Dialogs():
         if pnlState=="":
             prgbState = MProgressBar()
             HBoxs=[]
-            if eval(Universals.MySettings["isMinimumWindowMode"].title()) and Universals.isCanBeShowOnMainWindow:
+            if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
                 Universals.MainWindow.lockForm()
                 pnlState = MDockWidget(translate("Dialogs", "Progress Bar"))
                 pnlState.setObjectName(translate("Dialogs", "Progress Bar"))
@@ -159,12 +159,12 @@ class Dialogs():
         try:prgbState.setRange(0,_maxValue)
         except:pass
         prgbState.setValue(_value)
-        if eval(Universals.MySettings["isMinimumWindowMode"].title()) and Universals.isCanBeShowOnMainWindow:
+        if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
             lblState.setText(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
         else:
             pnlState.setWindowTitle(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
         if _value==_maxValue:
-            if eval(Universals.MySettings["isMinimumWindowMode"].title()) and Universals.isCanBeShowOnMainWindow:
+            if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
                 Universals.MainWindow.unlockForm()
                 Universals.MainWindow.removeDockWidget(pnlState)
             else:

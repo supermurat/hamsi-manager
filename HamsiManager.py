@@ -207,7 +207,7 @@ if RoutineChecks.checkPyQt4Exist():
                             state.append(InputOutputs.readFromBinaryFile(Settings.pathOfSettingsDirectory+"LastState"))
                             MainWindow.restoreState(state)
                         except:pass
-                    if eval(Universals.MySettings["isMainWindowMaximized"].title())==False:
+                    if Universals.getBoolValue("isMainWindowMaximized"):
                         geometries = Universals.getListFromStrint(Universals.MySettings["MainWindowGeometries"])
                         MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
                         MainWindow.show()

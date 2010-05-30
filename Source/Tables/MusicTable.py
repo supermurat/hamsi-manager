@@ -32,7 +32,7 @@ class MusicTable():
         self.isPlayNow.setIcon(MIcon("Images:playNow.png"))
         self.isPlayNow.setCheckable(True)
         self.isPlayNow.setAutoRaise(True)
-        self.isPlayNow.setChecked(eval(Universals.MySettings["isPlayNow"].title()))
+        self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
         hbox1 = MHBoxLayout()
         hbox1.addWidget(self.tbGoBack)
         hbox1.addWidget(self.tbCreateHistoryPoint)
