@@ -46,7 +46,11 @@ class Musics:
             musicTagsValues.append(musicName)
             try:
                 tag = eyeD3.Tag()
-                tag.link(_directoryPath+"/"+musicName, musicTagType)
+                try:
+                    tag.link((_directoryPath+"/"+musicName).encode(InputOutputs.systemsCharSet), musicTagType)
+                except:
+                    tag = eyeD3.Tag()
+                    tag.link(_directoryPath+"/"+musicName, musicTagType)
                 try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getArtist())))
                 except: musicTagsValues.append("None")
                 try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getTitle())))
@@ -74,11 +78,14 @@ class Musics:
                     musicTagsValues.append("None")
                 if _filePath!=None:
                     try:
-                        muzik = eyeD3.Mp3AudioFile(_directoryPath+"/"+musicName)
-                        musicTagsValues.append(str(muzik.getSize()))
-                        musicTagsValues.append(str(muzik.getPlayTimeString()))
-                        musicTagsValues.append(str(muzik.getSampleFreq()))
-                        musicTagsValues.append(str(muzik.getBitRateString()))
+                        try:
+                            musicFileDetail = eyeD3.Mp3AudioFile((_directoryPath+"/"+musicName).encode(InputOutputs.systemsCharSet))
+                        except:
+                            musicFileDetail = eyeD3.Mp3AudioFile(_directoryPath+"/"+musicName)
+                        musicTagsValues.append(str(musicFileDetail.getSize()))
+                        musicTagsValues.append(str(musicFileDetail.getPlayTimeString()))
+                        musicTagsValues.append(str(musicFileDetail.getSampleFreq()))
+                        musicTagsValues.append(str(musicFileDetail.getBitRateString()))
                     except:
                         musicTagsValues.append("")
                         musicTagsValues.append("")
@@ -141,7 +148,11 @@ class Musics:
                     InputOutputs.removeFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
                     continue
                 tag = eyeD3.Tag()
-                tag.link(InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1], musicTagType)
+                try:
+                    tag.link((InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1]).encode(InputOutputs.systemsCharSet), musicTagType)
+                except:
+                    tag = eyeD3.Tag()
+                    tag.link(InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1], musicTagType)
                 correctForMusicTagType(tag)
                 if _table.isColumnHidden(2)!=True and (_table.item(rowNo,2).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
                     value = unicode(_table.item(rowNo,2).text(), "utf-8")
@@ -262,7 +273,11 @@ class Musics:
         if InputOutputs.isWritableFileOrDir(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]):
             musicTagType = getSelectedMusicTagType()
             tag = eyeD3.Tag()
-            tag.link(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1], musicTagType)
+            try:
+                tag.link((_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]).encode(InputOutputs.systemsCharSet), musicTagType)
+            except:
+                tag = eyeD3.Tag()
+                tag.link(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1], musicTagType)
             correctForMusicTagType(tag)
             if _isImageAction==False:
                 if _newMusicTagsValues[2]!=_oldMusicTagsValues[2]:

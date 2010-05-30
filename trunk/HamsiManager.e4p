@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-05-03, 21:53:47 -->
+<!-- Saved: 2010-05-26, 23:49:18 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -113,6 +113,9 @@
   </Interfaces>
   <Others>
     <Other>Source/Themes</Other>
+    <Other>HamsiManager.api</Other>
+    <Other>Doc</Other>
+    <Other>DocQtHelp</Other>
   </Others>
   <MainScript>HamsiManager.py</MainScript>
   <Vcs>
@@ -263,6 +266,12 @@
               </list>
             </value>
             <key>
+              <string>includePrivate</string>
+            </key>
+            <value>
+              <bool>True</bool>
+            </value>
+            <key>
               <string>languages</string>
             </key>
             <value>
@@ -304,10 +313,34 @@
               <unicode>Doc</unicode>
             </value>
             <key>
+              <string>qtHelpCreateCollection</string>
+            </key>
+            <value>
+              <bool>True</bool>
+            </value>
+            <key>
               <string>qtHelpEnabled</string>
             </key>
             <value>
-              <bool>False</bool>
+              <bool>True</bool>
+            </value>
+            <key>
+              <string>qtHelpNamespace</string>
+            </key>
+            <value>
+              <unicode>HamsiManager</unicode>
+            </value>
+            <key>
+              <string>qtHelpOutputDirectory</string>
+            </key>
+            <value>
+              <unicode>DocQtHelp</unicode>
+            </value>
+            <key>
+              <string>qtHelpTitle</string>
+            </key>
+            <value>
+              <unicode>Hamsi Manager QtHelp</unicode>
             </value>
             <key>
               <string>sourceExtensions</string>
