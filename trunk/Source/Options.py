@@ -473,7 +473,7 @@ class Options(MDialog):
                     typeOfValue = "Yes/No"
                     _category.values.append(MComboBox())
                     _category.values[x].addItems([translate("Options", "No"),translate("Options", "Yes")])
-                    if eval(Universals.MySettings[keyValue].title())==True:
+                    if Universals.getBoolValue(keyValue):
                         _category.values[x].setCurrentIndex(1)
                 elif _category.typesOfValues[x][0]=="file":
                     typeOfValue = "file"
