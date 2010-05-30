@@ -355,13 +355,13 @@ class Tables(MTableWidget):
             Records.setTitle(tableTypesNames[tableType])
             import InputOutputs
             InputOutputs.activateSmartCheckIcon()
-            if eval(Universals.MySettings["isClearEmptyDirectoriesWhenSave"].title())=="True":
+            if eval(Universals.MySettings["isClearEmptyDirectoriesWhenSave"].title())==True:
                 if InputOutputs.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, eval(Universals.MySettings["isAutoCleanSubFolderWhenSave"].title())):
                     Universals.MainWindow.FileManager.makeRefresh(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))
                     return True
             if self.rowCount()!=0:
                 newCurrentDirectoryPath = self.saveSubTable(self)
-                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenSave"].title())=="True":
+                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenSave"].title())==True:
                     if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
                         InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
             InputOutputs.complateSmartCheckIcon()
@@ -369,6 +369,10 @@ class Tables(MTableWidget):
             if self.changedValueNumber==0:
                 Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
                              translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
+            else:
+                if eval(Universals.MySettings["isShowTransactionDetails"].title())==True:
+                    Dialogs.show(translate("Tables", "Transaction Details"), 
+                                 str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
             if self.rowCount()!=0:
                 Universals.MainWindow.FileManager.makeRefresh(newCurrentDirectoryPath)
         except:

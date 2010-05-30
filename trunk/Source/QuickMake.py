@@ -281,7 +281,7 @@ class QuickMakeWindow(MyDialog):
                         objectType = "directory"
                     InputOutputs.moveOrChange(newDirName + "/" + fileAndDirs, 
                               newDirName + "/" + Organizer.emend(fileAndDirs), objectType)
-                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenFileMove"].title())=="True":
+                if eval(Universals.MySettings["isAutoMakeIconToDirectoryWhenFileMove"].title())==True:
                     InputOutputs.checkIcon(newDirName)
                 InputOutputs.complateSmartCheckIcon()
                 Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),
