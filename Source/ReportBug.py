@@ -89,16 +89,17 @@ class ReportBug(MDialog):
         except:pass
         errorDetails += "<b>" + str(translate("ReportBug", "Active Dialog`s Titles : ")) + "</b>"
         try:errorDetails += str(Universals.HamsiManagerApp.activeModalWidget().windowTitle())+","
-        except:pass
+        except:errorDetails += "<br>"
         try:errorDetails += str(Universals.HamsiManagerApp.activePopupWidget().windowTitle())+","
-        except:pass
+        except:errorDetails += "<br>"
         try:errorDetails += str(Universals.HamsiManagerApp.activeWindow().windowTitle())+","
-        except:pass
+        except:errorDetails += "<br>"
         errorDetails += "<br>"
         try:
             errorDetails += "<b>" + str(translate("ReportBug", "Application Version : ")) + "</b>"
             errorDetails += str(Universals.HamsiManagerApp.applicationVersion())+"<br>"
-        except:pass
+        except:
+            errorDetails += "<br>"
         try:
             errorDetails += "<b>" + str(translate("ReportBug", "Is Starting Successfully : ")) + "</b>"
             errorDetails += str(Universals.isStartingSuccessfully) + "<br>"
@@ -112,18 +113,41 @@ class ReportBug(MDialog):
             errorDetails += str(myArgvs) + "<br>"
             errorDetails += "<b>SystemCharSet : </b>"
             errorDetails += str(Settings.defaultFileSystemEncoding) + "<br>"
-            errorDetails += "<b>PyQt4 (Qt) Version : </b>"
-            errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
+            try:
+                errorDetails += "<b>OS Name : </b>"
+                errorDetails += str(os.name) + "<br>"
+            except:
+                errorDetails += "<br>"
+            try:
+                import platform
+                errorDetails += "<b>Python Version : </b>"
+                errorDetails += str(platform.python_version()) + "<br>"
+                errorDetails += "<b>uname : </b>"
+                errorDetails += str(platform.uname()) + "<br>"
+                try:
+                    errorDetails += "<b>Linux Distribution : </b>"
+                    errorDetails += str(platform.linux_distribution()) + "<br>"
+                except:
+                    errorDetails += "<br>"
+            except:
+                errorDetails += "<br>"
+            try:
+                errorDetails += "<b>PyQt4 (Qt) Version : </b>"
+                errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
+            except:
+                errorDetails += "<br>"
             try:
                 from PySide import QtCore
                 errorDetails += "<b>PySide (Qt) Version : </b>"
                 errorDetails += str(QtCore.qVersion()) + " (" + QtCore.QT_VERSION_STR +")<br>"
-            except:pass
+            except:
+                errorDetails += "<br>"
             try:
                 from PyKDE4 import kdecore
                 errorDetails += "<b>PyKDE4 Version : </b>"
                 errorDetails += str(kdecore.versionString()) + "<br>"
-            except:pass
+            except:
+                errorDetails += "<br>"
             for keyName in Universals.MySettings:
                 errorDetails += "<b>" + str(keyName) + " : " + "</b>"
                 errorDetails += str(Universals.MySettings[keyName]) + "<br>"
