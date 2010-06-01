@@ -2,11 +2,11 @@
 import sys
 import os
 __author__ = "Murat Demir (murat@mopened.com)"
-__version__ = "V0.8.53"
-__intversion__ = 853
+__version__ = "V0.8.54"
+__intversion__ = 854
 __copyright__ = "Copyleft"
 __license__ = "GPLv3"
-__settingVersion__ = "851"
+__settingVersion__ = "852"
 
 myArgvs = []
 isQuickMake = False
@@ -194,6 +194,7 @@ def checkMyModules(_HamsiManagerApp):
 def checkPyQt4Exist():
     try:
         import PyQt4.QtGui
+        HamsiManagerApp = PyQt4.QtGui.QApplication(sys.argv) 
         return True
     except:
         try:

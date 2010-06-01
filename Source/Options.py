@@ -538,7 +538,7 @@ class General(MWidget):
         self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
         self.keysOfSettings = ["applicationStyle", "themeName", "isSaveActions", "maxRecordFileSize", 
                                 "isMinimumWindowMode", "updateInterval", "isShowQuickMakeWindow", 
-                                "isShowTransactionDetails", "language"]
+                                "isShowTransactionDetails", "windowMode", "language"]
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -552,7 +552,8 @@ class General(MWidget):
                     translate("Options", "Activate Minimal Window Mode"), 
                     translate("Options", "Update Interval (in days)"), 
                     translate("Options", "Show Quick Make Dialog"),  
-                    translate("Options", "Show Transaction Details"),  
+                    translate("Options", "Show Transaction Details"), 
+                    translate("Options", "Window Mode"),  
                     translate("Options", "Application Language")]
         self.toolTips = [translate("Options", "You can select Hamsi Manager`s style."),
                     translate("Options", "You can select Hamsi Manager`s theme."),
@@ -562,15 +563,19 @@ class General(MWidget):
                     translate("Options", "Which interval (in days) do you want to set to check the updates?"), 
                     translate("Options", "Are you want to show quick make dialog in runed with command line or my plugins?"),
                     translate("Options", "Are you want to show transaction details after save table?"), 
+                    translate("Options", "You can select window mode.You can select \"Mini\" section for netbook or small screen."),
                     translate("Options", "You can select Hamsi Manager`s language.")]
         self.typesOfValues = [["options", 1], ["options", 4], "Yes/No", ["number", 3], 
-                                "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 0]]
+                                "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 5], ["options", 0]]
         styles = Settings.getStyles()
         themes = InputOutputs.getInstalledThemes()
         self.valuesOfOptions = [InputOutputs.getInstalledLanguagesNames(), styles, 
-                                ["1", "30"], ["10", "100000"], themes]
+                                ["1", "30"], ["10", "100000"], themes, 
+                                [translate("Options", "Normal"), 
+                                    translate("Options", "Mini")]]
         self.valuesOfOptionsKeys = [InputOutputs.getInstalledLanguagesCodes(), styles, 
-                                ["1", "30"], ["10", "100000"], themes]
+                                ["1", "30"], ["10", "100000"], themes, 
+                                Universals.windowModeKeys]
         createOptions(self)
         if Universals.isActivePyKDE4==True:
             setVisibleFormItems(self, "language", False)
