@@ -29,11 +29,11 @@ if RoutineChecks.checkPyQt4Exist():
             programName = ki18n ("Hamsi Manager")
             version     = RoutineChecks.__version__
             license     = KAboutData.License_GPL_V3
-            copyright   = ki18n (u"Murat DEMİR (mopened@gmail.com)")
+            copyright   = ki18n (u"Murat Demir (mopened@gmail.com)")
             kde4LangKode= str(KLocale(Universals.Catalog).language())+"_"+str(KLocale(Universals.Catalog).country()).upper()
             text        = ki18n ("")
             homePage    = "hamsiapps.com"
-            bugEmail    = u"Murat DEMIR (mopened@gmail.com)"
+            bugEmail    = u"Murat Demir (mopened@gmail.com)"
             if InputOutputs.isFile(Universals.sourcePath+"/Languages/About_"+ kde4LangKode):
                 aboutFileContent = InputOutputs.readFromFile(Universals.sourcePath+"/Languages/About_"+ kde4LangKode)
             else:
@@ -41,11 +41,11 @@ if RoutineChecks.checkPyQt4Exist():
             description = ki18n (aboutFileContent.decode("utf-8"))
             aboutOfHamsiManager = KAboutData (appName, Universals.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
-            aboutOfHamsiManager.addAuthor (ki18n("Murat DEMİR"), ki18n("Project Manager and Project Developer<br>Proje Sorumlusu ve Proje Geliştiricisi"), 
+            aboutOfHamsiManager.addAuthor (ki18n(u"Murat Demir"), ki18n(u"Project Manager and Project Developer<br>Proje Sorumlusu ve Proje Geliştiricisi"), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.addCredit(ki18n("Tolga Balcı"), ki18n("Translate to English. (Voluntary)<br>İngilizce Çevirisi. (Gönüllü) (V0.7.x)"), 
+            aboutOfHamsiManager.addCredit(ki18n(u"Tolga Balcı"), ki18n(u"Translate to English. (Voluntary)<br>İngilizce Çevirisi. (Gönüllü) (V0.7.x)"), 
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
-            aboutOfHamsiManager.addCredit(ki18n("Márcio Moraes"), ki18n("Translate to Brazilian Portuguese. (Voluntary)<br>Brezilya Portekizcesi diline çeviri. (Gönüllü) (V0.8.7 - ~)"), 
+            aboutOfHamsiManager.addCredit(ki18n(u"Márcio Moraes"), ki18n(u"Translate to Brazilian Portuguese. (Voluntary)<br>Brezilya Portekizcesi diline çeviri. (Gönüllü) (V0.8.7 - ~)"), 
                                             "", "")
             aboutOfHamsiManager.setProgramIconName(Universals.themePath + "/Images/HamsiManager.png") 
             if InputOutputs.isFile(Universals.sourcePath+"/Languages/License_"+ kde4LangKode):

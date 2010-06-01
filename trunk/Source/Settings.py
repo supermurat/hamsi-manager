@@ -19,7 +19,7 @@ import InputOutputs
 import RoutineChecks
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases
+    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
@@ -56,7 +56,7 @@ class Settings():
                   "isDeleteEmptyDirectories", 
                   "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories", 
                   "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate", 
-                  "isShowTransactionDetails"
+                  "isShowTransactionDetails", "windowMode"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -190,7 +190,14 @@ class Settings():
             insLangCode = str(QLocale.system().name())
         else:
             insLangCode = "en_GB"
-        myStyle , PlayerName, myObjectsName = "Plastique", getAvailablePlayers().pop(), getMyObjectsNames()[0]
+        myStyle , PlayerName, myObjectsName, screenSize = "Plastique", getAvailablePlayers().pop(), getMyObjectsNames()[0], getScreenSize()
+        if screenSize!=None:
+            if screenSize.width()<1024:
+                windowMode = Universals.windowModeKeys[1]
+            else:
+                windowMode = Universals.windowModeKeys[0]
+        else:
+            windowMode = Universals.windowModeKeys[0]
         for stil in QStyleFactory.keys():
             if stil == "Oxygen":
                 myStyle = str(stil)
@@ -286,7 +293,8 @@ class Settings():
                 "isPackagerDeleteEmptyDirectories": "True", 
                 "remindMeLaterForUpdate": "-1", 
                 "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S"), 
-                "isShowTransactionDetails": "False"
+                "isShowTransactionDetails": "False", 
+                "windowMode": windowMode
                 }
                 
     def getValueTypesAndValues():
@@ -381,7 +389,8 @@ class Settings():
                 "isPackagerDeleteEmptyDirectories": "bool", 
                 "remindMeLaterForUpdate": ["int", range(-1, 7)], 
                 "remindMeLaterShowDateForUpdate": "date", 
-                "isShowTransactionDetails": "bool"
+                "isShowTransactionDetails": "bool", 
+                "windowMode": ["options", Universals.windowModeKeys]
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
@@ -656,6 +665,13 @@ class Settings():
             styles.append(str(stil))
         return styles
         
+    def getScreenSize():
+        if isAvailablePyKDE4():
+            #FIXME:get screen size
+            return None
+        else:
+            return None
+        
     def getMyObjectsNames():
         myObjectsName = []
         try:
@@ -743,6 +759,8 @@ class Settings():
                 con.commit()
         if oldVersion<853:
             newSettingsKeys = newSettingsKeys + ["isShowTransactionDetails"]
+        if oldVersion<854:
+            newSettingsKeys = newSettingsKeys + ["insLangCode"]
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():
