@@ -543,7 +543,7 @@ class General(MWidget):
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
-        self.neededRestartSettingKeys = ["language", "themeName"]
+        self.neededRestartSettingKeys = ["language", "themeName", "windowMode"]
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options", "Application Style"),
                     translate("Options", "Application Theme"), 
