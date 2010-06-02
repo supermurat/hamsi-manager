@@ -169,7 +169,10 @@ if RoutineChecks.checkPyQt4Exist():
                                 self.Bars.setAllBarsStyleToMySettings()
                                 if ReportBug.iSClosingInErrorReporting == False:
                                     Records.setRecordType(1)
-                                    InputOutputs.writeToFile(Settings.pathOfSettingsDirectory+"LastState", self.saveState())
+                                    subFixForStateFile = ""
+                                    if Universals.windowMode!=Universals.windowModeKeys[0]:
+                                        subFixForStateFile = Universals.windowMode
+                                    InputOutputs.writeToBinaryFile(Settings.pathOfSettingsDirectory + "LastState" + subFixForStateFile, self.saveState())
                                     Records.restoreRecordType()
                                     geometri = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
                                     Universals.setMySetting("MainWindowGeometries",geometri)
@@ -204,7 +207,10 @@ if RoutineChecks.checkPyQt4Exist():
                     else:
                         try:
                             state = MByteArray()
-                            state.append(InputOutputs.readFromBinaryFile(Settings.pathOfSettingsDirectory+"LastState"))
+                            subFixForStateFile = ""
+                            if Universals.windowMode!=Universals.windowModeKeys[0]:
+                                subFixForStateFile = Universals.windowMode
+                            state.append(InputOutputs.readFromBinaryFile(Settings.pathOfSettingsDirectory + "LastState" + subFixForStateFile))
                             MainWindow.restoreState(state)
                         except:pass
                     if Universals.getBoolValue("isMainWindowMaximized"):

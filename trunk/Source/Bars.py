@@ -271,9 +271,12 @@ class TableToolsBar(MToolBar):
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
         self.createTable()
-        self.setIconSize(MSize(32,32))
         MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), self.click)
-    
+        if Universals.windowMode==Universals.windowModeKeys[1]:
+            self.setIconSize(MSize(16,16))
+        else:
+            self.setIconSize(MSize(32,32))
+            
     def refreshForTableType(self):
         global actsFileReNamerTypes
         self.clear()
@@ -435,7 +438,10 @@ class ToolsBar(MToolBar):
         self.addAction(self.actRemoveOnlySubFiles)
         self.addAction(self.actCheckIcon)
         MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), self.click)
-        self.setIconSize(MSize(32,32))
+        if Universals.windowMode==Universals.windowModeKeys[1]:
+            self.setIconSize(MSize(16,16))
+        else:
+            self.setIconSize(MSize(32,32))
     
     def click(self,_action):
         try:

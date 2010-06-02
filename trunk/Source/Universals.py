@@ -39,7 +39,7 @@ class Universals():
         MainWindow = _main
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True):
-        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4
+        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode
         import Settings, InputOutputs
         sets = Settings.setting()
         settingVersion = str(sets.value("settingsVersion").toString())
@@ -65,6 +65,7 @@ class Universals():
             if isLoadedMyObjects==False:
                 isActivePyKDE4 = True
                 InputOutputs.isMoveToTrash = getBoolValue("isMoveToTrash")
+        windowMode = MySettings["windowMode"]
         themePath = sourcePath + "/Themes/" + MySettings["themeName"]
     
     def getListFromStrint(_listString):
