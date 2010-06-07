@@ -40,7 +40,6 @@ class FileManager():
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndex)
         MObject.connect(self.lstvFileManager, SIGNAL("doubleClicked(QModelIndex)"),self.setMyCurrentIndex)
         tools = MToolBar(_parent)
-        tools.setIconSize(MSize(22,22))
         self.actBack = MAction(MIcon("Images:back.png"),"",tools)
         self.actBack.setToolTip(translate("FileManager", "Back"))
         self.actForward = MAction(MIcon("Images:forward.png"),"",tools)
@@ -56,7 +55,6 @@ class FileManager():
         actBookmarks.setFlat(True)
         actBookmarks.setFixedWidth(50)
         actBookmarks.setContentsMargins(-10, -10, -10, -10)
-        actBookmarks.setIconSize(MSize(22, 22))
         actBookmarks.setToolTip(translate("FileManager", "Bookmarks"))
         actAddBookmark = MAction(MIcon("Images:addBookmark.png"),"",tools)
         actAddBookmark.setToolTip(translate("FileManager", "Add To Bookmarks"))
@@ -84,6 +82,8 @@ class FileManager():
         tools.addAction(actAddBookmark)
         widget = MWidget()
         if Universals.windowMode==Universals.windowModeKeys[1]:
+            tools.setIconSize(MSize(16, 16))
+            actBookmarks.setIconSize(MSize(16, 16))
             hbox = MHBoxLayout()
             hbox.addWidget(tools, 1)
             if Universals.isActivePyKDE4==True:
@@ -92,10 +92,12 @@ class FileManager():
             tbarBrowserTools = MToolBar(_parent)
             tbarBrowserTools.setWindowTitle(translate("FileManager", "Browser Tools"))
             tbarBrowserTools.setObjectName(translate("FileManager", "Browser Tools"))
-            tbarBrowserTools.setIconSize(MSize(32,32))
+            tbarBrowserTools.setIconSize(MSize(16,16))
             tbarBrowserTools.addWidget(widget)
             _parent.addToolBar(Mt.TopToolBarArea,tbarBrowserTools)
         else:
+            tools.setIconSize(MSize(22, 22))
+            actBookmarks.setIconSize(MSize(22, 22))
             vbox = MVBoxLayout()
             vbox.addWidget(tools, 1)
             if Universals.isActivePyKDE4==True:

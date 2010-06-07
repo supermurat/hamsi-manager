@@ -16,7 +16,6 @@ class Player(MWidget):
         self.file = _file
         self.type = _type
         self.infoScroller = InfoScroller(self)
-        self.info = MLabel(translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
         self.tbPause = MToolButton(self)
         self.tbPause.setToolTip(translate("Player", "Pause / Continue"))
         self.tbPause.setIcon(MIcon("Images:mediaPause.png"))
@@ -56,6 +55,10 @@ class Player(MWidget):
 #        HBOXs.append(MHBoxLayout())
 #        HBOXs[1].addWidget(self.sldState)
 #        VBOX.addLayout(HBOXs[1])
+        if _type == "bar" and Universals.windowMode==Universals.windowModeKeys[1]:
+            pass
+        else:
+            self.info = MLabel(translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
         if _type=="bar":
             #little style for bar
             self.playInBar = MToolButton(self)
@@ -72,18 +75,24 @@ class Player(MWidget):
             HBOXs[0].addWidget(self.tbMute)
             HBOXs[0].addWidget(self.playInBar)
             HBOXs.append(MHBoxLayout())
-            HBOXs[1].addWidget(self.info)
+            if Universals.windowMode==Universals.windowModeKeys[1]:
+                self.playInBar.setMaximumHeight(16)
+                self.tbPause.setMaximumHeight(16)
+                self.tbMute.setMaximumHeight(16)
+                self.tbPlay.setMaximumHeight(16)
+                self.tbStop.setMaximumHeight(16)
+            else:
+                HBOXs[1].addWidget(self.info)
+                self.playInBar.setMinimumHeight(22)
+                self.tbPause.setMinimumHeight(22)
+                self.tbMute.setMinimumHeight(22)
+                self.tbPlay.setMinimumHeight(22)
+                self.tbStop.setMinimumHeight(22)
             VBOX = MVBoxLayout()
             VBOX.setSpacing(0)
             VBOX.addLayout(HBOXs[1])
             VBOX.addLayout(HBOXs[0])
             self.setLayout(VBOX)
-            self.info.setMinimumWidth(len(self.info.text())*7)
-            self.playInBar.setMinimumHeight(22)
-            self.tbPause.setMinimumHeight(22)
-            self.tbMute.setMinimumHeight(22)
-            self.tbPlay.setMinimumHeight(22)
-            self.tbStop.setMinimumHeight(22)
             self.setMaximumSize(150, 40)
         elif _type=="dialog":
             #full style for dialog
@@ -106,7 +115,15 @@ class Player(MWidget):
             self.tbPlay.setMinimumHeight(22)
             self.tbStop.setMinimumHeight(22)
             self.setMaximumSize(390, 44)
-        self.infoScroller.start()
+        if self.type != "bar" or Universals.windowMode!=Universals.windowModeKeys[1]:
+            self.infoScroller.start()
+            
+    def setInfoText(self, _info):
+        if self.type == "bar" and Universals.windowMode==Universals.windowModeKeys[1]:
+            Universals.MainWindow.StatusBar.showMessage(_info)
+        else:
+            self.info.setText(_info)
+            self.info.setMinimumWidth(len(self.info.text())*7)
             
     def play(self, _filePath="", _isPlayNow=True):
         try:
@@ -127,8 +144,7 @@ class Player(MWidget):
                 _filePath = self.file
             if InputOutputs.isFile(_filePath):
                 self.musicTags = Musics.readMusics(None,_filePath)
-                self.info.setText((("%s - %s (%s)") % (self.musicTags[2] , self.musicTags[3], self.musicTags[4])).decode("utf-8"))
-                self.info.setMinimumWidth(len(self.info.text())*7)
+                self.setInfoText((("%s - %s (%s)") % (self.musicTags[2] , self.musicTags[3], self.musicTags[4])).decode("utf-8"))
                 if _isPlayNow==True:
                     if self.Player.play(_filePath):
                 #        self.checkState = CheckState(self, self.Player)
@@ -150,8 +166,7 @@ class Player(MWidget):
             self.tbMute.setChecked(False)
             self.tbStop.setEnabled(False)
             if self.type=="bar":
-                self.info.setText(translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
-                self.info.setMinimumWidth(len(self.info.text())*7)
+                self.setInfoText(translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -370,9 +385,9 @@ class CheckState(MThread):
         i=0
         while 1==1:
             MApplication.processEvents()
-            self.parent.info.setText(str(i))
+            self.parent.setInfoText(str(i))
             time.sleep(1)
-            self.parent.info.setText(str(self.Player.konumuNe()))
+            self.parent.setInfoText(str(self.Player.konumuNe()))
             #self.sldState.setValue(int(1))
             time.sleep(1)
             i+=1
