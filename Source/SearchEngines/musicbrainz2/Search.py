@@ -26,6 +26,8 @@ class Search(MDialog):
         self.setModal(True)
         self.prgbState = MProgressBar()
         self.prgbAllState = MProgressBar()
+        self.prgbStateLabel = MLabel(translate("SearchEngines", "Current Proccess"))
+        self.prgbAllStateLabel = MLabel(translate("SearchEngines", "General"))
         self.pbtnApply = MPushButton(translate("SearchEngines", "Apply"))
         self.pbtnApply.setMaximumWidth(120)
         pbtnCancel = MPushButton(translate("SearchEngines", "Cancel"))
@@ -37,15 +39,17 @@ class Search(MDialog):
         self.vblPanel = MVBoxLayout()
         self.vblPanel.setAlignment(Mt.AlignHCenter)
         self.vblPanel.setAlignment(Mt.AlignTop)
+        self.vblPanel.addWidget(self.prgbStateLabel)
         self.vblPanel.addWidget(self.prgbState)
+        self.vblPanel.addWidget(self.prgbAllStateLabel)
         self.vblPanel.addWidget(self.prgbAllState)
         self.pnlPanel = MWidget(pnlMain)
         self.pnlPanel.setLayout(self.vblPanel)
-        self.pnlPanel.setFixedSize(595,70)
+        self.pnlPanel.setFixedSize(595,100)
         self.saPanel.setWidget(self.pnlPanel)
         self.saPanel.setFrameShape(MFrame.StyledPanel)
         self.saPanel.setAlignment(Mt.AlignHCenter)
-        self.saPanel.setFixedSize(645,80)
+        self.saPanel.setFixedSize(645,110)
         vblBox = MVBoxLayout(pnlMain)
         vblBox.addWidget(self.saPanel)
         hblBox = MHBoxLayout()
@@ -58,7 +62,7 @@ class Search(MDialog):
         else:
             self.setLayout(vblBox)
         self.setWindowTitle(translate("SearchEngines", "Searching Information On The Internet!.."))
-        self.setFixedSize(670,150)
+        self.setFixedSize(670,160)
         self.setAttribute(Mt.WA_DeleteOnClose)
         self.show()
         self.pbtnApply.setEnabled(False)
@@ -68,7 +72,7 @@ class Search(MDialog):
                     _parent.setCurrentCell(_parent.currentRow()+1, _parent.currentColumn())
             self.prgbAllState.setRange(0,1)
             self.rows = range(_parent.currentRow(), _parent.currentRow()+1)
-            heightValue = 100
+            heightValue = 150
         else:
             self.prgbAllState.setRange(0,_parent.rowCount())
             if _parent.isShowOldValues.isChecked()==True:
@@ -104,9 +108,11 @@ class Search(MDialog):
             self.prgbAllState.setValue(tagsOfSong[3]+1)
         self.prgbState.setVisible(False)
         self.prgbAllState.setVisible(False)
+        self.prgbStateLabel.setVisible(False)
+        self.prgbAllStateLabel.setVisible(False)
         self.showInList()
         self.pbtnApply.setEnabled(True)
-        self.setMinimumSize(670,heightValue+100)
+        self.setMinimumSize(670,heightValue+50)
         self.saPanel.setFixedSize(645,heightValue)
         
     def checkIt(self, _tagsOfSong, _SearchDepth):
@@ -202,14 +208,14 @@ class Search(MDialog):
         except:pass
         self.searchedArtists[0].append(_artistName)
         values, controlValue=[], 1
-        while controlValue>0:
+        while controlValue>0 and controlValue<4:
             try:
                 returnedValues = Query().getArtists(ArtistFilter(_artistName, limit=5))
                 controlValue=0
             except webservice.WebServiceError, errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
-                    controlValue=1
+                    controlValue+=1
                 else:
                     raise ValueError(errorDetails)
         for result in returnedValues:
@@ -228,14 +234,14 @@ class Search(MDialog):
         except:pass
         self.searchedAlbums[0].append(_albumName)
         values, controlValue=[], 1
-        while controlValue>0:
+        while controlValue>0 and controlValue<4:
             try:
                 returnedValues = Query().getReleases(ReleaseFilter(query=_albumName))
                 controlValue=0
             except webservice.WebServiceError, errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
-                    controlValue=1
+                    controlValue+=1
                 else:
                     raise ValueError(errorDetails)
         for result in returnedValues:
@@ -254,14 +260,14 @@ class Search(MDialog):
         except:pass
         self.searchedTitles[0].append(_titleName)
         values, controlValue=[], 1
-        while controlValue>0:
+        while controlValue>0 and controlValue<4:
             try:
                 returnedValues = Query().getTracks(TrackFilter(query=_titleName))
                 controlValue=0
             except webservice.WebServiceError, errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
-                    controlValue=1
+                    controlValue+=1
                 else:
                     raise ValueError(errorDetails)
         for result in returnedValues:
@@ -280,7 +286,7 @@ class Search(MDialog):
         except:pass
         self.searchedDetailsOfArtist[0].append(_artistId)
         controlValue=1
-        while controlValue>0:
+        while controlValue>0 and controlValue<4:
             try:
                 q = Query()
                 inc = webservice.ArtistIncludes(tags=True)
@@ -289,7 +295,7 @@ class Search(MDialog):
             except webservice.WebServiceError, errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
-                    controlValue=1
+                    controlValue+=1
                 else:
                     raise ValueError(errorDetails)
         values = [artist.id, artist.name, artist.sortName, artist.getUniqueName(), artist.type, artist.beginDate, artist.endDate, ", ".join(t.value for t in artist.tags)]
@@ -317,7 +323,7 @@ class Search(MDialog):
                 for albumTypeNo, albumType in enumerate(albumTypes):
                     if albumTypeNo<=_SearchDepth:
                         controlValue = 1
-                        while controlValue>0:
+                        while controlValue>0 and controlValue<4:
                             try:
                                 q = Query()
                                 inc = webservice.ArtistIncludes(releases=(albumState, albumType),tags=True)
@@ -326,7 +332,7 @@ class Search(MDialog):
                             except webservice.WebServiceError, errorDetails:
                                 if str(errorDetails)[:15]=="HTTP Error 503:":
                                     time.sleep(controlValue)
-                                    controlValue=1
+                                    controlValue+=1
                                 else:
                                     raise ValueError(errorDetails)
                         for release in artist.getReleases():
@@ -351,7 +357,7 @@ class Search(MDialog):
         except:pass
         self.searchedDetailsOfAlbum[0].append(_albumId)
         controlValue=1
-        while controlValue>0:
+        while controlValue>0 and controlValue<4:
             try:
                 q = webservice.Query()
                 inc = webservice.ReleaseIncludes(artist=True, releaseEvents=True, labels=True, discs=True, tracks=True)
@@ -360,7 +366,7 @@ class Search(MDialog):
             except webservice.WebServiceError, errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
-                    controlValue=1
+                    controlValue+=1
                 else:
                     raise ValueError(errorDetails)
         releaseDates=[]
@@ -387,7 +393,7 @@ class Search(MDialog):
         except:pass
         self.searchedSongsOfAlbum[0].append(_albumId)
         values, controlValue=[], 1
-        while controlValue>0:
+        while controlValue>0 and controlValue<4:
             try:
                 q = webservice.Query()
                 inc = webservice.ReleaseIncludes(artist=True, releaseEvents=True, labels=True, discs=True, tracks=True)
@@ -396,7 +402,7 @@ class Search(MDialog):
             except webservice.WebServiceError, errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
-                    controlValue=1
+                    controlValue+=1
                 else:
                     raise ValueError(errorDetails)
         for track in release.tracks:

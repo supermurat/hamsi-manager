@@ -17,7 +17,10 @@ class SpecialTools(MWidget):
         self.tbAddToBefore = MToolButton(self)
         self.btChange = MToolButton(self)
         self.tbAddToAfter = MToolButton(self)
-        self.isShowAdvancedSelections = Universals.getBoolValue("isShowAdvancedSelections")
+        if Universals.windowMode==Universals.windowModeKeys[1]:
+            self.isShowAdvancedSelections = False
+        else:
+            self.isShowAdvancedSelections = Universals.getBoolValue("isShowAdvancedSelections")
         self.tabwTabs = MTabWidget(self)
         self.specialActions = SpecialActions(self.tabwTabs)
         self.searchAndReplace = SearchAndReplace(self.tabwTabs)
@@ -210,7 +213,8 @@ class SpecialTools(MWidget):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Simple"))
         self.pnlAdvancedSelections.setVisible(True)
         self.isShowAdvancedSelections = True
-        self.tabwTabs.setMaximumHeight(160)
+        self.tabwTabs.setMaximumHeight(155)
+        self.setMaximumHeight(155)
         self.specialActions.showAdvancedSelections()
         self.fill.showAdvancedSelections()
         self.searchAndReplace.showAdvancedSelections()
@@ -223,6 +227,7 @@ class SpecialTools(MWidget):
         self.pnlAdvancedSelections.setVisible(False)
         self.isShowAdvancedSelections = False
         self.tabwTabs.setMaximumHeight(100)
+        self.setMaximumHeight(100)
         self.specialActions.hideAdvancedSelections()
         self.fill.hideAdvancedSelections()
         self.searchAndReplace.hideAdvancedSelections()
