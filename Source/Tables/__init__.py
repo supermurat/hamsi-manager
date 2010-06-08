@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 import MusicTable
 import FileTable
 import FolderTable
@@ -12,17 +11,18 @@ import InputOutputs
 import Organizer
 from MyObjects import *
 import ReportBug
-                
+
+tableTypesNames = [translate("Tables", "Folder Table"), 
+                    translate("Tables", "File Table"), 
+                    translate("Tables", "Music Table"), 
+                    translate("Tables", "Subfolder Table")]
+tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png"]
+
 class Tables(MTableWidget):
-    global tableType, refreshTable, refreshShowedAndHiddenColumns, tableTypesNames, tableTypeIcons, clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, refreshForTableColumns, exportTableValues, getThisTableType
+    global tableType, refreshTable, refreshShowedAndHiddenColumns, clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, refreshForTableColumns, exportTableValues, getThisTableType
     tableType = None
     def __init__(self, _parent):
-        global refreshTable,layouts,widgets, tableType, table, tableTypesNames, tableTypeIcons
-        tableTypesNames = [translate("Tables", "Folder Table"), 
-                            translate("Tables", "File Table"), 
-                            translate("Tables", "Music Table"), 
-                            translate("Tables", "Subfolder Table")]
-        tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png"]
+        global refreshTable,layouts,widgets, tableType, table
         if tableType == None:
             tableType = getThisTableType(Universals.MySettings["tableType"])
             if tableType==3:
@@ -104,32 +104,6 @@ class Tables(MTableWidget):
         self.pbtnSave.setObjectName("pbtnSave")
         self.checkActionsStates()
     
-    def createUniversalOptions(self, _TableToolsBar):
-        self.isShowOldValues = MAction(MIcon(u"Images:showOldValues.png"),
-                        translate("Tables", "Show Also Previous Information"),self)
-        self.isShowOldValues.setObjectName(translate("Tables", "Show Also Previous Information"))
-        self.isShowOldValues.setToolTip(translate("Tables", "Show Also Previous Information"))
-        self.isShowOldValues.setCheckable(True)
-        self.isShowOldValues.setChecked(Universals.getBoolValue("isShowOldValues"))
-        self.isChangeAll = MAction(MIcon(u"Images:changeAll.png"),
-                        translate("Tables", "Ignore Selection"),self)
-        self.isChangeAll.setObjectName(translate("Tables", "Ignore Selection"))
-        self.isChangeAll.setToolTip(translate("Tables", "Ignore Selection"))
-        self.isChangeAll.setCheckable(True)
-        self.isChangeAll.setChecked(Universals.getBoolValue("isChangeAll"))
-        self.isChangeSelected = MAction(MIcon(u"Images:changeSelected.png"),
-                        translate("Tables", "Change Selected"),self)
-        self.isChangeSelected.setObjectName(translate("Tables", "Change Selected"))
-        self.isChangeSelected.setToolTip(translate("Tables", "Change Selected"))
-        self.isChangeSelected.setCheckable(True)
-        self.isChangeSelected.setChecked(Universals.getBoolValue("isChangeSelected"))
-        if self.isChangeAll.isChecked():
-            self.isChangeSelected.setEnabled(False)
-        _TableToolsBar.addAction(self.isShowOldValues)
-        _TableToolsBar.addAction(self.isChangeAll)
-        _TableToolsBar.addAction(self.isChangeSelected)
-    
-    
     def getColumnKeyFromName(self, _nameWithMark):
         for x, name in enumerate(self.tableColumns):
             if str(name) == str(_nameWithMark).replace("&", ""):
@@ -166,7 +140,7 @@ class Tables(MTableWidget):
     def showDetails(self):
         try:
             if self.currentRow()!=-1:
-                if self.isShowOldValues.isChecked()==True:
+                if Universals.isShowOldValues==True:
                     rowNo = self.currentRow()/2
                 else:
                     rowNo = self.currentRow()
@@ -252,7 +226,7 @@ class Tables(MTableWidget):
                     elif selectedItem.objectName()==self.mContextMenuActionNames[4]:
                         self.createHistoryPoint()
                         for rowNo in self.getSelectedRows():
-                            if self.isShowOldValues.isChecked()==True:
+                            if Universals.isShowOldValues==True:
                                 if float(rowNo)/float(2)==rowNo/2:
                                     self.hideRow(rowNo)
                                     self.hideRow(rowNo+1)

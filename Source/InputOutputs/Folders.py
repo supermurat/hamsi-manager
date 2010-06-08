@@ -6,6 +6,7 @@ from time import gmtime
 from os import *
 import Dialogs
 import Organizer
+import Universals
 
 class Folders:
     """currentFilesAndFoldersValues[directory no][value no]
@@ -32,14 +33,14 @@ class Folders:
         global changedValueNumber
         changedValueNumber = 0
         changingFileDirectories=[]
-        if _table.isShowOldValues.isChecked()==True:
+        if Universals.isShowOldValues==True:
             startRowNo,rowStep=1,2
         else:
             startRowNo,rowStep=0,1
         Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),0,len(currentFilesAndFoldersValues))
         for rowNo in range(startRowNo,_table.rowCount(),rowStep):
             MApplication.processEvents()
-            if _table.isShowOldValues.isChecked()==True:
+            if Universals.isShowOldValues==True:
                 realRowNo=rowNo/2
             else:
                 realRowNo=rowNo
@@ -48,7 +49,7 @@ class Folders:
                     InputOutputs.removeFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]), True)
                     continue
                 newFileName=str(currentFilesAndFoldersValues[realRowNo][1])
-                if _table.isColumnHidden(1)!=True and _table.item(rowNo,1).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked()==True:
+                if _table.isColumnHidden(1)!=True and _table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     if str(currentFilesAndFoldersValues[realRowNo][1])!=unicode(_table.item(rowNo,1).text()).encode("utf-8"):
                         if unicode(_table.item(rowNo,1).text()).encode("utf-8").strip()!="":
                             _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
@@ -56,7 +57,7 @@ class Folders:
                             changedValueNumber += 1
                 if newFileName==False:
                     continue
-                if _table.isColumnHidden(0)!=True and _table.item(rowNo,0).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked()==True:
+                if _table.isColumnHidden(0)!=True and _table.item(rowNo,0).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                     try:
                         newDirectoryName=int(newDirectoryName)
@@ -70,7 +71,7 @@ class Folders:
                         changingFileDirectories[-1].append(InputOutputs.currentDirectoryPath+"/"+newFileName)
                         changingFileDirectories[-1].append(newPath+"/"+newDirectoryName+"/"+newFileName)
                         changedValueNumber += 1
-            if _table.isShowOldValues.isChecked()==True:
+            if Universals.isShowOldValues==True:
                 actionNumber=rowNo/2
             else:
                 actionNumber=rowNo

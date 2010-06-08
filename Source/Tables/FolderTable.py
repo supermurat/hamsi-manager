@@ -65,7 +65,7 @@ class FolderTable():
         Folders.readFolders(_path)
         self.fileValues = InputOutputs.fileAndDirectoryNames
         self.fileDetails = Folders.currentFilesAndFoldersValues
-        if self.isShowOldValues.isChecked()==True:
+        if Universals.isShowOldValues==True:
             n=2
             tableRows=[]
             for row in range(0,len(Folders.currentFilesAndFoldersValues)*2):
@@ -83,7 +83,7 @@ class FolderTable():
             self.setRowCount(len(Folders.currentFilesAndFoldersValues))
             startRowNo, rowStep = 0, 1
         for fileNo in range(startRowNo,self.rowCount(),rowStep):
-            if self.isShowOldValues.isChecked()==True:
+            if Universals.isShowOldValues==True:
                 realFileNo=fileNo/2
             else:
                 realFileNo=fileNo
