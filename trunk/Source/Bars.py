@@ -266,20 +266,31 @@ class Bars():
 class TableToolsBar(MToolBar):
     global clearAllChilds, changeTableType, changeThisTableType, actsFileReNamerTypes
     def __init__(self, _parent):
+        global actsFileReNamerTypes
         MToolBar.__init__(self, _parent)
         _parent.addToolBar(Mt.TopToolBarArea,self)
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
-        self.createTable()
-        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), self.click)
-        if Universals.windowMode==Universals.windowModeKeys[1]:
-            self.setIconSize(MSize(16,16))
-        else:
-            self.setIconSize(MSize(32,32))
-            
-    def refreshForTableType(self):
-        global actsFileReNamerTypes
-        self.clear()
+        self.isShowOldValues = MAction(MIcon(u"Images:showOldValues.png"),
+                        translate("Tables", "Show Also Previous Information"),self)
+        self.isShowOldValues.setObjectName(translate("Tables", "Show Also Previous Information"))
+        self.isShowOldValues.setToolTip(translate("Tables", "Show Also Previous Information"))
+        self.isShowOldValues.setCheckable(True)
+        self.isShowOldValues.setChecked(Universals.isShowOldValues)
+        self.isChangeAll = MAction(MIcon(u"Images:changeAll.png"),
+                        translate("Tables", "Ignore Selection"),self)
+        self.isChangeAll.setObjectName(translate("Tables", "Ignore Selection"))
+        self.isChangeAll.setToolTip(translate("Tables", "Ignore Selection"))
+        self.isChangeAll.setCheckable(True)
+        self.isChangeAll.setChecked(Universals.isChangeAll)
+        self.isChangeSelected = MAction(MIcon(u"Images:changeSelected.png"),
+                        translate("Tables", "Change Selected"),self)
+        self.isChangeSelected.setObjectName(translate("Tables", "Change Selected"))
+        self.isChangeSelected.setToolTip(translate("Tables", "Change Selected"))
+        self.isChangeSelected.setCheckable(True)
+        self.isChangeSelected.setChecked(Universals.isChangeSelected)
+        if self.isChangeAll.isChecked():
+            self.isChangeSelected.setEnabled(False)
         actgActionGroup = MActionGroup(self)
         for x, name in enumerate(Tables.tableTypesNames):
             a = actgActionGroup.addAction(MIcon(u"Images:"+Tables.tableTypeIcons[x]),
@@ -309,26 +320,33 @@ class TableToolsBar(MToolBar):
             actsFileReNamerTypes[0].setChecked(True)
         self.addActions(actgActionGroup.actions())
         self.addSeparator()
-        Universals.MainWindow.Table.createUniversalOptions(self)
-        
+        self.addAction(self.isShowOldValues)
+        self.addAction(self.isChangeAll)
+        self.addAction(self.isChangeSelected)
+        self.createTable()
+        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), self.click)
+        if Universals.windowMode==Universals.windowModeKeys[1]:
+            self.setIconSize(MSize(16,16))
+        else:
+            self.setIconSize(MSize(32,32))
+            
     def click(self, _action):
         global actsFileReNamerTypes
         try:
             if _action.objectName()==translate("Tables", "Show Also Previous Information"):
-                if _action.isChecked():_action.setChecked(False)
-                else:_action.setChecked(True)
                 if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
-                    if _action.isChecked():_action.setChecked(False)
-                    else:_action.setChecked(True)
+                    Universals.isShowOldValues = _action.isChecked()
                     Tables.refreshTable(InputOutputs.currentDirectoryPath)
                 else:
-                    if _action.isChecked():_action.setChecked(False)
-                    else:_action.setChecked(True)
+                    _action.setChecked(Universals.isShowOldValues)
             elif _action.objectName()==translate("Tables", "Ignore Selection"):
+                Universals.isChangeSelected = _action.isChecked()
                 if _action.isChecked():
-                    Universals.MainWindow.Table.isChangeSelected.setEnabled(False)
+                    self.isChangeSelected.setEnabled(False)
                 else:
-                    Universals.MainWindow.Table.isChangeSelected.setEnabled(True)
+                    self.isChangeSelected.setEnabled(True)
+            elif _action.objectName()==translate("Tables", "Change Selected"):
+                Universals.isChangeSelected = _action.isChecked()
             elif str(_action.toolTip()).find(str(translate("ToolsBar", "Renames files and folders in \"%s\" format."))[:20])!=-1:
                 if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
                     _action.setChecked(False)
@@ -366,15 +384,6 @@ class TableToolsBar(MToolBar):
                 elif Tables.tableType==3:
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.SubDirectoryOptionsBar)
                     Universals.MainWindow.SubDirectoryOptionsBar = False
-                Universals.setMySetting("isShowOldValues",Universals.MainWindow.Table.isShowOldValues.isChecked())
-                Universals.setMySetting("isChangeSelected",Universals.MainWindow.Table.isChangeSelected.isChecked())
-                Universals.setMySetting("isChangeAll",Universals.MainWindow.Table.isChangeAll.isChecked())
-                Universals.MainWindow.Table.isShowOldValues.setVisible(False)
-                Universals.MainWindow.Table.isShowOldValues.deleteLater()
-                Universals.MainWindow.Table.isChangeAll.setVisible(False)
-                Universals.MainWindow.Table.isChangeAll.deleteLater()
-                Universals.MainWindow.Table.isChangeSelected.setVisible(False)
-                Universals.MainWindow.Table.isChangeSelected.deleteLater()
                 clearAllChilds(Universals.MainWindow.CentralWidget)
                 Universals.MainWindow.TableToolsBar.createTable(unicode(_action.objectName()).encode("utf-8"))
                 Universals.MainWindow.FileManager.makeRefresh()
@@ -388,7 +397,6 @@ class TableToolsBar(MToolBar):
         if _tableType!=None:
             Tables.tableType = Tables.getThisTableType(_tableType)
         Universals.MainWindow.Bars.refreshBars()
-        self.refreshForTableType()
         if Universals.MainWindow.Menu!=None:
             Universals.MainWindow.Menu.refreshForTableType()
     

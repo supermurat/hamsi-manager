@@ -67,7 +67,7 @@ class Search(MDialog):
         self.show()
         self.pbtnApply.setEnabled(False)
         if _isCheckSingleFile:
-            if _parent.isShowOldValues.isChecked()==True:
+            if Universals.isShowOldValues==True:
                 if float(_parent.currentRow())/float(2)==_parent.currentRow()/2:
                     _parent.setCurrentCell(_parent.currentRow()+1, _parent.currentColumn())
             self.prgbAllState.setRange(0,1)
@@ -75,7 +75,7 @@ class Search(MDialog):
             heightValue = 150
         else:
             self.prgbAllState.setRange(0,_parent.rowCount())
-            if _parent.isShowOldValues.isChecked()==True:
+            if Universals.isShowOldValues==True:
                 self.rows = range(1,_parent.rowCount(),2)
             else:
                 self.rows = range(0,_parent.rowCount(),1)

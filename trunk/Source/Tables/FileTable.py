@@ -65,7 +65,7 @@ class FileTable():
         Files.readFiles(_path)
         self.fileValues = InputOutputs.fileNames
         self.fileDetails = Files.currentFilesAndFoldersValues
-        if self.isShowOldValues.isChecked()==True:
+        if Universals.isShowOldValues==True:
             n=2
             tableRows=[]
             for row in range(0,len(Files.currentFilesAndFoldersValues)*2):
@@ -83,7 +83,7 @@ class FileTable():
             self.setRowCount(len(Files.currentFilesAndFoldersValues))
             startRowNo, rowStep = 0, 1
         for fileNo in range(startRowNo,self.rowCount(),rowStep):
-            if self.isShowOldValues.isChecked()==True:
+            if Universals.isShowOldValues==True:
                 realFileNo=fileNo/2
             else:
                 realFileNo=fileNo

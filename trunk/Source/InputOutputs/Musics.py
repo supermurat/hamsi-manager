@@ -9,6 +9,7 @@ import eyeD3
 import Organizer
 import Records
 import Universals
+import Universals
 
 class Musics:
     """All information about the music files will be arranged in this class
@@ -132,14 +133,14 @@ class Musics:
         changedValueNumber = 0
         musicTagType = getSelectedMusicTagType()
         changingFileDirectories=[]
-        if _table.isShowOldValues.isChecked()==True:
+        if Universals.isShowOldValues==True:
             startRowNo,rowStep=1,2
         else:
             startRowNo,rowStep=0,1
         Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,len(currentFilesAndFoldersValues))
         for rowNo in range(startRowNo,_table.rowCount(),rowStep):
             MApplication.processEvents()
-            if _table.isShowOldValues.isChecked()==True:
+            if Universals.isShowOldValues==True:
                 realRowNo=rowNo/2
             else:
                 realRowNo=rowNo
@@ -154,25 +155,25 @@ class Musics:
                     tag = eyeD3.Tag()
                     tag.link(InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1], musicTagType)
                 correctForMusicTagType(tag)
-                if _table.isColumnHidden(2)!=True and (_table.item(rowNo,2).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(2)!=True and (_table.item(rowNo,2).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,2).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][2]) and (str(currentFilesAndFoldersValues[realRowNo][2])!="None" or value!=""):
                         tag.setArtist(correctValuesForMusicTagType(value))
                         Records.add(str(translate("MusicTable", "Artist")), str(currentFilesAndFoldersValues[realRowNo][2]), value)
                         changedValueNumber += 1
-                if _table.isColumnHidden(3)!=True and (_table.item(rowNo,3).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(3)!=True and (_table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,3).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][3]) and (str(currentFilesAndFoldersValues[realRowNo][3])!="None" or value!=""):
                         tag.setTitle(correctValuesForMusicTagType(value))
                         Records.add(str(translate("MusicTable", "Title")), str(currentFilesAndFoldersValues[realRowNo][3]), value)
                         changedValueNumber += 1
-                if _table.isColumnHidden(4)!=True and (_table.item(rowNo,4).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(4)!=True and (_table.item(rowNo,4).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,4).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][4]) and (str(currentFilesAndFoldersValues[realRowNo][4])!="None" or value!=""):
                         tag.setAlbum(correctValuesForMusicTagType(value))
                         Records.add(str(translate("MusicTable", "Album")), str(currentFilesAndFoldersValues[realRowNo][4]), value)
                         changedValueNumber += 1
-                if _table.isColumnHidden(5)!=True and (_table.item(rowNo,5).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(5)!=True and (_table.item(rowNo,5).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,5).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][5]) and (str(currentFilesAndFoldersValues[realRowNo][5])!="None" or value!=""):
                         track = []
@@ -196,7 +197,7 @@ class Musics:
                         tag.setTrackNum(track)
                         Records.add(str(translate("MusicTable", "Track No")), str(currentFilesAndFoldersValues[realRowNo][5]), track)
                         changedValueNumber += 1
-                if _table.isColumnHidden(6)!=True and (_table.item(rowNo,6).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(6)!=True and (_table.item(rowNo,6).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,6).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][6]) and (str(currentFilesAndFoldersValues[realRowNo][6])!="None" or value!=""):
                         if len(value)==4:
@@ -211,20 +212,20 @@ class Musics:
                             tag.setDate(gmtime()[0])
                             Records.add(str(translate("MusicTable", "Year")), str(currentFilesAndFoldersValues[realRowNo][6]), gmtime()[0])
                             changedValueNumber += 1
-                if _table.isColumnHidden(7)!=True and (_table.item(rowNo,7).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(7)!=True and (_table.item(rowNo,7).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,7).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][7]) and (str(currentFilesAndFoldersValues[realRowNo][7])!="None" or value!=""):
                         tag.setGenre(correctValuesForMusicTagType(value))
                         Records.add(str(translate("MusicTable", "Genre")), str(currentFilesAndFoldersValues[realRowNo][7]), value)
                         changedValueNumber += 1
-                if _table.isColumnHidden(8)!=True and (_table.item(rowNo,8).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(8)!=True and (_table.item(rowNo,8).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,8).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][8]) and (str(currentFilesAndFoldersValues[realRowNo][8])!="None" or value!=""):
                         tag.removeComments()
                         tag.addComment(correctValuesForMusicTagType(value))
                         Records.add(str(translate("MusicTable", "Comment")), str(currentFilesAndFoldersValues[realRowNo][8]), value)
                         changedValueNumber += 1
-                if musicTagType==eyeD3.ID3_V2 and _table.isColumnHidden(9)!=True and (_table.item(rowNo,9).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if musicTagType==eyeD3.ID3_V2 and _table.isColumnHidden(9)!=True and (_table.item(rowNo,9).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,9).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][9]) and (str(currentFilesAndFoldersValues[realRowNo][9])!="None" or value!=""):
                         tag.removeLyrics()
@@ -233,7 +234,7 @@ class Musics:
                         changedValueNumber += 1
                 tag.update()
                 newFileName=str(currentFilesAndFoldersValues[realRowNo][1])
-                if _table.isColumnHidden(1)!=True and (_table.item(rowNo,1).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(1)!=True and (_table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     if str(currentFilesAndFoldersValues[realRowNo][1])!=unicode(_table.item(rowNo,1).text()).encode("utf-8"):
                         if unicode(_table.item(rowNo,1).text()).encode("utf-8").strip()!="":
                             orgExt = str(currentFilesAndFoldersValues[realRowNo][1]).split(".")[-1].decode("utf-8").lower()
@@ -247,7 +248,7 @@ class Musics:
                             changedValueNumber += 1
                 if newFileName==False:
                     continue
-                if _table.isColumnHidden(0)!=True and (_table.item(rowNo,0).isSelected()==_table.isChangeSelected.isChecked() or _table.isChangeAll.isChecked())==True:
+                if _table.isColumnHidden(0)!=True and (_table.item(rowNo,0).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                     try:
                         newDirectoryName=int(newDirectoryName)
@@ -261,7 +262,7 @@ class Musics:
                         changingFileDirectories[-1].append(newPath+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
                         changingFileDirectories[-1].append(newPath+"/"+newDirectoryName+"/"+newFileName)
                         changedValueNumber += 1
-            if _table.isShowOldValues.isChecked()==True:
+            if Universals.isShowOldValues==True:
                 actionNumber=rowNo/2
             else:
                 actionNumber=rowNo
