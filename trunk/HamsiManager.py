@@ -215,11 +215,11 @@ if RoutineChecks.checkPyQt4Exist():
                             MainWindow.restoreState(state)
                         except:pass
                     if Universals.getBoolValue("isMainWindowMaximized"):
+                        MainWindow.showMaximized()
+                    else:
                         geometries = Universals.getListFromStrint(Universals.MySettings["MainWindowGeometries"])
                         MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
                         MainWindow.show()
-                    else:
-                        MainWindow.showMaximized()
                     RoutineChecks.checkAfterRunProccess()
                     Universals.isStartingSuccessfully = True
                     Universals.isCanBeShowOnMainWindow = True
