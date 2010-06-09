@@ -30,9 +30,9 @@ class Universals():
     isLoadedMyObjects = False
     windowMode = "Normal"
     windowModeKeys = ["Normal", "Mini"]
-    isShowOldValues = False
-    isChangeAll = False
-    isChangeSelected = False
+    isShowOldValues = None
+    isChangeAll = None
+    isChangeSelected = None
     tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png"]
     tableTypesNames = ["", "", "", ""]
     tableType = None
@@ -45,7 +45,7 @@ class Universals():
         MainWindow = _main
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True):
-        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType
+        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isShowOldValues, isChangeAll, isChangeSelected
         import Settings, InputOutputs
         sets = Settings.setting()
         settingVersion = str(sets.value("settingsVersion").toString())
@@ -77,6 +77,10 @@ class Universals():
             tableType = int(MySettings["tableType"])
             if tableType<0 or tableType>=len(tableTypesNames) or tableType==3:
                 tableType = 1
+        if isShowOldValues == None:
+            isShowOldValues = getBoolValue("isShowOldValues")
+            isChangeAll = getBoolValue("isChangeAll")
+            isChangeSelected = getBoolValue("isChangeSelected")
     
     def getListFromStrint(_listString):
         listString = eval(str(_listString))
