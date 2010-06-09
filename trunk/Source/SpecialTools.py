@@ -146,7 +146,7 @@ class SpecialTools(MWidget):
             self.specialActions.pbtnAddObjects.append(tb)
             MObject.connect(self.specialActions.pbtnAddObjects[-1], SIGNAL("clicked()"), self.specialActions.AddObjects)
         try:
-            if Tables.tableType==2:
+            if Universals.tableType==2:
                 for x in range(0, 5):
                     self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])
                 for x in range(len(self.specialActions.pbtnAddObjects)-1, 4, -1):

@@ -105,12 +105,12 @@ class MenuBar(MMenuBar):
         dockMenus.setObjectName(translate("MenuBar", "Panels"))
         self.menus[2].addMenu(dockMenus)
         actgActionGroup = MActionGroup(self.menus[2])
-        for x, name in enumerate(Tables.tableTypesNames):
-            a = actgActionGroup.addAction(MIcon(u"Images:"+Tables.tableTypeIcons[x]),
+        for x, name in enumerate(Universals.tableTypesNames):
+            a = actgActionGroup.addAction(MIcon(u"Images:"+Universals.tableTypeIcons[x]),
                                         name)
             a.setCheckable(True)
             a.setObjectName(name)
-            if Tables.tableType==Tables.getThisTableType(name):
+            if Universals.tableType==Universals.getThisTableType(name):
                 a.setChecked(True)
         self.menus[2].addActions(actgActionGroup.actions())
         MObject.connect(actgActionGroup, SIGNAL("selected(QAction *)"), self.changeTableType)
@@ -235,31 +235,31 @@ class Bars():
         try:Universals.MainWindow.removeDockWidget(Universals.MainWindow.dckSpecialTools)
         except:pass
         Universals.MainWindow.SpecialTools = SpecialTools.SpecialTools(Universals.MainWindow)
-        if Tables.tableType==2:
+        if Universals.tableType==2:
             Universals.MainWindow.PlayerBar = PlayerBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.PlayerBar)
             Universals.MainWindow.MusicOptionsBar = MusicOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.MusicOptionsBar)
-        elif Tables.tableType==3:
+        elif Universals.tableType==3:
             Universals.MainWindow.SubDirectoryOptionsBar = SubDirectoryOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.SubDirectoryOptionsBar)
     
     def getAllBarsStyleFromMySettings(self):
         Universals.MainWindow.TableToolsBar.setToolButtonStyle(int(Universals.MySettings["TableToolsBarButtonStyle"]))
         Universals.MainWindow.ToolsBar.setToolButtonStyle(int(Universals.MySettings["ToolsBarButtonStyle"]))
-        if Tables.tableType==2:
+        if Universals.tableType==2:
             Universals.MainWindow.PlayerBar.setToolButtonStyle(int(Universals.MySettings["PlayerBarButtonStyle"]))
             Universals.MainWindow.MusicOptionsBar.setToolButtonStyle(int(Universals.MySettings["MusicOptionsBarButtonStyle"]))
-        elif Tables.tableType==3:
+        elif Universals.tableType==3:
             Universals.MainWindow.SubDirectoryOptionsBar.setToolButtonStyle(int(Universals.MySettings["SubDirectoryOptionsBarButtonStyle"]))
         
     def setAllBarsStyleToMySettings(self):
         Universals.setMySetting("TableToolsBarButtonStyle", Universals.MainWindow.TableToolsBar.toolButtonStyle())
         Universals.setMySetting("ToolsBarButtonStyle", Universals.MainWindow.ToolsBar.toolButtonStyle())
-        if Tables.tableType==2:
+        if Universals.tableType==2:
             Universals.setMySetting("PlayerBarButtonStyle", Universals.MainWindow.PlayerBar.toolButtonStyle())
             Universals.setMySetting("MusicOptionsBarButtonStyle", Universals.MainWindow.MusicOptionsBar.toolButtonStyle())
-        elif Tables.tableType==3:
+        elif Universals.tableType==3:
             Universals.setMySetting("SubDirectoryOptionsBarButtonStyle", Universals.MainWindow.SubDirectoryOptionsBar.toolButtonStyle())
         
     
@@ -292,12 +292,12 @@ class TableToolsBar(MToolBar):
         if self.isChangeAll.isChecked():
             self.isChangeSelected.setEnabled(False)
         actgActionGroup = MActionGroup(self)
-        for x, name in enumerate(Tables.tableTypesNames):
-            a = actgActionGroup.addAction(MIcon(u"Images:"+Tables.tableTypeIcons[x]),
+        for x, name in enumerate(Universals.tableTypesNames):
+            a = actgActionGroup.addAction(MIcon(u"Images:"+Universals.tableTypeIcons[x]),
                                         name)
             a.setCheckable(True)
             a.setObjectName(name)
-            if Tables.tableType==Tables.getThisTableType(name):
+            if Universals.tableType==Universals.getThisTableType(name):
                 a.setChecked(True)
         self.addActions(actgActionGroup.actions())
         MObject.connect(actgActionGroup, SIGNAL("selected(QAction *)"), changeTableType)
@@ -371,17 +371,17 @@ class TableToolsBar(MToolBar):
         
     def changeTableType(_action, _isFromMenu=False):
         try:
-            if (_action.isChecked() or _isFromMenu==True) and Tables.tableType != Tables.getThisTableType(_action.objectName()):
+            if (_action.isChecked() or _isFromMenu==True) and Universals.tableType != Universals.getThisTableType(_action.objectName()):
                 if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
                     _action.setChecked(False)
                     return False
                 Universals.setMySetting(Universals.MainWindow.Table.hiddenTableColumnsSettingKey,Universals.MainWindow.Table.hiddenTableColumns)
-                if Tables.tableType==2:
+                if Universals.tableType==2:
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.PlayerBar)
                     Universals.MainWindow.PlayerBar = False
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.MusicOptionsBar)
                     Universals.MainWindow.MusicOptionsBar = False
-                elif Tables.tableType==3:
+                elif Universals.tableType==3:
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.SubDirectoryOptionsBar)
                     Universals.MainWindow.SubDirectoryOptionsBar = False
                 clearAllChilds(Universals.MainWindow.CentralWidget)
@@ -395,7 +395,7 @@ class TableToolsBar(MToolBar):
     
     def createTable(self, _tableType=None):
         if _tableType!=None:
-            Tables.tableType = Tables.getThisTableType(_tableType)
+            Universals.tableType = Universals.getThisTableType(_tableType)
         Universals.MainWindow.Bars.refreshBars()
         if Universals.MainWindow.Menu!=None:
             Universals.MainWindow.Menu.refreshForTableType()

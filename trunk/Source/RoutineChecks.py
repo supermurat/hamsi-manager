@@ -54,8 +54,7 @@ def checkParameters():
                     continue
                 elif argv=="-t":
                     import Universals
-                    from Tables import getThisTableType
-                    Universals.setMySetting("tableType", getThisTableType(argvs[argvNo+1]))
+                    Universals.setMySetting("tableType", Universals.getThisTableType(argvs[argvNo+1]))
                     continue
                 elif argv=="-f":
                     import Universals

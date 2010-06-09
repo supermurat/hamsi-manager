@@ -12,21 +12,10 @@ import Organizer
 from MyObjects import *
 import ReportBug
 
-tableTypesNames = [translate("Tables", "Folder Table"), 
-                    translate("Tables", "File Table"), 
-                    translate("Tables", "Music Table"), 
-                    translate("Tables", "Subfolder Table")]
-tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png"]
-
 class Tables(MTableWidget):
-    global tableType, refreshTable, refreshShowedAndHiddenColumns, clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, refreshForTableColumns, exportTableValues, getThisTableType
-    tableType = None
+    global refreshTable, refreshShowedAndHiddenColumns, clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, refreshForTableColumns, exportTableValues
     def __init__(self, _parent):
-        global refreshTable,layouts,widgets, tableType, table
-        if tableType == None:
-            tableType = getThisTableType(Universals.MySettings["tableType"])
-            if tableType==3:
-                tableType = 0
+        global refreshTable,layouts,widgets, table
         MTableWidget.__init__(self, _parent)
         table=self
         self.changedValueNumber = 0
@@ -79,13 +68,13 @@ class Tables(MTableWidget):
         _parent.MainLayout.addWidget(self, 10)
         self.mContextMenu = MMenu(self)
         self.hblBox = MHBoxLayout()
-        if tableType==0:
+        if Universals.tableType==0:
             FolderTable.FolderTable(self)
-        elif tableType==1:
+        elif Universals.tableType==1:
             FileTable.FileTable(self)
-        elif tableType==2:
+        elif Universals.tableType==2:
             MusicTable.MusicTable(self)
-        elif tableType==3:
+        elif Universals.tableType==3:
             SubFolderTable.SubFolderTable(self)
         self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.hiddenTableColumnsSettingKey])
         _parent.MainLayout.addLayout(self.hblBox)
@@ -121,21 +110,6 @@ class Tables(MTableWidget):
             if str(name) == str(_keyName):
                 return self.tableColumns[x]
         return _keyName
-    
-    def getThisTableType(_tableType):
-        try:
-            tttemp = tableTypesNames[int(_tableType)]
-            tt = int(_tableType)
-        except:
-            try:
-                for x, name in enumerate(tableTypesNames):
-                    if str(name) == str(_tableType):
-                        return x
-                tt = 0
-            except:
-                    tt = 0
-        return tt
-        
                         
     def showDetails(self):
         try:
@@ -326,7 +300,7 @@ class Tables(MTableWidget):
     def saveTable(self):
         try:
             import Records
-            Records.setTitle(tableTypesNames[tableType])
+            Records.setTitle(Universals.tableTypesNames[tableType])
             import InputOutputs
             InputOutputs.activateSmartCheckIcon()
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):

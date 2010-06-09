@@ -5,7 +5,7 @@ from os import path
 from datetime import timedelta, datetime
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, sourcePath, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, sourcePath, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals
     MainWindow = None 
     isStartingSuccessfully = False
     MySettings = {}
@@ -33,6 +33,9 @@ class Universals():
     isShowOldValues = False
     isChangeAll = False
     isChangeSelected = False
+    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png"]
+    tableTypesNames = ["", "", "", ""]
+    tableType = None
     if executableHamsiManagerPath.find("HamsiManager")==-1 or executableHamsiManagerPath.find("./HamsiManager")!=-1:
         executableHamsiManagerPath = HamsiManagerDirectory + "/HamsiManager.py"
     
@@ -42,7 +45,7 @@ class Universals():
         MainWindow = _main
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True):
-        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode
+        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType
         import Settings, InputOutputs
         sets = Settings.setting()
         settingVersion = str(sets.value("settingsVersion").toString())
@@ -70,6 +73,10 @@ class Universals():
                 InputOutputs.isMoveToTrash = getBoolValue("isMoveToTrash")
         windowMode = MySettings["windowMode"]
         themePath = sourcePath + "/Themes/" + MySettings["themeName"]
+        if tableType == None:
+            tableType = int(MySettings["tableType"])
+            if tableType<0 or tableType>=len(tableTypesNames) or tableType==3:
+                tableType = 1
     
     def getListFromStrint(_listString):
         listString = eval(str(_listString))
@@ -118,3 +125,28 @@ class Universals():
                 return userDirectoryPath + "/.kde4/"
             else:
                 return userDirectoryPath + "/.kde/"
+    
+    def getThisTableType(_tableType):
+        try:
+            tt = int(_tableType)
+            if tt<0 or tt>=len(tableTypesNames):
+                tt = 1
+        except:
+            try:
+                for x, name in enumerate(tableTypesNames):
+                    if str(name) == str(_tableType):
+                        return x
+                tt = 1
+            except:
+                    tt = 1
+        return tt
+        
+    def fillUIUniversals():
+        global tableTypesNames
+        from MyObjects import translate
+        tableTypesNames = [translate("Tables", "Folder Table"), 
+                            translate("Tables", "File Table"), 
+                            translate("Tables", "Music Table"), 
+                            translate("Tables", "Subfolder Table")]
+                            
+                            
