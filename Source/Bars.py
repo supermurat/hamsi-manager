@@ -95,7 +95,7 @@ class MenuBar(MMenuBar):
         self.menus[-1].addAction(translate("MenuBar", "About QT")).setObjectName(translate("MenuBar", "About QT"))
         for menu in self.menus:
             self.addMenu(menu)
-        MObject.connect(self, SIGNAL("triggered(QAction *)"), self.click)
+        MObject.connect(self, SIGNAL("triggered(QAction *)"), Universals.MainWindow.Bars.click)
         
     def refreshForTableType(self):
         self.menus[2].clear()
@@ -114,6 +114,13 @@ class MenuBar(MMenuBar):
                 a.setChecked(True)
         self.menus[2].addActions(actgActionGroup.actions())
         MObject.connect(actgActionGroup, SIGNAL("selected(QAction *)"), self.changeTableType)
+        
+    def changeTableType(self, _action):
+        changeTableType(_action, True)
+    
+class Bars():
+    def __init__(self):
+        pass
         
     def click(self,_action):
         try:
@@ -218,18 +225,33 @@ class MenuBar(MMenuBar):
             elif actionName==translate("MenuBar", "About Hamsi Manager"):
                 if Universals.isActivePyKDE4==False:
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Universals.aboutOfHamsiManager)
+            elif actionName==translate("Tables", "Show Also Previous Information"):
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                    Universals.isShowOldValues = _action.isChecked()
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                else:
+                    _action.setChecked(Universals.isShowOldValues)
+            elif actionName==translate("Tables", "Ignore Selection"):
+                Universals.isChangeAll = _action.isChecked()
+                if _action.isChecked():
+                    Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(False)
+                else:
+                    Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(True)
+            elif actionName==translate("Tables", "Change Selected"):
+                Universals.isChangeSelected = _action.isChecked()
+            elif str(_action.toolTip()).find(str(translate("ToolsBar", "Renames files and folders in \"%s\" format."))[:20])!=-1:
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
+                    _action.setChecked(False)
+                    return False
+                for x, typeName in enumerate(Universals.fileReNamerTypeNamesKeys):
+                    if actsFileReNamerTypes[x].isChecked():
+                        Universals.setMySetting("fileReNamerType", typeName)
+                Universals.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
             error.show()
-        
-    def changeTableType(self, _action):
-        changeTableType(_action, True)
     
-class Bars():
-    def __init__(self):
-        pass
-        
     def refreshBars(self):
         Universals.MainWindow.Table = Tables.Tables(Universals.MainWindow)
         try:Universals.MainWindow.removeDockWidget(Universals.MainWindow.dckSpecialTools)
@@ -324,41 +346,11 @@ class TableToolsBar(MToolBar):
         self.addAction(self.isChangeAll)
         self.addAction(self.isChangeSelected)
         self.createTable()
-        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), self.click)
+        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Universals.MainWindow.Bars.click)
         if Universals.windowMode==Universals.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
         else:
             self.setIconSize(MSize(32,32))
-            
-    def click(self, _action):
-        global actsFileReNamerTypes
-        try:
-            if _action.objectName()==translate("Tables", "Show Also Previous Information"):
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
-                    Universals.isShowOldValues = _action.isChecked()
-                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
-                else:
-                    _action.setChecked(Universals.isShowOldValues)
-            elif _action.objectName()==translate("Tables", "Ignore Selection"):
-                Universals.isChangeSelected = _action.isChecked()
-                if _action.isChecked():
-                    self.isChangeSelected.setEnabled(False)
-                else:
-                    self.isChangeSelected.setEnabled(True)
-            elif _action.objectName()==translate("Tables", "Change Selected"):
-                Universals.isChangeSelected = _action.isChecked()
-            elif str(_action.toolTip()).find(str(translate("ToolsBar", "Renames files and folders in \"%s\" format."))[:20])!=-1:
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
-                    _action.setChecked(False)
-                    return False
-                for x, typeName in enumerate(Universals.fileReNamerTypeNamesKeys):
-                    if actsFileReNamerTypes[x].isChecked():
-                        Universals.setMySetting("fileReNamerType", typeName)
-                Universals.MainWindow.FileManager.makeRefresh()
-            Records.saveAllRecords()
-        except:
-            error = ReportBug.ReportBug()
-            error.show()
 
     def changeThisTableType(_tableType):
         actgActionGroup = MActionGroup(None)
