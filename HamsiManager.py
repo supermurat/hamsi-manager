@@ -100,6 +100,7 @@ if RoutineChecks.checkPyQt4Exist():
             if RoutineChecks.isQuickMake:
                 try:
                     myUniversals = Universals.Universals(HamsiManagerApp, None)
+                    Universals.fillUIUniversals()
                     import QuickMake
                     quickMake = QuickMake.QuickMake()
                     if RoutineChecks.isQuickMake:
@@ -120,6 +121,7 @@ if RoutineChecks.checkPyQt4Exist():
                             MMainWindow.__init__(self, None)
                             self.setObjectName("RealMainWindow")
                             myUniversals = Universals.Universals(HamsiManagerApp, self)
+                            Universals.fillUIUniversals()
                             self.CentralWidget = MWidget()
                             self.Menu = None
                             self.MainLayout = MVBoxLayout()
@@ -180,14 +182,14 @@ if RoutineChecks.checkPyQt4Exist():
                                 Universals.setMySetting("lastDirectory",self.FileManager.currentDirectory)
                                 Universals.setMySetting("isMainWindowMaximized",self.isMaximized())
                                 Universals.setMySetting("isShowAdvancedSelections",self.SpecialTools.isShowAdvancedSelections)
-                                if Tables.tableType==2:
+                                if Universals.tableType==2:
                                     Universals.setMySetting("isRunOnDoubleClick",self.Table.tbIsRunOnDoubleClick.isChecked())
                                     Universals.setMySetting("isOpenDetailsInNewWindow",self.Table.isOpenDetailsOnNewWindow.isChecked())
                                     Universals.setMySetting("isPlayNow",self.Table.isPlayNow.isChecked())
                                 Universals.setMySetting("isShowOldValues",Universals.isShowOldValues)
                                 Universals.setMySetting("isChangeSelected",Universals.isChangeSelected)
                                 Universals.setMySetting("isChangeAll",Universals.isChangeAll)
-                                Universals.setMySetting("tableType", Tables.tableType)
+                                Universals.setMySetting("tableType", Universals.tableType)
                                 Universals.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 Universals.saveSettings()
                                 Settings.saveUniversalSettings()

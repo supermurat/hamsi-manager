@@ -134,7 +134,7 @@ class FileManager():
         self.bookmarksMenu.makeRefresh()
 
     def goTo(self, _path, _isRemember = True):
-        if Tables.tableType==3:
+        if Universals.tableType==3:
             import Bars
             Bars.changeThisTableType(0)
         if _isRemember:
@@ -248,7 +248,7 @@ class FileManager():
                 
             elif _index != self.lstvFileManager.rootIndex() and ~self.getFileInfo(_index).isDir() and self.getFileInfo(_index).isReadable():
                 fileName=unicode(self.getPathOfIndex(_index)).encode("utf-8")
-                if Tables.tableType==2:
+                if Universals.tableType==2:
                     for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
                         if fileName.split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
                             if Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():

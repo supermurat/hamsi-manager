@@ -154,7 +154,7 @@ class ReportBug(MDialog):
         except:pass
         try:
             import Tables
-            errorDetails += "<b>" + str(translate("ReportBug", "Table Type No : ")) + "</b>" + str(Tables.tableType) +"<br>"
+            errorDetails += "<b>" + str(translate("ReportBug", "Table Type No : ")) + "</b>" + str(Universals.tableType) +"<br>"
         except:pass
         if _isOnlyReport==False:
             errorDetails += str(realErrorDetails)
