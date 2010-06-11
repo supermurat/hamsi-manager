@@ -13,6 +13,7 @@ import InputOutputs
 class MenuBar(MMenuBar):
     def __init__(self, _parent):
         MMenuBar.__init__(self, _parent)
+        self.mMainPopupMenu = None
         self.mFile = self.addMenu(translate("MenuBar", "File"))
         self.mFile.setObjectName(translate("MenuBar", "File"))
         self.mEdit = self.addMenu(translate("MenuBar", "Edit"))
@@ -24,8 +25,6 @@ class MenuBar(MMenuBar):
             self.mActions = self.addMenu(translate("MenuBar", "Actions"))
             self.mActions.setObjectName(translate("MenuBar", "Actions"))
             self.mActions.addAction(translate("MenuBar", "Show Last Action")).setObjectName(translate("MenuBar", "Show Last Action"))
-        self.mTools = self.addMenu(translate("MenuBar", "Tools"))
-        self.mTools.setObjectName(translate("MenuBar", "Tools"))
         self.mSettings = self.addMenu(translate("MenuBar", "Settings"))
         self.mSettings.setObjectName(translate("MenuBar", "Settings"))
         if Universals.isActivePyKDE4==True:
@@ -64,10 +63,6 @@ class MenuBar(MMenuBar):
         self.mEdit.addMenu(mExport)
         self.mEdit.addMenu(mShowInWindow)
         self.mEdit.addMenu(mCopyToClipBoard)
-        self.mTools.addAction(MIcon("Images:pack.png"), translate("MenuBar", "Pack")).setObjectName(translate("MenuBar", "Pack"))
-        self.mTools.addAction(MIcon("Images:fileTree.png"), translate("MenuBar", "File Tree")).setObjectName(translate("MenuBar", "File Tree"))
-        self.mTools.addAction(MIcon("Images:clear.png"), translate("MenuBar", "Clear")).setObjectName(translate("MenuBar", "Clear"))
-        self.mTools.addAction(MIcon("Images:runCommand.png"), translate("MenuBar", "Run Command")).setObjectName(translate("MenuBar", "Run Command"))
         self.mSettings.addAction(translate("MenuBar", "Options")).setObjectName(translate("MenuBar", "Options"))
         self.mSettings.addAction(translate("MenuBar", "My Plug-ins")).setObjectName(translate("MenuBar", "My Plug-ins"))
         if Universals.isActivePyKDE4==True:
@@ -98,12 +93,16 @@ class MenuBar(MMenuBar):
         Universals.MainWindow.Bars.click(_action, True)
         
     def refreshForTableType(self):
-        self.mView.clear()
-        dockMenus = Universals.MainWindow.createPopupMenu()
-        dockMenus.setTitle(translate("MenuBar", "Panels"))
-        dockMenus.setParent(Universals.MainWindow)
-        dockMenus.setObjectName(translate("MenuBar", "Panels"))
-        self.mView.addMenu(dockMenus)
+        if self.mMainPopupMenu==None:
+            self.mMainPopupMenu = Universals.MainWindow.createPopupMenu()
+            self.mMainPopupMenu.setTitle(translate("MenuBar", "Panels"))
+            self.mMainPopupMenu.setParent(Universals.MainWindow)
+            self.mMainPopupMenu.setObjectName(translate("MenuBar", "Panels"))
+            self.mView.addMenu(self.mMainPopupMenu)
+        else:
+            mTemp = Universals.MainWindow.createPopupMenu()
+            self.mMainPopupMenu.clear()
+            self.mMainPopupMenu.addActions(mTemp.actions())
         
     def changeTableType(self, _action):
         changeTableType(_action, True)
@@ -175,15 +174,6 @@ class Bars():
                     InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "Show Last Action"):
                 Records.showInWindow()
-            elif actionName==translate("MenuBar", "Pack"):
-                import Packager
-                Packager.Packager(InputOutputs.currentDirectoryPath)
-            elif actionName==translate("MenuBar", "Clear"):
-                import Cleaner
-                Cleaner.Cleaner(InputOutputs.currentDirectoryPath)
-            elif actionName==translate("MenuBar", "File Tree"):
-                import FileTreeBuilder
-                FileTreeBuilder.FileTreeBuilder(InputOutputs.currentDirectoryPath)
             elif actionName==translate("MenuBar", "About QT"):
                 if Universals.isActivePyKDE4==True:
                     QMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
@@ -195,15 +185,6 @@ class Bars():
             elif actionName==translate("MenuBar", "My Plug-ins"):
                 import MyPlugins
                 MyPlugins.MyPlugins(Universals.MainWindow)
-            elif actionName==translate("MenuBar", "Run Command"):
-                try:
-                    from PyQt4.Qsci import QsciScintilla
-                except:
-                    Dialogs.showError(translate("MenuBar", "Qsci Is Not Installed"), 
-                            translate("MenuBar", "Qsci is not installed on your systems.<br>Please install Qsci on your system and try again."))
-                else:
-                    import RunCommand
-                    RunCommand.RunCommand(Universals.MainWindow)
             elif actionName==translate("MenuBar", "Update"):
                 import UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
@@ -230,15 +211,61 @@ class Bars():
                         Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(False)
                     else:
                         Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(True)
+                    Universals.MainWindow.StatusBar.fillSelectionInfo()
                 elif actionName==translate("Tables", "Change Selected"):
                     Universals.isChangeSelected = _action.isChecked()
+                    Universals.MainWindow.StatusBar.fillSelectionInfo()
+                elif actionName==translate("ToolsBar", "Check Icon"):
+                    Universals.MainWindow.setEnabled(False)
+                    InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
+                    Universals.MainWindow.setEnabled(True)
+                    Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
+                        translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
+                elif actionName==translate("ToolsBar", "Clear Empty Directories"):
+                    if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
+                        _action.setChecked(False)
+                        return False
+                    answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
+                            str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
+                    if answer==Dialogs.Yes:
+                        import FileManager
+                        Universals.MainWindow.setEnabled(False)
+                        InputOutputs.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True)
+                        Universals.MainWindow.setEnabled(True)
+                        Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
+                            translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))
+                        Universals.MainWindow.FileManager.makeRefresh()
+                elif actionName==translate("ToolsBar", "Pack"):
+                    import Packager
+                    Packager.Packager(InputOutputs.currentDirectoryPath)
+                elif actionName==translate("ToolsBar", "Clear"):
+                    import Cleaner
+                    Cleaner.Cleaner(InputOutputs.currentDirectoryPath)
+                elif actionName==translate("ToolsBar", "File Tree"):
+                    import FileTreeBuilder
+                    FileTreeBuilder.FileTreeBuilder(InputOutputs.currentDirectoryPath)
+                elif actionName==translate("ToolsBar", "Run Command"):
+                    try:
+                        from PyQt4.Qsci import QsciScintilla
+                    except:
+                        Dialogs.showError(translate("MenuBar", "Qsci Is Not Installed"), 
+                                translate("MenuBar", "Qsci is not installed on your systems.<br>Please install Qsci on your system and try again."))
+                    else:
+                        import RunCommand
+                        RunCommand.RunCommand(Universals.MainWindow)
+                elif actionName==translate("ToolsBar", "Remove Sub Files"):
+                    answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
+                            str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
+                    if answer==Dialogs.Yes:
+                        Universals.MainWindow.setEnabled(False)
+                        InputOutputs.removeOnlySubFiles(InputOutputs.currentDirectoryPath)
+                        Universals.MainWindow.setEnabled(True)
+                        Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
+                            str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
             error.show()
-    
-    def noneClick(self):
-        pass
     
     def refreshBars(self):
         Universals.MainWindow.Table = Tables.Tables(Universals.MainWindow)
@@ -339,14 +366,17 @@ class TableToolsBar(MToolBar):
             self.setIconSize(MSize(16,16))
         else:
             self.setIconSize(MSize(32,32))
-        mTools = MMenu(translate("MenuBar", "Table Tools"), self)
-        mTools.setObjectName(translate("MenuBar", "Table Tools"))
-        mTools.addActions(actgActionGroupTableTypes.actions())
-        mTools.addAction(self.isShowOldValues)
-        mTools.addAction(self.isChangeAll)
-        mTools.addAction(self.isChangeSelected)
-        mTools.addActions(actgActionGroupReNamerTypes.actions())
-        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), mTools)
+        Universals.MainWindow.Menu.mTableTools = MMenu(translate("MenuBar", "Table Tools"), self)
+        Universals.MainWindow.Menu.mTableTools.setObjectName(translate("MenuBar", "Table Tools"))
+        Universals.MainWindow.Menu.mTableTools.addActions(actgActionGroupTableTypes.actions())
+        Universals.MainWindow.Menu.mTableTools.addSeparator()
+        Universals.MainWindow.Menu.mTableTools.addActions(actgActionGroupReNamerTypes.actions())
+        Universals.MainWindow.Menu.mTableTools.addSeparator()
+        Universals.MainWindow.Menu.mTableTools.addAction(self.isShowOldValues)
+        Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeAll)
+        Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeSelected)
+        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTableTools)
+        Universals.MainWindow.Menu.mView.addActions(actgActionGroupTableTypes.actions())
         MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Universals.MainWindow.Bars.click)
 
     def changeThisTableType(_tableType):
@@ -443,64 +473,34 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Remove Sub Files"),self)
         self.actRemoveOnlySubFiles.setObjectName(translate("ToolsBar", "Remove Sub Files"))
         self.actRemoveOnlySubFiles.setToolTip(translate("ToolsBar", "Remove only all sub files.Do not will remove directory and subfolders."))
+        self.actRunCommand = MAction(MIcon("Images:runCommand.png"),
+                                                translate("ToolsBar", "Run Command"),self)
+        self.actRunCommand.setObjectName(translate("ToolsBar", "Run Command"))
+        self.actRunCommand.setToolTip(translate("ToolsBar", "You can coding some things."))
         self.addAction(self.actPack)
         self.addAction(self.actFileTree)
         self.addAction(self.actClear)
+        self.addAction(self.actRunCommand)
         self.addSeparator()
         self.addAction(self.clearEmptyDirectories)
         self.addAction(self.actRemoveOnlySubFiles)
         self.addAction(self.actCheckIcon)
-        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), self.click)
         if Universals.windowMode==Universals.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
         else:
             self.setIconSize(MSize(32,32))
-    
-    def click(self,_action):
-        try:
-            actionName = _action.objectName()
-            if actionName==translate("ToolsBar", "Check Icon"):
-                Universals.MainWindow.setEnabled(False)
-                InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
-                Universals.MainWindow.setEnabled(True)
-                Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
-                    translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
-            elif actionName==translate("ToolsBar", "Clear Empty Directories"):
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
-                    _action.setChecked(False)
-                    return False
-                answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
-                        str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
-                if answer==Dialogs.Yes:
-                    import FileManager
-                    Universals.MainWindow.setEnabled(False)
-                    InputOutputs.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True)
-                    Universals.MainWindow.setEnabled(True)
-                    Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
-                        translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))
-                    Universals.MainWindow.FileManager.makeRefresh()
-            elif actionName==translate("ToolsBar", "Pack"):
-                import Packager
-                Packager.Packager(InputOutputs.currentDirectoryPath)
-            elif actionName==translate("ToolsBar", "Clear"):
-                import Cleaner
-                Cleaner.Cleaner(InputOutputs.currentDirectoryPath)
-            elif actionName==translate("ToolsBar", "File Tree"):
-                import FileTreeBuilder
-                FileTreeBuilder.FileTreeBuilder(InputOutputs.currentDirectoryPath)
-            elif actionName==translate("ToolsBar", "Remove Sub Files"):
-                answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
-                        str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
-                if answer==Dialogs.Yes:
-                    Universals.MainWindow.setEnabled(False)
-                    InputOutputs.removeOnlySubFiles(InputOutputs.currentDirectoryPath)
-                    Universals.MainWindow.setEnabled(True)
-                    Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
-                        str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
-            Records.saveAllRecords()
-        except:
-            error = ReportBug.ReportBug()
-            error.show()
+        Universals.MainWindow.Menu.mTools = MMenu(translate("MenuBar", "Tools"), self)
+        Universals.MainWindow.Menu.mTools.setObjectName(translate("MenuBar", "Tools"))
+        Universals.MainWindow.Menu.mTools.addAction(self.actPack)
+        Universals.MainWindow.Menu.mTools.addAction(self.actFileTree)
+        Universals.MainWindow.Menu.mTools.addAction(self.actClear)
+        Universals.MainWindow.Menu.mTools.addAction(self.actRunCommand)
+        Universals.MainWindow.Menu.mTools.addSeparator()
+        Universals.MainWindow.Menu.mTools.addAction(self.clearEmptyDirectories)
+        Universals.MainWindow.Menu.mTools.addAction(self.actRemoveOnlySubFiles)
+        Universals.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
+        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTools)
+        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Universals.MainWindow.Bars.click)
 
 class PlayerBar(MToolBar):
     def __init__(self, _parent):
@@ -590,13 +590,29 @@ class StatusBar(MStatusBar):
         MStatusBar.__init__(self, _parent)
         import Execute
         if Execute.isRunningAsRoot():
-            lblInfo = MLabel(u"<b><span style=\"background-color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+u"</span></b>")
+            lblInfo = MLabel(u"<span style=\"color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+u"</span>")
             self.addWidget(lblInfo)
         if Universals.isDebugMode:
             lblInfo = MLabel(translate("StatusBar", "Debug Mode"))
             self.addWidget(lblInfo)
+        self.addWidget(MLabel(""), 100)
+        self.lblImportantInfo = MLabel(u"")
+        self.addWidget(self.lblImportantInfo)
+        self.fillSelectionInfo()
+    
+    def clearImportantInfo(self):
+        self.lblImportantInfo.setText(u"")
+    
+    def setImportantInfo(self, _info):
+        self.lblImportantInfo.setText(u"<span style=\"color: #FF0000\">" + _info + u"</span>")
             
-            
-        
+    def fillSelectionInfo(self):
+        if Universals.isChangeAll:
+            self.setImportantInfo(translate("Tables", "All information will be changed"))
+        else:
+            if Universals.isChangeSelected:
+                self.setImportantInfo(translate("Tables", "Selected information will change only"))
+            else:
+                self.setImportantInfo(translate("Tables", "Selected information will not change"))
         
         
