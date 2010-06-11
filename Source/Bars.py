@@ -11,118 +11,110 @@ import Records
 import InputOutputs
 
 class MenuBar(MMenuBar):
-    
     def __init__(self, _parent):
         MMenuBar.__init__(self, _parent)
-        self.menus = []
-        self.menus.append(MMenu(translate("MenuBar", "File"), self))
-        self.menus[-1].setObjectName(translate("MenuBar", "File"))
-        self.menus.append(MMenu(translate("MenuBar", "Edit"), self))
-        self.menus[-1].setObjectName(translate("MenuBar", "Edit"))
-        self.menus.append(MMenu(translate("MenuBar", "View"), self))
-        self.menus[-1].setObjectName(translate("MenuBar", "View"))
+        self.mFile = self.addMenu(translate("MenuBar", "File"))
+        self.mFile.setObjectName(translate("MenuBar", "File"))
+        self.mEdit = self.addMenu(translate("MenuBar", "Edit"))
+        self.mEdit.setObjectName(translate("MenuBar", "Edit"))
+        self.mView = self.addMenu(translate("MenuBar", "View"))
+        self.mView.setObjectName(translate("MenuBar", "View"))
+
         if Universals.getBoolValue("isSaveActions"):
-            self.menus.append(MMenu(translate("MenuBar", "Actions"), self))
-            self.menus[-1].addAction(translate("MenuBar", "Show Last Action")).setObjectName(translate("MenuBar", "Show Last Action"))
-            self.menus[-1].setObjectName(translate("MenuBar", "Actions"))
-        self.menus.append(MMenu(translate("MenuBar", "Tools"), self))
-        self.menus[-1].setObjectName(translate("MenuBar", "Tools"))
-        self.menus.append(MMenu(translate("MenuBar", "Settings"), self))
-        self.menus[-1].setObjectName(translate("MenuBar", "Settings"))
+            self.mActions = self.addMenu(translate("MenuBar", "Actions"))
+            self.mActions.setObjectName(translate("MenuBar", "Actions"))
+            self.mActions.addAction(translate("MenuBar", "Show Last Action")).setObjectName(translate("MenuBar", "Show Last Action"))
+        self.mTools = self.addMenu(translate("MenuBar", "Tools"))
+        self.mTools.setObjectName(translate("MenuBar", "Tools"))
+        self.mSettings = self.addMenu(translate("MenuBar", "Settings"))
+        self.mSettings.setObjectName(translate("MenuBar", "Settings"))
         if Universals.isActivePyKDE4==True:
-            mAboutOfHamsiManager = Universals.MainWindow.helpMenu()
-            self.menus.append(mAboutOfHamsiManager)
-            self.menus[-1].setObjectName(mAboutOfHamsiManager.title())
+            self.mHelpMenu = Universals.MainWindow.helpMenu()
+            self.mHelpMenu.setObjectName(self.mHelpMenu.title())
+            self.aHelpMenu = self.addMenu(self.mHelpMenu)
         else:
-            self.menus.append(MMenu(translate("MenuBar", "Help"), self))
-            self.menus[-1].setObjectName(translate("MenuBar", "Help"))
-        mExport = MMenu(translate("MenuBar", "Export"), self.menus[1])
+            self.mHelpMenu = self.addMenu(translate("MenuBar", "Help"))
+            self.mHelpMenu.setObjectName(translate("MenuBar", "Help"))
+        mExport = MMenu(translate("MenuBar", "Export"), self.mEdit)
         mExport.setObjectName(translate("MenuBar", "Export"))
         mExport.addAction(translate("MenuBar", "HTML Format")).setObjectName(translate("MenuBar", "HTML Format"))
         mExport.addAction(translate("MenuBar", "Text Format")).setObjectName(translate("MenuBar", "Text Format"))
         mExport.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(translate("MenuBar", "HTML Format (File Tree)")) 
         mExport.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(translate("MenuBar", "Text Format (File Tree)")) 
-        mShowInWindow = MMenu(translate("MenuBar", "Show In New Window"), self.menus[1])
+        mShowInWindow = MMenu(translate("MenuBar", "Show In New Window"), self.mEdit)
         mShowInWindow.setObjectName(translate("MenuBar", "Show In New Window"))
         mShowInWindow.addAction(translate("MenuBar", "HTML Format")).setObjectName(translate("MenuBar", "HTML Format")) 
         mShowInWindow.addAction(translate("MenuBar", "Text Format")).setObjectName(translate("MenuBar", "Text Format"))
         mShowInWindow.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(translate("MenuBar", "HTML Format (File Tree)")) 
         mShowInWindow.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(translate("MenuBar", "Text Format (File Tree)"))
-        mCopyToClipBoard = MMenu(translate("MenuBar", "Copy To Clipboard"), self.menus[1])
+        mCopyToClipBoard = MMenu(translate("MenuBar", "Copy To Clipboard"), self.mEdit)
         mCopyToClipBoard.setObjectName(translate("MenuBar", "Copy To Clipboard"))
         mCopyToClipBoard.addAction(translate("MenuBar", "HTML Format")).setObjectName(translate("MenuBar", "HTML Format")) 
         mCopyToClipBoard.addAction(translate("MenuBar", "Text Format")).setObjectName(translate("MenuBar", "Text Format"))
         mCopyToClipBoard.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(translate("MenuBar", "HTML Format (File Tree)")) 
         mCopyToClipBoard.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(translate("MenuBar", "Text Format (File Tree)"))
-        self.menus[0].addAction(translate("MenuBar", "Open State")).setObjectName(translate("MenuBar", "Open State"))
-        self.menus[0].addAction(translate("MenuBar", "Save State")).setObjectName(translate("MenuBar", "Save State"))
+        self.mFile.addAction(translate("MenuBar", "Open State")).setObjectName(translate("MenuBar", "Open State"))
+        self.mFile.addAction(translate("MenuBar", "Save State")).setObjectName(translate("MenuBar", "Save State"))
         if Execute.isRunableAsRoot():
-            mRunAsRoot = MMenu(translate("MenuBar", "Run As Root"), self.menus[0])
+            mRunAsRoot = MMenu(translate("MenuBar", "Run As Root"), self.mFile)
             mRunAsRoot.addAction(translate("MenuBar", "With This Profile (My Settings)")).setObjectName(translate("MenuBar", "With This Profile (My Settings)")) 
             mRunAsRoot.addAction(translate("MenuBar", "With Root Profile (Own Settings)")).setObjectName(translate("MenuBar", "With Root Profile (Own Settings)")) 
-            self.menus[0].addMenu(mRunAsRoot)
-        self.menus[0].addAction(translate("MenuBar", "Quit")).setObjectName(translate("MenuBar", "Quit"))
-        self.menus[1].addMenu(mExport)
-        self.menus[1].addMenu(mShowInWindow)
-        self.menus[1].addMenu(mCopyToClipBoard)
-        self.refreshForTableType()
-        self.menus[-3].addAction(MIcon("Images:pack.png"), translate("MenuBar", "Pack")).setObjectName(translate("MenuBar", "Pack"))
-        self.menus[-3].addAction(MIcon("Images:fileTree.png"), translate("MenuBar", "File Tree")).setObjectName(translate("MenuBar", "File Tree"))
-        self.menus[-3].addAction(MIcon("Images:clear.png"), translate("MenuBar", "Clear")).setObjectName(translate("MenuBar", "Clear"))
-        self.menus[-3].addAction(MIcon("Images:runCommand.png"), translate("MenuBar", "Run Command")).setObjectName(translate("MenuBar", "Run Command"))
-        self.menus[-2].addAction(translate("MenuBar", "Options")).setObjectName(translate("MenuBar", "Options"))
-        self.menus[-2].addAction(translate("MenuBar", "My Plug-ins")).setObjectName(translate("MenuBar", "My Plug-ins"))
+            self.mFile.addMenu(mRunAsRoot)
+        self.mFile.addAction(translate("MenuBar", "Quit")).setObjectName(translate("MenuBar", "Quit"))
+        self.mEdit.addMenu(mExport)
+        self.mEdit.addMenu(mShowInWindow)
+        self.mEdit.addMenu(mCopyToClipBoard)
+        self.mTools.addAction(MIcon("Images:pack.png"), translate("MenuBar", "Pack")).setObjectName(translate("MenuBar", "Pack"))
+        self.mTools.addAction(MIcon("Images:fileTree.png"), translate("MenuBar", "File Tree")).setObjectName(translate("MenuBar", "File Tree"))
+        self.mTools.addAction(MIcon("Images:clear.png"), translate("MenuBar", "Clear")).setObjectName(translate("MenuBar", "Clear"))
+        self.mTools.addAction(MIcon("Images:runCommand.png"), translate("MenuBar", "Run Command")).setObjectName(translate("MenuBar", "Run Command"))
+        self.mSettings.addAction(translate("MenuBar", "Options")).setObjectName(translate("MenuBar", "Options"))
+        self.mSettings.addAction(translate("MenuBar", "My Plug-ins")).setObjectName(translate("MenuBar", "My Plug-ins"))
         if Universals.isActivePyKDE4==True:
-            actReportBug = MAction(translate("MenuBar", "Report Bug"), self.menus[-1])
+            actReportBug = MAction(translate("MenuBar", "Report Bug"), self.mHelpMenu)
             actReportBug.setObjectName(translate("MenuBar", "Report Bug"))
-            self.menus[-1].insertAction(self.menus[-1].actions()[3], actReportBug)
-            actSuggestIdea = MAction(translate("MenuBar", "Suggest Idea"), self.menus[-1])
+            self.mHelpMenu.insertAction(self.mHelpMenu.actions()[3], actReportBug)
+            actSuggestIdea = MAction(translate("MenuBar", "Suggest Idea"), self.mHelpMenu)
             actSuggestIdea.setObjectName(translate("MenuBar", "Suggest Idea"))
-            self.menus[-1].insertAction(self.menus[-1].actions()[3], actSuggestIdea)
+            self.mHelpMenu.insertAction(self.mHelpMenu.actions()[3], actSuggestIdea)
             actUNo = 9
             while actUNo>0:
                 try:
-                    actUpdate = MAction(translate("MenuBar", "Update"), self.menus[-1])
+                    actUpdate = MAction(translate("MenuBar", "Update"), self.mHelpMenu)
                     actUpdate.setObjectName(translate("MenuBar", "Update"))
-                    self.menus[-1].insertAction(self.menus[-1].actions()[actUNo], actUpdate)
+                    self.mHelpMenu.insertAction(self.mHelpMenu.actions()[actUNo], actUpdate)
                     break
                 except:actUNo = actUNo - 3
         else:
-            self.menus[-1].addAction(translate("MenuBar", "Report Bug")).setObjectName(translate("MenuBar", "Report Bug"))
-            self.menus[-1].addAction(translate("MenuBar", "Suggest Idea")).setObjectName(translate("MenuBar", "Suggest Idea"))
-            self.menus[-1].addAction(translate("MenuBar", "Update")).setObjectName(translate("MenuBar", "Update"))
-            self.menus[-1].addAction(translate("MenuBar", "About Hamsi Manager")).setObjectName(translate("MenuBar", "About Hamsi Manager"))
-        self.menus[-1].addAction(translate("MenuBar", "About QT")).setObjectName(translate("MenuBar", "About QT"))
-        for menu in self.menus:
-            self.addMenu(menu)
-        MObject.connect(self, SIGNAL("triggered(QAction *)"), Universals.MainWindow.Bars.click)
+            self.mHelpMenu.addAction(translate("MenuBar", "Report Bug")).setObjectName(translate("MenuBar", "Report Bug"))
+            self.mHelpMenu.addAction(translate("MenuBar", "Suggest Idea")).setObjectName(translate("MenuBar", "Suggest Idea"))
+            self.mHelpMenu.addAction(translate("MenuBar", "Update")).setObjectName(translate("MenuBar", "Update"))
+            self.mHelpMenu.addAction(translate("MenuBar", "About Hamsi Manager")).setObjectName(translate("MenuBar", "About Hamsi Manager"))
+        self.mHelpMenu.addAction(translate("MenuBar", "About QT")).setObjectName(translate("MenuBar", "About QT"))
+
+        MObject.connect(self, SIGNAL("triggered(QAction *)"), self.click)
+        
+    def click(self, _action):
+        Universals.MainWindow.Bars.click(_action, True)
         
     def refreshForTableType(self):
-        self.menus[2].clear()
+        self.mView.clear()
         dockMenus = Universals.MainWindow.createPopupMenu()
         dockMenus.setTitle(translate("MenuBar", "Panels"))
         dockMenus.setParent(Universals.MainWindow)
         dockMenus.setObjectName(translate("MenuBar", "Panels"))
-        self.menus[2].addMenu(dockMenus)
-        actgActionGroup = MActionGroup(self.menus[2])
-        for x, name in enumerate(Universals.tableTypesNames):
-            a = actgActionGroup.addAction(MIcon(u"Images:"+Universals.tableTypeIcons[x]),
-                                        name)
-            a.setCheckable(True)
-            a.setObjectName(name)
-            if Universals.tableType==Universals.getThisTableType(name):
-                a.setChecked(True)
-        self.menus[2].addActions(actgActionGroup.actions())
-        MObject.connect(actgActionGroup, SIGNAL("selected(QAction *)"), self.changeTableType)
+        self.mView.addMenu(dockMenus)
         
     def changeTableType(self, _action):
         changeTableType(_action, True)
     
 class Bars():
+    global isClicked
+    isClicked = False
     def __init__(self):
         pass
         
-    def click(self,_action):
+    def click(self, _action, _isFromMenu=False):
         try:
             actionName = _action.objectName()
             if actionName==translate("MenuBar", "Open State"):
@@ -225,32 +217,28 @@ class Bars():
             elif actionName==translate("MenuBar", "About Hamsi Manager"):
                 if Universals.isActivePyKDE4==False:
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Universals.aboutOfHamsiManager)
-            elif actionName==translate("Tables", "Show Also Previous Information"):
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
-                    Universals.isShowOldValues = _action.isChecked()
-                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
-                else:
-                    _action.setChecked(Universals.isShowOldValues)
-            elif actionName==translate("Tables", "Ignore Selection"):
-                Universals.isChangeAll = _action.isChecked()
-                if _action.isChecked():
-                    Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(False)
-                else:
-                    Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(True)
-            elif actionName==translate("Tables", "Change Selected"):
-                Universals.isChangeSelected = _action.isChecked()
-            elif str(_action.toolTip()).find(str(translate("ToolsBar", "Renames files and folders in \"%s\" format."))[:20])!=-1:
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
-                    _action.setChecked(False)
-                    return False
-                for x, typeName in enumerate(Universals.fileReNamerTypeNamesKeys):
-                    if actsFileReNamerTypes[x].isChecked():
-                        Universals.setMySetting("fileReNamerType", typeName)
-                Universals.MainWindow.FileManager.makeRefresh()
+            elif _isFromMenu==False:
+                if actionName==translate("Tables", "Show Also Previous Information"):
+                    if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                        Universals.isShowOldValues = _action.isChecked()
+                        Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                    else:
+                        _action.setChecked(Universals.isShowOldValues)
+                elif actionName==translate("Tables", "Ignore Selection"):
+                    Universals.isChangeAll = _action.isChecked()
+                    if _action.isChecked():
+                        Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(False)
+                    else:
+                        Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(True)
+                elif actionName==translate("Tables", "Change Selected"):
+                    Universals.isChangeSelected = _action.isChecked()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
             error.show()
+    
+    def noneClick(self):
+        pass
     
     def refreshBars(self):
         Universals.MainWindow.Table = Tables.Tables(Universals.MainWindow)
@@ -286,7 +274,7 @@ class Bars():
         
     
 class TableToolsBar(MToolBar):
-    global clearAllChilds, changeTableType, changeThisTableType, actsFileReNamerTypes
+    global isClicked, clearAllChilds, changeTableType, changeThisTableType, actsFileReNamerTypes, changeReNamerType
     def __init__(self, _parent):
         global actsFileReNamerTypes
         MToolBar.__init__(self, _parent)
@@ -313,44 +301,53 @@ class TableToolsBar(MToolBar):
         self.isChangeSelected.setChecked(Universals.isChangeSelected)
         if self.isChangeAll.isChecked():
             self.isChangeSelected.setEnabled(False)
-        actgActionGroup = MActionGroup(self)
+        actgActionGroupTableTypes = MActionGroup(self)
         for x, name in enumerate(Universals.tableTypesNames):
-            a = actgActionGroup.addAction(MIcon(u"Images:"+Universals.tableTypeIcons[x]),
+            a = actgActionGroupTableTypes.addAction(MIcon(u"Images:"+Universals.tableTypeIcons[x]),
                                         name)
             a.setCheckable(True)
             a.setObjectName(name)
             if Universals.tableType==Universals.getThisTableType(name):
                 a.setChecked(True)
-        self.addActions(actgActionGroup.actions())
-        MObject.connect(actgActionGroup, SIGNAL("selected(QAction *)"), changeTableType)
+        self.addActions(actgActionGroupTableTypes.actions())
+        MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), changeTableType)
         self.addSeparator()
         self.fileReNamerTypeNames = [str(translate("ToolsBar", "Personal Computer")), 
                                     str(translate("ToolsBar", "Web Server")), 
                                     str(translate("ToolsBar", "Removable Media"))]
         buttonIcons = ["personalComputer.png", "webServer.png", "removableMedia.png"]
-        actgActionGroup = MActionGroup(self)
+        actgActionGroupReNamerTypes = MActionGroup(self)
         actsFileReNamerTypes = []
         for x, name in enumerate(self.fileReNamerTypeNames):
             actsFileReNamerTypes.append(MAction(MIcon(u"Images:"+buttonIcons[x].decode("utf-8")),name.decode("utf-8"),self))
             actsFileReNamerTypes[-1].setObjectName(name.decode("utf-8"))
             actsFileReNamerTypes[x].setToolTip(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name.decode("utf-8")))
             actsFileReNamerTypes[x].setCheckable(True)
-            actgActionGroup.addAction(actsFileReNamerTypes[x])
+            actgActionGroupReNamerTypes.addAction(actsFileReNamerTypes[x])
             if Universals.MySettings["fileReNamerType"]==Universals.fileReNamerTypeNamesKeys[x]:
                 actsFileReNamerTypes[x].setChecked(True)
         if Universals.fileReNamerTypeNamesKeys.count(str(Universals.MySettings["fileReNamerType"]))==0:
             actsFileReNamerTypes[0].setChecked(True)
-        self.addActions(actgActionGroup.actions())
+        self.addActions(actgActionGroupReNamerTypes.actions())
+        MObject.connect(actgActionGroupReNamerTypes, SIGNAL("selected(QAction *)"), changeReNamerType)
         self.addSeparator()
         self.addAction(self.isShowOldValues)
         self.addAction(self.isChangeAll)
         self.addAction(self.isChangeSelected)
         self.createTable()
-        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Universals.MainWindow.Bars.click)
         if Universals.windowMode==Universals.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
         else:
             self.setIconSize(MSize(32,32))
+        mTools = MMenu(translate("MenuBar", "Table Tools"), self)
+        mTools.setObjectName(translate("MenuBar", "Table Tools"))
+        mTools.addActions(actgActionGroupTableTypes.actions())
+        mTools.addAction(self.isShowOldValues)
+        mTools.addAction(self.isChangeAll)
+        mTools.addAction(self.isChangeSelected)
+        mTools.addActions(actgActionGroupReNamerTypes.actions())
+        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), mTools)
+        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Universals.MainWindow.Bars.click)
 
     def changeThisTableType(_tableType):
         actgActionGroup = MActionGroup(None)
@@ -385,6 +382,22 @@ class TableToolsBar(MToolBar):
             error = ReportBug.ReportBug()
             error.show()
     
+    def changeReNamerType(_action, _isFromMenu=False):
+        try:
+            if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
+                _action.setChecked(False)
+                for x, typeName in enumerate(Universals.fileReNamerTypeNamesKeys):
+                    if typeName == Universals.MySettings["fileReNamerType"]:
+                        actsFileReNamerTypes[x].setChecked(True)
+                return False
+            for x, typeName in enumerate(Universals.fileReNamerTypeNamesKeys):
+                if actsFileReNamerTypes[x].isChecked():
+                    Universals.setMySetting("fileReNamerType", typeName)
+            Universals.MainWindow.FileManager.makeRefresh()
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+            
     def createTable(self, _tableType=None):
         if _tableType!=None:
             Universals.tableType = Universals.getThisTableType(_tableType)
