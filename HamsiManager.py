@@ -126,6 +126,7 @@ if RoutineChecks.checkPyQt4Exist():
                             self.Menu = None
                             self.MainLayout = MVBoxLayout()
                             self.Bars = Bars.Bars()
+                            self.StatusBar = Bars.StatusBar(self)
                             self.Menu = Bars.MenuBar(self)
                             self.ToolsBar = Bars.ToolsBar(self)
                             self.TableToolsBar = Bars.TableToolsBar(self)
@@ -134,7 +135,6 @@ if RoutineChecks.checkPyQt4Exist():
                             self.setCentralWidget(self.CentralWidget)
                             self.Menu.refreshForTableType()
                             self.setMenuBar(self.Menu)
-                            self.StatusBar = Bars.StatusBar(self)
                             self.setStatusBar(self.StatusBar)
                             self.Bars.getAllBarsStyleFromMySettings()
                             self.setCorner(Mt.TopLeftCorner, Mt.LeftDockWidgetArea)
