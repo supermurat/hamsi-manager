@@ -667,8 +667,9 @@ class Settings():
         
     def getScreenSize():
         if isAvailablePyKDE4():
-            #FIXME:get screen size
-            return None
+            from PyKDE4.kdeui import KGlobalSettings
+            HamsiManagerApp = QApplication(sys.argv)
+            return KGlobalSettings.desktopGeometry(QPoint(10, 10))
         else:
             return None
         
