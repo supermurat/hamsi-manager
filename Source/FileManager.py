@@ -136,7 +136,7 @@ class FileManager():
     def goTo(self, _path, _isRemember = True):
         if Universals.tableType==3:
             import Bars
-            Bars.changeThisTableType(0)
+            Bars.changeTableType(0)
         if _isRemember:
             self.future = []
             self.history.append(self.currentDirectory)

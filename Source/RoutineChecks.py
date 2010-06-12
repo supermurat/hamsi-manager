@@ -20,12 +20,19 @@ def checkParameters():
         isMyArgs = False
         isDontRun = False
         for argvNo, argv in enumerate(argvs):
-            argvindex = argv.find("-debug")
             if argv.find("-debug")!=-1:
                 import Universals
                 Universals.isDebugMode = True
                 if len(argv)!=6:
                     argv = argv.replace("-debug", "")
+                    argvs[argvNo] = argv
+                else:
+                    isMyArgs = True
+            if argv.find("-develop")!=-1:
+                import Universals
+                Universals.isDeveloperMode = True
+                if len(argv)!=8:
+                    argv = argv.replace("-develop", "")
                     argvs[argvNo] = argv
                 else:
                     isMyArgs = True
