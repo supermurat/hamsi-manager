@@ -279,7 +279,7 @@ class Tables(MTableWidget):
         table.clear()
         table.setColumnCount(len(table.tableColumns))
         table.setHorizontalHeaderLabels(table.tableColumns)
-        columnWidth = (Universals.MainWindow.CentralWidget.width()-60)/len(table.tableColumns)
+        columnWidth = (Universals.MainWindow.CentralWidget.width()-90)/len(table.tableColumns)
         if columnWidth>110:
             for x in range(len(table.tableColumns)):
                 table.setColumnWidth(x,columnWidth)

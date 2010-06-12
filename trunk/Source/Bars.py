@@ -100,7 +100,10 @@ class MenuBar(MMenuBar):
             self.mMainPopupMenu.setTitle(translate("MenuBar", "Panels"))
             self.mMainPopupMenu.setParent(Universals.MainWindow)
             self.mMainPopupMenu.setObjectName(translate("MenuBar", "Panels"))
-            self.mView.addMenu(self.mMainPopupMenu)
+            if len(self.mView.actions())==0:
+                self.mView.addMenu(self.mMainPopupMenu)
+            else:
+                self.mView.insertMenu(self.mView.actions()[0], self.mMainPopupMenu)
         else:
             mTemp = Universals.MainWindow.createPopupMenu()
             self.mMainPopupMenu.clear()
@@ -283,8 +286,10 @@ class Bars():
             Universals.MainWindow.SubDirectoryOptionsBar = SubDirectoryOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.SubDirectoryOptionsBar)
             Universals.MainWindow.SubDirectoryOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)              
-#        if len(Universals.MainWindow.Menu.mSpecialOptions.actions())==0:
-#            Universals.MainWindow.Menu.mTableTools.removeAction(Universals.MainWindow.Menu.mSpecialOptions.menuAction())
+        if len(Universals.MainWindow.Menu.mSpecialOptions.actions())==0:
+            Universals.MainWindow.Menu.mSpecialOptions.setEnabled(False)
+        else:
+            Universals.MainWindow.Menu.mSpecialOptions.setEnabled(True)
         Universals.MainWindow.Menu.refreshForTableType()
     
     def changeTableType(_action, _isFromMenu=False):

@@ -626,7 +626,7 @@ class SearchAndReplace(MWidget):
         vblSearchAndReplace.addLayout(HBoxs[1])
         vblSearchAndReplace.addLayout(HBoxs[2])
         self.setLayout(vblSearchAndReplace)
-        
+            
     def showAdvancedSelections(self):
         self.cckbRegExp.show()
     
