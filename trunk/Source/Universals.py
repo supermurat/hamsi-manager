@@ -5,11 +5,12 @@ from os import path
 from datetime import timedelta, datetime
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, sourcePath, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, sourcePath, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds
     MainWindow = None 
     isStartingSuccessfully = False
     MySettings = {}
     isDebugMode = False
+    isDeveloperMode = False
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     Catalog = "HamsiManager" 
@@ -152,5 +153,13 @@ class Universals():
                             translate("Tables", "File Table"), 
                             translate("Tables", "Music Table"), 
                             translate("Tables", "Subfolder Table")]
-                            
+            
+    def clearAllChilds(_object):
+        from MyObjects import MWidget
+        childs = _object.findChildren(MWidget)
+        for child in childs:
+            clearAllChilds(child)
+            try:child.hide()
+            except:pass
+            child.deleteLater()
                             

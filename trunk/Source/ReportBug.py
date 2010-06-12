@@ -203,7 +203,7 @@ class ReportBug(MDialog):
         self.wvWeb.setMinimumHeight(272)
         self.show()
         self.setMaximumSize(10000, 10000)
-        if isShowFixMe == True and isQuickMake==False and _hideFixMe==False:
+        if isShowFixMe == True and isQuickMake==False and _hideFixMe==False and Universals.isDeveloperMode==False:
             try:
                 import Dialogs
                 answer = Dialogs.askSpecial(translate("ReportBug", "I Have A Suggestion!"),
