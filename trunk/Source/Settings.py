@@ -407,7 +407,7 @@ class Settings():
                 return _defaultValue
         elif _valueTypesAndValue == "date":
             try:
-                datetime.strptime(_value, "%Y %m %d %H %M %S")
+                datetime.strptime(str(_value), "%Y %m %d %H %M %S")
             except: 
                 return _defaultValue
         elif _valueTypesAndValue=="list":
