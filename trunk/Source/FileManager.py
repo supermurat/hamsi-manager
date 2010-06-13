@@ -140,7 +140,7 @@ class FileManager():
         if _isRemember:
             self.future = []
             self.history.append(self.currentDirectory)
-            self.currentDirectory = _path
+        self.currentDirectory = _path
         if Universals.isActivePyKDE4==True:
             self.dirLister.openUrl(MUrl(self.currentDirectory))
             self.isGoToFromUrlNavigator = False

@@ -299,6 +299,7 @@ class Tables(MTableWidget):
                 
     def saveTable(self):
         try:
+            newCurrentDirectoryPath = None
             import Records
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
             import InputOutputs
@@ -312,7 +313,8 @@ class Tables(MTableWidget):
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                     if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
                         InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
-            InputOutputs.complateSmartCheckIcon()
+            if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
+                InputOutputs.complateSmartCheckIcon()
             Records.saveAllRecords()
             if self.changedValueNumber==0:
                 Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
@@ -321,8 +323,8 @@ class Tables(MTableWidget):
                 if Universals.getBoolValue("isShowTransactionDetails"):
                     Dialogs.show(translate("Tables", "Transaction Details"), 
                                  str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-            if self.rowCount()!=0:
-                Universals.MainWindow.FileManager.makeRefresh(newCurrentDirectoryPath)
+            if newCurrentDirectoryPath!=None:
+                Universals.MainWindow.FileManager.makeRefresh(InputOutputs.getRealDirName(newCurrentDirectoryPath))
         except:
             error = ReportBug.ReportBug()
             error.show()      

@@ -12,8 +12,6 @@ import ReportBug
 class SpecialTools(MWidget):
     def __init__(self,_parent):
         MWidget.__init__(self, _parent)
-        fntFont = MFont()
-        fntFont.setBold(True)
         self.tbAddToBefore = MToolButton(self)
         self.btChange = MToolButton(self)
         self.tbAddToAfter = MToolButton(self)
@@ -73,8 +71,6 @@ class SpecialTools(MWidget):
         self.cbInformationSectionY = MSpinBox()
         self.cbInformationSectionY.setRange(1, 100)
         self.cbInformationSectionY.setValue(5) 
-        lblX.setFont(fntFont)
-        lblY.setFont(fntFont)
         self.pnlAdvancedSelections = MWidget()
         VBox = MVBoxLayout()
         self.pnlAdvancedSelections.setLayout(VBox)
@@ -580,16 +576,10 @@ class SpecialActions(MWidget):
 class SearchAndReplace(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        fntFont = MFont()
-        fntFont.setBold(True)
         lblSearch=MLabel(translate("SpecialTools", "Search: "))
         lblReplace=MLabel(translate("SpecialTools", "Replace: "))
         self.leSearch = MLineEdit("")
-        self.leSearch.setFont(fntFont)
         self.leReplace = MLineEdit("")
-        self.leReplace.setFont(fntFont)
-        lblSearch.setFont(fntFont)
-        lblReplace.setFont(fntFont)
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         srExamples = translate("SpecialTools", "<table><tr><td><nobr>Before</nobr></td><td>>></td><td><nobr>Search</nobr></td><td>-</td><td><nobr>Replace</nobr></td><td>>></td><td><nobr>After</nobr></td></tr>" +
                                  "<tr><td><nobr>HamsiManager</nobr></td><td>>></td><td><nobr>ager</nobr></td><td>-</td><td><nobr></nobr></td><td>>></td><td><nobr>HamsiMan</nobr></td></tr>" +
@@ -606,7 +596,6 @@ class SearchAndReplace(MWidget):
         lblSearch.setFixedWidth(60)
         lblReplace.setFixedWidth(100)
         lblColumns.setFixedWidth(60)
-        lblColumns.setFont(fntFont)
         HBoxs = []
         HBoxs.append(MHBoxLayout())
         HBoxs[0].addWidget(lblSearch)
@@ -637,36 +626,27 @@ class SearchAndReplace(MWidget):
 class Fill(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        fntFont = MFont()
-        fntFont.setBold(True)
         self.leFill = MLineEdit("")
-        self.leFill.setFont(fntFont)
         lblFillType = MLabel(translate("SpecialTools", "Content Type: "))
-        lblFillType.setFont(fntFont)
         self.cbFillType = MComboBox()
         self.cbFillType.addItems([translate("SpecialTools", "Text"),
                                 translate("SpecialTools", "Number")])
         lblspCharNumberOfDigit = MLabel(translate("SpecialTools", "Number Of Characters: "))
-        lblspCharNumberOfDigit.setFont(fntFont)
         self.spCharNumberOfDigit = MSpinBox()
         self.spCharNumberOfDigit.setRange(1, 20)
         self.spCharNumberOfDigit.setValue(2) 
         self.columns = MComboBox()
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblColumns.setFixedWidth(60)
-        lblColumns.setFont(fntFont)
         lblFill = MLabel(translate("SpecialTools", "Text: "))
         lblFill.setFixedWidth(60)
-        lblFill.setFont(fntFont)
         self.lblSort = MLabel(translate("SpecialTools", "Sort: "))
         self.lblSort.setFixedWidth(80)
-        self.lblSort.setFont(fntFont)
         self.cbSort = MComboBox()
         self.cbSort.addItems([translate("SpecialTools", "Ascending"),
                             translate("SpecialTools", "Descending")])
         self.lblStartDigit = MLabel(translate("SpecialTools", "Begins With: "))
         self.lblStartDigit.setFixedWidth(120)
-        self.lblStartDigit.setFont(fntFont)
         self.spStartDigit = MSpinBox()
         self.spStartDigit.setRange(-999999, 999999)
         self.spStartDigit.setValue(0)
@@ -742,8 +722,6 @@ class Fill(MWidget):
 class Clear(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        fntFont = MFont()
-        fntFont.setBold(True)
         self.leClear = MLineEdit("")
         self.lblClear = MLabel(translate("SpecialTools", "Text: "))
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
@@ -754,10 +732,6 @@ class Clear(MWidget):
                                 translate("SpecialTools", "Numbers"),
                                 translate("SpecialTools", "Other Characters"),
                                 translate("SpecialTools", "Selected Text")])
-        self.leClear.setFont(fntFont)
-        self.lblClear.setFont(fntFont)
-        lblColumns.setFont(fntFont)
-        lblClearType.setFont(fntFont)
         self.columns = MComboBox()
         self.columns.addItem(translate("SpecialTools", "All"))
         self.cckbCaseSensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
@@ -811,8 +785,6 @@ class Clear(MWidget):
 class CharacterState(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        fntFont = MFont()
-        fntFont.setBold(True)
         self.leSearch = MLineEdit("")
         self.cckbCorrectText = MCheckBox(translate("SpecialTools", "Correct Text"))
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
@@ -826,10 +798,6 @@ class CharacterState(MWidget):
                             translate("Options", "Don`t Change")])
         self.cckbCaseSensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
-        self.leSearch.setFont(fntFont)
-        self.cckbCorrectText.setFont(fntFont)
-        lblColumns.setFont(fntFont)
-        lblCharacterType.setFont(fntFont)
         HBoxs = []
         HBoxs.append(MHBoxLayout())
         HBoxs[0].addWidget(lblColumns)
