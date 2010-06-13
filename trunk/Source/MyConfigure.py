@@ -17,6 +17,7 @@ class MyConfigure:
         if Settings.isAvailablePyKDE4():
             for langCode in InputOutputs.getInstalledLanguagesCodes():
                 installKDE4Language(langCode)
+            Universals.setMySetting("isInstalledKDE4Language", True)
             return True
         return False
             

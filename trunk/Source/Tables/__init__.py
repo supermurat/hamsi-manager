@@ -300,7 +300,7 @@ class Tables(MTableWidget):
     def saveTable(self):
         try:
             import Records
-            Records.setTitle(Universals.tableTypesNames[tableType])
+            Records.setTitle(Universals.tableTypesNames[Universals.tableType])
             import InputOutputs
             InputOutputs.activateSmartCheckIcon()
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):

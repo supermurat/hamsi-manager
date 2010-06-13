@@ -56,7 +56,8 @@ class Settings():
                   "isDeleteEmptyDirectories", 
                   "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories", 
                   "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate", 
-                  "isShowTransactionDetails", "windowMode"
+                  "isShowTransactionDetails", "windowMode", "isInstalledKDE4Language", 
+                  "isShowWindowModeSuggestion"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -181,9 +182,6 @@ class Settings():
         defaultValues = getDefaultValues()
         for keyValue in keysOfSettings:
             mySetting.setValue(keyValue,QVariant(defaultValues[keyValue].decode("utf-8")))
-        if eval(str(mySetting.value("isActivePyKDE4").toString()).title())==True:
-            import MyConfigure
-            MyConfigure.installKDE4Language(str(QLocale().name()))
     
     def getDefaultValues():
         if InputOutputs.getInstalledLanguagesCodes().count(str(QLocale.system().name()))>0:
@@ -294,7 +292,9 @@ class Settings():
                 "remindMeLaterForUpdate": "-1", 
                 "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S"), 
                 "isShowTransactionDetails": "False", 
-                "windowMode": windowMode
+                "windowMode": windowMode, 
+                "isInstalledKDE4Language": "False", 
+                "isShowWindowModeSuggestion": "True"
                 }
                 
     def getValueTypesAndValues():
@@ -390,7 +390,9 @@ class Settings():
                 "remindMeLaterForUpdate": ["int", range(-1, 7)], 
                 "remindMeLaterShowDateForUpdate": "date", 
                 "isShowTransactionDetails": "bool", 
-                "windowMode": ["options", Universals.windowModeKeys]
+                "windowMode": ["options", Universals.windowModeKeys], 
+                "isInstalledKDE4Language": "bool", 
+                "isShowWindowModeSuggestion": "bool"
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
@@ -668,7 +670,8 @@ class Settings():
     def getScreenSize():
         if isAvailablePyKDE4():
             from PyKDE4.kdeui import KGlobalSettings
-            HamsiManagerApp = QApplication(sys.argv)
+            if Universals.MainWindow==None:
+                HamsiManagerApp = QApplication(sys.argv)
             return KGlobalSettings.desktopGeometry(QPoint(10, 10))
         else:
             return None

@@ -82,6 +82,9 @@ class Universals():
             isShowOldValues = getBoolValue("isShowOldValues")
             isChangeAll = getBoolValue("isChangeAll")
             isChangeSelected = getBoolValue("isChangeSelected")
+        if getBoolValue("isInstalledKDE4Language")==False:
+            import MyConfigure
+            MyConfigure.installKDE4Languages()
     
     def getListFromStrint(_listString):
         listString = eval(str(_listString))
