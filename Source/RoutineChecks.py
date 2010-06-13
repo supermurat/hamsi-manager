@@ -135,22 +135,44 @@ def checkAfterRunProccess():
             import Options
             Options.Options(Universals.MainWindow, _focusTo="systemsCharSet")
     if Universals.isShowVerifySettings and Universals.changedDefaultValuesKeys==[]:
-        import MyConfigure
-        MyConfigure.installKDE4Languages()
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes: 
             import Options
             Options.Options(Universals.MainWindow)
     elif Universals.changedDefaultValuesKeys!=[] or Universals.newSettingsKeys!=[]:
-        import MyConfigure
-        MyConfigure.installKDE4Languages()
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes: 
             import Options
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
             Options.Options(Universals.MainWindow, "Normal", None, newOrChangedKeys)
+    checkWindowMode()
+    
+def checkWindowMode(_isCheck=False):
+    import Dialogs, Universals, Settings 
+    from MyObjects import translate
+    if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
+        if Universals.windowMode == Universals.windowModeKeys[1]:
+            answer = Dialogs.ask(translate("HamsiManager", "We Have A Suggestion"),
+                    translate("HamsiManager", "Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?"), False)
+            if answer==Dialogs.Yes: 
+                try:
+                    Universals.MainWindow.TableToolsBar.setVisible(False)
+                    Universals.MainWindow.ToolsBar.setVisible(False)
+                    if Universals.MainWindow.MusicOptionsBar!=None:
+                        Universals.MainWindow.MusicOptionsBar.setVisible(False)
+                    if Universals.MainWindow.SubDirectoryOptionsBar!=None:
+                        Universals.MainWindow.SubDirectoryOptionsBar.setVisible(False)
+                    if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:
+                        Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.Places)
+                        
+                    if Universals.MainWindow.Browser!=None and Universals.MainWindow.TreeBrowser!=None:
+                        Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.TreeBrowser)
+                    geometries = Universals.getListFromStrint(Universals.MySettings["MainWindowGeometries"])
+                    Universals.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
+                except:pass
+            Universals.setMySetting("isShowWindowModeSuggestion", False)
      
 def checkAfterCloseProccess():
     import OldAppName, Records, UpdateControl

@@ -581,6 +581,8 @@ class General(MWidget):
             setVisibleFormItems(self, "language", False)
         if self.visibleKeys.count("applicationStyle")>0:
             MObject.connect(self.values[self.keysOfSettings.index("applicationStyle")], SIGNAL("currentIndexChanged(int)"), self.styleChanged)
+        if self.visibleKeys.count("windowMode")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("windowMode")], SIGNAL("currentIndexChanged(int)"), self.windowModeChanged)
         if self.visibleKeys.count("isSaveActions")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isSaveActions")], SIGNAL("currentIndexChanged(int)"), self.saveActionsChanged)
             self.saveActionsChanged()
@@ -611,9 +613,13 @@ class General(MWidget):
             setEnabledFormItems(self, "maxRecordFileSize", True)
         else:
             setEnabledFormItems(self, "maxRecordFileSize", False)
+    
+    def styleChanged(self, _value):
+        MApplication.setStyle(self.values[self.keysOfSettings.index("applicationStyle")].currentText())
         
-    def styleChanged(self):
-        MApplication.setStyle(self.values[0].currentText())
+        
+    def windowModeChanged(self, _value):
+        Universals.setMySetting("isShowWindowModeSuggestion", True)
 
 class Correct(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
