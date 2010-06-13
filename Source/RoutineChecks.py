@@ -126,7 +126,7 @@ def checkParameters():
     return True
 
 def checkAfterRunProccess():
-    import Dialogs, Universals, Settings 
+    import Dialogs, Universals, Settings, UpdateControl
     from MyObjects import translate
     if str(Settings.defaultFileSystemEncoding) != str(Universals.MySettings["systemsCharSet"]):
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
@@ -147,6 +147,8 @@ def checkAfterRunProccess():
             import Options
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
             Options.Options(Universals.MainWindow, "Normal", None, newOrChangedKeys)
+    if UpdateControl.isMakeUpdateControl():
+        UpdateControl.UpdateControl(Universals.MainWindow)
     checkWindowMode()
     
 def checkWindowMode(_isCheck=False):
@@ -175,14 +177,12 @@ def checkWindowMode(_isCheck=False):
             Universals.setMySetting("isShowWindowModeSuggestion", False)
      
 def checkAfterCloseProccess():
-    import OldAppName, Records, UpdateControl
+    import OldAppName, Records
     if OldAppName.checkOldAppNameAndSettings():
         OldAppName.checkAndGetPlugins()
         OldAppName.clearOldAppNameAndSettings()
     if OldAppName.checkOldAppNameInSystem():
         OldAppName.checkAndGetOldAppNameInSystem()
-    if UpdateControl.isMakeUpdateControl():
-        UpdateControl.UpdateControl(Universals.MainWindow)
     Records.saveAllRecords()
     Records.checkSize()
     
