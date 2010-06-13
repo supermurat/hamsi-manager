@@ -18,8 +18,8 @@ class Options(MDialog):
         self.markedKeys = _markedKeys
         self.defaultValues = Settings.getDefaultValues()
         if self.showType=="Normal":
-            self.setMinimumWidth(720)
-            self.setMinimumHeight(520)
+            self.setMinimumWidth(620)
+            self.setMinimumHeight(420)
             self.show()
         self.checkVisibility(self.showType)
         if self.showType=="Normal":
@@ -47,7 +47,7 @@ class Options(MDialog):
                 self.tboxCategories.addItem(wCategory, self.labelsOfCategories[x])
                 detailLabelsOfCategories[x].setParent(wCategory)
                 detailLabelsOfCategories[x].setWordWrap(True)
-                detailLabelsOfCategories[x].setFixedWidth(205)
+                detailLabelsOfCategories[x].setFixedWidth(175)
                 pnlCategories.addWidget(category, 20)
                 if x!=0:
                     category.setVisible(False)
@@ -80,7 +80,7 @@ class Options(MDialog):
                 MObject.connect(pbtnCancel, SIGNAL("clicked()"), self.close)
                 hblButtons.addWidget(pbtnSave, 1)
                 hblButtons.addWidget(pbtnCancel, 1)
-                self.tboxCategories.setFixedWidth(200)
+                self.tboxCategories.setFixedWidth(180)
                 vblMain.addLayout(pnlCategories)
             elif len(self.categories)>1:
                 self.setMinimumWidth(440)
@@ -253,34 +253,50 @@ class Options(MDialog):
     
     def setVisibleFormItems(_category, _keyOfSetting, _visible):
         if _category.visibleKeys.count(_keyOfSetting)>0 and _category.keysOfSettings.count(_keyOfSetting)>0:
-            itemIndex = _category.keysOfSettings.index(_keyOfSetting)*2
-            _category.flForm.itemAt(itemIndex).widget().setVisible(_visible)
-            _category.flForm.itemAt(itemIndex+1).layout().itemAt(0).widget().setVisible(_visible)
-            try:_category.flForm.itemAt(itemIndex+1).layout().itemAt(1).widget().setVisible(_visible)
+            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]==None:
+                flForm = _category.flForm
+            else:
+                flForm = _category.flForms[_category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]]
+            itemIndex = flForm.keysOfSettings.index(_keyOfSetting)*2
+            flForm.itemAt(itemIndex).widget().setVisible(_visible)
+            flForm.itemAt(itemIndex+1).layout().itemAt(0).widget().setVisible(_visible)
+            try:flForm.itemAt(itemIndex+1).layout().itemAt(1).widget().setVisible(_visible)
             except:pass
-            try:_category.flForm.itemAt(itemIndex+1).layout().itemAt(2).widget().setVisible(_visible)
+            try:flForm.itemAt(itemIndex+1).layout().itemAt(2).widget().setVisible(_visible)
             except:pass
     
     def isVisibleFormItems(_category, _keyOfSetting):
         if _category.visibleKeys.count(_keyOfSetting)>0 and _category.keysOfSettings.count(_keyOfSetting)>0:
-            itemIndex = _category.keysOfSettings.index(_keyOfSetting)*2
-            return _category.flForm.itemAt(itemIndex).widget().isVisible()
+            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]==None:
+                flForm = _category.flForm
+            else:
+                flForm = _category.flForms[_category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]]
+            itemIndex = flForm.keysOfSettings.index(_keyOfSetting)*2
+            return flForm.itemAt(itemIndex).widget().isVisible()
         return False
         
     def setEnabledFormItems(_category, _keyOfSetting, _visible):
         if _category.visibleKeys.count(_keyOfSetting)>0 and _category.keysOfSettings.count(_keyOfSetting)>0:
-            itemIndex = _category.keysOfSettings.index(_keyOfSetting)*2
-            _category.flForm.itemAt(itemIndex).widget().setEnabled(_visible)
-            _category.flForm.itemAt(itemIndex+1).layout().itemAt(0).widget().setEnabled(_visible)
-            try:_category.flForm.itemAt(itemIndex+1).layout().itemAt(1).widget().setEnabled(_visible)
+            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]==None:
+                flForm = _category.flForm
+            else:
+                flForm = _category.flForms[_category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]]
+            itemIndex = flForm.keysOfSettings.index(_keyOfSetting)*2
+            flForm.itemAt(itemIndex).widget().setEnabled(_visible)
+            flForm.itemAt(itemIndex+1).layout().itemAt(0).widget().setEnabled(_visible)
+            try:flForm.itemAt(itemIndex+1).layout().itemAt(1).widget().setEnabled(_visible)
             except:pass
-            try:_category.flForm.itemAt(itemIndex+1).layout().itemAt(2).widget().setEnabled(_visible)
+            try:flForm.itemAt(itemIndex+1).layout().itemAt(2).widget().setEnabled(_visible)
             except:pass
     
     def isEnabledFormItems(_category, _keyOfSetting):
         if _category.visibleKeys.count(_keyOfSetting)>0 and _category.keysOfSettings.count(_keyOfSetting)>0:
-            itemIndex = _category.keysOfSettings.index(_keyOfSetting)*2
-            return _category.flForm.itemAt(itemIndex).widget().isEnabled()
+            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]==None:
+                flForm = _category.flForm
+            else:
+                flForm = _category.flForms[_category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]]
+            itemIndex = flForm.keysOfSettings.index(_keyOfSetting)*2
+            return flForm.itemAt(itemIndex).widget().isEnabled()
         return False
         
     def pbtnFileClicked(self):
@@ -368,7 +384,7 @@ class Options(MDialog):
             valueTypesAndValues = Settings.getValueTypesAndValues()
             for categoryNo, category in enumerate(self.categories):
                 for x, keyValue in enumerate(category.keysOfSettings):
-                    if category.visibleKeys.count(keyValue)>0 and isVisibleFormItems(category, keyValue):
+                    if category.visibleKeys.count(keyValue)>0:
                         if category.typesOfValues[x]=="string":
                             value = unicode(category.values[x].text(),"utf-8")
                         elif category.typesOfValues[x]=="richtext":
@@ -411,6 +427,7 @@ class Options(MDialog):
                                 else:
                                     if self.showType=="Normal":
                                         self.tboxCategories.setCurrentIndex(categoryNo)
+                                        category.tabwTabs.setCurrentIndex(category.tabsOfSettings[x])
                                     category.values[x].setStyleSheet("background-color: #FF5E5E;")
                                     isDontClose = True
                             else:
@@ -435,6 +452,15 @@ class Options(MDialog):
     def createOptions(_category):
         correctSettingKeys(_category)
         isNeededRestart = False
+        _category.flForm = MyFormLayout()
+        _category.flForms = []
+        if len(_category.tabNames)>0:
+            _category.tabwTabs = MTabWidget()
+        for x, name in enumerate(_category.tabNames):
+            wCategory = MWidget()
+            _category.flForms.append(MyFormLayout())
+            wCategory.setLayout(_category.flForms[x])
+            _category.tabwTabs.addTab(wCategory, _category.tabNames[x])
         for x, keyValue in enumerate(_category.keysOfSettings):
             if _category.visibleKeys.count(keyValue)>0:
                 valueLayout = MHBoxLayout()
@@ -491,7 +517,12 @@ class Options(MDialog):
                 lblLabel = MLabel(_category.labels[x]+u" : ")
                 lblLabel.setToolTip(_category.toolTips[x])
                 _category.lblLabels.append(lblLabel)
-                _category.flForm.addRow(_category.lblLabels[x], valueLayout)
+                if _category.tabsOfSettings[x]==None:
+                    _category.flForm.addRow(_category.lblLabels[x], valueLayout)
+                    _category.flForm.keysOfSettings.append(keyValue)
+                else:
+                    _category.flForms[_category.tabsOfSettings[x]].addRow(_category.lblLabels[x], valueLayout)
+                    _category.flForms[_category.tabsOfSettings[x]].keysOfSettings.append(keyValue)
                 if keyValue == _category.parent().focusTo:
                     _category.parent().focusToCategory = _category
                     _category.values[x].setStyleSheet("background-color: #4D9AFF;")
@@ -503,11 +534,17 @@ class Options(MDialog):
                 _category.values.append(None)
                 _category.lblLabels.append(None)
         _category.Panel.addStretch(1)
-        _category.flForm.setRowWrapPolicy(MFormLayout.DontWrapRows)
-        _category.flForm.setFieldGrowthPolicy(MFormLayout.AllNonFixedFieldsGrow)
-        _category.flForm.setFormAlignment(Mt.AlignHCenter | Mt.AlignTop)
-        _category.flForm.setLabelAlignment(Mt.AlignLeft)
+        for x, flForm in enumerate([_category.flForm] + _category.flForms):
+            flForm.setRowWrapPolicy(MFormLayout.DontWrapRows)
+            flForm.setFieldGrowthPolicy(MFormLayout.AllNonFixedFieldsGrow)
+            flForm.setFormAlignment(Mt.AlignHCenter | Mt.AlignTop)
+            flForm.setLabelAlignment(Mt.AlignLeft)
+            if len(flForm.keysOfSettings)==0:
+                _category.tabwTabs.removeTab(x-1)
         _category.Panel.insertLayout(1, _category.flForm) 
+        _category.Panel.addStretch(1)
+        if len(_category.tabNames)>0:
+            _category.Panel.insertWidget(3, _category.tabwTabs) 
         _category.Panel.addStretch(1)
         if isNeededRestart==True:
             _category.Panel.addWidget(MLabel(translate("Options", "<font color=red>* :Requires a restart of Hamsi Manager.</font>"))) 
@@ -525,20 +562,24 @@ class Options(MDialog):
             _category.labels = labels
             _category.toolTips = toolTips
             _category.typesOfValues = typesOfValues
-    
-    def fixCategorySize(self, _category):
-        if self.showType!="Normal" and len(_category.keysOfSettings)>7:
-            #FIXME:Check Options Height
-            pass
+        
+class MyFormLayout(MFormLayout):
+    def __init__(self):
+        MFormLayout.__init__(self, None)
+        self.keysOfSettings = []
         
 class General(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
+        self.values, self.lblLabels = [], []
         self.keysOfSettings = ["applicationStyle", "themeName", "isSaveActions", "maxRecordFileSize", 
                                 "isMinimumWindowMode", "updateInterval", "isShowQuickMakeWindow", 
                                 "isShowTransactionDetails", "windowMode", "language"]
+        self.tabsOfSettings = [None, None, None, None, 
+                                None, None, None, 
+                                None, None, None]
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -595,7 +636,6 @@ class General(MWidget):
             gboxErrors.setLayout(hbox1)
             self.Panel.addStretch(1)
             self.Panel.addWidget(gboxErrors)
-        self.parent().fixCategorySize(self)
         
     def clearErrorFiles(self):
         try:
@@ -625,12 +665,14 @@ class Correct(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
+        self.values, self.lblLabels = [], []
         self.keysOfSettings = ["validSentenceStructure", "validSentenceStructureForFile", 
-                                "validSentenceStructureForFileExtension", 
-                                "fileExtesionIs", "isEmendIncorrectChars", 
-                                "isCorrectFileNameWithSearchAndReplaceTable", 
-                                "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
+                                "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
+                                "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
+        self.tabsOfSettings = [None, None, 
+                                None, None, None, 
+                                None, None, None]
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -666,13 +708,14 @@ class Correct(MWidget):
         self.valuesOfOptionsKeys = [Universals.validSentenceStructureKeys, 
                         Universals.fileExtesionIsKeys]
         createOptions(self)
-        self.parent().fixCategorySize(self)
                 
 class SearchAndReplace(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
+        self.values, self.lblLabels = [], []
         self.keysOfSettings = []
+        self.tabsOfSettings = []
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -825,16 +868,23 @@ class ClearGeneral(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
-        self.keysOfSettings = ["isDeleteEmptyDirectories",
-                            "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
+        self.values, self.lblLabels = [], []
+        self.keysOfSettings = ["isDeleteEmptyDirectories", "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                             "unneededFiles", "unneededFileExtensions", 
-                            "ignoredDirectories", 
-                            "ignoredFiles", "ignoredFileExtensions", 
+                            "ignoredDirectories", "ignoredFiles", "ignoredFileExtensions", 
                             "isClearEmptyDirectoriesWhenSave", "isClearEmptyDirectoriesWhenMoveOrChange", 
                             "isClearEmptyDirectoriesWhenCopyOrChange", "isClearEmptyDirectoriesWhenFileMove", 
                             "isAutoCleanSubFolderWhenSave", "isAutoCleanSubFolderWhenMoveOrChange", 
                             "isAutoCleanSubFolderWhenCopyOrChange", "isAutoCleanSubFolderWhenFileMove"]
+        self.tabsOfSettings = [0, 0, 0, 
+                                0, 0, 
+                                0, 0, 0, 
+                                1, 1, 
+                                1, 1, 
+                                1, 1, 
+                                1, 1]
+        self.tabNames = [translate("Options", "General"), 
+                         translate("Options", "Make On ..")]
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -880,7 +930,6 @@ class ClearGeneral(MWidget):
         if self.visibleKeys.count("isDeleteEmptyDirectories")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isDeleteEmptyDirectories")], SIGNAL("currentIndexChanged(int)"), self.deleteEmptyDirectoriesChanged)
             self.deleteEmptyDirectoriesChanged()
-        self.parent().fixCategorySize(self)
             
     def deleteEmptyDirectoriesChanged(self):
         if self.values[self.keysOfSettings.index("isDeleteEmptyDirectories")].currentIndex()==1:
@@ -898,10 +947,14 @@ class Cover(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
+        self.values, self.lblLabels = [], []
         self.keysOfSettings = ["priorityIconNames", "isChangeExistIcon", 
                             "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", 
                             "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove"]
+        self.tabsOfSettings = [None, None, 
+                                None, None, 
+                                None, None]
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -923,15 +976,16 @@ class Cover(MWidget):
         self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
-        self.parent().fixCategorySize(self)
  
 
 class Advanced(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
+        self.values, self.lblLabels = [], []
         self.keysOfSettings = ["systemsCharSet", "isMoveToTrash", "imageExtensions", "musicExtensions", "NeededObjectsName", "isActivePyKDE4"]
+        self.tabsOfSettings = [None, None, None, None, None, None]
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -980,7 +1034,6 @@ class Advanced(MWidget):
         if self.visibleKeys.count("isActivePyKDE4")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isActivePyKDE4")], SIGNAL("currentIndexChanged(int)"), self.activePyKDE4Changed)
             self.activePyKDE4Changed()
-        self.parent().fixCategorySize(self)
     
     def activePyKDE4Changed(self):
         if self.values[self.keysOfSettings.index("isActivePyKDE4")].currentIndex()==1:
@@ -992,8 +1045,10 @@ class Player(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
+        self.values, self.lblLabels = [], []
         self.keysOfSettings = ["playerName","mplayerPath", "mplayerArgs", "mplayerAudioDevicePointer", "mplayerAudioDevice"]
+        self.tabsOfSettings = [None, None, None, None, None]
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -1019,7 +1074,6 @@ class Player(MWidget):
         if self.visibleKeys.count("playerName")>0:
             MObject.connect(self.values[self.keysOfSettings.index("playerName")], SIGNAL("currentIndexChanged(int)"), self.playerChanged)
             self.playerChanged()
-        self.parent().fixCategorySize(self)
     
     def playerChanged(self):
         if self.values[self.keysOfSettings.index("playerName")].currentIndex()==0:
@@ -1037,11 +1091,14 @@ class Packager(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
-        self.keysOfSettings = ["isPackagerDeleteEmptyDirectories",
-                                "packagerUnneededFiles", "packagerUnneededFileExtensions", 
+        self.values, self.lblLabels = [], []
+        self.keysOfSettings = ["isPackagerDeleteEmptyDirectories", "packagerUnneededFiles", "packagerUnneededFileExtensions", 
                                 "packagerUnneededDirectories", "isClearEmptyDirectoriesWhenPath",
                                 "isAutoCleanSubFolderWhenPath", "isCloseOnCleanAndPackage"]
+        self.tabsOfSettings = [None, None, None, 
+                               None, None, 
+                               None, None]
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -1065,17 +1122,19 @@ class Packager(MWidget):
         self.typesOfValues = ["Yes/No", "list", "list", "list", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
-        self.parent().fixCategorySize(self)
     
 class Cleaner(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
-        self.keysOfSettings = ["isCleanerDeleteEmptyDirectories",
-                                "cleanerUnneededFiles", "cleanerUnneededFileExtensions", 
+        self.values, self.lblLabels = [], []
+        self.keysOfSettings = ["isCleanerDeleteEmptyDirectories", "cleanerUnneededFiles", "cleanerUnneededFileExtensions", 
                                 "cleanerUnneededDirectories", "isClearEmptyDirectoriesWhenClear",
                                 "isAutoCleanSubFolderWhenClear"]
+        self.tabsOfSettings = [None, None, None, 
+                                None, None, 
+                                None]
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -1097,7 +1156,6 @@ class Cleaner(MWidget):
         self.typesOfValues = ["Yes/No", "list", "list", "list", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
-        self.parent().fixCategorySize(self)
 
 class MySettings(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
@@ -1113,8 +1171,10 @@ class MySettings(MWidget):
         left2 = MVBoxLayout()
         right2 = MVBoxLayout()
         bottom1 = MHBoxLayout()
-        self.values, self.lblLabels, self.flForm = [], [], MFormLayout()
+        self.values, self.lblLabels = [], []
         self.keysOfSettings = []
+        self.tabsOfSettings = []
+        self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
@@ -1189,7 +1249,6 @@ class MySettings(MWidget):
             pbtnReInstallKDE4Language = MPushButton(translate("Options", "Reinstall Language"))
             MObject.connect(pbtnReInstallKDE4Language, SIGNAL("clicked()"), self.reInstallKDE4Language)
             bottom1.addWidget(pbtnReInstallKDE4Language)
-        self.parent().fixCategorySize(self)
     
     def clearMyAnswers(self):
         try:
