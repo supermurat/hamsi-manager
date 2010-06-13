@@ -9,6 +9,7 @@ class Dialogs():
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
     
     def show(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
+        MApplication.processEvents()
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
@@ -20,6 +21,7 @@ class Dialogs():
         return True
         
     def showError(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
+        MApplication.processEvents()
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
@@ -31,6 +33,7 @@ class Dialogs():
         return True
      
     def ask(_title="Hamsi Manager", _detail="", _isShowCancel=False, _showAgainKeyName=""):
+        MApplication.processEvents()
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
@@ -89,6 +92,7 @@ class Dialogs():
             
     def askSpecial(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "Yes"), _btnString1=translate("Dialogs", "No"), _btnString2=translate("Dialogs", "Cancel"), _btnString3=None):
         import Organizer
+        MApplication.processEvents()
         MyMessageBox = MMessageBox
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
             MyMessageBox = QMessageBox
@@ -125,6 +129,7 @@ class Dialogs():
                 
     def showState(_title,_value=0,_maxValue=100):
         import Organizer
+        MApplication.processEvents()
         global pnlState,prgbState, lblState
         if pnlState=="":
             prgbState = MProgressBar()
@@ -142,6 +147,7 @@ class Dialogs():
                 pnlState.setAllowedAreas(Mt.AllDockWidgetAreas)
                 pnlState.setFeatures(MDockWidget.AllDockWidgetFeatures)
                 Universals.MainWindow.addDockWidget(Mt.TopDockWidgetArea, pnlState)
+                pnlState.setMaximumHeight(60)
             else:
                 pnlState = MDialog(Universals.MainWindow)
                 if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:

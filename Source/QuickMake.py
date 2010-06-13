@@ -198,7 +198,8 @@ class QuickMakeWindow(MyDialog):
             if self.checkSource(QuickMakeParameters[1], "directory"):
                 InputOutputs.activateSmartCheckIcon()
                 InputOutputs.clearEmptyDirectories(QuickMakeParameters[1], True, True)
-                InputOutputs.complateSmartCheckIcon()
+                if InputOutputs.isDir(QuickMakeParameters[1]):
+                    InputOutputs.complateSmartCheckIcon()
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
                         str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(QuickMakeParameters[1]))
             self.close()
@@ -283,7 +284,8 @@ class QuickMakeWindow(MyDialog):
                               newDirName + "/" + Organizer.emend(fileAndDirs), objectType)
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                     InputOutputs.checkIcon(newDirName)
-                InputOutputs.complateSmartCheckIcon()
+                if InputOutputs.isDir(newDirName):
+                    InputOutputs.complateSmartCheckIcon()
                 Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),
                         str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
                         (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(newDirName)))

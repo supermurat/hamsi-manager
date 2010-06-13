@@ -485,7 +485,7 @@ class InputOutputs:
             removeDir(_path)
             if _isCloseState: 
                 Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
-                Dialogs.show(translate("InputOutputs", "Directory Deleted"), str("InputOutputs", translate("\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
+                Dialogs.show(translate("InputOutputs", "Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
             return True
         if _isCloseState: Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
         return False
@@ -586,8 +586,10 @@ class InputOutputs:
                     checkIcon(_newPath)
             elif _actionType=="auto":
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                    checkIcon(getDirName(_oldPath))
-                    checkIcon(getDirName(_newPath))
+                    if isDir(getDirName(_oldPath)):
+                        checkIcon(getDirName(_oldPath))
+                    if isDir(getDirName(_newPath)):
+                        checkIcon(getDirName(_newPath))
             return getBaseName(_newPath)
         else:
             return getBaseName(_oldPath)
@@ -630,10 +632,12 @@ class InputOutputs:
                 moveOrChange(_values[no][0], _values[no][1], getObjectType(_values[no][0]))
                 Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                if clearEmptyDirectories(currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
-                    return getDirName(currentDirectoryPath)
+                if isDir(currentDirectoryPath):
+                    if clearEmptyDirectories(currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
+                        return getDirName(currentDirectoryPath)
             if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                checkIcon(currentDirectoryPath)
+                if isDir(currentDirectoryPath):
+                    checkIcon(currentDirectoryPath)
         return currentDirectoryPath
         
     def getSearchEnginesNames():
