@@ -29,6 +29,7 @@ class Tables(MTableWidget):
         MObject.connect(self,SIGNAL("itemChanged(QTableWidgetItem *)"),self.tableItemChanged)
         MObject.connect(self,SIGNAL("cellDoubleClicked(int,int)"),self.tableCellDoubleClicked)
         self.pbtnSave = MPushButton(translate("Tables", "Save"))
+        self.pbtnSave.setObjectName("pbtnSave")
         self.pbtnSave.setIcon(MIcon("Images:save.png"))
         self.pbtnShowDetails = MPushButton(translate("Tables", "See Details"))
         self.tbCorrect = MToolButton()
@@ -90,7 +91,6 @@ class Tables(MTableWidget):
         for actName in self.mContextMenuActionNames:
             self.mContextMenu.addAction(actName).setObjectName(actName)
         self.mContextMenu.addMenu(self.mContextMenuColumns)
-        self.pbtnSave.setObjectName("pbtnSave")
         self.checkActionsStates()
     
     def getColumnKeyFromName(self, _nameWithMark):

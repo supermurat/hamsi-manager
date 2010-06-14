@@ -1412,3 +1412,84 @@ class MySettings(MWidget):
         
         
         
+
+class QuickOptions(MMenu):
+    def __init__(self, _parent=None):
+        MDialog.__init__(self, _parent)
+        self.setTitle(translate("MenuBar", "Quick Options"))
+        self.setObjectName(translate("MenuBar", "Quick Options"))
+        self.values = []
+        self.keysOfSettings = ["validSentenceStructure", "validSentenceStructureForFile", 
+                                "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
+                                "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
+        self.labels = [translate("Options", "Valid Sentence Structure"), 
+                    translate("Options", "Valid Sentence Structure For Files"),
+                    translate("Options", "Valid Sentence Structure For File Extensions"), 
+                    translate("Options", "Which Part Is The File Extension"), 
+                    translate("Options", "Emend Incorrect Chars"),  
+                    translate("Options", "Correct File Name By Search Table"), 
+                    translate("Options", "Clear First And Last Space Chars"), 
+                    translate("Options", "Correct Double Space Chars")]
+        self.toolTips = [translate("Options", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
+                    translate("Options", "File and directory names will be changed automatically to the format you selected."),
+                    translate("Options", "File extensions will be changed automatically to the format you selected."), 
+                    translate("Options", "Which part of the filename is the file extension?"), 
+                    translate("Options", "Are you want to emend incorrect chars?"), 
+                    translate("Options", "Are you want to correct file and directory names by search and replace table?"), 
+                    translate("Options", "Are you want to clear first and last space chars?"), 
+                    translate("Options", "Are you want to correct double space chars?")]
+        self.typesOfValues = [["options", 0], ["options", 0], ["options", 0], 
+                            ["options", 1], "Yes/No", "Yes/No", 
+                            "Yes/No", "Yes/No"]
+        self.valuesOfOptions = [[translate("Options", "Title"), 
+                                    translate("Options", "All Small"), 
+                                    translate("Options", "All Caps"), 
+                                    translate("Options", "Sentence"), 
+                                    translate("Options", "Don`t Change")], 
+                                [translate("Options", "After The First Point"), 
+                                    translate("Options", "After The Last Point")]]
+        self.valuesOfOptionsKeys = [Universals.validSentenceStructureKeys,
+                                    Universals.fileExtesionIsKeys]
+        self.createActions()
+        
+    def createActions(self):
+        for x, keyValue in enumerate(self.keysOfSettings):
+            if self.typesOfValues[x][0]=="options":
+                self.values.append(MComboBox())
+                for info in self.valuesOfOptions[self.typesOfValues[x][1]]:
+                    self.values[x].addItem(info)
+                self.values[x].setCurrentIndex(self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(Universals.MySettings[keyValue]))
+                MObject.connect(self.values[x], SIGNAL("currentIndexChanged(int)"), self.valueChanged)
+            elif self.typesOfValues[x]=="Yes/No":
+                self.values.append(MComboBox())
+                self.values[x].addItems([translate("Options", "No"),translate("Options", "Yes")])
+                if Universals.getBoolValue(keyValue):
+                    self.values[x].setCurrentIndex(1)
+                MObject.connect(self.values[x], SIGNAL("currentIndexChanged(int)"), self.valueChanged)
+            self.values[x].setToolTip(self.toolTips[x])
+            lblLabel = MLabel(self.labels[x]+u" : ")
+            lblLabel.setToolTip(self.toolTips[x])
+            wactLabel = MWidgetAction(self)
+            wactLabel.setDefaultWidget(lblLabel)
+            wact = MWidgetAction(self)
+            wact.setDefaultWidget(self.values[x])
+            self.addAction(wactLabel)
+            self.addAction(wact)
+        
+    def valueChanged(self, _value):
+        try:
+            indexNo = self.values.index(self.sender())
+            selectedValue = None
+            if self.typesOfValues[indexNo] =="Yes/No":
+                if self.values[indexNo].currentIndex()==0:
+                    selectedValue = False
+                else:
+                    selectedValue = True
+            elif self.typesOfValues[indexNo][0] =="options":
+                selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][self.values[indexNo].currentIndex()]
+            Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+        
+    
