@@ -9,6 +9,7 @@ import Organizer
 import Execute
 import Records
 import InputOutputs
+import Options
 
 class MenuBar(MMenuBar):
     def __init__(self, _parent):
@@ -16,6 +17,7 @@ class MenuBar(MMenuBar):
         self.mMainPopupMenu = None
         self.mSpecialOptions = None
         self.mTableTools = None
+        self.mQuickOptions = None
         self.mFile = self.addMenu(translate("MenuBar", "File"))
         self.mFile.setObjectName(translate("MenuBar", "File"))
         self.mEdit = self.addMenu(translate("MenuBar", "Edit"))
@@ -422,7 +424,7 @@ class TableToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTableTools.addAction(self.isShowOldValues)
         Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeAll)
         Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeSelected)
-        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTableTools)
+        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mTools.menuAction(), Universals.MainWindow.Menu.mTableTools)
         Universals.MainWindow.Menu.mView.addActions(actgActionGroupTableTypes.actions())
         MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Universals.MainWindow.Bars.click)
         
@@ -500,6 +502,13 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTools)
         MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Universals.MainWindow.Bars.click)
+        self.refreshQuickOptions()
+        
+    def refreshQuickOptions(self):
+        if Universals.MainWindow.Menu.mQuickOptions!=None:
+            Universals.MainWindow.Menu.removeAction(Universals.MainWindow.Menu.mQuickOptions.menuAction())
+        Universals.MainWindow.Menu.mQuickOptions = Options.QuickOptions(self)
+        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mQuickOptions)
 
 class PlayerBar(MToolBar):
     def __init__(self, _parent):
@@ -552,7 +561,7 @@ class MusicOptionsBar(MToolBar):
         self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(Universals.MySettings["musicTagType"]))
         MObject.connect(self.cbMusicTagTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setDefaultWidget(MLabel(translate("MusicOptionsBar", "ID3 Version : ")))
+        wactLabel.setDefaultWidget(MLabel(translate("MusicOptionsBar", "ID3 Version") + u" : "))
         wact = MWidgetAction(_menu)
         wact.setDefaultWidget(self.cbMusicTagTypeForMenu)
         _menu.addAction(wactLabel)
@@ -566,7 +575,7 @@ class SubDirectoryOptionsBar(MToolBar):
         self.setWindowTitle(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         self.setObjectName(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         lblDetails = translate("SubDirectoryOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(translate("SubDirectoryOptionsBar", "Deep : "))
+        lblSubDirectoryDeep = MLabel(translate("SubDirectoryOptionsBar", "Deep") + u" : ")
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
@@ -606,10 +615,10 @@ class SubDirectoryOptionsBar(MToolBar):
         self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["subDirectoryDeep"])))
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setObjectName(translate("SubDirectoryOptionsBar", "Label Deep : "))
-        wactLabel.setDefaultWidget(MLabel(translate("SubDirectoryOptionsBar", "Deep : ")))
+        wactLabel.setObjectName(translate("SubDirectoryOptionsBar", "Label Deep") + u" : ")
+        wactLabel.setDefaultWidget(MLabel(translate("SubDirectoryOptionsBar", "Deep") + u" : "))
         wact = MWidgetAction(_menu)
-        wact.setObjectName(translate("SubDirectoryOptionsBar", "Deep : "))
+        wact.setObjectName(translate("SubDirectoryOptionsBar", "Deep") + u" : ")
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)
