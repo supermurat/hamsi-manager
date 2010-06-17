@@ -39,3 +39,4 @@ icn				=	QIcon
 fpv				=	MFilePlacesView
 fpm				=	MFilePlacesModel
 dck				=	MDockWidget
+dop				=	MDirOperator
