@@ -12,7 +12,7 @@ import Organizer
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir
     fileNames = []
     directoryNames = []
     musicFileNames = []
@@ -195,7 +195,30 @@ class InputOutputs:
         except:
             return locale.strxfrm(_info)
     
-    def isWritableFileOrDir(_newPath): 
+    def isReadableFileOrDir(_newPath, _isOnlyCheck=False): 
+        realPath = _newPath
+        if isFile(realPath)==False:
+            realPath = getRealDirName(realPath)
+        try: 
+            if os.access(realPath.encode(systemsCharSet), os.R_OK): 
+                return True 
+        except: 
+            if os.access(realPath, os.R_OK): 
+                return True
+        if _isOnlyCheck==False:
+            if isDir(realPath):
+                from MyObjects import translate
+                import Dialogs
+                Dialogs.showError(translate("InputOutputs", "Access Denied"),
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
+            else:
+                from MyObjects import translate
+                import Dialogs
+                Dialogs.showError(translate("InputOutputs", "Access Denied"),
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
+        return False
+        
+    def isWritableFileOrDir(_newPath, _isOnlyCheck=False): 
         realPath = _newPath
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
@@ -205,15 +228,16 @@ class InputOutputs:
         except: 
             if os.access(realPath, os.W_OK): 
                 return True
-        if isDir(realPath):
-            from MyObjects import translate
-            import Dialogs
-            Dialogs.showError(translate("InputOutputs", "Access Denied"),
+        if _isOnlyCheck==False:
+            if isDir(realPath):
+                from MyObjects import translate
+                import Dialogs
+                Dialogs.showError(translate("InputOutputs", "Access Denied"),
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
-        else:
-            from MyObjects import translate
-            import Dialogs
-            Dialogs.showError(translate("InputOutputs", "Access Denied"),
+            else:
+                from MyObjects import translate
+                import Dialogs
+                Dialogs.showError(translate("InputOutputs", "Access Denied"),
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
         return False
         

@@ -65,6 +65,18 @@ class FileManager():
         MObject.connect(actHome, SIGNAL("triggered(bool)"), self.goHome)
         MObject.connect(actAddBookmark, SIGNAL("triggered(bool)"), self.bookmarks.addBookmark)
         if Universals.isActivePyKDE4==True:
+            self.isGoToFromDirOperator = False
+            self.dirOperator = MDirOperator(MUrl( self.currentDirectory ), _parent)
+            self.dirOperator.setDirLister(self.dirLister)
+            self.dirOperator.setView(MFile.Default)
+            Universals.MainWindow.dckwDirOperator = MDockWidget(translate("FileManager", "Directory Operator"))
+            Universals.MainWindow.dckwDirOperator.setObjectName(translate("FileManager", "Directory Operator"))
+            Universals.MainWindow.dckwDirOperator.setWidget(self.dirOperator)
+            Universals.MainWindow.dckwDirOperator.setAllowedAreas(Mt.AllDockWidgetAreas)
+            Universals.MainWindow.dckwDirOperator.setFeatures(MDockWidget.AllDockWidgetFeatures)
+            _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.dckwDirOperator)
+            MObject.connect(self.dirOperator, SIGNAL("urlEntered(KUrl)"),self.dirOperatorUrlChanged)
+            self.isGoToFromDirOperator = True
             self.filePlacesModel = MFilePlacesModel()
             self.urlNavigator = MUrlNavigator(self.filePlacesModel, MUrl(self.currentDirectory), self.lstvFileManager)
             self.isGoToFromUrlNavigator = True
@@ -134,28 +146,55 @@ class FileManager():
         self.bookmarksMenu.makeRefresh()
 
     def goTo(self, _path, _isRemember = True):
-        if Universals.tableType==3:
-            import Bars
-            Bars.changeTableType(0)
-        if _isRemember:
-            self.future = []
-            self.history.append(self.currentDirectory)
-        self.currentDirectory = _path
-        if Universals.isActivePyKDE4==True:
-            self.dirLister.openUrl(MUrl(self.currentDirectory))
-            self.isGoToFromUrlNavigator = False
-            self.urlNavigator.setUrl(MUrl(self.currentDirectory))
-            self.isGoToFromUrlNavigator = True
-        else:
-            self.lstvFileManager.setRootIndex(self.dirModel.index(_path))
-            self.trvFileManager.setCurrentIndex(self.dirModel.index(_path))
-        self.actForward.setEnabled(False)
-        self.showInTable()
-        self.actBack.setEnabled(True)
-        if str(self.currentDirectory)=="/":
-            self.actUp.setEnabled(False)
-        else:
-            self.actUp.setEnabled(True)
+        try:
+            if InputOutputs.isReadableFileOrDir(_path):
+                if InputOutputs.isDir(_path):
+                    if Universals.tableType==3:
+                        import Bars
+                        Bars.changeTableType(0)
+                    if _isRemember:
+                        self.future = []
+                        self.history.append(self.currentDirectory)
+                    if _path[-1]=="/": _path = _path[:-1]
+                    self.currentDirectory = _path
+                    if Universals.isActivePyKDE4==True:
+                        self.dirLister.openUrl(MUrl(self.currentDirectory))
+                        self.isGoToFromUrlNavigator = False
+                        self.urlNavigator.setUrl(MUrl(self.currentDirectory))
+                        self.isGoToFromUrlNavigator = True
+                        self.isGoToFromDirOperator = False
+                        self.dirOperator.setUrl(MUrl(self.currentDirectory), False)
+                        self.isGoToFromDirOperator = True
+                    else:
+                        self.lstvFileManager.setRootIndex(self.dirModel.index(_path))
+                        self.trvFileManager.setCurrentIndex(self.dirModel.index(_path))
+                    self.actForward.setEnabled(False)
+                    self.showInTable()
+                    self.actBack.setEnabled(True)
+                    if str(self.currentDirectory)=="/":
+                        self.actUp.setEnabled(False)
+                    else:
+                        self.actUp.setEnabled(True)
+                elif InputOutputs.isDir(_path)==False:
+                    if Universals.tableType==2:
+                        for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                            if str(_path).split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
+                                if Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
+                                    Universals.MainWindow.PlayerBar.Player.play(str(_path))
+                                else:
+                                    from Tables import MusicTable
+                                    from Details import MusicDetails
+                                    MusicDetails.MusicDetails(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
+                    else:
+                        try:
+                            from Details import TextDetails
+                            TextDetails.TextDetails(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
+                        except:
+                            Dialogs.showError(translate("FileManager", "Cannot open file"), 
+                                         str(translate("FileManager", "\"%s\" cannot be opened. Please make sure you selected a text file.")) % Organizer.getLink(str(_path)))
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
 
     def goBack(self):
         try:
@@ -231,10 +270,14 @@ class FileManager():
         if self.isGoToFromUrlNavigator:
             self.goTo(_murl.pathOrUrl(), True)
         
+    def dirOperatorUrlChanged(self, _murl):
+        if self.isGoToFromDirOperator:
+            self.goTo(_murl.pathOrUrl(), True)
+        
     def setPlacesUrlChanged(self, _murl):
         self.goTo(_murl.pathOrUrl(), True)
         
-    def setMyCurrentIndex(self, _index, _isRemember = True):
+    def setMyCurrentIndex(self, _index):
         try:
             while 1==1:
                 selected = unicode(self.getPathOfIndex(_index), "utf-8")
@@ -243,27 +286,7 @@ class FileManager():
                     break
                 else:
                     _index = _index.parent()
-            if _index != self.lstvFileManager.rootIndex() and self.getFileInfo(_index).isDir() and self.getFileInfo(_index).isReadable():
-                self.goTo(self.getPathOfIndex(_index))
-                
-            elif _index != self.lstvFileManager.rootIndex() and ~self.getFileInfo(_index).isDir() and self.getFileInfo(_index).isReadable():
-                fileName=unicode(self.getPathOfIndex(_index)).encode("utf-8")
-                if Universals.tableType==2:
-                    for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                        if fileName.split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
-                            if Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
-                                Universals.MainWindow.PlayerBar.Player.play(fileName)
-                            else:
-                                from Tables import MusicTable
-                                from Details import MusicDetails
-                                MusicDetails.MusicDetails(fileName,Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
-                else:
-                    try:
-                        from Details import TextDetails
-                        TextDetails.TextDetails(fileName,Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
-                    except:
-                        Dialogs.showError(translate("FileManager", "Cannot open file"), 
-                                     str(translate("FileManager", "\"%s\" cannot be opened. Please make sure you selected a text file.")) % Organizer.getLink(fileName))
+            self.goTo(self.getPathOfIndex(_index))
         except:
             error = ReportBug.ReportBug()
             error.show()
