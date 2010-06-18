@@ -22,13 +22,14 @@ class MyConfigure:
         return False
             
     def installKDE4Language(_language="tr_TR", _KDELocalateDir = Universals.getKDE4HomePath() +"share/locale/~langCode~/LC_MESSAGES/"):
+        _KDELocalateDir = str(_KDELocalateDir)
         if Settings.isAvailablePyKDE4():
             _KDELocalateDir = _KDELocalateDir.replace("~langCode~", str(_language[:2]))
             langFile = Universals.sourcePath+"/Languages/" + str(_language)+".mo"
             if InputOutputs.isFile(_KDELocalateDir+u"HamsiManager.mo")==False:
                 if InputOutputs.isFile(langFile):
-                    if InputOutputs.isDir(_KDELocalateDir.encode(Settings.defaultFileSystemEncoding))==False:
-                        InputOutputs.makeDirs(_KDELocalateDir.encode(Settings.defaultFileSystemEncoding))
+                    if InputOutputs.isDir(_KDELocalateDir)==False:
+                        InputOutputs.makeDirs(_KDELocalateDir)
                     InputOutputs.copyFileOrDir(langFile,_KDELocalateDir+u"HamsiManager.mo")
             return True
         return False
