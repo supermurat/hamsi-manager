@@ -16,6 +16,10 @@ class FileManager():
         self.bookmarks = Bookmarks(self)
         self.history = []
         self.future = []
+        Universals.MainWindow.DirOperator = None
+        Universals.MainWindow.Browser = None
+        Universals.MainWindow.Places = None
+        Universals.MainWindow.TreeBrowser = None
         if Universals.isActivePyKDE4==True:
             self.dirModelMain = MDirModel()
             self.dirLister = MDirLister()
@@ -69,12 +73,12 @@ class FileManager():
             self.dirOperator = MDirOperator(MUrl( self.currentDirectory ), _parent)
             self.dirOperator.setDirLister(self.dirLister)
             self.dirOperator.setView(MFile.Default)
-            Universals.MainWindow.dckwDirOperator = MDockWidget(translate("FileManager", "Directory Operator"))
-            Universals.MainWindow.dckwDirOperator.setObjectName(translate("FileManager", "Directory Operator"))
-            Universals.MainWindow.dckwDirOperator.setWidget(self.dirOperator)
-            Universals.MainWindow.dckwDirOperator.setAllowedAreas(Mt.AllDockWidgetAreas)
-            Universals.MainWindow.dckwDirOperator.setFeatures(MDockWidget.AllDockWidgetFeatures)
-            _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.dckwDirOperator)
+            Universals.MainWindow.DirOperator = MDockWidget(translate("FileManager", "Directory Operator"))
+            Universals.MainWindow.DirOperator.setObjectName(translate("FileManager", "Directory Operator"))
+            Universals.MainWindow.DirOperator.setWidget(self.dirOperator)
+            Universals.MainWindow.DirOperator.setAllowedAreas(Mt.AllDockWidgetAreas)
+            Universals.MainWindow.DirOperator.setFeatures(MDockWidget.AllDockWidgetFeatures)
+            _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.DirOperator)
             MObject.connect(self.dirOperator, SIGNAL("urlEntered(KUrl)"),self.dirOperatorUrlChanged)
             self.isGoToFromDirOperator = True
             self.filePlacesModel = MFilePlacesModel()
@@ -140,7 +144,9 @@ class FileManager():
             Universals.MainWindow.Places.setAllowedAreas(Mt.AllDockWidgetAreas)
             Universals.MainWindow.Places.setFeatures(MDockWidget.AllDockWidgetFeatures)
             _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.Places)
-            _parent.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.Places)
+            _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.Places)
+            _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.TreeBrowser)
+            _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.Browser)
         self.bookmarksMenu = BookmarksMenu(self)
         actBookmarks.setMenu(self.bookmarksMenu)
         self.bookmarksMenu.makeRefresh()

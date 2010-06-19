@@ -23,14 +23,12 @@ if RoutineChecks.checkPyQt4Exist():
         if OldAppName.checkOldAppNameAndSettings():
             OldAppName.getSettingsFromOldNameAndSettings()
         if Universals.isActivePyKDE4==True:
-            from PyKDE4.kdecore import *
-            from PyKDE4.kdeui import *
             appName     = "HamsiManager"
             programName = ki18n ("Hamsi Manager")
             version     = RoutineChecks.__version__
-            license     = KAboutData.License_GPL_V3
+            license     = MAboutData.License_GPL_V3
             copyright   = ki18n (u"Murat Demir (mopened@gmail.com)")
-            kde4LangKode= str(KLocale(Universals.Catalog).language())+"_"+str(KLocale(Universals.Catalog).country()).upper()
+            kde4LangKode= str(MLocale(Universals.Catalog).language())+"_"+str(MLocale(Universals.Catalog).country()).upper()
             text        = ki18n ("")
             homePage    = "hamsiapps.com"
             bugEmail    = u"Murat Demir (mopened@gmail.com)"
@@ -39,7 +37,7 @@ if RoutineChecks.checkPyQt4Exist():
             else:
                 aboutFileContent = InputOutputs.readFromFile(Universals.sourcePath+"/Languages/About_en_GB")
             description = ki18n (aboutFileContent.decode("utf-8"))
-            aboutOfHamsiManager = KAboutData (appName, Universals.Catalog, programName, version, description,
+            aboutOfHamsiManager = MAboutData (appName, Universals.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor (ki18n(u"Murat Demir"), ki18n(u"Project Manager and Project Developer<br>Proje Sorumlusu ve Proje Geliştiricisi"), 
                                 "mopened@gmail.com", "hamsiapps.com")
@@ -52,17 +50,16 @@ if RoutineChecks.checkPyQt4Exist():
                 aboutOfHamsiManager.addLicenseTextFile(Universals.sourcePath+"/Languages/License_"+ kde4LangKode)
             else:
                 aboutOfHamsiManager.addLicenseTextFile(Universals.sourcePath+"/Languages/License_en_GB")
-            KCmdLineArgs.init (sys.argv, aboutOfHamsiManager)
-            HamsiManagerApp = KApplication()  
-            MMainWindow = KMainWindow
-            kde4LangKode = str(KGlobal.locale().language())
-            if len(kde4LangKode)!=5: kde4LangKode += "_"+str(KGlobal.locale().country()).upper()
+            MCmdLineArgs.init (sys.argv, aboutOfHamsiManager)
+            HamsiManagerApp = MApplication()
+            kde4LangKode = str(MGlobal.locale().language())
+            if len(kde4LangKode)!=5: kde4LangKode += "_"+str(MGlobal.locale().country()).upper()
             if InputOutputs.getInstalledLanguagesCodes().count(kde4LangKode)==0:
                 for lcode in InputOutputs.getInstalledLanguagesCodes():
                     if lcode.find(kde4LangKode[:2])!=-1:
                         kde4LangKode = lcode
-            kconf = KGlobal.config()
-            KGlobal.locale().setLanguage(kde4LangKode, kconf)
+            kconf = MGlobal.config()
+            MGlobal.locale().setLanguage(kde4LangKode, kconf)
             if InputOutputs.isFile(Universals.sourcePath+"/Languages/HamsiManager_"+
                             str(kde4LangKode+".qm")):
                 languageFile = MTranslator()
@@ -206,8 +203,8 @@ if RoutineChecks.checkPyQt4Exist():
                     MainWindow=Main()
                     MainWindow.setWindowTitle(u"Hamsi Manager "+ MApplication.applicationVersion())
                     if Universals.isActivePyKDE4==True:
-                        kconf = KGlobal.config()
-                        kconfGroup = KConfigGroup(kconf,"Universals")
+                        kconf = MGlobal.config()
+                        kconfGroup = MConfigGroup(kconf,"Universals")
                         MainWindow.setAutoSaveSettings(kconfGroup)
                     else:
                         try:

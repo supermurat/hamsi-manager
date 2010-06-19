@@ -188,14 +188,7 @@ class Settings():
             insLangCode = str(QLocale.system().name())
         else:
             insLangCode = "en_GB"
-        myStyle , PlayerName, myObjectsName, screenSize = "Plastique", getAvailablePlayers().pop(), getMyObjectsNames()[0], getScreenSize()
-        if screenSize!=None:
-            if screenSize.width()<1024:
-                windowMode = Universals.windowModeKeys[1]
-            else:
-                windowMode = Universals.windowModeKeys[0]
-        else:
-            windowMode = Universals.windowModeKeys[0]
+        myStyle , PlayerName, myObjectsName = "Plastique", getAvailablePlayers().pop(), getMyObjectsNames()[0]
         for stil in QStyleFactory.keys():
             if stil == "Oxygen":
                 myStyle = str(stil)
@@ -292,7 +285,7 @@ class Settings():
                 "remindMeLaterForUpdate": "-1", 
                 "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S"), 
                 "isShowTransactionDetails": "False", 
-                "windowMode": windowMode, 
+                "windowMode": Universals.windowModeKeys[0], 
                 "isInstalledKDE4Language": "False", 
                 "isShowWindowModeSuggestion": "True"
                 }
@@ -668,11 +661,8 @@ class Settings():
         return styles
         
     def getScreenSize():
-        if isAvailablePyKDE4():
-            from PyKDE4.kdeui import KGlobalSettings
-            if Universals.MainWindow==None:
-                HamsiManagerApp = QApplication(sys.argv)
-            return KGlobalSettings.desktopGeometry(QPoint(10, 10))
+        if Universals.MainWindow!=None:
+            return QDesktopWidget().screenGeometry()
         else:
             return None
         
