@@ -155,6 +155,11 @@ def checkWindowMode(_isCheck=False):
     import Dialogs, Universals, Settings 
     from MyObjects import translate
     if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
+        if Universals.windowMode == Universals.windowModeKeys[0]:
+            screenSize = Settings.getScreenSize()
+            if screenSize!=None:
+                if screenSize.width()<1024:
+                    Universals.windowMode = Universals.windowModeKeys[1]
         if Universals.windowMode == Universals.windowModeKeys[1]:
             answer = Dialogs.ask(translate("HamsiManager", "We Have A Suggestion"),
                     translate("HamsiManager", "Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?"), False)
@@ -168,9 +173,10 @@ def checkWindowMode(_isCheck=False):
                         Universals.MainWindow.SubDirectoryOptionsBar.setVisible(False)
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:
                         Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.Places)
-                        
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.TreeBrowser!=None:
                         Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.TreeBrowser)
+                    if Universals.MainWindow.Browser!=None and Universals.MainWindow.DirOperator!=None:
+                        Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.DirOperator)
                     geometries = Universals.getListFromStrint(Universals.MySettings["MainWindowGeometries"])
                     Universals.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
                 except:pass
@@ -222,7 +228,6 @@ def checkMyModules(_HamsiManagerApp):
 def checkPyQt4Exist():
     try:
         import PyQt4.QtGui
-        HamsiManagerApp = PyQt4.QtGui.QApplication(sys.argv) 
         return True
     except:
         try:
