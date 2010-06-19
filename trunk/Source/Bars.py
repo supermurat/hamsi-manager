@@ -647,11 +647,11 @@ class StatusBar(MStatusBar):
             
     def fillSelectionInfo(self):
         if Universals.isChangeAll:
-            self.setImportantInfo(translate("Tables", "All information will be changed"))
+            self.setImportantInfo(translate("Tables", "All informations will be change"))
         else:
             if Universals.isChangeSelected:
-                self.setImportantInfo(translate("Tables", "Selected information will change only"))
+                self.setImportantInfo(translate("Tables", "Selected informations will change only"))
             else:
-                self.setImportantInfo(translate("Tables", "Selected information will not change"))
+                self.setImportantInfo(translate("Tables", "Selected informations will not change"))
         
         
