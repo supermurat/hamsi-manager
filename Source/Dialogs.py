@@ -127,8 +127,9 @@ class Dialogs():
             elif btn!=None:
                 return _btnString
                 
-    def showState(_title,_value=0,_maxValue=100):
-        import Organizer
+    def showState(_title, _value=0, _maxValue=100):
+        if Universals.windowMode==Universals.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
+            return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue)
         MApplication.processEvents()
         global pnlState,prgbState, lblState
         if pnlState=="":
@@ -162,8 +163,7 @@ class Dialogs():
                 else:
                     pnlState.setLayout(HBoxs[0])
                 pnlState.show()
-        try:prgbState.setRange(0,_maxValue)
-        except:pass
+        prgbState.setRange(0,_maxValue)
         prgbState.setValue(_value)
         if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
             lblState.setText(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
