@@ -28,7 +28,7 @@ if RoutineChecks.checkPyQt4Exist():
             version     = RoutineChecks.__version__
             license     = MAboutData.License_GPL_V3
             copyright   = ki18n (u"Murat Demir (mopened@gmail.com)")
-            kde4LangKode= str(MLocale(Universals.Catalog).language())+"_"+str(MLocale(Universals.Catalog).country()).upper()
+            kde4LangKode = str(KLocale(Universals.Catalog).language())+"_"+str(KLocale(Universals.Catalog).country()).upper()
             text        = ki18n ("")
             homePage    = "hamsiapps.com"
             bugEmail    = u"Murat Demir (mopened@gmail.com)"
