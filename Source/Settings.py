@@ -753,8 +753,8 @@ class Settings():
                 con.commit()
         if oldVersion<853:
             newSettingsKeys = newSettingsKeys + ["isShowTransactionDetails"]
-        if oldVersion<854:
-            newSettingsKeys = newSettingsKeys + ["insLangCode"]
+        if oldVersion<860:
+            newSettingsKeys = newSettingsKeys + ["windowMode"]
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():
