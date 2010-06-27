@@ -10,7 +10,7 @@ sys.path.insert(1,sys.path[0]+"/Source")
 import RoutineChecks
 if RoutineChecks.checkPyQt4Exist():
     import Universals
-    Universals.fillMySettings(False, False)
+    Universals.fillMySettings(False, False, False)
     Universals.isActivePyKDE4 = False
     from MyObjects import *
     import InputOutputs
