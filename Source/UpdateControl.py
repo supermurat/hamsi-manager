@@ -101,7 +101,7 @@ class UpdateControl(MDialog):
                             Universals.setMySetting("remindMeLaterShowDateForUpdate", datetime.now().strftime("%Y %m %d %H %M %S"))
                             Universals.saveSettings()
                             try:
-                                lastVersion = int(self.updateInformations[0])
+                                lastVersion = int(self.updateInformations[0].replace("V", "").replace(".", ""))
                             except:
                                 lastVersion = RoutineChecks.__intversion__ -1
                             if lastVersion > RoutineChecks.__intversion__:
