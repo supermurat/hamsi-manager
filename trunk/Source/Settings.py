@@ -6,7 +6,7 @@ from PyQt4.QtCore import *
 #from PySide.QtGui import *
 #from PySide.QtCore import *
 from datetime import datetime
-if sys.version[:3]=="2.6" or sys.version[:3]=="3.0":
+if float(sys.version[:3])>=2.6:
     import sqlite3 as sqlite
 else:
     from pysqlite2 import dbapi2 as sqlite
