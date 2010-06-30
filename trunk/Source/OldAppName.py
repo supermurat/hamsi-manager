@@ -41,10 +41,24 @@ def getSettingsFromOldNameAndSettings():
             InputOutputs.moveFileOrDir(Universals.userDirectoryPath + "/.OrganizasyonizM/searchAndReplaceTable.sqlite", 
                                        Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/searchAndReplaceTable.sqlite")
         if InputOutputs.isDir(Universals.userDirectoryPath + "/.OrganizasyonizM/SettingFiles"):
-            InputOutputs.moveFileOrDir(Universals.userDirectoryPath + "/.OrganizasyonizM/SettingFiles", 
+            isMakeThis = True
+            if InputOutputs.isDir(Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/SettingFiles"):
+                if InputOutputs.isDirEmpty(Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/SettingFiles"):
+                    InputOutputs.removeDir(Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/SettingFiles")
+                else:
+                    isMakeThis = False
+            if isMakeThis:
+                InputOutputs.moveFileOrDir(Universals.userDirectoryPath + "/.OrganizasyonizM/SettingFiles", 
                                        Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/SettingFiles")
         if InputOutputs.isDir(Universals.userDirectoryPath + "/.OrganizasyonizM/BackUps"):
-            InputOutputs.moveFileOrDir(Universals.userDirectoryPath + "/.OrganizasyonizM/BackUps", 
+            isMakeThis = True
+            if InputOutputs.isDir(Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/BackUps"):
+                if InputOutputs.isDirEmpty(Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/BackUps"):
+                    InputOutputs.removeDir(Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/BackUps")
+                else:
+                    isMakeThis = False
+            if isMakeThis:
+                InputOutputs.moveFileOrDir(Universals.userDirectoryPath + "/.OrganizasyonizM/BackUps", 
                                        Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/BackUps")
         if InputOutputs.isFile(Universals.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc"):
             InputOutputs.moveFileOrDir(Universals.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc", 

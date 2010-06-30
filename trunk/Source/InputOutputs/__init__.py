@@ -358,7 +358,7 @@ class InputOutputs:
         global appendingDirectories
         _subDirectoryDeep = int(_subDirectoryDeep)
         allFilesAndDirectories, names, files, directories, appendingDirectories =[],[],[],[],[]
-        try:namesList = listDir(_path)
+        try:namesList = readDirectoryAll(_path)
         except:return []
         for name in namesList:
             if name[:1] != ".":
@@ -472,7 +472,7 @@ class InputOutputs:
         import Dialogs
         clearUnneededs(_path)
         dontRemovingFilesCount = 0
-        filesAndDirectories = listDir(_path)
+        filesAndDirectories = readDirectoryAll(_path)
         for nameNo, name in enumerate(filesAndDirectories):
             if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
             if isFile(_path+"/"+name):
@@ -531,7 +531,7 @@ class InputOutputs:
                     if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
                         removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
                 except:pass
-            for name in listDir(_path):
+            for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
                     for ext in Universals.getListFromStrint(Universals.MySettings["unneededFileExtensions"]):
                         try:
@@ -551,7 +551,7 @@ class InputOutputs:
                     if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
                         removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
                 except:pass
-            for name in listDir(_path):
+            for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
                     for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
                         try:
@@ -564,7 +564,7 @@ class InputOutputs:
             if _isDir==False:
                 removeFile(_path)
             else:
-                for f in listDir(_path):
+                for f in readDirectoryAll(_path):
                     if isFile(_path+"/"+f):
                         removeFileOrDir(_path+"/"+f)
                     elif isDir(_path+"/"+f):
@@ -573,7 +573,7 @@ class InputOutputs:
     
     def removeOnlySubFiles(_path):
         if isWritableFileOrDir(_path):
-            for f in listDir(_path):
+            for f in readDirectoryAll(_path):
                 if isFile(_path+"/"+f):
                     removeFile(_path+"/"+f)
                 elif isDir(_path+"/"+f):
@@ -666,28 +666,28 @@ class InputOutputs:
         
     def getSearchEnginesNames():
         engines = []
-        for name in listDir(Universals.sourcePath+"/SearchEngines"):
+        for name in readDirectoryAll(Universals.sourcePath+"/SearchEngines"):
             if name[:1] != "." and isDir(Universals.sourcePath+"/SearchEngines"+"/"+name):
                 engines.append(name)
         return engines
         
     def getMyPluginsNames():
         plugins = []
-        for name in listDir(Universals.sourcePath+"/MyPlugins"):
+        for name in readDirectoryAll(Universals.sourcePath+"/MyPlugins"):
             if name[:1] != "." and isDir(Universals.sourcePath+"/MyPlugins"+"/"+name):
                 plugins.append(name)
         return plugins
         
     def getInstalledThemes():
         themes = []
-        for name in listDir(Universals.sourcePath+"/Themes"):
+        for name in readDirectoryAll(Universals.sourcePath+"/Themes"):
             if name[:1] != "." and isDir(Universals.sourcePath+"/Themes"+"/"+name):
                 themes.append(name)
         return themes
     
     def getInstalledLanguagesCodes():
         languages = []
-        for name in listDir(Universals.sourcePath+"/Languages"):
+        for name in readDirectoryAll(Universals.sourcePath+"/Languages"):
             if isFile(Universals.sourcePath+"/Languages"+"/"+name) and name[-3:]==".qm":
                 langCode = name[-8:-3]
                 if languages.count(langCode)==0:
@@ -699,7 +699,7 @@ class InputOutputs:
     def getInstalledLanguagesNames():
         from MyObjects import MLocale
         languages = []
-        for name in listDir(Universals.sourcePath+"/Languages"):
+        for name in readDirectoryAll(Universals.sourcePath+"/Languages"):
             if isFile(Universals.sourcePath+"/Languages"+"/"+name) and name[-3:]==".qm":
                 langCode = name[-8:-3]
                 if languages.count(str(MLocale.languageToString(MLocale(langCode).language())))==0:
@@ -734,7 +734,7 @@ class InputOutputs:
     def getFirstImageInDirectory(_path, _coverNameIfExist=None):
         cover = None
         imageFiles = []
-        for fileName in listDir(_path):
+        for fileName in readDirectoryAll(_path):
             if isFile(_path + "/" + fileName):
                 if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
                     cover = fileName
@@ -823,7 +823,7 @@ class InputOutputs:
                 if isExist(_path+"/"+d):
                     removeFileOrDir(_path+"/"+d, True)
             dontRemovingFilesCount = 0
-            filesAndDirectories = listDir(_path)
+            filesAndDirectories = readDirectoryAll(_path)
             for nameNo, name in enumerate(filesAndDirectories):
                 if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
                 if isFile(_path+"/"+name):
@@ -871,7 +871,7 @@ class InputOutputs:
                 if isExist(_path+"/"+d):
                     removeFileOrDir(_path+"/"+d, True)
             dontRemovingFilesCount = 0
-            filesAndDirectories = listDir(_path)
+            filesAndDirectories = readDirectoryAll(_path)
             for nameNo, name in enumerate(filesAndDirectories):
                 if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
                 if isFile(_path+"/"+name):
@@ -939,7 +939,7 @@ class InputOutputs:
         
     def clearTempFiles():
         import tempfile
-        for fileName in listDir(tempfile.gettempdir()):
+        for fileName in readDirectoryAll(tempfile.gettempdir()):
             if fileName[:15] == "HamsiManager":
                 if isDir(tempfile.gettempdir()+"/"+fileName):
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName, True)

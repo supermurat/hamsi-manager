@@ -489,12 +489,14 @@ class Options(MDialog):
                     _category.values.append(MComboBox())
                     for info in _category.valuesOfOptions[_category.typesOfValues[x][1]]:
                         _category.values[x].addItem(info)
-                    _category.values[x].setCurrentIndex(_category.valuesOfOptionsKeys[_category.typesOfValues[x][1]].index(Universals.MySettings[keyValue]))
+                    try:_category.values[x].setCurrentIndex(_category.valuesOfOptionsKeys[_category.typesOfValues[x][1]].index(Universals.MySettings[keyValue]))
+                    except:pass#pass for unknown values
                 elif _category.typesOfValues[x][0]=="number":
                     typeOfValue = "number"
                     _category.values.append(MSpinBox())
                     _category.values[x].setRange(int(_category.valuesOfOptions[_category.typesOfValues[x][1]][0]), int(_category.valuesOfOptions[_category.typesOfValues[x][1]][1]))
-                    _category.values[x].setValue(int(Universals.MySettings[keyValue])) 
+                    try:_category.values[x].setValue(int(Universals.MySettings[keyValue])) 
+                    except:pass#pass for unknown values
                 elif _category.typesOfValues[x]=="Yes/No":
                     typeOfValue = "Yes/No"
                     _category.values.append(MComboBox())

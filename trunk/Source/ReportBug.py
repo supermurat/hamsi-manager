@@ -111,8 +111,10 @@ class ReportBug(MDialog):
             errorDetails += str(QuickMakeParameters) + "<br>"
             errorDetails += "<b>" + str(translate("ReportBug", "My Parameters : ")) + "</b>"
             errorDetails += str(myArgvs) + "<br>"
-            errorDetails += "<b>SystemCharSet : </b>"
+            errorDetails += "<b>FileSystemCharSet : </b>"
             errorDetails += str(Settings.defaultFileSystemEncoding) + "<br>"
+            errorDetails += "<b>SystemCharSet : </b>"
+            errorDetails += str(sys.getdefaultencoding().lower()) + "<br>"
             try:
                 errorDetails += "<b>OS Name : </b>"
                 errorDetails += str(os.name) + "<br>"
