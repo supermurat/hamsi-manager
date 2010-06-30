@@ -13,7 +13,18 @@ else:
 
 try:defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
 except:defaultFileSystemEncoding = sys.getdefaultencoding().lower()
-    
+
+from encodings import aliases
+def checkEncoding(_isSetUTF8=False):
+    global defaultFileSystemEncoding
+    if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.iteritems()].count(defaultFileSystemEncoding)==0:
+        if _isSetUTF8:
+            defaultFileSystemEncoding = "utf-8"
+        else:
+            defaultFileSystemEncoding = sys.getdefaultencoding().lower()
+            checkEncoding(True)
+checkEncoding()
+
 import Universals
 import InputOutputs
 import RoutineChecks
@@ -646,7 +657,6 @@ class Settings():
         return playerNames
        
     def getCharSets():
-        from encodings import aliases
         charSets = []
         for k, v in aliases.aliases.iteritems():
             if charSets.count(v.replace("_", "-"))==0:
