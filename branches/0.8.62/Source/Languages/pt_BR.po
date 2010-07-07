@@ -1,0 +1,20 @@
+# Brazilian portuguese of Hamsi Manager.
+# Copyright (C) 2009
+# This file is distributed under the same license as the Hamsi Manager package.
+# Márcio Moraes <marciopanto@gmail.com>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pt_BR\n"
+"Report-Msgid-Bugs-To: mopened@gmail.com\n"
+"POT-Creation-Date: 2010-01-13 23:10+0200\n"
+"PO-Revision-Date: 2010-05-09 11:28+0200\n"
+"Last-Translator: Márcio Moraes <marciopanto@gmail.com>\n"
+"Language-Team: Brazilian portuguese <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .HamsiManager.py
+msgid "Hamsi Manager"
+msgstr "Hamsi Manager"
