@@ -123,14 +123,14 @@ class Bars():
             actionName = _action.objectName()
             if actionName==translate("MenuBar", "Open State"):
                 import os, Settings
-                f = MFileDialog.getOpenFileName(Universals.activeWindow(),translate("MenuBar", "Open State"),
+                f = MFileDialog.getOpenFileName(self,translate("MenuBar", "Open State"),
                                     Universals.userDirectoryPath,str(translate("MenuBar", "Application Runner") + " (*.desktop)").decode("utf-8"))
                 if f!="":
                     Settings.openStateOfSettings(unicode(f, "utf-8"))
             elif actionName==translate("MenuBar", "Save State"):
                 import Settings
                 import os
-                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Universals.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + u" (*.desktop)")
+                f = MFileDialog.getSaveFileName(self,translate("MenuBar", "Save State"),Universals.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + u" (*.desktop)")
                 if f!="":
                     Settings.saveStateOfSettings(unicode(f, "utf-8"))
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
