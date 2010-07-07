@@ -123,12 +123,25 @@ if RoutineChecks.checkPyQt4Exist():
                 if Execute.isRunningAsRoot():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
+                    lblExecutableLink = MLabel(MApplication.translate("Install", "Executable Link Path : "))
+                    self.leExecutableLink = MLineEdit(u"/usr/bin/hamsi")
+                    self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
+                    HBox1 = MHBoxLayout()
+                    HBox1.addWidget(lblExecutableLink)
+                    HBox1.addWidget(self.leExecutableLink)
+                    VBox.addLayout(HBox1)
                 else:
                     self.isCreateExecutableLink = None
                 VBox.addStretch(10)
                 HBox.addLayout(VBox)
             return pnlPage
+        
+        def createExecutableLinkChanged(self, _value):
+            if _value==0:
+                self.leExecutableLink.setEnabled(False)
+            else:
+                self.leExecutableLink.setEnabled(True)
         
         def selectInstallationDirectory(self):
             dizin = MFileDialog.getExistingDirectory(self,MApplication.translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
@@ -260,9 +273,10 @@ if RoutineChecks.checkPyQt4Exist():
                             desktopPath = Universals.userDirectoryPath
                 fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                 InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
-            if self.isCreateExecutableLink!=None:
+            executableLink = str(self.leExecutableLink)
+            if self.isCreateExecutableLink!=None and executableLink.strip()!="":
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
-                    InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", "/usr/bin/hamsimanager")
+                    InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", executableLink)
             self.isInstallFinised = True
             self.close()
     import Execute

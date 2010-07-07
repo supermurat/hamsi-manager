@@ -59,28 +59,7 @@ class MyConfigure:
             "X-KDE-Username=\n")
         
     def getConfiguredDesktopFileContent(_installationDirectory=os.path.dirname(Universals.sourcePath)):
-        return ("#!/usr/bin/env xdg-open\n" +
-            "[Desktop Entry]\n" +
-            "Encoding=UTF-8\n" +
-            "Comment[tr]=Hamsi Manager\n" +
-            "Comment=Hamsi Manager\n" +
-            "Categories=Audio;AudioVideo;AudioVideoEditing;X-MandrivaLinux-Multimedia-Sound;Qt;KDE;Utility;X-KDE-Utilities-File\n" +
-            "Exec=python '~InstallationDirectory~/HamsiManager.py'\n" +
-            "GenericName[tr]=Hamsi Manager\n" +
-            "GenericName=Hamsi Manager\n" +
-            "Icon=~InstallationDirectory~/Source/Themes/Default/Images/HamsiManager.png\n" +
-            "MimeType=\n" +
-            "Name[tr]=Hamsi Manager\n" +
-            "Name=Hamsi Manager\n" +
-            "Path=~InstallationDirectory~\n" +
-            "StartupNotify=true\n" +
-            "Terminal=false\n" +
-            "TerminalOptions=\n" +
-            "Type=Application\n" +
-            "X-DBUS-ServiceName=\n" +
-            "X-DBUS-StartupType=\n" +
-            "X-KDE-SubstituteUID=false\n" +
-            "X-KDE-Username=\n").replace("~InstallationDirectory~", _installationDirectory)
+        return getDesktopFileContent().replace("~InstallationDirectory~", _installationDirectory)
 
         
         
