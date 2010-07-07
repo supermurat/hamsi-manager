@@ -244,6 +244,8 @@ if RoutineChecks.checkPyQt4Exist():
                     _event.ignore()
             
         def finish(self):
+            if InputOutputs.isFile(self.installationDirectory + "/HamsiManager.desktop"):
+                MyConfigure.reConfigureFile(self.installationDirectory + "/HamsiManager.desktop", self.installationDirectory)
             if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                 import Settings
                 if Settings.isAvailablePyKDE4():
@@ -256,12 +258,8 @@ if RoutineChecks.checkPyQt4Exist():
                             break
                         else:
                             desktopPath = Universals.userDirectoryPath
-                try:
-                    InputOutputs.copyFileOrDir(self.installationDirectory+"/HamsiManager.desktop", desktopPath+"/HamsiManager.desktop")
-                except:
-                    fileContent = InputOutputs.readFromFile(Universals.HamsiManagerDirectory+"/HamsiManager.desktop")
-                    InputOutputs.writeToFile(desktopPath+"/HamsiManager.desktop", fileContent)
-                MyConfigure.reConfigureFile(desktopPath + "/HamsiManager.desktop", self.installationDirectory)
+                fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
+                InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
             if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", "/usr/bin/hamsimanager")
