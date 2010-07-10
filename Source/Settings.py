@@ -620,7 +620,7 @@ class Settings():
     def saveStateOfSettings(_file):
         import MyConfigure
         newFile = makeBackUp("Settings", "SettingFiles", "random")
-        info = MyConfigure.getConfiguredDesktopFileContent(Universals.HamsiManagerDirectory)
+        info = InputOutputs.readLinesFromFile(InputOutputs.getDirName(Universals.sourcePath)+"/HamsiManager.desktop")
         newInfo = []
         for rowNo, row in enumerate(info):
             if row [:4]=="Exec":
@@ -630,6 +630,7 @@ class Settings():
         for row  in newInfo:
             info += row 
         InputOutputs.writeToFile(_file, info)
+        MyConfigure.reConfigureFile(_file, Universals.HamsiManagerDirectory)
         
     def openStateOfSettings(_file):
         import Execute
