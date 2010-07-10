@@ -822,7 +822,7 @@ class SearchAndReplace(MWidget):
         
         def itemChanged(self, _item):
             if self.isShowChanges==True:
-                try:
+                #try:
                     lastRowNo = -1
                     for rowNo in range(self.rowCount(), 0, -1):
                         if self.isRowHidden(rowNo -1)==False:
@@ -843,7 +843,7 @@ class SearchAndReplace(MWidget):
                         twiItem2.setCheckState(Mt.Unchecked)
                         self.setItem(self.rowCount()-1, 5, twiItem2)
                         self.isShowChanges = True
-                except:pass
+                #except:pass
         
         def save(self):
             for rowNo in range(self.rowCount()):

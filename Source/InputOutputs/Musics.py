@@ -15,7 +15,7 @@ class Musics:
     """All information about the music files will be arranged in this class
         currentFilesAndFoldersValues[file no][value no]
     """
-    global readMusics,writeMusics,correctForMusicTagType,writeMusicFile,currentFilesAndFoldersValues, types,types_nos,getSelectedMusicTagType, correctValuesForMusicTagType, musicTagType, getValuesForMusicTagType, changedValueNumber, correctValuesForMusicGenre
+    global readMusics,writeMusics,correctForMusicTagType,writeMusicFile,currentFilesAndFoldersValues, types,types_nos,getSelectedMusicTagType, correctValuesForMusicTagType, musicTagType, getValuesForMusicTagType, changedValueNumber
     types = [u"Other (Default)",u"Icon",u"Other Icon",u"Front Cover",u"Back Cover",u"Leaflet",u"Media",
             u"Lead Artist",u"Artist",u"Leader",u"Band",u"Composer",u"Lyrics By",u"Recorded At",
             u"Recording",u"Performing",u"Video",u"Made Famous",u"Example",u"Band Logo",u"Publisher Logo"]
@@ -215,7 +215,7 @@ class Musics:
                 if _table.isColumnHidden(7)!=True and (_table.item(rowNo,7).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                     value = unicode(_table.item(rowNo,7).text(), "utf-8")
                     if value!=str(currentFilesAndFoldersValues[realRowNo][7]) and (str(currentFilesAndFoldersValues[realRowNo][7])!="None" or value!=""):
-                        tag.setGenre(correctValuesForMusicGenre(correctValuesForMusicTagType(value)))
+                        tag.setGenre(correctValuesForMusicTagType(value))
                         Records.add(str(translate("MusicTable", "Genre")), str(currentFilesAndFoldersValues[realRowNo][7]), value)
                         changedValueNumber += 1
                 if _table.isColumnHidden(8)!=True and (_table.item(rowNo,8).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
@@ -312,7 +312,7 @@ class Musics:
                     else:
                         tag.setDate(gmtime()[0])
                 if _newMusicTagsValues[7]!=_oldMusicTagsValues[7]:
-                    tag.setGenre(correctValuesForMusicGenre(correctValuesForMusicTagType(str(unicode(_newMusicTagsValues[7])))))
+                    tag.setGenre(correctValuesForMusicTagType(str(unicode(_newMusicTagsValues[7]))))
                 if _newMusicTagsValues[8]!=_oldMusicTagsValues[8]:
                     tag.removeComments()
                     tag.addComment(correctValuesForMusicTagType(unicode(_newMusicTagsValues[8])))
@@ -376,12 +376,6 @@ class Musics:
         else:v = eyeD3.ID3_CURRENT_VERSION
         return v
         
-    def correctValuesForMusicGenre(_genre):
-        import re
-        regex = re.compile("^[A-Z 0-9+/\-\|!&'\.]+\00*$", re.IGNORECASE)
-        genreStrAmended = ""
-        for x in [y for x, y in enumerate(_genre) if regex.match(y)]:
-            genreStrAmended+=x
-        return str(genreStrAmended)
+        
         
         

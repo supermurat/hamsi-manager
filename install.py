@@ -123,25 +123,12 @@ if RoutineChecks.checkPyQt4Exist():
                 if Execute.isRunningAsRoot():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
-                    lblExecutableLink = MLabel(MApplication.translate("Install", "Executable Link Path : "))
-                    self.leExecutableLink = MLineEdit(u"/usr/bin/hamsi")
-                    self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
-                    HBox1 = MHBoxLayout()
-                    HBox1.addWidget(lblExecutableLink)
-                    HBox1.addWidget(self.leExecutableLink)
-                    VBox.addLayout(HBox1)
                 else:
                     self.isCreateExecutableLink = None
                 VBox.addStretch(10)
                 HBox.addLayout(VBox)
             return pnlPage
-        
-        def createExecutableLinkChanged(self, _value):
-            if _value==0:
-                self.leExecutableLink.setEnabled(False)
-            else:
-                self.leExecutableLink.setEnabled(True)
         
         def selectInstallationDirectory(self):
             dizin = MFileDialog.getExistingDirectory(self,MApplication.translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
@@ -257,8 +244,6 @@ if RoutineChecks.checkPyQt4Exist():
                     _event.ignore()
             
         def finish(self):
-            if InputOutputs.isFile(self.installationDirectory + "/HamsiManager.desktop"):
-                MyConfigure.reConfigureFile(self.installationDirectory + "/HamsiManager.desktop", self.installationDirectory)
             if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                 import Settings
                 if Settings.isAvailablePyKDE4():
@@ -271,12 +256,15 @@ if RoutineChecks.checkPyQt4Exist():
                             break
                         else:
                             desktopPath = Universals.userDirectoryPath
-                fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
-            executableLink = str(self.leExecutableLink)
-            if self.isCreateExecutableLink!=None and executableLink.strip()!="":
+                try:
+                    InputOutputs.copyFileOrDir(self.installationDirectory+"/HamsiManager.desktop", desktopPath+"/HamsiManager.desktop")
+                except:
+                    fileContent = InputOutputs.readFromFile(Universals.HamsiManagerDirectory+"/HamsiManager.desktop")
+                    InputOutputs.writeToFile(desktopPath+"/HamsiManager.desktop", fileContent)
+                MyConfigure.reConfigureFile(desktopPath + "/HamsiManager.desktop", self.installationDirectory)
+            if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
-                    InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", executableLink)
+                    InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", "/usr/bin/hamsimanager")
             self.isInstallFinised = True
             self.close()
     import Execute
