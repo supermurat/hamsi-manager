@@ -6,7 +6,7 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 if str(sys.path[0])=="":
     sys.path.insert(0, sys.path[1])
-sys.path.insert(1,sys.path[0]+"/Source")
+sys.path.insert(1,sys.path[0]+"/Core")
 import RoutineChecks
 if RoutineChecks.checkPyQt4Exist():
     import Universals
@@ -17,14 +17,14 @@ if RoutineChecks.checkPyQt4Exist():
     import Dialogs
     defaultLangCode = str(MLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList((Universals.sourcePath+"/Themes/Default/Images/").decode("utf-8")))
-    StyleFile = open(Universals.sourcePath+"/Themes/Default/Style.qss") 
+    MDir.setSearchPaths("Images", MStringList((Universals.HamsiManagerDirectory+"/Themes/Default/Images/").decode("utf-8")))
+    StyleFile = open(Universals.HamsiManagerDirectory+"/Themes/Default/Style.qss") 
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
-    if InputOutputs.isFile(Universals.sourcePath+"/Languages/" + str("HamsiManagerWithQt_"+defaultLangCode+".qm")):
-            languageFile.load((Universals.sourcePath+"/Languages/" + str("HamsiManagerWithQt_"+defaultLangCode+".qm")).decode("utf-8"))
-    elif InputOutputs.isFile(Universals.sourcePath+"/Languages/" + str("HamsiManager_"+defaultLangCode+".qm")):
-            languageFile.load((Universals.sourcePath+"/Languages/" + str("HamsiManager_"+defaultLangCode+".qm")).decode("utf-8"))
+    if InputOutputs.isFile(Universals.HamsiManagerDirectory+"/Languages/" + str("HamsiManagerWithQt_"+defaultLangCode+".qm")):
+            languageFile.load((Universals.HamsiManagerDirectory+"/Languages/" + str("HamsiManagerWithQt_"+defaultLangCode+".qm")).decode("utf-8"))
+    elif InputOutputs.isFile(Universals.HamsiManagerDirectory+"/Languages/" + str("HamsiManager_"+defaultLangCode+".qm")):
+            languageFile.load((Universals.HamsiManagerDirectory+"/Languages/" + str("HamsiManager_"+defaultLangCode+".qm")).decode("utf-8"))
     HamsiManagerApp.installTranslator(languageFile)
     HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager.png"))
     HamsiManagerApp.setApplicationName("InstallHamsiManager")
@@ -87,14 +87,14 @@ if RoutineChecks.checkPyQt4Exist():
             HBox = MHBoxLayout()
             pnlPage.setLayout(HBox)
             if _pageNo==0:
-                try:f = open(Universals.sourcePath+"/Languages/About_"+defaultLangCode)
-                except:f = open(Universals.sourcePath+"/Languages/About_en_GB")
+                try:f = open(Universals.HamsiManagerDirectory+"/Languages/About_"+defaultLangCode)
+                except:f = open(Universals.HamsiManagerDirectory+"/Languages/About_en_GB")
                 lblAbout = MLabel(f.read().decode("utf-8"))
                 lblAbout.setWordWrap(True)
                 HBox.addWidget(lblAbout)
             elif _pageNo==1:
-                try:f = open(Universals.sourcePath+"/Languages/License_"+defaultLangCode)
-                except:f = open(Universals.sourcePath+"/Languages/License_en_GB")
+                try:f = open(Universals.HamsiManagerDirectory+"/Languages/License_"+defaultLangCode)
+                except:f = open(Universals.HamsiManagerDirectory+"/Languages/License_en_GB")
                 teCopying = MTextEdit()
                 teCopying.setPlainText(f.read().decode("utf-8"))
                 HBox.addWidget(teCopying)
