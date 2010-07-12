@@ -10,7 +10,7 @@ import tempfile, random
 from os import listdir,path,removedirs,makedirs, rmdir, remove, rename
 if sys.path[0]=="":
     sys.path.insert(0, sys.path[1])
-sys.path.insert(0,sys.path[0]+"/Source")
+sys.path.insert(0,sys.path[0]+"/Core")
 
 try:systemsCharSet = sys.getfilesystemencoding().lower()
 except:systemsCharSet = sys.getdefaultencoding().lower()
