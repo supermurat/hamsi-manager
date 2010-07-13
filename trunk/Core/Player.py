@@ -13,6 +13,8 @@ import ReportBug
 class Player(MWidget):
     def __init__(self, _parent, _type="bar", _file=""):
         MWidget.__init__(self, _parent)
+        self.Player = None
+        self.PlayerName = None
         self.file = _file
         self.type = _type
         self.infoScroller = InfoScroller(self)
@@ -129,14 +131,17 @@ class Player(MWidget):
         try:
             MApplication.processEvents()
             playerName = Universals.MySettings["playerName"]
-            if playerName=="Phonon":
-                self.Player = M_Phonon()
-            elif playerName=="Phonon (PySide)":
-                self.Player = M_Phonon_PySide()
-            elif playerName=="tkSnack":
-                self.Player = M_tkSnack()
-            else:
-                self.Player = M_MPlayer()
+            if self.Player==None or self.PlayerName != playerName:
+                self.stop()
+                self.PlayerName = playerName
+                if playerName=="Phonon":
+                    self.Player = M_Phonon()
+                elif playerName=="Phonon (PySide)":
+                    self.Player = M_Phonon_PySide()
+                elif playerName=="tkSnack":
+                    self.Player = M_tkSnack()
+                else:
+                    self.Player = M_MPlayer()
             self.stop()
             if _filePath=="" and self.file=="":
                 _filePath = InputOutputs.currentDirectoryPath + "/" + InputOutputs.musicFileNames[self.parent().parent().Table.currentRow()]
@@ -210,6 +215,8 @@ class M_Phonon():
         self.muted = False
     
     def play(self, _filePath):
+        if self.m_media!=None:
+           self.stop() 
         try:
             from PyQt4.phonon import Phonon
         except:
@@ -236,7 +243,7 @@ class M_Phonon():
             self.paused=True
     
     def stop(self):
-        if self.m_media:
+        if self.m_media!=None:
             self.m_media.stop()
         self.paused = False
     
@@ -261,6 +268,8 @@ class M_Phonon_PySide():
         self.muted = False
     
     def play(self, _filePath):
+        if self.m_media!=None:
+           self.stop() 
         try:
             from PySide.phonon import Phonon
         except:
@@ -285,7 +294,7 @@ class M_Phonon_PySide():
             self.paused=True
     
     def stop(self):
-        if self.m_media:
+        if self.m_media!=None:
             self.m_media.stop()
         self.paused = False
     
@@ -308,6 +317,8 @@ class M_tkSnack():
         self.tada = None
 
     def play(self, _filePath):
+        if self.tada!=None:
+           self.stop() 
         from Tkinter import Tk
         import tkSnack
         self.root = Tk()
@@ -320,7 +331,7 @@ class M_tkSnack():
         self.tada.pause()
 
     def stop(self):
-        if self.tada:
+        if self.tada!=None:
             self.tada.stop()
 
     def runTo(self, _saniye):
