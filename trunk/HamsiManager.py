@@ -166,6 +166,14 @@ if RoutineChecks.checkPyQt4Exist():
                                 TextDetails.closeAllTextDialogs()
                                 if self.Table.checkUnSavedTableValues()==False:
                                     _event.ignore() 
+                                if Universals.isActivePyKDE4==True:
+                                    kconf = MGlobal.config()
+                                    kconfGroup = MConfigGroup(kconf,"Universals")
+                                    self.setAutoSaveSettings(kconfGroup)
+                                    kconfGroup = MConfigGroup(kconf,"DirectoryOperator")
+                                    self.FileManager.dirOperator.writeConfig(kconfGroup)
+                                    self.FileManager.dirOperator.actionCollection().writeSettings(kconfGroup)
+                                
                                 Universals.setMySetting(self.Table.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
                                 if ReportBug.iSClosingInErrorReporting == False:
