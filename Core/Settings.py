@@ -101,10 +101,15 @@ class Settings():
                 return cur.fetchall()
             except: return []
         elif _action=="add":
+            _value0 = _value0.replace("'", "''")
+            _value1 = _value1.replace("'", "''")
+            _value2 = _value2.replace("'", "''")
             cur.execute("insert into bookmarksOfDirectories(bookmark,value,label) values('"+_value0+"','" + _value1+"','"+_value2+"')")
         elif _action=="delete":
             cur.execute("delete from bookmarksOfDirectories where id="+str(_value0))
         elif _action=="update":
+            _value1 = _value1.replace("'", "''")
+            _value2 = _value2.replace("'", "''")
             cur.execute(str("update bookmarksOfDirectories set bookmark='"+_value1+"', value='"+_value2+"', label='"+_value3+"' where id="+str(_value0)))
         con.commit()
         
@@ -130,10 +135,14 @@ class Settings():
                 return myBookmarks
             except: return []
         if _action=="add":
+            _value0 = _value0.replace("'", "''")
+            _value1 = _value1.replace("'", "''")
             cur.execute("insert into bookmarksOfSpecialTools(bookmark,value,label) values('"+_value0+"','"+_value1+"','"+requirement+"')")
         if _action=="delete":
             cur.execute("delete from bookmarksOfSpecialTools where value='"+_value0+"' and label='"+requirement+"'")
         if _action=="update":
+            _value1 = _value1.replace("'", "''")
+            _value2 = _value2.replace("'", "''")
             cur.execute(str("update bookmarksOfSpecialTools set bookmark='"+_value1+"', value='"+_value2+"' where id="+str(_value0)))
         con.commit()
         
@@ -146,6 +155,8 @@ class Settings():
                 return cur.fetchall()
             except: return []
         if _action=="add":
+            _value0 = _value0.replace("'", "''")
+            _value1 = _value1.replace("'", "''")
             cur.execute("insert into searchAndReplaceTable(searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp) values('"+_value0+"','"+_value1+"',"+str(_value2)+","+str(_value3)+","+str(_value4)+")")
             cur.execute("SELECT last_insert_rowid();")
             con.commit()
@@ -153,6 +164,8 @@ class Settings():
         if _action=="delete":
             cur.execute("delete from searchAndReplaceTable where id="+str(_value0))
         if _action=="update":
+            _value1 = _value1.replace("'", "''")
+            _value2 = _value2.replace("'", "''")
             cur.execute(str("update searchAndReplaceTable set searching='"+_value1+"', replacing='"+_value2+"', intIsActive="+str(_value3)+", intIsCaseSensitive="+str(_value4)+", intIsRegExp="+str(_value5)+" where id="+str(_value0)))
         con.commit()
     
