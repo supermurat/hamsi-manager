@@ -154,7 +154,9 @@ def checkAfterRunProccess():
         if Universals.isActivePyKDE4==True:
             Universals.MainWindow.Browser.setVisible(False)
             Universals.MainWindow.TreeBrowser.setVisible(False)
-        
+    if Universals.getBoolValue("isShowReConfigureWizard"):
+        import Execute
+        Execute.executeReConfigure()
     
 def checkWindowMode(_isCheck=False):
     import Dialogs, Universals, Settings 
