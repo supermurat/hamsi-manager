@@ -261,16 +261,7 @@ if RoutineChecks.checkPyQt4Exist():
                 MyConfigure.reConfigureFile(self.installationDirectory + "/HamsiManager.desktop", self.installationDirectory)
             if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                 import Settings
-                if Settings.isAvailablePyKDE4():
-                    desktopPath = Settings.getUserDesktopPath()
-                else:
-                    desktopNames = [str(translate("Install","Desktop")), "Desktop"]
-                    for dirName in desktopNames:
-                        if InputOutputs.isDir(Universals.userDirectoryPath + "/" + dirName):
-                            desktopPath = Universals.userDirectoryPath + "/" + dirName
-                            break
-                        else:
-                            desktopPath = Universals.userDirectoryPath
+                desktopPath = Settings.getUserDesktopPath()
                 fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                 InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
             executableLink = str(self.leExecutableLink)

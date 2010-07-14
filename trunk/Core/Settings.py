@@ -68,7 +68,7 @@ class Settings():
                   "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories", 
                   "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate", 
                   "isShowTransactionDetails", "windowMode", "isInstalledKDE4Language", 
-                  "isShowWindowModeSuggestion", "isMakeAutoDesign"
+                  "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReConfigureWizard"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -312,7 +312,8 @@ class Settings():
                 "windowMode": Universals.windowModeKeys[0], 
                 "isInstalledKDE4Language": "False", 
                 "isShowWindowModeSuggestion": "True", 
-                "isMakeAutoDesign": "True"
+                "isMakeAutoDesign": "True", 
+                "isShowReConfigureWizard": "True"
                 }
                 
     def getValueTypesAndValues():
@@ -411,7 +412,8 @@ class Settings():
                 "windowMode": ["options", Universals.windowModeKeys], 
                 "isInstalledKDE4Language": "bool", 
                 "isShowWindowModeSuggestion": "bool", 
-                "isMakeAutoDesign": "bool"
+                "isMakeAutoDesign": "bool", 
+                "isShowReConfigureWizard": "bool"
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
@@ -710,9 +712,20 @@ class Settings():
             return False
         
     def getUserDesktopPath():
-        from PyKDE4.kdeui import KGlobalSettings
-        return str(KGlobalSettings.desktopPath())
-    
+        if isAvailablePyKDE4():
+            from PyKDE4.kdeui import KGlobalSettings
+            desktopPath = str(KGlobalSettings.desktopPath())
+        else:
+            from MyObjects import translate
+            desktopNames = [str(translate("Install","Desktop")), "Desktop"]
+            for dirName in desktopNames:
+                if InputOutputs.isDir(Universals.userDirectoryPath + "/" + dirName):
+                    desktopPath = Universals.userDirectoryPath + "/" + dirName
+                    break
+                else:
+                    desktopPath = Universals.userDirectoryPath
+        return desktopPath
+        
     def updateOldSettings(_oldVersion):
         newSettingsKeys, changedDefaultValuesKeys = [], []
         try:

@@ -6,7 +6,7 @@ import time
 import Universals
 
 class Execute:
-    global execute, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole
+    global execute, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReConfigure, executeReConfigureAsRoot
     
     def correctForConsole(_string):
         strString = "\"" + _string + "\""
@@ -28,6 +28,11 @@ class Execute:
         if _command!="":
             _command = " " + _command.replace("\"", "'")
         return execute("\"" + sys.executable + "\" \"" + Universals.executableHamsiManagerPath + _command + "\"")
+        
+    def executeReConfigure(_command=""):
+        if _command!="":
+            _command = " " + _command.replace("\"", "'")
+        return execute("\"" + sys.executable + "\" \"" + Universals.HamsiManagerDirectory+"/ReConfigure.py" + _command + "\"")
         
     def isRunableAsRoot():
         try:
@@ -56,9 +61,17 @@ class Execute:
             return execute(pykdeconfig._pkg_config["kdelibdir"] + "/kde4/libexec/kdesu" + " '\"" + sys.executable + "\" " + _command + "'")
         return False
         
-    def executeHamsiManagerAsRoot(_command):
+    def executeHamsiManagerAsRoot(_command=""):
         if isRunableAsRoot():
-            roar = RunOrganizasyonizAsRoot(_command)
+            roar = RunHamsiManagerAsRoot(_command)
+            roar.start()
+            time.sleep(1)
+            return True
+        return False
+        
+    def executeReConfigureAsRoot(_command=""):
+        if isRunableAsRoot():
+            roar = RunReConfigureAsRoot(_command)
             roar.start()
             time.sleep(1)
             return True
@@ -67,13 +80,24 @@ class Execute:
     def writeToPopen(_popen, _command):
         _popen.write("\n%s\n" % _command)
         
-class RunOrganizasyonizAsRoot(Thread):
+class RunHamsiManagerAsRoot(Thread):
     def __init__(self, _command):
         Thread.__init__(self)
+        if _command!="":
+            _command = " " + _command
+        self.command = _command
+    
+    def run(self):
+        executeWithPythonAsRoot("\"" + Universals.HamsiManagerDirectory + "/ReConfigure.py" + "\" " + self.command)
+        
+class RunReConfigureAsRoot(Thread):
+    def __init__(self, _command):
+        Thread.__init__(self)
+        if _command!="":
+            _command = " " + _command
         self.command = _command
     
     def run(self):
         executeWithPythonAsRoot("\"" + Universals.executableHamsiManagerPath + "\" " + self.command)
         
-        
-        
+    
