@@ -80,8 +80,9 @@ class FileManager():
             self.dirOperator.setViewConfig(kconfGroup)
             self.dirOperator.updateViewActions()
             
-            self.dirOperator.actionCollection().readSettings(kconfGroup)
-            self.dirOperator.actionCollection().associateWidget(tools)
+            self.actCollection = self.dirOperator.actionCollection()
+            self.actCollection.readSettings(kconfGroup)
+            self.actCollection.associateWidget(tools)
             
             Universals.MainWindow.DirOperator = MDockWidget(translate("FileManager", "Directory Operator"))
             Universals.MainWindow.DirOperator.setObjectName(translate("FileManager", "Directory Operator"))

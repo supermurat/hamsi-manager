@@ -168,11 +168,9 @@ if RoutineChecks.checkPyQt4Exist():
                                     _event.ignore() 
                                 if Universals.isActivePyKDE4==True:
                                     kconf = MGlobal.config()
-                                    kconfGroup = MConfigGroup(kconf,"Universals")
-                                    self.setAutoSaveSettings(kconfGroup)
                                     kconfGroup = MConfigGroup(kconf,"DirectoryOperator")
                                     self.FileManager.dirOperator.writeConfig(kconfGroup)
-                                    self.FileManager.dirOperator.actionCollection().writeSettings(kconfGroup)
+                                    self.FileManager.actCollection.writeSettings(kconfGroup)
                                 
                                 Universals.setMySetting(self.Table.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
@@ -229,6 +227,7 @@ if RoutineChecks.checkPyQt4Exist():
                         MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
                         MainWindow.show()
                     RoutineChecks.checkAfterRunProccess()
+                    Universals.setMySetting("isMakeAutoDesign", "False")
                     Universals.isStartingSuccessfully = True
                     Universals.isCanBeShowOnMainWindow = True
                 except:
