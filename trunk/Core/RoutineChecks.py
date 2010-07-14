@@ -150,6 +150,11 @@ def checkAfterRunProccess():
     if UpdateControl.isMakeUpdateControl():
         UpdateControl.UpdateControl(Universals.MainWindow)
     checkWindowMode()
+    if Universals.getBoolValue("isMakeAutoDesign"):
+        if Universals.isActivePyKDE4==True:
+            Universals.MainWindow.Browser.setVisible(False)
+            Universals.MainWindow.TreeBrowser.setVisible(False)
+        
     
 def checkWindowMode(_isCheck=False):
     import Dialogs, Universals, Settings 
