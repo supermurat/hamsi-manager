@@ -32,7 +32,7 @@ class Execute:
     def executeReConfigure(_command=""):
         if _command!="":
             _command = " " + _command.replace("\"", "'")
-        return execute("\"" + sys.executable + "\" \"" + Universals.HamsiManagerDirectory+"/ReConfigure.py" + _command + "\"")
+        return execute("\"" + sys.executable + "\" \"" + Universals.HamsiManagerDirectory+"/ReConfigure.py\"" + _command)
         
     def isRunableAsRoot():
         try:
@@ -88,7 +88,7 @@ class RunHamsiManagerAsRoot(Thread):
         self.command = _command
     
     def run(self):
-        executeWithPythonAsRoot("\"" + Universals.HamsiManagerDirectory + "/ReConfigure.py" + "\" " + self.command)
+        executeWithPythonAsRoot("\"" + Universals.executableHamsiManagerPath + "\" " + self.command)
         
 class RunReConfigureAsRoot(Thread):
     def __init__(self, _command):
@@ -98,6 +98,6 @@ class RunReConfigureAsRoot(Thread):
         self.command = _command
     
     def run(self):
-        executeWithPythonAsRoot("\"" + Universals.executableHamsiManagerPath + "\" " + self.command)
+        executeWithPythonAsRoot("\"" + Universals.HamsiManagerDirectory + "/ReConfigure.py\" " + self.command)
         
     

@@ -69,6 +69,7 @@ class MenuBar(MMenuBar):
         self.mEdit.addMenu(mCopyToClipBoard)
         self.mSettings.addAction(translate("MenuBar", "Options")).setObjectName(translate("MenuBar", "Options"))
         self.mSettings.addAction(translate("MenuBar", "My Plug-ins")).setObjectName(translate("MenuBar", "My Plug-ins"))
+        self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
         if Universals.isActivePyKDE4==True:
             actReportBug = MAction(translate("MenuBar", "Report Bug"), self.mHelpMenu)
             actReportBug.setObjectName(translate("MenuBar", "Report Bug"))
@@ -190,6 +191,9 @@ class Bars():
             elif actionName==translate("MenuBar", "My Plug-ins"):
                 import MyPlugins
                 MyPlugins.MyPlugins(Universals.MainWindow)
+            elif actionName==translate("MenuBar", "Reconfigure"):
+                import Execute
+                Execute.executeReConfigure("-configurePage")
             elif actionName==translate("MenuBar", "Update"):
                 import UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
