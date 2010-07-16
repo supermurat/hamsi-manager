@@ -228,7 +228,7 @@ if RoutineChecks.checkPyQt4Exist():
                         MainWindow.show()
                     RoutineChecks.checkAfterRunProccess()
                     Universals.setMySetting("isMakeAutoDesign", "False")
-                    Universals.setMySetting("isShowReConfigureWizard", "False")
+                    Universals.setMySetting("isShowReconfigureWizard", "False")
                     Universals.isStartingSuccessfully = True
                     Universals.isCanBeShowOnMainWindow = True
                 except:

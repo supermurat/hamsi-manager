@@ -6,7 +6,7 @@ import time
 import Universals
 
 class Execute:
-    global execute, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReConfigure, executeReConfigureAsRoot
+    global execute, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReconfigure, executeReconfigureAsRoot
     
     def correctForConsole(_string):
         strString = "\"" + _string + "\""
@@ -29,10 +29,10 @@ class Execute:
             _command = " " + _command.replace("\"", "'")
         return execute("\"" + sys.executable + "\" \"" + Universals.executableHamsiManagerPath + _command + "\"")
         
-    def executeReConfigure(_command=""):
+    def executeReconfigure(_command=""):
         if _command!="":
             _command = " " + _command.replace("\"", "'")
-        return execute("\"" + sys.executable + "\" \"" + Universals.HamsiManagerDirectory+"/ReConfigure.py\"" + _command)
+        return execute("\"" + sys.executable + "\" \"" + Universals.HamsiManagerDirectory+"/Reconfigure.py\"" + _command)
         
     def isRunableAsRoot():
         try:
@@ -69,9 +69,9 @@ class Execute:
             return True
         return False
         
-    def executeReConfigureAsRoot(_command=""):
+    def executeReconfigureAsRoot(_command=""):
         if isRunableAsRoot():
-            roar = RunReConfigureAsRoot(_command)
+            roar = RunReconfigureAsRoot(_command)
             roar.start()
             time.sleep(1)
             return True
@@ -90,7 +90,7 @@ class RunHamsiManagerAsRoot(Thread):
     def run(self):
         executeWithPythonAsRoot("\"" + Universals.executableHamsiManagerPath + "\" " + self.command)
         
-class RunReConfigureAsRoot(Thread):
+class RunReconfigureAsRoot(Thread):
     def __init__(self, _command):
         Thread.__init__(self)
         if _command!="":
@@ -98,6 +98,6 @@ class RunReConfigureAsRoot(Thread):
         self.command = _command
     
     def run(self):
-        executeWithPythonAsRoot("\"" + Universals.HamsiManagerDirectory + "/ReConfigure.py\" " + self.command)
+        executeWithPythonAsRoot("\"" + Universals.HamsiManagerDirectory + "/Reconfigure.py\" " + self.command)
         
     

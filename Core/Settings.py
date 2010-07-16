@@ -68,7 +68,7 @@ class Settings():
                   "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories", 
                   "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate", 
                   "isShowTransactionDetails", "windowMode", "isInstalledKDE4Language", 
-                  "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReConfigureWizard"
+                  "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReconfigureWizard"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -313,7 +313,7 @@ class Settings():
                 "isInstalledKDE4Language": "False", 
                 "isShowWindowModeSuggestion": "True", 
                 "isMakeAutoDesign": "True", 
-                "isShowReConfigureWizard": "True"
+                "isShowReconfigureWizard": "True"
                 }
                 
     def getValueTypesAndValues():
@@ -413,7 +413,7 @@ class Settings():
                 "isInstalledKDE4Language": "bool", 
                 "isShowWindowModeSuggestion": "bool", 
                 "isMakeAutoDesign": "bool", 
-                "isShowReConfigureWizard": "bool"
+                "isShowReconfigureWizard": "bool"
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):

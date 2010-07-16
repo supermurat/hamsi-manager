@@ -114,12 +114,11 @@ if RoutineChecks.checkPyQt4Exist():
                 HBox.addLayout(VBox)
             elif _pageNo==4:
                 VBox = MVBoxLayout()
-                self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Install", "Create Desktop Shortcut."))
-                self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
                 self.lblFinished = MLabel(MApplication.translate("Install", "Installation Complete."))
                 VBox.addStretch(10)
                 VBox.addWidget(self.lblFinished)
-                VBox.addWidget(self.isCreateDesktopShortcut)
+                self.isCreateDesktopShortcut = None
+                self.isCreateExecutableLink = None
                 if Execute.isRunningAsRoot():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
@@ -132,7 +131,9 @@ if RoutineChecks.checkPyQt4Exist():
                     HBox1.addWidget(self.leExecutableLink)
                     VBox.addLayout(HBox1)
                 else:
-                    self.isCreateExecutableLink = None
+                    self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Install", "Create Desktop Shortcut."))
+                    self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
+                    VBox.addWidget(self.isCreateDesktopShortcut)
                 VBox.addStretch(10)
                 HBox.addLayout(VBox)
             return pnlPage
@@ -259,15 +260,20 @@ if RoutineChecks.checkPyQt4Exist():
         def finish(self):
             if InputOutputs.isFile(self.installationDirectory + "/HamsiManager.desktop"):
                 MyConfigure.reConfigureFile(self.installationDirectory + "/HamsiManager.desktop", self.installationDirectory)
-            if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
-                import Settings
-                desktopPath = Settings.getUserDesktopPath()
-                fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
+            if self.isCreateDesktopShortcut!=None:
+                if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
+                    import Settings
+                    desktopPath = Settings.getUserDesktopPath()
+                    fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
+                    InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
             executableLink = str(self.leExecutableLink)
-            if self.isCreateExecutableLink!=None and executableLink.strip()!="":
+            if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
-                    InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", executableLink)
+                    if executableLink.strip()!="":
+                        InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", executableLink)
+                    if InputOutputs.isDir("/usr/share/applications/"):
+                        fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
+                        InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
             self.isInstallFinised = True
             self.close()
     import Execute
