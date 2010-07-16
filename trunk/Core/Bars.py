@@ -193,7 +193,7 @@ class Bars():
                 MyPlugins.MyPlugins(Universals.MainWindow)
             elif actionName==translate("MenuBar", "Reconfigure"):
                 import Execute
-                Execute.executeReConfigure("-configurePage")
+                Execute.executeReconfigure("-configurePage")
             elif actionName==translate("MenuBar", "Update"):
                 import UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
