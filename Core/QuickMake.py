@@ -23,6 +23,10 @@ class QuickMake():
                 isShowQuickMakeWindow = False
                 makeThisAction = self.quickMakeWindow.pack
                 actionName = translate("QuickMake", "Pack It Now")
+            elif QuickMakeParameters[0]=="hash":
+                isShowQuickMakeWindow = False
+                makeThisAction = self.quickMakeWindow.hash
+                actionName = translate("QuickMake", "Get Hash Digest")
             elif QuickMakeParameters[0]=="checkIcon":
                 makeThisAction = self.quickMakeWindow.checkIcon
                 actionName = translate("QuickMake", "Check Directory Icon Now")
@@ -178,6 +182,15 @@ class QuickMakeWindow(MyDialog):
             if self.checkSource(QuickMakeParameters[1], "directory"):
                 import Packager
                 self.newDialog = Packager.Packager(QuickMakeParameters[1])
+        except:
+            self.error = ReportBug.ReportBug()
+            self.error.show()   
+    
+    def hash(self):
+        try:
+            if self.checkSource(QuickMakeParameters[1], "file"):
+                import Hasher
+                self.newDialog = Hasher.Hasher(QuickMakeParameters[1])
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()   
