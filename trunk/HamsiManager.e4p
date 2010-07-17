@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-07-16, 20:22:10 -->
+<!-- Saved: 2010-07-17, 19:28:37 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -88,6 +88,7 @@
     <Source>Core/Organizer.py</Source>
     <Source>Core/__init__.py</Source>
     <Source>Reconfigure.py</Source>
+    <Source>Core/Hasher.py</Source>
   </Sources>
   <Forms>
   </Forms>

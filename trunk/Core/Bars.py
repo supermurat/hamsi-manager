@@ -251,6 +251,9 @@ class Bars():
                 elif actionName==translate("ToolsBar", "Pack"):
                     import Packager
                     Packager.Packager(InputOutputs.currentDirectoryPath)
+                elif actionName==translate("ToolsBar", "Hash"):
+                    import Hasher
+                    Hasher.Hasher()
                 elif actionName==translate("ToolsBar", "Clear"):
                     import Cleaner
                     Cleaner.Cleaner(InputOutputs.currentDirectoryPath)
@@ -466,6 +469,10 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Check Icon"),self)
         self.actCheckIcon.setObjectName(translate("ToolsBar", "Check Icon"))
         self.actCheckIcon.setToolTip(translate("ToolsBar", "Checks the icon for the folder you are currently in."))
+        self.actHash = MAction(MIcon("Images:hash.png"),
+                                                translate("ToolsBar", "Hash"),self)
+        self.actHash.setObjectName(translate("ToolsBar", "Hash"))
+        self.actHash.setToolTip(translate("ToolsBar", "Hash manager"))
         self.actPack = MAction(MIcon("Images:pack.png"),
                                                 translate("ToolsBar", "Pack"),self)
         self.actPack.setObjectName(translate("ToolsBar", "Pack"))
@@ -486,6 +493,7 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Run Command"),self)
         self.actRunCommand.setObjectName(translate("ToolsBar", "Run Command"))
         self.actRunCommand.setToolTip(translate("ToolsBar", "You can coding some things."))
+        self.addAction(self.actHash)
         self.addAction(self.actPack)
         self.addAction(self.actFileTree)
         self.addAction(self.actClear)
@@ -500,6 +508,7 @@ class ToolsBar(MToolBar):
             self.setIconSize(MSize(32,32))
         Universals.MainWindow.Menu.mTools = MMenu(translate("MenuBar", "Tools"), self)
         Universals.MainWindow.Menu.mTools.setObjectName(translate("MenuBar", "Tools"))
+        Universals.MainWindow.Menu.mTools.addAction(self.actHash)
         Universals.MainWindow.Menu.mTools.addAction(self.actPack)
         Universals.MainWindow.Menu.mTools.addAction(self.actFileTree)
         Universals.MainWindow.Menu.mTools.addAction(self.actClear)

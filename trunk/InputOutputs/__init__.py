@@ -12,7 +12,7 @@ import Organizer
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes
     fileNames = []
     directoryNames = []
     musicFileNames = []
@@ -1105,26 +1105,59 @@ class InputOutputs:
         
     def getHashDigest(_filePath, _hashType="MD5"):
         try:
+            import hashlib
             if _hashType=="MD5":
-                import md5
-                return md5.new(readFromBinaryFile(_filePath)).hexdigest()
-            elif _hashType=="SHA-1":
-                import sha
-                return sha.new(readFromBinaryFile(_filePath)).hexdigest()
+                m = hashlib.md5()
+            elif _hashType=="SHA1":
+                m = hashlib.sha1()
+            elif _hashType=="SHA224":
+                m = hashlib.sha224()
+            elif _hashType=="SHA256":
+                m = hashlib.sha256()
+            elif _hashType=="SHA384":
+                m = hashlib.sha384()
+            elif _hashType=="SHA512":
+                m = hashlib.sha512()
+            m.update(readFromBinaryFile(_filePath))
+            return m.hexdigest()
         except:
-            return False
+            #for x < python 2.5
+            try:
+                if _hashType=="MD5":
+                    import md5
+                    return md5.new(readFromBinaryFile(_filePath)).hexdigest()
+                elif _hashType=="SHA1":
+                    import sha
+                    return sha.new(readFromBinaryFile(_filePath)).hexdigest()
+            except:
+                return False
         
-    def createHashDigestFile(_filePath, _digestFilePath=None, _hashType="MD5", _isAddFileExtension=True):
-        digestContent = getHashDigest(_filePath, _hashType)
+    def createHashDigestFile(_filePath, _digestFilePath=None, _hashType="MD5", _isAddFileExtension=True, _digestContent=None):
+        if _digestContent==None:
+            _digestContent = getHashDigest(_filePath, _hashType)
         fileExtension = ""
         if _isAddFileExtension:
-            if _hashType=="MD5":
-                fileExtension = "md5"
-            elif _hashType=="SHA-1":
-                fileExtension = "sha1"
+            fileExtension = _hashType.lower()
         if _digestFilePath==None:
             _digestFilePath = _filePath
-        writeToFile(_digestFilePath + fileExtension, digestContent)
+        writeToFile(_digestFilePath + fileExtension, _digestContent)
         return True
+        
+    def getHashTypes():
+        try:
+            import hashlib
+            return ["MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512"]
+        except:
+            #for x < python 2.5
+            hashTypes = []
+            try:
+                import md5
+                hashTypes.append("MD5")
+            except:pass
+            try:
+                import md5
+                hashTypes.append("SHA1")
+            except:pass
+            return hashTypes
         
         

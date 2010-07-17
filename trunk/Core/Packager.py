@@ -31,7 +31,7 @@ class Packager(MyDialog):
                                     u".tar.gz",u".tar.bz2", ".amarokscript.tar.gz"])
         self.cbPackageType.setCurrentIndex(1)
         self.cbHash = MComboBox()
-        self.cbHash.addItems([translate("Packager", "No Hash"), u"MD5", u"SHA-1"])
+        self.cbHash.addItems([translate("Packager", "No Hash")] + InputOutputs.getHashTypes())
         self.cbHashOutput = MComboBox()
         self.cbHashOutput.addItems([translate("Packager", "File"), translate("Packager", "Clipboard")])
         self.leHashDigestFile = MLineEdit(_directory.decode("utf-8"))
@@ -129,12 +129,10 @@ class Packager(MyDialog):
     
     def pathOfPackageChanged(self, _value):
         try:
-            if self.cbHash.currentIndex()==1:
-                packageExtension = ".md5"
-            elif self.cbHash.currentIndex()==2:
-                packageExtension = ".sha1"
+            if self.cbHash.currentIndex()==0:
+                packageExtension = "~"
             else:
-                packageExtension = "~"   
+                packageExtension =  "." + str(self.cbHash.currentText()).lower()
             self.leHashDigestFile.setText(self.lePathOfPackage.text()+packageExtension)  
         except:
             import ReportBug
@@ -157,11 +155,11 @@ class Packager(MyDialog):
             self.leHashDigestFile.setEnabled(False)
     
     def createHashDigest(self):
+        if self.cbHash.currentIndex()==0:
+            hashType = None
+        else:
+            hashType =  "." + str(self.cbHash.currentText())
         hashType = None
-        if self.cbHash.currentIndex()==1:
-            hashType = "MD5"
-        elif self.cbHash.currentIndex()==2:
-            hashType = "SHA-1"
         if hashType!=None:
             if self.cbHashOutput.currentIndex()==0:
                 if InputOutputs.createHashDigestFile(unicode(self.lePathOfPackage.text(), "utf-8"), unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False):
