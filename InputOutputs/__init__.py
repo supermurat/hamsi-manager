@@ -751,7 +751,9 @@ class InputOutputs:
             selectedIndex = 0
             if cover!=None:
                 selectedIndex = imageFiles.index(cover)
-            cover = str(Dialogs.select(translate("InputOutputs", "Select A Cover"), str(translate("InputOutputs", "Please select a cover for \"%s\".<br>Note: If you cancel the first image will be chosen.")) % (Organizer.getLink(_path)), imageFiles, selectedIndex))
+            cover = Dialogs.select(translate("InputOutputs", "Select A Cover"), str(translate("InputOutputs", "Please select a cover for \"%s\".")) % (Organizer.getLink(_path)), imageFiles, selectedIndex)
+            if cover!=None:
+                cover = str(cover)
         else:
             if cover == None and len(imageFiles)>0:
                 for imgFile in imageFiles:

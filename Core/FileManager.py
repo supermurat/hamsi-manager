@@ -72,13 +72,12 @@ class FileManager():
             self.isGoToFromDirOperator = False
             self.dirOperator = MDirOperator(MUrl( self.currentDirectory ), _parent)
             self.dirOperator.setDirLister(self.dirLister)
-            self.dirOperator.setView(MFile.Default)
             
             kconf = MGlobal.config()
             kconfGroup = MConfigGroup(kconf,"DirectoryOperator")
             self.dirOperator.readConfig(kconfGroup)
             self.dirOperator.setViewConfig(kconfGroup)
-            self.dirOperator.updateViewActions()
+            self.dirOperator.setView(MFile.Default)
             
             self.actCollection = self.dirOperator.actionCollection()
             self.actCollection.readSettings(kconfGroup)
