@@ -808,6 +808,9 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["isShowTransactionDetails"]
         if oldVersion<860:
             newSettingsKeys = newSettingsKeys + ["windowMode"]
+        if oldVersion<867:
+            newSettingsKeys = newSettingsKeys + ["isAskIfHasManyImagesInAlbumDirectory"]
+            Universals.setMySetting("isShowReconfigureWizard", True)
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():
