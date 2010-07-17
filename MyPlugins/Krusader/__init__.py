@@ -131,6 +131,15 @@ def installThisPlugin():
                     "  <description>" + str(translate("MyPlugins/Krusader", "Clear it with Hamsi Manager")) + ".</description>\n"+
                     "  <command>python "+Universals.HamsiManagerDirectory+"/HamsiManager.py -qm clear %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
+                    " </action>\n"), 
+                    (" <action name=\"hamsimanager_hash\" >\n"+
+                    "  <title>" + str(translate("MyPlugins/Krusader", "Hash Digest")) + "</title>\n"+
+                    "  <tooltip>" + str(translate("MyPlugins/Krusader", "Get hash digest with Hamsi Manager")) + "</tooltip>\n"+
+                    "  <icon>"+Universals.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager.png</icon>\n"+
+                    "  <category>Hamsi Manager</category>\n"+
+                    "  <description>" + str(translate("MyPlugins/Krusader", "Get hash digest with Hamsi Manager")) + ".</description>\n"+
+                    "  <command>python "+Universals.HamsiManagerDirectory+"/HamsiManager.py -qm hash %aCurrent%</command>\n"+
+                    "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n")]
         if Execute.isRunningAsRoot():
             destinationPath = "/usr/share/apps/krusader/"
