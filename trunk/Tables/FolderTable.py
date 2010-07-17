@@ -23,6 +23,7 @@ class FolderTable():
         self=_table
         _refreshSubTableColumns(self)
         hbox1 = MHBoxLayout()
+        hbox1.addWidget(self.actRefresh)
         hbox1.addWidget(self.tbGoBack)
         hbox1.addWidget(self.tbCreateHistoryPoint)
         hbox1.addWidget(self.tbGoForward)

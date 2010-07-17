@@ -9,6 +9,7 @@ if str(sys.path[0])=="":
 sys.path.insert(1,sys.path[0]+"/Core")
 import RoutineChecks
 if RoutineChecks.checkPyQt4Exist():
+    import Settings
     import Universals
     Universals.fillMySettings(False, False, False)
     Universals.isActivePyKDE4 = False
@@ -32,16 +33,22 @@ if RoutineChecks.checkPyQt4Exist():
     HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
     HamsiManagerApp.setOrganizationName("Hamsi Apps")
     activePageNo = 0
+    isOnlyRoot = False
     if len(sys.argv)>1:
         if sys.argv[1]=="-configurePage":
             activePageNo = 2
+        if sys.argv[1]=="-pluginPage":
+            activePageNo = 3
+        for argv in sys.argv:
+            if argv=="-onlyRoot":
+                isOnlyRoot = True
     import MyConfigure
     class Main(MWidget):
         def __init__(self, parent=None):
             MWidget.__init__(self, parent)
             Universals.MainWindow = self
             self.isInstallFinised = False
-            self.pageNo, self.pageSize = activePageNo, 3
+            self.pageNo, self.pageSize = activePageNo, 4
             self.vblMain = MVBoxLayout()
             self.hblMain = MHBoxLayout()
             self.lblLeftImage = MLabel()
@@ -101,7 +108,7 @@ if RoutineChecks.checkPyQt4Exist():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Reconfigure", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(MApplication.translate("Reconfigure", "Executable Link Path : "))
-                    self.leExecutableLink = MLineEdit(u"/usr/bin/hamsi")
+                    self.leExecutableLink = MLineEdit(Settings.getUniversalSetting("pathOfExecutableHamsi", "/usr/bin/hamsi").decode("utf-8"))
                     self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
                     HBox1 = MHBoxLayout()
@@ -112,6 +119,14 @@ if RoutineChecks.checkPyQt4Exist():
                     self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Reconfigure", "Create Desktop Shortcut."))
                     self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
                     VBox.addWidget(self.isCreateDesktopShortcut)
+                VBox.addStretch(10)
+                HBox.addLayout(VBox)
+            elif _pageNo==3:
+                import MyPlugins
+                VBox = MVBoxLayout()
+                VBox.addStretch(10)
+                wPlugins = MyPlugins.MyPluginsForSystem(self)
+                HBox.addWidget(wPlugins)
                 VBox.addStretch(10)
                 HBox.addLayout(VBox)
             return pnlPage
@@ -150,6 +165,12 @@ if RoutineChecks.checkPyQt4Exist():
                 self.buttons[1].setVisible(False)
                 self.buttons[2].setVisible(True)
                 self.pbtnCancel.setVisible(True)
+            elif self.pageNo==3:
+                self.buttons[0].setVisible(False)
+                self.buttons[1].setVisible(False)
+                self.buttons[2].setVisible(False)
+                self.pbtnCancel.setVisible(True)
+                self.pbtnCancel.setText(MApplication.translate("Reconfigure", "Finish"))
             if _isRunningManual==False:
                 if senderObject==self.buttons[2]:
                     self.reConfigure()
@@ -168,13 +189,11 @@ if RoutineChecks.checkPyQt4Exist():
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     if executableLink.strip()!="":
                         InputOutputs.createSymLink(Universals.HamsiManagerDirectory+"/HamsiManager.py", executableLink)
+                        Settings.setUniversalSetting("pathOfExecutableHamsi", executableLink)
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(Universals.HamsiManagerDirectory)
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
             self.isInstallFinised = True
-            Dialogs.show(MApplication.translate("Reconfigure", "Configuration Finished"), 
-                            MApplication.translate("Reconfigure", "Are You Sure You Want To Quit?"))
-            self.close()
             
         def closeEvent(self, _event):
             if self.isInstallFinised==False:
@@ -185,13 +204,18 @@ if RoutineChecks.checkPyQt4Exist():
             
     import Execute
     if Execute.isRunningAsRoot()==False and Execute.isRunableAsRoot():
-        answer = Dialogs.askSpecial(MApplication.translate("Reconfigure", "Are You Want To Run As Root?"), MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool is running with user privileges.<br>Do you want to run Hamsi Manager Configure Tool with root rights?<br>"), MApplication.translate("Reconfigure", "Yes"), MApplication.translate("Reconfigure", "No (Continue as is)"), None)
+        if isOnlyRoot:
+            answer = Dialogs.askSpecial(MApplication.translate("Reconfigure", "Are You Want To Run As Root?"), MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool is running with user privileges.<br>Do you want to run Hamsi Manager Configure Tool with root rights?<br>"), MApplication.translate("Reconfigure", "Yes"), MApplication.translate("Reconfigure", "No (Close)"), None)
+        else:
+            answer = Dialogs.askSpecial(MApplication.translate("Reconfigure", "Are You Want To Run As Root?"), MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool is running with user privileges.<br>Do you want to run Hamsi Manager Configure Tool with root rights?<br>"), MApplication.translate("Reconfigure", "Yes"), MApplication.translate("Reconfigure", "No (Continue as is)"), None)
         if answer==MApplication.translate("Reconfigure", "Yes"):
             myParametres = ""
             if len(sys.argv)>1:
                 for x in sys.argv[1:]:
                     myParametres += x + " "
             NewApp = Execute.executeReconfigureAsRoot(myParametres)
+            sys.exit()
+        elif isOnlyRoot:
             sys.exit()
     MainWidget=Main()
     MainWidget.setWindowTitle(MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool") + " " + MApplication.applicationVersion())

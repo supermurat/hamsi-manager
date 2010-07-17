@@ -34,6 +34,7 @@ class MusicTable():
         self.isPlayNow.setAutoRaise(True)
         self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
         hbox1 = MHBoxLayout()
+        hbox1.addWidget(self.actRefresh)
         hbox1.addWidget(self.tbGoBack)
         hbox1.addWidget(self.tbCreateHistoryPoint)
         hbox1.addWidget(self.tbGoForward)

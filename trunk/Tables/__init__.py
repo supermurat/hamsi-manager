@@ -49,6 +49,11 @@ class Tables(MTableWidget):
         self.tbIsRunOnDoubleClick.setChecked(Universals.getBoolValue("isRunOnDoubleClick"))
         self.isOpenDetailsOnNewWindow.setChecked(Universals.getBoolValue("isOpenDetailsInNewWindow"))
         MObject.connect(self.pbtnShowDetails, SIGNAL("clicked()"), self.showDetails)
+        self.actRefresh = MToolButton()
+        self.actRefresh.setToolTip(translate("Tables", "Refresh"))
+        self.actRefresh.setIcon(MIcon("Images:refresh.png"))
+        self.actRefresh.setAutoRaise(True)
+        MObject.connect(self.actRefresh, SIGNAL("clicked()"), refreshTable)
         self.tbGoBack = MToolButton()
         self.tbGoForward = MToolButton()
         self.tbCreateHistoryPoint = MToolButton()
@@ -273,8 +278,10 @@ class Tables(MTableWidget):
             MObject.connect(act,SIGNAL("triggered(bool)"), clickedContextMenuColumns)
         refreshShowedAndHiddenColumns()
         
-    def refreshTable(_path):
+    def refreshTable(_path = ""):
         global isShowChanges
+        if InputOutputs.isDir(_path)==False:
+            _path = InputOutputs.currentDirectoryPath
         isShowChanges=False
         table.clear()
         table.setColumnCount(len(table.tableColumns))
