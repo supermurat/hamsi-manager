@@ -4,7 +4,7 @@ from MyObjects import *
 import Universals
 
 class Dialogs():
-    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue
+    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, select
     pnlState, prgbState, lblState = "", "", ""
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
     
@@ -180,7 +180,19 @@ class Dialogs():
             prgbState.deleteLater()
             pnlState, prgbState, lblState = "", "", ""
             
-
+    def select(_title="Hamsi Cover", _detail="", _itemList=[u""], _currentItem=0):
+        if _detail=="": 
+            _detail = _title
+            _title = "Hamsi Cover"
+        import Organizer
+        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+            selectedValue, isSelected = MInputDialog.getItem(Organizer.showWithIncorrectChars(str(_title)+"!..").decode("utf-8"), Organizer.showWithIncorrectChars(str(_detail)).decode("utf-8"), [Organizer.showWithIncorrectChars(str(x)).decode("utf-8") for x in _itemList], _currentItem, False)
+        else:
+            selectedValue, isSelected = MInputDialog.getItem(Universals.activeWindow(), Organizer.showWithIncorrectChars(str(_title)+"!..").decode("utf-8"), Organizer.showWithIncorrectChars(str(_detail)).decode("utf-8"), [Organizer.showWithIncorrectChars(str(x)).decode("utf-8") for x in _itemList], _currentItem, False)
+        if isSelected==False:
+            return None
+        return selectedValue
+                
         
 
         

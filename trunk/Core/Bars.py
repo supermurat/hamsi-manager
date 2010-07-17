@@ -231,9 +231,9 @@ class Bars():
                 elif actionName==translate("ToolsBar", "Check Icon"):
                     Universals.MainWindow.setEnabled(False)
                     InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
-                    Universals.MainWindow.setEnabled(True)
                     Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
-                        translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
+                            translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
+                    Universals.MainWindow.setEnabled(True)
                 elif actionName==translate("ToolsBar", "Clear Empty Directories"):
                     if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
                         _action.setChecked(False)

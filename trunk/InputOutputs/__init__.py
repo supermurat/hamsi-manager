@@ -727,32 +727,47 @@ class InputOutputs:
                 willCheckIconDirectories.append(_path)
         else:
             if _isClear==False:
-                setIconToDirectory(_path, getFirstImageInDirectory(_path))
+                return setIconToDirectory(_path, getFirstImageInDirectory(_path))
             elif _isClear:
-                setIconToDirectory(_path)
+                return setIconToDirectory(_path)
     
-    def getFirstImageInDirectory(_path, _coverNameIfExist=None):
+    def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False, _isAsk=True):
+        import Dialogs
+        from MyObjects import translate
         cover = None
         imageFiles = []
         for fileName in readDirectoryAll(_path):
             if isFile(_path + "/" + fileName):
                 if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
                     cover = fileName
-                    break
-                if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).decode("utf-8").lower()) != 0:
+                if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).lower()) != 0:
                     imageFiles.append(fileName)
-                    for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
-                        if str(fileName.split(".")[0]).lower()==str(coverName).lower():
-                            cover = fileName
-                            break
-        if cover == None and len(imageFiles)>0:
-            for imgFile in imageFiles:
-                cover = imgFile
-                break
+                    if cover == None:
+                        for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
+                            if str(fileName.split(".")[0]).lower()==str(coverName).lower():
+                                cover = fileName
+                                break
+        if _isAsk and eval(Universals.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title())==True and len(imageFiles)>1:
+            selectedIndex = 0
+            if cover!=None:
+                selectedIndex = imageFiles.index(cover)
+            cover = str(Dialogs.select(translate("InputOutputs", "Select A Cover"), str(translate("InputOutputs", "Please select a cover for \"%s\".<br>Note: If you cancel the first image will be chosen.")) % (Organizer.getLink(_path)), imageFiles, selectedIndex))
+        else:
+            if cover == None and len(imageFiles)>0:
+                for imgFile in imageFiles:
+                    cover = imgFile
+                    break
+        if _isCheckDelete and cover!=None:
+            if isWritableFileOrDir(_path):
+                if eval(Universals.MySettings["isDeleteOtherImages"].title())==True: 
+                    for imgFile in imageFiles:
+                        if cover != imgFile:
+                            removeFile(_path + "/" + imgFile)
         return cover
-    
-    
+        
     def setIconToDirectory(_path, _iconName=""):
+        if _iconName==None:
+            return False
         _iconName = str(_iconName).strip()
         returnValue, isChanging, isChange, isCorrectFileContent = False, False, True, False
         if _iconName!="":

@@ -950,10 +950,10 @@ class Cover(MWidget):
         MWidget.__init__(self, _parent)
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["priorityIconNames", "isChangeExistIcon", 
+        self.keysOfSettings = ["priorityIconNames", "isChangeExistIcon", "isAskIfHasManyImagesInAlbumDirectory", 
                             "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", 
                             "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove"]
-        self.tabsOfSettings = [None, None, 
+        self.tabsOfSettings = [None, None, None,
                                 None, None, 
                                 None, None]
         self.tabNames = []
@@ -965,17 +965,19 @@ class Cover(MWidget):
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options", "Priority Icon Names"), 
                     translate("Options", "Change Directory Icon If Is Already Exist"), 
+                    translate("Options", "Ask Me If Has Many Images"), 
                     translate("Options", "Change Directory Icon (Table Saved)"), 
                     translate("Options", "Change Directory Icon (Moved Or Changed)"), 
                     translate("Options", "Change Directory Icon (Copied Or Changed)"), 
                     translate("Options", "Change Directory Icon (Moved File)")]
         self.toolTips = [translate("Options", "The file names you selected will be folder icons first.<br>If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.<br><font color=blue>Example: cover; icon...</font>"), 
                     translate("Options", "Are you want to change directory icon if is already exist?"), 
+                    translate("Options", "Ask me if has many images in the directory.<br>Note: If you select \"No\" the first image will be chosen."), 
                     translate("Options", "Do you want to change directory icon when table saved?"), 
                     translate("Options", "Do you want to change directory icon when directory moved or changed?"), 
                     translate("Options", "Do you want to change directory icon when directory copied or changed?"), 
                     translate("Options", "Do you want to change directory icon when file moved?")]
-        self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
+        self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
  
