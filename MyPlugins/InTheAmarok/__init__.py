@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
 import Universals
-import Settings
+import Settings, Execute
 from MyObjects import translate
 pluginName = str(translate("MyPlugins/InTheAmarok", "Hamsi Manager In The Amarok"))
-pluginVersion = "0.3"
+pluginVersion = "0.4"
 pluginFiles = []
 pluginDirectory = "HamsiManagerInTheAmarok"
 installThisPlugin = None
-setupDirectory = Universals.getKDE4HomePath() + "share/apps/amarok/scripts"
+if Execute.isRunningAsRoot():
+    setupDirectory = "/usr/share/apps/amarok/scripts"
+else:
+    setupDirectory = Universals.getKDE4HomePath() + "share/apps/amarok/scripts"
 
 def isInstallable():
     return Settings.isAvailablePyKDE4()

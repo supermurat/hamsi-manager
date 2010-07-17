@@ -9,6 +9,7 @@ if str(sys.path[0])=="":
 sys.path.insert(1,sys.path[0]+"/Core")
 import RoutineChecks
 if RoutineChecks.checkPyQt4Exist():
+    import Settings
     import Universals
     Universals.fillMySettings(False, False, False)
     Universals.isActivePyKDE4 = False
@@ -100,7 +101,7 @@ if RoutineChecks.checkPyQt4Exist():
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                self.leInstallationDirectory = MLineEdit(InputOutputs.getDirName(Universals.HamsiManagerDirectory).decode("utf-8")+u"/HamsiManager")
+                self.leInstallationDirectory = MLineEdit(Settings.getUniversalSetting("pathOfInstallationDirectory", InputOutputs.getDirName(Universals.HamsiManagerDirectory).decode("utf-8")+u"/HamsiManager"))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
                 HBox.addWidget(self.leInstallationDirectory)
@@ -123,7 +124,7 @@ if RoutineChecks.checkPyQt4Exist():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(MApplication.translate("Install", "Executable Link Path : "))
-                    self.leExecutableLink = MLineEdit(u"/usr/bin/hamsi")
+                    self.leExecutableLink = MLineEdit(Settings.getUniversalSetting("pathOfExecutableHamsi", "/usr/bin/hamsi").decode("utf-8"))
                     self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
                     HBox1 = MHBoxLayout()
@@ -221,6 +222,7 @@ if RoutineChecks.checkPyQt4Exist():
                         else:
                             isMakeInstall=False
                 if isMakeInstall==True:
+                    Settings.setUniversalSetting("pathOfInstallationDirectory", self.installationDirectory)
                     directoriesAndFiles = InputOutputs.readDirectoryWithSubDirectories(Universals.HamsiManagerDirectory)
                     self.prgbState.setRange(0,len(directoriesAndFiles))
                     self.lblActions.setText(MApplication.translate("Install", "Copying Files And Folders..."))
@@ -271,6 +273,7 @@ if RoutineChecks.checkPyQt4Exist():
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     if executableLink.strip()!="":
                         InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", executableLink)
+                        Settings.setUniversalSetting("pathOfExecutableHamsi", executableLink)
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)

@@ -2,10 +2,10 @@
 import os
 import Universals
 import InputOutputs
-import Settings
+import Settings, Execute
 from MyObjects import translate
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
-pluginVersion = "0.1"
+pluginVersion = "0.2"
 pluginFiles = []
 pluginDirectory = ""
 setupDirectory = ""
@@ -132,18 +132,22 @@ def installThisPlugin():
                     "  <command>python "+Universals.HamsiManagerDirectory+"/HamsiManager.py -qm clear %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n")]
+        if Execute.isRunningAsRoot():
+            destinationPath = "/usr/share/apps/krusader/"
+        else:
+            destinationPath = Universals.getKDE4HomePath() +"share/apps/krusader/"
         try:
-            pluginStrings = InputOutputs.readFromFile(Universals.getKDE4HomePath() +"share/apps/krusader/useractions.xml")
+            pluginStrings = InputOutputs.readFromFile(destinationPath + "useractions.xml")
         except:
-            InputOutputs.makeDirs(Universals.getKDE4HomePath() + "share/apps/krusader/")
-            InputOutputs.writeToFile(Universals.getKDE4HomePath() + "share/apps/krusader/useractions.xml", "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!DOCTYPE KrusaderUserActions>\n<KrusaderUserActions>\n</KrusaderUserActions>")
-            pluginStrings = InputOutputs.readFromFile(Universals.getKDE4HomePath() + "share/apps/krusader/useractions.xml")
+            if InputOutputs.isDir(destinationPath)==False:
+                InputOutputs.makeDirs(destinationPath)
+            pluginStrings = InputOutputs.readFromFile("/usr/share/apps/krusader/useraction_examples.xml")
         pluginString = ""
         for pstr in myPluginStrings:
             if pluginStrings.find(pstr.split("\n")[0])==-1:
                 pluginString += pstr
         pluginStrings = pluginStrings.replace("</KrusaderUserActions>", pluginString + "</KrusaderUserActions>")
-        InputOutputs.writeToFile(Universals.getKDE4HomePath() + "share/apps/krusader/useractions.xml", pluginStrings)
+        InputOutputs.writeToFile(destinationPath + "useractions.xml", pluginStrings)
         if pluginString=="":
             return "AlreadyInstalled"
     except:

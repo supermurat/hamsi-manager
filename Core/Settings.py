@@ -30,7 +30,7 @@ import InputOutputs
 import RoutineChecks
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize
+    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize, getUniversalSetting, setUniversalSetting
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
@@ -196,6 +196,17 @@ class Settings():
         for x, keyValue in enumerate(keysOfUniversalSettings):
             if unicode(mySetting.value(keyValue).toString(), "utf-8") != values[x]:
                 mySetting.setValue(keyValue,QVariant(values[x].decode("utf-8")))
+                
+    def getUniversalSetting(_key, _defaultValue):
+        mySetting = universalSetting()
+        value = unicode(mySetting.value(_key).toString(), "utf-8")
+        if value == "":
+            value = _defaultValue
+        return value
+    
+    def setUniversalSetting(_key, _value):
+        mySetting = universalSetting()
+        mySetting.setValue(_key, QVariant(_value.decode("utf-8")))
 
     def reFillSettings(_askMakeBackUp=False, _makeBackUp=False):
         if _askMakeBackUp==True:
