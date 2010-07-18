@@ -65,7 +65,6 @@ class Cleaner(MyDialog):
     def Clear(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            MApplication.processEvents()
             answer = Dialogs.ask(translate("Cleaner", "Your Files Will Be Removed"),
                     str(translate("Cleaner", "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>"+
                     "This action will delete the files completely, without any chance to recover.<br>"+

@@ -182,7 +182,6 @@ class Packager(MyDialog):
     def ClearAndPack(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            MApplication.processEvents()
             import tempfile, random
             tempDir = tempfile.gettempdir() + "/HamsiManager-" + str(random.randrange(0, 1000000))
             PathOfProject = unicode(self.lePathOfProject.text(), "utf-8")
@@ -204,7 +203,6 @@ class Packager(MyDialog):
     def Clear(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            MApplication.processEvents()
             answer = Dialogs.ask(translate("Packager", "Your Files Will Be Removed"),
                     str(translate("Packager", "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>"+
                     "This action will delete the files completely, without any chance to recover.<br>"+
@@ -222,7 +220,6 @@ class Packager(MyDialog):
     def Pack(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            MApplication.processEvents()
             if InputOutputs.makePack(unicode(self.lePathOfPackage.text(), "utf-8"), 
                                 self.getPackageType(), unicode(self.lePathOfProject.text(), "utf-8")):
                 self.createHashDigest()

@@ -4,6 +4,7 @@ import MusicTable
 import FileTable
 import FolderTable
 import SubFolderTable
+import CoverTable
 import FileManager
 import Dialogs
 import Universals
@@ -82,6 +83,8 @@ class Tables(MTableWidget):
             MusicTable.MusicTable(self)
         elif Universals.tableType==3:
             SubFolderTable.SubFolderTable(self)
+        elif Universals.tableType==4:
+            CoverTable.CoverTable(self)
         self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.hiddenTableColumnsSettingKey])
         _parent.MainLayout.addLayout(self.hblBox)
         self.mContextMenuColumns = MMenu()

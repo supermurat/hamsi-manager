@@ -9,7 +9,6 @@ import eyeD3
 import Organizer
 import Records
 import Universals
-import Universals
 
 class Musics:
     """All information about the music files will be arranged in this class
@@ -36,7 +35,6 @@ class Musics:
             musicFileNames = InputOutputs.musicFileNames
         isCanNoncompatible = False
         for musicNo,musicName in enumerate(musicFileNames):
-            MApplication.processEvents()
             if eyeD3.isMp3File(_directoryPath+"/"+musicName) == False:
                 isCanNoncompatible=True
             musicTagsValues=[]
@@ -139,7 +137,6 @@ class Musics:
             startRowNo,rowStep=0,1
         Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,len(currentFilesAndFoldersValues))
         for rowNo in range(startRowNo,_table.rowCount(),rowStep):
-            MApplication.processEvents()
             if Universals.isShowOldValues==True:
                 realRowNo=rowNo/2
             else:
