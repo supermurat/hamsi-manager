@@ -33,8 +33,8 @@ class Universals():
     isShowOldValues = None
     isChangeAll = None
     isChangeSelected = None
-    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png"]
-    tableTypesNames = ["", "", "", ""]
+    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "cover.png"]
+    tableTypesNames = ["", "", "", "", ""]
     tableType = None
     if executableHamsiManagerPath.find("HamsiManager")==-1 or executableHamsiManagerPath.find("./HamsiManager")!=-1:
         executableHamsiManagerPath = HamsiManagerDirectory + "/HamsiManager.py"
@@ -152,12 +152,15 @@ class Universals():
         return tt
         
     def fillUIUniversals():
-        global tableTypesNames
+        global tableTypesNames, tableType
         from MyObjects import translate
         tableTypesNames = [translate("Tables", "Folder Table"), 
                             translate("Tables", "File Table"), 
                             translate("Tables", "Music Table"), 
-                            translate("Tables", "Subfolder Table")]
+                            translate("Tables", "Subfolder Table"), 
+                            translate("Tables", "Cover Table")]
+        if tableType==3 or tableType==4:
+            tableType = 0
             
     def clearAllChilds(_object):
         from MyObjects import MWidget

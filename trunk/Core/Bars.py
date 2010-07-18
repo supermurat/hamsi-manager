@@ -298,21 +298,21 @@ class Bars():
         elif Universals.tableType==3:
             Universals.MainWindow.SubDirectoryOptionsBar = SubDirectoryOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.SubDirectoryOptionsBar)
-            Universals.MainWindow.SubDirectoryOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)              
+            Universals.MainWindow.SubDirectoryOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
+        elif Universals.tableType==4:
+            Universals.MainWindow.CoverOptionsBar = CoverOptionsBar(Universals.MainWindow)
+            Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.CoverOptionsBar)
+            Universals.MainWindow.CoverOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
         if len(Universals.MainWindow.Menu.mSpecialOptions.actions())==0:
             Universals.MainWindow.Menu.mSpecialOptions.setEnabled(False)
         else:
             Universals.MainWindow.Menu.mSpecialOptions.setEnabled(True)
         Universals.MainWindow.Menu.refreshForTableType()
     
-    def changeTableType(_action, _isFromMenu=False):
+    def changeTableType(_action):
         try:
-            selectedType = Universals.tableType
-            try:
-                selectedType = int(_action)
-            except:
-                selectedType = Universals.getThisTableType(_action.objectName())
-            if (_action.isChecked() or _isFromMenu==True) and Universals.tableType != selectedType:
+            selectedType = Universals.getThisTableType(_action.objectName())
+            if _action.isChecked() and Universals.tableType != selectedType:
                 if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
                     _action.setChecked(False)
                     return False
@@ -328,6 +328,10 @@ class Bars():
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.SubDirectoryOptionsBar)
                     Universals.MainWindow.SubDirectoryOptionsBar.deleteLater()
                     Universals.MainWindow.SubDirectoryOptionsBar = None
+                elif Universals.tableType==4:
+                    Universals.MainWindow.removeToolBar(Universals.MainWindow.CoverOptionsBar)
+                    Universals.MainWindow.CoverOptionsBar.deleteLater()
+                    Universals.MainWindow.CoverOptionsBar = None
                 Universals.clearAllChilds(Universals.MainWindow.CentralWidget)
                 Universals.tableType = selectedType
                 Universals.MainWindow.Bars.refreshBars()
@@ -346,6 +350,8 @@ class Bars():
             Universals.MainWindow.MusicOptionsBar.setToolButtonStyle(int(Universals.MySettings["MusicOptionsBarButtonStyle"]))
         elif Universals.tableType==3:
             Universals.MainWindow.SubDirectoryOptionsBar.setToolButtonStyle(int(Universals.MySettings["SubDirectoryOptionsBarButtonStyle"]))
+        elif Universals.tableType==4:
+            Universals.MainWindow.CoverOptionsBar.setToolButtonStyle(int(Universals.MySettings["CoverOptionsBarButtonStyle"]))
         
     def setAllBarsStyleToMySettings(self):
         Universals.setMySetting("TableToolsBarButtonStyle", Universals.MainWindow.TableToolsBar.toolButtonStyle())
@@ -355,6 +361,8 @@ class Bars():
             Universals.setMySetting("MusicOptionsBarButtonStyle", Universals.MainWindow.MusicOptionsBar.toolButtonStyle())
         elif Universals.tableType==3:
             Universals.setMySetting("SubDirectoryOptionsBarButtonStyle", Universals.MainWindow.SubDirectoryOptionsBar.toolButtonStyle())
+        elif Universals.tableType==4:
+            Universals.setMySetting("CoverOptionsBarButtonStyle", Universals.MainWindow.CoverOptionsBar.toolButtonStyle())
         
     
 class TableToolsBar(MToolBar):
@@ -547,35 +555,38 @@ class MusicOptionsBar(MToolBar):
         self.MusicTagTypes = ["ID3 V1", "ID3 V2"]
         self.cbMusicTagType = MComboBox(self)
         self.cbMusicTagType.addItems(self.MusicTagTypes)
+        self.isActiveChanging = False
         self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(Universals.MySettings["musicTagType"]))
+        self.isActiveChanging = True
         self.cbMusicTagType.setToolTip(lblDetails)
         self.addWidget(self.cbMusicTagType)
         MObject.connect(self.cbMusicTagType, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
         self.setIconSize(MSize(32,32))
     
     def musicTagTypeChanged(self, _action=None):
-        selectedType = self.MusicTagTypes[1]
         try:
-            int(_action)
             selectedType = str(self.MusicTagTypes[_action])
+            if self.isActiveChanging:
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                    Universals.setMySetting("musicTagType", selectedType)
+                    Tables.refreshForTableColumns()
+                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                self.isActiveChanging = False
+                self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(Universals.MySettings["musicTagType"]))
+                if self.cbMusicTagTypeForMenu != None:
+                    self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(Universals.MySettings["musicTagType"]))
+                self.isActiveChanging = True
         except:
-            selectedType = str(_action.objectName())
-        if self.isActiveChanging:
-            if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
-                Universals.setMySetting("musicTagType", selectedType)
-                Tables.refreshForTableColumns()
-                Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                Tables.refreshTable(InputOutputs.currentDirectoryPath)
-            self.isActiveChanging = False
-            self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(Universals.MySettings["musicTagType"]))
-            if self.cbMusicTagTypeForMenu != None:
-                self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(Universals.MySettings["musicTagType"]))
-            self.isActiveChanging = True
+            error = ReportBug.ReportBug()
+            error.show()
         
     def getSpecialOptions(self, _menu):
         self.cbMusicTagTypeForMenu = MComboBox(self)
         self.cbMusicTagTypeForMenu.addItems(self.MusicTagTypes)
+        self.isActiveChanging = False
         self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(Universals.MySettings["musicTagType"]))
+        self.isActiveChanging = True
         MObject.connect(self.cbMusicTagTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
         wactLabel = MWidgetAction(_menu)
         wactLabel.setDefaultWidget(MLabel(translate("MusicOptionsBar", "ID3 Version") + u" : "))
@@ -596,7 +607,9 @@ class SubDirectoryOptionsBar(MToolBar):
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
+        self.isActiveChanging = False
         self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(Universals.MySettings["subDirectoryDeep"]))
+        self.isActiveChanging = True
         self.cbSubDirectoryDeep.setToolTip(lblDetails)
         pnlSubDirectoryDeep = MWidget()
         hblSubDirectoryDeep = MHBoxLayout(pnlSubDirectoryDeep)
@@ -608,34 +621,95 @@ class SubDirectoryOptionsBar(MToolBar):
         self.setIconSize(MSize(32,32))
     
     def subDirectoryDeepChanged(self, _action=None):
-        selectedDeep = self.SubDirectoryDeeps[1]
         try:
-            int(_action)
             selectedDeep = str(self.SubDirectoryDeeps[_action])
+            if self.isActiveChanging:
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                    Universals.setMySetting("subDirectoryDeep", int(selectedDeep))
+                    Tables.refreshForTableColumns()
+                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                self.isActiveChanging = False
+                self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["subDirectoryDeep"])))
+                if self.cbSubDirectoryDeepForMenu != None:
+                    self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["subDirectoryDeep"])))
+                self.isActiveChanging = True
         except:
-            selectedDeep = str(_action.objectName())
-        if self.isActiveChanging:
-            if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
-                Universals.setMySetting("subDirectoryDeep", int(selectedDeep))
-                Tables.refreshForTableColumns()
-                Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                Tables.refreshTable(InputOutputs.currentDirectoryPath)
-            self.isActiveChanging = False
-            self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["subDirectoryDeep"])))
-            if self.cbSubDirectoryDeepForMenu != None:
-                self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["subDirectoryDeep"])))
-            self.isActiveChanging = True
+            error = ReportBug.ReportBug()
+            error.show()
             
     def getSpecialOptions(self, _menu):
         self.cbSubDirectoryDeepForMenu = MComboBox(self)
         self.cbSubDirectoryDeepForMenu.addItems(self.SubDirectoryDeeps)
+        self.isActiveChanging = False
         self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["subDirectoryDeep"])))
+        self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
         wactLabel = MWidgetAction(_menu)
         wactLabel.setObjectName(translate("SubDirectoryOptionsBar", "Label Deep") + u" : ")
         wactLabel.setDefaultWidget(MLabel(translate("SubDirectoryOptionsBar", "Deep") + u" : "))
         wact = MWidgetAction(_menu)
         wact.setObjectName(translate("SubDirectoryOptionsBar", "Deep") + u" : ")
+        wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
+        _menu.addAction(wactLabel)
+        _menu.addAction(wact)
+        
+class CoverOptionsBar(MToolBar):
+    def __init__(self, _parent):
+        MToolBar.__init__(self, _parent)
+        self.isActiveChanging = True
+        self.cbSubDirectoryDeepForMenu = None
+        self.setWindowTitle(translate("CoverOptionsBar", "Cover Options"))
+        self.setObjectName(translate("CoverOptionsBar", "Cover Options"))
+        lblDetails = translate("CoverOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
+        lblSubDirectoryDeep = MLabel(translate("CoverOptionsBar", "Deep") + u" : ")
+        self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) if x!=0 ]
+        self.cbSubDirectoryDeep = MComboBox(self)
+        self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
+        self.isActiveChanging = False
+        self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(Universals.MySettings["CoversSubDirectoryDeep"]))
+        self.isActiveChanging = True
+        self.cbSubDirectoryDeep.setToolTip(lblDetails)
+        pnlSubDirectoryDeep = MWidget()
+        hblSubDirectoryDeep = MHBoxLayout(pnlSubDirectoryDeep)
+        hblSubDirectoryDeep.addWidget(lblSubDirectoryDeep)
+        hblSubDirectoryDeep.addWidget(self.cbSubDirectoryDeep)
+        pnlSubDirectoryDeep.setLayout(hblSubDirectoryDeep)
+        self.addWidget(pnlSubDirectoryDeep)
+        MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.coverDeepChanged)
+        self.setIconSize(MSize(32,32))
+    
+    def coverDeepChanged(self, _action=None):
+        try:
+            selectedDeep = str(self.SubDirectoryDeeps[_action])
+            if self.isActiveChanging:
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                    Universals.setMySetting("CoversSubDirectoryDeep", int(selectedDeep))
+                    Tables.refreshForTableColumns()
+                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                self.isActiveChanging = False
+                self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["CoversSubDirectoryDeep"])))
+                if self.cbSubDirectoryDeepForMenu != None:
+                    self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["CoversSubDirectoryDeep"])))
+                self.isActiveChanging = True
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+        
+            
+    def getSpecialOptions(self, _menu):
+        self.cbSubDirectoryDeepForMenu = MComboBox(self)
+        self.cbSubDirectoryDeepForMenu.addItems(self.SubDirectoryDeeps)
+        self.isActiveChanging = False
+        self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["CoversSubDirectoryDeep"])))
+        self.isActiveChanging = True
+        MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.coverDeepChanged)
+        wactLabel = MWidgetAction(_menu)
+        wactLabel.setObjectName(translate("CoverOptionsBar", "Label Deep") + u" : ")
+        wactLabel.setDefaultWidget(MLabel(translate("CoverOptionsBar", "Deep") + u" : "))
+        wact = MWidgetAction(_menu)
+        wact.setObjectName(translate("CoverOptionsBar", "Deep") + u" : ")
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)

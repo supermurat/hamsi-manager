@@ -12,7 +12,7 @@ import Organizer
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory
     fileNames = []
     directoryNames = []
     musicFileNames = []
@@ -354,7 +354,7 @@ class InputOutputs:
             except:tFileAndDirs.append(name)
         return tFileAndDirs
   
-    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _currentSubDeep=0):
+    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _currentSubDeep=0):
         global appendingDirectories
         _subDirectoryDeep = int(_subDirectoryDeep)
         allFilesAndDirectories, names, files, directories, appendingDirectories =[],[],[],[],[]
@@ -379,9 +379,9 @@ class InputOutputs:
                     if _subDirectoryDeep==-1 or _subDirectoryDeep>_currentSubDeep:
                         if _isGetDirectoryNames==True:
                             allFilesAndDirectories.append(_path+"/"+name)
-                        for dd in readDirectoryWithSubDirectories(_path+"/"+name, _subDirectoryDeep, _isGetDirectoryNames, _currentSubDeep+1):
+                        for dd in readDirectoryWithSubDirectories(_path+"/"+name, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _currentSubDeep+1):
                             allFilesAndDirectories.append(dd)
-                else:
+                elif _isOnlyDirectories==False:
                     allFilesAndDirectories.append(_path+"/"+name)
         return allFilesAndDirectories
     
@@ -825,7 +825,31 @@ class InputOutputs:
                 info+=row+"\n"
         writeToFile(_path + "/.directory", info)
         return returnValue
-          
+        
+    def getIconFromDirectory(_path):
+        iconPath, isCorrectedFileContent = None, True
+        if isFile(_path + "/.directory"):
+            info = readFromFile(_path + "/.directory")
+            if info.find("[Desktop Entry]")==-1:
+                isCorrectedFileContent = False
+            if info.find("[Desktop Entry]") > info.find("Icon=") and info.find("Icon=")>-1:
+                isCorrectedFileContent = False
+            rows = info.split("\n")
+            for rowNo in range(len(rows)):
+                if rows[rowNo][:5] == "Icon=":
+                    if len(rows[rowNo])>5:
+                        if rows[rowNo][5]=="." and isFile(_path + str(rows[rowNo][6:])):
+                            iconPath = _path + str(rows[rowNo][6:])
+                        elif rows[rowNo][5]!="." and isFile(rows[rowNo][5:]):
+                            iconPath = rows[rowNo][5:]
+                        elif rows[rowNo][5]==".":
+                            iconPath = _path + str(rows[rowNo][6:])
+                            isCorrectedFileContent = False
+                        else:
+                            iconPath = rows[rowNo][5:]
+                            isCorrectedFileContent = False
+        return iconPath, isCorrectedFileContent
+
     def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
         from MyObjects import translate
         import Dialogs

@@ -35,6 +35,7 @@ class Settings():
                   "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
                   "hiddenFileTableColumns", "hiddenMusicTableColumns", "hiddenSubFolderTableColumns", 
+                  "hiddenCoverTableColumns", 
                   "isPlayNow", "MainWindowGeometries", "tableType", 
                   "activeTabNoOfSpecialTools", "unneededFiles", "ignoredFiles", 
                   "imageExtensions", "musicExtensions", "priorityIconNames", 
@@ -48,6 +49,7 @@ class Settings():
                   "NeededObjectsName", "isActivePyKDE4", "isCloseOnCleanAndPackage", 
                   "TableToolsBarButtonStyle", "ToolsBarButtonStyle", "PlayerBarButtonStyle", 
                   "MusicOptionsBarButtonStyle", "SubDirectoryOptionsBarButtonStyle", 
+                  "CoverOptionsBarButtonStyle",
                   "language", "isShowQuickMakeWindow", "isChangeExistIcon", 
                   "isClearFirstAndLastSpaceChars", "isEmendIncorrectChars", "validSentenceStructureForFile", 
                   "validSentenceStructureForFileExtension", "isCorrectFileNameWithSearchAndReplaceTable", 
@@ -69,7 +71,8 @@ class Settings():
                   "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate", 
                   "isShowTransactionDetails", "windowMode", "isInstalledKDE4Language", 
                   "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReconfigureWizard", 
-                  "isAskIfHasManyImagesInAlbumDirectory", "isDeleteOtherImages"
+                  "isAskIfHasManyImagesInAlbumDirectory", "isDeleteOtherImages", 
+                  "CoversSubDirectoryDeep"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -242,6 +245,7 @@ class Settings():
                 "hiddenFileTableColumns": str([]), 
                 "hiddenMusicTableColumns": str([]), 
                 "hiddenSubFolderTableColumns": str([]), 
+                "hiddenCoverTableColumns": str([]),
                 "isPlayNow": "False", 
                 "MainWindowGeometries": str([50, 50, 850, 533]), 
                 "tableType": "2", 
@@ -278,6 +282,7 @@ class Settings():
                 "PlayerBarButtonStyle": "0", 
                 "MusicOptionsBarButtonStyle": "0", 
                 "SubDirectoryOptionsBarButtonStyle": "0",
+                "CoverOptionsBarButtonStyle": "0",
                 "language": insLangCode, 
                 "isShowQuickMakeWindow": "True", 
                 "isChangeExistIcon": "False", 
@@ -327,7 +332,8 @@ class Settings():
                 "isMakeAutoDesign": "True", 
                 "isShowReconfigureWizard": "True", 
                 "isAskIfHasManyImagesInAlbumDirectory": "True", 
-                "isDeleteOtherImages": "False"
+                "isDeleteOtherImages": "False", 
+                "CoversSubDirectoryDeep": "-1"
                 }
                 
     def getValueTypesAndValues():
@@ -344,6 +350,7 @@ class Settings():
                 "hiddenFileTableColumns": ["intList", range(0, 2)], 
                 "hiddenMusicTableColumns": ["intList", range(0, 10)], 
                 "hiddenSubFolderTableColumns": ["intList", range(0, 2)], 
+                "hiddenCoverTableColumns": ["intList", range(0, 2)], 
                 "isPlayNow": "bool", 
                 "MainWindowGeometries": ["intStaticListLen", 4], 
                 "tableType": ["int", range(0, 5)], 
@@ -380,6 +387,7 @@ class Settings():
                 "PlayerBarButtonStyle": ["int", range(0, 4)], 
                 "MusicOptionsBarButtonStyle": ["int", range(0, 4)], 
                 "SubDirectoryOptionsBarButtonStyle": ["int", range(0, 4)], 
+                "CoverOptionsBarButtonStyle": ["int", range(0, 4)], 
                 "language": ["options", InputOutputs.getInstalledLanguagesCodes()], 
                 "isShowQuickMakeWindow": "bool", 
                 "isChangeExistIcon": "bool", 
@@ -429,7 +437,8 @@ class Settings():
                 "isMakeAutoDesign": "bool", 
                 "isShowReconfigureWizard": "bool", 
                 "isAskIfHasManyImagesInAlbumDirectory": "bool", 
-                "isDeleteOtherImages": "bool"
+                "isDeleteOtherImages": "bool", 
+                "CoversSubDirectoryDeep": ["int", [ x for x in range(-1, 10) if x!=0 ]]
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):

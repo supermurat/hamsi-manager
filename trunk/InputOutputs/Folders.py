@@ -22,7 +22,6 @@ class Folders:
         currentFilesAndFoldersValues=[]
         InputOutputs.readDirectory(_directoryPath)
         for dirNo,dirName in enumerate(InputOutputs.fileAndDirectoryNames):
-            MApplication.processEvents()
             dInfo=[]
             dInfo.append(InputOutputs.getBaseName(_directoryPath))
             dInfo.append(dirName)
@@ -39,7 +38,6 @@ class Folders:
             startRowNo,rowStep=0,1
         Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),0,len(currentFilesAndFoldersValues))
         for rowNo in range(startRowNo,_table.rowCount(),rowStep):
-            MApplication.processEvents()
             if Universals.isShowOldValues==True:
                 realRowNo=rowNo/2
             else:

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-07-17, 19:28:37 -->
+<!-- Saved: 2010-07-18, 18:11:39 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -89,6 +89,10 @@
     <Source>Core/__init__.py</Source>
     <Source>Reconfigure.py</Source>
     <Source>Core/Hasher.py</Source>
+    <Source>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/main.js</Source>
+    <Source>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/script.spec</Source>
+    <Source>InputOutputs/Covers.py</Source>
+    <Source>Tables/CoverTable.py</Source>
   </Sources>
   <Forms>
   </Forms>
@@ -113,6 +117,7 @@
   <Interfaces>
   </Interfaces>
   <Others>
+    <Other>Themes</Other>
   </Others>
   <MainScript>HamsiManager.py</MainScript>
   <Vcs>

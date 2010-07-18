@@ -93,7 +93,6 @@ class FileTreeBuilder(MyDialog):
     def build(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            MApplication.processEvents()
             outputType = "file"
             contentType = "html"
             if self.cbOutputType.currentIndex()==1:

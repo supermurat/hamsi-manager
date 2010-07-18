@@ -8,43 +8,50 @@ import Dialogs
 import Organizer
 import Universals
 
-class SubFolders:
+class Covers:
     """currentFilesAndFoldersValues[file no][value no]
 
     """
-    global readSubFolders,writeSubFolders,currentFilesAndFoldersValues, changedValueNumber
+    global readCovers,writeCovers,currentFilesAndFoldersValues, changedValueNumber
     currentFilesAndFoldersValues = []
     changedValueNumber = 0
     
-    def readSubFolders(_directoryPath):
+    def readCovers(_directoryPath):
         global currentFilesAndFoldersValues,types,types_nos, changedValueNumber
         changedValueNumber = 0
         currentFilesAndFoldersValues=[]
         InputOutputs.allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
-                    int(Universals.MySettings["subDirectoryDeep"]))
-        for fileNo,fileName in enumerate(InputOutputs.allFilesAndDirectories):
+                    int(Universals.MySettings["CoversSubDirectoryDeep"]), True, True)
+        for dirNo,dirName in enumerate(InputOutputs.allFilesAndDirectories):
             fileValues=[]
             fileValues.append(str(str(InputOutputs.getBaseName(_directoryPath)) + 
-                            str(InputOutputs.getDirName(fileName)).replace(_directoryPath,"")))
-            fileValues.append(InputOutputs.getBaseName(fileName))
+                            str(InputOutputs.getDirName(dirName)).replace(_directoryPath,"")))
+            fileValues.append(InputOutputs.getBaseName(dirName))
+            iconPath, isCorrectedFileContent = InputOutputs.getIconFromDirectory(dirName)
+            selectedName = None
+            if isCorrectedFileContent and iconPath!=None:
+                selectedName = InputOutputs.getBaseName(iconPath)
+            sourceCover = InputOutputs.getFirstImageInDirectory(dirName, selectedName, False, False)
+            if iconPath==None:
+                iconPath = ""
+            if sourceCover==None:
+                sourceCover = ""
+            fileValues.append(iconPath)
+            fileValues.append(sourceCover)
+            fileValues.append(sourceCover)
+            fileValues.append(isCorrectedFileContent)
             currentFilesAndFoldersValues.append(fileValues)
-            Dialogs.showState(translate("InputOutputs/SubFolders", "Reading File Informations"),
-                              fileNo+1,len(InputOutputs.allFilesAndDirectories)) 
+            Dialogs.showState(translate("InputOutputs/Covers", "Reading Cover Informations"),
+                              dirNo+1,len(InputOutputs.allFilesAndDirectories)) 
     
-    def writeSubFolders(_table):
+    def writeCovers(_table):
         global changedValueNumber
         changedValueNumber = 0
         changingFileDirectories=[]
-        if Universals.isShowOldValues==True:
-            startRowNo,rowStep=1,2
-        else:
-            startRowNo,rowStep=0,1
-        Dialogs.showState(translate("InputOutputs/SubFolders", "Writing File Informations"),0,len(currentFilesAndFoldersValues))
+        startRowNo,rowStep=0,1
+        Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),0,len(currentFilesAndFoldersValues))
         for rowNo in range(startRowNo,_table.rowCount(),rowStep):
-            if Universals.isShowOldValues==True:
-                realRowNo=rowNo/2
-            else:
-                realRowNo=rowNo
+            realRowNo=rowNo
             if InputOutputs.isWritableFileOrDir(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                 if _table.isRowHidden(rowNo):
                     InputOutputs.removeFileOrDir(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
@@ -54,7 +61,7 @@ class SubFolders:
                     if str(currentFilesAndFoldersValues[realRowNo][1])!=unicode(_table.item(rowNo,1).text()).encode("utf-8"):
                         if unicode(_table.item(rowNo,1).text()).encode("utf-8").strip()!="":
                             _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
-                            newFileName = InputOutputs.moveOrChange(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]),str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                            newFileName = InputOutputs.moveOrChange(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]), str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"), InputOutputs.getObjectType(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1])))
                             changedValueNumber += 1
                 if newFileName==False:
                     continue
@@ -72,10 +79,7 @@ class SubFolders:
                         changingFileDirectories[-1].append(str(newPath)+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(newFileName))
                         changingFileDirectories[-1].append(str(newPath)+"/"+str(newDirectoryName)+"/"+str(newFileName))
                         changedValueNumber += 1
-            if Universals.isShowOldValues==True:
-                actionNumber=rowNo/2
-            else:
-                actionNumber=rowNo
-            Dialogs.showState(translate("InputOutputs/SubFolders", "Writing File Informations"),actionNumber+1,len(currentFilesAndFoldersValues))
+            actionNumber=rowNo
+            Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),actionNumber+1,len(currentFilesAndFoldersValues))
         return InputOutputs.changeDirectories(changingFileDirectories)
-    
+
