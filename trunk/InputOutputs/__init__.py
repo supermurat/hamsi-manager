@@ -12,7 +12,7 @@ import Organizer
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory, getRealPath
     fileNames = []
     directoryNames = []
     musicFileNames = []
@@ -83,6 +83,17 @@ class InputOutputs:
                 break
             realDirName = getDirName(realDirName)
         return realDirName
+        
+    def getRealPath(_oldPath, _parentPath):
+        _oldPath = str(_oldPath)
+        if len(_oldPath)==0: return "/"
+        if _oldPath[-1]=="/":
+            _oldPath = _oldPath[:-1]
+        if _parentPath[-1]=="/":
+            _parentPath = _parentPath[:-1]
+        if _oldPath[:2]=="./":
+            _oldPath = _parentPath + _oldPath[1:]
+        return _oldPath
     
     def getBaseName(_oldPath):
         _oldPath = str(_oldPath)
@@ -771,7 +782,7 @@ class InputOutputs:
         if _iconName==None:
             return False
         _iconName = str(_iconName).strip()
-        returnValue, isChanging, isChange, isCorrectFileContent = False, False, True, False
+        returnValue, isChanging, isChange, isCorrectFileContent, rows = False, False, True, False, []
         if _iconName!="":
             try:
                 info = readFromFile(_path + "/.directory")
@@ -830,7 +841,7 @@ class InputOutputs:
         iconPath, isCorrectedFileContent = None, True
         if isFile(_path + "/.directory"):
             info = readFromFile(_path + "/.directory")
-            if info.find("[Desktop Entry]")==-1:
+            if info.find("[Desktop Entry]")==-1 and len(info)>0:
                 isCorrectedFileContent = False
             if info.find("[Desktop Entry]") > info.find("Icon=") and info.find("Icon=")>-1:
                 isCorrectedFileContent = False

@@ -313,18 +313,21 @@ class Tables(MTableWidget):
             import Records
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
             import InputOutputs
-            InputOutputs.activateSmartCheckIcon()
+            if Universals.tableType!=4:
+                InputOutputs.activateSmartCheckIcon()
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                 if InputOutputs.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                     Universals.MainWindow.FileManager.makeRefresh(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))
                     return True
             if self.rowCount()!=0:
                 newCurrentDirectoryPath = self.saveSubTable(self)
-                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                    if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
-                        InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
-            if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
-                InputOutputs.complateSmartCheckIcon()
+                if Universals.tableType!=4:
+                    if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                        if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
+                            InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
+            if Universals.tableType!=4:
+                if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
+                    InputOutputs.complateSmartCheckIcon()
             Records.saveAllRecords()
             if self.changedValueNumber==0:
                 Dialogs.show(translate("Tables", "Did Not Change Any Things"), 

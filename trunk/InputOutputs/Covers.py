@@ -36,6 +36,8 @@ class Covers:
                 iconPath = ""
             if sourceCover==None:
                 sourceCover = ""
+            else:
+                sourceCover = dirName + "/" + sourceCover
             fileValues.append(iconPath)
             fileValues.append(sourceCover)
             fileValues.append(sourceCover)
@@ -65,6 +67,18 @@ class Covers:
                             changedValueNumber += 1
                 if newFileName==False:
                     continue
+                #Cover Proccess
+                if _table.item(rowNo,2).text()!=_table.item(rowNo,3).text() or _table.item(rowNo,3).text()!=_table.item(rowNo,4).text() or _table.item(rowNo,2).text()!=_table.item(rowNo,4).text():
+                    if unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()!="" and unicode(_table.item(rowNo,4).text()).encode("utf-8").strip()!="":
+                        sourcePath = InputOutputs.getRealPath(unicode(_table.item(rowNo,3).text()).encode("utf-8").strip(), str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
+                        destinationPath = InputOutputs.getRealPath(unicode(_table.item(rowNo,4).text()).encode("utf-8").strip(), str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
+                        if sourcePath!=destinationPath:
+                            destinationPath = InputOutputs.moveOrChange(sourcePath, destinationPath)
+                        if destinationPath!=False:
+                            InputOutputs.setIconToDirectory(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0]) + "/" + newFileName, destinationPath)
+                    else:
+                        InputOutputs.setIconToDirectory(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName, "")
+                        
                 if _table.isColumnHidden(0)!=True and _table.item(rowNo,0).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                     try:
