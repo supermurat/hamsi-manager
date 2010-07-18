@@ -74,11 +74,16 @@ class CoverTable():
         startRowNo, rowStep = 0, 1
         for dirNo in range(startRowNo, self.rowCount(), rowStep):
             for itemNo in range(0,5):
-                newString = Organizer.emend(Covers.currentFilesAndFoldersValues[dirNo][itemNo], True)
+                if itemNo==2 or itemNo==3:
+                    newString = Organizer.showWithIncorrectChars(Covers.currentFilesAndFoldersValues[dirNo][itemNo])
+                else:
+                    newString = Organizer.emend(Covers.currentFilesAndFoldersValues[dirNo][itemNo], True)
+                if 1<itemNo and itemNo<5:
+                    newString = newString.replace(_path + "/" + Covers.currentFilesAndFoldersValues[dirNo][1], ".")
                 item = MTableWidgetItem(newString.decode("utf-8"))
                 item.setStatusTip(item.text())
                 self.setItem(dirNo,itemNo,item)
-                if str(Covers.currentFilesAndFoldersValues[dirNo][itemNo])!=str(newString) and str(Covers.currentFilesAndFoldersValues[dirNo][itemNo])!="None":
+                if itemNo!=2 and itemNo!=3 and str(Covers.currentFilesAndFoldersValues[dirNo][itemNo])!=str(newString) and str(Covers.currentFilesAndFoldersValues[dirNo][itemNo])!=str(_path + "/" + Covers.currentFilesAndFoldersValues[dirNo][1] + newString[1:]) and str(Covers.currentFilesAndFoldersValues[dirNo][itemNo])!="None":
                     self.item(dirNo,itemNo).setBackground(MBrush(MColor(142,199,255)))
                     self.item(dirNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(Covers.currentFilesAndFoldersValues[dirNo][itemNo]).decode("utf-8"))
             if Covers.currentFilesAndFoldersValues[dirNo][5]==False:
