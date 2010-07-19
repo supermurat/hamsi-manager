@@ -77,8 +77,12 @@ if RoutineChecks.checkPyQt4Exist():
                 self.hblButtons.addWidget(btn, 1)
                 self.connect(btn,SIGNAL("clicked()"),self.pageChanged)
             self.pbtnCancel = MPushButton(MApplication.translate("Reconfigure", "Cancel"))
+            self.pbtnFinish = MPushButton(MApplication.translate("Reconfigure", "Finish"))
+            self.pbtnFinish.setVisible(False)
             self.hblButtons.addWidget(self.pbtnCancel, 1)
+            self.hblButtons.addWidget(self.pbtnFinish, 1)
             self.connect(self.pbtnCancel,SIGNAL("clicked()"),self.close)
+            self.connect(self.pbtnFinish,SIGNAL("clicked()"),self.close)
             self.vblMain.addLayout(self.hblButtons)
             self.setLayout(self.vblMain)
             self.pageChanged(True)
@@ -169,8 +173,9 @@ if RoutineChecks.checkPyQt4Exist():
                 self.buttons[0].setVisible(False)
                 self.buttons[1].setVisible(False)
                 self.buttons[2].setVisible(False)
-                self.pbtnCancel.setVisible(True)
-                self.pbtnCancel.setText(MApplication.translate("Reconfigure", "Finish"))
+                self.pbtnCancel.setVisible(False)
+                self.pbtnFinish.setVisible(True)
+                self.isInstallFinised = True
             if _isRunningManual==False:
                 if senderObject==self.buttons[2]:
                     self.reConfigure()
