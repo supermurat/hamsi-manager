@@ -253,7 +253,7 @@ class Bars():
                     Packager.Packager(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Hash"):
                     import Hasher
-                    Hasher.Hasher()
+                    Hasher.Hasher(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Clear"):
                     import Cleaner
                     Cleaner.Cleaner(InputOutputs.currentDirectoryPath)

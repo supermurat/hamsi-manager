@@ -112,25 +112,27 @@ class Hasher(MyDialog):
             self.leHashDigestFile.setEnabled(False)
     
     def hash(self):
-        hashType = str(self.cbHash.currentText())
-        if hashType!=None:
-            hashDigestContent = InputOutputs.getHashDigest(unicode(self.lePathOfPackage.text(), "utf-8"), hashType)
-            if hashDigestContent!=False:
-                self.teHashDigest.setText(hashDigestContent.decode("utf-8"))
-                if self.cbHashOutput.currentIndex()==1:
-                    if InputOutputs.createHashDigestFile(unicode(self.lePathOfPackage.text(), "utf-8"), unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False, hashDigestContent):
-                        Dialogs.show(translate("Hasher", "Hash Digest File Created"),
-                                    str(translate("Hasher", "Hash digest writed into %s")) % unicode(self.leHashDigestFile.text(), "utf-8"))
-                    else:
-                        Dialogs.showError(translate("Hasher", "Hash Digest File Is Not Created"),
-                                    translate("Hasher", "Hash digest file not cteated."))
-                elif self.cbHashOutput.currentIndex()==2:
-                        MApplication.clipboard().setText(hashDigestContent.decode("utf-8"))
-                        Dialogs.show(translate("Hasher", "Hash Digest Copied To Clipboard"),
-                                    str(translate("Hasher", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
-            else:
-                Dialogs.showError(translate("Hasher", "Hash Digest Is Not Created"),
-                                translate("Hasher", "Hash digest not cteated."))
+        sourceFile = unicode(self.lePathOfPackage.text(), "utf-8")
+        if InputOutputs.checkSource(sourceFile, "file"):
+            hashType = str(self.cbHash.currentText())
+            if hashType!=None:
+                hashDigestContent = InputOutputs.getHashDigest(sourceFile, hashType)
+                if hashDigestContent!=False:
+                    self.teHashDigest.setText(hashDigestContent.decode("utf-8"))
+                    if self.cbHashOutput.currentIndex()==1:
+                        if InputOutputs.createHashDigestFile(sourceFile, unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False, hashDigestContent):
+                            Dialogs.show(translate("Hasher", "Hash Digest File Created"),
+                                        str(translate("Hasher", "Hash digest writed into %s")) % unicode(self.leHashDigestFile.text(), "utf-8"))
+                        else:
+                            Dialogs.showError(translate("Hasher", "Hash Digest File Is Not Created"),
+                                        translate("Hasher", "Hash digest file not cteated."))
+                    elif self.cbHashOutput.currentIndex()==2:
+                            MApplication.clipboard().setText(hashDigestContent.decode("utf-8"))
+                            Dialogs.show(translate("Hasher", "Hash Digest Copied To Clipboard"),
+                                        str(translate("Hasher", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
+                else:
+                    Dialogs.showError(translate("Hasher", "Hash Digest Is Not Created"),
+                                    translate("Hasher", "Hash digest not cteated."))
         
     def selectPackagePath(self):
         try:
