@@ -85,6 +85,7 @@ class Tables(MTableWidget):
             SubFolderTable.SubFolderTable(self)
         elif Universals.tableType==4:
             CoverTable.CoverTable(self)
+            Universals.isShowOldValues = False
         self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.hiddenTableColumnsSettingKey])
         _parent.MainLayout.addLayout(self.hblBox)
         self.mContextMenuColumns = MMenu()
