@@ -251,9 +251,10 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = Organizer.emend(QuickMakeParameters[1], True)
                 import Organizer
                 newFileName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName)
-                Dialogs.show(translate("QuickMake", "File Emended"),
-                        str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This file is \"%s\" now.")) % 
-                        (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newFileName)))
+                if newFileName!=False:
+                    Dialogs.show(translate("QuickMake", "File Emended"),
+                            str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This file is \"%s\" now.")) % 
+                            (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newFileName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -268,10 +269,11 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = Organizer.emend(QuickMakeParameters[1], True)
                 import Organizer
                 newName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName, "directory")
-                newDirName = InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newName
-                Dialogs.show(translate("QuickMake", "Directory Emended"),
-                        str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
-                        (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(newDirName)))
+                if newName!=False:
+                    newDirName = InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newName
+                    Dialogs.show(translate("QuickMake", "Directory Emended"),
+                            str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
+                            (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(newDirName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -287,21 +289,22 @@ class QuickMakeWindow(MyDialog):
                 import Organizer
                 InputOutputs.activateSmartCheckIcon()
                 newName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName, "directory")
-                newDirName = InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newName
-                InputOutputs.readDirectory(newDirName)
-                for fileAndDirs in InputOutputs.fileAndDirectoryNames:
-                    objectType = "file"
-                    if InputOutputs.isDir(newDirName + "/" + fileAndDirs):
-                        objectType = "directory"
-                    InputOutputs.moveOrChange(newDirName + "/" + fileAndDirs, 
-                              newDirName + "/" + Organizer.emend(fileAndDirs), objectType)
-                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                    InputOutputs.checkIcon(newDirName)
-                if InputOutputs.isDir(newDirName):
-                    InputOutputs.complateSmartCheckIcon()
-                Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),
-                        str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
-                        (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(newDirName)))
+                if newName!=False:
+                    newDirName = InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newName
+                    InputOutputs.readDirectory(newDirName)
+                    for fileAndDirs in InputOutputs.fileAndDirectoryNames:
+                        objectType = "file"
+                        if InputOutputs.isDir(newDirName + "/" + fileAndDirs):
+                            objectType = "directory"
+                        InputOutputs.moveOrChange(newDirName + "/" + fileAndDirs, 
+                                  newDirName + "/" + Organizer.emend(fileAndDirs), objectType)
+                    if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                        InputOutputs.checkIcon(newDirName)
+                    if InputOutputs.isDir(newDirName):
+                        InputOutputs.complateSmartCheckIcon()
+                    Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),
+                            str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
+                            (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(newDirName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()

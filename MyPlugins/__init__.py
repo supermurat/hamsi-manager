@@ -74,7 +74,9 @@ class MyPlugins(MDialog):
                     MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Universals.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                isInstalled = InputOutputs.copyOrChange(Universals.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                newFileName = InputOutputs.copyOrChange(Universals.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                if newFileName!=False:
+                    isInstalled = True
         else:
             isInstalled = installThisPlugin()
         if isInstalled:
@@ -153,7 +155,9 @@ class MyPluginsForSystem(MWidget):
                     MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Universals.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                isInstalled = InputOutputs.copyOrChange(Universals.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                newFileName = InputOutputs.copyOrChange(Universals.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                if newFileName!=False:
+                    isInstalled = True
         else:
             isInstalled = installThisPlugin()
         if isInstalled:

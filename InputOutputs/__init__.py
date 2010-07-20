@@ -462,7 +462,7 @@ class InputOutputs:
                         extState = _newFileValues[1].lower().find(orgExt)
                         if extState!=-1:
                             _newFileValues[1] = _newFileValues[1].split(".")[-1][:extState] + "." + orgExt
-                if moveOrChange(_oldFileValues[0]+"/"+_oldFileValues[1],_oldFileValues[0]+"/"+_newFileValues[1])==True:
+                if moveOrChange(_oldFileValues[0]+"/"+_oldFileValues[1],_oldFileValues[0]+"/"+_newFileValues[1])!=False:
                     newFileName=_newFileValues[1]
         newDirectory=_newFileValues[0].replace(getDirName(_oldFileValues[0])+"/","")
         try:
@@ -472,7 +472,7 @@ class InputOutputs:
             if newDirectory.decode("utf-8").lower()==newDirectory.upper():
                 newDirectory=_oldFileValues[0]
         if getBaseName(_oldFileValues[0])!=newDirectory:
-            if moveOrChange(_oldFileValues[0]+"/"+newFileName,path.dirname(_oldFileValues[0])+"/"+newDirectory+"/"+newFileName)==True:
+            if moveOrChange(_oldFileValues[0]+"/"+newFileName,path.dirname(_oldFileValues[0])+"/"+newDirectory+"/"+newFileName)!=False:
                 return getDirName(_oldFileValues[0])+"/"+newDirectory+"/"+newFileName
         return _oldFileValues[0]+"/"+_oldFileValues[1]
                 
@@ -627,7 +627,7 @@ class InputOutputs:
                         checkIcon(getDirName(_newPath))
             return getBaseName(_newPath)
         else:
-            return getBaseName(_oldPath)
+            return False
             
     def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQuiet=False):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
@@ -655,7 +655,7 @@ class InputOutputs:
                     checkIcon(_newPath)
             return getBaseName(_newPath)
         else:
-            return getBaseName(_oldPath)
+            return False
     
     def changeDirectories(_values):
         #will return directory(new) name
@@ -784,6 +784,8 @@ class InputOutputs:
         _iconName = str(_iconName).strip()
         returnValue, isChanging, isChange, isCorrectFileContent, rows = False, False, True, False, []
         if _iconName!="":
+            if str(_path)==str(getDirName(_iconName)):
+                _iconName = "./" + getBaseName(_iconName)
             try:
                 info = readFromFile(_path + "/.directory")
                 if info.find("[Desktop Entry]")==-1:
@@ -804,11 +806,11 @@ class InputOutputs:
                             if Universals.getBoolValue("isChangeExistIcon")==False:
                                 isChange = False
                     isChanging = True
-                    rows[rowNo] = "Icon=./" + _iconName 
+                    rows[rowNo] = "Icon=" + _iconName 
                     returnValue = True
             if isChange:
                 if isChanging==False:
-                    rows.append("Icon=./" + _iconName)
+                    rows.append("Icon=" + _iconName)
                     returnValue = True
             if isCorrectFileContent:
                 rowNoStrDesktopEntry = -1
