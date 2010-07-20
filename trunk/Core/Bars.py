@@ -213,11 +213,14 @@ class Bars():
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Universals.aboutOfHamsiManager)
             elif _isFromMenu==False:
                 if actionName==translate("Tables", "Show Also Previous Information"):
-                    if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
-                        Universals.isShowOldValues = _action.isChecked()
-                        Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                    if Universals.tableType!=4:
+                        if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                            Universals.isShowOldValues = _action.isChecked()
+                            Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                        else:
+                            _action.setChecked(Universals.isShowOldValues)
                     else:
-                        _action.setChecked(Universals.isShowOldValues)
+                        _action.setChecked(False)
                 elif actionName==translate("Tables", "Ignore Selection"):
                     Universals.isChangeAll = _action.isChecked()
                     if _action.isChecked():
