@@ -181,6 +181,7 @@ if RoutineChecks.checkPyQt4Exist():
                     self.reConfigure()
             
         def reConfigure(self):
+            oldPathOfExecutableHamsi = Settings.getUniversalSetting("pathOfExecutableHamsi", "/usr/bin/hamsi").decode("utf-8")
             if InputOutputs.isFile(Universals.HamsiManagerDirectory + "/HamsiManager.desktop"):
                 MyConfigure.reConfigureFile(Universals.HamsiManagerDirectory + "/HamsiManager.desktop", Universals.HamsiManagerDirectory)
             if self.isCreateDesktopShortcut!=None:
@@ -195,6 +196,12 @@ if RoutineChecks.checkPyQt4Exist():
                     if executableLink.strip()!="":
                         InputOutputs.createSymLink(Universals.HamsiManagerDirectory+"/HamsiManager.py", executableLink)
                         Settings.setUniversalSetting("pathOfExecutableHamsi", executableLink)
+                        if oldPathOfExecutableHamsi!=executableLink:
+                            if InputOutputs.isFile(oldPathOfExecutableHamsi):
+                                answer = Dialogs.ask(MApplication.translate("Reconfigure", "Other Hamsi Manager Was Detected"), 
+                                    str(MApplication.translate("Reconfigure", "Other Hamsi Manager executable file was detected? Are you want to delete old executable file? You can delete this old executable file : \"%s\"")) % (oldPathOfExecutableHamsi))
+                                if answer!=Dialogs.Yes:
+                                    InputOutputs.removeFile(oldPathOfExecutableHamsi)
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(Universals.HamsiManagerDirectory)
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)

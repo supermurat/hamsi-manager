@@ -329,7 +329,8 @@ class Musics:
                             if extState!=-1:
                                 _newMusicTagsValues[1] = _newMusicTagsValues[1].split(".")[-1][:extState] + "." + orgExt
                         newFileName = InputOutputs.moveOrChange(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1],_oldMusicTagsValues[0]+"/"+_newMusicTagsValues[1])
-                            
+                        if newFileName==False:
+                            newFileName=_oldMusicTagsValues[1]
                 newDirectoryName=_newMusicTagsValues[0].replace(InputOutputs.getDirName(_oldMusicTagsValues[0])+"/","")
                 try:
                     newDirectoryName=str(newDirectoryName)
@@ -338,7 +339,7 @@ class Musics:
                     if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
                         newDirectoryName=_oldMusicTagsValues[0]
                 if InputOutputs.getBaseName(_oldMusicTagsValues[0])!=newDirectoryName:
-                    if InputOutputs.moveOrChange(_oldMusicTagsValues[0]+"/"+newFileName,InputOutputs.getDirName(_oldMusicTagsValues[0])+"/"+newDirectoryName+"/"+newFileName)==True:
+                    if InputOutputs.moveOrChange(_oldMusicTagsValues[0]+"/"+newFileName,InputOutputs.getDirName(_oldMusicTagsValues[0])+"/"+newDirectoryName+"/"+newFileName)!=False:
                         return InputOutputs.getDirName(_oldMusicTagsValues[0])+"/"+newDirectoryName+"/"+newFileName
             
             #Making changes on image files

@@ -68,17 +68,29 @@ class Covers:
                 if newFileName==False:
                     continue
                 #Cover Proccess
-                if _table.item(rowNo,2).text()!=_table.item(rowNo,3).text() or _table.item(rowNo,3).text()!=_table.item(rowNo,4).text() or _table.item(rowNo,2).text()!=_table.item(rowNo,4).text():
-                    if unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()!="" and unicode(_table.item(rowNo,4).text()).encode("utf-8").strip()!="":
-                        sourcePath = InputOutputs.getRealPath(unicode(_table.item(rowNo,3).text()).encode("utf-8").strip(), str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
-                        destinationPath = InputOutputs.getRealPath(unicode(_table.item(rowNo,4).text()).encode("utf-8").strip(), str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
-                        if sourcePath!=destinationPath:
-                            destinationPath = InputOutputs.moveOrChange(sourcePath, destinationPath)
-                        if destinationPath!=False:
-                            InputOutputs.setIconToDirectory(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0]) + "/" + newFileName, destinationPath)
-                    else:
-                        InputOutputs.setIconToDirectory(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName, "")
-                        
+                if (_table.isColumnHidden(3)!=True and (_table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True)) or (_table.isColumnHidden(4)!=True and (_table.item(rowNo,4).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True)):
+                    sourcePath = currentFilesAndFoldersValues[realRowNo][3]
+                    destinationPath = currentFilesAndFoldersValues[realRowNo][4]
+                    if (_table.isColumnHidden(3)!=True and (_table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True)):
+                        sourcePath = unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()
+                    if (_table.isColumnHidden(4)!=True and (_table.item(rowNo,4).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True)):
+                        destinationPath = unicode(_table.item(rowNo,4).text()).encode("utf-8").strip()
+                    if (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath or sourcePath!=destinationPath or unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath) or (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=currentFilesAndFoldersValues[realRowNo][2] and(unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath and unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath)):
+                        if unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()!="":
+                            sourcePath = InputOutputs.getRealPath(sourcePath, str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
+                            if InputOutputs.checkSource(sourcePath, "file"):
+                                if destinationPath!="":
+                                    destinationPath = InputOutputs.getRealPath(destinationPath, str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
+                                    if sourcePath!=destinationPath:
+                                        destinationPath = InputOutputs.moveOrChange(sourcePath, destinationPath)
+                                else:
+                                    destinationPath = sourcePath
+                                if destinationPath!=False:
+                                    InputOutputs.setIconToDirectory(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0]) + "/" + newFileName, destinationPath)
+                                    changedValueNumber += 1
+                        else:
+                            InputOutputs.setIconToDirectory(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName, "")
+                            changedValueNumber += 1
                 if _table.isColumnHidden(0)!=True and _table.item(rowNo,0).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                     try:

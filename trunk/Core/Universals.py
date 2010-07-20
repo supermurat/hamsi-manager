@@ -159,8 +159,6 @@ class Universals():
                             translate("Tables", "Music Table"), 
                             translate("Tables", "Subfolder Table"), 
                             translate("Tables", "Cover Table")]
-        if tableType==3 or tableType==4:
-            tableType = 0
             
     def clearAllChilds(_object):
         from MyObjects import MWidget
