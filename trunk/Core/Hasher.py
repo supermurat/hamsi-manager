@@ -21,7 +21,7 @@ class Hasher(MyDialog):
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = Options.Options(None, "hash", None, newOrChangedKeys)
         lblPathOfPackage = MLabel(translate("Hasher", "<b>Path Of The File : </b>"))
-        lblHash = MLabel(translate("Hasher", "<b>Hash : </b>"))
+        lblHash = MLabel(translate("Hasher", "<b>Hash Type : </b>"))
         lblHashOutput = MLabel(translate("Hasher", "<b>Hash Output : </b>"))
         lblHashDigestFile = MLabel(translate("Hasher", "<b>Hash Digest File : </b>"))
         lblHashDigest = MLabel(translate("Hasher", "<b>Hash Digest : </b>"))

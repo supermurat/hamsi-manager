@@ -206,8 +206,8 @@ class Options(MDialog):
                               translate("Options", "Cover"), 
                               translate("Options", "General Cleaning")]
         elif _showType=="fileTree":
-            self.categories = []
-            self.labelsOfCategories = []
+            self.categories = [General(self, _showType, ["isSaveActions"])]
+            self.labelsOfCategories = [translate("Options", "General")]
         elif _showType=="removeOnlySubFiles":
             self.categories = [General(self, _showType, ["isSaveActions"])]
             self.labelsOfCategories = [translate("Options", "General")]
@@ -222,6 +222,9 @@ class Options(MDialog):
             self.labelsOfCategories = [translate("Options", "General"),
                               translate("Options", "General Cleaning"),
                               translate("Options", "Cleaner")]
+        elif _showType=="hash":
+            self.categories = [General(self, _showType, ["isSaveActions"])]
+            self.labelsOfCategories = [translate("Options", "General")]
         else:
             self.categories = []
             self.labelsOfCategories = []
