@@ -25,7 +25,8 @@ class Covers:
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
         for dirNo,dirName in enumerate(allFilesAndDirectories):
-            if Universals.isContinueThreadAction():
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 fileValues=[]
                 fileValues.append(str(str(InputOutputs.getBaseName(_directoryPath)) + 
                                 str(InputOutputs.getDirName(dirName)).replace(_directoryPath,"")))
@@ -50,6 +51,8 @@ class Covers:
                 allItemNumber = dirNo+1
             Dialogs.showState(translate("InputOutputs/Covers", "Reading Cover Informations"),
                               dirNo+1,allItemNumber, True) 
+            if isContinueThreadAction==False:
+                break
         Universals.finishThreadAction()
     
     def writeCovers(_table):
@@ -62,7 +65,8 @@ class Covers:
         Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),0,allItemNumber, True)
         for rowNo in range(startRowNo,_table.rowCount(),rowStep):
             realRowNo=rowNo
-            if Universals.isContinueThreadAction():
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 if InputOutputs.isWritableFileOrDir(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
                         InputOutputs.removeFileOrDir(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
@@ -114,10 +118,11 @@ class Covers:
                             changingFileDirectories[-1].append(str(newPath)+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(newFileName))
                             changingFileDirectories[-1].append(str(newPath)+"/"+str(newDirectoryName)+"/"+str(newFileName))
                             changedValueNumber += 1
-                actionNumber=rowNo
             else:
                 allItemNumber = realRowNo+1
-            Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),actionNumber+1,allItemNumber, True)
+            Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),realRowNo+1,allItemNumber, True)
+            if isContinueThreadAction==False:
+                break
         Universals.finishThreadAction()
         return InputOutputs.changeDirectories(changingFileDirectories)
 

@@ -24,7 +24,8 @@ class Folders:
         allItemNumber = len(fileAndDirectoryNames)
         Universals.startThreadAction()
         for dirNo,dirName in enumerate(fileAndDirectoryNames):
-            if Universals.isContinueThreadAction():
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 dInfo=[]
                 dInfo.append(InputOutputs.getBaseName(_directoryPath))
                 dInfo.append(dirName)
@@ -32,6 +33,8 @@ class Folders:
             else:
                 allItemNumber = dirNo+1
             Dialogs.showState(translate("InputOutputs/Folders", "Reading Directory Informations"),dirNo+1,allItemNumber, True) 
+            if isContinueThreadAction==False:
+                break
         Universals.finishThreadAction()
     
     def writeFolders(_table):
@@ -50,7 +53,8 @@ class Folders:
                 realRowNo=rowNo/2
             else:
                 realRowNo=rowNo
-            if Universals.isContinueThreadAction():
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 if InputOutputs.isWritableFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
                         InputOutputs.removeFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]), True)
@@ -78,13 +82,11 @@ class Folders:
                             changingFileDirectories[-1].append(InputOutputs.currentDirectoryPath+"/"+newFileName)
                             changingFileDirectories[-1].append(newPath+"/"+newDirectoryName+"/"+newFileName)
                             changedValueNumber += 1
-                if Universals.isShowOldValues==True:
-                    actionNumber=rowNo/2
-                else:
-                    actionNumber=rowNo
             else:
                 allItemNumber = realRowNo+1
-            Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),actionNumber+1,allItemNumber, True)
+            Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),realRowNo+1,allItemNumber, True)
+            if isContinueThreadAction==False:
+                break
         Universals.finishThreadAction()
         return InputOutputs.changeDirectories(changingFileDirectories)
 

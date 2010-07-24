@@ -25,7 +25,8 @@ class SubFolders:
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
         for fileNo,fileName in enumerate(allFilesAndDirectories):
-            if Universals.isContinueThreadAction():
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 fileValues=[]
                 fileValues.append(str(str(InputOutputs.getBaseName(_directoryPath)) + 
                                 str(InputOutputs.getDirName(fileName)).replace(_directoryPath,"")))
@@ -35,6 +36,8 @@ class SubFolders:
                 allItemNumber = fileNo+1
             Dialogs.showState(translate("InputOutputs/SubFolders", "Reading File Informations"),
                               fileNo+1,allItemNumber, True) 
+            if isContinueThreadAction==False:
+                break
         Universals.finishThreadAction()
     
     def writeSubFolders(_table):
@@ -53,7 +56,8 @@ class SubFolders:
                 realRowNo=rowNo/2
             else:
                 realRowNo=rowNo
-            if Universals.isContinueThreadAction():
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 if InputOutputs.isWritableFileOrDir(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
                         InputOutputs.removeFileOrDir(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
@@ -81,13 +85,11 @@ class SubFolders:
                             changingFileDirectories[-1].append(str(newPath)+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(newFileName))
                             changingFileDirectories[-1].append(str(newPath)+"/"+str(newDirectoryName)+"/"+str(newFileName))
                             changedValueNumber += 1
-                if Universals.isShowOldValues==True:
-                    actionNumber=rowNo/2
-                else:
-                    actionNumber=rowNo
             else:
                 allItemNumber = realRowNo+1
-            Dialogs.showState(translate("InputOutputs/SubFolders", "Writing File Informations"),actionNumber+1,allItemNumber, True)
+            Dialogs.showState(translate("InputOutputs/SubFolders", "Writing File Informations"),realRowNo+1,allItemNumber, True)
+            if isContinueThreadAction==False:
+                break
         Universals.finishThreadAction()
         return InputOutputs.changeDirectories(changingFileDirectories)
     
