@@ -20,31 +20,37 @@ class Covers:
         global currentFilesAndFoldersValues,types,types_nos, changedValueNumber
         changedValueNumber = 0
         currentFilesAndFoldersValues=[]
-        InputOutputs.allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
+        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
                     int(Universals.MySettings["CoversSubDirectoryDeep"]), True, True)
-        for dirNo,dirName in enumerate(InputOutputs.allFilesAndDirectories):
-            fileValues=[]
-            fileValues.append(str(str(InputOutputs.getBaseName(_directoryPath)) + 
-                            str(InputOutputs.getDirName(dirName)).replace(_directoryPath,"")))
-            fileValues.append(InputOutputs.getBaseName(dirName))
-            iconPath, isCorrectedFileContent = InputOutputs.getIconFromDirectory(dirName)
-            selectedName = None
-            if isCorrectedFileContent and iconPath!=None:
-                selectedName = InputOutputs.getBaseName(iconPath)
-            sourceCover = InputOutputs.getFirstImageInDirectory(dirName, selectedName, False, False)
-            if iconPath==None:
-                iconPath = ""
-            if sourceCover==None:
-                sourceCover = ""
+        allItemNumber = len(allFilesAndDirectories)
+        Universals.startThreadAction()
+        for dirNo,dirName in enumerate(allFilesAndDirectories):
+            if Universals.isContinueThreadAction():
+                fileValues=[]
+                fileValues.append(str(str(InputOutputs.getBaseName(_directoryPath)) + 
+                                str(InputOutputs.getDirName(dirName)).replace(_directoryPath,"")))
+                fileValues.append(InputOutputs.getBaseName(dirName))
+                iconPath, isCorrectedFileContent = InputOutputs.getIconFromDirectory(dirName)
+                selectedName = None
+                if isCorrectedFileContent and iconPath!=None:
+                    selectedName = InputOutputs.getBaseName(iconPath)
+                sourceCover = InputOutputs.getFirstImageInDirectory(dirName, selectedName, False, False)
+                if iconPath==None:
+                    iconPath = ""
+                if sourceCover==None:
+                    sourceCover = ""
+                else:
+                    sourceCover = dirName + "/" + sourceCover
+                fileValues.append(iconPath)
+                fileValues.append(sourceCover)
+                fileValues.append(sourceCover)
+                fileValues.append(isCorrectedFileContent)
+                currentFilesAndFoldersValues.append(fileValues)
             else:
-                sourceCover = dirName + "/" + sourceCover
-            fileValues.append(iconPath)
-            fileValues.append(sourceCover)
-            fileValues.append(sourceCover)
-            fileValues.append(isCorrectedFileContent)
-            currentFilesAndFoldersValues.append(fileValues)
+                allItemNumber = dirNo+1
             Dialogs.showState(translate("InputOutputs/Covers", "Reading Cover Informations"),
-                              dirNo+1,len(InputOutputs.allFilesAndDirectories)) 
+                              dirNo+1,allItemNumber, True) 
+        Universals.finishThreadAction()
     
     def writeCovers(_table):
         global changedValueNumber

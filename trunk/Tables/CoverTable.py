@@ -18,7 +18,6 @@ class CoverTable():
         _table.subTableCellClicked = _subTableCellClicked
         _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
         _table.subShowDetails = _subShowDetails
-        _table.fileValues = InputOutputs.allFilesAndDirectories 
         _table.fileDetails = Covers.currentFilesAndFoldersValues
         self=_table
         _refreshSubTableColumns(self)
@@ -68,7 +67,6 @@ class CoverTable():
         
     def _refreshSubTable(self, _path):
         Covers.readCovers(_path)
-        self.fileValues = InputOutputs.allFilesAndDirectories 
         self.fileDetails = Covers.currentFilesAndFoldersValues
         self.setRowCount(len(Covers.currentFilesAndFoldersValues))
         startRowNo, rowStep = 0, 1

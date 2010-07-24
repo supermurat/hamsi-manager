@@ -12,12 +12,7 @@ import Organizer
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, musicFileNames, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, fileNames,directoryNames,musicFileNames,fileAndDirectoryNames, allFilesAndDirectories, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory, getRealPath
-    fileNames = []
-    directoryNames = []
-    musicFileNames = []
-    fileAndDirectoryNames = []
-    allFilesAndDirectories = []
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory, getRealPath
     appendingDirectories = []
     currentDirectoryPath = ""
     systemsCharSet = Settings.defaultFileSystemEncoding
@@ -333,8 +328,8 @@ class InputOutputs:
                 return False
         return False
         
-    def readDirectory(_path):
-        global fileNames,directoryNames,musicFileNames,appendingDirectories,fileAndDirectoryNames
+    def readDirectory(_path, _objectType="fileOrDirectory"):
+        global appendingDirectories
         appendingDirectories=[]
         fileAndDirectoryNames,fileNames,directoryNames,musicFileNames=[],[],[],[]
         for name in listDir(_path):
@@ -357,6 +352,16 @@ class InputOutputs:
             fileAndDirectoryNames.append(d)
         for f in fileNames:
             fileAndDirectoryNames.append(f)
+        if _objectType=="file":
+            return fileNames
+        elif _objectType=="directory":
+            return directoryNames  
+        elif _objectType=="fileAndDirectory":
+            return fileAndDirectoryNames  
+        elif _objectType=="music":
+            return musicFileNames
+        else:
+            return []
     
     def readDirectoryAll(_path): 
         tFileAndDirs=[]

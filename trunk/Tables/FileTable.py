@@ -18,7 +18,6 @@ class FileTable():
         _table.subTableCellClicked = _subTableCellClicked
         _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
         _table.subShowDetails = _subShowDetails
-        _table.fileValues = InputOutputs.fileNames
         _table.fileDetails = Files.currentFilesAndFoldersValues
         self=_table
         _refreshSubTableColumns(self)
@@ -64,7 +63,6 @@ class FileTable():
         
     def _refreshSubTable(self, _path):
         Files.readFiles(_path)
-        self.fileValues = InputOutputs.fileNames
         self.fileDetails = Files.currentFilesAndFoldersValues
         if Universals.isShowOldValues==True:
             n=2

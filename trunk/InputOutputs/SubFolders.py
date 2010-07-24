@@ -20,16 +20,22 @@ class SubFolders:
         global currentFilesAndFoldersValues,types,types_nos, changedValueNumber
         changedValueNumber = 0
         currentFilesAndFoldersValues=[]
-        InputOutputs.allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
+        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
                     int(Universals.MySettings["subDirectoryDeep"]))
-        for fileNo,fileName in enumerate(InputOutputs.allFilesAndDirectories):
-            fileValues=[]
-            fileValues.append(str(str(InputOutputs.getBaseName(_directoryPath)) + 
-                            str(InputOutputs.getDirName(fileName)).replace(_directoryPath,"")))
-            fileValues.append(InputOutputs.getBaseName(fileName))
-            currentFilesAndFoldersValues.append(fileValues)
+        allItemNumber = len(allFilesAndDirectories)
+        Universals.startThreadAction()
+        for fileNo,fileName in enumerate(allFilesAndDirectories):
+            if Universals.isContinueThreadAction():
+                fileValues=[]
+                fileValues.append(str(str(InputOutputs.getBaseName(_directoryPath)) + 
+                                str(InputOutputs.getDirName(fileName)).replace(_directoryPath,"")))
+                fileValues.append(InputOutputs.getBaseName(fileName))
+                currentFilesAndFoldersValues.append(fileValues)
+            else:
+                allItemNumber = fileNo+1
             Dialogs.showState(translate("InputOutputs/SubFolders", "Reading File Informations"),
-                              fileNo+1,len(InputOutputs.allFilesAndDirectories)) 
+                              fileNo+1,allItemNumber, True) 
+        Universals.finishThreadAction()
     
     def writeSubFolders(_table):
         global changedValueNumber

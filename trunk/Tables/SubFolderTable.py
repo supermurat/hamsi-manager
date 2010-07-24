@@ -18,7 +18,6 @@ class SubFolderTable():
         _table.subTableCellClicked = _subTableCellClicked
         _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
         _table.subShowDetails = _subShowDetails
-        _table.fileValues = InputOutputs.allFilesAndDirectories 
         _table.fileDetails = SubFolders.currentFilesAndFoldersValues
         self=_table
         _refreshSubTableColumns(self)
@@ -64,7 +63,6 @@ class SubFolderTable():
         
     def _refreshSubTable(self, _path):
         SubFolders.readSubFolders(_path)
-        self.fileValues = InputOutputs.allFilesAndDirectories 
         self.fileDetails = SubFolders.currentFilesAndFoldersValues
         if Universals.isShowOldValues==True:
             n=2
