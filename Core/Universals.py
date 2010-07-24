@@ -177,8 +177,11 @@ class Universals():
     def cancelThreadAction():
         global threadActionState
         import Dialogs
-        Dialogs.show("proc canceled")
-        threadActionState = False
+        from MyObjects import translate
+        answer = Dialogs.ask(translate("Universals", "Are You Sure"),
+                            translate("Universals", "Are you want to cancel these transactions?"))
+        if answer==Dialogs.Yes:
+            threadActionState = False
         
     def finishThreadAction():
         global threadActionState

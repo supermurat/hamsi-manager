@@ -36,7 +36,8 @@ class Musics:
         allItemNumber = len(musicFileNames)
         Universals.startThreadAction()
         for musicNo,musicName in enumerate(musicFileNames):
-            if Universals.isContinueThreadAction():
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 if eyeD3.isMp3File(_directoryPath+"/"+musicName) == False:
                     isCanNoncompatible=True
                 musicTagsValues=[]
@@ -126,6 +127,8 @@ class Musics:
             else:
                 allItemNumber = musicNo+1
             Dialogs.showState(translate("InputOutputs/Musics", "Reading Music Tags"),musicNo+1,allItemNumber, True)
+            if isContinueThreadAction==False:
+                break
         Universals.finishThreadAction()
         if isCanNoncompatible == True:
             Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
@@ -148,7 +151,8 @@ class Musics:
                 realRowNo=rowNo/2
             else:
                 realRowNo=rowNo
-            if Universals.isContinueThreadAction():
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 if InputOutputs.isWritableFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
                         InputOutputs.removeFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
@@ -267,13 +271,11 @@ class Musics:
                             changingFileDirectories[-1].append(newPath+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
                             changingFileDirectories[-1].append(newPath+"/"+newDirectoryName+"/"+newFileName)
                             changedValueNumber += 1
-                if Universals.isShowOldValues==True:
-                    actionNumber=rowNo/2
-                else:
-                    actionNumber=rowNo
             else:
                 allItemNumber = realRowNo+1
-            Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),actionNumber+1,allItemNumber, True)
+            Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),realRowNo+1,allItemNumber, True)
+            if isContinueThreadAction==False:
+                break
         Universals.finishThreadAction()
         return InputOutputs.changeDirectories(changingFileDirectories)
         
