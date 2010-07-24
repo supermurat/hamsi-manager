@@ -166,9 +166,6 @@ class FileManager():
         try:
             if InputOutputs.isReadableFileOrDir(_path):
                 if InputOutputs.isDir(_path):
-#                    if Universals.tableType==3 or Universals.tableType==4:
-#                        import Bars
-#                        Bars.changeTableType(0) #Not usable now
                     if _isRemember:
                         self.future = []
                         self.history.append(self.currentDirectory)
