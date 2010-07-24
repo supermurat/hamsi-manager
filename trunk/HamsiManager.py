@@ -17,12 +17,15 @@ if RoutineChecks.checkPyQt4Exist():
         Settings.checkSettings()
         import Universals
         Universals.fillMySettings()
+        Universals.printForDevelopers("Before MyObjects")
         from MyObjects import *
+        Universals.printForDevelopers("Before InputOutputs")
         import InputOutputs
         import OldAppName
         if OldAppName.checkOldAppNameAndSettings():
             OldAppName.getSettingsFromOldNameAndSettings()
         if Universals.isActivePyKDE4==True:
+            Universals.printForDevelopers("ActivePyKDE4")
             appName     = "HamsiManager"
             programName = ki18n ("Hamsi Manager")
             version     = RoutineChecks.__version__
@@ -68,6 +71,7 @@ if RoutineChecks.checkPyQt4Exist():
                 HamsiManagerApp.installTranslator(languageFile)
             Universals.aboutOfHamsiManager = aboutOfHamsiManager
         else:
+            Universals.printForDevelopers("NotActivePyKDE4")
             HamsiManagerApp = MApplication(sys.argv)  
             if InputOutputs.isFile(Universals.HamsiManagerDirectory+"/Languages/About_"+ str(Universals.MySettings["language"])):
                 aboutFileContent = InputOutputs.readFromFile(Universals.HamsiManagerDirectory+"/Languages/About_"+ str(Universals.MySettings["language"]))
@@ -92,8 +96,10 @@ if RoutineChecks.checkPyQt4Exist():
         MTextCodec.setCodecForTr(MTextCodec.codecForName("UTF-8"))
         HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager.png"))
         MApplication.setStyle(Universals.MySettings["applicationStyle"])
+        Universals.printForDevelopers("Before RoutineChecks.checkMyModules")
         if RoutineChecks.checkMyModules(HamsiManagerApp):
             if RoutineChecks.isQuickMake:
+                Universals.printForDevelopers("QuickMake")
                 try:
                     myUniversals = Universals.Universals(HamsiManagerApp, None)
                     Universals.fillUIUniversals()
@@ -107,35 +113,49 @@ if RoutineChecks.checkPyQt4Exist():
                     error.show()
                     HamsiManagerApp.exec_()
             if RoutineChecks.isQuickMake == False:
+                Universals.printForDevelopers("NotQuickMake")
                 import SpecialTools
                 import Tables
                 import FileManager
                 import Bars
+                Universals.printForDevelopers("After Modules")
                 try:
                     class Main(MMainWindow):
                         def __init__(self):
                             MMainWindow.__init__(self, None)
+                            Universals.printForDevelopers("Started __init__")
                             self.setObjectName("RealMainWindow")
                             myUniversals = Universals.Universals(HamsiManagerApp, self)
                             Universals.fillUIUniversals()
                             self.CentralWidget = MWidget()
                             self.Menu = None
                             self.MainLayout = MVBoxLayout()
+                            Universals.printForDevelopers("Before Bars.Bars")
                             self.Bars = Bars.Bars()
+                            Universals.printForDevelopers("Before Bars.StatusBar")
                             self.StatusBar = Bars.StatusBar(self)
+                            Universals.printForDevelopers("Before Bars.MenuBar")
                             self.Menu = Bars.MenuBar(self)
+                            Universals.printForDevelopers("Before Bars.ToolsBar")
                             self.ToolsBar = Bars.ToolsBar(self)
+                            Universals.printForDevelopers("Before Bars.TableToolsBar")
                             self.TableToolsBar = Bars.TableToolsBar(self)
+                            Universals.printForDevelopers("Before Bars.refreshBars")
                             self.Bars.refreshBars()
+                            Universals.printForDevelopers("Before FileManager.FileManager")
                             self.FileManager = FileManager.FileManager(self)
+                            Universals.printForDevelopers("After FileManager.FileManager")
                             self.CentralWidget.setLayout(self.MainLayout)
                             self.setCentralWidget(self.CentralWidget)
                             self.setMenuBar(self.Menu)
                             self.setStatusBar(self.StatusBar)
+                            Universals.printForDevelopers("Before Menu.refreshForTableType")
                             self.Menu.refreshForTableType()
+                            Universals.printForDevelopers("Before Bars.getAllBarsStyleFromMySettings")
                             self.Bars.getAllBarsStyleFromMySettings()
                             self.setCorner(Mt.TopLeftCorner, Mt.LeftDockWidgetArea)
                             self.setCorner(Mt.BottomLeftCorner, Mt.LeftDockWidgetArea)
+                            Universals.printForDevelopers("End of __init__")
                             
                         def lockForm(self):
                             self.CentralWidget.setEnabled(False)
@@ -157,6 +177,7 @@ if RoutineChecks.checkPyQt4Exist():
                             
                         def closeEvent(self, _event):
                             try:
+                                Universals.printForDevelopers("Started closeEvent")
                                 MApplication.setQuitOnLastWindowClosed(True)
                                 try:self.PlayerBar.Player.stop()
                                 except:pass
@@ -164,14 +185,18 @@ if RoutineChecks.checkPyQt4Exist():
                                 from Details import MusicDetails, TextDetails
                                 MusicDetails.closeAllMusicDialogs()
                                 TextDetails.closeAllTextDialogs()
+                                Universals.printForDevelopers("Closed Dialogs")
                                 if self.Table.checkUnSavedTableValues()==False:
                                     _event.ignore() 
+                                    Universals.printForDevelopers("Close ignored")
                                 if Universals.isActivePyKDE4==True:
+                                    Universals.printForDevelopers("Before Save KDE Configs")
                                     kconf = MGlobal.config()
                                     kconfGroup = MConfigGroup(kconf,"DirectoryOperator")
                                     self.FileManager.dirOperator.writeConfig(kconfGroup)
                                     self.FileManager.actCollection.writeSettings(kconfGroup)
-                                
+                                    Universals.printForDevelopers("After Save KDE Configs")
+                                Universals.printForDevelopers("Before Save Configs")
                                 Universals.setMySetting(self.Table.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
                                 if ReportBug.iSClosingInErrorReporting == False:
@@ -197,15 +222,19 @@ if RoutineChecks.checkPyQt4Exist():
                                 Universals.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 Universals.saveSettings()
                                 Settings.saveUniversalSettings()
+                                Universals.printForDevelopers("After Save Configs")
                                 RoutineChecks.checkAfterCloseProccess()
+                                Universals.printForDevelopers("After RoutineChecks.checkAfterCloseProccess")
                             except:
                                 import ReportBug
                                 if ReportBug.isClose==False:
                                     error = ReportBug.ReportBug()
                                     error.show()
                                     _event.ignore()
-                                    
+                    
+                    Universals.printForDevelopers("Before Main")
                     MainWindow=Main()
+                    Universals.printForDevelopers("After Main")
                     MainWindow.setWindowTitle(u"Hamsi Manager "+ MApplication.applicationVersion())
                     if Universals.isActivePyKDE4==True:
                         kconf = MGlobal.config()
@@ -226,7 +255,9 @@ if RoutineChecks.checkPyQt4Exist():
                         geometries = Universals.getListFromStrint(Universals.MySettings["MainWindowGeometries"])
                         MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
                         MainWindow.show()
+                    Universals.printForDevelopers("Before RoutineChecks.checkAfterRunProccess")
                     RoutineChecks.checkAfterRunProccess()
+                    Universals.printForDevelopers("After RoutineChecks.checkAfterRunProccess")
                     Universals.setMySetting("isMakeAutoDesign", "False")
                     Universals.setMySetting("isShowReconfigureWizard", "False")
                     Universals.isStartingSuccessfully = True
@@ -236,6 +267,7 @@ if RoutineChecks.checkPyQt4Exist():
                     error = ReportBug.ReportBug()
                     error.show()
                 try:
+                    Universals.printForDevelopers("Before HamsiManagerApp.exec_")
                     HamsiManagerApp.exec_()
                 except:
                     import ReportBug
