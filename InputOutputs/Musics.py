@@ -31,97 +31,102 @@ class Musics:
             musicFileNames = [InputOutputs.getBaseName(_filePath)]
         else:
             currentFilesAndFoldersValues = []
-            InputOutputs.readDirectory(_directoryPath)
-            musicFileNames = InputOutputs.musicFileNames
+            musicFileNames = InputOutputs.readDirectory(_directoryPath, "music")
         isCanNoncompatible = False
+        allItemNumber = len(musicFileNames)
+        Universals.startThreadAction()
         for musicNo,musicName in enumerate(musicFileNames):
-            if eyeD3.isMp3File(_directoryPath+"/"+musicName) == False:
-                isCanNoncompatible=True
-            musicTagsValues=[]
-            if _filePath!=None:
-                musicTagsValues.append(_directoryPath)
-            else:
-                musicTagsValues.append(InputOutputs.getBaseName(_directoryPath))
-            musicTagsValues.append(musicName)
-            try:
-                tag = eyeD3.Tag()
+            if Universals.isContinueThreadAction():
+                if eyeD3.isMp3File(_directoryPath+"/"+musicName) == False:
+                    isCanNoncompatible=True
+                musicTagsValues=[]
+                if _filePath!=None:
+                    musicTagsValues.append(_directoryPath)
+                else:
+                    musicTagsValues.append(InputOutputs.getBaseName(_directoryPath))
+                musicTagsValues.append(musicName)
                 try:
-                    tag.link((_directoryPath+"/"+musicName).encode(InputOutputs.systemsCharSet), musicTagType)
-                except:
                     tag = eyeD3.Tag()
-                    tag.link(_directoryPath+"/"+musicName, musicTagType)
-                try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getArtist())))
-                except: musicTagsValues.append("None")
-                try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getTitle())))
-                except: musicTagsValues.append("None")
-                try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getAlbum())))
-                except: musicTagsValues.append("None")
-                try:
-                    if musicTagType==eyeD3.ID3_V2:
-                        musicTagsValues.append(str(str(tag.getTrackNum()[0])+"/"+str(tag.getTrackNum()[1])))
-                    else:
-                        musicTagsValues.append(str(tag.getTrackNum()[0]))
-                except: musicTagsValues.append("None")
-                try:    musicTagsValues.append(str(tag.getYear()))
-                except: musicTagsValues.append("None")
-                try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getGenre())))
-                except: musicTagsValues.append("None")
-                try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getComment())))
-                except: musicTagsValues.append("None")
-                try:
-                    if len(tag.getLyrics())!=0:
-                        musicTagsValues.append(getValuesForMusicTagType(str(tag.getLyrics()[0].lyrics)))
-                    else:
+                    try:
+                        tag.link((_directoryPath+"/"+musicName).encode(InputOutputs.systemsCharSet), musicTagType)
+                    except:
+                        tag = eyeD3.Tag()
+                        tag.link(_directoryPath+"/"+musicName, musicTagType)
+                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getArtist())))
+                    except: musicTagsValues.append("None")
+                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getTitle())))
+                    except: musicTagsValues.append("None")
+                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getAlbum())))
+                    except: musicTagsValues.append("None")
+                    try:
+                        if musicTagType==eyeD3.ID3_V2:
+                            musicTagsValues.append(str(str(tag.getTrackNum()[0])+"/"+str(tag.getTrackNum()[1])))
+                        else:
+                            musicTagsValues.append(str(tag.getTrackNum()[0]))
+                    except: musicTagsValues.append("None")
+                    try:    musicTagsValues.append(str(tag.getYear()))
+                    except: musicTagsValues.append("None")
+                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getGenre())))
+                    except: musicTagsValues.append("None")
+                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getComment())))
+                    except: musicTagsValues.append("None")
+                    try:
+                        if len(tag.getLyrics())!=0:
+                            musicTagsValues.append(getValuesForMusicTagType(str(tag.getLyrics()[0].lyrics)))
+                        else:
+                            musicTagsValues.append("None")
+                    except:
                         musicTagsValues.append("None")
-                except:
-                    musicTagsValues.append("None")
-                if _filePath!=None:
-                    try:
+                    if _filePath!=None:
                         try:
-                            musicFileDetail = eyeD3.Mp3AudioFile((_directoryPath+"/"+musicName).encode(InputOutputs.systemsCharSet))
+                            try:
+                                musicFileDetail = eyeD3.Mp3AudioFile((_directoryPath+"/"+musicName).encode(InputOutputs.systemsCharSet))
+                            except:
+                                musicFileDetail = eyeD3.Mp3AudioFile(_directoryPath+"/"+musicName)
+                            musicTagsValues.append(str(musicFileDetail.getSize()))
+                            musicTagsValues.append(str(musicFileDetail.getPlayTimeString()))
+                            musicTagsValues.append(str(musicFileDetail.getSampleFreq()))
+                            musicTagsValues.append(str(musicFileDetail.getBitRateString()))
                         except:
-                            musicFileDetail = eyeD3.Mp3AudioFile(_directoryPath+"/"+musicName)
-                        musicTagsValues.append(str(musicFileDetail.getSize()))
-                        musicTagsValues.append(str(musicFileDetail.getPlayTimeString()))
-                        musicTagsValues.append(str(musicFileDetail.getSampleFreq()))
-                        musicTagsValues.append(str(musicFileDetail.getBitRateString()))
-                    except:
-                        musicTagsValues.append("")
-                        musicTagsValues.append("")
-                        musicTagsValues.append("")
-                        musicTagsValues.append("")
-                    musicTagsValues.append([])
-                    try:
-                        for image_no,image in enumerate(tag.getImages()):
-                            musicTagsValues[-1].append([])
-                            for no,type in enumerate(types):
-                                if str(image.pictureType)==types_nos[no]:
-                                    musicTagsValues[-1][image_no].append(no)
-                                    musicTagsValues[-1][image_no].append(type)
-                                    break
-                            musicTagsValues[-1][image_no].append(image.mimeType)
-                            musicTagsValues[-1][image_no].append(image.imageData)
-                    except:
-                        pass
-                    return musicTagsValues
-            except:
-                musicTagsValues.append("")
-                musicTagsValues.append("")
-                musicTagsValues.append("")
-                musicTagsValues.append("")
-                musicTagsValues.append("")
-                musicTagsValues.append("")
-                musicTagsValues.append("")
-                musicTagsValues.append("")
-                if _filePath!=None:
+                            musicTagsValues.append("")
+                            musicTagsValues.append("")
+                            musicTagsValues.append("")
+                            musicTagsValues.append("")
+                        musicTagsValues.append([])
+                        try:
+                            for image_no,image in enumerate(tag.getImages()):
+                                musicTagsValues[-1].append([])
+                                for no,type in enumerate(types):
+                                    if str(image.pictureType)==types_nos[no]:
+                                        musicTagsValues[-1][image_no].append(no)
+                                        musicTagsValues[-1][image_no].append(type)
+                                        break
+                                musicTagsValues[-1][image_no].append(image.mimeType)
+                                musicTagsValues[-1][image_no].append(image.imageData)
+                        except:
+                            pass
+                        return musicTagsValues
+                except:
                     musicTagsValues.append("")
                     musicTagsValues.append("")
                     musicTagsValues.append("")
                     musicTagsValues.append("")
-                    musicTagsValues.append([])
-                    return musicTagsValues
-            currentFilesAndFoldersValues.append(musicTagsValues)
-            Dialogs.showState(translate("InputOutputs/Musics", "Reading Music Tags"),musicNo+1,len(musicFileNames))
+                    musicTagsValues.append("")
+                    musicTagsValues.append("")
+                    musicTagsValues.append("")
+                    musicTagsValues.append("")
+                    if _filePath!=None:
+                        musicTagsValues.append("")
+                        musicTagsValues.append("")
+                        musicTagsValues.append("")
+                        musicTagsValues.append("")
+                        musicTagsValues.append([])
+                        return musicTagsValues
+                currentFilesAndFoldersValues.append(musicTagsValues)
+            else:
+                allItemNumber = musicNo+1
+            Dialogs.showState(translate("InputOutputs/Musics", "Reading Music Tags"),musicNo+1,allItemNumber, True)
+        Universals.finishThreadAction()
         if isCanNoncompatible == True:
             Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
                 translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))

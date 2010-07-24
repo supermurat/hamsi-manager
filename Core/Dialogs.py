@@ -4,8 +4,8 @@ from MyObjects import *
 import Universals
 
 class Dialogs():
-    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, select
-    pnlState, prgbState, lblState = "", "", ""
+    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, select, pbtnCancel
+    pnlState, prgbState, lblState, pbtnCancel = None, None, None, None
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
     
     def show(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
@@ -127,13 +127,16 @@ class Dialogs():
             elif btn!=None:
                 return _btnString
                 
-    def showState(_title, _value=0, _maxValue=100):
+    def showState(_title, _value=0, _maxValue=100, _isShowCancel=False):
         if Universals.windowMode==Universals.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
-            return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue)
+            return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel)
         MApplication.processEvents()
-        global pnlState,prgbState, lblState
-        if pnlState=="":
+        global pnlState, prgbState, lblState, pbtnCancel
+        if pnlState==None:
             prgbState = MProgressBar()
+            pbtnCancel = MPushButton(translate("Dialogs", "Cancel"))
+            pbtnCancel.setVisible(False)
+            MObject.connect(pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
             HBoxs=[]
             if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
                 Universals.MainWindow.lockForm()
@@ -144,6 +147,7 @@ class Dialogs():
                 HBoxs.append(MHBoxLayout(pnlState2))
                 HBoxs[0].addWidget(lblState) 
                 HBoxs[0].addWidget(prgbState) 
+                HBoxs[0].addWidget(pbtnCancel) 
                 pnlState.setWidget(pnlState2)
                 pnlState.setAllowedAreas(Mt.AllDockWidgetAreas)
                 pnlState.setFeatures(MDockWidget.AllDockWidgetFeatures)
@@ -158,13 +162,19 @@ class Dialogs():
                 pnlMain = MWidget(pnlState)
                 HBoxs.append(MHBoxLayout(pnlMain))
                 HBoxs[0].addWidget(prgbState) 
+                HBoxs[0].addWidget(pbtnCancel) 
                 if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
                     pnlState.setMainWidget(pnlMain)
                 else:
                     pnlState.setLayout(HBoxs[0])
                 pnlState.show()
-        prgbState.setRange(0,_maxValue)
+        prgbState.setRange(0, _maxValue)
         prgbState.setValue(_value)
+        if pbtnCancel!=None:
+            if _isShowCancel:
+                pbtnCancel.setVisible(True)
+            else:
+                pbtnCancel.setVisible(False)
         if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
             lblState.setText(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
         else:
@@ -176,9 +186,11 @@ class Dialogs():
             else:
                 pnlState.setModal(False)
                 pnlState.close()
+            if pbtnCancel!=None:
+                pbtnCancel.setVisible(False)
             pnlState.deleteLater()
             prgbState.deleteLater()
-            pnlState, prgbState, lblState = "", "", ""
+            pnlState, prgbState, lblState, pbtnCancel = None, None, None, None
             
     def select(_title="Hamsi Cover", _detail="", _itemList=[u""], _currentItem=0):
         if _detail=="": 

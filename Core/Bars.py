@@ -728,25 +728,28 @@ class StatusBar(MStatusBar):
         if Universals.isDebugMode:
             lblInfo = MLabel(translate("StatusBar", "Debug Mode"))
             self.addWidget(lblInfo)
+        self.isLockedMainForm = False
         self.lblInfo = MLabel(u"")
         self.hideInfo()
         self.addWidget(self.lblInfo)
         self.prgbState = MProgressBar()
         self.prgbState.setMinimumWidth(200)
+        self.pbtnCancel = MPushButton(translate("StatusBar", "Cancel"))
         self.prgbState.setVisible(False)
+        self.pbtnCancel.setVisible(False)
         self.addWidget(self.prgbState)
+        self.addWidget(self.pbtnCancel)
         self.addWidget(MLabel(""), 100)
         self.lblImportantInfo = MLabel(u"")
         self.addWidget(self.lblImportantInfo)
+        MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
         self.fillSelectionInfo()
     
     def showInfo(self, _info):
         self.lblInfo.setText(_info)
-        self.lblInfo.setVisible(True)
     
     def hideInfo(self):
         self.lblInfo.setText(u"")
-        self.lblInfo.setVisible(False)
     
     def clearImportantInfo(self):
         self.lblImportantInfo.setText(u"")
@@ -763,17 +766,25 @@ class StatusBar(MStatusBar):
             else:
                 self.setImportantInfo(translate("Tables", "Selected informations will not change"))
         
-    def showState(self, _title, _value=0, _maxValue=100):
+    def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False):
         MApplication.processEvents()
-        Universals.MainWindow.lockForm()
+        if self.isLockedMainForm==False:
+            self.isLockedMainForm = True
+            Universals.MainWindow.lockForm()
         self.prgbState.setVisible(True)
+        if _isShowCancel:
+            self.pbtnCancel.setVisible(True)
+        else:
+            self.pbtnCancel.setVisible(False)
         self.prgbState.setRange(0, _maxValue)
         self.prgbState.setValue(_value)
         self.showInfo(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
         if _value==_maxValue:
             self.hideInfo()
             self.prgbState.setVisible(False)
+            self.pbtnCancel.setVisible(False)
             self.prgbState.setRange(0, 100)
+            self.isLockedMainForm = False
             Universals.MainWindow.unlockForm()
         
         

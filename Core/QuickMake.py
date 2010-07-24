@@ -291,8 +291,8 @@ class QuickMakeWindow(MyDialog):
                 newName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName, "directory")
                 if newName!=False:
                     newDirName = InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newName
-                    InputOutputs.readDirectory(newDirName)
-                    for fileAndDirs in InputOutputs.fileAndDirectoryNames:
+                    fileAndDirectoryNames = InputOutputs.readDirectory(newDirName, "fileAndDirectory")
+                    for fileAndDirs in fileAndDirectoryNames:
                         objectType = "file"
                         if InputOutputs.isDir(newDirName + "/" + fileAndDirs):
                             objectType = "directory"

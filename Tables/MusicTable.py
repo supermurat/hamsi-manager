@@ -20,7 +20,6 @@ class MusicTable():
         _table.subTableCellClicked = _subTableCellClicked
         _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
         _table.subShowDetails = _subShowDetails
-        _table.fileValues = InputOutputs.musicFileNames
         _table.fileDetails = Musics.currentFilesAndFoldersValues
         self=_table
         _refreshSubTableColumns(self)
@@ -102,7 +101,6 @@ class MusicTable():
         self.setColumnWidth(5,70)
         self.setColumnWidth(6,40)
         Musics.readMusics(_path)
-        self.fileValues = InputOutputs.musicFileNames
         self.fileDetails = Musics.currentFilesAndFoldersValues
         if Universals.isShowOldValues==True:
             n=2

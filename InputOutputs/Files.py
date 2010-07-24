@@ -20,13 +20,19 @@ class Files:
         global currentFilesAndFoldersValues,types,types_nos, changedValueNumber
         changedValueNumber = 0
         currentFilesAndFoldersValues=[]
-        InputOutputs.readDirectory(_directoryPath)
-        for fileNo,fileName in enumerate(InputOutputs.fileNames):
-            fInfo=[]
-            fInfo.append(InputOutputs.getBaseName(_directoryPath))
-            fInfo.append(fileName)
-            currentFilesAndFoldersValues.append(fInfo)
-            Dialogs.showState(translate("InputOutputs/Files", "Reading File Informations"),fileNo+1,len(InputOutputs.fileNames)) 
+        fileNames = InputOutputs.readDirectory(_directoryPath, "file")
+        allItemNumber = len(fileNames)
+        Universals.startThreadAction()
+        for fileNo,fileName in enumerate(fileNames):
+            if Universals.isContinueThreadAction():
+                fInfo=[]
+                fInfo.append(InputOutputs.getBaseName(_directoryPath))
+                fInfo.append(fileName)
+                currentFilesAndFoldersValues.append(fInfo)
+            else:
+                allItemNumber = fileNo+1
+            Dialogs.showState(translate("InputOutputs/Files", "Reading File Informations"),fileNo+1,allItemNumber, True) 
+        Universals.finishThreadAction()
     
     def writeFiles(_table):
         global changedValueNumber

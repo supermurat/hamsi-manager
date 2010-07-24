@@ -5,7 +5,7 @@ from os import path
 from datetime import timedelta, datetime
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction
     MainWindow = None 
     isStartingSuccessfully = False
     MySettings = {}
@@ -33,6 +33,7 @@ class Universals():
     isShowOldValues = None
     isChangeAll = None
     isChangeSelected = None
+    threadActionState = None
     tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "cover.png"]
     tableTypesNames = ["", "", "", "", ""]
     tableType = None
@@ -169,3 +170,22 @@ class Universals():
             except:pass
             child.deleteLater()
                             
+    def startThreadAction():
+        global threadActionState
+        threadActionState = True
+        
+    def cancelThreadAction():
+        global threadActionState
+        import Dialogs
+        Dialogs.show("proc canceled")
+        threadActionState = False
+        
+    def finishThreadAction():
+        global threadActionState
+        threadActionState = None
+        
+    def isContinueThreadAction():
+        return threadActionState
+    
+        
+        

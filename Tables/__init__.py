@@ -294,7 +294,11 @@ class Tables(MTableWidget):
         if columnWidth>110:
             for x in range(len(table.tableColumns)):
                 table.setColumnWidth(x,columnWidth)
-        table.refreshSubTable(table, _path)
+        import MyThread
+        myProcs = MyThread.MyThread(table.refreshSubTable, table.continueRefreshTable, (table, _path))
+        myProcs.run()
+
+    def continueRefreshTable(self, _returned=None):
         isShowChanges=True
         for rowNo in range(table.rowCount()):
             if table.isRowHidden(rowNo):

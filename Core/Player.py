@@ -143,10 +143,10 @@ class Player(MWidget):
                 else:
                     self.Player = M_MPlayer()
             self.stop()
-            if _filePath=="" and self.file=="":
-                _filePath = InputOutputs.currentDirectoryPath + "/" + InputOutputs.musicFileNames[self.parent().parent().Table.currentRow()]
-            elif self.file!="":
+            if _filePath=="" and self.file!="":
                 _filePath = self.file
+            else:
+                self.file = _filePath
             if InputOutputs.isFile(_filePath):
                 self.musicTags = Musics.readMusics(None,_filePath)
                 self.setInfoText((("%s - %s (%s)") % (self.musicTags[2] , self.musicTags[3], self.musicTags[4])).decode("utf-8"))
