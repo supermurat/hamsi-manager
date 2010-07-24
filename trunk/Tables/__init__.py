@@ -314,38 +314,41 @@ class Tables(MTableWidget):
                 
     def saveTable(self):
         try:
-            newCurrentDirectoryPath = None
             import Records
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
-            import InputOutputs
             if Universals.tableType!=4:
                 InputOutputs.activateSmartCheckIcon()
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                 if InputOutputs.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                     Universals.MainWindow.FileManager.makeRefresh(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))
                     return True
-            if self.rowCount()!=0:
-                newCurrentDirectoryPath = self.saveSubTable(self)
-                if Universals.tableType!=4:
-                    if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                        if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
-                            InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
-            if Universals.tableType!=4:
-                if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
-                    InputOutputs.complateSmartCheckIcon()
-            Records.saveAllRecords()
-            if self.changedValueNumber==0:
-                Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
-                             translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
-            else:
-                if Universals.getBoolValue("isShowTransactionDetails"):
-                    Dialogs.show(translate("Tables", "Transaction Details"), 
-                                 str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-            if newCurrentDirectoryPath!=None:
-                Universals.MainWindow.FileManager.makeRefresh(InputOutputs.getRealDirName(newCurrentDirectoryPath))
+            import MyThread
+            myProcs = MyThread.MyThread(self.saveSubTable, self.continueSaveTable, (self))
+            myProcs.run()
         except:
             error = ReportBug.ReportBug()
             error.show()      
+        
+    def continueSaveTable(self, _returned=None):
+        import Records
+        newCurrentDirectoryPath = _returned
+        if Universals.tableType!=4:
+            if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
+                    InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
+        if Universals.tableType!=4:
+            if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
+                InputOutputs.complateSmartCheckIcon()
+        Records.saveAllRecords()
+        if self.changedValueNumber==0:
+            Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
+                         translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
+        else:
+            if Universals.getBoolValue("isShowTransactionDetails"):
+                Dialogs.show(translate("Tables", "Transaction Details"), 
+                             str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
+        if newCurrentDirectoryPath!=None:
+            Universals.MainWindow.FileManager.makeRefresh(InputOutputs.getRealDirName(newCurrentDirectoryPath))
         
     def checkUnSavedTableValues(self):
         isClose=True

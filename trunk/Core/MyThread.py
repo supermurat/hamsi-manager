@@ -18,7 +18,15 @@ class MyThread(MThread):
         self.data = None
         
     def run(self):
-        self.data = self.action(*self.args, **self.kwargs)
+        try:
+            t = len(self.args)
+        except:
+            self.data = self.action(self.args, **self.kwargs)
+        else:
+            if len(self.args)==0:
+                self.data = self.action(**self.kwargs)
+            else:
+                self.data = self.action(*self.args, **self.kwargs)
         self.callback(self.data)
         
     def get(self):
