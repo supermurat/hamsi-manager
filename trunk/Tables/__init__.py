@@ -299,6 +299,7 @@ class Tables(MTableWidget):
         myProcs.run()
 
     def continueRefreshTable(self, _returned=None):
+        global isShowChanges
         isShowChanges=True
         for rowNo in range(table.rowCount()):
             if table.isRowHidden(rowNo):
@@ -306,11 +307,15 @@ class Tables(MTableWidget):
         refreshShowedAndHiddenColumns()
         
     def tableItemChanged(self, _item):
+        global isShowChanges
         if isShowChanges==True:
+            isShowChanges = False
             if _item.text()!=_item.statusTip():
                 _item.setToolTip(_item.statusTip())
                 _item.setStatusTip(_item.text())
                 _item.setBackground(MBrush(MColor(142,199,255)))
+            isShowChanges = True
+            
                 
     def saveTable(self):
         try:
