@@ -17,7 +17,6 @@ class Player(MWidget):
         self.PlayerName = None
         self.file = _file
         self.type = _type
-        self.infoScroller = InfoScroller(self)
         self.tbPause = MToolButton(self)
         self.tbPause.setToolTip(translate("Player", "Pause / Continue"))
         self.tbPause.setIcon(MIcon("Images:mediaPause.png"))
@@ -43,20 +42,6 @@ class Player(MWidget):
         MObject.connect(self.tbMute, SIGNAL("clicked()"), self.mute)
         MObject.connect(self.tbPlay, SIGNAL("clicked()"), self.play)
         MObject.connect(self.tbStop, SIGNAL("clicked()"), self.stop)
-#        self.sldState = MSlider(Mt.Horizontal)
-#        self.sldState.setMaximum(100)
-#        self.sldState.setTickInterval(1)
-#        MObject.connect(self.sldState, SIGNAL("valueChanged(int)"), self.seek)
-#        runButtons =[]
-#        for value in ["-60","-30","-10","10","30","60"]:
-#            runButtons.append(MPushButton(str(value).decode("utf-8")))
-#            runButtons[-1].setObjectName(str(value))
-#            MObject.connect(runButtons[-1], SIGNAL("clicked()"), self.run)
-#        for btn in runButtons:
-#            HBOXs[0].addWidget(btn)
-#        HBOXs.append(MHBoxLayout())
-#        HBOXs[1].addWidget(self.sldState)
-#        VBOX.addLayout(HBOXs[1])
         if _type == "bar" and Universals.windowMode==Universals.windowModeKeys[1]:
             pass
         else:
@@ -111,6 +96,7 @@ class Player(MWidget):
             VBOX.addLayout(HBOXs[1])
             VBOX.addLayout(HBOXs[0])
             self.setLayout(VBOX)
+            MApplication.processEvents()
             self.info.setMinimumWidth(len(self.info.text())*7)
             self.tbPause.setMinimumHeight(22)
             self.tbMute.setMinimumHeight(22)
@@ -118,12 +104,14 @@ class Player(MWidget):
             self.tbStop.setMinimumHeight(22)
             self.setMaximumSize(390, 44)
         if self.type != "bar" or Universals.windowMode!=Universals.windowModeKeys[1]:
+            self.infoScroller = InfoScroller(self)
             self.infoScroller.start()
             
     def setInfoText(self, _info):
         if self.type == "bar" and Universals.windowMode==Universals.windowModeKeys[1]:
             Universals.MainWindow.StatusBar.showMessage(_info)
         else:
+            MApplication.processEvents()
             self.info.setText(_info)
             self.info.setMinimumWidth(len(self.info.text())*7)
             
@@ -143,6 +131,8 @@ class Player(MWidget):
                 else:
                     self.Player = M_MPlayer()
             self.stop()
+            if _filePath=="":
+                _filePath = InputOutputs.currentDirectoryPath + "/" + Universals.MainWindow.Table.fileDetails[Universals.MainWindow.Table.currentRow()][1]
             if _filePath=="" and self.file!="":
                 _filePath = self.file
             else:
@@ -152,8 +142,6 @@ class Player(MWidget):
                 self.setInfoText((("%s - %s (%s)") % (self.musicTags[2] , self.musicTags[3], self.musicTags[4])).decode("utf-8"))
                 if _isPlayNow==True:
                     if self.Player.play(_filePath):
-                #        self.checkState = CheckState(self, self.Player)
-                #        self.checkState.start()
                         self.tbPause.setEnabled(True)
                         self.tbMute.setEnabled(True)
                         self.tbStop.setEnabled(True)
@@ -381,46 +369,22 @@ class M_MPlayer():
         self.runCommand("seek " + str(_state) + " 100")
     
     def mute(self):
-        self.runCommand("mute")        
+        self.runCommand("mute")
         
-class CheckState(MThread):
-    
-    def __init__(self, _parent, _Player):
-        MApplication.processEvents()
+class InfoScroller(MThread):
+    def __init__(self, _parent):
         MThread.__init__(self)
-        self.Player = _Player
         self.parent = _parent
     
     def run(self):
-        MApplication.processEvents()
-        i=0
+        x = 150
         while 1==1:
-            MApplication.processEvents()
-            self.parent.setInfoText(str(i))
-            time.sleep(1)
-            self.parent.setInfoText(str(self.Player.konumuNe()))
-            #self.sldState.setValue(int(1))
-            time.sleep(1)
-            i+=1
-        
-        
-try:
-    class InfoScroller(MThread):
-        def __init__(self, _parent):
-            MApplication.processEvents()
-            MThread.__init__(self)
-            self.parent = _parent
-        
-        def run(self):
-            try:
-                MApplication.processEvents()
-                x = 150
-                while 1==1:
-                    MApplication.processEvents()
-                    self.parent.info.move(x, 0)
-                    time.sleep(0.05)
-                    x-=1
-                    if x<=-(len(self.parent.info.text())*7):
-                        x=150
-            except:pass
-except:pass
+            if Universals.isStartingSuccessfully and Universals.isStartedCloseProcces==False:
+                self.parent.info.move(x, 0)
+                time.sleep(0.05)
+                x-=1
+                self.parent.info.setMinimumWidth(len(self.parent.info.text())*7)
+                if x<=-(len(self.parent.info.text())*7):
+                    x=150
+                
+    

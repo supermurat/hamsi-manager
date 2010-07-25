@@ -69,12 +69,13 @@ class ReportBug(MDialog):
         try:
             from Tables import table
             errorDetails +="</p><hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
-            for rowNo in range(len(table.fileValues)):
+            for rowNo in range(len(table.fileDetails)):
                 errorDetails +="<tr><td>" 
-                try:errorDetails += str(unicode(table.fileValues[rowNo], InputOutputs.systemsCharSet))
+                filePath = InputOutputs.currentDirectoryPath + "/" + table.fileDetails[rowNo][1]
+                try:errorDetails += str(unicode(filePath, InputOutputs.systemsCharSet))
                 except:
-                    try:errorDetails += str(table.fileValues[rowNo]) 
-                    except:errorDetails += table.fileValues[rowNo]
+                    try:errorDetails += str(filePath) 
+                    except:errorDetails += filePath
                 errorDetails +="</td></tr>"
             errorDetails +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3><table border=1>"
             for rowNo in range(len(table.fileDetails)):

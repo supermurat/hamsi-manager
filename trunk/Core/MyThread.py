@@ -2,10 +2,6 @@
 
 from MyObjects import *
 import Universals
-import ReportBug
-import Dialogs
-import time
-from threading import Thread
 
 class MyThread(MThread):
     

@@ -177,6 +177,7 @@ if RoutineChecks.checkPyQt4Exist():
                             
                         def closeEvent(self, _event):
                             try:
+                                Universals.isStartedCloseProcces = True
                                 Universals.printForDevelopers("Started closeEvent")
                                 MApplication.setQuitOnLastWindowClosed(True)
                                 try:self.PlayerBar.Player.stop()
@@ -187,8 +188,9 @@ if RoutineChecks.checkPyQt4Exist():
                                 TextDetails.closeAllTextDialogs()
                                 Universals.printForDevelopers("Closed Dialogs")
                                 if self.Table.checkUnSavedTableValues()==False:
-                                    _event.ignore() 
+                                    Universals.isStartedCloseProcces=False
                                     Universals.printForDevelopers("Close ignored")
+                                    _event.ignore() 
                                 if Universals.isActivePyKDE4==True:
                                     Universals.printForDevelopers("Before Save KDE Configs")
                                     kconf = MGlobal.config()
@@ -237,18 +239,23 @@ if RoutineChecks.checkPyQt4Exist():
                     Universals.printForDevelopers("After Main")
                     MainWindow.setWindowTitle(u"Hamsi Manager "+ MApplication.applicationVersion())
                     if Universals.isActivePyKDE4==True:
+                        Universals.printForDevelopers("Before MGlobal.config")
                         kconf = MGlobal.config()
                         kconfGroup = MConfigGroup(kconf,"Universals")
                         MainWindow.setAutoSaveSettings(kconfGroup)
+                        Universals.printForDevelopers("After MGlobal.config")
                     else:
                         try:
+                            Universals.printForDevelopers("Before MainWindow.restoreState")
                             state = MByteArray()
                             subFixForStateFile = ""
                             if Universals.windowMode!=Universals.windowModeKeys[0]:
                                 subFixForStateFile = Universals.windowMode
                             state.append(InputOutputs.readFromBinaryFile(Settings.pathOfSettingsDirectory + "LastState" + subFixForStateFile))
                             MainWindow.restoreState(state)
+                            Universals.printForDevelopers("After MainWindow.restoreState")
                         except:pass
+                    Universals.printForDevelopers("Before Show")
                     if Universals.getBoolValue("isMainWindowMaximized"):
                         MainWindow.showMaximized()
                     else:
