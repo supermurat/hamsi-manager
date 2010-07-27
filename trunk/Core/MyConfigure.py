@@ -22,6 +22,9 @@ class MyConfigure:
         return False
             
     def installKDE4Language(_language="tr_TR", _KDELocalateDir = Universals.getKDE4HomePath() +"share/locale/~langCode~/LC_MESSAGES/"):
+        import Execute
+        if Execute.isRunningAsRoot():
+            _KDELocalateDir = "/usr/share/locale/~langCode~/LC_MESSAGES/"
         _KDELocalateDir = str(_KDELocalateDir)
         if Settings.isAvailablePyKDE4():
             _KDELocalateDir = _KDELocalateDir.replace("~langCode~", str(_language[:2]))
