@@ -16,6 +16,7 @@ if RoutineChecks.checkPyQt4Exist():
     from MyObjects import *
     import InputOutputs
     import Dialogs
+    import Execute
     defaultLangCode = str(MLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
     MDir.setSearchPaths("Images", MStringList((Universals.HamsiManagerDirectory+"/Themes/Default/Images/").decode("utf-8")))
@@ -205,6 +206,12 @@ if RoutineChecks.checkPyQt4Exist():
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(Universals.HamsiManagerDirectory)
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
+            if Execute.isRunningAsRoot()==False:
+                if InputOutputs.isDir(Universals.userDirectoryPath + "/.local/applications/")==False:
+                    InputOutputs.makeDirs(Universals.userDirectoryPath + "/.local/applications/")
+                fileContent = MyConfigure.getConfiguredDesktopFileContent(Universals.HamsiManagerDirectory)
+                InputOutputs.writeToFile(Universals.userDirectoryPath + "/.local/applications/HamsiManager.desktop", fileContent)
+            MyConfigure.installKDE4Languages()
             self.isInstallFinised = True
             
         def closeEvent(self, _event):
@@ -214,7 +221,6 @@ if RoutineChecks.checkPyQt4Exist():
                 if answer!=Dialogs.Yes:
                     _event.ignore()
             
-    import Execute
     if Execute.isRunningAsRoot()==False and Execute.isRunableAsRoot():
         if isOnlyRoot:
             answer = Dialogs.askSpecial(MApplication.translate("Reconfigure", "Are You Want To Run As Root?"), MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool is running with user privileges.<br>Do you want to run Hamsi Manager Configure Tool with root rights?<br>"), MApplication.translate("Reconfigure", "Yes"), MApplication.translate("Reconfigure", "No (Close)"), None)
