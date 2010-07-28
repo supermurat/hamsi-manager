@@ -90,6 +90,8 @@ class Tables(MTableWidget):
         _parent.MainLayout.addLayout(self.hblBox)
         self.mContextMenuColumns = MMenu()
         self.mContextMenuColumns.setTitle(translate("Tables", "Show Fields"))
+        self.mContextMenuOpenWith = MMenu()
+        self.mContextMenuOpenWith.setTitle(translate("Tables", "Open With"))
         self.clickedContextMenuColumns = []
         refreshForTableColumns()
         self.mContextMenuActionNames = [translate("Tables", "Cut"),
@@ -99,7 +101,13 @@ class Tables(MTableWidget):
                             translate("Tables", "Remove From System")]
         for actName in self.mContextMenuActionNames:
             self.mContextMenu.addAction(actName).setObjectName(actName)
+        self.mContextMenuOpenWithNames = [translate("Tables", "File Manager"),
+                            translate("Tables", "Default Application"),
+                            translate("Tables", "Konsole")]
+        for actName in self.mContextMenuOpenWithNames:
+            self.mContextMenuOpenWith.addAction(actName).setObjectName(actName)
         self.mContextMenu.addMenu(self.mContextMenuColumns)
+        self.mContextMenu.addMenu(self.mContextMenuOpenWith)
         self.checkActionsStates()
     
     def getColumnKeyFromName(self, _nameWithMark):
@@ -218,6 +226,15 @@ class Tables(MTableWidget):
                                     self.hideRow(rowNo)
                             else:
                                 self.hideRow(rowNo)
+                    elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
+                        import Execute
+                        Execute.open(InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1]))
+                    elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
+                        import Execute
+                        Execute.open(InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1])
+                    elif selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
+                        import Execute
+                        Execute.execute("konsole --workdir " + Execute.correctForConsole(InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1])))
         except:
             error = ReportBug.ReportBug()
             error.show()
