@@ -6,7 +6,7 @@ import time
 import Universals
 
 class Execute:
-    global execute, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReconfigure, executeReconfigureAsRoot
+    global execute, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReconfigure, executeReconfigureAsRoot, open
     
     def correctForConsole(_string):
         strString = "\"" + _string + "\""
@@ -19,6 +19,13 @@ class Execute:
     def execute(_command, _rwa = "w"):
         if os.name=="nt":
             _command = "start " + _command
+        return os.popen(_command, _rwa)
+    
+    def open(_command, _rwa = "w"):
+        if os.name=="nt":
+            _command = "start " + correctForConsole(_command)
+        else:
+            _command = "xdg-open " + correctForConsole(_command)
         return os.popen(_command, _rwa)
         
     def executeWithPython(_command):
