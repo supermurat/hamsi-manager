@@ -135,16 +135,19 @@ class UpdateControl(MDialog):
                                 self.pbtnCancel.setText(translate("UpdateControl", "Ok"))
                             Universals.setMySetting("lastUpdateControlDate", datetime.now().strftime("%Y %m %d %H %M %S"))
                         else:
+                            Universals.setMySetting("lastUpdateControlDate", datetime.now().strftime("%Y %m %d %H %M %S"))
                             Dialogs.showError(translate("UpdateControl", "Cannot Fetch Release Information"), 
                                         translate("UpdateControl", "Cannot fetch release information. Please retry later.<br>If you are constantly receiving this error, please visit \"http://hamsiapps.com/HamsiManager\"."))
                             self.close()
                     else:
+                        Universals.setMySetting("lastUpdateControlDate", datetime.now().strftime("%Y %m %d %H %M %S"))
                         Dialogs.showError(translate("UpdateControl", "Cannot Fetch Release Information"), 
                                     translate("UpdateControl", "Cannot fetch release information. Please retry later.<br>If you are constantly receiving this error, please visit \"http://hamsiapps.com/HamsiManager\"."))
                         self.close()
                 else:
                     self.lblInfo.setText(translate("UpdateControl", "Download complete."))
             else:
+                Universals.setMySetting("lastUpdateControlDate", datetime.now().strftime("%Y %m %d %H %M %S"))
                 Dialogs.showError(translate("UpdateControl", "Cannot Fetch Release Information"), 
                             translate("UpdateControl", "Cannot fetch release information. Please retry later.<br>If you are constantly receiving this error, please visit \"http://hamsiapps.com/HamsiManager\"."))
                 self.close()

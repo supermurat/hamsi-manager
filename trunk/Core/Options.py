@@ -2,7 +2,7 @@
 
 import sys,os
 from MyObjects import *
-import Settings, Dialogs , Universals, InputOutputs, Records
+import Settings, Dialogs , Universals, InputOutputs, Records, Organizer
 import ReportBug
 
 class Options(MDialog):
@@ -263,9 +263,10 @@ class Options(MDialog):
             itemIndex = flForm.keysOfSettings.index(_keyOfSetting)*2
             flForm.itemAt(itemIndex).widget().setVisible(_visible)
             flForm.itemAt(itemIndex+1).layout().itemAt(0).widget().setVisible(_visible)
-            try:flForm.itemAt(itemIndex+1).layout().itemAt(1).widget().setVisible(_visible)
-            except:pass
-            try:flForm.itemAt(itemIndex+1).layout().itemAt(2).widget().setVisible(_visible)
+            try:
+                flForm.itemAt(itemIndex+1).layout().itemAt(1).widget().setVisible(_visible)
+                flForm.itemAt(itemIndex+1).layout().itemAt(2).widget().setVisible(_visible)
+                flForm.itemAt(itemIndex+1).layout().itemAt(3).widget().setVisible(_visible)
             except:pass
     
     def isVisibleFormItems(_category, _keyOfSetting):
@@ -287,9 +288,10 @@ class Options(MDialog):
             itemIndex = flForm.keysOfSettings.index(_keyOfSetting)*2
             flForm.itemAt(itemIndex).widget().setEnabled(_visible)
             flForm.itemAt(itemIndex+1).layout().itemAt(0).widget().setEnabled(_visible)
-            try:flForm.itemAt(itemIndex+1).layout().itemAt(1).widget().setEnabled(_visible)
-            except:pass
-            try:flForm.itemAt(itemIndex+1).layout().itemAt(2).widget().setEnabled(_visible)
+            try:
+                flForm.itemAt(itemIndex+1).layout().itemAt(1).widget().setEnabled(_visible)
+                flForm.itemAt(itemIndex+1).layout().itemAt(2).widget().setEnabled(_visible)
+                flForm.itemAt(itemIndex+1).layout().itemAt(3).widget().setEnabled(_visible)
             except:pass
     
     def isEnabledFormItems(_category, _keyOfSetting):
@@ -377,6 +379,18 @@ class Options(MDialog):
         pbtnDefaultValue.setFixedWidth(25)
         MObject.connect(pbtnDefaultValue, SIGNAL("clicked()"), _category.parent().pbtnDefaultValueClicked)
         return pbtnDefaultValue
+    
+    def pbtnEditValueClicked(self):
+        ed = EditDialog(self, self.sender())
+    
+    def createEditValueButton(self, _category, _typeOfValue, _keyValue, x):
+        pbtnEditValue = MPushButton(translate("Options", "*"))
+        pbtnEditValue.setObjectName(_typeOfValue + "_"+_keyValue+"_"+str(x))
+        toolTips = str(translate("Options", "Edit values with Advanced Value Editor"))
+        pbtnEditValue.setToolTip(toolTips.decode("utf-8"))
+        pbtnEditValue.setFixedWidth(25)
+        MObject.connect(pbtnEditValue, SIGNAL("clicked()"), _category.parent().pbtnEditValueClicked)
+        return pbtnEditValue
     
     def apply(self):
         try:
@@ -515,6 +529,9 @@ class Options(MDialog):
                     pbtnFile.setToolTip(_category.toolTips[x])
                     MObject.connect(pbtnFile, SIGNAL("clicked()"), _category.parent().pbtnFileClicked)
                     valueLayout.addWidget(pbtnFile)
+                if typeOfValue=="list":
+                    pbtnEditValue = _category.parent().createEditValueButton(_category, typeOfValue, keyValue, x)
+                    valueLayout.addWidget(pbtnEditValue)
                 pbtnDefaultValue = _category.parent().createDefaultValueButton(_category, typeOfValue, keyValue, x)
                 valueLayout.addWidget(pbtnDefaultValue)
                 valueLayout.insertWidget(0, _category.values[x])
@@ -567,6 +584,109 @@ class Options(MDialog):
             _category.labels = labels
             _category.toolTips = toolTips
             _category.typesOfValues = typesOfValues
+       
+class EditDialog(MDialog):
+    def __init__(self, _parent, _sender):
+        MDialog.__init__(self, _parent)
+        if Universals.isActivePyKDE4==True:
+            self.setButtons(MDialog.None)
+        self.setWindowTitle(translate("Options", "Advanced Value Editor"))
+        self.requestInfos = str(_sender.objectName()).split("_")
+        self.categoryNo = self.parent().tboxCategories.currentIndex()
+        self.typeOfValue = self.requestInfos[0]
+        self.keyValue = self.requestInfos[1]
+        self.keyNo = int(self.requestInfos[2])
+        if self.typeOfValue=="string":
+            #This İs Not Used (For only next)
+            currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
+            self.EditorWidget = MTextEdit(self)
+            self.EditorWidget.setText(currentValue.decode("utf-8"))
+        elif self.typeOfValue=="richtext":
+            #This İs Not Used (For only next)
+            currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].plainText())
+            self.EditorWidget = MTextEdit(self)
+            self.EditorWidget.setAcceptRichText(True)
+            self.EditorWidget.setPlainText(currentValue.decode("utf-8"))
+        elif self.typeOfValue=="list":
+            currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
+            if Universals.isActivePyKDE4==True:
+                self.EditorWidget = MEditListBox(self)
+                self.EditorWidget.setItems(currentValue.split(";"))
+            else:
+                self.EditorWidget = MTextEdit(self)
+                self.EditorWidget.setText(currentValue.replace(";", "\n").decode("utf-8"))
+        elif self.typeOfValue=="options":
+            #This İs Not Used (For only next)
+            currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].currentIndex())
+        elif self.typeOfValue=="number":
+            #This İs Not Used (For only next)
+            currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].value())
+        elif self.typeOfValue=="Yes/No":
+            #This İs Not Used (For only next)
+            if self.parent().categories[self.categoryNo].values[self.keyNo].currentIndex()==1:
+                currentValue = True
+            else:
+                currentValue = False
+        elif self.typeOfValue=="file":
+            #This İs Not Used (For only next)
+            currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
+        pnlMain = MWidget(self)
+        vblMain = MVBoxLayout(pnlMain)
+        pbtnCancel = MPushButton(translate("Options", "Cancel"))
+        pbtnApply = MPushButton(translate("Options", "Apply"))
+        MObject.connect(pbtnCancel, SIGNAL("clicked()"), self.close)
+        MObject.connect(pbtnApply, SIGNAL("clicked()"), self.apply)
+        vblMain.addWidget(self.EditorWidget)
+        hblBox = MHBoxLayout()
+        hblBox.addWidget(pbtnApply)
+        hblBox.addWidget(pbtnCancel)
+        vblMain.addLayout(hblBox)
+        if Universals.isActivePyKDE4==True:
+            self.setMainWidget(pnlMain)
+        else:
+            self.setLayout(vblMain)
+        self.setMinimumSize(550, 400)
+        self.show()
+        
+    def apply(self):
+        if self.typeOfValue=="string":
+            #This İs Not Used (For only next)
+            newValue = "" #NotUsed
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(newValue.decode("utf-8"))
+        elif self.typeOfValue=="richtext":
+            #This İs Not Used (For only next)
+            newValue = "" #NotUsed
+            self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(newValue.decode("utf-8"))
+        elif self.typeOfValue=="list":
+            value = ""
+            if Universals.isActivePyKDE4==True:
+                for y, info in enumerate(self.EditorWidget.items()):
+                    if y!=0:
+                        value += ";"
+                    value += unicode(info, "utf-8")
+            else:
+                value = unicode(self.EditorWidget.toPlainText(), "utf-8").replace("\n", ";")
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(value.decode("utf-8"))
+        elif self.typeOfValue=="options":
+            #This İs Not Used (For only next)
+            newValue = "" #NotUsed
+            self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(self.parent().categories[self.categoryNo].valuesOfOptionsKeys[self.parent().categories[self.categoryNo].typesOfValues[self.keyNo][1]].index(newValue))
+        elif self.typeOfValue=="number":
+            #This İs Not Used (For only next)
+            newValue = "" #NotUsed
+            self.parent().categories[self.categoryNo].values[self.keyNo].setValue(int(newValue)) 
+        elif self.typeOfValue=="Yes/No":
+            #This İs Not Used (For only next)
+            newValue = "" #NotUsed
+            if eval(newValue.title())==True:
+                self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(1)
+            else:
+                self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(0)
+        elif self.typeOfValue=="file":
+            #This İs Not Used (For only next)
+            newValue = "" #NotUsed
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(newValue)
+        self.close()
         
 class MyFormLayout(MFormLayout):
     def __init__(self):
