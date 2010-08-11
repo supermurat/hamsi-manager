@@ -540,12 +540,12 @@ class ToolsBar(MToolBar):
 
 class PlayerBar(MToolBar):
     def __init__(self, _parent):
-        import Player
+        from Viewers import MusicPlayer
         MToolBar.__init__(self, _parent)
         self.setWindowTitle(translate("PlayerBar", "Player Bar"))
         self.setObjectName(translate("PlayerBar", "Player Bar"))
-        self.Player = Player.Player(self, "bar")
-        self.addWidget(self.Player)
+        self.MusicPlayer = MusicPlayer.MusicPlayer(self, "bar")
+        self.addWidget(self.MusicPlayer)
         
 class MusicOptionsBar(MToolBar):
     def __init__(self, _parent):

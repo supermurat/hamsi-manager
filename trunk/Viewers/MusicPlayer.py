@@ -10,7 +10,7 @@ import time
 import Universals
 import ReportBug
 
-class Player(MWidget):
+class MusicPlayer(MWidget):
     def __init__(self, _parent, _type="bar", _file=""):
         MWidget.__init__(self, _parent)
         self.Player = None

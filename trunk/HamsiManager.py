@@ -183,9 +183,10 @@ if RoutineChecks.checkPyQt4Exist():
                                 try:self.PlayerBar.Player.stop()
                                 except:pass
                                 import ReportBug, Records
-                                from Details import MusicDetails, TextDetails
+                                from Details import MusicDetails, TextDetails, CoverDetails
                                 MusicDetails.closeAllMusicDialogs()
                                 TextDetails.closeAllTextDialogs()
+                                CoverDetails.closeAllCoverDialogs()
                                 Universals.printForDevelopers("Closed Dialogs")
                                 if self.Table.checkUnSavedTableValues()==False:
                                     Universals.isStartedCloseProcces=False
