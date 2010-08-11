@@ -7,7 +7,7 @@ from MyObjects import *
 from PyQt4.Qt import QIcon
 import Dialogs
 import Organizer
-import Player
+from Viewers import MusicPlayer
 from ImageDetails import ImageDetails, closeAllImageDialogs
 import Universals
 import ReportBug
@@ -171,7 +171,7 @@ class MusicDetails(MDialog):
         self.musicFile = _filePath
         self.musicValues = Musics.readMusics(None,self.musicFile)
         self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.getBaseName(self.musicFile)).decode("utf-8"))  
-        self.player = Player.Player(self, "dialog", _filePath)              
+        self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)              
         for infoNo, label in enumerate(self.labels):
             if self.musicValues[infoNo]=="None" or self.musicValues[infoNo]=="None/None":
                 self.musicValues[infoNo] = ""

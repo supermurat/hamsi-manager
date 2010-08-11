@@ -4,7 +4,7 @@ import Organizer
 import InputOutputs
 from InputOutputs import Covers
 from MyObjects import *
-from Details import TextDetails
+from Details import CoverDetails
 import Dialogs
                 
 class CoverTable():
@@ -34,8 +34,12 @@ class CoverTable():
         self.hblBox.addLayout(hbox1)
         
     def _subShowDetails(self, _fileNo, _infoNo):
-        pass
-        #TextDetails.TextDetails(Covers.InputOutputs.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_fileNo][1], self.isOpenDetailsOnNewWindow.isChecked())
+        directoryPathOfCover = InputOutputs.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_fileNo][1]
+        coverValues = [directoryPathOfCover, 
+                       InputOutputs.getRealPath(str(self.item(_fileNo, 2).text()), directoryPathOfCover), 
+                       InputOutputs.getRealPath(str(self.item(_fileNo, 3).text()), directoryPathOfCover), 
+                       InputOutputs.getRealPath(str(self.item(_fileNo, 4).text()), directoryPathOfCover)]
+        CoverDetails.CoverDetails(coverValues, self.isOpenDetailsOnNewWindow.isChecked(), _infoNo)
         
     def _subTableCellClicked(self,_row,_column):
         for row_no in range(self.rowCount()):
@@ -50,7 +54,7 @@ class CoverTable():
         except:
             Dialogs.showError(translate("SubFolderTable", "Cannot Open File"), 
                         str(translate("SubFolderTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                        ) % Organizer.getLink(Covers.InputOutputs.currentDirectoryPath+"/"+Covers.currentFilesAndFoldersValues[_row][1]))
+                        ) % Organizer.getLink(InputOutputs.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_row][1]))
        
     def _refreshSubTableColumns(self):
         self.tableColumns=[translate("SubFolderTable", "Directory"), 

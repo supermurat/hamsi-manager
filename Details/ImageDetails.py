@@ -3,7 +3,6 @@
 import InputOutputs
 import os,sys
 from MyObjects import *
-from PyQt4.Qt import QIcon
 import Dialogs
 import Organizer
 import Universals
@@ -27,7 +26,7 @@ class ImageDetails(MDialog):
                 _isOpenDetailsOnNewWindow=True
         if _isOpenDetailsOnNewWindow==True:
             imageDialogs.append(self)
-            MWidget.__init__(self, MApplication.activeWindow())
+            MDialog.__init__(self, MApplication.activeWindow())
             if Universals.isActivePyKDE4==True:
                 self.setButtons(MDialog.None)
             self.lblImage = MLabel()
