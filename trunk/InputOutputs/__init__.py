@@ -58,7 +58,7 @@ class InputOutputs:
         _oldPath = str(_oldPath)
         try:returnValue = path.dirname(_oldPath.encode(systemsCharSet))
         except:returnValue = path.dirname(_oldPath)
-        try:return returnValue.decode(systemsCharSet)
+        try:return returnValue.encode(systemsCharSet)
         except:return returnValue
     
     def getRealDirName(_oldPath, isGetParent=False):
@@ -94,7 +94,7 @@ class InputOutputs:
         _oldPath = str(_oldPath)
         try:returnValue = path.basename(_oldPath.encode(systemsCharSet))
         except:returnValue = path.basename(_oldPath)
-        try:return returnValue.decode(systemsCharSet)
+        try:return returnValue.encode(systemsCharSet)
         except:return returnValue
     
     def checkExtension(_oldPath, _extension):
@@ -334,7 +334,7 @@ class InputOutputs:
         fileAndDirectoryNames,fileNames,directoryNames,musicFileNames=[],[],[],[]
         for name in listDir(_path):
             if name[:1] != ".":
-                try:fileAndDirectoryNames.append(name.decode(systemsCharSet))
+                try:fileAndDirectoryNames.append(name.encode(systemsCharSet))
                 except:fileAndDirectoryNames.append(name)
         for name in fileAndDirectoryNames:
             if isDir(_path+"/"+name):
@@ -366,7 +366,7 @@ class InputOutputs:
     def readDirectoryAll(_path): 
         tFileAndDirs=[]
         for name in listDir(_path):
-            try:tFileAndDirs.append(name.decode(systemsCharSet))
+            try:tFileAndDirs.append(name.encode(systemsCharSet))
             except:tFileAndDirs.append(name)
         return tFileAndDirs
   
@@ -1010,8 +1010,6 @@ class InputOutputs:
         from MyObjects import translate
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True)
         info = ""
-        for x in range(len(files)):
-            files[x] = files[x].decode(systemsCharSet)
         if _formatType=="html":
             if _extInfo=="no":
                 pass
