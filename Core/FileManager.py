@@ -44,12 +44,6 @@ class FileManager():
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndex)
         MObject.connect(self.lstvFileManager, SIGNAL("doubleClicked(QModelIndex)"),self.setMyCurrentIndex)
         tools = MToolBar(_parent)
-        actBookmarks = MPushButton()
-        actBookmarks.setIcon(MIcon("Images:bookmarks.png"))
-        actBookmarks.setFlat(True)
-        actBookmarks.setFixedWidth(50)
-        actBookmarks.setContentsMargins(-10, -10, -10, -10)
-        actBookmarks.setToolTip(translate("FileManager", "Bookmarks"))
         actAddBookmark = MAction(MIcon("Images:addBookmark.png"),"",tools)
         actAddBookmark.setToolTip(translate("FileManager", "Add To Bookmarks"))
         self.actBack = MAction(MIcon("Images:back.png"),"",tools)
@@ -68,7 +62,9 @@ class FileManager():
         MObject.connect(actRefresh, SIGNAL("triggered(bool)"), self.makeRefresh)
         MObject.connect(actHome, SIGNAL("triggered(bool)"), self.goHome)
         MObject.connect(actAddBookmark, SIGNAL("triggered(bool)"), self.bookmarks.addBookmark)
+        self.bookmarksMenu = BookmarksMenu(self)
         if Universals.isActivePyKDE4==True:
+            tools.addAction(self.bookmarksMenu.menuAction())
             self.isGoToFromDirOperator = False
             self.dirOperator = MDirOperator(MUrl( self.currentDirectory ), _parent)
             self.dirOperator.setDirLister(self.dirLister)
@@ -102,7 +98,7 @@ class FileManager():
             tools.addAction(self.actUp)
             tools.addAction(actRefresh)
             tools.addAction(actHome)
-            tools.addWidget(actBookmarks)
+            tools.addAction(self.bookmarksMenu.menuAction())
             tools.addAction(actAddBookmark)
         self.actBack.setEnabled(False)
         self.actForward.setEnabled(False)
@@ -110,7 +106,6 @@ class FileManager():
         widget = MWidget()
         if Universals.windowMode==Universals.windowModeKeys[1]:
             tools.setIconSize(MSize(16, 16))
-            actBookmarks.setIconSize(MSize(16, 16))
             hbox = MHBoxLayout()
             hbox.addWidget(tools, 1)
             if Universals.isActivePyKDE4==True:
@@ -124,7 +119,6 @@ class FileManager():
             _parent.addToolBar(Mt.TopToolBarArea,tbarBrowserTools)
         else:
             tools.setIconSize(MSize(22, 22))
-            actBookmarks.setIconSize(MSize(22, 22))
             vbox = MVBoxLayout()
             vbox.addWidget(tools, 1)
             if Universals.isActivePyKDE4==True:
@@ -158,9 +152,6 @@ class FileManager():
             _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.Places)
             _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.TreeBrowser)
             _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.Browser)
-        self.bookmarksMenu = BookmarksMenu(self)
-        actBookmarks.setMenu(self.bookmarksMenu)
-        self.bookmarksMenu.makeRefresh()
 
     def goTo(self, _path, _isRemember = True):
         try:
@@ -250,13 +241,14 @@ class FileManager():
             error = ReportBug.ReportBug()
             error.show()
 
-    def makeRefresh(self, _newDirectoryPath=""):
+    def makeRefresh(self, _newDirectoryPath="", _isOnlyBrowser=False):
         try:
             if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
                 self.goTo(_newDirectoryPath.decode("utf-8"), False)
             else:
                 self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
-                self.showInTable()
+                if _isOnlyBrowser==False:
+                    self.showInTable()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -319,6 +311,7 @@ class BookmarksMenu(MMenu):
         MMenu.__init__(self)
         self._parent = _parent;
         self.setTitle(translate("BookmarksMenu", "Bookmarks"))
+        self.setIcon(MIcon("Images:bookmarks.png"))
         MObject.connect(self,SIGNAL("triggered(QAction *)"),self.triggered)
         self.makeRefresh()
     

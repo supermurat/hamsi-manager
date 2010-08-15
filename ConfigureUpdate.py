@@ -73,7 +73,7 @@ class Update():
         _oldPath = str(_oldPath)
         try:returnValue = path.dirname(_oldPath.encode(systemsCharSet))
         except:returnValue = path.dirname(_oldPath)
-        try:return returnValue.decode(systemsCharSet)
+        try:return returnValue.encode(systemsCharSet)
         except:return returnValue 
         
     def listDir(_oldPath):

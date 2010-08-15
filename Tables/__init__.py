@@ -362,6 +362,7 @@ class Tables(MTableWidget):
             if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
                 InputOutputs.complateSmartCheckIcon()
         Records.saveAllRecords()
+        Universals.MainWindow.FileManager.makeRefresh("", True)
         if self.changedValueNumber==0:
             Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
                          translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
