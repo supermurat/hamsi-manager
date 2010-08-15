@@ -8,8 +8,9 @@ import Organizer
 import Universals
 
 class ImageViewer(MWidget):
-    def __init__(self, _imagePath):
+    def __init__(self, _imagePath, _defaultMaxSize=[150, 150]):
         MWidget.__init__(self, MApplication.activeWindow())
+        self.defaultMaxSize = _defaultMaxSize
         self.lblImage = MLabel()
         self.lblImage.setAlignment(Mt.AlignHCenter)
         self.lblImage.setScaledContents(True)
@@ -23,10 +24,10 @@ class ImageViewer(MWidget):
         self.pbtnGoOriginalImageZoom.setMaximumWidth(100)
         MObject.connect(self.pbtnGoOriginalImageZoom, SIGNAL("clicked()"), self.goOriginalImageZoom)
         self.pbtnZoomOut = MPushButton(translate("ImageDetails", "-"))
-        self.pbtnZoomOut.setMaximumWidth(100)
+        self.pbtnZoomOut.setMaximumWidth(30)
         MObject.connect(self.pbtnZoomOut, SIGNAL("clicked()"), self.zoomOut)
         self.pbtnZoomIn = MPushButton(translate("ImageDetails", "+"))
-        self.pbtnZoomIn.setMaximumWidth(100)
+        self.pbtnZoomIn.setMaximumWidth(30)
         MObject.connect(self.pbtnZoomIn, SIGNAL("clicked()"), self.zoomIn)
         HBOXs = []
         HBOXs.append(MHBoxLayout())
@@ -41,41 +42,37 @@ class ImageViewer(MWidget):
         self.show()
                   
     def changeCoverValues(self, _imagePath):
-        self.lastValue = 1
+        self.zoomValue = 1.0
         self.pmapImage.load(_imagePath.decode("utf-8"))
         self.lblImage.setPixmap(self.pmapImage)
-        width = self.pmapImage.width()
-        height = self.pmapImage.height()
-        isLittle=False
-        while isLittle==False:
-            if width>150:
-                width*=0.9
-                height*=0.9
-            if height>150:
-                width*=0.9
-                height*=0.9
-            if width<=150 and height<=150:
-                isLittle=True
-        self.lblImage.resize(int(width),int(height))
+        self.width = self.pmapImage.width()
+        self.height = self.pmapImage.height()
+        while 1==1:
+            if self.width>self.defaultMaxSize[0] or self.height>self.defaultMaxSize[1]:
+                self.width*=0.9
+                self.height*=0.9
+            else:
+                break
+        self.lblImage.resize(int(self.width),int(self.height))
 
     def goOriginalImageZoom(self):
-        self.makeZoom(0)
+        self.makeZoom(1)
     
     def zoomOut(self):
-        self.makeZoom(0.9)
+        self.makeZoom(-0.1)
     
     def zoomIn(self):
-        self.makeZoom(1.1)
+        self.makeZoom(0.1)
         
     def makeZoom(self, _value):
-        if _value!=0:
-            self.lblImage.resize(self.lblImage.width()*_value,self.lblImage.height()*_value)
-            self.lastValue*=_value
+        if _value==1:
+            self.zoomValue = 1.0
+            self.width = self.pmapImage.width()
+            self.height = self.pmapImage.height()
+            self.lblImage.resize(self.width, self.height)
         else:
-            self.lblImage.resize(self.pmapImage.width(),self.pmapImage.height())
-            self.lastValue=1.0
-        self.pbtnZoomOut.setEnabled(self.lastValue > 0.01)
-        self.pbtnZoomIn.setEnabled(self.lastValue < 10.0)
+            self.zoomValue += _value
+            self.lblImage.resize(self.width*self.zoomValue, self.height*self.zoomValue)
     
     
      
