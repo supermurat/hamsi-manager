@@ -52,6 +52,9 @@ class CoverDetails(MDialog):
             self.pbtnDestination = MPushButton(translate("ImageDetails", "..."))
             self.pbtnDestination.setMaximumWidth(30)
             MObject.connect(self.pbtnDestination, SIGNAL("clicked()"), self.destinationClicked)
+            MObject.connect(self.lePathOfSource, SIGNAL("textChanged(const QString&)"), self.sourceChanged)
+            MObject.connect(self.lePathOfDestination, SIGNAL("textChanged(const QString&)"), self.destinationChanged)
+            self.lePathOfCurrent.setEnabled(False)
             self.hblImages = MHBoxLayout()
             self.hblImages.addLayout(self.vblCurrent)
             self.hblImages.addLayout(self.vblSource)
@@ -88,6 +91,9 @@ class CoverDetails(MDialog):
             self.wSource.deleteLater()
             self.wDestination.deleteLater()
         except:pass
+        if _coverValues[1].strip()=="/": _coverValues[1] = _coverValues[0] + "/"
+        if _coverValues[2].strip()=="/": _coverValues[2] = _coverValues[0] + "/"
+        if _coverValues[3].strip()=="/": _coverValues[3] = _coverValues[0] + "/"
         self.setWindowTitle((str(translate("ImageDetails", "Cover Details ( %s )")) % Organizer.showWithIncorrectChars(_coverValues[0])).decode("utf-8"))
         self.lePathOfCurrent.setText(Organizer.showWithIncorrectChars(_coverValues[1]).decode("utf-8"))
         self.lePathOfSource.setText(Organizer.showWithIncorrectChars(_coverValues[2]).decode("utf-8"))
@@ -104,6 +110,12 @@ class CoverDetails(MDialog):
         self.vblCurrent.insertWidget(0, self.wCurrent, 1)
         self.vblSource.insertWidget(0, self.wSource, 1)
         self.vblDestination.insertWidget(0, self.wDestination, 1)
+        
+    def sourceChanged(self):
+        self.wSource.changeCoverValues(str(self.lePathOfSource.text()))
+        
+    def destinationChanged(self):
+        self.wDestination.changeCoverValues(str(self.lePathOfDestination.text()))
         
     def sourceClicked(self):
         imagePath = MFileDialog.getOpenFileName(self,translate("ImageDetails", "Choose Image"),
