@@ -43,6 +43,9 @@ class ImageViewer(MWidget):
                   
     def changeCoverValues(self, _imagePath):
         self.zoomValue = 1.0
+        if InputOutputs.isFile(_imagePath)==False:
+            _imagePath = Universals.themePath + "/Images/notExist.png"
+        self.pmapImage.detach()
         self.pmapImage.load(_imagePath.decode("utf-8"))
         self.lblImage.setPixmap(self.pmapImage)
         self.width = self.pmapImage.width()
