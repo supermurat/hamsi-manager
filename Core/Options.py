@@ -386,8 +386,7 @@ class Options(MDialog):
     def createEditValueButton(self, _category, _typeOfValue, _keyValue, x):
         pbtnEditValue = MPushButton(translate("Options", "*"))
         pbtnEditValue.setObjectName(_typeOfValue + "_"+_keyValue+"_"+str(x))
-        toolTips = str(translate("Options", "Edit values with Advanced Value Editor"))
-        pbtnEditValue.setToolTip(toolTips.decode("utf-8"))
+        pbtnEditValue.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         pbtnEditValue.setFixedWidth(25)
         MObject.connect(pbtnEditValue, SIGNAL("clicked()"), _category.parent().pbtnEditValueClicked)
         return pbtnEditValue
@@ -611,7 +610,7 @@ class EditDialog(MDialog):
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
             if Universals.isActivePyKDE4==True:
                 self.EditorWidget = MEditListBox(self)
-                self.EditorWidget.setItems(currentValue.split(";"))
+                self.EditorWidget.setItems([x.decode("utf-8") for x in currentValue.split(";")])
             else:
                 self.EditorWidget = MTextEdit(self)
                 self.EditorWidget.setText(currentValue.replace(";", "\n").decode("utf-8"))
