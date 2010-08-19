@@ -593,6 +593,16 @@ class SearchAndReplace(MWidget):
         self.leReplace.setToolTip(srExamples+rExample+"</table>")
         self.columns = MComboBox()
         self.columns.addItem(translate("SpecialTools", "All"))
+        self.pbtnEditValueForSearch = MPushButton(translate("Options", "*"))
+        self.pbtnEditValueForSearch.setObjectName(translate("Options", "Edit Values With Advanced Value Editor") + u"For Search")
+        self.pbtnEditValueForSearch.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
+        self.pbtnEditValueForSearch.setFixedWidth(25)
+        MObject.connect(self.pbtnEditValueForSearch, SIGNAL("clicked()"), self.pbtnEditValueClicked)
+        self.pbtnEditValueForReplace = MPushButton(translate("Options", "*"))
+        self.pbtnEditValueForReplace.setObjectName(translate("Options", "Edit Values With Advanced Value Editor") + u"For Replace")
+        self.pbtnEditValueForReplace.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
+        self.pbtnEditValueForReplace.setFixedWidth(25)
+        MObject.connect(self.pbtnEditValueForReplace, SIGNAL("clicked()"), self.pbtnEditValueClicked)
         lblSearch.setFixedWidth(60)
         lblReplace.setFixedWidth(100)
         lblColumns.setFixedWidth(60)
@@ -600,8 +610,10 @@ class SearchAndReplace(MWidget):
         HBoxs.append(MHBoxLayout())
         HBoxs[0].addWidget(lblSearch)
         HBoxs[0].addWidget(self.leSearch)
+        HBoxs[0].addWidget(self.pbtnEditValueForSearch)
         HBoxs[0].addWidget(lblReplace)
         HBoxs[0].addWidget(self.leReplace)
+        HBoxs[0].addWidget(self.pbtnEditValueForReplace)
         HBoxs.append(MHBoxLayout())
         HBoxs[1].addWidget(lblColumns)
         HBoxs[1].addWidget(self.columns)
@@ -618,11 +630,18 @@ class SearchAndReplace(MWidget):
             
     def showAdvancedSelections(self):
         self.cckbRegExp.show()
+        self.pbtnEditValueForSearch.show()
+        self.pbtnEditValueForReplace.show()
     
     def hideAdvancedSelections(self):
         self.cckbRegExp.hide()
+        self.pbtnEditValueForSearch.hide()
+        self.pbtnEditValueForReplace.hide()
         self.cckbRegExp.setChecked(False)
-             
+        
+    def pbtnEditValueClicked(self):
+        sarled = SearchAndReplaceListEditDialog(self)
+
 class Fill(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
@@ -839,7 +858,64 @@ class CharacterState(MWidget):
             self.cckbRegExp.setEnabled(False)
             self.leSearch.setEnabled(False)
             
+            
+class SearchAndReplaceListEditDialog(MDialog):
+    def __init__(self, _parent):
+        MDialog.__init__(self, _parent)
+        if Universals.isActivePyKDE4==True:
+            self.setButtons(MDialog.None)
+        self.setWindowTitle(translate("SearchAndReplaceListEditDialog", "Advanced Value Editor"))
+        currentValueForSearch = str(self.parent().leSearch.text())
+        currentValueForReplace = str(self.parent().leReplace.text())
+        if Universals.isActivePyKDE4==True:
+            self.EditorWidgetForSearch = MEditListBox(self)
+            self.EditorWidgetForSearch.setItems([x.decode("utf-8") for x in currentValueForSearch.split(";")])
+            self.EditorWidgetForReplace = MEditListBox(self)
+            self.EditorWidgetForReplace.setItems([x.decode("utf-8") for x in currentValueForReplace.split(";")])
+        else:
+            self.EditorWidgetForSearch = MTextEdit(self)
+            self.EditorWidgetForSearch.setText(currentValueForSearch.replace(";", "\n").decode("utf-8"))
+            self.EditorWidgetForReplace = MTextEdit(self)
+            self.EditorWidgetForReplace.setText(currentValueForReplace.replace(";", "\n").decode("utf-8"))
+        pnlMain = MWidget(self)
+        vblMain = MVBoxLayout(pnlMain)
+        pbtnCancel = MPushButton(translate("SearchAndReplaceListEditDialog", "Cancel"))
+        pbtnApply = MPushButton(translate("SearchAndReplaceListEditDialog", "Apply"))
+        MObject.connect(pbtnCancel, SIGNAL("clicked()"), self.close)
+        MObject.connect(pbtnApply, SIGNAL("clicked()"), self.apply)
+        vblMain.addWidget(MLabel(translate("SearchAndReplaceListEditDialog", "Search List : ")))
+        vblMain.addWidget(self.EditorWidgetForSearch)
+        vblMain.addWidget(MLabel(translate("SearchAndReplaceListEditDialog", "Replace List : ")))
+        vblMain.addWidget(self.EditorWidgetForReplace)
+        hblBox = MHBoxLayout()
+        hblBox.addWidget(pbtnApply)
+        hblBox.addWidget(pbtnCancel)
+        vblMain.addLayout(hblBox)
+        if Universals.isActivePyKDE4==True:
+            self.setMainWidget(pnlMain)
+        else:
+            self.setLayout(vblMain)
+        self.setMinimumSize(550, 400)
+        self.show()
         
+    def apply(self):
+        valueForSearch = ""
+        valueForReplace = ""
+        if Universals.isActivePyKDE4==True:
+            for y, info in enumerate(self.EditorWidgetForSearch.items()):
+                if y!=0:
+                    valueForSearch += ";"
+                valueForSearch += unicode(info, "utf-8")
+            for y, info in enumerate(self.EditorWidgetForReplace.items()):
+                if y!=0:
+                    valueForReplace += ";"
+                valueForReplace += unicode(info, "utf-8")
+        else:
+            valueForSearch = unicode(self.EditorWidgetForSearch.toPlainText(), "utf-8").replace("\n", ";")
+            valueForReplace = unicode(self.EditorWidgetForReplace.toPlainText(), "utf-8").replace("\n", ";")
+        self.parent().leSearch.setText(valueForSearch.decode("utf-8"))
+        self.parent().leReplace.setText(valueForReplace.decode("utf-8"))
+        self.close()
         
         
         

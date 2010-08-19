@@ -366,7 +366,7 @@ class InputOutputs:
     def readDirectoryAll(_path): 
         tFileAndDirs=[]
         for name in listDir(_path):
-            try:tFileAndDirs.append(name.decode(systemsCharSet))
+            try:tFileAndDirs.append(str(name.decode(systemsCharSet)))
             except:tFileAndDirs.append(name)
         return tFileAndDirs
   
