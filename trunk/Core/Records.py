@@ -30,7 +30,7 @@ class Records():
         global recordContents
         if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
             if recordType==0 or (recordType==1 and Universals.isDebugMode):
-                recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "<<<<<<<" + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"'\n"
+                recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
         if Universals.isDebugMode:
             print _title
         
