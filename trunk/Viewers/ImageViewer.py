@@ -8,15 +8,15 @@ import Organizer
 import Universals
 
 class ImageViewer(MWidget):
-    def __init__(self, _imagePath, _isCorrectedWhenNotExist=False, _defaultMaxSize=[150, 150]):
-        MWidget.__init__(self, MApplication.activeWindow())
+    def __init__(self, _parent, _image = None, _valueType="file", _isCorrectedWhenNotExist=False, _defaultMaxSize=[150, 150]):
+        MWidget.__init__(self, _parent)
         self.defaultMaxSize = _defaultMaxSize
         self.isCorrectedWhenNotExist = _isCorrectedWhenNotExist
         self.lblImage = MLabel()
         self.lblImage.setAlignment(Mt.AlignHCenter)
         self.lblImage.setScaledContents(True)
         self.pmapImage = MPixmap()
-        self.changeCoverValues(_imagePath)
+        self.changeCoverValues(_image, _valueType)
         scraMain = MScrollArea()
         scraMain.setWidget(self.lblImage)
         scraMain.setFrameShape(MFrame.NoFrame)
@@ -42,15 +42,21 @@ class ImageViewer(MWidget):
         self.setLayout(vblMain)
         self.show()
                   
-    def changeCoverValues(self, _imagePath):
+    def changeCoverValues(self, _image=None, _valueType="file"):
         self.zoomValue = 1.0
-        if InputOutputs.isFile(_imagePath)==False:
-            if self.isCorrectedWhenNotExist==True:
-                _imagePath = Universals.themePath + "/Images/ok.png"
-            else:
-                _imagePath = Universals.themePath + "/Images/notExist.png"
+        if _image!=None and _valueType=="file":
+            if InputOutputs.isFile(_image)==False:
+                if self.isCorrectedWhenNotExist==True:
+                    _image = Universals.themePath + "/Images/ok.png"
+                else:
+                    _image = Universals.themePath + "/Images/notExist.png"
+        elif _valueType=="file":
+            _image = Universals.themePath + "/Images/notExist.png"
         self.pmapImage.detach()
-        self.pmapImage.load(_imagePath.decode("utf-8"))
+        if _valueType=="data":
+            self.pmapImage.loadFromData(_image)
+        else:
+            self.pmapImage.load(_image.decode("utf-8"))
         self.lblImage.setPixmap(self.pmapImage)
         self.width = self.pmapImage.width()
         self.height = self.pmapImage.height()

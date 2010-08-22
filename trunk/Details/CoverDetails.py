@@ -41,6 +41,18 @@ class CoverDetails(MDialog):
             self.lePathOfCurrent = MLineEdit(self)
             self.lePathOfSource = MLineEdit(self)
             self.lePathOfDestination = MLineEdit(self)
+            self.wCurrent = ImageViewer.ImageViewer(self)
+            self.wSource = ImageViewer.ImageViewer(self)
+            self.wDestination = ImageViewer.ImageViewer(self, None, _isCorrectedWhenNotExist=True)
+            self.wCurrent.setMinimumWidth(170)
+            self.wSource.setMinimumWidth(170)
+            self.wDestination.setMinimumWidth(170)
+            self.wCurrent.setMinimumHeight(190)
+            self.wSource.setMinimumHeight(190)
+            self.wDestination.setMinimumHeight(190)
+            self.vblCurrent.insertWidget(0, self.wCurrent, 1)
+            self.vblSource.insertWidget(0, self.wSource, 1)
+            self.vblDestination.insertWidget(0, self.wDestination, 1)
             self.changeCoverValues(_coverValues)
             pbtnClose = MPushButton(translate("ImageDetails", "OK"))
             pbtnClose.setFocus()
@@ -83,14 +95,6 @@ class CoverDetails(MDialog):
             self.show()
                   
     def changeCoverValues(self, _coverValues):
-        try:
-            self.wCurrent.setVisible(False)
-            self.wSource.setVisible(False)
-            self.wDestination.setVisible(False)
-            self.wCurrent.deleteLater()
-            self.wSource.deleteLater()
-            self.wDestination.deleteLater()
-        except:pass
         if _coverValues[1].strip()=="/": _coverValues[1] = _coverValues[0] + "/"
         if _coverValues[2].strip()=="/": _coverValues[2] = _coverValues[0] + "/"
         if _coverValues[3].strip()=="/": _coverValues[3] = _coverValues[0] + "/"
@@ -98,18 +102,9 @@ class CoverDetails(MDialog):
         self.lePathOfCurrent.setText(Organizer.showWithIncorrectChars(_coverValues[1]).decode("utf-8"))
         self.lePathOfSource.setText(Organizer.showWithIncorrectChars(_coverValues[2]).decode("utf-8"))
         self.lePathOfDestination.setText(Organizer.showWithIncorrectChars(_coverValues[3]).decode("utf-8"))
-        self.wCurrent = ImageViewer.ImageViewer(_coverValues[1])
-        self.wSource = ImageViewer.ImageViewer(_coverValues[2])
-        self.wDestination = ImageViewer.ImageViewer(_coverValues[3], True)
-        self.wCurrent.setMinimumWidth(170)
-        self.wSource.setMinimumWidth(170)
-        self.wDestination.setMinimumWidth(170)
-        self.wCurrent.setMinimumHeight(190)
-        self.wSource.setMinimumHeight(190)
-        self.wDestination.setMinimumHeight(190)
-        self.vblCurrent.insertWidget(0, self.wCurrent, 1)
-        self.vblSource.insertWidget(0, self.wSource, 1)
-        self.vblDestination.insertWidget(0, self.wDestination, 1)
+        self.wCurrent.changeCoverValues(_coverValues[1])
+        self.wSource.changeCoverValues(_coverValues[2])
+        self.wDestination.changeCoverValues(_coverValues[3])
         
     def sourceChanged(self):
         self.wSource.changeCoverValues(str(self.lePathOfSource.text()))

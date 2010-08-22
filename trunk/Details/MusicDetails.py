@@ -15,7 +15,7 @@ import ReportBug
 class MusicDetails(MDialog):
     global musicDialogs, closeAllMusicDialogs
     musicDialogs =[]
-    def __init__(self,_filePath,_isOpenDetailsOnNewWindow,_isPlayNow=True,_FocusedInfoNo=None):
+    def __init__(self,_filePath,_isOpenDetailsOnNewWindow=True,_isPlayNow=True,_FocusedInfoNo=None):
         global musicDialogs, musicTagType
         musicTagType = Universals.MySettings["musicTagType"]
         if InputOutputs.isFile(_filePath):

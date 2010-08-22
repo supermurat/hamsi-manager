@@ -47,7 +47,7 @@ class MusicTable():
         self.hblBox.addLayout(hbox1)
         
     def _subShowDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(Musics.InputOutputs.currentDirectoryPath+"/"+Musics.currentFilesAndFoldersValues[_fileNo][1],
+        MusicDetails.MusicDetails(InputOutputs.currentDirectoryPath+"/"+Musics.currentFilesAndFoldersValues[_fileNo][1],
                                       self.isOpenDetailsOnNewWindow.isChecked(),self.isPlayNow.isChecked(),
                                       _infoNo)
     
@@ -72,7 +72,7 @@ class MusicTable():
         except:
             Dialogs.showError(translate("MusicTable", "Cannot Open Music File"), 
                         str(translate("MusicTable", "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
-                        ) % Organizer.getLink(Musics.InputOutputs.currentDirectoryPath+"/"+Musics.currentFilesAndFoldersValues[_row][1]))
+                        ) % Organizer.getLink(InputOutputs.currentDirectoryPath+"/"+Musics.currentFilesAndFoldersValues[_row][1]))
        
     def _refreshSubTableColumns(self):
         self.tableColumns=[translate("MusicTable", "Directory"), 
