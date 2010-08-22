@@ -3,6 +3,7 @@
 import InputOutputs
 import os,sys
 from MyObjects import *
+from Viewers import ImageViewer
 import Dialogs
 import Organizer
 import Universals
@@ -10,7 +11,7 @@ import Universals
 class ImageDetails(MDialog):
     global imageDialogs,closeAllImageDialogs
     imageDialogs = []
-    def __init__(self,_file, _valueType="file", _isOpenDetailsOnNewWindow=True, _defaultMaxSize=[500, 400]):
+    def __init__(self, _file, _valueType="file", _isOpenDetailsOnNewWindow=True, _defaultMaxSize=[500, 400]):
         global imageDialogs
         self.defaultMaxSize = _defaultMaxSize
         if _isOpenDetailsOnNewWindow==False:
@@ -30,63 +31,34 @@ class ImageDetails(MDialog):
             MDialog.__init__(self, MApplication.activeWindow())
             if Universals.isActivePyKDE4==True:
                 self.setButtons(MDialog.None)
-            self.lblImage = MLabel()
-            self.lblImage.setAlignment(Mt.AlignHCenter)
-            self.lblImage.setScaledContents(True)
-            self.pmapImage = MPixmap()
+            self.wImage = ImageViewer.ImageViewer(self, _defaultMaxSize=_defaultMaxSize)
+            self.wImage.setMinimumWidth(520)
+            self.wImage.setMinimumHeight(420)
             self.changeFile(_file, _valueType)
-            scraMain = MScrollArea()
-            scraMain.setWidget(self.lblImage)
-            scraMain.setFrameShape(MFrame.NoFrame)
-            scraMain.setAlignment(Mt.AlignHCenter)
             pbtnClose = MPushButton(translate("ImageDetails", "OK"))
             pbtnClose.setFocus()
             pbtnClose.setMaximumWidth(100)
             MObject.connect(pbtnClose, SIGNAL("clicked()"), self.close)
-            self.pbtnGoOriginalImageZoom = MPushButton(translate("ImageDetails", "Original"))
-            self.pbtnGoOriginalImageZoom.setMaximumWidth(100)
-            MObject.connect(self.pbtnGoOriginalImageZoom, SIGNAL("clicked()"), self.goOriginalImageZoom)
-            self.pbtnZoomOut = MPushButton(translate("ImageDetails", "Smaller"))
-            self.pbtnZoomOut.setMaximumWidth(100)
-            MObject.connect(self.pbtnZoomOut, SIGNAL("clicked()"), self.zoomOut)
-            self.pbtnZoomIn = MPushButton(translate("ImageDetails", "Larger"))
-            self.pbtnZoomIn.setMaximumWidth(100)
-            MObject.connect(self.pbtnZoomIn, SIGNAL("clicked()"), self.zoomIn)
-            imageDialogs[-1].setWindowTitle(translate("ImageDetails", "Image"))
             HBOXs = []
             HBOXs.append(MHBoxLayout())
-            HBOXs[0].addWidget(self.pbtnGoOriginalImageZoom)
-            HBOXs[0].addWidget(self.pbtnZoomOut)
-            HBOXs[0].addWidget(self.pbtnZoomIn)
+            HBOXs[0].addStretch(1)
             HBOXs[0].addWidget(pbtnClose)
             self.pnlMain = MWidget()
             vblMain = MVBoxLayout(self.pnlMain)
-            vblMain.addWidget(scraMain)
+            vblMain.addWidget(self.wImage)
             vblMain.addLayout(HBOXs[0])
             if Universals.isActivePyKDE4==True:
                 self.setMainWidget(self.pnlMain)
             else:
                 self.setLayout(vblMain)
-            scraMain.setMinimumWidth(520)
-            scraMain.setMinimumHeight(420)
             self.show()
                   
     def changeFile(self, _file, _valueType):
-        self.zoomValue = 1.0
         if _valueType=="data":
-            self.pmapImage.loadFromData(_file)
+            self.setWindowTitle(translate("ImageDetails", "Image Details"))
         else:
-            self.pmapImage.load(_file)
-        self.lblImage.setPixmap(self.pmapImage)
-        self.width = self.pmapImage.width()
-        self.height = self.pmapImage.height()
-        while 1==1:
-            if self.width>self.defaultMaxSize[0] or self.height>self.defaultMaxSize[1]:
-                self.width*=0.9
-                self.height*=0.9
-            else:
-                break
-        self.lblImage.resize(int(self.width),int(self.height))
+            self.setWindowTitle((str(translate("ImageDetails", "Image Details ( %s )")) % Organizer.showWithIncorrectChars(_file)).decode("utf-8"))
+        self.wImage.changeCoverValues(_file, _valueType)
                   
     def closeAllImageDialogs():
         for dialog in imageDialogs:
@@ -95,26 +67,3 @@ class ImageDetails(MDialog):
                     dialog.close()
             except AttributeError:
                 continue
-
-    def goOriginalImageZoom(self):
-        self.makeZoom(1)
-    
-    def zoomOut(self):
-        self.makeZoom(-0.1)
-    
-    def zoomIn(self):
-        self.makeZoom(0.1)
-        
-    def makeZoom(self, _value):
-        if _value==1:
-            self.zoomValue = 1.0
-            self.width = self.pmapImage.width()
-            self.height = self.pmapImage.height()
-            self.lblImage.resize(self.width, self.height)
-        else:
-            self.zoomValue += _value
-            self.lblImage.resize(self.width*self.zoomValue, self.height*self.zoomValue)
-    
-    
-     
-     

@@ -34,7 +34,7 @@ class FolderTable():
         self.hblBox.addLayout(hbox1)
         
     def _subShowDetails(self, _fileNo, _infoNo):
-        TextDetails.TextDetails(Folders.InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_fileNo][1],self.isOpenDetailsOnNewWindow.isChecked())
+        TextDetails.TextDetails(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_fileNo][1],self.isOpenDetailsOnNewWindow.isChecked())
     
     def _subTableCellClicked(self,_row,_column):
         for row_no in range(self.rowCount()):
@@ -49,7 +49,7 @@ class FolderTable():
         except:
             Dialogs.showError(translate("FolderTable", "Cannot Open File"), 
                         str(translate("FolderTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                        ) % Organizer.getLink(Folders.InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_row][1]))
+                        ) % Organizer.getLink(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_row][1]))
        
     def _refreshSubTableColumns(self):
         self.tableColumns=[translate("FolderTable", "Directory"), 

@@ -34,7 +34,7 @@ class SubFolderTable():
         self.hblBox.addLayout(hbox1)
         
     def _subShowDetails(self, _fileNo, _infoNo):
-        TextDetails.TextDetails(SubFolders.InputOutputs.currentDirectoryPath+"/"+SubFolders.currentFilesAndFoldersValues[_fileNo][1],self.isOpenDetailsOnNewWindow.isChecked())
+        TextDetails.TextDetails(InputOutputs.currentDirectoryPath+"/"+SubFolders.currentFilesAndFoldersValues[_fileNo][1],self.isOpenDetailsOnNewWindow.isChecked())
         
     def _subTableCellClicked(self,_row,_column):
         for row_no in range(self.rowCount()):
@@ -49,7 +49,7 @@ class SubFolderTable():
         except:
             Dialogs.showError(translate("SubFolderTable", "Cannot Open File"), 
                         str(translate("SubFolderTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                        ) % Organizer.getLink(SubFolders.InputOutputs.currentDirectoryPath+"/"+SubFolders.currentFilesAndFoldersValues[_row][1]))
+                        ) % Organizer.getLink(InputOutputs.currentDirectoryPath+"/"+SubFolders.currentFilesAndFoldersValues[_row][1]))
        
     def _refreshSubTableColumns(self):
         self.tableColumns=[translate("SubFolderTable", "Directory"), 

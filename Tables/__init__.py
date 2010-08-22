@@ -135,7 +135,30 @@ class Tables(MTableWidget):
                     rowNo = self.currentRow()/2
                 else:
                     rowNo = self.currentRow()
-                self.subShowDetails(self, rowNo, self.currentColumn())
+                filePath = InputOutputs.currentDirectoryPath+"/"+self.fileDetails[rowNo][1]
+                isOpenedDetails = False
+                if InputOutputs.isExist(filePath):
+                    isImage = False
+                    isMusic = False
+                    for fileExt in Universals.getListFromStrint(Universals.MySettings["imageExtensions"]):
+                        if InputOutputs.checkExtension(filePath, fileExt):
+                            isImage = True
+                            break
+                    if isImage==False:
+                        for fileExt in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                            if InputOutputs.checkExtension(filePath, fileExt):
+                                isMusic = True
+                                break
+                    if isImage:
+                        from Details import ImageDetails
+                        ImageDetails.ImageDetails(filePath)
+                        isOpenedDetails = True
+                    elif isMusic:
+                        from Details import MusicDetails
+                        MusicDetails.MusicDetails(filePath)
+                        isOpenedDetails = True
+                if isOpenedDetails==False:
+                    self.subShowDetails(self, rowNo, self.currentColumn())
         except:
             error = ReportBug.ReportBug()
             error.show()
