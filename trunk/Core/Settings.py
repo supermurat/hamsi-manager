@@ -537,7 +537,11 @@ class Settings():
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory , File Name  ;right;102', 'subfolder')",
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Directory  ;right;102', 'subfolder')",
                                 "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory , File Name  ;right;102', 'file')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Directory  ;right;102', 'file')"]
+                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Directory  ;right;102', 'file')", 
+                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory Name , Directory  ;right;102', 'cover')", 
+                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Source Cover , Current Cover  ;right;102', 'cover')", 
+                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Destination Cover , Source Cover  ;right;102', 'cover')", 
+                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Destination Cover , Current Cover  ;right;102', 'cover')"]
         if _table=="bookmarksOfDirectories" or _table=="bookmarksOfSpecialTools" or _table=="bookmarks" or _table=="All":
             sqlCommands[-1] += ["CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)", 
                                 "insert into dbProperties (keyName, value) values ('version', '1')"]
@@ -820,6 +824,14 @@ class Settings():
         if oldVersion<867:
             newSettingsKeys = newSettingsKeys + ["isAskIfHasManyImagesInAlbumDirectory"]
             Universals.setMySetting("isShowReconfigureWizard", True)
+        if oldVersion<890:
+            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+            cur = con.cursor()
+            cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory Name , Directory  ;right;102', 'cover')"))
+            cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Source Cover , Current Cover  ;right;102', 'cover')"))
+            cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Destination Cover , Source Cover  ;right;102', 'cover')"))
+            cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Destination Cover , Current Cover  ;right;102', 'cover')"))
+            con.commit()
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():

@@ -40,10 +40,12 @@ class MenuBar(MMenuBar):
             self.mHelpMenu.setObjectName(translate("MenuBar", "Help"))
         mExport = MMenu(translate("MenuBar", "Export"), self.mEdit)
         mExport.setObjectName(translate("MenuBar", "Export"))
-        mExport.addAction(translate("MenuBar", "HTML Format")).setObjectName(translate("MenuBar", "HTML Format"))
-        mExport.addAction(translate("MenuBar", "Text Format")).setObjectName(translate("MenuBar", "Text Format"))
-        mExport.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(translate("MenuBar", "HTML Format (File Tree)")) 
-        mExport.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(translate("MenuBar", "Text Format (File Tree)")) 
+        mExportToFile = MMenu(translate("MenuBar", "Export To File"), self.mEdit)
+        mExportToFile.setObjectName(translate("MenuBar", "Export To File"))
+        mExportToFile.addAction(translate("MenuBar", "HTML Format")).setObjectName(translate("MenuBar", "HTML Format"))
+        mExportToFile.addAction(translate("MenuBar", "Text Format")).setObjectName(translate("MenuBar", "Text Format"))
+        mExportToFile.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(translate("MenuBar", "HTML Format (File Tree)")) 
+        mExportToFile.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(translate("MenuBar", "Text Format (File Tree)")) 
         mShowInWindow = MMenu(translate("MenuBar", "Show In New Window"), self.mEdit)
         mShowInWindow.setObjectName(translate("MenuBar", "Show In New Window"))
         mShowInWindow.addAction(translate("MenuBar", "HTML Format")).setObjectName(translate("MenuBar", "HTML Format")) 
@@ -56,6 +58,9 @@ class MenuBar(MMenuBar):
         mCopyToClipBoard.addAction(translate("MenuBar", "Text Format")).setObjectName(translate("MenuBar", "Text Format"))
         mCopyToClipBoard.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(translate("MenuBar", "HTML Format (File Tree)")) 
         mCopyToClipBoard.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(translate("MenuBar", "Text Format (File Tree)"))
+        mExport.addMenu(mExportToFile)
+        mExport.addMenu(mShowInWindow)
+        mExport.addMenu(mCopyToClipBoard)
         self.mFile.addAction(translate("MenuBar", "Open State")).setObjectName(translate("MenuBar", "Open State"))
         self.mFile.addAction(translate("MenuBar", "Save State")).setObjectName(translate("MenuBar", "Save State"))
         if Execute.isRunableAsRoot():
@@ -65,8 +70,6 @@ class MenuBar(MMenuBar):
             self.mFile.addMenu(mRunAsRoot)
         self.mFile.addAction(translate("MenuBar", "Quit")).setObjectName(translate("MenuBar", "Quit"))
         self.mEdit.addMenu(mExport)
-        self.mEdit.addMenu(mShowInWindow)
-        self.mEdit.addMenu(mCopyToClipBoard)
         self.mSettings.addAction(translate("MenuBar", "Options")).setObjectName(translate("MenuBar", "Options"))
         self.mSettings.addAction(translate("MenuBar", "My Plug-ins")).setObjectName(translate("MenuBar", "My Plug-ins"))
         self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
@@ -152,28 +155,28 @@ class Bars():
             elif actionName==translate("MenuBar", "Quit"):
                 Universals.MainWindow.close()
             elif actionName==translate("MenuBar", "HTML Format"):
-                if _action.parent().objectName()==translate("MenuBar", "Export"):
+                if _action.parent().objectName()==translate("MenuBar", "Export To File"):
                     Tables.exportTableValues("file", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
                     Tables.exportTableValues("dialog", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
                     Tables.exportTableValues("clipboard", "html", "title")
             elif actionName==translate("MenuBar", "Text Format"):
-                if _action.parent().objectName()==translate("MenuBar", "Export"):
+                if _action.parent().objectName()==translate("MenuBar", "Export To File"):
                     Tables.exportTableValues("file", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
                     Tables.exportTableValues("dialog", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
                     Tables.exportTableValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
-                if _action.parent().objectName()==translate("MenuBar", "Export"):
+                if _action.parent().objectName()==translate("MenuBar", "Export To File"):
                     InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
                     InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
                     InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "title")
             elif actionName==translate("MenuBar", "Text Format (File Tree)"):
-                if _action.parent().objectName()==translate("MenuBar", "Export"):
+                if _action.parent().objectName()==translate("MenuBar", "Export To File"):
                     InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
                     InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "title")

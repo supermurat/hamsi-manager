@@ -100,7 +100,7 @@ class CoverDetails(MDialog):
         self.lePathOfDestination.setText(Organizer.showWithIncorrectChars(_coverValues[3]).decode("utf-8"))
         self.wCurrent = ImageViewer.ImageViewer(_coverValues[1])
         self.wSource = ImageViewer.ImageViewer(_coverValues[2])
-        self.wDestination = ImageViewer.ImageViewer(_coverValues[3])
+        self.wDestination = ImageViewer.ImageViewer(_coverValues[3], True)
         self.wCurrent.setMinimumWidth(170)
         self.wSource.setMinimumWidth(170)
         self.wDestination.setMinimumWidth(170)

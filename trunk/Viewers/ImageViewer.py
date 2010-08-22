@@ -8,9 +8,10 @@ import Organizer
 import Universals
 
 class ImageViewer(MWidget):
-    def __init__(self, _imagePath, _defaultMaxSize=[150, 150]):
+    def __init__(self, _imagePath, _isCorrectedWhenNotExist=False, _defaultMaxSize=[150, 150]):
         MWidget.__init__(self, MApplication.activeWindow())
         self.defaultMaxSize = _defaultMaxSize
+        self.isCorrectedWhenNotExist = _isCorrectedWhenNotExist
         self.lblImage = MLabel()
         self.lblImage.setAlignment(Mt.AlignHCenter)
         self.lblImage.setScaledContents(True)
@@ -44,7 +45,10 @@ class ImageViewer(MWidget):
     def changeCoverValues(self, _imagePath):
         self.zoomValue = 1.0
         if InputOutputs.isFile(_imagePath)==False:
-            _imagePath = Universals.themePath + "/Images/notExist.png"
+            if self.isCorrectedWhenNotExist==True:
+                _imagePath = Universals.themePath + "/Images/ok.png"
+            else:
+                _imagePath = Universals.themePath + "/Images/notExist.png"
         self.pmapImage.detach()
         self.pmapImage.load(_imagePath.decode("utf-8"))
         self.lblImage.setPixmap(self.pmapImage)
