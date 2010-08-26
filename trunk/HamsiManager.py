@@ -84,6 +84,12 @@ if RoutineChecks.checkPyQt4Exist():
                 languageFile.load((Universals.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+
                             str(Universals.MySettings["language"]+".qm")).decode(Settings.defaultFileSystemEncoding))
                 HamsiManagerApp.installTranslator(languageFile)
+            elif InputOutputs.isFile(Universals.HamsiManagerDirectory+"/Languages/HamsiManager_"+
+                            str(Universals.MySettings["language"]+".qm")):
+                languageFile = MTranslator()
+                languageFile.load((Universals.HamsiManagerDirectory+"/Languages/HamsiManager_"+
+                            str(Universals.MySettings["language"]+".qm")).decode(Settings.defaultFileSystemEncoding))
+                HamsiManagerApp.installTranslator(languageFile)
         HamsiManagerApp.setApplicationName("HamsiManager")
         HamsiManagerApp.setApplicationVersion(RoutineChecks.__version__)
         HamsiManagerApp.setOrganizationDomain("hamsiapps.com")

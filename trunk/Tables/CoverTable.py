@@ -52,16 +52,16 @@ class CoverTable():
             if self.tbIsRunOnDoubleClick.isChecked()==True:
                 _subShowDetails(self, _row, _column)
         except:
-            Dialogs.showError(translate("SubFolderTable", "Cannot Open File"), 
-                        str(translate("SubFolderTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
+            Dialogs.showError(translate("CoverTable", "Cannot Open File"), 
+                        str(translate("CoverTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
                         ) % Organizer.getLink(InputOutputs.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_row][1]))
        
     def _refreshSubTableColumns(self):
-        self.tableColumns=[translate("SubFolderTable", "Directory"), 
-                            translate("SubFolderTable", "Directory Name"), 
-                            translate("SubFolderTable", "Current Cover"), 
-                            translate("SubFolderTable", "Source Cover"), 
-                            translate("SubFolderTable", "Destination Cover")]
+        self.tableColumns=[translate("CoverTable", "Directory"), 
+                            translate("CoverTable", "Directory Name"), 
+                            translate("CoverTable", "Current Cover"), 
+                            translate("CoverTable", "Source Cover"), 
+                            translate("CoverTable", "Destination Cover")]
         self.tableColumnsKey=["Directory", "Directory Name", "Current Cover", "Source Cover", "Destination Cover"]
         
     def _saveSubTable(self):

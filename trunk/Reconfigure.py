@@ -200,7 +200,7 @@ if RoutineChecks.checkPyQt4Exist():
                         if oldPathOfExecutableHamsi!=executableLink:
                             if InputOutputs.isFile(oldPathOfExecutableHamsi):
                                 answer = Dialogs.ask(MApplication.translate("Reconfigure", "Other Hamsi Manager Was Detected"), 
-                                    str(MApplication.translate("Reconfigure", "Other Hamsi Manager executable file was detected? Are you want to delete old executable file? You can delete this old executable file : \"%s\"")) % (oldPathOfExecutableHamsi))
+                                    str(MApplication.translate("Reconfigure", "Other Hamsi Manager executable file was detected. Are you want to delete old executable file? You can delete this old executable file : \"%s\"")) % (oldPathOfExecutableHamsi))
                                 if answer!=Dialogs.Yes:
                                     InputOutputs.removeFile(oldPathOfExecutableHamsi)
                     if InputOutputs.isDir("/usr/share/applications/"):

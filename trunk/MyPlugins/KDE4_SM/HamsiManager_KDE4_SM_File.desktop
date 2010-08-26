@@ -20,4 +20,4 @@ Exec=python '~InstallationDirectory~/HamsiManager.py' -qm hash %U
 Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager.png
 Name=Hash Digest
 Name[tr]=Doğrulama Özeti
-Name[pt_BR]=
+Name[pt_BR]=Resumo Do Hash
