@@ -187,7 +187,7 @@ class Universals():
         global threadActionState
         import Dialogs
         from MyObjects import translate
-        answer = Dialogs.ask(translate("Universals", "Are You Sure"),
+        answer = Dialogs.ask(translate("Universals", "Are You Sure?"),
                             translate("Universals", "Are you want to cancel these transactions?"))
         if answer==Dialogs.Yes:
             threadActionState = False
