@@ -28,7 +28,7 @@ if RoutineChecks.checkPyQt4Exist():
     elif InputOutputs.isFile(Universals.HamsiManagerDirectory+"/Languages/" + str("HamsiManager_"+defaultLangCode+".qm")):
             languageFile.load((Universals.HamsiManagerDirectory+"/Languages/" + str("HamsiManager_"+defaultLangCode+".qm")).decode("utf-8"))
     HamsiManagerApp.installTranslator(languageFile)
-    HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager.png"))
+    HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
     HamsiManagerApp.setApplicationName("InstallHamsiManager")
     HamsiManagerApp.setApplicationVersion(RoutineChecks.__version__)
     HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
@@ -43,7 +43,7 @@ if RoutineChecks.checkPyQt4Exist():
             self.vblMain = MVBoxLayout()
             self.hblMain = MHBoxLayout()
             self.lblLeftImage = MLabel()
-            self.pmapLeftImage = MPixmap("Images:HamsiManager.png")
+            self.pmapLeftImage = MPixmap("Images:HamsiManager-128x176.png")
             self.lblLeftImage.setPixmap(self.pmapLeftImage)
             self.vblLeftColumn = MVBoxLayout()
             self.vblLeftColumn.addStretch(1)
