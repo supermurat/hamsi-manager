@@ -3567,12 +3567,12 @@
         <translation>&quot;%s&quot; modülü olmadan uygulama çalışmayacaktır.</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="284"/>
+        <location filename="HamsiManager.py" line="290"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation>Kritik bir hata oluştu.Detaylara bakmak istiyorsanız &quot;%s&quot; dosyasına bakabilirsiniz.Eğer Mümkünse bu hatanın detaylarını bize göndermenizi rica ederiz.</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="285"/>
+        <location filename="HamsiManager.py" line="291"/>
         <source>Thanks in advance for your interest.</source>
         <translation>İlginiz için şimdiden teşekkür ederiz.</translation>
     </message>
@@ -4757,52 +4757,52 @@
         <translation>Güncellemeler Kontrol Ediliyor</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="134"/>
+        <location filename="Core/UpdateControl.py" line="135"/>
         <source>You are already using the latest release.</source>
         <translation>Mevcut son sürümü kullanıyorsunuz.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="148"/>
+        <location filename="Core/UpdateControl.py" line="149"/>
         <source>Download complete.</source>
         <translation>ndirme işlemi bitti.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="208"/>
+        <location filename="Core/UpdateControl.py" line="209"/>
         <source>Cannot read source package. Please retry later.</source>
         <translation>Kaynak paket okunamıyor.Lütfen daha sonra tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="225"/>
+        <location filename="Core/UpdateControl.py" line="226"/>
         <source>Latest release downloaded, initializing installation.</source>
         <translation>Son sürüm indirildi,şimdi kurulum başlıyor.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="135"/>
+        <location filename="Core/UpdateControl.py" line="136"/>
         <source>Ok</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="151"/>
+        <location filename="Core/UpdateControl.py" line="152"/>
         <source>Cannot Fetch Release Information</source>
         <translation>Güncelleme Bilgilerine Ulaşılamadı</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="172"/>
+        <location filename="Core/UpdateControl.py" line="173"/>
         <source>Downloading Latest Release...</source>
         <translation>Son Sürüm İndiriliyor...</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="182"/>
+        <location filename="Core/UpdateControl.py" line="183"/>
         <source>You Can Click Cancel To Update Without Saving The Package.</source>
         <translation>Paketi Kaydetmeden Güncellemek İçin İptale Basabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="208"/>
+        <location filename="Core/UpdateControl.py" line="209"/>
         <source>Cannot Read Source.</source>
         <translation>Kaynak Okunamıyor.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="224"/>
+        <location filename="Core/UpdateControl.py" line="225"/>
         <source>Installing The Latest Release</source>
         <translation>Son Sürüm Kuruluyor</translation>
     </message>
@@ -4812,22 +4812,22 @@
         <translation>Yeni sürüm mevcut.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="133"/>
+        <location filename="Core/UpdateControl.py" line="134"/>
         <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="234"/>
         <source>Update Will Be Complete</source>
         <translation>Güncelleme Tamamlanacak</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="234"/>
         <source>Please restart Hamsi Manager now.</source>
         <translation>Lütfen Hamsi Manager`i yeniden başlatınız.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="234"/>
         <source>Restart</source>
         <translation>Yeniden Başlat</translation>
     </message>
@@ -4842,12 +4842,12 @@
         <translation>Bana Sonra Hatırlat Ve Kapat</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="151"/>
+        <location filename="Core/UpdateControl.py" line="152"/>
         <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://hamsiapps.com/HamsiManager&quot;.</source>
         <translation>Güncelleme bilgierine ulaşılamıyor.Lütfen daha sonra tekrar deneyiniz.&lt;br&gt;Eğer bu hatayı sık sık alıyorsanız lütfen &quot;http://hamsiapps.com/HamsiManager&quot;`i ziyaret ediniz.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="184"/>
+        <location filename="Core/UpdateControl.py" line="185"/>
         <source>Save As</source>
         <translation>Farklı Kaydet</translation>
     </message>
@@ -4862,7 +4862,7 @@
         <translation>Son kararlı sürüm %s. Siz şimdi geliştirici sürümünü kullanıyorsunuz.Şimdiki sürümü kullanmaya devam edebilirsiniz.&lt;br&gt;Detaylar için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="130"/>
+        <location filename="Core/UpdateControl.py" line="131"/>
         <source>Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.&lt;br&gt;If you want a more accurate version, please download and install this version.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;You can download from &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</source>
         <translation>Son kararlı sürüm %s. Siz şimdi geliştirici sürümünü kullanıyorsunuz.Şimdiki sürümü kullanmaya devam edebilirsiniz.&lt;br&gt;Eğer daha kararlı bir sürüm istiyorsanız lütfen bu sürümü indirip kurunuz.&lt;br&gt;%s Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;İndirmek için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</translation>
     </message>

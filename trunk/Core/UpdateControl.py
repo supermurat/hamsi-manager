@@ -79,7 +79,10 @@ class UpdateControl(MDialog):
         else:
             self.setLayout(self.vblMain)
         self.show()
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v="+str(RoutineChecks.__intversion__)+"&l="+str(Universals.MySettings["language"])))
+        urlSubFix = ""
+        if Universals.isDeveloperMode:
+            urlSubFix = "&m=develop"
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(RoutineChecks.__intversion__) + "&l=" + str(Universals.MySettings["language"]) + urlSubFix))
     
     def remindMeLaterAndClose(self):
         Universals.setMySetting("remindMeLaterForUpdate", self.cbRemindMeLater.value())
@@ -122,6 +125,7 @@ class UpdateControl(MDialog):
                                 self.lblInfo.setText(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>"+
                                                     "For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[0], self.updateInformations[2]))
                                 self.pbtnDownloadAndInstall.setVisible(True)
+                                self.pbtnDownloadAndInstall.setText(self.pbtnDownloadAndInstall.text() + u" (!)")
                                 self.pbtnRemindMeLater.setVisible(True)
                                 self.cbRemindMeLater.setVisible(True)
                                 details = ""
