@@ -47,7 +47,7 @@ class MyConfigure:
             "Exec=python '~InstallationDirectory~/HamsiManager.py'\n" +
             "GenericName[tr]=Hamsi Manager\n" +
             "GenericName=Hamsi Manager\n" +
-            "Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager.png\n" +
+            "Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png\n" +
             "MimeType=\n" +
             "Name[tr]=Hamsi Manager\n" +
             "Name=Hamsi Manager\n" +

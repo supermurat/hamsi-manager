@@ -48,7 +48,7 @@ if RoutineChecks.checkPyQt4Exist():
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
             aboutOfHamsiManager.addCredit(ki18n(u"Márcio Moraes"), ki18n(u"Translate to Brazilian Portuguese. (Voluntary)<br>Brezilya Portekizcesi diline çeviri. (Gönüllü) (V0.8.7 - ~)"), 
                                             "", "")
-            aboutOfHamsiManager.setProgramIconName(Universals.themePath + "/Images/HamsiManager.png") 
+            aboutOfHamsiManager.setProgramIconName(Universals.themePath + "/Images/HamsiManager-128x128.png") 
             if InputOutputs.isFile(Universals.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode):
                 aboutOfHamsiManager.addLicenseTextFile(Universals.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode)
             else:
@@ -100,7 +100,7 @@ if RoutineChecks.checkPyQt4Exist():
         if InputOutputs.isFile(Universals.themePath + "/Style.qss"):
             HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(Universals.themePath + "/Style.qss"))
         MTextCodec.setCodecForTr(MTextCodec.codecForName("UTF-8"))
-        HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager.png"))
+        HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
         MApplication.setStyle(Universals.MySettings["applicationStyle"])
         Universals.printForDevelopers("Before RoutineChecks.checkMyModules")
         if RoutineChecks.checkMyModules(HamsiManagerApp):
