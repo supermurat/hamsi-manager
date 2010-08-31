@@ -2,11 +2,11 @@
 import sys
 import os
 __author__ = "Murat Demir (murat@mopened.com)"
-__version__ = "0.8.90"
-__intversion__ = 890
+__version__ = "0.9.00"
+__intversion__ = 900
 __copyright__ = "Copyleft"
 __license__ = "GPLv3"
-__settingVersion__ = "890"
+__settingVersion__ = "900"
 
 myArgvs = []
 isQuickMake = False
@@ -154,7 +154,8 @@ def checkAfterRunProccess():
         if Universals.isActivePyKDE4==True:
             Universals.MainWindow.Browser.setVisible(False)
             Universals.MainWindow.TreeBrowser.setVisible(False)
-        Universals.MainWindow.PlayerBar.setVisible(False)
+        try:Universals.MainWindow.PlayerBar.setVisible(False)
+        except:pass
     if Universals.getBoolValue("isShowReconfigureWizard"):
         import Execute
         Execute.executeReconfigure()
