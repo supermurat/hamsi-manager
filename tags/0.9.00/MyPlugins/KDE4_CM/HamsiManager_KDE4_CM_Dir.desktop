@@ -1,0 +1,80 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=KonqPopupMenu/Plugin,inode/directory
+ExcludeServiceTypes=kdedevice/*
+Encoding=UTF-8
+Actions=emendDirectory;emendDirectoryWithContents;pack;checkIcon;clearEmptyDirectories;clearUnneededs;clearIgnoreds;fileTree;removeOnlySubFiles;clear
+X-KDE-Priority=TopLevel
+X-KDE-Submenu=&Hamsi Manager
+X-KDE-Submenu[tr]=&Hamsi Manager
+X-KDE-Submenu[pt_BR]=&Hamsi Manager
+
+[Desktop Action emendDirectory]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm emendDirectory %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Auto Emend
+Name[tr]=Otomatik Olarak Düzelt
+Name[pt_BR]=Corrigir automaticamente
+
+[Desktop Action emendDirectoryWithContents]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm emendDirectoryWithContents %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Auto Emend (With Contents)
+Name[tr]=Otomatik Olarak Düzelt (İçeriği İle)
+Name[pt_BR]=Corrigir automaticamente (Com conteúdos)
+
+[Desktop Action pack]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm pack %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Pack It
+Name[tr]=Paketle
+Name[pt_BR]=Empacotá-lo
+
+[Desktop Action checkIcon]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm checkIcon %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Check Directory Icon
+Name[tr]=Dizin Simgesini Kontrol Et
+Name[pt_BR]=Verificar ícone do diretório
+
+[Desktop Action clearEmptyDirectories]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm clearEmptyDirectories %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Clear Empty Directories
+Name[tr]=Boş Dizinleri Sil
+Name[pt_BR]=Apagar diretórios vazios
+
+[Desktop Action clearUnneededs]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm clearUnneededs %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Clear Unneededs
+Name[tr]=Gereksizleri Sil
+Name[pt_BR]=Apagar desnecessários
+
+[Desktop Action clearIgnoreds]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm clearIgnoreds %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Clear Ignoreds
+Name[tr]=Yok Sayılanları Sil
+Name[pt_BR]=Apagar ignorados
+
+[Desktop Action fileTree]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm fileTree %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Build File Tree
+Name[tr]=Dosya Ağacı Oluştur
+Name[pt_BR]=Construir árvore de arquivo
+
+[Desktop Action removeOnlySubFiles]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm removeOnlySubFiles %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Remove Sub Files
+Name[tr]=Alt Dosyaları Sil
+Name[pt_BR]=Remover arquivos recursivamente
+
+[Desktop Action clear]
+Exec=python '~InstallationDirectory~/HamsiManager.py' -qm clear %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Clear It
+Name[tr]=Temizle
+Name[pt_BR]=Apagá-lo
