@@ -784,65 +784,69 @@ class InputOutputs:
         return cover
         
     def setIconToDirectory(_path, _iconName=""):
-        if _iconName==None:
-            return False
-        _iconName = str(_iconName).strip()
-        returnValue, isChanging, isChange, isCorrectFileContent, rows = False, False, True, False, []
-        if _iconName!="":
-            if str(_path)==str(getDirName(_iconName)):
-                _iconName = "./" + getBaseName(_iconName)
-            try:
-                info = readFromFile(_path + "/.directory")
-                if info.find("[Desktop Entry]")==-1:
-                    info = "[Desktop Entry]\n" + info
-                isCorrectFileContent = True
-            except:
-                info = "[Desktop Entry]"
-            rows = info.split("\n")
-            for rowNo in range(len(rows)):
-                if rows[rowNo][:5] == "Icon=":
-                    if len(rows[rowNo])>5:
-                        isFileExist = False
-                        if rows[rowNo][5]=="." and isFile(_path + str(rows[rowNo][6:])):
-                            isFileExist=True
-                        elif rows[rowNo][5]!="." and isFile(rows[rowNo][5:]):
-                            isFileExist=True
-                        if isFileExist:
-                            if Universals.getBoolValue("isChangeExistIcon")==False:
-                                isChange = False
-                    isChanging = True
-                    rows[rowNo] = "Icon=" + _iconName 
-                    returnValue = True
-            if isChange:
-                if isChanging==False:
-                    rows.append("Icon=" + _iconName)
-                    returnValue = True
-            if isCorrectFileContent:
-                rowNoStrDesktopEntry = -1
-                rowNoStrIcon = -1
-                for rowNo in range(len(rows)):
-                    if rows[rowNo].find("[Desktop Entry]")!=-1:
-                        rowNoStrDesktopEntry = rowNo
-                    elif rows[rowNo].find("Icon=")!=-1:
-                        rowNoStrIcon = rowNo
-                if rowNoStrDesktopEntry != rowNoStrIcon - 1:
-                    rows[rowNoStrDesktopEntry] += "\n" + rows[rowNoStrIcon]
-                    rows[rowNoStrIcon] = ""
-        else:
-            if isFile(_path + "/.directory"):
-                info = readFromFile(_path + "/.directory")
+        _path = str(_path)
+        if isDir(_path):
+            if _iconName==None:
+                return False
+            _iconName = str(_iconName).strip()
+            returnValue, isChanging, isChange, isCorrectFileContent, rows = False, False, True, False, []
+            if _iconName!="":
+                if str(_path)==str(getDirName(_iconName)):
+                    _iconName = "./" + getBaseName(_iconName)
+                try:
+                    info = readFromFile(_path + "/.directory")
+                    if info.find("[Desktop Entry]")==-1:
+                        info = "[Desktop Entry]\n" + info
+                    isCorrectFileContent = True
+                except:
+                    info = "[Desktop Entry]"
                 rows = info.split("\n")
                 for rowNo in range(len(rows)):
-                    if len(rows[rowNo])>4:
-                        if rows[rowNo][:5] == "Icon=":
-                            rows[rowNo] = ""
-                            break
-        info=""
-        for row in rows:
-            if row.strip()!="":
-                info+=row+"\n"
-        writeToFile(_path + "/.directory", info)
-        return returnValue
+                    if rows[rowNo][:5] == "Icon=":
+                        if len(rows[rowNo])>5:
+                            isFileExist = False
+                            if rows[rowNo][5]=="." and isFile(_path + str(rows[rowNo][6:])):
+                                isFileExist=True
+                            elif rows[rowNo][5]!="." and isFile(rows[rowNo][5:]):
+                                isFileExist=True
+                            if isFileExist:
+                                if Universals.getBoolValue("isChangeExistIcon")==False:
+                                    isChange = False
+                        isChanging = True
+                        rows[rowNo] = "Icon=" + _iconName 
+                        returnValue = True
+                if isChange:
+                    if isChanging==False:
+                        rows.append("Icon=" + _iconName)
+                        returnValue = True
+                if isCorrectFileContent:
+                    rowNoStrDesktopEntry = -1
+                    rowNoStrIcon = -1
+                    for rowNo in range(len(rows)):
+                        if rows[rowNo].find("[Desktop Entry]")!=-1:
+                            rowNoStrDesktopEntry = rowNo
+                        elif rows[rowNo].find("Icon=")!=-1:
+                            rowNoStrIcon = rowNo
+                    if rowNoStrDesktopEntry != rowNoStrIcon - 1:
+                        rows[rowNoStrDesktopEntry] += "\n" + rows[rowNoStrIcon]
+                        rows[rowNoStrIcon] = ""
+            else:
+                if isFile(_path + "/.directory"):
+                    info = readFromFile(_path + "/.directory")
+                    rows = info.split("\n")
+                    for rowNo in range(len(rows)):
+                        if len(rows[rowNo])>4:
+                            if rows[rowNo][:5] == "Icon=":
+                                rows[rowNo] = ""
+                                break
+            info=""
+            for row in rows:
+                if row.strip()!="":
+                    info+=row+"\n"
+            writeToFile(_path + "/.directory", info)
+            return returnValue
+        else:
+            return False
         
     def getIconFromDirectory(_path):
         iconPath, isCorrectedFileContent = None, True

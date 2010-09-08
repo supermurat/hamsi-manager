@@ -379,13 +379,9 @@ class Tables(MTableWidget):
         newCurrentDirectoryPath = _returned
         if Universals.tableType!=4:
             if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
-                    InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
-        if Universals.tableType!=4:
-            if InputOutputs.isDir(InputOutputs.currentDirectoryPath):
-                InputOutputs.complateSmartCheckIcon()
+                InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
+        InputOutputs.complateSmartCheckIcon()
         Records.saveAllRecords()
-        Universals.MainWindow.FileManager.makeRefresh("", True)
         if self.changedValueNumber==0:
             Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
                          translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
@@ -393,8 +389,10 @@ class Tables(MTableWidget):
             if Universals.getBoolValue("isShowTransactionDetails"):
                 Dialogs.show(translate("Tables", "Transaction Details"), 
                              str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-        if newCurrentDirectoryPath!=None:
-            Universals.MainWindow.FileManager.makeRefresh(InputOutputs.getRealDirName(newCurrentDirectoryPath))
+        if newCurrentDirectoryPath!=None and newCurrentDirectoryPath!=InputOutputs.currentDirectoryPath:
+            Universals.MainWindow.FileManager.makeRefresh(newCurrentDirectoryPath)
+        else:
+            Universals.MainWindow.FileManager.makeRefresh("", False)
         
     def checkUnSavedTableValues(self):
         isClose=True

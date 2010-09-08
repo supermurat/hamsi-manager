@@ -180,7 +180,7 @@ class FileManager():
                         self.actUp.setEnabled(False)
                     else:
                         self.actUp.setEnabled(True)
-                elif InputOutputs.isDir(_path)==False:
+                elif InputOutputs.isFile(_path):
                     if Universals.tableType==2:
                         for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
                             if str(_path).split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
@@ -244,7 +244,7 @@ class FileManager():
     def makeRefresh(self, _newDirectoryPath="", _isOnlyBrowser=False):
         try:
             if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
-                self.goTo(_newDirectoryPath.decode("utf-8"), False)
+                self.goTo(_newDirectoryPath, False)
             else:
                 self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
                 if _isOnlyBrowser==False:
