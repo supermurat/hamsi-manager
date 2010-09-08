@@ -4,22 +4,22 @@
 <context>
     <name>Bookmarks</name>
     <message>
-        <location filename="Core/FileManager.py" line="358"/>
+        <location filename="Core/FileManager.py" line="375"/>
         <source>Bookmarks</source>
         <translation>Yer İmlerim</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="359"/>
+        <location filename="Core/FileManager.py" line="376"/>
         <source>Delete</source>
         <translation>Sil</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="360"/>
+        <location filename="Core/FileManager.py" line="377"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="361"/>
+        <location filename="Core/FileManager.py" line="378"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
@@ -27,22 +27,22 @@
 <context>
     <name>BookmarksMenu</name>
     <message>
-        <location filename="Core/FileManager.py" line="313"/>
+        <location filename="Core/FileManager.py" line="330"/>
         <source>Bookmarks</source>
         <translation>Yer İmleri</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="330"/>
+        <location filename="Core/FileManager.py" line="347"/>
         <source>Edit Bookmarks</source>
         <translation>Yer İmlerimi Düzenle</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="340"/>
+        <location filename="Core/FileManager.py" line="357"/>
         <source>Cannot Find Folder</source>
         <translation>Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="340"/>
+        <location filename="Core/FileManager.py" line="357"/>
         <source>&quot;%s&quot; cannot be found.&lt;br&gt;Delete this folder from the bookmarks?</source>
         <translation>&quot;%s&quot; dizini bulunamıyor.&lt;br&gt;Bu dizin yer imlerimden silinsin mi?</translation>
     </message>
@@ -232,39 +232,49 @@
         <translation>Yer İmlerime Ekle</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="198"/>
+        <location filename="Core/FileManager.py" line="215"/>
         <source>Cannot open file</source>
         <translation>Dosya Açılamıyor</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="198"/>
+        <location filename="Core/FileManager.py" line="215"/>
         <source>&quot;%s&quot; cannot be opened. Please make sure you selected a text file.</source>
         <translation>&quot;%s&quot; dosyası açılamıyor.Lütfen metin dosyası seçtiğinizden emin olunuz.</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="128"/>
+        <location filename="Core/FileManager.py" line="131"/>
         <source>Browser Tools</source>
         <translation>Tarayıcı Araçları</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="134"/>
+        <location filename="Core/FileManager.py" line="151"/>
         <source>Browser</source>
         <translation>Tarayıcı</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="140"/>
+        <location filename="Core/FileManager.py" line="157"/>
         <source>Tree Browser</source>
         <translation>Ağaç Tarayıcı</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="147"/>
+        <location filename="Core/FileManager.py" line="164"/>
         <source>Places</source>
         <translation>Konumlar</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="83"/>
+        <location filename="Core/FileManager.py" line="84"/>
         <source>Directory Operator</source>
         <translation>Dizin Yöneticisi</translation>
+    </message>
+    <message>
+        <location filename="Core/FileManager.py" line="139"/>
+        <source>Browser Tools (KDE4)</source>
+        <translation>Tarayıcı Araçları (KDE4)</translation>
+    </message>
+    <message>
+        <location filename="Core/FileManager.py" line="146"/>
+        <source>Location Bar</source>
+        <translation>Konum Çubuğu</translation>
     </message>
 </context>
 <context>
@@ -454,12 +464,12 @@
         <translation>Çalıştırılabilir bir OrganizasyonizM dosyası sisteminizde tespit edildi.&quot;%s&quot; dosyasını silip yeni bir çalıştırılabilir Hamsi Manager dosyası(&quot;%s&quot;) oluşturmak ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="172"/>
+        <location filename="Core/RoutineChecks.py" line="173"/>
         <source>We Have A Suggestion</source>
         <translation>Bir Önerimiz Var</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="172"/>
+        <location filename="Core/RoutineChecks.py" line="173"/>
         <source>Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?</source>
         <translation>Ekran boyutunuz çok küçük.Hamsi Manager`ın arayüzünü ekran boyutunuza göre yeniden düzenlememizi ister misiniz?</translation>
     </message>
@@ -653,7 +663,7 @@
         <translation>Erişim Engellendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="959"/>
+        <location filename="InputOutputs/__init__.py" line="963"/>
         <source>Empty Directories Deleted</source>
         <translation>Boş Dizinler Silindi</translation>
     </message>
@@ -698,17 +708,17 @@
         <translation>Dosyaların Dizini Değiştiriliyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="935"/>
+        <location filename="InputOutputs/__init__.py" line="939"/>
         <source>Checking Empty Directories</source>
         <translation>Boş Dizinler Kontrol Ediliyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="956"/>
+        <location filename="InputOutputs/__init__.py" line="960"/>
         <source>Deleting Empty Directories</source>
         <translation>Boş Dizinler Siliniyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="973"/>
+        <location filename="InputOutputs/__init__.py" line="977"/>
         <source>Current Directory Name</source>
         <translation>Mevcut Dizin Adı</translation>
     </message>
@@ -718,7 +728,7 @@
         <translation>Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="973"/>
+        <location filename="InputOutputs/__init__.py" line="977"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation>&quot;%s&quot; isimli bir dosya var.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!</translation>
     </message>
@@ -763,12 +773,12 @@
         <translation>Dizin Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="960"/>
+        <location filename="InputOutputs/__init__.py" line="964"/>
         <source>Project Directory Deleted</source>
         <translation>Proje Dizini Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="962"/>
+        <location filename="InputOutputs/__init__.py" line="966"/>
         <source>Project Directory Cleaned</source>
         <translation>Proje Dizini Temizlendi</translation>
     </message>
@@ -3538,42 +3548,42 @@
         <translation>Tablo İçeriği : </translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="216"/>
+        <location filename="Core/RoutineChecks.py" line="217"/>
         <source>Missing Module</source>
         <translation>Eksik Modül</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="220"/>
+        <location filename="Core/RoutineChecks.py" line="221"/>
         <source>Error In Module</source>
         <translation>Modülde Hata Var</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="222"/>
+        <location filename="Core/RoutineChecks.py" line="223"/>
         <source>&quot;%s&quot; is not in this module.Please download and install Hamsi Manager again.</source>
         <translation>&quot;%s&quot; modülde mevcut değil.Lütfen Hamsi Manager`i tekrar indirip kurunuz.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="224"/>
+        <location filename="Core/RoutineChecks.py" line="225"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="231"/>
+        <location filename="Core/RoutineChecks.py" line="232"/>
         <source>Critical Error!</source>
         <translation>Kritik Hata!</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="218"/>
+        <location filename="Core/RoutineChecks.py" line="219"/>
         <source>Application will not work without the module &quot;%s&quot;.</source>
         <translation>&quot;%s&quot; modülü olmadan uygulama çalışmayacaktır.</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="284"/>
+        <location filename="HamsiManager.py" line="290"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation>Kritik bir hata oluştu.Detaylara bakmak istiyorsanız &quot;%s&quot; dosyasına bakabilirsiniz.Eğer Mümkünse bu hatanın detaylarını bize göndermenizi rica ederiz.</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="285"/>
+        <location filename="HamsiManager.py" line="291"/>
         <source>Thanks in advance for your interest.</source>
         <translation>İlginiz için şimdiden teşekkür ederiz.</translation>
     </message>
@@ -4356,97 +4366,97 @@
         <translation>Sistemden Sil</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="415"/>
+        <location filename="Tables/__init__.py" line="413"/>
         <source>There Are Unsaved Information</source>
         <translation>Kaydedilmemiş Bilgiler Mevcut</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="415"/>
+        <location filename="Tables/__init__.py" line="413"/>
         <source>Do you want to save these information?</source>
         <translation>Kaydedilmemiş bilgileri kaydetmek istermisiniz?</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="427"/>
+        <location filename="Tables/__init__.py" line="425"/>
         <source>Yes</source>
         <translation>Evet</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="435"/>
+        <location filename="Tables/__init__.py" line="433"/>
         <source>No</source>
         <translation>Hayır</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="433"/>
+        <location filename="Tables/__init__.py" line="431"/>
         <source>Hidden Field</source>
         <translation>Gizli Alan</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="440"/>
+        <location filename="Tables/__init__.py" line="438"/>
         <source>Yes To All</source>
         <translation>Hepsine Evet</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="433"/>
+        <location filename="Tables/__init__.py" line="431"/>
         <source>&quot;%s&quot;: you have hidden this field in the table.&lt;br&gt;Do you want to activate this field and perform the action?</source>
         <translation>&quot;%s&quot; alanını tabloda gizlediniz.&lt;br&gt;Bu alanı aktifleştirip ilgili işlemi gerçekleştirmek istiyormusunuz?</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="437"/>
+        <location filename="Tables/__init__.py" line="435"/>
         <source>Action Cancelled</source>
         <translation>İşlem İptal Edildi</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="437"/>
+        <location filename="Tables/__init__.py" line="435"/>
         <source>You have cancelled the action.&lt;br&gt;You can make the necessary changes and reperform the action.</source>
         <translation>İşlemi iptal ettiniz.&lt;br&gt;Gerekli düzenlemeleri yapıp işlemi tekrarlayabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="521"/>
+        <location filename="Tables/__init__.py" line="519"/>
         <source>Table Contents</source>
         <translation>Tablo İçeriği</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="506"/>
+        <location filename="Tables/__init__.py" line="504"/>
         <source>Save As</source>
         <translation>Farklı Kaydet</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="515"/>
+        <location filename="Tables/__init__.py" line="513"/>
         <source>Table Exported</source>
         <translation>Tablo Aktarıldı</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="531"/>
+        <location filename="Tables/__init__.py" line="529"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="515"/>
+        <location filename="Tables/__init__.py" line="513"/>
         <source>Table contents are exported to file: &quot;%s&quot;.</source>
         <translation>Tablo içeriği: &quot;%s&quot; dosyasına aktarıldı.</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="501"/>
+        <location filename="Tables/__init__.py" line="499"/>
         <source>HTML</source>
         <translation>HTML</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="504"/>
+        <location filename="Tables/__init__.py" line="502"/>
         <source>Plain Text</source>
         <translation>Düz Metin</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1108"/>
+        <location filename="InputOutputs/__init__.py" line="1112"/>
         <source>File Tree</source>
         <translation>Dosya Ağacı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1101"/>
+        <location filename="InputOutputs/__init__.py" line="1105"/>
         <source>File Tree Created</source>
         <translation>Dosya Ağacı Oluşturuldu</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1101"/>
+        <location filename="InputOutputs/__init__.py" line="1105"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation>Dosya ağacı &quot;%s&quot; dosyasında oluşturuldu.</translation>
     </message>
@@ -4456,12 +4466,12 @@
         <translation>Tekrar Düzelt</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="390"/>
+        <location filename="Tables/__init__.py" line="386"/>
         <source>Did Not Change Any Things</source>
         <translation>Hiç Bir Şey Değişmedi</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="390"/>
+        <location filename="Tables/__init__.py" line="386"/>
         <source>Did not change any things in this table.Please check the criteria you select.</source>
         <translation>Bu tabloda hiç bir şey değişmedi.Lütfen seçtiğiniz kriterleri kontrol ediniz.</translation>
     </message>
@@ -4481,12 +4491,12 @@
         <translation>Seçilen bilgiler değişmeyecek</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="394"/>
+        <location filename="Tables/__init__.py" line="390"/>
         <source>Transaction Details</source>
         <translation>İşlem Detayları</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="394"/>
+        <location filename="Tables/__init__.py" line="390"/>
         <source>%s value(s) changed.</source>
         <translation>%s değer değiştirildi.</translation>
     </message>
@@ -4758,77 +4768,77 @@
         <translation>Güncellemeler Kontrol Ediliyor</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="134"/>
+        <location filename="Core/UpdateControl.py" line="138"/>
         <source>You are already using the latest release.</source>
         <translation>Mevcut son sürümü kullanıyorsunuz.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="148"/>
+        <location filename="Core/UpdateControl.py" line="152"/>
         <source>Download complete.</source>
         <translation>ndirme işlemi bitti.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="208"/>
+        <location filename="Core/UpdateControl.py" line="212"/>
         <source>Cannot read source package. Please retry later.</source>
         <translation>Kaynak paket okunamıyor.Lütfen daha sonra tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="225"/>
+        <location filename="Core/UpdateControl.py" line="229"/>
         <source>Latest release downloaded, initializing installation.</source>
         <translation>Son sürüm indirildi,şimdi kurulum başlıyor.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="135"/>
+        <location filename="Core/UpdateControl.py" line="139"/>
         <source>Ok</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="151"/>
+        <location filename="Core/UpdateControl.py" line="155"/>
         <source>Cannot Fetch Release Information</source>
         <translation>Güncelleme Bilgilerine Ulaşılamadı</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="172"/>
+        <location filename="Core/UpdateControl.py" line="176"/>
         <source>Downloading Latest Release...</source>
         <translation>Son Sürüm İndiriliyor...</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="182"/>
+        <location filename="Core/UpdateControl.py" line="186"/>
         <source>You Can Click Cancel To Update Without Saving The Package.</source>
         <translation>Paketi Kaydetmeden Güncellemek İçin İptale Basabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="208"/>
+        <location filename="Core/UpdateControl.py" line="212"/>
         <source>Cannot Read Source.</source>
         <translation>Kaynak Okunamıyor.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="224"/>
+        <location filename="Core/UpdateControl.py" line="228"/>
         <source>Installing The Latest Release</source>
         <translation>Son Sürüm Kuruluyor</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="111"/>
+        <location filename="Core/UpdateControl.py" line="114"/>
         <source>New release is available. Please download and install.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Yeni sürüm mevcut.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="133"/>
+        <location filename="Core/UpdateControl.py" line="137"/>
         <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="237"/>
         <source>Update Will Be Complete</source>
         <translation>Güncelleme Tamamlanacak</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="237"/>
         <source>Please restart Hamsi Manager now.</source>
         <translation>Lütfen Hamsi Manager`i yeniden başlatınız.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="237"/>
         <source>Restart</source>
         <translation>Yeniden Başlat</translation>
     </message>
@@ -4843,27 +4853,27 @@
         <translation>Bana Sonra Hatırlat Ve Kapat</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="151"/>
+        <location filename="Core/UpdateControl.py" line="155"/>
         <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://hamsiapps.com/HamsiManager&quot;.</source>
         <translation>Güncelleme bilgierine ulaşılamıyor.Lütfen daha sonra tekrar deneyiniz.&lt;br&gt;Eğer bu hatayı sık sık alıyorsanız lütfen &quot;http://hamsiapps.com/HamsiManager&quot;`i ziyaret ediniz.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="184"/>
+        <location filename="Core/UpdateControl.py" line="188"/>
         <source>Save As</source>
         <translation>Farklı Kaydet</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="119"/>
+        <location filename="Core/UpdateControl.py" line="122"/>
         <source>Version %s is available. Please download and install the new release.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;You can download from &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</source>
         <translation>%s isimli sürüm yayımlandı.Lütfen yeni sürümü indirip kurunuz.&lt;br&gt;%s Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;İndirmek için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="122"/>
+        <location filename="Core/UpdateControl.py" line="125"/>
         <source>Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Son kararlı sürüm %s. Siz şimdi geliştirici sürümünü kullanıyorsunuz.Şimdiki sürümü kullanmaya devam edebilirsiniz.&lt;br&gt;Detaylar için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="130"/>
+        <location filename="Core/UpdateControl.py" line="134"/>
         <source>Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.&lt;br&gt;If you want a more accurate version, please download and install this version.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;You can download from &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</source>
         <translation>Son kararlı sürüm %s. Siz şimdi geliştirici sürümünü kullanıyorsunuz.Şimdiki sürümü kullanmaya devam edebilirsiniz.&lt;br&gt;Eğer daha kararlı bir sürüm istiyorsanız lütfen bu sürümü indirip kurunuz.&lt;br&gt;%s Detaylı bilgi için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;İndirmek için : &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</translation>
     </message>

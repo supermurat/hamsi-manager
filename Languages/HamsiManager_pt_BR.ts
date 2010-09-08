@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="pt_BR">
+<!DOCTYPE TS>
+<TS version="2.0" language="pt_BR">
 <context>
     <name>Bookmarks</name>
     <message>
-        <location filename="Core/FileManager.py" line="358"/>
+        <location filename="Core/FileManager.py" line="375"/>
         <source>Bookmarks</source>
         <translation>Favoritos</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="359"/>
+        <location filename="Core/FileManager.py" line="376"/>
         <source>Delete</source>
         <translation>Excluir</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="360"/>
+        <location filename="Core/FileManager.py" line="377"/>
         <source>Save</source>
         <translation>Salvar</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="361"/>
+        <location filename="Core/FileManager.py" line="378"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
@@ -26,22 +27,22 @@
 <context>
     <name>BookmarksMenu</name>
     <message>
-        <location filename="Core/FileManager.py" line="313"/>
+        <location filename="Core/FileManager.py" line="330"/>
         <source>Bookmarks</source>
         <translation>Favoritos</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="330"/>
+        <location filename="Core/FileManager.py" line="347"/>
         <source>Edit Bookmarks</source>
         <translation>Editar Favoritos</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="340"/>
+        <location filename="Core/FileManager.py" line="357"/>
         <source>Cannot Find Folder</source>
         <translation>Não Foi Possível Localizar Pasta</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="340"/>
+        <location filename="Core/FileManager.py" line="357"/>
         <source>&quot;%s&quot; cannot be found.&lt;br&gt;Delete this folder from the bookmarks?</source>
         <translation>&quot;%s&quot; não pode ser encontrado.&lt;br&gt;Excluir esta pasta dos favoritos?</translation>
     </message>
@@ -231,39 +232,49 @@
         <translation>Adicionar Aos Favoritos</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="198"/>
+        <location filename="Core/FileManager.py" line="215"/>
         <source>Cannot open file</source>
         <translation>Não foi possível abrir arquivo</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="198"/>
+        <location filename="Core/FileManager.py" line="215"/>
         <source>&quot;%s&quot; cannot be opened. Please make sure you selected a text file.</source>
         <translation>&quot;%s&quot; não pode ser aberto. Por favor, certifique-se que você selecionou um arquivo de texto.</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="128"/>
+        <location filename="Core/FileManager.py" line="131"/>
         <source>Browser Tools</source>
         <translation>Ferramentas De Navegação</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="134"/>
+        <location filename="Core/FileManager.py" line="151"/>
         <source>Browser</source>
         <translation>Navegar</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="140"/>
+        <location filename="Core/FileManager.py" line="157"/>
         <source>Tree Browser</source>
         <translation>Navegar Na Árvore</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="147"/>
+        <location filename="Core/FileManager.py" line="164"/>
         <source>Places</source>
         <translation>Locais</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="83"/>
+        <location filename="Core/FileManager.py" line="84"/>
         <source>Directory Operator</source>
         <translation>Diretório Operador</translation>
+    </message>
+    <message>
+        <location filename="Core/FileManager.py" line="139"/>
+        <source>Browser Tools (KDE4)</source>
+        <translation>Ferramentas De Navegação (KDE4)</translation>
+    </message>
+    <message>
+        <location filename="Core/FileManager.py" line="146"/>
+        <source>Location Bar</source>
+        <translation>Barra De Localização</translation>
     </message>
 </context>
 <context>
@@ -453,12 +464,12 @@
         <translation>O arquivo executável de OrganizasyonizM foi detectado no seu sistema. Você deseja excluir &quot;%s&quot; e criar um novo executável (&quot;%s&quot;) para Hamsi Manager?</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="172"/>
+        <location filename="Core/RoutineChecks.py" line="173"/>
         <source>We Have A Suggestion</source>
         <translation>Nós Temos Uma Sugestão</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="172"/>
+        <location filename="Core/RoutineChecks.py" line="173"/>
         <source>Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?</source>
         <translation>Seu tamanho de tela é muito pequeno. Você deseja reorganizar a interface do Hamsi Manager para o tamanho da tela?</translation>
     </message>
@@ -647,17 +658,17 @@
 <context>
     <name>InputOutputs</name>
     <message>
-        <location filename="InputOutputs/__init__.py" line="935"/>
+        <location filename="InputOutputs/__init__.py" line="939"/>
         <source>Checking Empty Directories</source>
         <translation>Verificando diretórios vazios</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="956"/>
+        <location filename="InputOutputs/__init__.py" line="960"/>
         <source>Deleting Empty Directories</source>
         <translation>Excluindo diretórios vazios</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="959"/>
+        <location filename="InputOutputs/__init__.py" line="963"/>
         <source>Empty Directories Deleted</source>
         <translation>Diretórios vazios excluídos</translation>
     </message>
@@ -667,7 +678,7 @@
         <translation>Nome do arquivo atual</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="973"/>
+        <location filename="InputOutputs/__init__.py" line="977"/>
         <source>Current Directory Name</source>
         <translation>Nome do diretório atual</translation>
     </message>
@@ -752,7 +763,7 @@
         <translation>&quot;%s&quot; : já existe uma pasta com o mesmo nome.&lt;br&gt;Adicionar seus arquivos na pasta atual?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="973"/>
+        <location filename="InputOutputs/__init__.py" line="977"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation>&quot;%s&quot; : já existe uma pasta com o mesmo nome.&lt;br&gt;Por favor, escolha outro nome para o arquivo!</translation>
     </message>
@@ -762,12 +773,12 @@
         <translation>Diretório excluído</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="960"/>
+        <location filename="InputOutputs/__init__.py" line="964"/>
         <source>Project Directory Deleted</source>
         <translation>Diretório do projeto excluído</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="962"/>
+        <location filename="InputOutputs/__init__.py" line="966"/>
         <source>Project Directory Cleaned</source>
         <translation>Diretório do projeto limpo</translation>
     </message>
@@ -3437,27 +3448,27 @@
 <context>
     <name>ReportBug</name>
     <message>
-        <location filename="HamsiManager.py" line="285"/>
+        <location filename="HamsiManager.py" line="291"/>
         <source>Thanks in advance for your interest.</source>
         <translation>Agradecemos antecipadamente pelo seu interesse.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="216"/>
+        <location filename="Core/RoutineChecks.py" line="217"/>
         <source>Missing Module</source>
         <translation>Módulo faltando</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="220"/>
+        <location filename="Core/RoutineChecks.py" line="221"/>
         <source>Error In Module</source>
         <translation>Erro no módulo</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="224"/>
+        <location filename="Core/RoutineChecks.py" line="225"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="231"/>
+        <location filename="Core/RoutineChecks.py" line="232"/>
         <source>Critical Error!</source>
         <translation>Erro crítico!</translation>
     </message>
@@ -3582,17 +3593,17 @@
         <translation>Obrigado por nos enviar o seu relatório de erro. Você já contribuiu muito para tornar o próximo lançamento ainda melhor..&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="284"/>
+        <location filename="HamsiManager.py" line="290"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation>Um erro crítico ocorreu. Se você deseja olhar em detalhes &quot;%s&quot;, você pode ver o arquivo Se possível, pedimos que nos envie os detalhes do erro.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="218"/>
+        <location filename="Core/RoutineChecks.py" line="219"/>
         <source>Application will not work without the module &quot;%s&quot;.</source>
         <translation>O programa não funciona sem o módulo &quot;%s&quot;.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="222"/>
+        <location filename="Core/RoutineChecks.py" line="223"/>
         <source>&quot;%s&quot; is not in this module.Please download and install Hamsi Manager again.</source>
         <translation>&quot;%s&quot; não está neste módulo. Por favor, baixe e instale Hamsi Manager novamente.</translation>
     </message>
@@ -4355,97 +4366,97 @@
         <translation>Mudança selecionada</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="415"/>
+        <location filename="Tables/__init__.py" line="413"/>
         <source>There Are Unsaved Information</source>
         <translation>Existem informações não salvas</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="415"/>
+        <location filename="Tables/__init__.py" line="413"/>
         <source>Do you want to save these information?</source>
         <translation>Você deseja salvar essas informações?</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="427"/>
+        <location filename="Tables/__init__.py" line="425"/>
         <source>Yes</source>
         <translation>Sim</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="435"/>
+        <location filename="Tables/__init__.py" line="433"/>
         <source>No</source>
         <translation>Não</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="433"/>
+        <location filename="Tables/__init__.py" line="431"/>
         <source>Hidden Field</source>
         <translation>Ocultar campo</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="440"/>
+        <location filename="Tables/__init__.py" line="438"/>
         <source>Yes To All</source>
         <translation>Sim para todos</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="437"/>
+        <location filename="Tables/__init__.py" line="435"/>
         <source>Action Cancelled</source>
         <translation>Ação cancelada</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="437"/>
+        <location filename="Tables/__init__.py" line="435"/>
         <source>You have cancelled the action.&lt;br&gt;You can make the necessary changes and reperform the action.</source>
         <translation>Você cancelou a ação.&lt;br&gt;Você pode fazer as mudanças necessárias e voltar a realizar a ação.</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="521"/>
+        <location filename="Tables/__init__.py" line="519"/>
         <source>Table Contents</source>
         <translation>Conteúdos da tabela</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="506"/>
+        <location filename="Tables/__init__.py" line="504"/>
         <source>Save As</source>
         <translation>Salvar como</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="515"/>
+        <location filename="Tables/__init__.py" line="513"/>
         <source>Table Exported</source>
         <translation>Tabela exportada</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="531"/>
+        <location filename="Tables/__init__.py" line="529"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="501"/>
+        <location filename="Tables/__init__.py" line="499"/>
         <source>HTML</source>
         <translation>HTML</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="504"/>
+        <location filename="Tables/__init__.py" line="502"/>
         <source>Plain Text</source>
         <translation>Texto</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="433"/>
+        <location filename="Tables/__init__.py" line="431"/>
         <source>&quot;%s&quot;: you have hidden this field in the table.&lt;br&gt;Do you want to activate this field and perform the action?</source>
         <translation>&quot;%s&quot;: você ocultou este campo na tabela.&lt;br&gt;Você deseja ativar este campo e voltar a realizar a ação?</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="515"/>
+        <location filename="Tables/__init__.py" line="513"/>
         <source>Table contents are exported to file: &quot;%s&quot;.</source>
         <translation>Os conteúdos da tabela serão exportados para o arquivo: &quot;%s&quot;.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1108"/>
+        <location filename="InputOutputs/__init__.py" line="1112"/>
         <source>File Tree</source>
         <translation>Árvore de aquivos</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1101"/>
+        <location filename="InputOutputs/__init__.py" line="1105"/>
         <source>File Tree Created</source>
         <translation>Árvore de aquivos criada</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1101"/>
+        <location filename="InputOutputs/__init__.py" line="1105"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation>Árvore de aquivos criada no arquivo: &quot;%s&quot;.</translation>
     </message>
@@ -4455,12 +4466,12 @@
         <translation>Recorrigir</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="390"/>
+        <location filename="Tables/__init__.py" line="386"/>
         <source>Did Not Change Any Things</source>
         <translation>Não alterar nada</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="390"/>
+        <location filename="Tables/__init__.py" line="386"/>
         <source>Did not change any things in this table.Please check the criteria you select.</source>
         <translation>Não altere nada neste quadro. Por favor, verifique os critérios que você selecionou.</translation>
     </message>
@@ -4480,12 +4491,12 @@
         <translation>Informações selecionadas não serão alteradas</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="394"/>
+        <location filename="Tables/__init__.py" line="390"/>
         <source>Transaction Details</source>
         <translation>Detalhes da Transação</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="394"/>
+        <location filename="Tables/__init__.py" line="390"/>
         <source>%s value(s) changed.</source>
         <translation>%s valore(s) alterados.</translation>
     </message>
@@ -4757,77 +4768,77 @@
         <translation>Verifcando atualizações</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="111"/>
+        <location filename="Core/UpdateControl.py" line="114"/>
         <source>New release is available. Please download and install.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Uma nova versão está disponível. Por favor, baixe e instale.&lt;br&gt;Para mais informações: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="133"/>
+        <location filename="Core/UpdateControl.py" line="137"/>
         <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Para mais informações: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="134"/>
+        <location filename="Core/UpdateControl.py" line="138"/>
         <source>You are already using the latest release.</source>
         <translation>Você já está usando a última versão.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="135"/>
+        <location filename="Core/UpdateControl.py" line="139"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="151"/>
+        <location filename="Core/UpdateControl.py" line="155"/>
         <source>Cannot Fetch Release Information</source>
         <translation>Não foi possível obter informações do lançamento</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="148"/>
+        <location filename="Core/UpdateControl.py" line="152"/>
         <source>Download complete.</source>
         <translation>Download concluído.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="172"/>
+        <location filename="Core/UpdateControl.py" line="176"/>
         <source>Downloading Latest Release...</source>
         <translation>Baixando última versão...</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="182"/>
+        <location filename="Core/UpdateControl.py" line="186"/>
         <source>You Can Click Cancel To Update Without Saving The Package.</source>
         <translation>Você pode clicar em Cancelar para atualizar sem salvar o pacote.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="208"/>
+        <location filename="Core/UpdateControl.py" line="212"/>
         <source>Cannot Read Source.</source>
         <translation>Não foi possível ler fonte.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="208"/>
+        <location filename="Core/UpdateControl.py" line="212"/>
         <source>Cannot read source package. Please retry later.</source>
         <translation>Não foi possível ler fonte do pacote. Por favor, tente novamente mais tarde.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="224"/>
+        <location filename="Core/UpdateControl.py" line="228"/>
         <source>Installing The Latest Release</source>
         <translation>Instalando a última versão</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="225"/>
+        <location filename="Core/UpdateControl.py" line="229"/>
         <source>Latest release downloaded, initializing installation.</source>
         <translation>Última versão baixada, iniciando instalação.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="237"/>
         <source>Update Will Be Complete</source>
         <translation>Atualização está completa</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="237"/>
         <source>Please restart Hamsi Manager now.</source>
         <translation>Por favor, reinicie Hamsi Manager agora.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="233"/>
+        <location filename="Core/UpdateControl.py" line="237"/>
         <source>Restart</source>
         <translation>Reiniciar</translation>
     </message>
@@ -4842,27 +4853,27 @@
         <translation>Lembre-me mais tarde e feche</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="151"/>
+        <location filename="Core/UpdateControl.py" line="155"/>
         <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://hamsiapps.com/HamsiManager&quot;.</source>
         <translation>Não foi possível obter informações da versão. Por favor, tente novamente mais tarde.&lt;br&gt;Se você está constantemente recebendo este erro, por favor, visite &quot;http://hamsiapps.com/HamsiManager&quot;.</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="184"/>
+        <location filename="Core/UpdateControl.py" line="188"/>
         <source>Save As</source>
         <translation>Salvar como</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="119"/>
+        <location filename="Core/UpdateControl.py" line="122"/>
         <source>Version %s is available. Please download and install the new release.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;You can download from &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</source>
         <translation>Versão %s está disponível. Por favor, baixe e instale a nova versão.&lt;br&gt;%s Para obter informações detalhadas: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;Você pode baixar de &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="122"/>
+        <location filename="Core/UpdateControl.py" line="125"/>
         <source>Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.&lt;br&gt;For details: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation>Última versão estável é %s. Você atualmente está usando a versão para desenvolvedores. Você pode continuar usando a versão atual.&lt;br&gt;Para detalhes: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="130"/>
+        <location filename="Core/UpdateControl.py" line="134"/>
         <source>Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.&lt;br&gt;If you want a more accurate version, please download and install this version.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;You can download from &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</source>
         <translation>Última versão estável é %s. Você atualmente está usando a versão para desenvolvedores. Você pode continuar usando a versão atual.&lt;br&gt;Se você deseja uma versão mais cuidadosa, baixe e instale esta versão.&lt;br&gt;%s Para obter informações detalhadas: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;Você pode baixar de &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</translation>
     </message>
