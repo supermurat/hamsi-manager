@@ -158,8 +158,7 @@ class Packager(MyDialog):
         if self.cbHash.currentIndex()==0:
             hashType = None
         else:
-            hashType =  "." + str(self.cbHash.currentText())
-        hashType = None
+            hashType =  str(self.cbHash.currentText())
         if hashType!=None:
             if self.cbHashOutput.currentIndex()==0:
                 if InputOutputs.createHashDigestFile(unicode(self.lePathOfPackage.text(), "utf-8"), unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False):
