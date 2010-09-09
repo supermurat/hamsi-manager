@@ -154,6 +154,9 @@ def checkAfterRunProccess():
         if Universals.isActivePyKDE4==True:
             Universals.MainWindow.Browser.setVisible(False)
             Universals.MainWindow.TreeBrowser.setVisible(False)
+            Universals.MainWindow.FileManager.urlNavigator.setMinimumWidth(150)
+            try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
+            except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
         try:Universals.MainWindow.PlayerBar.setVisible(False)
         except:pass
     if Universals.getBoolValue("isShowReconfigureWizard"):

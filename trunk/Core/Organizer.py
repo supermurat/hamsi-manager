@@ -38,6 +38,7 @@ class Organizer:
             _inputString = unquote(_inputString)
             for x in range(0,len(oldChars)):
                 _inputString = _inputString.replace(oldChars[x],newChars[x])
+        _inputString = showWithIncorrectChars(_inputString)
         if len(_inputString)==0: return ""
         preString, extString, ext2String = "", "", ""
         if _isFileOrDirectory:
@@ -82,7 +83,7 @@ class Organizer:
                 while isFinded!=-1:
                     _inputString=_inputString.replace("  "," ")
                     isFinded=_inputString.find("  ")
-        return showWithIncorrectChars(preString + _inputString + extString + ext2String)
+        return preString + _inputString + extString + ext2String
     
     def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
         if _cbCharacterType==Universals.validSentenceStructureKeys[0]:
@@ -135,7 +136,9 @@ class Organizer:
                     if Universals.MainWindow.Table.isColumnHidden(no)==True and Tables.isAskShowHiddenColumn==True:
                         if Tables.checkHiddenColumn(columnName,no)==False:
                             return False
-                    changingColumns.append(no) 
+                    changingColumns.append(no)
+        if len(changingColumns)==0:
+            return False
         for columnName in changers:
             columnName=columnName.strip()
             for no,column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
@@ -144,6 +147,8 @@ class Organizer:
                         if Tables.checkHiddenColumn(columnName,no)==False:
                             return False
                     changerColumns.append(no)
+        if len(changerColumns)==0:
+            return False
         if Tables.isChangeHiddenColumn==True:
             if Universals.isShowOldValues==True:
                 startedRowNo,rowStep=1,2
