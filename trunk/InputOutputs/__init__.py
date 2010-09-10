@@ -750,6 +750,7 @@ class InputOutputs:
     def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False, _isAsk=True):
         import Dialogs
         from MyObjects import translate
+        _path = str(_path)
         cover = None
         imageFiles = []
         for fileName in readDirectoryAll(_path):
