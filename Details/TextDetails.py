@@ -92,16 +92,16 @@ class TextDetails(MDialog):
             if infoNo==2:
                 if _isNew==True:
                     self.infoValues.append(MPlainTextEdit())
-                    self.infoValues[infoNo].setPlainText(Organizer.emend(self.fileValues[infoNo], False, False, True).decode("utf-8"))
+                    self.infoValues[infoNo].setPlainText(Organizer.emend(self.fileValues[infoNo], "text", False, True).decode("utf-8"))
                 else:
-                    self.infoValues[infoNo].setPlainText(Organizer.emend(self.fileValues[infoNo], False, False, True).decode("utf-8"))
+                    self.infoValues[infoNo].setPlainText(Organizer.emend(self.fileValues[infoNo], "text", False, True).decode("utf-8"))
             elif infoNo==0:
                 if _isNew==True:
-                    self.infoValues.append(MLineEdit(Organizer.emend(self.fileValues[infoNo], True, False).decode("utf-8")))
+                    self.infoValues.append(MLineEdit(Organizer.emend(self.fileValues[infoNo], "directory", False).decode("utf-8")))
                 else:
-                    self.infoValues[infoNo].setText(Organizer.emend(self.fileValues[infoNo], True, False).decode("utf-8"))
+                    self.infoValues[infoNo].setText(Organizer.emend(self.fileValues[infoNo], "directory", False).decode("utf-8"))
             elif infoNo==1:
-                lineInfo = Organizer.emend(self.fileValues[infoNo], True)
+                lineInfo = Organizer.emend(self.fileValues[infoNo], "file")
                 if lineInfo.find(".")!=-1:
                     tempInfo=""
                     tempInfos = lineInfo.split(".")

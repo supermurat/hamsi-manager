@@ -165,14 +165,7 @@ class Tables(MTableWidget):
     
     def correct(self):
         try:
-            for rowNo in range(self.rowCount()):
-                for columnNo in range(self.columnCount()):
-                    if columnNo==0 or columnNo==1:
-                        isFileOrDirectory=True
-                    else:
-                        isFileOrDirectory=False
-                    newString = Organizer.emend(str(unicode(self.item(rowNo,columnNo).text(),"utf-8")), isFileOrDirectory)
-                    self.item(rowNo,columnNo).setText(str(newString).decode("utf-8"))
+            self.correctSubTable(self)
         except:
             error = ReportBug.ReportBug()
             error.show()

@@ -8,7 +8,7 @@ from Details import TextDetails
 import Dialogs
                 
 class FileTable():
-    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails
+    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable
     def __init__(self,_table):
         _table.specialTollsBookmarkPointer = "file"
         _table.hiddenTableColumnsSettingKey = "hiddenFileTableColumns"
@@ -18,6 +18,7 @@ class FileTable():
         _table.subTableCellClicked = _subTableCellClicked
         _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
         _table.subShowDetails = _subShowDetails
+        _table.correctSubTable = _correctSubTable
         _table.fileDetails = Files.currentFilesAndFoldersValues
         self=_table
         _refreshSubTableColumns(self)
@@ -87,7 +88,10 @@ class FileTable():
             else:
                 realFileNo=fileNo
             for itemNo in range(0,2):
-                newString = Organizer.emend(Files.currentFilesAndFoldersValues[realFileNo][itemNo], True)
+                if itemNo==0:
+                    newString = Organizer.emend(Files.currentFilesAndFoldersValues[realFileNo][itemNo], "directory")
+                else:
+                    newString = Organizer.emend(Files.currentFilesAndFoldersValues[realFileNo][itemNo], "file")
                 item = MTableWidgetItem(newString.decode("utf-8"))
                 item.setStatusTip(item.text())
                 self.setItem(fileNo,itemNo,item)
@@ -95,5 +99,20 @@ class FileTable():
                     self.item(fileNo,itemNo).setBackground(MBrush(MColor(142,199,255)))
                     self.item(fileNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(Files.currentFilesAndFoldersValues[realFileNo][itemNo]).decode("utf-8"))
                     
-        
+    def _correctSubTable(self):
+        if Universals.isShowOldValues==True:
+            startRowNo, rowStep = 1, 2
+        else:
+            startRowNo, rowStep = 0, 1
+        for rowNo in range(startRowNo,self.rowCount(),rowStep):
+            if Universals.isShowOldValues==True:
+                realRowNo=rowNo/2
+            else:
+                realRowNo=rowNo
+            for itemNo in range(self.columnCount()):
+                if itemNo==0:
+                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "directory")
+                else:
+                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "file")
+                self.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
           

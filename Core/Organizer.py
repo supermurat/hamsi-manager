@@ -11,7 +11,7 @@ class Organizer:
     global fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable
     global searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink
     
-    def emend(_inputString, _isFileOrDirectory=False, _isCorrectCaseSensitive=True, _isRichText=False):
+    def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
         _inputString = str(_inputString)
         if len(_inputString)==0: return ""
         if Universals.getBoolValue("isClearFirstAndLastSpaceChars"):
@@ -41,20 +41,21 @@ class Organizer:
         _inputString = showWithIncorrectChars(_inputString)
         if len(_inputString)==0: return ""
         preString, extString, ext2String = "", "", ""
-        if _isFileOrDirectory:
+        if _type=="file" or _type=="directory":
             if _inputString[-1]=="/":
                 _inputString = _inputString[:-1]
                 ext2String = "/"
             if _inputString.find("/")!=-1:
                 preString = _inputString.rsplit("/", 1)[0] + "/"
                 _inputString = _inputString.rsplit("/", 1)[1]
-            if _inputString.find(".")!=-1:
-                if Universals.MySettings["fileExtesionIs"]==Universals.fileExtesionIsKeys[0]:
-                    extString = "." + _inputString.split(".", 1)[1]
-                    _inputString = _inputString.split(".", 1)[0]
-                elif Universals.MySettings["fileExtesionIs"]==Universals.fileExtesionIsKeys[1]:
-                    extString = "." + _inputString.rsplit(".", 1)[1]
-                    _inputString = _inputString.rsplit(".", 1)[0]
+            if _type=="file":
+                if _inputString.find(".")!=-1:
+                    if Universals.MySettings["fileExtesionIs"]==Universals.fileExtesionIsKeys[0]:
+                        extString = "." + _inputString.split(".", 1)[1]
+                        _inputString = _inputString.split(".", 1)[0]
+                    elif Universals.MySettings["fileExtesionIs"]==Universals.fileExtesionIsKeys[1]:
+                        extString = "." + _inputString.rsplit(".", 1)[1]
+                        _inputString = _inputString.rsplit(".", 1)[0]
             if _isCorrectCaseSensitive:
                 extString = makeCorrectCaseSensitive(extString, Universals.MySettings["validSentenceStructureForFileExtension"])
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])

@@ -114,7 +114,7 @@ class QuickMakeWindow(MyDialog):
             lblNewValue = MLabel(translate("QuickMake", "New Value : "))
             leOldValue = MLineEdit(Organizer.showWithIncorrectChars(QuickMakeParameters[1]).decode("utf-8"))
             leOldValue.setEnabled(False)
-            self.leNewValue = MLineEdit(Organizer.emend(QuickMakeParameters[1], True).decode("utf-8"))
+            self.leNewValue = MLineEdit(Organizer.emend(QuickMakeParameters[1], InputOutputs.getObjectType(QuickMakeParameters[1])).decode("utf-8"))
             vblInfo.addWidget(lblOldValue)
             vblInfo.addWidget(leOldValue)
             vblInfo.addWidget(lblNewValue)
@@ -248,7 +248,7 @@ class QuickMakeWindow(MyDialog):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(QuickMakeParameters[1], True)
+                    newEmendedName = Organizer.emend(QuickMakeParameters[1], InputOutputs.getObjectType(QuickMakeParameters[1]))
                 import Organizer
                 newFileName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName)
                 if newFileName!=False:
@@ -266,7 +266,7 @@ class QuickMakeWindow(MyDialog):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(QuickMakeParameters[1], True)
+                    newEmendedName = Organizer.emend(QuickMakeParameters[1], InputOutputs.getObjectType(QuickMakeParameters[1]))
                 import Organizer
                 newName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName, "directory")
                 if newName!=False:
@@ -285,7 +285,7 @@ class QuickMakeWindow(MyDialog):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(QuickMakeParameters[1], True)
+                    newEmendedName = Organizer.emend(QuickMakeParameters[1], InputOutputs.getObjectType(QuickMakeParameters[1]))
                 import Organizer
                 InputOutputs.activateSmartCheckIcon()
                 newName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName, "directory")
@@ -293,11 +293,9 @@ class QuickMakeWindow(MyDialog):
                     newDirName = InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newName
                     fileAndDirectoryNames = InputOutputs.readDirectory(newDirName, "fileAndDirectory")
                     for fileAndDirs in fileAndDirectoryNames:
-                        objectType = "file"
-                        if InputOutputs.isDir(newDirName + "/" + fileAndDirs):
-                            objectType = "directory"
+                        objectType = InputOutputs.getObjectType(newDirName + "/" + fileAndDirs)
                         InputOutputs.moveOrChange(newDirName + "/" + fileAndDirs, 
-                                  newDirName + "/" + Organizer.emend(fileAndDirs), objectType)
+                                  newDirName + "/" + Organizer.emend(fileAndDirs, objectType), objectType)
                     if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                         InputOutputs.checkIcon(newDirName)
                     if InputOutputs.isDir(newDirName):
