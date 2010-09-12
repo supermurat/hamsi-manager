@@ -10,7 +10,7 @@ import Universals
 import Dialogs
                 
 class MusicTable():
-    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails
+    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable
     def __init__(self,_table):
         _table.specialTollsBookmarkPointer = "music"
         _table.hiddenTableColumnsSettingKey = "hiddenMusicTableColumns"
@@ -20,6 +20,7 @@ class MusicTable():
         _table.subTableCellClicked = _subTableCellClicked
         _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
         _table.subShowDetails = _subShowDetails
+        _table.correctSubTable = _correctSubTable
         _table.fileDetails = Musics.currentFilesAndFoldersValues
         self=_table
         _refreshSubTableColumns(self)
@@ -125,8 +126,10 @@ class MusicTable():
             else:
                 realFileNo=fileNo
             for itemNo in range(0,len(self.tableColumns)):
-                if itemNo==1 or itemNo==0:
-                    newString = Organizer.emend(Musics.currentFilesAndFoldersValues[realFileNo][itemNo], True)
+                if itemNo==0:
+                    newString = Organizer.emend(Musics.currentFilesAndFoldersValues[realFileNo][itemNo], "directory")
+                elif itemNo==1:
+                    newString = Organizer.emend(Musics.currentFilesAndFoldersValues[realFileNo][itemNo], "file")
                 elif itemNo==5:
                     newString_temp = str(Musics.currentFilesAndFoldersValues[realFileNo][itemNo]).split("/")
                     if newString_temp[0]=="None":
@@ -146,3 +149,22 @@ class MusicTable():
                     try:self.item(fileNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(Musics.currentFilesAndFoldersValues[realFileNo][itemNo]).decode("utf-8"))
                     except:self.item(fileNo,itemNo).setToolTip(translate("MusicTable", "Cannot Show Erroneous Information."))
                         
+    def _correctSubTable(self):
+        if Universals.isShowOldValues==True:
+            startRowNo, rowStep = 1, 2
+        else:
+            startRowNo, rowStep = 0, 1
+        for rowNo in range(startRowNo,self.rowCount(),rowStep):
+            if Universals.isShowOldValues==True:
+                realRowNo=rowNo/2
+            else:
+                realRowNo=rowNo
+            for itemNo in range(self.columnCount()):
+                if itemNo==0:
+                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "directory")
+                elif itemNo==1:
+                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "file")
+                else:
+                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"))
+                self.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
+                

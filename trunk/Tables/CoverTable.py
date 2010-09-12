@@ -8,7 +8,7 @@ from Details import CoverDetails
 import Dialogs
                 
 class CoverTable():
-    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails
+    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable
     def __init__(self,_table):
         _table.specialTollsBookmarkPointer = "cover"
         _table.hiddenTableColumnsSettingKey = "hiddenCoverTableColumns"
@@ -18,6 +18,7 @@ class CoverTable():
         _table.subTableCellClicked = _subTableCellClicked
         _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
         _table.subShowDetails = _subShowDetails
+        _table.correctSubTable = _correctSubTable
         _table.fileDetails = Covers.currentFilesAndFoldersValues
         self=_table
         _refreshSubTableColumns(self)
@@ -76,10 +77,12 @@ class CoverTable():
         startRowNo, rowStep = 0, 1
         for dirNo in range(startRowNo, self.rowCount(), rowStep):
             for itemNo in range(0,5):
-                if itemNo==2 or itemNo==3:
+                if itemNo==0 or itemNo==1:
+                    newString = Organizer.emend(Covers.currentFilesAndFoldersValues[dirNo][itemNo], "directory")
+                elif itemNo==2 or itemNo==3:
                     newString = Organizer.showWithIncorrectChars(Covers.currentFilesAndFoldersValues[dirNo][itemNo])
                 else:
-                    newString = Organizer.emend(Covers.currentFilesAndFoldersValues[dirNo][itemNo], True)
+                    newString = Organizer.emend(Covers.currentFilesAndFoldersValues[dirNo][itemNo], "file")
                 if 1<itemNo and itemNo<5:
                     newString = newString.replace(_path + "/" + Covers.currentFilesAndFoldersValues[dirNo][1], ".")
                 item = MTableWidgetItem(newString.decode("utf-8"))
@@ -91,5 +94,17 @@ class CoverTable():
             if Covers.currentFilesAndFoldersValues[dirNo][5]==False:
                 self.item(dirNo,2).setBackground(MBrush(MColor(255,163,163)))
                     
-
-          
+    def _correctSubTable(self):
+        for rowNo in range(self.rowCount()):
+            for itemNo in range(self.columnCount()):
+                if itemNo==0 or itemNo==1:
+                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "directory")
+                elif itemNo==2 or itemNo==3:
+                    newString = Organizer.showWithIncorrectChars(unicode(self.item(rowNo,itemNo).text(),"utf-8"))
+                else:
+                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "file")
+                self.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
+        
+        
+        
+        

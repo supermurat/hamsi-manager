@@ -191,11 +191,11 @@ class MusicDetails(MDialog):
                     self.infoValues[infoNo].setPlainText(Organizer.emend(self.musicValues[infoNo]).decode("utf-8"))
             elif infoNo==0:
                 if _isNew==True:
-                    self.infoValues.append(MLineEdit(Organizer.emend(self.musicValues[infoNo], True, False).decode("utf-8")))
+                    self.infoValues.append(MLineEdit(Organizer.emend(self.musicValues[infoNo], "directory", False).decode("utf-8")))
                 else:
-                    self.infoValues[infoNo].setText(Organizer.emend(self.musicValues[infoNo], True, False).decode("utf-8"))
+                    self.infoValues[infoNo].setText(Organizer.emend(self.musicValues[infoNo], "directory", False).decode("utf-8"))
             elif infoNo==1:
-                newInfo = Organizer.emend(self.musicValues[infoNo], True)
+                newInfo = Organizer.emend(self.musicValues[infoNo], "file")
                 if newInfo.find(".")!=-1:
                     tempInfo=""
                     newInfos = newInfo.split(".")
