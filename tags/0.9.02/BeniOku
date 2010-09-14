@@ -1,0 +1,21 @@
+Hamsi Manager
+Dosya - Dizin - MP3 - OGG Yöneticisi
+
+Hamsi Manager Başta Müzik dosyalarınız olmak üzere tüm dosya ve dizinlerinizi organize etmeniz, isimlendirmeniz, temizlemeniz, düzenlemeniz ve değiştirmeniz için geliştirilen bir uygulamadır.İlk başlarda kişisel işlerde kullanmak için düşünülmüştü.Daha sonra bunun bir ihtiyaç olabileceği görüldü ve herkesin kullanabileceği bir yapıya kavuşturuldu.Hamsi Manager en baştan beri tamamen açık kaynak kodlu kütüphaneler ile geliştirilmiştir.Hamsi Manager tamamen açık kaynak kodlu olup GPLV3 ile lisanslanmıştır.
+
+Başlıca İşlevleri:
+-Sisteminizdeki karakter hatalarını gidermek
+-mp3`lerinizi,dosyalarınızı ve dizinlerinizi rahatlıkla bulup incelemeniz için gerekli organizasyon ve düzenlemeleri yapmak
+-Sisteminizdeki gereksiz dosyaları (Sizin belirlediniz kriterlere sahip dosyaları) ve dizinleri (Boş dizinleri vs.) siler.Böylece sisteminiz hafifler ve gereksiz kalabalık ortadan kalkmış olur.
+
+Kurulum Basamakları :
+* "install.py" dosyasına çifttıklayınız veya konsola(Konsole,Terminal...) "python ./install.py" yazınız.
+* "Hamsi Manager Kurulum Aracı" ile kurulumu gerçekleştirebilirsiniz.(Grafiksel Kullanıcı Arayüzü (GUI))
+
+Sistem Gereksinimleri : 
+* Python 2.5 veya 2.6 ( 2.4 test edilmedi) http://www.python.org/download
+* PyQt4 http://www.riverbankcomputing.co.uk/software/pyqt/download
+* PyKDE4 (Bu bir gereksinim değildir fakat daha iyi bir masaüstü entegrasyonu sunmaktadır) http://techbase.kde.org/Development/Languages/Python
+
+
+Daha detaylı türkçe bilgi için lütfen "http://hamsiapps.com/HamsiManager" adresini ziyaret ediniz.
