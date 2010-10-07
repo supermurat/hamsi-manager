@@ -72,7 +72,8 @@ class Settings():
                   "isShowTransactionDetails", "windowMode", "isInstalledKDE4Language", 
                   "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReconfigureWizard", 
                   "isAskIfHasManyImagesInAlbumDirectory", "isDeleteOtherImages", 
-                  "CoversSubDirectoryDeep"
+                  "CoversSubDirectoryDeep", 
+                  "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -333,7 +334,12 @@ class Settings():
                 "isShowReconfigureWizard": "True", 
                 "isAskIfHasManyImagesInAlbumDirectory": "True", 
                 "isDeleteOtherImages": "False", 
-                "CoversSubDirectoryDeep": "-1"
+                "CoversSubDirectoryDeep": "-1", 
+                "amarokDBHost": "localhost", 
+                "amarokDBPort": "3306", 
+                "amarokDBUser": "amarokuser", 
+                "amarokDBPass": "amarokpassword", 
+                "amarokDBDB": "amarokdb"
                 }
                 
     def getValueTypesAndValues():
@@ -438,7 +444,12 @@ class Settings():
                 "isShowReconfigureWizard": "bool", 
                 "isAskIfHasManyImagesInAlbumDirectory": "bool", 
                 "isDeleteOtherImages": "bool", 
-                "CoversSubDirectoryDeep": ["int", [ x for x in range(-1, 10) if x!=0 ]]
+                "CoversSubDirectoryDeep": ["int", [ x for x in range(-1, 10) if x!=0 ]], 
+                "amarokDBHost": "str", 
+                "amarokDBPort": "int", 
+                "amarokDBUser": "str", 
+                "amarokDBPass": "str", 
+                "amarokDBDB": "str"
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
