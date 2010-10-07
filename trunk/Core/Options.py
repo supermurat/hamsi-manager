@@ -33,6 +33,7 @@ class Options(MDialog):
                              MLabel(translate("Options", "You can change the player settings in this section.")), 
                              MLabel(translate("Options", "You can change the packager-specific settings in this section.")),    
                              MLabel(translate("Options", "You can change the cleaner-specific settings in this section.")), 
+                             MLabel(translate("Options", "You can change the Amarok settings in this section.")), 
                              MLabel(translate("Options", "You can reset you settings or back them up in this section."))
                              ]
             pnlCategories = MHBoxLayout()
@@ -114,6 +115,7 @@ class Options(MDialog):
                             Player(self, _showType), 
                             Packager(self, _showType), 
                             Cleaner(self, _showType), 
+                            Amarok(self, _showType), 
                             MySettings(self, _showType, [])]
             self.labelsOfCategories = [translate("Options", "General"), 
                               translate("Options", "Correct"), 
@@ -124,6 +126,7 @@ class Options(MDialog):
                               translate("Options", "Player"), 
                               translate("Options", "Packager"), 
                               translate("Options", "Cleaner"), 
+                              translate("Options", "Amarok"), 
                               translate("Options", "Settings")]
         elif _showType=="pack":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
@@ -423,6 +426,8 @@ class Options(MDialog):
                                 value = "True"
                         elif category.typesOfValues[x][0]=="file":
                             value = unicode(category.values[x].text(),"utf-8")
+                        elif category.typesOfValues[x]=="password":
+                            value = unicode(category.values[x].text(),"utf-8")
                         category.values[x].setStyleSheet("")
                         if Universals.MySettings[keyValue]!=value:
                             emendedValue = Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue])
@@ -528,6 +533,10 @@ class Options(MDialog):
                     pbtnFile.setToolTip(_category.toolTips[x])
                     MObject.connect(pbtnFile, SIGNAL("clicked()"), _category.parent().pbtnFileClicked)
                     valueLayout.addWidget(pbtnFile)
+                if _category.typesOfValues[x]=="password":
+                    _category.values.append(MLineEdit())
+                    _category.values[x].setText(Universals.MySettings[keyValue].decode("utf-8"))
+                    _category.values[x].setEchoMode(MLineEdit.Password)
                 if typeOfValue=="list":
                     pbtnEditValue = _category.parent().createEditValueButton(_category, typeOfValue, keyValue, x)
                     valueLayout.addWidget(pbtnEditValue)
@@ -1282,6 +1291,35 @@ class Cleaner(MWidget):
         self.typesOfValues = ["Yes/No", "list", "list", "list", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
+        
+class Amarok(MWidget):
+    def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
+        MWidget.__init__(self, _parent)
+        self.Panel = MVBoxLayout(self)
+        self.values, self.lblLabels = [], []
+        self.keysOfSettings = ["amarokDBHost","amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"]
+        self.tabsOfSettings = [None, None, None, None, None]
+        self.tabNames = []
+        if _visibleKeys==None:
+            self.visibleKeys = self.keysOfSettings
+        else:
+            self.visibleKeys = _visibleKeys
+        self.neededRestartSettingKeys = []
+        self.valuesOfOptionsKeys = []
+        self.labels = [translate("Options", "Host"), 
+                    translate("Options", "Port"), 
+                    translate("Options", "User Name"), 
+                    translate("Options", "Password"), 
+                    translate("Options", "Database")]
+        self.toolTips = [translate("Options", "Please enter host name of Amarok database.<br>"), 
+                    translate("Options", "Please enter port number of Amarok database.<br>"), 
+                    translate("Options", "Please enter user name of Amarok database.<br>"), 
+                    translate("Options", "Please enter user password of Amarok database.<br>"), 
+                    translate("Options", "Please enter database name of Amarok database.<br>")]
+        self.typesOfValues = ["string", "string", "string", "password", "string"]
+        self.valuesOfOptions = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
+        self.valuesOfOptionsKeys = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
+        createOptions(self)
 
 class MySettings(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
