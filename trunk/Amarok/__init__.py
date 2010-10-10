@@ -10,26 +10,31 @@ import Organizer
 import Universals
 import ReportBug
 isLoadedMysql = False
+isCheckAgain = True
 try:
-    import _mysql
+    import _mysql as mdb
     isLoadedMysql = True
 except:pass
 
 class Amarok:
+    global checkAmarok, connectAndGetDB, checkAndGetDB, getDirectoriesAndValues
     
-    def checkAmarok(self):
+    def checkAmarok():
         return isLoadedMysql and True
         
-    def connectAndGetDB(self):
-        return _mysql.connect(host=Universals.MySettings["amarokDBHost"], port=int(Universals.MySettings["amarokDBPort"]), user=Universals.MySettings["amarokDBUser"], passwd=Universals.MySettings["amarokDBPass"], db=Universals.MySettings["amarokDBDB"])
+    def connectAndGetDB():
+        return mdb.connect(host=Universals.MySettings["amarokDBHost"], port=int(Universals.MySettings["amarokDBPort"]), user=Universals.MySettings["amarokDBUser"], passwd=Universals.MySettings["amarokDBPass"], db=Universals.MySettings["amarokDBDB"])
         
-    def checkAndGetDB(self, _isNoAlertIfSuccesfully=True):
+    def checkAndGetDB(_isNoAlertIfSuccesfully=True):
+        global isCheckAgain
         try:
-            db = self.connectAndGetDB()
-            db.query("""SELECT component,version FROM admin""")
-            r = db.store_result()
-            if _isNoAlertIfSuccesfully==False:
-                Dialogs.show(translate("CollectionToDirectory", "Connected To Database"), str(translate("CollectionToDirectory", "Connected succesfully to \"%s\"")) % Universals.MySettings["amarokDBDB"])
+            db = connectAndGetDB()
+            if isCheckAgain:
+                db.query("""SELECT component,version FROM admin""")
+                r = db.store_result()
+                if _isNoAlertIfSuccesfully==False:
+                    Dialogs.show(translate("CollectionToDirectory", "Connected To Database"), str(translate("CollectionToDirectory", "Connected succesfully to \"%s\"")) % Universals.MySettings["amarokDBDB"])
+            isCheckAgain = False
             return db
         except:
             cla, error, trbk = sys.exc_info()
@@ -40,12 +45,12 @@ class Amarok:
             elif str(error).find("Unknown database")!=-1:
                 Dialogs.show(translate("CollectionToDirectory", "Not Connected To Database"), str(translate("CollectionToDirectory", "Unknown database \"%s\"")) % Universals.MySettings["amarokDBDB"])
             else:
-                self.error = ReportBug.ReportBug()
-                self.error.show()
+                error = ReportBug.ReportBug()
+                error.show()
             return None
             
-    def getDirectoriesAndCovers(self):
-        db = self.checkAndGetDB()
+    def getDirectoriesAndValues():
+        db = checkAndGetDB()
         if db!=None:
             db.query("""
 SELECT DISTINCT (
@@ -64,7 +69,7 @@ ELSE ''
 END , SUBSTRING( `urls`.`rpath` , 2 ))
 , "/" , -1))
 , "")
-) AS 'realPath', `images`.`path`, 
+) AS 'dirPath', `images`.`path` AS 'coverPath', 
 `artists`.`name` as 'Artist', 
 `albums`.`name` as 'Album', 
 `genres`.`name` as 'Genre', 
@@ -77,14 +82,22 @@ LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
 LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
 LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
 LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
-
+WHERE `images`.`path` is not null
 order by 'realPath'
 """)
+            directoriesValues = {}
             r = db.store_result()
-            return str(r.fetch_row(1))
+            rows = r.fetch_row(0)
+            for row in rows:
+                if row[0] not in directoriesValues:
+                    directoriesValues[row[0]] = {"coverPath" : [], "Artist" : [], "Album" : [], "Genre" : [], "Year" : []}
+                directoriesValues[row[0]]["coverPath"].append(row[1])
+                directoriesValues[row[0]]["Artist"].append(row[2])
+                directoriesValues[row[0]]["Album"].append(row[3])
+                directoriesValues[row[0]]["Genre"].append(row[4])
+                directoriesValues[row[0]]["Year"].append(row[5])
+            return directoriesValues
         return None
-            
-            
             
             
             
