@@ -73,7 +73,7 @@ class Settings():
                   "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReconfigureWizard", 
                   "isAskIfHasManyImagesInAlbumDirectory", "isDeleteOtherImages", 
                   "CoversSubDirectoryDeep", 
-                  "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"
+                  "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB", "amarokIsUseHost"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -339,7 +339,8 @@ class Settings():
                 "amarokDBPort": "3306", 
                 "amarokDBUser": "amarokuser", 
                 "amarokDBPass": "amarokpassword", 
-                "amarokDBDB": "amarokdb"
+                "amarokDBDB": "amarokdb", 
+                "amarokIsUseHost": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -449,7 +450,8 @@ class Settings():
                 "amarokDBPort": "int", 
                 "amarokDBUser": "str", 
                 "amarokDBPass": "str", 
-                "amarokDBDB": "str"
+                "amarokDBDB": "str", 
+                "amarokIsUseHost": "bool"
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):

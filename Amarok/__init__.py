@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 
+from os import *
+import sys
 import InputOutputs
 from MyObjects import *
 from time import gmtime
-from os import *
 import Dialogs
 import Organizer
 import Universals
+import ReportBug
 isLoadedMysql = False
 try:
     import _mysql
     isLoadedMysql = True
 except:pass
 
-class Amarok():
+class Amarok:
     
     def checkAmarok(self):
         return isLoadedMysql and True
@@ -35,6 +37,8 @@ class Amarok():
                 Dialogs.show(translate("CollectionToDirectory", "Not Connected To Database"), str(translate("CollectionToDirectory", "Unknown MySQL server host \"%s\"")) % Universals.MySettings["amarokDBHost"])
             elif str(error).find("Access denied for user")!=-1:
                 Dialogs.show(translate("CollectionToDirectory", "Not Connected To Database"), str(translate("CollectionToDirectory", "Access denied for user \"%s\"")) % Universals.MySettings["amarokDBUser"])
+            elif str(error).find("Unknown database")!=-1:
+                Dialogs.show(translate("CollectionToDirectory", "Not Connected To Database"), str(translate("CollectionToDirectory", "Unknown database \"%s\"")) % Universals.MySettings["amarokDBDB"])
             else:
                 self.error = ReportBug.ReportBug()
                 self.error.show()

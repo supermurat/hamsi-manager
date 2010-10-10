@@ -6,7 +6,7 @@ import Settings, Dialogs , Universals, InputOutputs, Records, Organizer
 import ReportBug
 
 class Options(MDialog):
-    global createOptions, setVisibleFormItems, isVisibleFormItems, setEnabledFormItems, isEnabledFormItems, correctSettingKeys
+    global createOptions, setVisibleFormItems, isVisibleFormItems, setEnabledFormItems, isEnabledFormItems, correctSettingKeys, applySetting
     
     def __init__(self, _parent=None, _showType="Normal", _focusTo = None, _markedKeys = []):
         MDialog.__init__(self, _parent)
@@ -18,45 +18,33 @@ class Options(MDialog):
         self.markedKeys = _markedKeys
         self.defaultValues = Settings.getDefaultValues()
         if self.showType=="Normal":
+            self.tboxCategories = MToolBox()
+            pnlCategories = MHBoxLayout()
+            pnlCategories.addWidget(self.tboxCategories, 1)
             self.setMinimumWidth(620)
             self.setMinimumHeight(420)
             self.show()
-        self.checkVisibility(self.showType)
-        if self.showType=="Normal":
-            self.tboxCategories = MToolBox()
-            detailLabelsOfCategories = [MLabel(translate("Options", "You can change the general settings in this section.")), 
-                             MLabel(translate("Options", "You can change the correct and emend settings in this section.")), 
-                             MLabel(translate("Options", "You can set the text you want to search and replace in this section.")), 
-                             MLabel(translate("Options", "You can change the settings to clean your system in this section.")), 
-                             MLabel(translate("Options", "You can change the cover settings in this section.")), 
-                             MLabel(translate("Options", "You can change the advanced settings in this section.<br><font color=red>Only proceed when you make sure that everything here is correct.</font>")), 
-                             MLabel(translate("Options", "You can change the player settings in this section.")), 
-                             MLabel(translate("Options", "You can change the packager-specific settings in this section.")),    
-                             MLabel(translate("Options", "You can change the cleaner-specific settings in this section.")), 
-                             MLabel(translate("Options", "You can change the Amarok settings in this section.")), 
-                             MLabel(translate("Options", "You can reset you settings or back them up in this section."))
-                             ]
-            pnlCategories = MHBoxLayout()
-            pnlCategories.addWidget(self.tboxCategories, 1)
         elif len(self.categories)>1:
             pnlCategories = MTabWidget()
         else:
             pnlCategories = MVBoxLayout()
+        self.checkVisibility(self.showType)
         for x, category in enumerate(self.categories):
+            category.categoryNo = x
             if self.showType=="Normal":
                 wCategory = MWidget()
-                self.tboxCategories.addItem(wCategory, self.labelsOfCategories[x])
-                detailLabelsOfCategories[x].setParent(wCategory)
-                detailLabelsOfCategories[x].setWordWrap(True)
-                detailLabelsOfCategories[x].setFixedWidth(175)
+                self.tboxCategories.addItem(wCategory, category.titleOfCategory)
+                lblLabelOfCategory = MLabel(category.labelOfCategory, wCategory)
+                lblLabelOfCategory.setWordWrap(True)
+                lblLabelOfCategory.setFixedWidth(175)
                 pnlCategories.addWidget(category, 20)
                 if x!=0:
                     category.setVisible(False)
             elif len(self.categories)>1:
-                pnlCategories.addTab(category, self.labelsOfCategories[x])
+                pnlCategories.addTab(category, category.titleOfCategory)
             else:
                 wCategory = MGroupBox(self)
-                wCategory.setTitle(self.labelsOfCategories[x])
+                wCategory.setTitle(category.titleOfCategory)
                 category.setParent(wCategory)
                 hblTemp = MHBoxLayout(wCategory)
                 hblTemp.addWidget(category)
@@ -117,17 +105,6 @@ class Options(MDialog):
                             Cleaner(self, _showType), 
                             Amarok(self, _showType), 
                             MySettings(self, _showType, [])]
-            self.labelsOfCategories = [translate("Options", "General"), 
-                              translate("Options", "Correct"), 
-                              translate("Options", "Search - Replace"), 
-                              translate("Options", "General Cleaning"),
-                              translate("Options", "Cover"),
-                              translate("Options", "Advanced"), 
-                              translate("Options", "Player"), 
-                              translate("Options", "Packager"), 
-                              translate("Options", "Cleaner"), 
-                              translate("Options", "Amarok"), 
-                              translate("Options", "Settings")]
         elif _showType=="pack":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
                             ClearGeneral(self, _showType, ["isDeleteEmptyDirectories", 
@@ -136,16 +113,10 @@ class Options(MDialog):
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions"]),
                             Packager(self, _showType)]
-            self.labelsOfCategories = [translate("Options", "General"),
-                              translate("Options", "General Cleaning"),
-                              translate("Options", "Packager")]
         elif _showType=="checkIcon":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
                             Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon"]), 
                             Correct(self, _showType)]
-            self.labelsOfCategories = [translate("Options", "General"),
-                              translate("Options", "Cover"), 
-                              translate("Options", "Correct")]
         elif _showType=="clearEmptyDirectories":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
                             ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
@@ -153,30 +124,21 @@ class Options(MDialog):
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions"])]
-            self.labelsOfCategories = [translate("Options", "General"), 
-                              translate("Options", "General Cleaning")]
         elif _showType=="clearUnneededs":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
                             ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions"])]
-            self.labelsOfCategories = [translate("Options", "General"), 
-                              translate("Options", "General Cleaning")]
         elif _showType=="clearIgnoreds":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
                             ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions"])]
-            self.labelsOfCategories = [translate("Options", "General"), 
-                              translate("Options", "General Cleaning")]
         elif _showType=="emendFile":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
                             Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenFileMove"]), 
                             Correct(self, _showType)]
-            self.labelsOfCategories = [translate("Options", "General"), 
-                              translate("Options", "Cover"), 
-                              translate("Options", "Correct")]
         elif _showType=="emendDirectory":
             self.categories = [General(self, _showType, ["priorityIconNames", "isSaveActions"]), 
                             Correct(self, _showType),  
@@ -188,10 +150,6 @@ class Options(MDialog):
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions", 
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"])]
-            self.labelsOfCategories = [translate("Options", "General"), 
-                              translate("Options", "Correct"),
-                              translate("Options", "Cover"), 
-                              translate("Options", "General Cleaning")]
         elif _showType=="emendDirectoryWithContents":
             self.categories = [General(self, _showType, ["priorityIconNames", "isSaveActions"]), 
                             Correct(self, _showType),  
@@ -204,16 +162,10 @@ class Options(MDialog):
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions", 
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"])]
-            self.labelsOfCategories = [translate("Options", "General"), 
-                              translate("Options", "Correct"), 
-                              translate("Options", "Cover"), 
-                              translate("Options", "General Cleaning")]
         elif _showType=="fileTree":
             self.categories = [General(self, _showType, ["isSaveActions"])]
-            self.labelsOfCategories = [translate("Options", "General")]
         elif _showType=="removeOnlySubFiles":
             self.categories = [General(self, _showType, ["isSaveActions"])]
-            self.labelsOfCategories = [translate("Options", "General")]
         elif _showType=="clear":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
                             ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
@@ -222,15 +174,10 @@ class Options(MDialog):
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions"]),
                             Cleaner(self, _showType)]
-            self.labelsOfCategories = [translate("Options", "General"),
-                              translate("Options", "General Cleaning"),
-                              translate("Options", "Cleaner")]
         elif _showType=="hash":
             self.categories = [General(self, _showType, ["isSaveActions"])]
-            self.labelsOfCategories = [translate("Options", "General")]
         else:
             self.categories = []
-            self.labelsOfCategories = []
     
     def closeEvent(self, _event):
         MApplication.setStyle(Universals.MySettings["applicationStyle"])
@@ -470,6 +417,65 @@ class Options(MDialog):
             self.error = ReportBug.ReportBug()
             self.error.show()
             
+    def applySetting(_category, _keyValue):
+        try:
+            defaultValues = Settings.getDefaultValues()
+            valueTypesAndValues = Settings.getValueTypesAndValues()
+            x = _category.keysOfSettings.index(_keyValue)
+            if _category.visibleKeys.count(_keyValue)>0:
+                if _category.typesOfValues[x]=="string":
+                    value = unicode(_category.values[x].text(),"utf-8")
+                elif _category.typesOfValues[x]=="richtext":
+                    value = unicode(_category.values[x].toPlainText(),"utf-8")
+                elif _category.typesOfValues[x]=="list":
+                    value = "['"
+                    for y, bilgi in enumerate(unicode(_category.values[x].text(),"utf-8").split(";")):
+                        if y!=0:
+                            value += "','"
+                        value += bilgi
+                    value+="']"
+                elif _category.typesOfValues[x][0]=="options":
+                    value = _category.valuesOfOptionsKeys[_category.typesOfValues[x][1]][_category.values[x].currentIndex()]
+                elif _category.typesOfValues[x][0]=="number":
+                    value = str(_category.values[x].value())
+                elif _category.typesOfValues[x]=="Yes/No":
+                    if _category.values[x].currentIndex()==0:
+                        value = "False"
+                    else:
+                        value = "True"
+                elif _category.typesOfValues[x][0]=="file":
+                    value = unicode(_category.values[x].text(),"utf-8")
+                elif _category.typesOfValues[x]=="password":
+                    value = unicode(_category.values[x].text(),"utf-8")
+                _category.values[x].setStyleSheet("")
+                if Universals.MySettings[_keyValue]!=value:
+                    emendedValue = Settings.emendValue(_keyValue, value, defaultValues[_keyValue], valueTypesAndValues[_keyValue])
+                    if emendedValue != value:
+                        answer = Dialogs.ask(translate("Options", "Incorrect Value"), 
+                                             str(translate("Options", "\"%s\" been set incorrectly.Are you want to set it automatically emend?")) % (str(_category.labels[x])))
+                        if answer==Dialogs.Yes:
+                            Universals.setMySetting(_keyValue, emendedValue)
+                            if _category.typesOfValues[x]=="string":
+                                _category.values[x].setText(emendedValue.decode("utf-8"))
+                            elif _category.typesOfValues[x]=="list":
+                                value = ""
+                                for y, info in enumerate(Universals.getListFromStrint(emendedValue)):
+                                    if y!=0:
+                                        value += ";"
+                                    value += unicode(info, "utf-8")
+                                _category.values[x].setText(value.decode("utf-8"))
+                        else:
+                            if self.showType=="Normal":
+                                self.tboxCategories.setCurrentIndex(_category.categoryNo)
+                                _category.tabwTabs.setCurrentIndex(_category.tabsOfSettings[x])
+                            _category.values[x].setStyleSheet("background-color: #FF5E5E;")
+                            isDontClose = True
+                    else:
+                        Universals.setMySetting(_keyValue, value) 
+        except:
+            self.error = ReportBug.ReportBug()
+            self.error.show()
+            
     def createOptions(_category):
         correctSettingKeys(_category)
         isNeededRestart = False
@@ -598,7 +604,7 @@ class EditDialog(MDialog):
         MDialog.__init__(self, _parent)
         if Universals.isActivePyKDE4==True:
             self.setButtons(MDialog.None)
-        self.setWindowTitle(translate("Options", "Advanced Value Editor"))
+        self.setWindowTitle(translate("EditDialog", "Advanced Value Editor"))
         self.requestInfos = str(_sender.objectName()).split("_")
         self.categoryNo = self.parent().tboxCategories.currentIndex()
         self.typeOfValue = self.requestInfos[0]
@@ -640,8 +646,8 @@ class EditDialog(MDialog):
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
-        pbtnCancel = MPushButton(translate("Options", "Cancel"))
-        pbtnApply = MPushButton(translate("Options", "Apply"))
+        pbtnCancel = MPushButton(translate("EditDialog", "Cancel"))
+        pbtnApply = MPushButton(translate("EditDialog", "Apply"))
         MObject.connect(pbtnCancel, SIGNAL("clicked()"), self.close)
         MObject.connect(pbtnApply, SIGNAL("clicked()"), self.apply)
         vblMain.addWidget(self.EditorWidget)
@@ -704,6 +710,9 @@ class MyFormLayout(MFormLayout):
 class General(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/General", "General")
+        self.labelOfCategory = translate("Options/General", "You can change the general settings in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["applicationStyle", "themeName", "isSaveActions", "maxRecordFileSize", 
@@ -719,34 +728,34 @@ class General(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = ["language", "themeName", "windowMode"]
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "Application Style"),
-                    translate("Options", "Application Theme"), 
-                    translate("Options", "Save Actions"), 
-                    translate("Options", "Record File Size"), 
-                    translate("Options", "Activate Minimal Window Mode"), 
-                    translate("Options", "Update Interval (in days)"), 
-                    translate("Options", "Show Quick Make Dialog"),  
-                    translate("Options", "Show Transaction Details"), 
-                    translate("Options", "Window Mode"),  
-                    translate("Options", "Application Language")]
-        self.toolTips = [translate("Options", "You can select Hamsi Manager`s style."),
-                    translate("Options", "You can select Hamsi Manager`s theme."),
-                    translate("Options", "If you want to save the actions you performed select \"Yes\"."), 
-                    translate("Options", "You can select record file size.(Kilobytes)"), 
-                    translate("Options", "You have to activate this if you want to work as little number of windows as possible."), 
-                    translate("Options", "Which interval (in days) do you want to set to check the updates?"), 
-                    translate("Options", "Are you want to show quick make dialog in runed with command line or my plugins?"),
-                    translate("Options", "Are you want to show transaction details after save table?"), 
-                    translate("Options", "You can select window mode.You can select \"Mini\" section for netbook or small screen."),
-                    translate("Options", "You can select Hamsi Manager`s language.")]
+        self.labels = [translate("Options/General", "Application Style"),
+                    translate("Options/General", "Application Theme"), 
+                    translate("Options/General", "Save Actions"), 
+                    translate("Options/General", "Record File Size"), 
+                    translate("Options/General", "Activate Minimal Window Mode"), 
+                    translate("Options/General", "Update Interval (in days)"), 
+                    translate("Options/General", "Show Quick Make Dialog"),  
+                    translate("Options/General", "Show Transaction Details"), 
+                    translate("Options/General", "Window Mode"),  
+                    translate("Options/General", "Application Language")]
+        self.toolTips = [translate("Options/General", "You can select Hamsi Manager`s style."),
+                    translate("Options/General", "You can select Hamsi Manager`s theme."),
+                    translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
+                    translate("Options/General", "You can select record file size.(Kilobytes)"), 
+                    translate("Options/General", "You have to activate this if you want to work as little number of windows as possible."), 
+                    translate("Options/General", "Which interval (in days) do you want to set to check the updates?"), 
+                    translate("Options/General", "Are you want to show quick make dialog in runed with command line or my plugins?"),
+                    translate("Options/General", "Are you want to show transaction details after save table?"), 
+                    translate("Options/General", "You can select window mode.You can select \"Mini\" section for netbook or small screen."),
+                    translate("Options/General", "You can select Hamsi Manager`s language.")]
         self.typesOfValues = [["options", 1], ["options", 4], "Yes/No", ["number", 3], 
                                 "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 5], ["options", 0]]
         styles = Settings.getStyles()
         themes = InputOutputs.getInstalledThemes()
         self.valuesOfOptions = [InputOutputs.getInstalledLanguagesNames(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
-                                [translate("Options", "Normal"), 
-                                    translate("Options", "Mini")]]
+                                [translate("Options/General", "Normal"), 
+                                    translate("Options/General", "Mini")]]
         self.valuesOfOptionsKeys = [InputOutputs.getInstalledLanguagesCodes(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
                                 Universals.windowModeKeys]
@@ -761,11 +770,11 @@ class General(MWidget):
             MObject.connect(self.values[self.keysOfSettings.index("isSaveActions")], SIGNAL("currentIndexChanged(int)"), self.saveActionsChanged)
             self.saveActionsChanged()
         if _showType=="Normal" or _showType=="All": 
-            pbtnClearErrorFiles = MPushButton(translate("Options", "Delete Error Logs"))
+            pbtnClearErrorFiles = MPushButton(translate("Options/General", "Delete Error Logs"))
             MObject.connect(pbtnClearErrorFiles, SIGNAL("clicked()"), self.clearErrorFiles)
             hbox1 = MHBoxLayout()
             hbox1.addWidget(pbtnClearErrorFiles)
-            gboxErrors = MGroupBox(translate("Options", "Error Logs"))
+            gboxErrors = MGroupBox(translate("Options/General", "Error Logs"))
             gboxErrors.setLayout(hbox1)
             self.Panel.addStretch(1)
             self.Panel.addWidget(gboxErrors)
@@ -775,7 +784,7 @@ class General(MWidget):
             import InputOutputs, Records
             InputOutputs.clearTempFiles()
             Records.saveAllRecords()
-            Dialogs.show(translate("Options", "Error Logs Deleted"), translate("Options", "All created by Hamsi Manager error logs and temp files is deleted."))
+            Dialogs.show(translate("Options/General", "Error Logs Deleted"), translate("Options/General", "All created by Hamsi Manager error logs and temp files is deleted."))
         except:
             import ReportBug
             error = ReportBug.ReportBug()
@@ -797,6 +806,9 @@ class General(MWidget):
 class Correct(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/Correct", "Correct")
+        self.labelOfCategory = translate("Options/Correct", "You can change the correct and emend settings in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["validSentenceStructure", "validSentenceStructureForFile", 
@@ -812,32 +824,32 @@ class Correct(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "Valid Sentence Structure"), 
-                    translate("Options", "Valid Sentence Structure For Files"),
-                    translate("Options", "Valid Sentence Structure For File Extensions"), 
-                    translate("Options", "Which Part Is The File Extension"), 
-                    translate("Options", "Emend Incorrect Chars"),  
-                    translate("Options", "Correct File Name By Search Table"), 
-                    translate("Options", "Clear First And Last Space Chars"), 
-                    translate("Options", "Correct Double Space Chars")]
-        self.toolTips = [translate("Options", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
-                    translate("Options", "File and directory names will be changed automatically to the format you selected."),
-                    translate("Options", "File extensions will be changed automatically to the format you selected."), 
-                    translate("Options", "Which part of the filename is the file extension?"), 
-                    translate("Options", "Are you want to emend incorrect chars?"), 
-                    translate("Options", "Are you want to correct file and directory names by search and replace table?"), 
-                    translate("Options", "Are you want to clear first and last space chars?"), 
-                    translate("Options", "Are you want to correct double space chars?")]
+        self.labels = [translate("Options/Correct", "Valid Sentence Structure"), 
+                    translate("Options/Correct", "Valid Sentence Structure For Files"),
+                    translate("Options/Correct", "Valid Sentence Structure For File Extensions"), 
+                    translate("Options/Correct", "Which Part Is The File Extension"), 
+                    translate("Options/Correct", "Emend Incorrect Chars"),  
+                    translate("Options/Correct", "Correct File Name By Search Table"), 
+                    translate("Options/Correct", "Clear First And Last Space Chars"), 
+                    translate("Options/Correct", "Correct Double Space Chars")]
+        self.toolTips = [translate("Options/Correct", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
+                    translate("Options/Correct", "File and directory names will be changed automatically to the format you selected."),
+                    translate("Options/Correct", "File extensions will be changed automatically to the format you selected."), 
+                    translate("Options/Correct", "Which part of the filename is the file extension?"), 
+                    translate("Options/Correct", "Are you want to emend incorrect chars?"), 
+                    translate("Options/Correct", "Are you want to correct file and directory names by search and replace table?"), 
+                    translate("Options/Correct", "Are you want to clear first and last space chars?"), 
+                    translate("Options/Correct", "Are you want to correct double space chars?")]
         self.typesOfValues = [["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No"]
-        self.valuesOfOptions = [[translate("Options", "Title"), 
-                                    translate("Options", "All Small"), 
-                                    translate("Options", "All Caps"), 
-                                    translate("Options", "Sentence"), 
-                                    translate("Options", "Don`t Change")], 
-                                [translate("Options", "After The First Point"), 
-                                    translate("Options", "After The Last Point")]]
+        self.valuesOfOptions = [[translate("Options/Correct", "Title"), 
+                                    translate("Options/Correct", "All Small"), 
+                                    translate("Options/Correct", "All Caps"), 
+                                    translate("Options/Correct", "Sentence"), 
+                                    translate("Options/Correct", "Don`t Change")], 
+                                [translate("Options/Correct", "After The First Point"), 
+                                    translate("Options/Correct", "After The Last Point")]]
         self.valuesOfOptionsKeys = [Universals.validSentenceStructureKeys, 
                         Universals.fileExtesionIsKeys]
         createOptions(self)
@@ -845,6 +857,9 @@ class Correct(MWidget):
 class SearchAndReplace(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/SearchAndReplace", "Search - Replace")
+        self.labelOfCategory = translate("Options/SearchAndReplace", "You can set the text you want to search and replace in this section.")
+        self.categoryNo = None
         self.values, self.lblLabels = [], []
         self.keysOfSettings = []
         self.tabsOfSettings = []
@@ -859,7 +874,7 @@ class SearchAndReplace(MWidget):
         self.searchAndReplaceTable = self.SearchAndReplaceTable(self)
         self.Panel = MVBoxLayout(self)
         self.Panel.addWidget(self.searchAndReplaceTable)
-        lblDeleteInfo= MLabel(translate("Options", "*Right-click on the criterion you want to delete and click the \"Delete Row\" button."))
+        lblDeleteInfo= MLabel(translate("Options/SearchAndReplace", "*Right-click on the criterion you want to delete and click the \"Delete Row\" button."))
         self.Panel.addWidget(lblDeleteInfo)
         
     class SearchAndReplaceTable(MTableWidget):
@@ -874,11 +889,11 @@ class SearchAndReplace(MWidget):
             self.clear()
             self.setColumnCount(6)
             self.setHorizontalHeaderLabels(["id", 
-                            translate("Options", "Search"), 
-                            translate("Options", "Replace"), 
-                            translate("Options", "Active"), 
-                            translate("Options", "C.Sens."), 
-                            translate("Options", "RegExp")])
+                            translate("Options/SearchAndReplace", "Search"), 
+                            translate("Options/SearchAndReplace", "Replace"), 
+                            translate("Options/SearchAndReplace", "Active"), 
+                            translate("Options/SearchAndReplace", "C.Sens."), 
+                            translate("Options/SearchAndReplace", "RegExp")])
             self.hideColumn(0)
             self.setColumnWidth(1,135)
             self.setColumnWidth(2,135)
@@ -913,12 +928,12 @@ class SearchAndReplace(MWidget):
             self.setItem(len(self.searchAndReplaceTableValues), 5, twiItem2)
             self.isShowChanges=True
             self.mMenu = MMenu()
-            self.namesOfButtons = [translate("Options", "Cut"),
-                                    translate("Options", "Copy"),
-                                    translate("Options", "Paste"),
-                                    translate("Options", "Delete"),
-                                    translate("Options", "Change"), 
-                                    translate("Options", "Delete Row")]
+            self.namesOfButtons = [translate("Options/SearchAndReplace", "Cut"),
+                                    translate("Options/SearchAndReplace", "Copy"),
+                                    translate("Options/SearchAndReplace", "Paste"),
+                                    translate("Options/SearchAndReplace", "Delete"),
+                                    translate("Options/SearchAndReplace", "Change"), 
+                                    translate("Options/SearchAndReplace", "Delete Row")]
             for btnName in self.namesOfButtons:
                 self.mMenu.addAction(btnName).setObjectName(btnName)
         
@@ -1000,6 +1015,9 @@ class SearchAndReplace(MWidget):
 class ClearGeneral(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/ClearGeneral", "General Cleaning")
+        self.labelOfCategory = translate("Options/ClearGeneral", "You can change the settings to clean your system in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["isDeleteEmptyDirectories", "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
@@ -1016,46 +1034,46 @@ class ClearGeneral(MWidget):
                                 1, 1, 
                                 1, 1, 
                                 1, 1]
-        self.tabNames = [translate("Options", "General"), 
-                         translate("Options", "Make On ..")]
+        self.tabNames = [translate("Options/ClearGeneral", "General"), 
+                         translate("Options/ClearGeneral", "Make On ..")]
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "Delete Empty Directories"), 
-                    translate("Options", "Unnecessary Directories (If Is Empty)"), 
-                    translate("Options", "Unnecessary Directories"), 
-                    translate("Options", "Unnecessary Files"), 
-                    translate("Options", "Unnecessary File Extensions"), 
-                    translate("Options", "Directories To Be Ignored"), 
-                    translate("Options", "Files To Be Ignored"), 
-                    translate("Options", "File Extensions To Be Ignored"), 
-                    translate("Options", "General Cleaning (Table Saved)"), 
-                    translate("Options", "General Cleaning (Moved Or Changed)"), 
-                    translate("Options", "General Cleaning (Copied Or Changed)"), 
-                    translate("Options", "General Cleaning (Moved File)"), 
-                    translate("Options", "Clean Subfolders (Table Saved)"), 
-                    translate("Options", "Clean Subfolders (Moved Or Changed)"), 
-                    translate("Options", "Clean Subfolders (Copied Or Changed)"), 
-                    translate("Options", "Clean Subfolders (Moved File)")]
-        self.toolTips = [translate("Options", "Are you want to delete empty directories?"), 
-                    translate("Options", "<font color=red>The directories (empty) you selected will be deleted permanently from your system!</font><br><font color=blue>Example: directory1;directory2;...</font>"), 
-                    translate("Options", "<font color=red>The directories you selected will be deleted permanently from your system!</font><br><font color=blue>Example: directory1;directory2;...</font>"), 
-                    translate("Options", "<font color=red>The files you selected will be deleted permanently from your system!</font><br><font color=blue>Example: file1.abc; file2.def;...</font>"), 
-                    translate("Options", "<font color=red>The file extensions you selected will be deleted permanently from your system!</font><br><font color=blue>Example: mood; db;...</font>"), 
-                    translate("Options", "If the folders contain only the directories that match the criteria you selected here, they will be recognized as empty and will be deleted.<br><font color=blue>Example: directory1;directory2;...</font>"), 
-                    translate("Options", "If the folders contain only the files that match the criteria you selected here, they will be recognized as empty and will be deleted.<br><font color=blue>Example: file1.abc; file2.def;...</font>"), 
-                    translate("Options", "If the folders contain only the files that have the extensions which match the criteria you selected here, they will be recognized as empty and will be deleted.<br><font color=blue>Example: m3u; pls;...</font>"), 
-                    translate("Options", "Do you want to general cleaning when table saved?"), 
-                    translate("Options", "Do you want to general cleaning when directory moved or changed?"), 
-                    translate("Options", "Do you want to general cleaning when directory copied or changed?"), 
-                    translate("Options", "Do you want to general cleaning when file moved?"), 
-                    translate("Options", "Do you want to clear the subfolders when table saved?"), 
-                    translate("Options", "Do you want to clear the subfolders when directory moved or changed?"), 
-                    translate("Options", "Do you want to clear the subfolders when directory copied or changed?"), 
-                    translate("Options", "Do you want to clear the subfolders when file moved?")]
+        self.labels = [translate("Options/ClearGeneral", "Delete Empty Directories"), 
+                    translate("Options/ClearGeneral", "Unnecessary Directories (If Is Empty)"), 
+                    translate("Options/ClearGeneral", "Unnecessary Directories"), 
+                    translate("Options/ClearGeneral", "Unnecessary Files"), 
+                    translate("Options/ClearGeneral", "Unnecessary File Extensions"), 
+                    translate("Options/ClearGeneral", "Directories To Be Ignored"), 
+                    translate("Options/ClearGeneral", "Files To Be Ignored"), 
+                    translate("Options/ClearGeneral", "File Extensions To Be Ignored"), 
+                    translate("Options/ClearGeneral", "General Cleaning (Table Saved)"), 
+                    translate("Options/ClearGeneral", "General Cleaning (Moved Or Changed)"), 
+                    translate("Options/ClearGeneral", "General Cleaning (Copied Or Changed)"), 
+                    translate("Options/ClearGeneral", "General Cleaning (Moved File)"), 
+                    translate("Options/ClearGeneral", "Clean Subfolders (Table Saved)"), 
+                    translate("Options/ClearGeneral", "Clean Subfolders (Moved Or Changed)"), 
+                    translate("Options/ClearGeneral", "Clean Subfolders (Copied Or Changed)"), 
+                    translate("Options/ClearGeneral", "Clean Subfolders (Moved File)")]
+        self.toolTips = [translate("Options/ClearGeneral", "Are you want to delete empty directories?"), 
+                    translate("Options/ClearGeneral", "<font color=red>The directories (empty) you selected will be deleted permanently from your system!</font><br><font color=blue>Example: directory1;directory2;...</font>"), 
+                    translate("Options/ClearGeneral", "<font color=red>The directories you selected will be deleted permanently from your system!</font><br><font color=blue>Example: directory1;directory2;...</font>"), 
+                    translate("Options/ClearGeneral", "<font color=red>The files you selected will be deleted permanently from your system!</font><br><font color=blue>Example: file1.abc; file2.def;...</font>"), 
+                    translate("Options/ClearGeneral", "<font color=red>The file extensions you selected will be deleted permanently from your system!</font><br><font color=blue>Example: mood; db;...</font>"), 
+                    translate("Options/ClearGeneral", "If the folders contain only the directories that match the criteria you selected here, they will be recognized as empty and will be deleted.<br><font color=blue>Example: directory1;directory2;...</font>"), 
+                    translate("Options/ClearGeneral", "If the folders contain only the files that match the criteria you selected here, they will be recognized as empty and will be deleted.<br><font color=blue>Example: file1.abc; file2.def;...</font>"), 
+                    translate("Options/ClearGeneral", "If the folders contain only the files that have the extensions which match the criteria you selected here, they will be recognized as empty and will be deleted.<br><font color=blue>Example: m3u; pls;...</font>"), 
+                    translate("Options/ClearGeneral", "Do you want to general cleaning when table saved?"), 
+                    translate("Options/ClearGeneral", "Do you want to general cleaning when directory moved or changed?"), 
+                    translate("Options/ClearGeneral", "Do you want to general cleaning when directory copied or changed?"), 
+                    translate("Options/ClearGeneral", "Do you want to general cleaning when file moved?"), 
+                    translate("Options/ClearGeneral", "Do you want to clear the subfolders when table saved?"), 
+                    translate("Options/ClearGeneral", "Do you want to clear the subfolders when directory moved or changed?"), 
+                    translate("Options/ClearGeneral", "Do you want to clear the subfolders when directory copied or changed?"), 
+                    translate("Options/ClearGeneral", "Do you want to clear the subfolders when file moved?")]
         self.typesOfValues = ["Yes/No", "list", "list", "list", "list", "list", "list", "list", 
                               "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
@@ -1079,6 +1097,9 @@ class ClearGeneral(MWidget):
 class Cover(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/Cover", "Cover")
+        self.labelOfCategory = translate("Options/Cover", "You can change the cover settings in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["priorityIconNames", "isChangeExistIcon", "isAskIfHasManyImagesInAlbumDirectory", 
@@ -1094,20 +1115,20 @@ class Cover(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "Priority Icon Names"), 
-                    translate("Options", "Change Directory Icon If Is Already Exist"), 
-                    translate("Options", "Ask Me If Has Many Images"), 
-                    translate("Options", "Change Directory Icon (Table Saved)"), 
-                    translate("Options", "Change Directory Icon (Moved Or Changed)"), 
-                    translate("Options", "Change Directory Icon (Copied Or Changed)"), 
-                    translate("Options", "Change Directory Icon (Moved File)")]
-        self.toolTips = [translate("Options", "The file names you selected will be folder icons first.<br>If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.<br><font color=blue>Example: cover; icon...</font>"), 
-                    translate("Options", "Are you want to change directory icon if is already exist?"), 
-                    translate("Options", "Ask me if has many images in the directory.<br>Note: If you select \"No\" the first image will be chosen."), 
-                    translate("Options", "Do you want to change directory icon when table saved?"), 
-                    translate("Options", "Do you want to change directory icon when directory moved or changed?"), 
-                    translate("Options", "Do you want to change directory icon when directory copied or changed?"), 
-                    translate("Options", "Do you want to change directory icon when file moved?")]
+        self.labels = [translate("Options/Cover", "Priority Icon Names"), 
+                    translate("Options/Cover", "Change Directory Icon If Is Already Exist"), 
+                    translate("Options/Cover", "Ask Me If Has Many Images"), 
+                    translate("Options/Cover", "Change Directory Icon (Table Saved)"), 
+                    translate("Options/Cover", "Change Directory Icon (Moved Or Changed)"), 
+                    translate("Options/Cover", "Change Directory Icon (Copied Or Changed)"), 
+                    translate("Options/Cover", "Change Directory Icon (Moved File)")]
+        self.toolTips = [translate("Options/Cover", "The file names you selected will be folder icons first.<br>If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.<br><font color=blue>Example: cover; icon...</font>"), 
+                    translate("Options/Cover", "Are you want to change directory icon if is already exist?"), 
+                    translate("Options/Cover", "Ask me if has many images in the directory.<br>Note: If you select \"No\" the first image will be chosen."), 
+                    translate("Options/Cover", "Do you want to change directory icon when table saved?"), 
+                    translate("Options/Cover", "Do you want to change directory icon when directory moved or changed?"), 
+                    translate("Options/Cover", "Do you want to change directory icon when directory copied or changed?"), 
+                    translate("Options/Cover", "Do you want to change directory icon when file moved?")]
         self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
@@ -1116,6 +1137,9 @@ class Cover(MWidget):
 class Advanced(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/Advanced", "Advanced")
+        self.labelOfCategory = translate("Options/Advanced", "You can change the advanced settings in this section.<br><font color=red>Only proceed when you make sure that everything here is correct.</font>")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["systemsCharSet", "isMoveToTrash", "imageExtensions", "musicExtensions", "NeededObjectsName", "isActivePyKDE4"]
@@ -1127,18 +1151,18 @@ class Advanced(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = ["systemsCharSet", "NeededObjectsName", "isActivePyKDE4"]
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "File System Character Set"), 
-                    translate("Options", "Move To Trash"),  
-                    translate("Options", "Graphics Files` Extensions"), 
-                    translate("Options", "Music Files` Extensions"), 
-                    translate("Options", "Please Select The Object Set You Want To Use"), 
-                    translate("Options", "Do You Want To Use PyKDE4?")]
-        self.toolTips = [(str(translate("Options", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Settings.defaultFileSystemEncoding)).decode("utf-8"), 
-                    translate("Options", "Would you like to move files to the trash files to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
-                    translate("Options", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
-                    translate("Options", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"), 
-                    translate("Options", "KPlease select the object set you want to use (the object types installed on your system will be presented in the Options dialog.)"), 
-                    translate("Options", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>")]
+        self.labels = [translate("Options/Advanced", "File System Character Set"), 
+                    translate("Options/Advanced", "Move To Trash"),  
+                    translate("Options/Advanced", "Graphics Files` Extensions"), 
+                    translate("Options/Advanced", "Music Files` Extensions"), 
+                    translate("Options/Advanced", "Please Select The Object Set You Want To Use"), 
+                    translate("Options/Advanced", "Do You Want To Use PyKDE4?")]
+        self.toolTips = [(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Settings.defaultFileSystemEncoding)).decode("utf-8"), 
+                    translate("Options/Advanced", "Would you like to move files to the trash files to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
+                    translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
+                    translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"), 
+                    translate("Options/Advanced", "KPlease select the object set you want to use (the object types installed on your system will be presented in the Options dialog.)"), 
+                    translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>")]
         self.typesOfValues = [["options", 0], "Yes/No", "list", "list", ["options", 1], "Yes/No"]
         charSets = Settings.getCharSets()
         objectsNames = [] 
@@ -1179,6 +1203,9 @@ class Advanced(MWidget):
 class Player(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/Player", "Player")
+        self.labelOfCategory = translate("Options/Player", "You can change the player settings in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["playerName","mplayerPath", "mplayerArgs", "mplayerAudioDevicePointer", "mplayerAudioDevice"]
@@ -1190,18 +1217,18 @@ class Player(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "Player Name"), 
-                    translate("Options", "Player Path (Name)"), 
-                    translate("Options", "Player Arguments"), 
-                    translate("Options", "Player Sound Playback Device Pointer"), 
-                    translate("Options", "Player Sound Playback Device")]
-        self.toolTips = [translate("Options", "Please select the player you want to use.<br>"+
+        self.labels = [translate("Options/Player", "Player Name"), 
+                    translate("Options/Player", "Player Path (Name)"), 
+                    translate("Options/Player", "Player Arguments"), 
+                    translate("Options/Player", "Player Sound Playback Device Pointer"), 
+                    translate("Options/Player", "Player Sound Playback Device")]
+        self.toolTips = [translate("Options/Player", "Please select the player you want to use.<br>"+
                     "If installed, the following players will be presented in the Options dialog and you will be able to select the one you want to use.<br>"+
                     "Mplayer<br>Phonon (Recommended)<br>Phonon (PySide) (Recommended)<br>tkSnack"), 
-                    translate("Options", "Please enter the path of the player program you want to use.<br><font color=red>Default value: mplayer</font>"), 
-                    translate("Options", "Please enter the player arguments.<br><font color=red>Default value(s): -slave -quiet</font>"), 
-                    translate("Options", "The argument used to point to the sound device you want to use.<br><font color=red>Default value: -ao</font>"),
-                    translate("Options", "The sound device you want to use.<br><font color=red>Default value: alsa</font>")]
+                    translate("Options/Player", "Please enter the path of the player program you want to use.<br><font color=red>Default value: mplayer</font>"), 
+                    translate("Options/Player", "Please enter the player arguments.<br><font color=red>Default value(s): -slave -quiet</font>"), 
+                    translate("Options/Player", "The argument used to point to the sound device you want to use.<br><font color=red>Default value: -ao</font>"),
+                    translate("Options/Player", "The sound device you want to use.<br><font color=red>Default value: alsa</font>")]
         self.typesOfValues = [["options", 0], ["file", "executable"], "string", "string", ["options", 1]]
         self.valuesOfOptions = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
         self.valuesOfOptionsKeys = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
@@ -1225,6 +1252,9 @@ class Player(MWidget):
 class Packager(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/Packager", "Packager")
+        self.labelOfCategory = translate("Options/Packager", "You can change the packager-specific settings in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["isPackagerDeleteEmptyDirectories", "packagerUnneededFiles", "packagerUnneededFileExtensions", 
@@ -1240,20 +1270,20 @@ class Packager(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "Delete Empty Directories"), 
-                    translate("Options", "Unnecessary Files"),
-                    translate("Options", "Unnecessary File Extensions"), 
-                    translate("Options", "Unnecessary Folders"), 
-                    translate("Options", "General Cleaning"), 
-                    translate("Options", "Auto Clean Subfolders"), 
-                    translate("Options", "Close When Cleaned And Packed?")]
-        self.toolTips = [translate("Options", "Are you want to delete empty directories?"), 
-                    translate("Options", "Please select the files that you DO NOT want to be included in the package"), 
-                    translate("Options", "Please select the file extensions that you DO NOT want to be included in the package"), 
-                    translate("Options", "Please select the files that you DO NOT want to be included in the package"), 
-                    translate("Options", "Do you want to general cleaning?"), 
-                    translate("Options", "You have to select to clear the subfolders automatically."), 
-                    translate("Options", "Close the package manager when the folder is cleaned and packed?")]
+        self.labels = [translate("Options/Packager", "Delete Empty Directories"), 
+                    translate("Options/Packager", "Unnecessary Files"),
+                    translate("Options/Packager", "Unnecessary File Extensions"), 
+                    translate("Options/Packager", "Unnecessary Folders"), 
+                    translate("Options/Packager", "General Cleaning"), 
+                    translate("Options/Packager", "Auto Clean Subfolders"), 
+                    translate("Options/Packager", "Close When Cleaned And Packed?")]
+        self.toolTips = [translate("Options/Packager", "Are you want to delete empty directories?"), 
+                    translate("Options/Packager", "Please select the files that you DO NOT want to be included in the package"), 
+                    translate("Options/Packager", "Please select the file extensions that you DO NOT want to be included in the package"), 
+                    translate("Options/Packager", "Please select the files that you DO NOT want to be included in the package"), 
+                    translate("Options/Packager", "Do you want to general cleaning?"), 
+                    translate("Options/Packager", "You have to select to clear the subfolders automatically."), 
+                    translate("Options/Packager", "Close the package manager when the folder is cleaned and packed?")]
         self.typesOfValues = ["Yes/No", "list", "list", "list", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
@@ -1261,6 +1291,9 @@ class Packager(MWidget):
 class Cleaner(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/Cleaner", "Cleaner")
+        self.labelOfCategory = translate("Options/Cleaner", "You can change the cleaner-specific settings in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["isCleanerDeleteEmptyDirectories", "cleanerUnneededFiles", "cleanerUnneededFileExtensions", 
@@ -1276,18 +1309,18 @@ class Cleaner(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "Delete Empty Directories"), 
-                    translate("Options", "Unnecessary Files"),
-                    translate("Options", "Unnecessary File Extensions"), 
-                    translate("Options", "Unnecessary Folders"), 
-                    translate("Options", "General Cleaning"), 
-                    translate("Options", "Auto Clean Subfolders")]
-        self.toolTips = [translate("Options", "Are you want to delete empty directories?"), 
-                    translate("Options", "Please select the files that you want to be deleted"), 
-                    translate("Options", "Please select the file extensions that you want to be deleted"), 
-                    translate("Options", "Please select the files that you want to be deleted"), 
-                    translate("Options", "Do you want to general cleaning?"), 
-                    translate("Options", "You have to select to clear the subfolders automatically.")]
+        self.labels = [translate("Options/Cleaner", "Delete Empty Directories"), 
+                    translate("Options/Cleaner", "Unnecessary Files"),
+                    translate("Options/Cleaner", "Unnecessary File Extensions"), 
+                    translate("Options/Cleaner", "Unnecessary Folders"), 
+                    translate("Options/Cleaner", "General Cleaning"), 
+                    translate("Options/Cleaner", "Auto Clean Subfolders")]
+        self.toolTips = [translate("Options/Cleaner", "Are you want to delete empty directories?"), 
+                    translate("Options/Cleaner", "Please select the files that you want to be deleted"), 
+                    translate("Options/Cleaner", "Please select the file extensions that you want to be deleted"), 
+                    translate("Options/Cleaner", "Please select the files that you want to be deleted"), 
+                    translate("Options/Cleaner", "Do you want to general cleaning?"), 
+                    translate("Options/Cleaner", "You have to select to clear the subfolders automatically.")]
         self.typesOfValues = ["Yes/No", "list", "list", "list", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
@@ -1295,10 +1328,13 @@ class Cleaner(MWidget):
 class Amarok(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/Amarok", "Amarok")
+        self.labelOfCategory = translate("Options/Amarok", "You can change the Amarok settings in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["amarokDBHost","amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"]
-        self.tabsOfSettings = [None, None, None, None, None]
+        self.keysOfSettings = ["amarokIsUseHost", "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"]
+        self.tabsOfSettings = [None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -1306,24 +1342,76 @@ class Amarok(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options", "Host"), 
-                    translate("Options", "Port"), 
-                    translate("Options", "User Name"), 
-                    translate("Options", "Password"), 
-                    translate("Options", "Database")]
-        self.toolTips = [translate("Options", "Please enter host name of Amarok database.<br>"), 
-                    translate("Options", "Please enter port number of Amarok database.<br>"), 
-                    translate("Options", "Please enter user name of Amarok database.<br>"), 
-                    translate("Options", "Please enter user password of Amarok database.<br>"), 
-                    translate("Options", "Please enter database name of Amarok database.<br>")]
-        self.typesOfValues = ["string", "string", "string", "password", "string"]
+        self.labels = [translate("Options/Amarok", "Using MySQL Server"), 
+                    translate("Options/Amarok", "Host"), 
+                    translate("Options/Amarok", "Port"), 
+                    translate("Options/Amarok", "User Name"), 
+                    translate("Options/Amarok", "Password"), 
+                    translate("Options/Amarok", "Database")]
+        self.toolTips = [translate("Options/Amarok", "Are you use MySQL server in the Amarok?"), 
+                    translate("Options/Amarok", "Please enter host name of Amarok database."), 
+                    translate("Options/Amarok", "Please enter port number of Amarok database."), 
+                    translate("Options/Amarok", "Please enter user name of Amarok database."), 
+                    translate("Options/Amarok", "Please enter user password of Amarok database."), 
+                    translate("Options/Amarok", "Please enter database name of Amarok database.")]
+        self.typesOfValues = ["Yes/No", "string", "string", "string", "password", "string"]
         self.valuesOfOptions = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
         self.valuesOfOptionsKeys = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
         createOptions(self)
+        pbtnTestAmarokMysql = MPushButton(translate("Options/Amarok", "Test"))
+        hblBottom = MHBoxLayout()
+        self.Panel.addLayout(hblBottom)
+        hblBottom.addWidget(pbtnTestAmarokMysql)
+        MObject.connect(pbtnTestAmarokMysql, SIGNAL("clicked()"), self.testAmarokMysql)
+        if self.visibleKeys.count("amarokIsUseHost")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("amarokIsUseHost")], SIGNAL("currentIndexChanged(int)"), self.useMySQLServerChanged)
+            self.useMySQLServerChanged()
+    
+    def useMySQLServerChanged(self):
+        if self.values[self.keysOfSettings.index("amarokIsUseHost")].currentIndex()==0:
+            setVisibleFormItems(self, "amarokDBHost", False)
+            setVisibleFormItems(self, "amarokDBPort", False)
+            setVisibleFormItems(self, "amarokDBUser", False)
+            setVisibleFormItems(self, "amarokDBPass", False)
+            setVisibleFormItems(self, "amarokDBDB", False)
+        else:
+            setVisibleFormItems(self, "amarokDBHost", True)
+            setVisibleFormItems(self, "amarokDBPort", True)
+            setVisibleFormItems(self, "amarokDBUser", True)
+            setVisibleFormItems(self, "amarokDBPass", True)
+            setVisibleFormItems(self, "amarokDBDB", True)
+    
+    def saveSettingsForTest(self):
+        applySetting(self, "amarokIsUseHost")
+        applySetting(self, "amarokDBHost")
+        applySetting(self, "amarokDBPort")
+        applySetting(self, "amarokDBUser")
+        applySetting(self, "amarokDBPass")
+        applySetting(self, "amarokDBDB")
+    
+    def testAmarokMysql(self):
+        try:
+            import Amarok
+            objAmarok = Amarok.Amarok()
+            self.saveSettingsForTest()
+            amarokDb = objAmarok.checkAndGetDB(False)
+            if amarokDb!=None:
+                answer = Dialogs.ask(translate("Options/Amarok", "Are You Want To Save"), 
+                                             translate("Options/Amarok", "Are you want to save this Amarok settings?"))
+                if answer==Dialogs.Yes:
+                    Universals.saveSettings()
+            amarokDb = None
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+        
 
 class MySettings(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/MySettings", "Settings")
+        self.labelOfCategory = translate("Options/MySettings", "You can reset you settings or back them up in this section.")
+        self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         Panel0 = MHBoxLayout()
         Panel1 = MHBoxLayout()
@@ -1349,24 +1437,24 @@ class MySettings(MWidget):
         self.toolTips = []
         self.typesOfValues = []
         self.valuesOfOptions = []
-        lblBackUp = MLabel(u"<b>" + translate("Options", "Backup Settings") + u"</b>")
-        lblRestore = MLabel(u"<b>" + translate("Options", "Restore Settings") + u"</b>")
-        reFillSettings = MLabel(u"<b>" + translate("Options", "Reset Settings") + u"</b>")
+        lblBackUp = MLabel(u"<b>" + translate("Options/MySettings", "Backup Settings") + u"</b>")
+        lblRestore = MLabel(u"<b>" + translate("Options/MySettings", "Restore Settings") + u"</b>")
+        reFillSettings = MLabel(u"<b>" + translate("Options/MySettings", "Reset Settings") + u"</b>")
         lblBackUp.setAlignment(Mt.AlignHCenter)
         lblRestore.setAlignment(Mt.AlignHCenter)
         reFillSettings.setAlignment(Mt.AlignHCenter)
-        pbtnRestoreBookmarks = MPushButton(translate("Options", "Bookmarks"))
-        pbtnRestoreSearchAndReplaceTable = MPushButton(translate("Options", "Search-Replace Parameters"))
-        pbtnRestoreSettings = MPushButton(translate("Options", "Program Settings"))
-        pbtnRestoreAll = MPushButton(translate("Options", "All"))
-        pbtnBackUpBookmarks = MPushButton(translate("Options", "Bookmarks"))
-        pbtnBackUpSearchAndReplaceTable = MPushButton(translate("Options", "Search-Replace Parameters"))
-        pbtnBackUpSettings = MPushButton(translate("Options", "Program Settings"))
-        pbtnBackUpAll = MPushButton(translate("Options", "All"))
-        pbtnReFillBookmarks = MPushButton(translate("Options", "Bookmarks"))
-        pbtnReFillSearchAndReplaceTable = MPushButton(translate("Options", "Search-Replace Parameters"))
-        pbtnReFillSettings = MPushButton(translate("Options", "Program Settings"))
-        pbtnReFillAll = MPushButton(translate("Options", "All"))
+        pbtnRestoreBookmarks = MPushButton(translate("Options/MySettings", "Bookmarks"))
+        pbtnRestoreSearchAndReplaceTable = MPushButton(translate("Options/MySettings", "Search-Replace Parameters"))
+        pbtnRestoreSettings = MPushButton(translate("Options/MySettings", "Program Settings"))
+        pbtnRestoreAll = MPushButton(translate("Options/MySettings", "All"))
+        pbtnBackUpBookmarks = MPushButton(translate("Options/MySettings", "Bookmarks"))
+        pbtnBackUpSearchAndReplaceTable = MPushButton(translate("Options/MySettings", "Search-Replace Parameters"))
+        pbtnBackUpSettings = MPushButton(translate("Options/MySettings", "Program Settings"))
+        pbtnBackUpAll = MPushButton(translate("Options/MySettings", "All"))
+        pbtnReFillBookmarks = MPushButton(translate("Options/MySettings", "Bookmarks"))
+        pbtnReFillSearchAndReplaceTable = MPushButton(translate("Options/MySettings", "Search-Replace Parameters"))
+        pbtnReFillSettings = MPushButton(translate("Options/MySettings", "Program Settings"))
+        pbtnReFillAll = MPushButton(translate("Options/MySettings", "All"))
         MObject.connect(pbtnRestoreBookmarks, SIGNAL("clicked()"), self.restoreBookmarks)
         MObject.connect(pbtnRestoreSearchAndReplaceTable, SIGNAL("clicked()"), self.restoreSearchAndReplaceTable)
         MObject.connect(pbtnRestoreSettings, SIGNAL("clicked()"), self.restoreSettings)
@@ -1406,22 +1494,22 @@ class MySettings(MWidget):
         self.Panel.addStretch(1)
         self.Panel.addLayout(bottom1)
         if Universals.isActivePyKDE4==True:
-            pbtnClearMyAnswers = MPushButton(translate("Options", "Clear My Answers"))
-            pbtnClearMyAnswers.setToolTip(translate("Options", "Clear my answers to the notification messages"))
+            pbtnClearMyAnswers = MPushButton(translate("Options/MySettings", "Clear My Answers"))
+            pbtnClearMyAnswers.setToolTip(translate("Options/MySettings", "Clear my answers to the notification messages"))
             MObject.connect(pbtnClearMyAnswers, SIGNAL("clicked()"), self.clearMyAnswers)
             bottom1.addWidget(pbtnClearMyAnswers)
-            pbtnReInstallKDE4Language = MPushButton(translate("Options", "Reinstall Language"))
+            pbtnReInstallKDE4Language = MPushButton(translate("Options/MySettings", "Reinstall Language"))
             MObject.connect(pbtnReInstallKDE4Language, SIGNAL("clicked()"), self.reInstallKDE4Language)
             bottom1.addWidget(pbtnReInstallKDE4Language)
     
     def clearMyAnswers(self):
         try:
-            answer = Dialogs.ask(translate("Options", "Your Answers Will Be Cleared"),
-                        translate("Options", "Are you sure you want to clear your answers to the notification messages?"))
+            answer = Dialogs.ask(translate("Options/MySettings", "Your Answers Will Be Cleared"),
+                        translate("Options/MySettings", "Are you sure you want to clear your answers to the notification messages?"))
             if answer==Dialogs.Yes:
                 MMessageBox.enableAllMessages()
-                Dialogs.show(translate("Options", "Your Answers Cleared"), 
-                        translate("Options", "Cleared your answers to the notification messages.All notification messages will be asked again."))
+                Dialogs.show(translate("Options/MySettings", "Your Answers Cleared"), 
+                        translate("Options/MySettings", "Cleared your answers to the notification messages.All notification messages will be asked again."))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1429,13 +1517,13 @@ class MySettings(MWidget):
     def reInstallKDE4Language(self):
         try:
             import MyConfigure
-            answer = Dialogs.ask(translate("Options", "KDE4 Language Will Be Reinstalled Into Hamsi Manager"),
-                        translate("Options", "Are you sure you want to reinstall kde4 language into Hamsi Manager?"))
+            answer = Dialogs.ask(translate("Options/MySettings", "KDE4 Language Will Be Reinstalled Into Hamsi Manager"),
+                        translate("Options/MySettings", "Are you sure you want to reinstall kde4 language into Hamsi Manager?"))
             if answer==Dialogs.Yes:
                 from PyQt4.QtCore import QLocale 
                 MyConfigure.installKDE4Languages()
-                Dialogs.show(translate("Options", "Language Reinstallation Completed"), 
-                        translate("Options", "Language has successfully been reinstalled."))
+                Dialogs.show(translate("Options/MySettings", "Language Reinstallation Completed"), 
+                        translate("Options/MySettings", "Language has successfully been reinstalled."))
                 self.parent().parent().reStart()
         except:
             error = ReportBug.ReportBug()
@@ -1444,8 +1532,8 @@ class MySettings(MWidget):
     def backUpBookmarks(self):
         try:
             Settings.makeBackUp("bookmarks")
-            Dialogs.show(translate("Options", "Backup Succesfully"), 
-                    translate("Options", "Backup operation was performed successfully."))
+            Dialogs.show(translate("Options/MySettings", "Backup Succesfully"), 
+                    translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1453,8 +1541,8 @@ class MySettings(MWidget):
     def backUpSearchAndReplaceTable(self):
         try:
             Settings.makeBackUp("searchAndReplaceTable")
-            Dialogs.show(translate("Options", "Backup Succesfully"), 
-                    translate("Options", "Backup operation was performed successfully."))
+            Dialogs.show(translate("Options/MySettings", "Backup Succesfully"), 
+                    translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1462,8 +1550,8 @@ class MySettings(MWidget):
     def backUpSettings(self):
         try:
             Settings.makeBackUp("Settings")
-            Dialogs.show(translate("Options", "Backup Succesfully"), 
-                    translate("Options", "Backup operation was performed successfully."))
+            Dialogs.show(translate("Options/MySettings", "Backup Succesfully"), 
+                    translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1471,8 +1559,8 @@ class MySettings(MWidget):
     def backUpAll(self):
         try:
             Settings.makeBackUp("All")
-            Dialogs.show(translate("Options", "Backup Succesfully"), 
-                    translate("Options", "Backup operation was performed successfully."))
+            Dialogs.show(translate("Options/MySettings", "Backup Succesfully"), 
+                    translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1511,14 +1599,14 @@ class MySettings(MWidget):
 
     def reFillBookmarks(self):
         try:
-            answer = Dialogs.askSpecial(translate("Options", "Are You Sure You Want To Reset?"),
-                        translate("Options", "Are you sure you want to reset your bookmarks?"), 
-                        translate("Options", "Yes"), 
-                        translate("Options", "No (Cancel)"), 
-                        translate("Options", "Back Up And Reset"))
-            if answer==translate("Options", "Yes"):
+            answer = Dialogs.askSpecial(translate("Options/MySettings", "Are You Sure You Want To Reset?"),
+                        translate("Options/MySettings", "Are you sure you want to reset your bookmarks?"), 
+                        translate("Options/MySettings", "Yes"), 
+                        translate("Options/MySettings", "No (Cancel)"), 
+                        translate("Options/MySettings", "Back Up And Reset"))
+            if answer==translate("Options/MySettings", "Yes"):
                 Settings.reFillDatabases("bookmarks")
-            elif answer==translate("Options", "Back Up And Reset"):
+            elif answer==translate("Options/MySettings", "Back Up And Reset"):
                 Settings.reFillDatabases("bookmarks", False, True)
             self.parent().parent().reStart()
         except:
@@ -1527,14 +1615,14 @@ class MySettings(MWidget):
         
     def reFillSearchAndReplaceTable(self):
         try:
-            answer = Dialogs.askSpecial(translate("Options", "Are You Sure You Want To Reset?"),
-                        translate("Options", "Do you want to reset your find-replace (automatic) settings?"), 
-                        translate("Options", "Yes"), 
-                        translate("Options", "No (Cancel)"), 
-                        translate("Options", "Back Up And Reset"))
-            if answer==translate("Options", "Yes"):
+            answer = Dialogs.askSpecial(translate("Options/MySettings", "Are You Sure You Want To Reset?"),
+                        translate("Options/MySettings", "Do you want to reset your find-replace (automatic) settings?"), 
+                        translate("Options/MySettings", "Yes"), 
+                        translate("Options/MySettings", "No (Cancel)"), 
+                        translate("Options/MySettings", "Back Up And Reset"))
+            if answer==translate("Options/MySettings", "Yes"):
                 Settings.reFillDatabases("searchAndReplaceTable")
-            elif answer==translate("Options", "Back Up And Reset"):
+            elif answer==translate("Options/MySettings", "Back Up And Reset"):
                 Settings.reFillDatabases("searchAndReplaceTable", False, True)
             self.parent().parent().close()
         except:
@@ -1543,14 +1631,14 @@ class MySettings(MWidget):
 
     def reFillSettings(self):
         try:
-            answer = Dialogs.askSpecial(translate("Options", "Are You Sure You Want To Reset?"),
-                        translate("Options", "Do you want to reset program settings?"), 
-                        translate("Options", "Yes"), 
-                        translate("Options", "No (Cancel)"), 
-                        translate("Options", "Back Up And Reset"))
-            if answer==translate("Options", "Yes"):
+            answer = Dialogs.askSpecial(translate("Options/MySettings", "Are You Sure You Want To Reset?"),
+                        translate("Options/MySettings", "Do you want to reset program settings?"), 
+                        translate("Options/MySettings", "Yes"), 
+                        translate("Options/MySettings", "No (Cancel)"), 
+                        translate("Options/MySettings", "Back Up And Reset"))
+            if answer==translate("Options/MySettings", "Yes"):
                 Settings.reFillSettings()
-            elif answer==translate("Options", "Back Up And Reset"):
+            elif answer==translate("Options/MySettings", "Back Up And Reset"):
                 Settings.reFillSettings(False, True)
             self.parent().parent().reStart()
         except:
@@ -1559,14 +1647,14 @@ class MySettings(MWidget):
         
     def reFillAll(self):
         try:
-            answer = Dialogs.askSpecial(translate("Options", "Are You Sure You Want To Reset?"),
-                        translate("Options", "Are you sure you want to reset all settings?"), 
-                        translate("Options", "Yes"), 
-                        translate("Options", "No (Cancel)"), 
-                        translate("Options", "Back Up And Reset"))
-            if answer==translate("Options", "Yes"):
+            answer = Dialogs.askSpecial(translate("Options/MySettings", "Are You Sure You Want To Reset?"),
+                        translate("Options/MySettings", "Are you sure you want to reset all settings?"), 
+                        translate("Options/MySettings", "Yes"), 
+                        translate("Options/MySettings", "No (Cancel)"), 
+                        translate("Options/MySettings", "Back Up And Reset"))
+            if answer==translate("Options/MySettings", "Yes"):
                 Settings.reFillAll()
-            elif answer==translate("Options", "Back Up And Reset"):
+            elif answer==translate("Options/MySettings", "Back Up And Reset"):
                 Settings.reFillAll(False, True)
             self.parent().parent().reStart()
         except:
@@ -1586,32 +1674,32 @@ class QuickOptions(MMenu):
         self.keysOfSettings = ["validSentenceStructure", "validSentenceStructureForFile", 
                                 "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
                                 "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
-        self.labels = [translate("Options", "Valid Sentence Structure"), 
-                    translate("Options", "Valid Sentence Structure For Files"),
-                    translate("Options", "Valid Sentence Structure For File Extensions"), 
-                    translate("Options", "Which Part Is The File Extension"), 
-                    translate("Options", "Emend Incorrect Chars"),  
-                    translate("Options", "Correct File Name By Search Table"), 
-                    translate("Options", "Clear First And Last Space Chars"), 
-                    translate("Options", "Correct Double Space Chars")]
-        self.toolTips = [translate("Options", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
-                    translate("Options", "File and directory names will be changed automatically to the format you selected."),
-                    translate("Options", "File extensions will be changed automatically to the format you selected."), 
-                    translate("Options", "Which part of the filename is the file extension?"), 
-                    translate("Options", "Are you want to emend incorrect chars?"), 
-                    translate("Options", "Are you want to correct file and directory names by search and replace table?"), 
-                    translate("Options", "Are you want to clear first and last space chars?"), 
-                    translate("Options", "Are you want to correct double space chars?")]
+        self.labels = [translate("QuickOptions", "Valid Sentence Structure"), 
+                    translate("QuickOptions", "Valid Sentence Structure For Files"),
+                    translate("QuickOptions", "Valid Sentence Structure For File Extensions"), 
+                    translate("QuickOptions", "Which Part Is The File Extension"), 
+                    translate("QuickOptions", "Emend Incorrect Chars"),  
+                    translate("QuickOptions", "Correct File Name By Search Table"), 
+                    translate("QuickOptions", "Clear First And Last Space Chars"), 
+                    translate("QuickOptions", "Correct Double Space Chars")]
+        self.toolTips = [translate("QuickOptions", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
+                    translate("QuickOptions", "File and directory names will be changed automatically to the format you selected."),
+                    translate("QuickOptions", "File extensions will be changed automatically to the format you selected."), 
+                    translate("QuickOptions", "Which part of the filename is the file extension?"), 
+                    translate("QuickOptions", "Are you want to emend incorrect chars?"), 
+                    translate("QuickOptions", "Are you want to correct file and directory names by search and replace table?"), 
+                    translate("QuickOptions", "Are you want to clear first and last space chars?"), 
+                    translate("QuickOptions", "Are you want to correct double space chars?")]
         self.typesOfValues = [["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No"]
-        self.valuesOfOptions = [[translate("Options", "Title"), 
-                                    translate("Options", "All Small"), 
-                                    translate("Options", "All Caps"), 
-                                    translate("Options", "Sentence"), 
-                                    translate("Options", "Don`t Change")], 
-                                [translate("Options", "After The First Point"), 
-                                    translate("Options", "After The Last Point")]]
+        self.valuesOfOptions = [[translate("QuickOptions", "Title"), 
+                                    translate("QuickOptions", "All Small"), 
+                                    translate("QuickOptions", "All Caps"), 
+                                    translate("QuickOptions", "Sentence"), 
+                                    translate("QuickOptions", "Don`t Change")], 
+                                [translate("QuickOptions", "After The First Point"), 
+                                    translate("QuickOptions", "After The Last Point")]]
         self.valuesOfOptionsKeys = [Universals.validSentenceStructureKeys,
                                     Universals.fileExtesionIsKeys]
         self.createActions()
@@ -1626,7 +1714,7 @@ class QuickOptions(MMenu):
                 MObject.connect(self.values[x], SIGNAL("currentIndexChanged(int)"), self.valueChanged)
             elif self.typesOfValues[x]=="Yes/No":
                 self.values.append(MComboBox())
-                self.values[x].addItems([translate("Options", "No"),translate("Options", "Yes")])
+                self.values[x].addItems([translate("QuickOptions", "No"),translate("QuickOptions", "Yes")])
                 if Universals.getBoolValue(keyValue):
                     self.values[x].setCurrentIndex(1)
                 MObject.connect(self.values[x], SIGNAL("currentIndexChanged(int)"), self.valueChanged)
