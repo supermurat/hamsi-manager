@@ -8,7 +8,7 @@ from Details import CoverDetails
 import Dialogs
                 
 class CoverTable():
-    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable
+    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable, _getFromAmarok
     def __init__(self,_table):
         _table.specialTollsBookmarkPointer = "cover"
         _table.hiddenTableColumnsSettingKey = "hiddenCoverTableColumns"
@@ -20,8 +20,11 @@ class CoverTable():
         _table.subShowDetails = _subShowDetails
         _table.correctSubTable = _correctSubTable
         _table.fileDetails = Covers.currentFilesAndFoldersValues
+        _table.getFromAmarok = _getFromAmarok
         self=_table
         _refreshSubTableColumns(self)
+        pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
+        MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
         hbox1 = MHBoxLayout()
         hbox1.addWidget(self.actRefresh)
         hbox1.addWidget(self.tbGoBack)
@@ -31,6 +34,7 @@ class CoverTable():
         hbox1.addWidget(self.isOpenDetailsOnNewWindow)
         hbox1.addWidget(self.tbCorrect)
         hbox1.addWidget(self.pbtnShowDetails, 1)
+        hbox1.addWidget(pbtnGetFromAmarok, 1)
         hbox1.addWidget(self.pbtnSave, 2)
         self.hblBox.addLayout(hbox1)
         
@@ -105,6 +109,7 @@ class CoverTable():
                     newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "file")
                 self.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
         
-        
+    def _getFromAmarok():
+        Dialogs.showError("fgggggg")
         
         
