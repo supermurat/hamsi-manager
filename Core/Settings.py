@@ -73,7 +73,9 @@ class Settings():
                   "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReconfigureWizard", 
                   "isAskIfHasManyImagesInAlbumDirectory", "isDeleteOtherImages", 
                   "CoversSubDirectoryDeep", 
-                  "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB", "amarokIsUseHost"
+                  "amarokDBHost", "amarokDBPort", "amarokDBUser", 
+                  "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
+                  "iconNameFormat", "iconFileType"
                   ]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
@@ -340,7 +342,9 @@ class Settings():
                 "amarokDBUser": "amarokuser", 
                 "amarokDBPass": "amarokpassword", 
                 "amarokDBDB": "amarokdb", 
-                "amarokIsUseHost": "False"
+                "amarokIsUseHost": "False", 
+                "iconNameFormat": "%Album%", 
+                "iconFileType": "png"
                 }
                 
     def getValueTypesAndValues():
@@ -451,7 +455,9 @@ class Settings():
                 "amarokDBUser": "str", 
                 "amarokDBPass": "str", 
                 "amarokDBDB": "str", 
-                "amarokIsUseHost": "bool"
+                "amarokIsUseHost": "bool", 
+                "iconNameFormat": "str", 
+                "iconFileType": ["options", ["png", "jpg"]]
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):

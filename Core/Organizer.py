@@ -7,9 +7,7 @@ import Universals
 class Organizer:
     """Music tags, filenames, Turkish characters etc. will be arranged through this class
     """
-    global applySpecialCommand, showWithIncorrectChars, emend, whatDoesSpecialCommandDo,searchAndReplaceTable
-    global fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable
-    global searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink
+    global applySpecialCommand, showWithIncorrectChars, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName
     
     def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
         _inputString = str(_inputString)
@@ -110,6 +108,14 @@ class Organizer:
     def getLink(_stringPath):
         _stringPath = str(_stringPath)
         return "<a href=\"file://%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
+    
+    def getIconName(_artist, _album, _year, _genre):
+        iconName = Universals.MySettings["iconNameFormat"]
+        iconName = iconName.replace(Universals.iconNameFormatKeys[0], _artist)
+        iconName = iconName.replace(Universals.iconNameFormatKeys[1], _album)
+        iconName = iconName.replace(Universals.iconNameFormatKeys[2], _year)
+        iconName = iconName.replace(Universals.iconNameFormatKeys[3], _genre)
+        return iconName + "." + Universals.MySettings["iconFileType"]
 
     def searchAndReplaceFromSearchAndReplaceTable(_oldString):
         newString = _oldString

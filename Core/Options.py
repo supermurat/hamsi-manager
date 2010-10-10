@@ -1104,33 +1104,40 @@ class Cover(MWidget):
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["priorityIconNames", "isChangeExistIcon", "isAskIfHasManyImagesInAlbumDirectory", 
                             "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", 
-                            "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove"]
-        self.tabsOfSettings = [None, None, None,
-                                None, None, 
-                                None, None]
-        self.tabNames = []
+                            "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove", 
+                            "iconNameFormat"#FIXME: add special string auto changer with translation function
+                            , "iconFileType"]
+        self.tabsOfSettings = [0, 0, 0, 0, 0, 0, 0, 
+                               1, 1]
+        self.tabNames = [translate("Options/Cover", "General"), 
+                         translate("Options/Cover", "For Amarok")]
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
-        self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/Cover", "Priority Icon Names"), 
                     translate("Options/Cover", "Change Directory Icon If Is Already Exist"), 
                     translate("Options/Cover", "Ask Me If Has Many Images"), 
                     translate("Options/Cover", "Change Directory Icon (Table Saved)"), 
                     translate("Options/Cover", "Change Directory Icon (Moved Or Changed)"), 
                     translate("Options/Cover", "Change Directory Icon (Copied Or Changed)"), 
-                    translate("Options/Cover", "Change Directory Icon (Moved File)")]
+                    translate("Options/Cover", "Change Directory Icon (Moved File)"), 
+                    translate("Options/Cover", "Icon Name Format"), 
+                    translate("Options/Cover", "Icon Type")]
         self.toolTips = [translate("Options/Cover", "The file names you selected will be folder icons first.<br>If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.<br><font color=blue>Example: cover; icon...</font>"), 
                     translate("Options/Cover", "Are you want to change directory icon if is already exist?"), 
                     translate("Options/Cover", "Ask me if has many images in the directory.<br>Note: If you select \"No\" the first image will be chosen."), 
                     translate("Options/Cover", "Do you want to change directory icon when table saved?"), 
                     translate("Options/Cover", "Do you want to change directory icon when directory moved or changed?"), 
                     translate("Options/Cover", "Do you want to change directory icon when directory copied or changed?"), 
-                    translate("Options/Cover", "Do you want to change directory icon when file moved?")]
-        self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
-        self.valuesOfOptions = []
+                    translate("Options/Cover", "Do you want to change directory icon when file moved?"), 
+                    translate("Options/Cover", "You can set icon name format."), 
+                    translate("Options/Cover", "You can select file type of icon.")]
+        self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
+                            "string", ["options", 0]]
+        self.valuesOfOptions = [["png", "jpg"]]
+        self.valuesOfOptionsKeys = [["png", "jpg"]]
         createOptions(self) 
  
 
