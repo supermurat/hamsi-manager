@@ -1392,9 +1392,8 @@ class Amarok(MWidget):
     def testAmarokMysql(self):
         try:
             import Amarok
-            objAmarok = Amarok.Amarok()
             self.saveSettingsForTest()
-            amarokDb = objAmarok.checkAndGetDB(False)
+            amarokDb = Amarok.checkAndGetDB(False)
             if amarokDb!=None:
                 answer = Dialogs.ask(translate("Options/Amarok", "Are You Want To Save"), 
                                              translate("Options/Amarok", "Are you want to save this Amarok settings?"))

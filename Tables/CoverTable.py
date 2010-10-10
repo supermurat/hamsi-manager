@@ -6,6 +6,7 @@ from InputOutputs import Covers
 from MyObjects import *
 from Details import CoverDetails
 import Dialogs
+import Amarok
                 
 class CoverTable():
     global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable, _getFromAmarok
@@ -23,8 +24,6 @@ class CoverTable():
         _table.getFromAmarok = _getFromAmarok
         self=_table
         _refreshSubTableColumns(self)
-        pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
-        MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
         hbox1 = MHBoxLayout()
         hbox1.addWidget(self.actRefresh)
         hbox1.addWidget(self.tbGoBack)
@@ -34,7 +33,10 @@ class CoverTable():
         hbox1.addWidget(self.isOpenDetailsOnNewWindow)
         hbox1.addWidget(self.tbCorrect)
         hbox1.addWidget(self.pbtnShowDetails, 1)
-        hbox1.addWidget(pbtnGetFromAmarok, 1)
+        if Amarok.checkAmarok():
+            pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
+            MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
+            hbox1.addWidget(pbtnGetFromAmarok, 1)
         hbox1.addWidget(self.pbtnSave, 2)
         self.hblBox.addLayout(hbox1)
         
@@ -110,6 +112,15 @@ class CoverTable():
                 self.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
         
     def _getFromAmarok():
-        Dialogs.showError("fgggggg")
+        table = Universals.MainWindow.Table
+        directoriesAndValues = Amarok.getDirectoriesAndValues()
+        for rowNo in range(table.rowCount()):
+            #FIXME:Fix bottom line
+            if table.isColumnHidden(1)!=True and table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+                directoryPath = str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(table.item(rowNo,1).text()).encode("utf-8")
+                if directoryPath in directoriesAndValues:
+                    directoryAndValues = directoriesAndValues[directoryPath]
+                    table.item(rowNo,3).setText(directoryAndValues["coverPath"][0])
+                    table.item(rowNo,4).setText(directoryAndValues["coverPath"][0])
         
         
