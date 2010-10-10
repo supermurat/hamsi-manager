@@ -5,7 +5,7 @@ from os import path
 from datetime import timedelta, datetime
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatKeys, iconNameFormatLabels
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -38,6 +38,8 @@ class Universals():
     tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "cover.png"]
     tableTypesNames = ["", "", "", "", ""]
     tableType = None
+    iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
+    iconNameFormatLabels = iconNameFormatKeys
     if executableHamsiManagerPath.find("HamsiManager")==-1 or executableHamsiManagerPath.find("./HamsiManager")!=-1:
         executableHamsiManagerPath = HamsiManagerDirectory + "/HamsiManager.py"
     
@@ -162,13 +164,17 @@ class Universals():
         return tt
         
     def fillUIUniversals():
-        global tableTypesNames, tableType
+        global tableTypesNames, tableType, iconNameFormatLabels
         from MyObjects import translate
         tableTypesNames = [translate("Tables", "Folder Table"), 
                             translate("Tables", "File Table"), 
                             translate("Tables", "Music Table"), 
                             translate("Tables", "Subfolder Table"), 
                             translate("Tables", "Cover Table")]
+        iconNameFormatLabels = [translate("Universals", "%Artist%"), 
+                            translate("Universals", "%Album%"), 
+                            translate("Universals", "%Year%"), 
+                            translate("Universals", "%Genre%")]
             
     def clearAllChilds(_object):
         from MyObjects import MWidget
