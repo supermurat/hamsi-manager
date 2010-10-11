@@ -152,8 +152,9 @@ class ReportBug(MDialog):
             except:
                 errorDetails += "<br>"
             for keyName in Universals.MySettings:
-                errorDetails += "<b>" + str(keyName) + " : " + "</b>"
-                errorDetails += str(Universals.MySettings[keyName]) + "<br>"
+                if Settings.willNotReportSettings.count(keyName)==0:
+                    errorDetails += "<b>" + str(keyName) + " : " + "</b>"
+                    errorDetails += str(Universals.MySettings[keyName]) + "<br>"
         except:pass
         try:
             import Tables
