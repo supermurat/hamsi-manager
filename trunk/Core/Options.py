@@ -1130,8 +1130,7 @@ class Cover(MWidget):
         self.keysOfSettings = ["priorityIconNames", "isChangeExistIcon", "isAskIfHasManyImagesInAlbumDirectory", 
                             "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", 
                             "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove", 
-                            "iconNameFormat"#FIXME: add special string auto changer with translation function
-                            , "iconFileType"]
+                            "iconNameFormat", "iconFileType"]
         self.tabsOfSettings = [0, 0, 0, 0, 0, 0, 0, 
                                1, 1]
         self.tabNames = [translate("Options/Cover", "General"), 

@@ -30,7 +30,7 @@ import InputOutputs
 import RoutineChecks
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize, getUniversalSetting, setUniversalSetting
+    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize, getUniversalSetting, setUniversalSetting, willNotReportSettings
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
@@ -77,6 +77,7 @@ class Settings():
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
                   "iconNameFormat", "iconFileType"
                   ]
+    willNotReportSettings = ["amarokDBPass"]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
     recordFilePath = pathOfSettingsDirectory + "logs.txt"
