@@ -14,7 +14,8 @@ from MyObjects import *
 import ReportBug
 
 class Tables(MTableWidget):
-    global refreshTable, refreshShowedAndHiddenColumns, clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, refreshForTableColumns, exportTableValues
+    global refreshTable, refreshShowedAndHiddenColumns, clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, refreshForTableColumns, exportTableValues, askHiddenColumn
+    isAskShowHiddenColumn = True
     def __init__(self, _parent):
         global refreshTable,layouts,widgets, table
         MTableWidget.__init__(self, _parent)
@@ -316,7 +317,8 @@ class Tables(MTableWidget):
         refreshShowedAndHiddenColumns()
         
     def refreshTable(_path = ""):
-        global isShowChanges
+        global isShowChanges, isAskShowHiddenColumn
+        isAskShowHiddenColumn = True
         if InputOutputs.isDir(_path)==False:
             _path = InputOutputs.currentDirectoryPath
         isShowChanges=False
@@ -412,26 +414,34 @@ class Tables(MTableWidget):
                 return False
         return True
 
-    def checkHiddenColumn(_column,_columnNo,_isYesToAll=True):
+    def askHiddenColumn(_columnNo, _isYesToAll=True):
         global isChangeHiddenColumn,isAskShowHiddenColumn
-        if _isYesToAll==True:
-            answer = Dialogs.askSpecial(translate("Tables", "Hidden Field"), 
-                            str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (_column), 
-                            translate("Tables", "Yes"), 
-                            translate("Tables", "No"), 
-                            translate("Tables", "Yes To All"))  
-        else:
-            answer = Dialogs.ask(translate("Tables", "Hidden Field"), 
-                            str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (_column))   
-        if answer==Dialogs.No or answer==translate("Tables", "No"):
-            isChangeHiddenColumn=False
-            Dialogs.showError(translate("Tables", "Action Cancelled"), 
-                            translate("Tables", "You have cancelled the action.<br>You can make the necessary changes and reperform the action."))
-            return False
-        elif answer==translate("Tables", "Yes To All"):
-            isAskShowHiddenColumn=False
+        if _isYesToAll==False:
+            isAskShowHiddenColumn = True
+        if isAskShowHiddenColumn:
+            if _isYesToAll==True:
+                answer = Dialogs.askSpecial(translate("Tables", "Hidden Field"), 
+                                str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (table.tableColumns[_columnNo]), 
+                                translate("Tables", "Yes"), 
+                                translate("Tables", "No"), 
+                                translate("Tables", "Yes To All"))  
+            else:
+                answer = Dialogs.ask(translate("Tables", "Hidden Field"), 
+                                str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (table.tableColumns[_columnNo]))   
+            if answer==Dialogs.No or answer==translate("Tables", "No"):
+                isChangeHiddenColumn=False
+                Dialogs.showError(translate("Tables", "Action Cancelled"), 
+                                translate("Tables", "You have cancelled the action.<br>You can make the necessary changes and reperform the action."))
+                return False
+            elif answer==translate("Tables", "Yes To All"):
+                isAskShowHiddenColumn=False
         table.mContextMenuColumnsActions[_columnNo].setChecked(True)
         refreshShowedAndHiddenColumns()
+        return True
+    
+    def checkHiddenColumn(_columnNo, _isYesToAll=True):
+        if table.isColumnHidden(_columnNo)==True:
+            return askHiddenColumn(_columnNo, _isYesToAll)
         return True
         
     def exportTableValues(_actionType="return",_formatType="html", _extInfo="no"):

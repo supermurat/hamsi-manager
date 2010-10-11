@@ -140,9 +140,8 @@ class Organizer:
             columnName=columnName.strip()
             for no,column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
                 if columnName==column:
-                    if Universals.MainWindow.Table.isColumnHidden(no)==True and Tables.isAskShowHiddenColumn==True:
-                        if Tables.checkHiddenColumn(columnName,no)==False:
-                            return False
+                    if Tables.checkHiddenColumn(no)==False:
+                        return False
                     changingColumns.append(no)
         if len(changingColumns)==0:
             return False
@@ -150,9 +149,8 @@ class Organizer:
             columnName=columnName.strip()
             for no,column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
                 if columnName==column:
-                    if Universals.MainWindow.Table.isColumnHidden(no)==True and Tables.isAskShowHiddenColumn==True:
-                        if Tables.checkHiddenColumn(columnName,no)==False:
-                            return False
+                    if Tables.checkHiddenColumn(no)==False:
+                        return False
                     changerColumns.append(no)
         if len(changerColumns)==0:
             return False
@@ -358,9 +356,8 @@ class Organizer:
             if str(_columnName) == str(columnName):
                 columnNo=No
                 break
-        if Universals.MainWindow.Table.isColumnHidden(columnNo)==True:
-            if Tables.checkHiddenColumn(_columnName,columnNo,False)==False:
-                return False
+        if Tables.checkHiddenColumn(columnNo,False)==False:
+            return False
         if Tables.isChangeHiddenColumn==True:
             if _SpecialTools.fill.cbFillType.currentIndex()==1:
                 _newString = int(_SpecialTools.fill.spStartDigit.value())-1
@@ -408,9 +405,8 @@ class Organizer:
         else:
             startedRowNo,rowStep=0,1
         for columnNo in columns:
-            if Universals.MainWindow.Table.isColumnHidden(columnNo)==True:
-                if Tables.checkHiddenColumn(Universals.MainWindow.Table.tableColumns[columnNo],columnNo,False)==False:
-                    continue
+            if Tables.checkHiddenColumn(columnNo,False)==False:
+                continue
             for rowNo in range(startedRowNo,Universals.MainWindow.Table.rowCount(),rowStep):
                 if Universals.MainWindow.Table.item(rowNo,columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(), "utf-8")
@@ -531,9 +527,8 @@ class Organizer:
         else:
             startedRowNo,rowStep=0,1
         for columnNo in columns:
-            if Universals.MainWindow.Table.isColumnHidden(columnNo)==True:
-                if Tables.checkHiddenColumn(Universals.MainWindow.Table.tableColumns[columnNo],columnNo,False)==False:
-                    continue
+            if Tables.checkHiddenColumn(columnNo,False)==False:
+                continue
             for rowNo in range(startedRowNo,Universals.MainWindow.Table.rowCount(),rowStep):
                 if Universals.MainWindow.Table.item(rowNo,columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(), "utf-8")

@@ -7,6 +7,7 @@ from MyObjects import *
 from Details import CoverDetails
 import Dialogs
 import Amarok
+import Tables
                 
 class CoverTable():
     global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable, _getFromAmarok
@@ -115,16 +116,16 @@ class CoverTable():
         table = Universals.MainWindow.Table
         directoriesAndValues = Amarok.getDirectoriesAndValues()
         for rowNo in range(table.rowCount()):
-            #FIXME:Fix bottom line
-            if table.isColumnHidden(1)!=True and table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-                directoryPath = str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(table.item(rowNo,1).text()).encode("utf-8")
-                if directoryPath in directoriesAndValues:
-                    directoryAndValues = directoriesAndValues[directoryPath]
-                    table.item(rowNo,3).setText(directoryAndValues["coverPath"][0].replace(directoryPath, "."))
-                    table.item(rowNo,4).setText("./" + Organizer.getIconName(
-                                            directoryAndValues["Artist"][0], 
-                                            directoryAndValues["Album"][0], 
-                                            directoryAndValues["Genre"][0], 
-                                            directoryAndValues["Year"][0]))
+            if Tables.checkHiddenColumn(3) and Tables.checkHiddenColumn(4):
+                if table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+                    directoryPath = str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(table.item(rowNo,1).text()).encode("utf-8")
+                    if directoryPath in directoriesAndValues:
+                        directoryAndValues = directoriesAndValues[directoryPath]
+                        table.item(rowNo,3).setText(directoryAndValues["coverPath"][0].replace(directoryPath, "."))
+                        table.item(rowNo,4).setText("./" + Organizer.getIconName(
+                                                directoryAndValues["Artist"][0], 
+                                                directoryAndValues["Album"][0], 
+                                                directoryAndValues["Genre"][0], 
+                                                directoryAndValues["Year"][0]))
         
         
