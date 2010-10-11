@@ -289,6 +289,11 @@ class Options(MDialog):
                     value += ";"
                 value += unicode(info, "utf-8")
             self.categories[categoryNo].values[keyNo].setText(value.decode("utf-8"))
+        elif typeOfValue=="trString":
+            value = self.defaultValues[keyValue]
+            for y, info in enumerate(self.categories[categoryNo].stringSearchList[self.categories[categoryNo].typesOfValues[keyNo][1]]):
+                value = value.replace(str(info), str(self.categories[categoryNo].stringReplaceList[self.categories[categoryNo].typesOfValues[keyNo][1]][y]))
+            self.categories[categoryNo].values[keyNo].setText(value.decode("utf-8"))
         elif typeOfValue=="options":
             self.categories[categoryNo].values[keyNo].setCurrentIndex(self.categories[categoryNo].valuesOfOptionsKeys[self.categories[categoryNo].typesOfValues[keyNo][1]].index(self.defaultValues[keyValue]))
         elif typeOfValue=="number":
@@ -314,6 +319,11 @@ class Options(MDialog):
                 if y!=0:
                     toolTips += ";"
                 toolTips += str(info)
+        elif _typeOfValue=="trString":
+            value = self.defaultValues[_keyValue]
+            for y, info in enumerate(_category.stringSearchList[_category.typesOfValues[x][1]]):
+                value = value.replace(str(info), str(_category.stringReplaceList[_category.typesOfValues[x][1]][y]))
+            toolTips += value
         elif _typeOfValue=="options":
             toolTips += str(_category.valuesOfOptions[_category.typesOfValues[x][1]][_category.valuesOfOptionsKeys[_category.typesOfValues[x][1]].index(self.defaultValues[_keyValue])])
         elif _typeOfValue=="number":
@@ -362,6 +372,10 @@ class Options(MDialog):
                                     value += "','"
                                 value += bilgi
                             value+="']"
+                        elif category.typesOfValues[x][0]=="trString":
+                            value = unicode(category.values[x].text(),"utf-8")
+                            for y, info in enumerate(category.stringReplaceList[category.typesOfValues[x][1]]):
+                                value = value.replace(str(info), str(category.stringSearchList[category.typesOfValues[x][1]][y]))
                         elif category.typesOfValues[x][0]=="options":
                             value = category.valuesOfOptionsKeys[category.typesOfValues[x][1]][category.values[x].currentIndex()]
                         elif category.typesOfValues[x][0]=="number":
@@ -434,6 +448,10 @@ class Options(MDialog):
                             value += "','"
                         value += bilgi
                     value+="']"
+                elif _category.typesOfValues[x][0]=="trString":
+                    value = unicode(_category.values[x].text(),"utf-8")
+                    for y, info in enumerate(_category.stringReplaceList[_category.typesOfValues[x][1]]):
+                        value = value.replace(str(info), str(_category.stringSearchList[_category.typesOfValues[x][1]][y]))
                 elif _category.typesOfValues[x][0]=="options":
                     value = _category.valuesOfOptionsKeys[_category.typesOfValues[x][1]][_category.values[x].currentIndex()]
                 elif _category.typesOfValues[x][0]=="number":
@@ -510,6 +528,13 @@ class Options(MDialog):
                         if y!=0:
                             value += ";"
                         value += unicode(info, "utf-8")
+                    _category.values[x].setText(value.decode("utf-8"))
+                elif _category.typesOfValues[x][0]=="trString":
+                    typeOfValue = "trString"
+                    _category.values.append(MLineEdit())
+                    value = Universals.MySettings[keyValue]
+                    for y, info in enumerate(_category.stringSearchList[_category.typesOfValues[x][1]]):
+                        value = value.replace(str(info), str(_category.stringReplaceList[_category.typesOfValues[x][1]][y]))
                     _category.values[x].setText(value.decode("utf-8"))
                 elif _category.typesOfValues[x][0]=="options":
                     typeOfValue = "options"
@@ -1135,9 +1160,11 @@ class Cover(MWidget):
                     translate("Options/Cover", "You can set icon name format."), 
                     translate("Options/Cover", "You can select file type of icon.")]
         self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
-                            "string", ["options", 0]]
+                            ["trString", 0], ["options", 0]]
         self.valuesOfOptions = [["png", "jpg"]]
         self.valuesOfOptionsKeys = [["png", "jpg"]]
+        self.stringSearchList = [Universals.iconNameFormatKeys]
+        self.stringReplaceList = [Universals.iconNameFormatLabels]
         createOptions(self) 
  
 
