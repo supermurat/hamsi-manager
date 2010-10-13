@@ -17,18 +17,18 @@ class Options(MDialog):
         self.focusToCategory = None
         self.markedKeys = _markedKeys
         self.defaultValues = Settings.getDefaultValues()
+        self.checkVisibility(self.showType)
         if self.showType=="Normal":
             self.tboxCategories = MToolBox()
             pnlCategories = MHBoxLayout()
             pnlCategories.addWidget(self.tboxCategories, 1)
-            self.setMinimumWidth(620)
-            self.setMinimumHeight(420)
+            self.setMinimumWidth(700)
+            self.setMinimumHeight(450)
             self.show()
         elif len(self.categories)>1:
             pnlCategories = MTabWidget()
         else:
             pnlCategories = MVBoxLayout()
-        self.checkVisibility(self.showType)
         for x, category in enumerate(self.categories):
             category.categoryNo = x
             if self.showType=="Normal":
@@ -36,7 +36,7 @@ class Options(MDialog):
                 self.tboxCategories.addItem(wCategory, category.titleOfCategory)
                 lblLabelOfCategory = MLabel(category.labelOfCategory, wCategory)
                 lblLabelOfCategory.setWordWrap(True)
-                lblLabelOfCategory.setFixedWidth(175)
+                lblLabelOfCategory.setFixedWidth(195)
                 pnlCategories.addWidget(category, 20)
                 if x!=0:
                     category.setVisible(False)
@@ -69,14 +69,14 @@ class Options(MDialog):
                 MObject.connect(pbtnCancel, SIGNAL("clicked()"), self.close)
                 hblButtons.addWidget(pbtnSave, 1)
                 hblButtons.addWidget(pbtnCancel, 1)
-                self.tboxCategories.setFixedWidth(180)
+                self.tboxCategories.setFixedWidth(200)
                 vblMain.addLayout(pnlCategories)
             elif len(self.categories)>1:
-                self.setMinimumWidth(440)
+                self.setMinimumWidth(470)
                 pbtnApply.setMinimumWidth(150)
                 vblMain.addWidget(pnlCategories)
             else:
-                self.setMinimumWidth(440)
+                self.setMinimumWidth(470)
                 pbtnApply.setMinimumWidth(150)
                 vblMain.addLayout(pnlCategories)
             vblMain.addLayout(hblButtons)

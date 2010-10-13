@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-10-11, 01:01:08 -->
+<!-- Saved: 2010-10-12, 22:07:42 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -100,6 +100,7 @@
     <Source>MyPlugins/Konqueror_Plugin/__init__.py</Source>
     <Source>Amarok/__init__.py</Source>
     <Source>test.py</Source>
+    <Source>Amarok/Commands.py</Source>
   </Sources>
   <Forms>
   </Forms>
