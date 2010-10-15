@@ -70,7 +70,9 @@ class MenuBar(MMenuBar):
             self.mFile.addMenu(mRunAsRoot)
         self.mFile.addAction(translate("MenuBar", "Quit")).setObjectName(translate("MenuBar", "Quit"))
         self.mEdit.addMenu(mExport)
-        self.mSettings.addAction(translate("MenuBar", "Options")).setObjectName(translate("MenuBar", "Options"))
+        actOptions = self.mSettings.addAction(translate("MenuBar", "Options"))
+        actOptions.setObjectName(translate("MenuBar", "Options"))
+        actOptions.setIcon(MIcon("Images:options.png"))
         self.mSettings.addAction(translate("MenuBar", "My Plug-ins")).setObjectName(translate("MenuBar", "My Plug-ins"))
         self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
         self.mSettings.addAction(translate("MenuBar", "My Plug-ins (System)")).setObjectName(translate("MenuBar", "My Plug-ins (System)"))
@@ -284,6 +286,9 @@ class Bars():
                         Universals.MainWindow.setEnabled(True)
                         Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
                             str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
+                elif actionName==translate("ToolsBar", "Amarok Embedded Database Configurator"):
+                    import Amarok
+                    Amarok.AmarokEmbeddedDBConfigurator()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
@@ -507,11 +512,18 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Run Command"),self)
         self.actRunCommand.setObjectName(translate("ToolsBar", "Run Command"))
         self.actRunCommand.setToolTip(translate("ToolsBar", "You can coding some things."))
+        if Universals.getBoolValue("amarokIsUseHost")==False:
+            self.actAmarokEmbeddedDBConfigurator = MAction(MIcon("Images:amarokEmbeddedDBConfigurator.png"),
+                                                    translate("ToolsBar", "Amarok Embedded Database Configurator"),self)
+            self.actAmarokEmbeddedDBConfigurator.setObjectName(translate("ToolsBar", "Amarok Embedded Database Configurator"))
+            self.actAmarokEmbeddedDBConfigurator.setToolTip(translate("ToolsBar", "Packs the current folder."))
         self.addAction(self.actHash)
         self.addAction(self.actPack)
         self.addAction(self.actFileTree)
         self.addAction(self.actClear)
         self.addAction(self.actRunCommand)
+        if Universals.getBoolValue("amarokIsUseHost")==False:
+            self.addAction(self.actAmarokEmbeddedDBConfigurator)
         self.addSeparator()
         self.addAction(self.clearEmptyDirectories)
         self.addAction(self.actRemoveOnlySubFiles)
@@ -527,6 +539,8 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actFileTree)
         Universals.MainWindow.Menu.mTools.addAction(self.actClear)
         Universals.MainWindow.Menu.mTools.addAction(self.actRunCommand)
+        if Universals.getBoolValue("amarokIsUseHost")==False:
+            Universals.MainWindow.Menu.mTools.addAction(self.actAmarokEmbeddedDBConfigurator)
         Universals.MainWindow.Menu.mTools.addSeparator()
         Universals.MainWindow.Menu.mTools.addAction(self.clearEmptyDirectories)
         Universals.MainWindow.Menu.mTools.addAction(self.actRemoveOnlySubFiles)

@@ -62,7 +62,7 @@ def getSettingsFromOldNameAndSettings():
                                        Universals.userDirectoryPath + "/.HamsiApps/HamsiManager/BackUps")
         if InputOutputs.isFile(Universals.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc"):
             InputOutputs.moveFileOrDir(Universals.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc", 
-                                       Universals.getKDE4HomePath() + "share/config/HamsiManagerrc")
+                                       Universals.getKDE4HomePath() + "/share/config/HamsiManagerrc")
         for langCode in InputOutputs.getInstalledLanguagesCodes():
             if InputOutputs.isFile(Universals.userDirectoryPath + "/.kde4/share/locale/" + langCode + "/LC_MESSAGES/OrganizasyonizM.mo"):
                 import MyConfigure

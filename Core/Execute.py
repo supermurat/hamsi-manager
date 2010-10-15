@@ -6,7 +6,7 @@ import time
 import Universals
 
 class Execute:
-    global execute, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReconfigure, executeReconfigureAsRoot, open
+    global execute, executeAsThread, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReconfigure, executeReconfigureAsRoot, open
     
     def correctForConsole(_string):
         strString = "\"" + _string + "\""
@@ -20,6 +20,12 @@ class Execute:
         if os.name=="nt":
             _command = "start " + _command
         return os.popen(_command, _rwa)
+    
+    def executeAsThread(_command=""):
+        roar = RunAsThread(_command)
+        roar.start()
+        time.sleep(1)
+        return True
     
     def open(_command, _rwa = "w"):
         if os.name=="nt":
@@ -106,5 +112,13 @@ class RunReconfigureAsRoot(Thread):
     
     def run(self):
         executeWithPythonAsRoot("\"" + Universals.HamsiManagerDirectory + "/Reconfigure.py\" " + self.command)
+        
+class RunAsThread(Thread):
+    def __init__(self, _command):
+        Thread.__init__(self)
+        self.command = _command
+    
+    def run(self):
+        execute(self.command)
         
     

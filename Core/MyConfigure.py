@@ -10,7 +10,7 @@ class MyConfigure:
     global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent
     
     def reConfigureFile(_filePath, _installationDirectory=Universals.HamsiManagerDirectory):
-        fileContent = InputOutputs.readFromFile(_filePath).replace("~InstallationDirectory~", _installationDirectory)
+        fileContent = InputOutputs.readFromFile(_filePath).replace("~InstallationDirectory~", _installationDirectory).replace("~SettingsDirectory~", Settings.pathOfSettingsDirectory)
         InputOutputs.writeToFile(_filePath, fileContent)
             
     def installKDE4Languages():
@@ -21,7 +21,7 @@ class MyConfigure:
             return True
         return False
             
-    def installKDE4Language(_language="tr_TR", _KDELocalateDir = Universals.getKDE4HomePath() +"share/locale/~langCode~/LC_MESSAGES/"):
+    def installKDE4Language(_language="tr_TR", _KDELocalateDir = Universals.getKDE4HomePath() +"/share/locale/~langCode~/LC_MESSAGES/"):
         import Execute
         if Execute.isRunningAsRoot():
             _KDELocalateDir = "/usr/share/locale/~langCode~/LC_MESSAGES/"
@@ -62,7 +62,7 @@ class MyConfigure:
             "X-KDE-Username=\n")
         
     def getConfiguredDesktopFileContent(_installationDirectory=Universals.HamsiManagerDirectory):
-        return getDesktopFileContent().replace("~InstallationDirectory~", _installationDirectory)
+        return getDesktopFileContent().replace("~InstallationDirectory~", _installationDirectory).replace("~SettingsDirectory~", Settings.pathOfSettingsDirectory)
 
         
         

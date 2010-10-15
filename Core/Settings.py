@@ -79,24 +79,24 @@ class Settings():
                   ]
     willNotReportSettings = ["amarokDBPass"]
     fileOfSettings = "mySettings.ini"
-    pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager/"
-    recordFilePath = pathOfSettingsDirectory + "logs.txt"
+    pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager"
+    recordFilePath = pathOfSettingsDirectory + "/logs.txt"
     
     def setPathOfSettingsDirectory(_path):
         global pathOfSettingsDirectory
         _path = str(_path)
-        if _path[-1]!="/":
-            _path = _path + "/"
+        if _path[-1]=="/":
+            _path = _path[:-1]
         pathOfSettingsDirectory = _path
     
     def setting():
-        return QSettings((pathOfSettingsDirectory + fileOfSettings).decode("utf-8") ,QSettings.IniFormat)
+        return QSettings((pathOfSettingsDirectory + "/" + fileOfSettings).decode("utf-8") ,QSettings.IniFormat)
     
     def universalSetting():
         return QSettings((Universals.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini").decode("utf-8") ,QSettings.IniFormat)
           
     def bookmarksOfDirectories(_action="read", _value0="", _value1="", _value2="", _value3=""):
-        con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+        con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
         cur = con.cursor()
         if _action=="read":
             try:
@@ -122,7 +122,7 @@ class Settings():
         con.commit()
         
     def bookmarksOfSpecialTools(_action="read", _value0="", _value1="", _value2="", _value3=""):
-        con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+        con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
         cur = con.cursor()
         import Organizer
         requirement = Universals.MainWindow.Table.specialTollsBookmarkPointer
@@ -155,7 +155,7 @@ class Settings():
         con.commit()
         
     def searchAndReplaceTable(_action="read", _value0="", _value1="", _value2="", _value3="", _value4="", _value5=""):
-        con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+        con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
         cur = con.cursor()
         if _action=="read":
             try:
@@ -178,23 +178,23 @@ class Settings():
         con.commit()
     
     def checkSettings():
-        if os.path.isdir(os.path.dirname(pathOfSettingsDirectory[:-1]))==False:
-            os.mkdir(os.path.dirname(pathOfSettingsDirectory[:-1]))
-        if os.path.isdir(pathOfSettingsDirectory[:-1])==False:
-            os.mkdir(pathOfSettingsDirectory[:-1])
-            os.mkdir(pathOfSettingsDirectory + "SettingFiles")
-            os.mkdir(pathOfSettingsDirectory + "BackUps")
+        if os.path.isdir(os.path.dirname(pathOfSettingsDirectory))==False:
+            os.mkdir(os.path.dirname(pathOfSettingsDirectory))
+        if os.path.isdir(pathOfSettingsDirectory)==False:
+            os.mkdir(pathOfSettingsDirectory)
+            os.mkdir(pathOfSettingsDirectory + "/SettingFiles")
+            os.mkdir(pathOfSettingsDirectory + "/BackUps")
             reFillSettings()
             reFillDatabases("All")
             reFillCodesOfUser()
         else:
-            if os.path.isfile(pathOfSettingsDirectory + "bookmarks.sqlite")==False:
+            if os.path.isfile(pathOfSettingsDirectory + "/bookmarks.sqlite")==False:
                 reFillDatabases("bookmarks")
-            if os.path.isfile(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")==False:
+            if os.path.isfile(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")==False:
                 reFillDatabases("searchAndReplaceTable")
-            if os.path.isfile(pathOfSettingsDirectory + "codesOfUser.py")==False:
+            if os.path.isfile(pathOfSettingsDirectory + "/codesOfUser.py")==False:
                 reFillCodesOfUser()
-            if os.path.isfile(pathOfSettingsDirectory + fileOfSettings)==False:
+            if os.path.isfile(pathOfSettingsDirectory + "/" + fileOfSettings)==False:
                 reFillSettings()
         
     def saveUniversalSettings():
@@ -221,7 +221,7 @@ class Settings():
             isMakeBackUp("Settings")
         elif _makeBackUp==True:
             makeBackUp("Settings")
-        mySetting = QSettings((pathOfSettingsDirectory + fileOfSettings).decode("utf-8"), QSettings.IniFormat)
+        mySetting = QSettings((pathOfSettingsDirectory + "/" + fileOfSettings).decode("utf-8"), QSettings.IniFormat)
         defaultValues = getDefaultValues()
         for keyValue in keysOfSettings:
             mySetting.setValue(keyValue,QVariant(defaultValues[keyValue].decode("utf-8")))
@@ -573,9 +573,9 @@ class Settings():
                                 "insert into dbProperties (keyName, value) values ('version', '1')"])
             databaseFiles.append("searchAndReplaceTable.sqlite")
         for sqlCommandNo, sqlCommand in enumerate(sqlCommands):
-            try:InputOutputs.removeFile(pathOfSettingsDirectory+databaseFiles[sqlCommandNo])
+            try:InputOutputs.removeFile(pathOfSettingsDirectory + "/" + databaseFiles[sqlCommandNo])
             except:pass
-            con = sqlite.connect(pathOfSettingsDirectory+databaseFiles[sqlCommandNo])
+            con = sqlite.connect(pathOfSettingsDirectory + "/" + databaseFiles[sqlCommandNo])
             for s in sqlCommand:
                 cur = con.cursor()
                 cur.execute(str(s))
@@ -606,7 +606,7 @@ class Settings():
         if _settingType=="Settings" or _settingType=="All":
             files.append(fileOfSettings)
         try:
-            InputOutputs.makeDirs(pathOfSettingsDirectory+_backUpDirectory)
+            InputOutputs.makeDirs(pathOfSettingsDirectory + "/" + _backUpDirectory)
         except:pass
         isReturn = False
         for file in files:
@@ -617,15 +617,15 @@ class Settings():
                 import random
                 while 1==1:
                     newFileName = file[:file.find(".")] +"_"+ str(random.randrange(0, 100000000))+file[file.find("."):]
-                    if InputOutputs.isFile(pathOfSettingsDirectory+_backUpDirectory+"/"+newFileName)==False:
+                    if InputOutputs.isFile(pathOfSettingsDirectory + "/" + _backUpDirectory+"/"+newFileName)==False:
                         break
             else:
                 newFileName = _newFileName
             try:
-                InputOutputs.removeFile(pathOfSettingsDirectory+_backUpDirectory+"/"+newFileName)
+                InputOutputs.removeFile(pathOfSettingsDirectory + "/" + _backUpDirectory+"/"+newFileName)
             except:pass
             try:
-                InputOutputs.copyFileOrDir(pathOfSettingsDirectory+file, pathOfSettingsDirectory+_backUpDirectory+"/"+newFileName)
+                InputOutputs.copyFileOrDir(pathOfSettingsDirectory + "/" + file, pathOfSettingsDirectory + "/" + _backUpDirectory+"/"+newFileName)
                 if isReturn==True:
                     return newFileName
             except:pass
@@ -649,30 +649,30 @@ class Settings():
             files.append(fileOfSettings)
         for file in files:
             if isMake==True:
-                oldInfo = InputOutputs.readFromFile(pathOfSettingsDirectory+file)
+                oldInfo = InputOutputs.readFromFile(pathOfSettingsDirectory + "/" + file)
             else:
                 try:
-                    InputOutputs.removeFile(pathOfSettingsDirectory+file)
+                    InputOutputs.removeFile(pathOfSettingsDirectory + "/" + file)
                 except:pass
             try:
-                if InputOutputs.isFile(pathOfSettingsDirectory + "BackUps/"+file):
-                    InputOutputs.moveFileOrDir(pathOfSettingsDirectory + "BackUps/"+file, pathOfSettingsDirectory+file)
+                if InputOutputs.isFile(pathOfSettingsDirectory + "/BackUps/"+file):
+                    InputOutputs.moveFileOrDir(pathOfSettingsDirectory + "/BackUps/"+file, pathOfSettingsDirectory+file)
                 else:
                     Dialogs.showError("There Is No Back Up", "No back up file found to restore.")
                     return False
             except:pass
             if isMake==True:
-                InputOutputs.writeToFile(pathOfSettingsDirectory + "BackUps/"+file, oldInfo)
+                InputOutputs.writeToFile(pathOfSettingsDirectory + "/BackUps/"+file, oldInfo)
         return True
     
     def codesOfUser(_codes=""):
         if _codes=="":
-            return InputOutputs.readFromFile(pathOfSettingsDirectory + "codesOfUser.py")
+            return InputOutputs.readFromFile(pathOfSettingsDirectory + "/codesOfUser.py")
         else:
-            InputOutputs.writeToFile(pathOfSettingsDirectory + "codesOfUser.py", _codes)
+            InputOutputs.writeToFile(pathOfSettingsDirectory + "/codesOfUser.py", _codes)
             
     def reFillCodesOfUser():
-        f = open(pathOfSettingsDirectory + "codesOfUser.py", "w")
+        f = open(pathOfSettingsDirectory + "/codesOfUser.py", "w")
         f.write("#!/usr/bin/env python\n" +
                             "# -*- coding: utf-8 -*-\n"+
                             "\n"+
@@ -782,7 +782,7 @@ class Settings():
         except:
             oldVersion = 807
         if oldVersion<810:
-            con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
             cur = con.cursor()
             cur.execute(str("ALTER TABLE searchAndReplaceTable RENAME TO tmpSearchAndReplaceTable;"))
             cur.execute(str("CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsRegExp' INTEGER);"))
@@ -790,7 +790,7 @@ class Settings():
             cur.execute(str("DROP TABLE tmpSearchAndReplaceTable;"))
             con.commit()
         if oldVersion<811:
-            con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
             cur = con.cursor()
             cur.execute(str("ALTER TABLE searchAndReplaceTable RENAME TO tmpSearchAndReplaceTable;"))
             cur.execute(str("CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER);"))
@@ -803,36 +803,36 @@ class Settings():
         if oldVersion<819:
             newSettingsKeys = newSettingsKeys + ["isClearEmptyDirectoriesWhenSave", "isClearEmptyDirectoriesWhenMoveOrChange", "isClearEmptyDirectoriesWhenCopyOrChange", "isClearEmptyDirectoriesWhenFileMove", "isAutoCleanSubFolderWhenSave", "isAutoCleanSubFolderWhenMoveOrChange", "isAutoCleanSubFolderWhenCopyOrChange", "isAutoCleanSubFolderWhenFileMove", "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove"]
         if oldVersion<820:
-            if InputOutputs.isFile(pathOfSettingsDirectory+"LastState"):
-                InputOutputs.removeFile(pathOfSettingsDirectory+"LastState")
+            if InputOutputs.isFile(pathOfSettingsDirectory+"/LastState"):
+                InputOutputs.removeFile(pathOfSettingsDirectory+"/LastState")
         if oldVersion<821:
             newSettingsKeys = newSettingsKeys + ["isDeleteEmptyDirectories", "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories"]
         if oldVersion<822:
-            if InputOutputs.isFile(Universals.getKDE4HomePath() + "share/config/HamsiManagerrc"):
-                InputOutputs.removeFile(Universals.getKDE4HomePath() + "share/config/HamsiManagerrc")
+            if InputOutputs.isFile(Universals.getKDE4HomePath() + "/share/config/HamsiManagerrc"):
+                InputOutputs.removeFile(Universals.getKDE4HomePath() + "/share/config/HamsiManagerrc")
         if oldVersion<840:
             try:
-                con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+                con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
                 cur = con.cursor()
                 cur.execute("SELECT * FROM dbProperties where keyName='version'")
                 bookmarksDBVersion = int(cur.fetchall()[0][1])
             except:
                 bookmarksDBVersion = 0
             try:
-                con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+                con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
                 cur = con.cursor()
                 cur.execute("SELECT * FROM dbProperties where keyName='version'")
                 searchAndReplaceTableDBVersion = int(cur.fetchall()[0][1])
             except:
                 searchAndReplaceTableDBVersion = 0
             if bookmarksDBVersion<1:
-                con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+                con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
                 cur = con.cursor()
                 cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
                 cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
                 con.commit()
             if searchAndReplaceTableDBVersion<1:
-                con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+                con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
                 cur = con.cursor()
                 cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
                 cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
@@ -845,7 +845,7 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["isAskIfHasManyImagesInAlbumDirectory"]
             Universals.setMySetting("isShowReconfigureWizard", True)
         if oldVersion<890:
-            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
             cur = con.cursor()
             cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory Name , Directory  ;right;102', 'cover')"))
             cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Source Cover , Current Cover  ;right;102', 'cover')"))
@@ -856,43 +856,43 @@ class Settings():
         
     def checkDatabases():
         try:
-            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
             cur = con.cursor()
             cur.execute("SELECT * FROM bookmarksOfDirectories")
         except:
             reFillDatabases("bookmarksOfDirectories")
         try:
-            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
             cur = con.cursor()
             cur.execute("SELECT * FROM bookmarksOfSpecialTools")
         except:
             reFillDatabases("bookmarksOfSpecialTools")
         try:
-            con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
             cur = con.cursor()
             cur.execute("SELECT * FROM searchAndReplaceTable")
         except:
             reFillDatabases("searchAndReplaceTable")
         try:
-            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
             cur = con.cursor()
             cur.execute("SELECT * FROM dbProperties where keyName='version'")
             bookmarksDBVersion = int(cur.fetchall()[0][1])
         except:
             bookmarksDBVersion = 0
         try:
-            con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
             cur = con.cursor()
             cur.execute("SELECT * FROM dbProperties where keyName='version'")
             searchAndReplaceTableDBVersion = int(cur.fetchall()[0][1])
         except:
             searchAndReplaceTableDBVersion = 0
             try:
-                con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+                con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
                 cur = con.cursor()
                 cur.execute("SELECT id,searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp FROM searchAndReplaceTable")
             except:
-                con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+                con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
                 cur = con.cursor()
                 cur.execute(str("ALTER TABLE searchAndReplaceTable RENAME TO tmpSearchAndReplaceTable;"))
                 cur.execute(str("CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER);"))
@@ -900,13 +900,13 @@ class Settings():
                 cur.execute(str("DROP TABLE tmpSearchAndReplaceTable;"))
                 con.commit()
         if bookmarksDBVersion<1:
-            con = sqlite.connect(pathOfSettingsDirectory + "bookmarks.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
             cur = con.cursor()
             cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
             cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
             con.commit()
         if searchAndReplaceTableDBVersion<1:
-            con = sqlite.connect(pathOfSettingsDirectory + "searchAndReplaceTable.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
             cur = con.cursor()
             cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
             cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
