@@ -144,7 +144,7 @@ def installThisPlugin():
         if Execute.isRunningAsRoot():
             destinationPath = "/usr/share/apps/krusader/"
         else:
-            destinationPath = Universals.getKDE4HomePath() +"share/apps/krusader/"
+            destinationPath = Universals.getKDE4HomePath() +"/share/apps/krusader/"
         try:
             pluginStrings = InputOutputs.readFromFile(destinationPath + "useractions.xml")
         except:

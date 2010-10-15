@@ -91,6 +91,7 @@ class Options(MDialog):
                     if self.focusToCategory==category:
                         self.tboxCategories.setCurrentIndex(x)
             self.show()
+            self.setWindowIcon(MIcon("Images:options.png"))
             
     def checkVisibility(self, _showType):
         if _showType=="Normal":

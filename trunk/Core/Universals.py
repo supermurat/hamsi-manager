@@ -140,13 +140,16 @@ class Universals():
     def getKDE4HomePath():
         try:
             from MyObjects import MStandardDirs
-            return MStandardDirs().localkdedir()
+            kdedirPath = str(MStandardDirs().localkdedir())
+            if kdedirPath[-1]=="/":
+                kdedirPath = kdedirPath[:-1]
+            return kdedirPath
         except:
             import InputOutputs
-            if InputOutputs.isDir(userDirectoryPath + "/.kde4/"):
-                return userDirectoryPath + "/.kde4/"
+            if InputOutputs.isDir(userDirectoryPath + "/.kde4/share/config"):
+                return userDirectoryPath + "/.kde4"
             else:
-                return userDirectoryPath + "/.kde/"
+                return userDirectoryPath + "/.kde"
     
     def getThisTableType(_tableType):
         try:

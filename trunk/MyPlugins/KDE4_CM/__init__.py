@@ -13,7 +13,7 @@ installThisPlugin = None
 if Execute.isRunningAsRoot():
     setupDirectory = "/usr/share/kde4/services/ServiceMenus"
 else:
-    setupDirectory = Universals.getKDE4HomePath() + "share/kde4/services/ServiceMenus"
+    setupDirectory = Universals.getKDE4HomePath() + "/share/kde4/services/ServiceMenus"
 
 def isInstallable():
     return Settings.isAvailablePyKDE4()

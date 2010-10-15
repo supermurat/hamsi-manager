@@ -213,7 +213,7 @@ if RoutineChecks.checkPyQt4Exist():
                                     subFixForStateFile = ""
                                     if Universals.windowMode!=Universals.windowModeKeys[0]:
                                         subFixForStateFile = Universals.windowMode
-                                    InputOutputs.writeToBinaryFile(Settings.pathOfSettingsDirectory + "LastState" + subFixForStateFile, self.saveState())
+                                    InputOutputs.writeToBinaryFile(Settings.pathOfSettingsDirectory + "/LastState" + subFixForStateFile, self.saveState())
                                     Records.restoreRecordType()
                                     geometri = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
                                     Universals.setMySetting("MainWindowGeometries",geometri)
@@ -231,6 +231,9 @@ if RoutineChecks.checkPyQt4Exist():
                                 Universals.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 Universals.saveSettings()
                                 Settings.saveUniversalSettings()
+                                if Universals.getBoolValue("amarokIsUseHost")==False:
+                                    import Amarok
+                                    Amarok.stopEmbeddedDB()
                                 Universals.printForDevelopers("After Save Configs")
                                 RoutineChecks.checkAfterCloseProccess()
                                 Universals.printForDevelopers("After RoutineChecks.checkAfterCloseProccess")
@@ -258,7 +261,7 @@ if RoutineChecks.checkPyQt4Exist():
                             subFixForStateFile = ""
                             if Universals.windowMode!=Universals.windowModeKeys[0]:
                                 subFixForStateFile = Universals.windowMode
-                            state.append(InputOutputs.readFromBinaryFile(Settings.pathOfSettingsDirectory + "LastState" + subFixForStateFile))
+                            state.append(InputOutputs.readFromBinaryFile(Settings.pathOfSettingsDirectory + "/LastState" + subFixForStateFile))
                             MainWindow.restoreState(state)
                             Universals.printForDevelopers("After MainWindow.restoreState")
                         except:pass
