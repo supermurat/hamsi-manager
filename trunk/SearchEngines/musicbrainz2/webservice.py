@@ -26,6 +26,10 @@ from musicbrainz2.model import Artist, Release, Track
 from musicbrainz2.wsxml import MbXmlParser, ParseError
 import musicbrainz2.utils as mbutils
 
+#Added bottom lines for double performance
+isActiveSecondServer = True
+#End of lines for double performance
+
 __all__ = [
 	'WebServiceError', 'AuthenticationError', 'ConnectionError',
 	'RequestError', 'ResourceNotFoundError', 'ResponseError', 
@@ -224,8 +228,17 @@ class WebService(IWebService):
 		path = '/'.join((self._pathPrefix, version, entity, id_))
 
 		query = urllib.urlencode(params)
-
-		url = urlparse.urlunparse(('http', netloc, path, '', query,''))
+		
+		#Added bottom lines for double performance
+		secondServer = ""
+		import random
+		if random.randrange(0, 2)==0:
+				secondServer='www.uk.'
+		if isActiveSecondServer==False:
+				secondServer = ""
+		#End of lines for double performance
+		
+		url = urlparse.urlunparse(('http', secondServer + netloc, path, '', query,''))
 
 		return url
 
