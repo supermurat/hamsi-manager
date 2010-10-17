@@ -5,7 +5,7 @@ from os import path
 from datetime import timedelta, datetime
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatKeys, iconNameFormatLabels
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatKeys, iconNameFormatLabels, checkMysqldSafe
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -212,4 +212,18 @@ class Universals():
         if isDebugMode or isDeveloperMode:
             print str(_message)
         
+    def checkMysqldSafe(_isAskIfNotFound=True):
+        import InputOutputs, Dialogs
+        from MyObjects import translate
+        if InputOutputs.isFile(MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + MySettings["pathOfMysqldSafe"])==False:
+            if _isAskIfNotFound:
+                answer = Dialogs.ask(translate("AmarokEmbeddedDBCore", "\"mysqld_safe\" Not Found"),
+                        translate("AmarokEmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
+                if answer==Dialogs.Yes: 
+                    import Options
+                    Options.Options(MainWindow, _focusTo="pathOfMysqldSafe")
+            else:
+                return False
+        else:
+            return True
         

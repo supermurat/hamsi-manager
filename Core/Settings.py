@@ -75,7 +75,7 @@ class Settings():
                   "CoversSubDirectoryDeep", 
                   "amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
-                  "iconNameFormat", "iconFileType"
+                  "iconNameFormat", "iconFileType", "pathOfMysqldSafe"
                   ]
     willNotReportSettings = ["amarokDBPass"]
     fileOfSettings = "mySettings.ini"
@@ -345,7 +345,8 @@ class Settings():
                 "amarokDBDB": "amarokdb", 
                 "amarokIsUseHost": "False", 
                 "iconNameFormat": "%Album%", 
-                "iconFileType": "png"
+                "iconFileType": "png", 
+                "pathOfMysqldSafe": "/usr/bin/mysqld_safe"
                 }
                 
     def getValueTypesAndValues():
@@ -458,7 +459,8 @@ class Settings():
                 "amarokDBDB": "str", 
                 "amarokIsUseHost": "bool", 
                 "iconNameFormat": "str", 
-                "iconFileType": ["options", ["png", "jpg"]]
+                "iconFileType": ["options", ["png", "jpg"]], 
+                "pathOfMysqldSafe": "str"
                 }
    
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
