@@ -30,7 +30,7 @@ import InputOutputs
 import RoutineChecks
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize, getUniversalSetting, setUniversalSetting, willNotReportSettings
+    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize, getUniversalSetting, setUniversalSetting, willNotReportSettings, getAmendedSQLInputQueries
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
@@ -97,7 +97,7 @@ class Settings():
         return QSettings((Universals.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini").decode("utf-8") ,QSettings.IniFormat)
           
     def bookmarksOfDirectories(_action="read", _value0="", _value1="", _value2="", _value3=""):
-        con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
+        con = sqlite.connect(pathOfSettingsDirectory + "/database.sqlite")
         cur = con.cursor()
         if _action=="read":
             try:
@@ -113,23 +113,23 @@ class Settings():
             _value0 = _value0.replace("'", "''")
             _value1 = _value1.replace("'", "''")
             _value2 = _value2.replace("'", "''")
-            cur.execute("insert into bookmarksOfDirectories(bookmark,value,label) values('"+_value0+"','" + _value1+"','"+_value2+"')")
+            cur.execute("insert into bookmarksOfDirectories(bookmark,value,type) values('"+_value0+"','" + _value1+"','"+_value2+"')")
         elif _action=="delete":
             cur.execute("delete from bookmarksOfDirectories where id="+str(_value0))
         elif _action=="update":
             _value1 = _value1.replace("'", "''")
             _value2 = _value2.replace("'", "''")
-            cur.execute(str("update bookmarksOfDirectories set bookmark='"+_value1+"', value='"+_value2+"', label='"+_value3+"' where id="+str(_value0)))
+            cur.execute(str("update bookmarksOfDirectories set bookmark='"+_value1+"', value='"+_value2+"', type='"+_value3+"' where id="+str(_value0)))
         con.commit()
         
     def bookmarksOfSpecialTools(_action="read", _value0="", _value1="", _value2="", _value3=""):
-        con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
+        con = sqlite.connect(pathOfSettingsDirectory + "/database.sqlite")
         cur = con.cursor()
         import Organizer
         requirement = Universals.MainWindow.Table.specialTollsBookmarkPointer
         if _action=="read":
             try:
-                cur.execute("SELECT * FROM bookmarksOfSpecialTools where label='"+requirement+"'")
+                cur.execute("SELECT * FROM bookmarksOfSpecialTools where type='"+requirement+"'")
                 myBookmarks = []
                 for mybm in cur.fetchall():
                     tempT = mybm[2]
@@ -146,9 +146,9 @@ class Settings():
         if _action=="add":
             _value0 = _value0.replace("'", "''")
             _value1 = _value1.replace("'", "''")
-            cur.execute("insert into bookmarksOfSpecialTools(bookmark,value,label) values('"+_value0+"','"+_value1+"','"+requirement+"')")
+            cur.execute("insert into bookmarksOfSpecialTools(bookmark,value,type) values('"+_value0+"','"+_value1+"','"+requirement+"')")
         if _action=="delete":
-            cur.execute("delete from bookmarksOfSpecialTools where value='"+_value0+"' and label='"+requirement+"'")
+            cur.execute("delete from bookmarksOfSpecialTools where value='"+_value0+"' and type='"+requirement+"'")
         if _action=="update":
             _value1 = _value1.replace("'", "''")
             _value2 = _value2.replace("'", "''")
@@ -156,7 +156,7 @@ class Settings():
         con.commit()
         
     def searchAndReplaceTable(_action="read", _value0="", _value1="", _value2="", _value3="", _value4="", _value5=""):
-        con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
+        con = sqlite.connect(pathOfSettingsDirectory + "/database.sqlite")
         cur = con.cursor()
         if _action=="read":
             try:
@@ -189,10 +189,8 @@ class Settings():
             reFillDatabases("All")
             reFillCodesOfUser()
         else:
-            if os.path.isfile(pathOfSettingsDirectory + "/bookmarks.sqlite")==False:
-                reFillDatabases("bookmarks")
-            if os.path.isfile(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")==False:
-                reFillDatabases("searchAndReplaceTable")
+            if os.path.isfile(pathOfSettingsDirectory + "/database.sqlite")==False:
+                reFillDatabases("All")
             if os.path.isfile(pathOfSettingsDirectory + "/codesOfUser.py")==False:
                 reFillCodesOfUser()
             if os.path.isfile(pathOfSettingsDirectory + "/" + fileOfSettings)==False:
@@ -529,61 +527,92 @@ class Settings():
                 return _defaultValue
         return _value
         
-    def reFillDatabases(_table="", _askMakeBackUp=False, _makeBackUp=False):
+    def reFillDatabases(_table="", _actionType="dropAndInsert", _askMakeBackUp=False, _makeBackUp=False):
         if _askMakeBackUp==True:
             isMakeBackUp(_table)
         elif _makeBackUp==True:
             makeBackUp(_table)
-        sqlCommands , databaseFiles= [], []
-        if _table=="bookmarksOfDirectories" or _table=="bookmarks" or _table=="All":
-            sqlCommands.append(["CREATE TABLE bookmarksOfDirectories ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'label' TEXT)", 
-                                "insert into bookmarksOfDirectories(bookmark,value,label) values('Home','"+Universals.userDirectoryPath+"','')", 
-                                "insert into bookmarksOfDirectories(bookmark,value,label) values('MNT','/mnt','')", 
-                                "insert into bookmarksOfDirectories(bookmark,value,label) values('MEDIA','/media','')"])
-            databaseFiles.append("bookmarks.sqlite")
-        if _table=="bookmarksOfSpecialTools" or _table=="bookmarks" or _table=="All":
-            if len(sqlCommands)==0:
-                sqlCommands.append(["SELECT 'control'"])
-            sqlCommands[-1] += ["CREATE TABLE bookmarksOfSpecialTools ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'label' TEXT)", 
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Artist - Title ;right;113', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Artist - Title , File Name  ;left;113', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Track No - Title , File Name  ;left;113', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Artist - Album , Directory  ;left;113', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Title  ;right;102', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Title , File Name  ;right;102', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Year , Album  ;right;102', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Lyrics , Artist - Title  ;right;113', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory - File Name , Directory  ;left;113', 'file')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Artist - Album - Title , File Name  ;left;124', 'music')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory , File/Directory Name  ;right;102', 'directory')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File/Directory Name , Directory  ;right;102', 'directory')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory , File Name  ;right;102', 'subfolder')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Directory  ;right;102', 'subfolder')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory , File Name  ;right;102', 'file')",
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'File Name , Directory  ;right;102', 'file')", 
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory Name , Directory  ;right;102', 'cover')", 
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Source Cover , Current Cover  ;right;102', 'cover')", 
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Destination Cover , Source Cover  ;right;102', 'cover')", 
-                                "insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Destination Cover , Current Cover  ;right;102', 'cover')"]
-        if _table=="bookmarksOfDirectories" or _table=="bookmarksOfSpecialTools" or _table=="bookmarks" or _table=="All":
-            sqlCommands[-1] += ["CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)", 
-                                "insert into dbProperties (keyName, value) values ('version', '1')"]
+        tableCreateQueries = ["CREATE TABLE IF NOT EXISTS dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)",
+            "CREATE TABLE IF NOT EXISTS bookmarksOfDirectories ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'type' TEXT)", 
+            "CREATE TABLE IF NOT EXISTS bookmarksOfSpecialTools ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'type' TEXT)", 
+            "CREATE TABLE IF NOT EXISTS searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER)"]
+        tableInsertImportantQueries, sqlCommands = [], []
+        tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'bookmarksOfDirectories_Version'", "value" : "'2'"}, ["keyName"])
+        tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'bookmarksOfSpecialTools_Version'", "value" : "'2'"}, ["keyName"])
+        tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'searchAndReplaceTable_Version'", "value" : "'2'"}, ["keyName"])
+        if _table=="bookmarksOfDirectories" or _table=="All":
+            if _actionType=="dropAndInsert":
+                sqlCommands.append("DELETE FROM bookmarksOfDirectories")
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfDirectories", {"bookmark" : "'Home'", "value" : "'"+Universals.userDirectoryPath+"'", "type" : "''"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfDirectories", {"bookmark" : "'MNT'", "value" : "'/mnt'", "type" : "''"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfDirectories", {"bookmark" : "'MEDIA'", "value" : "'/media'", "type" : "''"}, ["value"])
+        if _table=="bookmarksOfSpecialTools" or _table=="All":
+            if _actionType=="dropAndInsert":
+                sqlCommands.append("DELETE FROM bookmarksOfSpecialTools")
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'File Name , Artist - Title ;right;113'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Artist - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Track No - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Artist - Album , Directory  ;left;113'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'File Name , Title  ;right;102'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Title , File Name  ;right;102'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Year , Album  ;right;102'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Lyrics , Artist - Title  ;right;113'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Artist - Album - Title , File Name  ;left;124'", "type" : "'music'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Directory - File Name , Directory  ;left;113'", "type" : "'file'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Directory , File Name  ;right;102'", "type" : "'file'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'File Name , Directory  ;right;102'", "type" : "'file'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Directory , File/Directory Name  ;right;102'", "type" : "'directory'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'File/Directory Name , Directory  ;right;102'", "type" : "'directory'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Directory , File Name  ;right;102'", "type" : "'subfolder'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'File Name , Directory  ;right;102'", "type" : "'subfolder'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Directory Name , Directory  ;right;102'", "type" : "'cover'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Source Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Destination Cover , Source Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+            sqlCommands += getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "''", "value" : "'Destination Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
         if _table=="searchAndReplaceTable" or _table=="All":
-            sqlCommands.append(["CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER)", 
-                                "insert into searchAndReplaceTable (searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp) values('http://','',1,1,0)", 
-                                "insert into searchAndReplaceTable (searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp) values('www','',1,1,0)",
-                                "CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)", 
-                                "insert into dbProperties (keyName, value) values ('version', '1')"])
-            databaseFiles.append("searchAndReplaceTable.sqlite")
-        for sqlCommandNo, sqlCommand in enumerate(sqlCommands):
-            try:InputOutputs.removeFile(pathOfSettingsDirectory + "/" + databaseFiles[sqlCommandNo])
-            except:pass
-            con = sqlite.connect(pathOfSettingsDirectory + "/" + databaseFiles[sqlCommandNo])
-            for s in sqlCommand:
-                cur = con.cursor()
-                cur.execute(str(s))
-                con.commit()
-                
+            if _actionType=="dropAndInsert":
+                sqlCommands.append("DELETE FROM searchAndReplaceTable")
+            sqlCommands += getAmendedSQLInputQueries("searchAndReplaceTable", {"searching" : "'http://'", "replacing" : "''", "intIsActive" : "1", "intIsCaseSensitive" : "1", "intIsRegExp" : "0"}, ["searching", "replacing"])
+            sqlCommands += getAmendedSQLInputQueries("searchAndReplaceTable", {"searching" : "'www'", "replacing" : "''", "intIsActive" : "1", "intIsCaseSensitive" : "1", "intIsRegExp" : "0"}, ["searching", "replacing"])
+        con = sqlite.connect(pathOfSettingsDirectory + "/database.sqlite")
+        for sqlCommand in tableCreateQueries:
+            cur = con.cursor()
+            cur.execute(str(sqlCommand))
+            con.commit()
+        for sqlCommand in tableInsertImportantQueries:
+            cur = con.cursor()
+            cur.execute(str(sqlCommand))
+            con.commit()
+        for sqlCommand in sqlCommands:
+            cur = con.cursor()
+            cur.execute(str(sqlCommand))
+            con.commit()
+    
+    def getAmendedSQLInputQueries(_table, _columnNamesAndValues, _primaryColumns):
+        sqlString0 = "INSERT INTO " + _table + "("
+        sqlString1 = ") SELECT "
+        sqlString2 = " WHERE (SELECT COUNT(*) FROM " + _table + " WHERE "
+        sqlString3 = "UPDATE " + _table + " SET "
+        sqlString4 = " WHERE "
+        i, j = 0, 0
+        for key, value in _columnNamesAndValues.iteritems():
+            if i>0:
+                sqlString0 += ","
+                sqlString1 += ","
+                sqlString3 += ","
+            sqlString0 += key
+            sqlString1 += str(value)
+            sqlString3 += key + "=" + str(value)
+            if _primaryColumns.count(key)>0:
+                if j>0:
+                    sqlString2 += " AND "
+                    sqlString4 += " AND "
+                sqlString2 += key + "=" + str(value)
+                sqlString4 += key + "=" + str(value)
+                j +=1
+            i +=1
+        return [sqlString0 + sqlString1 + sqlString2 + ")=0;" , sqlString3 + sqlString4 + ";"]
+    
     def reFillAll(_askMakeBackUp=False, _makeBackUp=False):
         if _askMakeBackUp==True:
             isMakeBackUp()
@@ -602,10 +631,8 @@ class Settings():
         
     def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mirror"):
         files = []
-        if _settingType=="bookmarks" or _settingType=="All":
-            files.append("bookmarks.sqlite")
-        if _settingType=="searchAndReplaceTable" or _settingType=="All":
-            files.append("searchAndReplaceTable")
+        if _settingType=="database" or _settingType=="All":
+            files.append("database.sqlite")
         if _settingType=="Settings" or _settingType=="All":
             files.append(fileOfSettings)
         try:
@@ -644,10 +671,8 @@ class Settings():
         elif answer==Dialogs.Cancel:
             return False
         files = []
-        if _settingType=="bookmarks" or _settingType=="All":
-            files.append("bookmarks.sqlite")
-        if _settingType=="searchAndReplaceTable" or _settingType=="All":
-            files.append("searchAndReplaceTable.sqlite")
+        if _settingType=="database" or _settingType=="All":
+            files.append("database.sqlite")
         if _settingType=="Settings" or _settingType=="All":
             files.append(fileOfSettings)
         for file in files:
@@ -855,62 +880,64 @@ class Settings():
             cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Destination Cover , Source Cover  ;right;102', 'cover')"))
             cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Destination Cover , Current Cover  ;right;102', 'cover')"))
             con.commit()
+        if oldVersion<905:
+            conNewDB = sqlite.connect(pathOfSettingsDirectory + "/database.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
+            cur = con.cursor()
+            cur.execute("SELECT bookmark,value FROM bookmarksOfDirectories")
+            for row in cur.fetchall():
+                cur = conNewDB.cursor()
+                sqlCommands = getAmendedSQLInputQueries("bookmarksOfDirectories", {"bookmark" : "'" + row[0] + "'", "value" : "'" + row[1] + "'"}, ["value"])
+                for sqlCommand in sqlCommands:
+                    cur.execute(str(sqlCommand))
+                conNewDB.commit()
+            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
+            cur = con.cursor()
+            cur.execute("SELECT bookmark,value,label FROM bookmarksOfSpecialTools")
+            for row in cur.fetchall():
+                cur = conNewDB.cursor()
+                sqlCommands = getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "'" + row[0] + "'", "value" : "'" + row[1] + "'", "type" : "'" + row[2] + "'"}, ["value"])
+                for sqlCommand in sqlCommands:
+                    cur.execute(str(sqlCommand))
+                conNewDB.commit()
+            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
+            cur = con.cursor()
+            cur.execute("SELECT searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp FROM searchAndReplaceTable")
+            for row in cur.fetchall():
+                cur = conNewDB.cursor()
+                sqlCommands = getAmendedSQLInputQueries("searchAndReplaceTable", {"searching" : "'" + row[0] + "'", "replacing" : "'" + row[1] + "'", "intIsActive" : str(row[2]), "intIsCaseSensitive" : str(row[3]), "intIsRegExp" : str(row[4])}, ["searching", "replacing"])
+                for sqlCommand in sqlCommands:
+                    cur.execute(str(sqlCommand))
+                conNewDB.commit()
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():
         try:
-            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
+            con = sqlite.connect(pathOfSettingsDirectory + "/database.sqlite")
             cur = con.cursor()
-            cur.execute("SELECT * FROM bookmarksOfDirectories")
+            cur.execute("SELECT * FROM dbProperties")
+            #Bottom lines for new versions
+#            try:
+#                cur.execute("SELECT * FROM dbProperties where keyName='bookmarksOfDirectories_Version'")
+#                bookmarksOfDirectoriesVersion = int(cur.fetchall()[0][1])
+#            except:
+#                bookmarksOfDirectoriesVersion = 0
+#            try:
+#                cur.execute("SELECT * FROM dbProperties where keyName='bookmarksOfSpecialTools_Version'")
+#                bookmarksOfSpecialToolsVersion = int(cur.fetchall()[0][1])
+#            except:
+#                bookmarksOfSpecialToolsVersion = 0
+#            try:
+#                cur.execute("SELECT * FROM dbProperties where keyName='searchAndReplaceTable_Version'")
+#                searchAndReplaceTableVersion = int(cur.fetchall()[0][1])
+#            except:
+#                searchAndReplaceTableVersion = 0
+#            if bookmarksOfDirectoriesVersion<x:
+#                pass
+#            if bookmarksOfSpecialToolsVersion<x:
+#                pass
+#            if searchAndReplaceTableVersion<x:
+#                pass
         except:
-            reFillDatabases("bookmarksOfDirectories")
-        try:
-            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
-            cur = con.cursor()
-            cur.execute("SELECT * FROM bookmarksOfSpecialTools")
-        except:
-            reFillDatabases("bookmarksOfSpecialTools")
-        try:
-            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
-            cur = con.cursor()
-            cur.execute("SELECT * FROM searchAndReplaceTable")
-        except:
-            reFillDatabases("searchAndReplaceTable")
-        try:
-            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
-            cur = con.cursor()
-            cur.execute("SELECT * FROM dbProperties where keyName='version'")
-            bookmarksDBVersion = int(cur.fetchall()[0][1])
-        except:
-            bookmarksDBVersion = 0
-        try:
-            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
-            cur = con.cursor()
-            cur.execute("SELECT * FROM dbProperties where keyName='version'")
-            searchAndReplaceTableDBVersion = int(cur.fetchall()[0][1])
-        except:
-            searchAndReplaceTableDBVersion = 0
-            try:
-                con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
-                cur = con.cursor()
-                cur.execute("SELECT id,searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp FROM searchAndReplaceTable")
-            except:
-                con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
-                cur = con.cursor()
-                cur.execute(str("ALTER TABLE searchAndReplaceTable RENAME TO tmpSearchAndReplaceTable;"))
-                cur.execute(str("CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER);"))
-                cur.execute(str("INSERT INTO searchAndReplaceTable(searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp) SELECT searching,replacing,1,1,0 FROM tmpSearchAndReplaceTable;"))
-                cur.execute(str("DROP TABLE tmpSearchAndReplaceTable;"))
-                con.commit()
-        if bookmarksDBVersion<1:
-            con = sqlite.connect(pathOfSettingsDirectory + "/bookmarks.sqlite")
-            cur = con.cursor()
-            cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
-            cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
-            con.commit()
-        if searchAndReplaceTableDBVersion<1:
-            con = sqlite.connect(pathOfSettingsDirectory + "/searchAndReplaceTable.sqlite")
-            cur = con.cursor()
-            cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
-            cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
-            con.commit()
+            reFillDatabases("All")
+        
