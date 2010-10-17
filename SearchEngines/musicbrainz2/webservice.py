@@ -12,7 +12,7 @@ model <musicbrainz2.model>}.
 
 @author: Matthias Friedrich <matt@mafr.de>
 """
-__revision__ = '$Id: webservice.py 11729 2009-06-14 09:12:51Z matt $'
+__revision__ = '$Id: webservice.py 12708 2010-03-15 17:45:25Z matt $'
 
 import re
 import urllib
@@ -25,14 +25,14 @@ import musicbrainz2
 from musicbrainz2.model import Artist, Release, Track
 from musicbrainz2.wsxml import MbXmlParser, ParseError
 import musicbrainz2.utils as mbutils
-isActiveSecondServer = True
+
 __all__ = [
 	'WebServiceError', 'AuthenticationError', 'ConnectionError',
 	'RequestError', 'ResourceNotFoundError', 'ResponseError', 
 	'IIncludes', 'ArtistIncludes', 'ReleaseIncludes', 'TrackIncludes',
-	'LabelIncludes',
+	'LabelIncludes', 'ReleaseGroupIncludes',
 	'IFilter', 'ArtistFilter', 'ReleaseFilter', 'TrackFilter',
-	'UserFilter', 'LabelFilter',
+	'UserFilter', 'LabelFilter', 'ReleaseGroupFilter',
 	'IWebService', 'WebService', 'Query',
 ]
 
@@ -222,14 +222,10 @@ class WebService(IWebService):
 		if self._port != 80:
 			netloc += ':' + str(self._port)
 		path = '/'.join((self._pathPrefix, version, entity, id_))
+
 		query = urllib.urlencode(params)
-		secondServer = ""
-		import random
-		if random.randrange(0, 2)==0:
-				secondServer='www.uk.'
-		if isActiveSecondServer==False:
-				secondServer = ""
-		url = urlparse.urlunparse(('http', secondServer + netloc, path, '', query,''))
+
+		url = urlparse.urlunparse(('http', netloc, path, '', query,''))
 
 		return url
 
@@ -416,6 +412,64 @@ class LabelFilter(IFilter):
 	def createParameters(self):
 		return _createParameters(self._params)
 
+class ReleaseGroupFilter(IFilter):
+	"""A filter for the release group collection."""
+
+	def __init__(self, title=None, releaseTypes=None, artistName=None,
+			artistId=None, limit=None, offset=None, query=None):
+		"""Constructor.
+
+		If C{artistId} is set, only releases matching those IDs are
+		returned.  The C{releaseTypes} parameter allows you to limit
+		the types of the release groups returned. You can set it to
+		C{(Release.TYPE_ALBUM, Release.TYPE_OFFICIAL)}, for example,
+		to only get officially released albums. Note that those values
+		are connected using the I{AND} operator. MusicBrainz' support
+		is currently very limited, so C{Release.TYPE_LIVE} and
+		C{Release.TYPE_COMPILATION} exclude each other (see U{the
+		documentation on release attributes
+		<http://wiki.musicbrainz.org/AlbumAttribute>} for more
+		information and all valid values).
+
+		If both the C{artistName} and the C{artistId} parameter are
+		given, the server will ignore C{artistName}.
+
+		The C{query} parameter may contain a query in U{Lucene syntax
+		<http://lucene.apache.org/java/docs/queryparsersyntax.html>}.
+		Note that C{query} may not be used together with the other
+		parameters except for C{limit} and C{offset}.
+
+		@param title: a unicode string containing the release group's title
+		@param releaseTypes: a sequence of release type URIs
+		@param artistName: a unicode string containing the artist's name
+		@param artistId: a unicode string containing the artist's ID
+		@param limit: the maximum number of release groups to return
+		@param offset: start results at this zero-based offset
+		@param query: a string containing a query in Lucene syntax
+
+		@see: the constants in L{musicbrainz2.model.Release}
+		"""
+		if releaseTypes is None or len(releaseTypes) == 0:
+			releaseTypesStr = None
+		else:
+			releaseTypesStr = ' '.join(map(mbutils.extractFragment, releaseTypes))
+
+		self._params = [
+			('title', title),
+			('releasetypes', releaseTypesStr),
+			('artist', artistName),
+			('artistid', mbutils.extractUuid(artistId)),
+			('limit', limit),
+			('offset', offset),
+			('query', query),
+		]
+
+		if not _paramsValid(self._params):
+			raise ValueError('invalid combination of parameters')
+
+	def createParameters(self):
+		return _createParameters(self._params)
+
 
 class ReleaseFilter(IFilter):
 	"""A filter for the release collection."""
@@ -578,7 +632,7 @@ class ArtistIncludes(IIncludes):
 	def __init__(self, aliases=False, releases=(), vaReleases=(),
 			artistRelations=False, releaseRelations=False,
 			trackRelations=False, urlRelations=False, tags=False,
-			ratings=False):
+			ratings=False, releaseGroups=False):
 
 		assert not isinstance(releases, basestring)
 		assert not isinstance(vaReleases, basestring)
@@ -587,6 +641,7 @@ class ArtistIncludes(IIncludes):
 		self._includes = {
 			'aliases':		aliases,
 			'artist-rels':		artistRelations,
+			'release-groups':	releaseGroups,
 			'release-rels':		releaseRelations,
 			'track-rels':		trackRelations,
 			'url-rels':		urlRelations,
@@ -610,11 +665,13 @@ class ReleaseIncludes(IIncludes):
 			discs=False, tracks=False,
 			artistRelations=False, releaseRelations=False,
 			trackRelations=False, urlRelations=False,
-			labels=False, tags=False, ratings=False, isrcs=False):
+			labels=False, tags=False, ratings=False, isrcs=False,
+			releaseGroup=False):
 		self._includes = {
 			'artist':		artist,
 			'counts':		counts,
 			'labels':		labels,
+			'release-groups':	releaseGroup,
 			'release-events':	releaseEvents,
 			'discs':		discs,
 			'tracks':		tracks,
@@ -634,6 +691,24 @@ class ReleaseIncludes(IIncludes):
 		# Ditto for isrcs with no tracks
 		if isrcs and not tracks:
 			self._includes['tracks'] = True
+
+	def createIncludeTags(self):
+		return _createIncludes(self._includes)
+
+
+class ReleaseGroupIncludes(IIncludes):
+	"""A specification on how much data to return with a release group."""
+
+	def __init__(self, artist=False, releases=False, tags=False):
+		"""Constructor.
+
+		@param artist: Whether to include the release group's main artist info.
+		@param releases: Whether to include the release group's releases.
+		"""
+		self._includes = {
+			'artist':		artist,
+			'releases':		releases,
+		}
 
 	def createIncludeTags(self):
 		return _createIncludes(self._includes)
@@ -965,13 +1040,51 @@ class Query(object):
 		"""
 		result = self._getFromWebService('release', '', filter=filter)
 		return result.getReleaseResults()
+	
+	def getReleaseGroupById(self, id_, include=None):
+		"""Returns a release group.
 
+		If no release group with that ID can be found, C{include}
+		contains invalid tags, or there's a server problem, an
+		exception is raised.
+
+		@param id_: a string containing the release group's ID
+		@param include: a L{ReleaseGroupIncludes} object, or None
+
+		@return: a L{ReleaseGroup <musicbrainz2.model.ReleaseGroup>} object, or None
+
+		@raise ConnectionError: couldn't connect to server
+		@raise RequestError: invalid ID or include tags
+		@raise ResourceNotFoundError: release doesn't exist
+		@raise ResponseError: server returned invalid data
+		"""
+		uuid = mbutils.extractUuid(id_, 'release-group')
+		result = self._getFromWebService('release-group', uuid, include)
+		releaseGroup = result.getReleaseGroup()
+		if releaseGroup is not None:
+			return releaseGroup
+		else:
+			raise ResponseError("server didn't return releaseGroup")
+
+	def getReleaseGroups(self, filter):
+		"""Returns release groups matching the given criteria.
+		
+		@param filter: a L{ReleaseGroupFilter} object
+		
+		@return: a list of L{musicbrainz2.wsxml.ReleaseGroupResult} objects
+		
+		@raise ConnectionError: couldn't connect to server
+		@raise RequestError: invalid ID or include tags
+		@raise ResponseError: server returned invalid data
+		"""
+		result = self._getFromWebService('release-group', '', filter=filter)
+		return result.getReleaseGroupResults()
 
 	def getTrackById(self, id_, include=None):
 		"""Returns a track.
 
 		If no track with that ID can be found, C{include} contains
-		invalid tags or there's a server problem, and exception is
+		invalid tags or there's a server problem, an exception is
 		raised.
 
 		@param id_: a string containing the track's ID
@@ -1114,6 +1227,79 @@ class Query(object):
 
 		self._ws.post('track', '', encodedStr)
 
+	def addToUserCollection(self, releases):
+		"""Add releases to a user's collection.
+
+		The releases parameter must be a list. It can contain either L{Release}
+		objects or a string representing a MusicBrainz release ID (either as
+		absolute URIs or in their 36 character ASCII representation).
+
+		Adding a release that is already in the collection has no effect.
+
+		@param releases: a list of releases to add to the user collection
+
+		@raise ConnectionError: couldn't connect to server
+		@raise AuthenticationError: invalid user name and/or password
+		"""
+		rels = []
+		for release in releases:
+			if isinstance(release, Release):
+				rels.append(mbutils.extractUuid(release.id))
+			else:
+				rels.append(mbutils.extractUuid(release))
+		encodedStr = urllib.urlencode({'add': ",".join(rels)}, True)
+		self._ws.post('collection', '', encodedStr)
+
+	def removeFromUserCollection(self, releases):
+		"""Remove releases from a user's collection.
+
+		The releases parameter must be a list. It can contain either L{Release}
+		objects or a string representing a MusicBrainz release ID (either as
+		absolute URIs or in their 36 character ASCII representation).
+
+		Removing a release that is not in the collection has no effect.
+
+		@param releases: a list of releases to remove from the user collection
+
+		@raise ConnectionError: couldn't connect to server
+		@raise AuthenticationError: invalid user name and/or password
+		"""
+		rels = []
+		for release in releases:
+			if isinstance(release, Release):
+				rels.append(mbutils.extractUuid(release.id))
+			else:
+				rels.append(mbutils.extractUuid(release))
+		encodedStr = urllib.urlencode({'remove': ",".join(rels)}, True)
+		self._ws.post('collection', '', encodedStr)
+
+	def getUserCollection(self, offset=0, maxitems=100):
+		"""Get the releases that are in a user's collection
+		
+		A maximum of 100 items will be returned for any one call
+		to this method. To fetch more than 100 items, use the offset
+		parameter.
+
+		@param offset: the offset to start fetching results from
+		@param maxitems: the upper limit on items to return
+
+		@return: a list of L{musicbrainz2.wsxml.ReleaseResult} objects
+
+		@raise ConnectionError: couldn't connect to server
+		@raise AuthenticationError: invalid user name and/or password
+		"""
+		params = { 'offset': offset, 'maxitems': maxitems }
+		
+		stream = self._ws.get('collection', '', filter=params)
+		print stream
+		try:
+			parser = MbXmlParser()
+			result = parser.parse(stream)
+		except ParseError, e:
+			raise ResponseError(str(e), e)
+		
+		return result.getReleaseResults()
+
 	def submitUserTags(self, entityUri, tags):
 		"""Submit folksonomy tags for an entity.
 
@@ -1241,6 +1427,48 @@ class Query(object):
 			raise ResponseError(str(e), e)
 		
 		return result.getRating()
+
+	def submitCDStub(self, cdstub):
+		"""Submit a CD Stub to the database.
+
+		The number of tracks added to the CD Stub must match the TOC and DiscID
+		otherwise the submission wil fail. The submission will also fail if 
+		the Disc ID is already in the MusicBrainz database.
+
+		This method will only work if no user name and password are set.
+
+		@param cdstub: a L{CDStub} object to submit
+		
+		@raise RequestError: Missmatching TOC/Track information or the
+		       the CD Stub already exists or the Disc ID already exists
+		"""
+		assert self._clientId is not None, 'Please supply a client ID'
+		disc = cdstub._disc
+		params = [ ]
+		params.append( ('client', self._clientId.encode('utf-8')) )
+		params.append( ('discid', disc.id) )
+		params.append( ('title', cdstub.title) )
+		params.append( ('artist', cdstub.artist) )
+		if cdstub.barcode != "":
+			params.append( ('barcode', cdstub.barcode) )
+		if cdstub.comment != "":
+			params.append( ('comment', cdstub.comment) )
+
+		trackind = 0
+		for track,artist in cdstub.tracks:
+			params.append( ('track%d' % trackind, track) )
+			if artist != "":
+				params.append( ('artist%d' % trackind, artist) )
+
+			trackind += 1
+
+		toc = "%d %d %d " % (disc.firstTrackNum, disc.lastTrackNum, disc.sectors)
+	        toc = toc + ' '.join( map(lambda x: str(x[0]), disc.getTracks()) )
+
+		params.append( ('toc', toc) )
+
+		encodedStr = urllib.urlencode(params)
+		self._ws.post('release', '', encodedStr)
 
 def _createIncludes(tagMap):
 	selected = filter(lambda x: x[1] == True, tagMap.items())
