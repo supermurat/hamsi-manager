@@ -20,8 +20,8 @@ This package contains the following modules:
 
 @author: Matthias Friedrich <matt@mafr.de>
 """
-__revision__ = '$Id: __init__.py 11730 2009-06-14 09:58:08Z matt $'
-__version__ = '0.7.0'
+__revision__ = '$Id: __init__.py 12709 2010-03-15 18:04:25Z matt $'
+__version__ = '0.7.2'
 pluginName = "MusicBrainz"
 
 # EOF
