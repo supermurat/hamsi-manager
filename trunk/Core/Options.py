@@ -1367,8 +1367,8 @@ class Amarok(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["amarokIsUseHost", "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"]
-        self.tabsOfSettings = [None, None, None, None, None, None]
+        self.keysOfSettings = ["amarokIsUseHost", "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB", "pathOfMysqldSafe"]
+        self.tabsOfSettings = [None, None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -1381,16 +1381,18 @@ class Amarok(MWidget):
                     translate("Options/Amarok", "Port"), 
                     translate("Options/Amarok", "User Name"), 
                     translate("Options/Amarok", "Password"), 
-                    translate("Options/Amarok", "Database")]
+                    translate("Options/Amarok", "Database"), 
+                    translate("Options/Amarok", "Path Of Executable \"mysqld_safe\"")]
         self.toolTips = [translate("Options/Amarok", "Are you use MySQL server in the Amarok?"), 
                     translate("Options/Amarok", "Please enter host name of Amarok database."), 
                     translate("Options/Amarok", "Please enter port number of Amarok database."), 
                     translate("Options/Amarok", "Please enter user name of Amarok database."), 
                     translate("Options/Amarok", "Please enter user password of Amarok database."), 
-                    translate("Options/Amarok", "Please enter database name of Amarok database.")]
-        self.typesOfValues = ["Yes/No", "string", "string", "string", "password", "string"]
-        self.valuesOfOptions = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
-        self.valuesOfOptionsKeys = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
+                    translate("Options/Amarok", "Please enter database name of Amarok database."), 
+                    translate("Options/Amarok", "Where is executable \"mysqld_safe\" file?")]
+        self.typesOfValues = ["Yes/No", "string", "string", "string", "password", "string", ["file", "executable"]]
+        self.valuesOfOptions = []
+        self.valuesOfOptionsKeys = []
         createOptions(self)
         pbtnTestAmarokMysql = MPushButton(translate("Options/Amarok", "Test"))
         hblBottom = MHBoxLayout()
@@ -1408,12 +1410,14 @@ class Amarok(MWidget):
             setVisibleFormItems(self, "amarokDBUser", False)
             setVisibleFormItems(self, "amarokDBPass", False)
             setVisibleFormItems(self, "amarokDBDB", False)
+            setVisibleFormItems(self, "pathOfMysqldSafe", True)
         else:
             setVisibleFormItems(self, "amarokDBHost", True)
             setVisibleFormItems(self, "amarokDBPort", True)
             setVisibleFormItems(self, "amarokDBUser", True)
             setVisibleFormItems(self, "amarokDBPass", True)
             setVisibleFormItems(self, "amarokDBDB", True)
+            setVisibleFormItems(self, "pathOfMysqldSafe", False)
     
     def saveSettingsForTest(self):
         applySetting(self, "amarokIsUseHost")

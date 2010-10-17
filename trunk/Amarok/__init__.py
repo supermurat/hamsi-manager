@@ -37,13 +37,12 @@ class Amarok:
         if (InputOutputs.isDir(Settings.pathOfSettingsDirectory+"/Amarok/mysqle/amarok") and
             InputOutputs.isDir(Settings.pathOfSettingsDirectory+"/Amarok/mysqle/mysql") and
             InputOutputs.isFile(Settings.pathOfSettingsDirectory+"/Amarok/my.cnf")):
-            startEmbeddedDB()
-            return True
+            return startEmbeddedDB()
         else:
             if isAskAmarokEmbeddedDBConfiguration:
                 isAskAmarokEmbeddedDBConfiguration = False
-                answer = Dialogs.ask(translate("HamsiManager", "Amarok Database Must Be Configure"),
-                                    translate("HamsiManager", "Amarok database must be configure for Hamsi Manager. Are you want to configure Amarok database?"))
+                answer = Dialogs.ask(translate("Amarok", "Amarok Database Must Be Configure"),
+                                    translate("Amarok", "Amarok database must be configure for Hamsi Manager. Are you want to configure Amarok database?"))
                 if answer==Dialogs.Yes: 
                     AmarokEmbeddedDBConfigurator()
             else:
@@ -112,7 +111,7 @@ class AmarokEmbeddedDBCore():
         InputOutputs.copyFileOrDir(Universals.getKDE4HomePath() +"/share/apps/amarok/mysqle/ibdata1", Settings.pathOfSettingsDirectory+"/Amarok/mysqle/ibdata1")
         generateEmbeddedDB()
         if _isNoAlertIfSuccesfully==False:
-            Dialogs.show(translate("Amarok", "Created Embedded Server"), translate("Amarok", "Embedded Amarok database server created and generated."))
+            Dialogs.show(translate("AmarokEmbeddedDBCore", "Created Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server created and generated."))
         return True
         
     def generateEmbeddedDB(_isNoAlertIfSuccesfully=True):
@@ -120,17 +119,20 @@ class AmarokEmbeddedDBCore():
         InputOutputs.removeFileOrDir(Settings.pathOfSettingsDirectory+"/Amarok/mysqle/amarok", True)
         InputOutputs.copyFileOrDir(Universals.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", Settings.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
         if _isNoAlertIfSuccesfully==False:
-            Dialogs.show(translate("Amarok", "Generated Embedded Server"), translate("Amarok", "Embedded Amarok database server generated."))
+            Dialogs.show(translate("AmarokEmbeddedDBCore", "Generated Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server generated."))
         return True
         
     def startEmbeddedDB(_isNoAlertIfSuccesfully=True):
         global isStarted
-        import Execute
-        Execute.executeAsThread("mysqld_safe --defaults-file=\"" + Settings.pathOfSettingsDirectory+"/Amarok/my.cnf" + "\"")
-        if _isNoAlertIfSuccesfully==False:
-            Dialogs.show(translate("Amarok", "Started Embedded Server"), translate("Amarok", "Embedded Amarok database server started."))
-        isStarted = True
-        return True
+        if Universals.checkMysqldSafe():
+            import Execute
+            Execute.executeAsThread(Universals.MySettings["pathOfMysqldSafe"] + " --defaults-file=\"" + Settings.pathOfSettingsDirectory+"/Amarok/my.cnf" + "\"")
+            if _isNoAlertIfSuccesfully==False:
+                Dialogs.show(translate("AmarokEmbeddedDBCore", "Started Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server started."))
+            isStarted = True
+            return True
+        isStarted = False
+        return False
         
     def stopEmbeddedDB(_isNoAlertIfSuccesfully=True):
         global isStarted
@@ -140,7 +142,7 @@ class AmarokEmbeddedDBCore():
             import Execute
             Execute.execute("kill -TERM " + mysqldPID)
         if _isNoAlertIfSuccesfully==False:
-            Dialogs.show(translate("Amarok", "Stopped Embedded Server"), translate("Amarok", "Embedded Amarok database server stopped."))
+            Dialogs.show(translate("AmarokEmbeddedDBCore", "Stopped Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server stopped."))
         return True
         
     def getPID():
@@ -172,7 +174,7 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
             Universals.MainWindow = self
         self.pbtnCreateEmbeddedDB = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Create Embedded Database Files"))
         self.pbtnGenerateEmbeddedDB = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Generate Embedded Database From Amarok"))
-        self.pbtnStartEmbeddedDB = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Star Embedded Database Server"))
+        self.pbtnStartEmbeddedDB = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Start Embedded Database Server"))
         self.pbtnStopEmbeddedDB = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Stop Embedded Database Server"))
         self.pbtnIsRunning = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Is Running"))
         pnlMain = MWidget(self)
@@ -233,9 +235,9 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
     def isRunning(self):
         try:
             if isRunning():
-                Dialogs.show(translate("Amarok", "Running Embedded Server"), translate("Amarok", "Embedded Amarok database server is running."))
+                Dialogs.show(translate("AmarokEmbeddedDBConfigurator", "Running Embedded Server"), translate("AmarokEmbeddedDBConfigurator", "Embedded Amarok database server is running."))
             else:
-                Dialogs.show(translate("Amarok", "Not Running Embedded Server"), translate("Amarok", "Embedded Amarok database server is not running."))
+                Dialogs.show(translate("AmarokEmbeddedDBConfigurator", "Not Running Embedded Server"), translate("AmarokEmbeddedDBConfigurator", "Embedded Amarok database server is not running."))
         except:
             error = ReportBug.ReportBug()
             error.show()
