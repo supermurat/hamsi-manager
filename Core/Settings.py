@@ -77,7 +77,8 @@ class Settings():
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
                   "iconNameFormat", "iconFileType", "pathOfMysqldSafe"
                   ]
-    willNotReportSettings = ["amarokDBPass"]
+    willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
+                  "amarokDBPass", "amarokDBDB"]
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager"
     recordFilePath = pathOfSettingsDirectory + "/logs.txt"
@@ -346,7 +347,7 @@ class Settings():
                 "amarokIsUseHost": "False", 
                 "iconNameFormat": "%Album%", 
                 "iconFileType": "png", 
-                "pathOfMysqldSafe": "/usr/bin/mysqld_safe"
+                "pathOfMysqldSafe": "mysqld_safe"
                 }
                 
     def getValueTypesAndValues():

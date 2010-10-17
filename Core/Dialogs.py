@@ -4,7 +4,7 @@ from MyObjects import *
 import Universals
 
 class Dialogs():
-    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, select, pbtnCancel
+    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, select, pbtnCancel, sleep
     pnlState, prgbState, lblState, pbtnCancel = None, None, None, None
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
     
@@ -191,6 +191,15 @@ class Dialogs():
             pnlState.deleteLater()
             prgbState.deleteLater()
             pnlState, prgbState, lblState, pbtnCancel = None, None, None, None
+    
+    def sleep(_title, _value=0, _isShowCancel=False):
+        import time
+        maxTime = _value*4
+        step = 0
+        while step<=maxTime:
+            showState(_title, step, maxTime, _isShowCancel)
+            step += 1
+            time.sleep(0.25)
             
     def select(_title="Hamsi Cover", _detail="", _itemList=[u""], _currentItem=0):
         if _detail=="": 

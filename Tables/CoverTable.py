@@ -114,10 +114,13 @@ class CoverTable():
     def _getFromAmarok():
         try:
             import Amarok
+            Dialogs.showState(translate("CoverTable", "Checking For Amarok..."), 0, 2)
             if Amarok.checkAmarok():
+                Dialogs.showState(translate("CoverTable", "Getting Values From Amarok"), 1, 2)
                 table = Universals.MainWindow.Table
                 from Amarok import Commands
                 directoriesAndValues = Commands.getDirectoriesAndValues()
+                Dialogs.showState(translate("CoverTable", "Values Are Being Processed"), 2, 2)
                 if directoriesAndValues!=None:
                     for rowNo in range(table.rowCount()):
                         if Tables.checkHiddenColumn(3) and Tables.checkHiddenColumn(4):

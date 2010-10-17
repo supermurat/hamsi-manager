@@ -795,26 +795,6 @@ class General(MWidget):
         if self.visibleKeys.count("isSaveActions")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isSaveActions")], SIGNAL("currentIndexChanged(int)"), self.saveActionsChanged)
             self.saveActionsChanged()
-        if _showType=="Normal" or _showType=="All": 
-            pbtnClearErrorFiles = MPushButton(translate("Options/General", "Delete Error Logs"))
-            MObject.connect(pbtnClearErrorFiles, SIGNAL("clicked()"), self.clearErrorFiles)
-            hbox1 = MHBoxLayout()
-            hbox1.addWidget(pbtnClearErrorFiles)
-            gboxErrors = MGroupBox(translate("Options/General", "Error Logs"))
-            gboxErrors.setLayout(hbox1)
-            self.Panel.addStretch(1)
-            self.Panel.addWidget(gboxErrors)
-        
-    def clearErrorFiles(self):
-        try:
-            import InputOutputs, Records
-            InputOutputs.clearTempFiles()
-            Records.saveAllRecords()
-            Dialogs.show(translate("Options/General", "Error Logs Deleted"), translate("Options/General", "All created by Hamsi Manager error logs and temp files is deleted."))
-        except:
-            import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()
     
     def saveActionsChanged(self):
         if self.values[self.keysOfSettings.index("isSaveActions")].currentIndex()==1:
@@ -1431,7 +1411,7 @@ class Amarok(MWidget):
         try:
             import Amarok
             self.saveSettingsForTest()
-            amarokDb = Amarok.checkAndGetDB(False)
+            amarokDb = Amarok.checkAndGetDB(False, True)
             if amarokDb!=None:
                 answer = Dialogs.ask(translate("Options/Amarok", "Are You Want To Save"), 
                                              translate("Options/Amarok", "Are you want to save this Amarok settings?"))
@@ -1492,6 +1472,7 @@ class MySettings(MWidget):
         pbtnReFillSearchAndReplaceTable = MPushButton(translate("Options/MySettings", "Search-Replace Parameters"))
         pbtnReFillSettings = MPushButton(translate("Options/MySettings", "Program Settings"))
         pbtnReFillAll = MPushButton(translate("Options/MySettings", "All"))
+        pbtnClearErrorFiles = MPushButton(translate("Options/MySettings", "Delete Error Logs"))
         MObject.connect(pbtnRestoreBookmarks, SIGNAL("clicked()"), self.restoreBookmarks)
         MObject.connect(pbtnRestoreSearchAndReplaceTable, SIGNAL("clicked()"), self.restoreSearchAndReplaceTable)
         MObject.connect(pbtnRestoreSettings, SIGNAL("clicked()"), self.restoreSettings)
@@ -1504,6 +1485,7 @@ class MySettings(MWidget):
         MObject.connect(pbtnReFillSearchAndReplaceTable, SIGNAL("clicked()"), self.reFillSearchAndReplaceTable)
         MObject.connect(pbtnReFillSettings, SIGNAL("clicked()"), self.reFillSettings)
         MObject.connect(pbtnReFillAll, SIGNAL("clicked()"), self.reFillAll)
+        MObject.connect(pbtnClearErrorFiles, SIGNAL("clicked()"), self.clearErrorFiles)
         left0.addWidget(pbtnBackUpBookmarks) 
         left0.addWidget(pbtnBackUpSearchAndReplaceTable) 
         right0.addWidget(pbtnBackUpSettings) 
@@ -1530,6 +1512,11 @@ class MySettings(MWidget):
         self.Panel.addLayout(Panel2)  
         self.Panel.addStretch(1)
         self.Panel.addLayout(bottom1)
+        hbox1 = MHBoxLayout()
+        hbox1.addWidget(pbtnClearErrorFiles)
+        gboxErrors = MGroupBox(translate("Options/MySettings", "Error Logs"))
+        gboxErrors.setLayout(hbox1)
+        self.Panel.addWidget(gboxErrors)
         if Universals.isActivePyKDE4==True:
             pbtnClearMyAnswers = MPushButton(translate("Options/MySettings", "Clear My Answers"))
             pbtnClearMyAnswers.setToolTip(translate("Options/MySettings", "Clear my answers to the notification messages"))
@@ -1538,6 +1525,17 @@ class MySettings(MWidget):
             pbtnReInstallKDE4Language = MPushButton(translate("Options/MySettings", "Reinstall Language"))
             MObject.connect(pbtnReInstallKDE4Language, SIGNAL("clicked()"), self.reInstallKDE4Language)
             bottom1.addWidget(pbtnReInstallKDE4Language)
+        
+    def clearErrorFiles(self):
+        try:
+            import InputOutputs, Records
+            InputOutputs.clearTempFiles()
+            Records.saveAllRecords()
+            Dialogs.show(translate("Options/General", "Error Logs Deleted"), translate("Options/General", "All created by Hamsi Manager error logs and temp files is deleted."))
+        except:
+            import ReportBug
+            error = ReportBug.ReportBug()
+            error.show()
     
     def clearMyAnswers(self):
         try:

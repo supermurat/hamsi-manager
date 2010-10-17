@@ -19,8 +19,9 @@ except:pass
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
 class Amarok:
-    global checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskAmarokEmbeddedDBConfiguration
+    global checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskAmarokEmbeddedDBConfiguration, dbConnection
     isAskAmarokEmbeddedDBConfiguration = True
+    dbConnection = None
     
     def checkAmarok():
         if isLoadedMysql:
@@ -50,13 +51,18 @@ class Amarok:
         return checkEmbeddedDB()
         
     def connectAndGetDB():
-        if Universals.getBoolValue("amarokIsUseHost"):
-            return mdb.connect(host=Universals.MySettings["amarokDBHost"], port=int(Universals.MySettings["amarokDBPort"]), user=Universals.MySettings["amarokDBUser"], passwd=Universals.MySettings["amarokDBPass"], db=Universals.MySettings["amarokDBDB"])
-        else:
-            return mdb.connect(read_default_file=Settings.pathOfSettingsDirectory+"/Amarok/my.cnf", read_default_group="client", db="amarok")
+        global dbConnection
+        if dbConnection==None:
+            if Universals.getBoolValue("amarokIsUseHost"):
+                dbConnection = mdb.connect(host=Universals.MySettings["amarokDBHost"], port=int(Universals.MySettings["amarokDBPort"]), user=Universals.MySettings["amarokDBUser"], passwd=Universals.MySettings["amarokDBPass"], db=Universals.MySettings["amarokDBDB"])
+            else:
+                dbConnection = mdb.connect(read_default_file=Settings.pathOfSettingsDirectory+"/Amarok/my.cnf", read_default_group="client", db="amarok")
+        return dbConnection
         
-    def checkAndGetDB(_isNoAlertIfSuccesfully=True):
+    def checkAndGetDB(_isNoAlertIfSuccesfully=True, _isReCheck=False):
         global isCheckAgain
+        if _isReCheck:
+            isCheckAgain = True
         if checkAmarok():
             try:
                 db = connectAndGetDB()
@@ -127,6 +133,7 @@ class AmarokEmbeddedDBCore():
         if Universals.checkMysqldSafe():
             import Execute
             Execute.executeAsThread(Universals.MySettings["pathOfMysqldSafe"] + " --defaults-file=\"" + Settings.pathOfSettingsDirectory+"/Amarok/my.cnf" + "\"")
+            Dialogs.sleep(translate("AmarokEmbeddedDBCore", "Starting Embedded Server..."), 3)
             if _isNoAlertIfSuccesfully==False:
                 Dialogs.show(translate("AmarokEmbeddedDBCore", "Started Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server started."))
             isStarted = True
@@ -141,6 +148,7 @@ class AmarokEmbeddedDBCore():
         if mysqldPID!=None:
             import Execute
             Execute.execute("kill -TERM " + mysqldPID)
+            Dialogs.sleep(translate("AmarokEmbeddedDBCore", "Stopping Embedded Server..."), 3)
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("AmarokEmbeddedDBCore", "Stopped Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server stopped."))
         return True
@@ -189,6 +197,7 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
         self.connect(self.pbtnStartEmbeddedDB,SIGNAL("clicked()"),self.startEmbeddedDB)
         self.connect(self.pbtnStopEmbeddedDB,SIGNAL("clicked()"),self.stopEmbeddedDB)
         self.connect(self.pbtnIsRunning,SIGNAL("clicked()"),self.isRunning)
+        self.checkRunState()
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
@@ -204,9 +213,18 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
     def closeEvent(self, _event):
         MApplication.setQuitOnLastWindowClosed(True)
         
+    def checkRunState(self):
+        if isRunning():
+            self.pbtnStartEmbeddedDB.setEnabled(False)
+            self.pbtnStopEmbeddedDB.setEnabled(True)
+        else:
+            self.pbtnStartEmbeddedDB.setEnabled(True)
+            self.pbtnStopEmbeddedDB.setEnabled(False)
+        
     def createEmbeddedDB(self):
         try:
             createEmbeddedDB(False)
+            self.checkRunState()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -214,6 +232,7 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
     def generateEmbeddedDB(self):
         try:
             generateEmbeddedDB(False)
+            self.checkRunState()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -221,6 +240,7 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
     def startEmbeddedDB(self):
         try:
             startEmbeddedDB(False)
+            self.checkRunState()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -228,6 +248,7 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
     def stopEmbeddedDB(self):
         try:
             stopEmbeddedDB(False)
+            self.checkRunState()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -235,8 +256,12 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
     def isRunning(self):
         try:
             if isRunning():
+                self.pbtnStopEmbeddedDB.setEnabled(True)
+                self.pbtnStartEmbeddedDB.setEnabled(False)
                 Dialogs.show(translate("AmarokEmbeddedDBConfigurator", "Running Embedded Server"), translate("AmarokEmbeddedDBConfigurator", "Embedded Amarok database server is running."))
             else:
+                self.pbtnStopEmbeddedDB.setEnabled(False)
+                self.pbtnStartEmbeddedDB.setEnabled(True)
                 Dialogs.show(translate("AmarokEmbeddedDBConfigurator", "Not Running Embedded Server"), translate("AmarokEmbeddedDBConfigurator", "Embedded Amarok database server is not running."))
         except:
             error = ReportBug.ReportBug()
