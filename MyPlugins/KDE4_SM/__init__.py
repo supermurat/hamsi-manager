@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import Variables
 import Universals
 import Settings, Execute
 from MyObjects import translate
@@ -16,4 +17,4 @@ else:
     setupDirectory = Universals.getKDE4HomePath() + "/share/kde4/services/ServiceMenus"
 
 def isInstallable():
-    return Settings.isAvailablePyKDE4()
+    return Variables.isAvailablePyKDE4()

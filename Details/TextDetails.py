@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 import InputOutputs
 import os,sys
 from MyObjects import *
@@ -34,8 +35,8 @@ class TextDetails(MDialog):
                 if Universals.isActivePyKDE4==True:
                     self.setButtons(MDialog.None)
                 self.charSet = MComboBox()
-                self.charSet.addItems(Settings.getCharSets())
-                self.charSet.setCurrentIndex(self.charSet.findText(Universals.MySettings["systemsCharSet"]))
+                self.charSet.addItems(Variables.getCharSets())
+                self.charSet.setCurrentIndex(self.charSet.findText(Universals.MySettings["fileSystemEncoding"]))
                 self.infoLabels = []
                 self.infoValues = []
                 self.fileValues = []

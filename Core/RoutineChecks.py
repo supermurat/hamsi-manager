@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+import Variables
+
 __author__ = "Murat Demir (murat@mopened.com)"
-__version__ = "0.9.05"
-__intversion__ = 905
+__version__ = "0.9.06"
+__intversion__ = 906
 __copyright__ = "Copyleft"
 __license__ = "GPLv3"
-__settingVersion__ = "905"
+__settingVersion__ = "906"
 
 myArgvs = []
 isQuickMake = False
@@ -128,12 +130,12 @@ def checkParameters():
 def checkAfterRunProccess():
     import Dialogs, Universals, Settings, UpdateControl
     from MyObjects import translate
-    if str(Settings.defaultFileSystemEncoding) != str(Universals.MySettings["systemsCharSet"]):
+    if str(Variables.defaultFileSystemEncoding) != str(Universals.MySettings["fileSystemEncoding"]):
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
         if answer==Dialogs.No: 
             import Options
-            Options.Options(Universals.MainWindow, _focusTo="systemsCharSet")
+            Options.Options(Universals.MainWindow, _focusTo="fileSystemEncoding")
     if Universals.isShowVerifySettings and Universals.changedDefaultValuesKeys==[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
@@ -168,7 +170,7 @@ def checkWindowMode(_isCheck=False):
     from MyObjects import translate
     if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
         if Universals.windowMode == Universals.windowModeKeys[0]:
-            screenSize = Settings.getScreenSize()
+            screenSize = Variables.getScreenSize()
             if screenSize!=None:
                 if screenSize.width()<1024:
                     Universals.windowMode = Universals.windowModeKeys[1]

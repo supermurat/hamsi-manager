@@ -70,7 +70,7 @@ class Universals():
                     import PyKDE4
                 except:
                     MySettings["isActivePyKDE4"] = "False"
-            InputOutputs.systemsCharSet = MySettings["systemsCharSet"]
+            InputOutputs.fileSystemEncoding = MySettings["fileSystemEncoding"]
             if getBoolValue("isActivePyKDE4"):
                 if isLoadedMyObjects==False:
                     isActivePyKDE4 = True

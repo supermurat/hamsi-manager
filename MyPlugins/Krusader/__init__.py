@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import Variables
 import Universals
 import InputOutputs
 import Settings, Execute
@@ -11,7 +12,7 @@ pluginDirectory = ""
 setupDirectory = ""
 
 def isInstallable():
-    return Settings.isAvailablePyKDE4()
+    return Variables.isAvailablePyKDE4()
 
 def installThisPlugin():
     try:

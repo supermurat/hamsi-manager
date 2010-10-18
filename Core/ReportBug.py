@@ -2,6 +2,7 @@
 
 import sys,os
 
+import Variables
 from MyObjects import *
 import Universals
 import Settings
@@ -72,7 +73,7 @@ class ReportBug(MDialog):
             for rowNo in range(len(table.fileDetails)):
                 errorDetails +="<tr><td>" 
                 filePath = InputOutputs.currentDirectoryPath + "/" + table.fileDetails[rowNo][1]
-                try:errorDetails += str(unicode(filePath, InputOutputs.systemsCharSet))
+                try:errorDetails += str(unicode(filePath, InputOutputs.fileSystemEncoding))
                 except:
                     try:errorDetails += str(filePath) 
                     except:errorDetails += filePath
@@ -113,7 +114,7 @@ class ReportBug(MDialog):
             errorDetails += "<b>" + str(translate("ReportBug", "My Parameters : ")) + "</b>"
             errorDetails += str(myArgvs) + "<br>"
             errorDetails += "<b>FileSystemCharSet : </b>"
-            errorDetails += str(Settings.defaultFileSystemEncoding) + "<br>"
+            errorDetails += str(Variables.defaultFileSystemEncoding) + "<br>"
             errorDetails += "<b>SystemCharSet : </b>"
             errorDetails += str(sys.getdefaultencoding().lower()) + "<br>"
             try:
@@ -281,7 +282,7 @@ class ReportBug(MDialog):
                     t = errorDetails.decode("utf-8")
                     encodedType = "cp-1254"
                 except:
-                    for charName in Settings.getCharSets():
+                    for charName in Variables.getCharSets():
                         try:
                             errorDetails = str(unicode(_errorDetails, charName))
                             t = errorDetails.decode("utf-8")

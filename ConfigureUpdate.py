@@ -12,8 +12,8 @@ if sys.path[0]=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(0,sys.path[0]+"/Core")
 
-try:systemsCharSet = sys.getfilesystemencoding().lower()
-except:systemsCharSet = sys.getdefaultencoding().lower()
+try:fileSystemEncoding = sys.getfilesystemencoding().lower()
+except:fileSystemEncoding = sys.getdefaultencoding().lower()
 
 HamsiManagerApp = QApplication(sys.argv)
 
@@ -44,13 +44,13 @@ class Update():
             intSleepTime = 0
             while intSleepTime<6:
                 try:
-                    try:tar = tarfile.open(sourceFile.encode(systemsCharSet), "r:gz")
+                    try:tar = tarfile.open(sourceFile.encode(fileSystemEncoding), "r:gz")
                     except:tar = tarfile.open(sourceFile, "r:gz")
                     break
                 except:
                     intSleepTime +=1
                     time.sleep(1)
-            try:tar.extractall(tempDir.encode(systemsCharSet), members=tar.getmembers())
+            try:tar.extractall(tempDir.encode(fileSystemEncoding), members=tar.getmembers())
             except:tar.extractall(tempDir, members=tar.getmembers())
             tar.close()
             time.sleep(4)
@@ -61,25 +61,25 @@ class Update():
             
     def isFile(_oldPath):
         _oldPath = str(_oldPath)
-        try:return path.isfile(_oldPath.encode(systemsCharSet))
+        try:return path.isfile(_oldPath.encode(fileSystemEncoding))
         except:return path.isfile(_oldPath)
     
     def isDir(_oldPath):
         _oldPath = str(_oldPath)
-        try:return path.isdir(_oldPath.encode(systemsCharSet))
+        try:return path.isdir(_oldPath.encode(fileSystemEncoding))
         except:return path.isdir(_oldPath)
     
     def getDirName(_oldPath):
         _oldPath = str(_oldPath)
-        try:returnValue = path.dirname(_oldPath.encode(systemsCharSet))
+        try:returnValue = path.dirname(_oldPath.encode(fileSystemEncoding))
         except:returnValue = path.dirname(_oldPath)
-        try:return returnValue.encode(systemsCharSet)
+        try:return returnValue.encode(fileSystemEncoding)
         except:return returnValue 
         
     def listDir(_oldPath):
         names = []
         if isDir(_oldPath):
-            try:names = listdir(_oldPath.encode(systemsCharSet))
+            try:names = listdir(_oldPath.encode(fileSystemEncoding))
             except:names = listdir(_oldPath)
         return names
     
@@ -87,7 +87,7 @@ class Update():
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         print _oldPath, _newPath
         if getDirName(_oldPath)==getDirName(_newPath):
-            try:rename(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+            try:rename(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
             except:rename(_oldPath,_newPath)
         else:
             if isDir(getDirName(_newPath))==False:
@@ -98,7 +98,7 @@ class Update():
             else:
                 if isFile(_newPath):
                     removeFileOrDir(_newPath)
-                try:move(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+                try:move(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
                 except:move(_oldPath,_newPath)
     
     def copyFileOrDir(_oldPath, _newPath):
@@ -106,23 +106,23 @@ class Update():
         if isDir(getDirName(_newPath))==False:
             makeDirs(getDirName(_newPath))
         if isFile(_oldPath):
-            try:copy(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+            try:copy(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
             except:copy(_oldPath,_newPath)
         else:
             copyDirTree(_oldPath, _newPath)
             
     def copyDirTree(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
-        try:copytree(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+        try:copytree(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
         except:copytree(_oldPath,_newPath)
         
     def makeDirs(_newPath):
-        try:makedirs(_newPath.encode(systemsCharSet))
+        try:makedirs(_newPath.encode(fileSystemEncoding))
         except:makedirs(_newPath)
     
     def removeFileOrDir(_path, _isDir=False):
         if _isDir==False:
-            try:remove(_path.encode(systemsCharSet))
+            try:remove(_path.encode(fileSystemEncoding))
             except:remove(_path)
         else:
             for fd in listDir(_path):
@@ -130,7 +130,7 @@ class Update():
                     removeFileOrDir(_path+"/"+fd, True)
                 else:
                     removeFileOrDir(_path+"/"+fd)
-            try:rmdir(_path.encode(systemsCharSet))
+            try:rmdir(_path.encode(fileSystemEncoding))
             except:rmdir(_path)
     
     def selectSourceFile(_parent):

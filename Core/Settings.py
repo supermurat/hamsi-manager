@@ -11,26 +11,13 @@ if float(sys.version[:3])>=2.6:
 else:
     from pysqlite2 import dbapi2 as sqlite
 
-try:defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
-except:defaultFileSystemEncoding = sys.getdefaultencoding().lower()
-
-from encodings import aliases
-def checkEncoding(_isSetUTF8=False):
-    global defaultFileSystemEncoding
-    if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.iteritems()].count(defaultFileSystemEncoding)==0:
-        if _isSetUTF8:
-            defaultFileSystemEncoding = "utf-8"
-        else:
-            defaultFileSystemEncoding = sys.getdefaultencoding().lower()
-            checkEncoding(True)
-checkEncoding()
-
+import Variables
 import Universals
 import InputOutputs
 import RoutineChecks
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize, getUniversalSetting, setUniversalSetting, willNotReportSettings, getAmendedSQLInputQueries
+    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, fileOfSettings, saveStateOfSettings, openStateOfSettings, pathOfSettingsDirectory, setPathOfSettingsDirectory, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getUniversalSetting, setUniversalSetting, willNotReportSettings, getAmendedSQLInputQueries
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
@@ -42,7 +29,7 @@ class Settings():
                   "unneededFileExtensions","ignoredFileExtensions", "fileReNamerType", 
                   "validSentenceStructure", 
                   "mplayerPath", "mplayerArgs", "mplayerAudioDevicePointer",
-                  "mplayerAudioDevice", "isSaveActions", "systemsCharSet", 
+                  "mplayerAudioDevice", "isSaveActions", "fileSystemEncoding", 
                   "applicationStyle", "playerName", "musicTagType", "isMinimumWindowMode", 
                   "packagerUnneededFileExtensions", "packagerUnneededFiles", "packagerUnneededDirectories", 
                   "lastUpdateControlDate", "updateInterval", 
@@ -224,7 +211,7 @@ class Settings():
             insLangCode = str(QLocale.system().name())
         else:
             insLangCode = "en_GB"
-        myStyle , PlayerName, myObjectsName = "Plastique", getAvailablePlayers().pop(), getMyObjectsNames()[0]
+        myStyle , PlayerName, myObjectsName = "Plastique", Variables.getAvailablePlayers().pop(), Variables.getMyObjectsNames()[0]
         for stil in QStyleFactory.keys():
             if stil == "Oxygen":
                 myStyle = str(stil)
@@ -261,7 +248,7 @@ class Settings():
                 "mplayerAudioDevicePointer": "-ao",
                 "mplayerAudioDevice": Universals.mplayerSoundDevices[0], 
                 "isSaveActions": "True", 
-                "systemsCharSet": defaultFileSystemEncoding, 
+                "fileSystemEncoding": Variables.defaultFileSystemEncoding, 
                 "applicationStyle": myStyle, 
                 "playerName": PlayerName, 
                 "musicTagType": "ID3 V2", 
@@ -272,7 +259,7 @@ class Settings():
                 "lastUpdateControlDate": datetime.now().strftime("%Y %m %d %H %M %S"), 
                 "updateInterval": "7", 
                 "NeededObjectsName": myObjectsName, 
-                "isActivePyKDE4": str(isAvailablePyKDE4()), 
+                "isActivePyKDE4": str(Variables.isAvailablePyKDE4()), 
                 "isCloseOnCleanAndPackage": "True", 
                 "TableToolsBarButtonStyle": "0", 
                 "ToolsBarButtonStyle": "0", 
@@ -375,9 +362,9 @@ class Settings():
                 "mplayerAudioDevicePointer": "str",
                 "mplayerAudioDevice": ["options", Universals.mplayerSoundDevices], 
                 "isSaveActions": "bool", 
-                "systemsCharSet": ["options", getCharSets()], 
-                "applicationStyle": ["options", getStyles()], 
-                "playerName": ["options", getAvailablePlayers()], 
+                "fileSystemEncoding": ["options", Variables.getCharSets()], 
+                "applicationStyle": ["options", Variables.getStyles()], 
+                "playerName": ["options", Variables.getAvailablePlayers()], 
                 "musicTagType": ["options", ["ID3 V1", "ID3 V2"]], 
                 "isMinimumWindowMode": "bool", 
                 "packagerUnneededFileExtensions": "list", 
@@ -708,76 +695,6 @@ class Settings():
                 Universals.HamsiManagerApp.closeAllWindows()
                 break
         
-    def getAvailablePlayers():
-        playerNames = ["Mplayer"]
-        try:
-            import tkSnack
-            playerNames.append("tkSnack")
-        except:pass
-        try:
-            from PySide.phonon import Phonon
-            playerNames.append("Phonon (PySide)")
-        except:pass
-        try:
-            from PyQt4.phonon import Phonon
-            playerNames.append("Phonon")
-        except:pass
-        return playerNames
-       
-    def getCharSets():
-        charSets = []
-        for k, v in aliases.aliases.iteritems():
-            if charSets.count(v.replace("_", "-"))==0:
-                charSets.append(v.replace("_", "-"))
-        charSets.sort()
-        return charSets
-        
-    def getStyles():
-        styles = []
-        for stil in QStyleFactory.keys(): 
-            styles.append(str(stil))
-        return styles
-        
-    def getScreenSize():
-        if Universals.MainWindow!=None:
-            return QDesktopWidget().screenGeometry()
-        else:
-            return None
-        
-    def getMyObjectsNames():
-        myObjectsName = []
-        try:
-            import PyQt4
-            myObjectsName.append("PyQt4")
-        except:pass
-        try:
-            import PySide
-            myObjectsName.append("PySide")
-        except:pass
-        return myObjectsName
-        
-    def isAvailablePyKDE4():
-        try:
-            import PyKDE4
-            return True
-        except:
-            return False
-        
-    def getUserDesktopPath():
-        if isAvailablePyKDE4():
-            from PyKDE4.kdeui import KGlobalSettings
-            desktopPath = str(KGlobalSettings.desktopPath())
-        else:
-            from MyObjects import translate
-            desktopNames = [str(translate("Install","Desktop")), "Desktop"]
-            for dirName in desktopNames:
-                if InputOutputs.isDir(Universals.userDirectoryPath + "/" + dirName):
-                    desktopPath = Universals.userDirectoryPath + "/" + dirName
-                    break
-                else:
-                    desktopPath = Universals.userDirectoryPath
-        return desktopPath
-        
     def updateOldSettings(_oldVersion):
         newSettingsKeys, changedDefaultValuesKeys = [], []
         try:
@@ -884,6 +801,9 @@ class Settings():
                 for sqlCommand in sqlCommands:
                     cur.execute(str(sqlCommand))
                 conNewDB.commit()
+        if oldVersion<906:
+            sets = setting()
+            sets.setValue("fileSystemEncoding", QVariant(sets.value("settingsVersion").toString()))
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():
