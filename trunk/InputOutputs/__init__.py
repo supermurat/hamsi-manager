@@ -5,6 +5,7 @@ import os
 import sys, stat
 from shutil import move, copytree, copy
 import locale
+import Variables
 import Universals
 import Settings
 import Records
@@ -12,22 +13,23 @@ import Organizer
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, systemsCharSet, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory, getRealPath
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath
+    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory, getRealPath
     appendingDirectories = []
     currentDirectoryPath = ""
-    systemsCharSet = Settings.defaultFileSystemEncoding
+    fileSystemEncoding = Variables.defaultFileSystemEncoding
     isMoveToTrash = False
     willCheckIconDirectories = []
     isSmartCheckIcon = False
     
     def isFile(_oldPath):
         _oldPath = str(_oldPath)
-        try:return path.isfile(_oldPath.encode(systemsCharSet))
+        try:return path.isfile(_oldPath.encode(fileSystemEncoding))
         except:return path.isfile(_oldPath)
     
     def isDir(_oldPath):
         _oldPath = str(_oldPath)
-        try:return path.isdir(_oldPath.encode(systemsCharSet))
+        try:return path.isdir(_oldPath.encode(fileSystemEncoding))
         except:return path.isdir(_oldPath)
     
     def isDirEmpty(_oldPath):
@@ -45,7 +47,7 @@ class InputOutputs:
         return False
     
     def getSize(_oldPath):
-        try:return os.stat(_oldPath.encode(systemsCharSet))[stat.ST_SIZE]
+        try:return os.stat(_oldPath.encode(fileSystemEncoding))[stat.ST_SIZE]
         except:return os.stat(_oldPath)[stat.ST_SIZE]
     
     def getObjectType(_oldPath):
@@ -56,9 +58,9 @@ class InputOutputs:
     
     def getDirName(_oldPath):
         _oldPath = str(_oldPath)
-        try:returnValue = path.dirname(_oldPath.encode(systemsCharSet))
+        try:returnValue = path.dirname(_oldPath.encode(fileSystemEncoding))
         except:returnValue = path.dirname(_oldPath)
-        try:return returnValue.decode(systemsCharSet)
+        try:return returnValue.decode(fileSystemEncoding)
         except:return returnValue
     
     def getRealDirName(_oldPath, isGetParent=False):
@@ -92,9 +94,9 @@ class InputOutputs:
     
     def getBaseName(_oldPath):
         _oldPath = str(_oldPath)
-        try:returnValue = path.basename(_oldPath.encode(systemsCharSet))
+        try:returnValue = path.basename(_oldPath.encode(fileSystemEncoding))
         except:returnValue = path.basename(_oldPath)
-        try:return returnValue.decode(systemsCharSet)
+        try:return returnValue.decode(fileSystemEncoding)
         except:return returnValue
     
     def checkExtension(_oldPath, _extension):
@@ -112,12 +114,12 @@ class InputOutputs:
     def moveFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         if getDirName(_oldPath)==getDirName(_newPath):
-            try:rename(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+            try:rename(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
             except:rename(_oldPath,_newPath)
         else:
             if isDir(getDirName(_newPath))==False:
                 makeDirs(getDirName(_newPath))
-            try:move(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+            try:move(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
             except:move(_oldPath,_newPath)
         Records.add("Moved", _oldPath, _newPath)
     
@@ -126,7 +128,7 @@ class InputOutputs:
         if isDir(getDirName(_newPath))==False:
             makeDirs(getDirName(_newPath))
         if isFile(_oldPath):
-            try:copy(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+            try:copy(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
             except:copy(_oldPath,_newPath)
         else:
             copyDirTree(_oldPath, _newPath)
@@ -134,7 +136,7 @@ class InputOutputs:
             
     def copyDirTree(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
-        try:copytree(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+        try:copytree(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
         except:copytree(_oldPath,_newPath)
         Records.add("Copied", _oldPath, _newPath)
     
@@ -151,7 +153,7 @@ class InputOutputs:
             from os import symlink
             if isExist(_newPath):
                 removeFile(_newPath)
-            try:symlink(_oldPath.encode(systemsCharSet),_newPath.encode(systemsCharSet))
+            try:symlink(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
             except:symlink(_oldPath,_newPath)
             Records.add("Created Link", _oldPath, _newPath)
             return True
@@ -163,14 +165,14 @@ class InputOutputs:
     def listDir(_oldPath):
         names = []
         if checkSource(_oldPath, "directory"):
-            try:names = listdir(_oldPath.encode(systemsCharSet))
+            try:names = listdir(_oldPath.encode(fileSystemEncoding))
             except:names = listdir(_oldPath)
             names.sort(key=trSort)
         return names
         
     def makeDirs(_newPath):
         if isWritableFileOrDir(getRealDirName(_newPath)):
-            try:makedirs(_newPath.encode(systemsCharSet))
+            try:makedirs(_newPath.encode(fileSystemEncoding))
             except:makedirs(_newPath)
             Records.add("Created", _newPath)
         
@@ -178,7 +180,7 @@ class InputOutputs:
         if isMoveToTrash:
             moveToTrash(_oldPath)
         else:
-            try:rmdir(_oldPath.encode(systemsCharSet))
+            try:rmdir(_oldPath.encode(fileSystemEncoding))
             except:rmdir(_oldPath)
         Records.add("Removed", _oldPath)
         
@@ -186,18 +188,18 @@ class InputOutputs:
         if isMoveToTrash:
             moveToTrash(_oldPath)
         else:
-            try:remove(_oldPath.encode(systemsCharSet))
+            try:remove(_oldPath.encode(fileSystemEncoding))
             except:remove(_oldPath)
         Records.add("Removed", _oldPath)
     
     def moveToTrash(_oldPath):
         import Execute
-        try:Execute.execute("kioclient move '" + _oldPath.encode(systemsCharSet) + "' trash:/")
+        try:Execute.execute("kioclient move '" + _oldPath.encode(fileSystemEncoding) + "' trash:/")
         except:Execute.execute("kioclient move '" + _oldPath + "' trash:/")
     
     def trSort(_info):
         try:
-            return locale.strxfrm(_info.encode(systemsCharSet))
+            return locale.strxfrm(_info.encode(fileSystemEncoding))
         except:
             return locale.strxfrm(_info)
     
@@ -206,7 +208,7 @@ class InputOutputs:
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
         try: 
-            if os.access(realPath.encode(systemsCharSet), os.R_OK): 
+            if os.access(realPath.encode(fileSystemEncoding), os.R_OK): 
                 return True 
         except: 
             if os.access(realPath, os.R_OK): 
@@ -229,7 +231,7 @@ class InputOutputs:
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
         try: 
-            if os.access(realPath.encode(systemsCharSet), os.W_OK): 
+            if os.access(realPath.encode(fileSystemEncoding), os.W_OK): 
                 return True 
         except: 
             if os.access(realPath, os.W_OK): 
@@ -334,7 +336,7 @@ class InputOutputs:
         fileAndDirectoryNames,fileNames,directoryNames,musicFileNames=[],[],[],[]
         for name in listDir(_path):
             if name[:1] != ".":
-                try:fileAndDirectoryNames.append(name.decode(systemsCharSet))
+                try:fileAndDirectoryNames.append(name.decode(fileSystemEncoding))
                 except:fileAndDirectoryNames.append(name)
         for name in fileAndDirectoryNames:
             if isDir(_path+"/"+name):
@@ -366,7 +368,7 @@ class InputOutputs:
     def readDirectoryAll(_path): 
         tFileAndDirs=[]
         for name in listDir(_path):
-            try:tFileAndDirs.append(str(name.decode(systemsCharSet)))
+            try:tFileAndDirs.append(str(name.decode(fileSystemEncoding)))
             except:tFileAndDirs.append(name)
         return tFileAndDirs
   
@@ -403,7 +405,7 @@ class InputOutputs:
     
     def readFromFile(_path):
         _path = str(_path)
-        try:f = open(_path.encode(systemsCharSet))
+        try:f = open(_path.encode(fileSystemEncoding))
         except:f = open(_path)
         info = f.read()
         f.close()
@@ -411,7 +413,7 @@ class InputOutputs:
         
     def readLinesFromFile(_path):
         _path = str(_path)
-        try:f = open(_path.encode(systemsCharSet))
+        try:f = open(_path.encode(fileSystemEncoding))
         except:f = open(_path)
         info = f.readlines()
         f.close()
@@ -419,7 +421,7 @@ class InputOutputs:
         
     def readFromBinaryFile(_path):
         _path = str(_path)
-        try:f = open(_path.encode(systemsCharSet), "rb")
+        try:f = open(_path.encode(fileSystemEncoding), "rb")
         except:f = open(_path, "rb")
         info = f.read()
         f.close()
@@ -427,7 +429,7 @@ class InputOutputs:
         
     def writeToFile(_path, _contents=""):
         _path = str(_path)
-        try:f = open(_path.encode(systemsCharSet), "w")
+        try:f = open(_path.encode(fileSystemEncoding), "w")
         except:f = open(_path, "w")
         f.write(_contents)
         f.close()
@@ -435,7 +437,7 @@ class InputOutputs:
         
     def writeToBinaryFile(_path, _contents=""):
         _path = str(_path)
-        try:f = open(_path.encode(systemsCharSet), "wb")
+        try:f = open(_path.encode(fileSystemEncoding), "wb")
         except:f = open(_path, "w")
         f.write(_contents)
         f.flush()
@@ -444,7 +446,7 @@ class InputOutputs:
     
     def addToFile(_path, _contents=""):
         _path = str(_path)
-        try:f = open(_path.encode(systemsCharSet), "a")
+        try:f = open(_path.encode(fileSystemEncoding), "a")
         except:f = open(_path, "w")
         f.write(_contents)
         f.close()
@@ -978,9 +980,9 @@ class InputOutputs:
             Dialogs.showError(translate("InputOutputs", "Current Directory Name"),
                         str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>Please choose another file name!")) % Organizer.getLink(_filePath))
             return False
-        try:tar = tarfile.open(_filePath.encode(systemsCharSet), "w:" + _packageType)
+        try:tar = tarfile.open(_filePath.encode(fileSystemEncoding), "w:" + _packageType)
         except:tar = tarfile.open(_filePath, "w:" + _packageType)
-        try:tar.add(_sourcePath.encode(systemsCharSet), "")
+        try:tar.add(_sourcePath.encode(fileSystemEncoding), "")
         except:tar.add(_sourcePath, "")
         tar.close()
         Records.add("Packed", _filePath)
@@ -991,12 +993,12 @@ class InputOutputs:
         import tarfile
         while 1==1:
             try:
-                try:tar = tarfile.open(_oldPath.encode(systemsCharSet), "r:gz")
+                try:tar = tarfile.open(_oldPath.encode(fileSystemEncoding), "r:gz")
                 except:tar = tarfile.open(_oldPath, "r:gz")
                 break
             except:
                 time.sleep(1)
-        try:tar.extractall(_newPath.encode(systemsCharSet), members=tar.getmembers())
+        try:tar.extractall(_newPath.encode(fileSystemEncoding), members=tar.getmembers())
         except:tar.extractall(_newPath, members=tar.getmembers())
         tar.close()
         Records.add("Extracted", _oldPath, _newPath)

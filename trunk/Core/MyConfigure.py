@@ -2,6 +2,7 @@
 
 import sys
 import os
+import Variables
 import InputOutputs
 import Universals
 import Settings
@@ -14,7 +15,7 @@ class MyConfigure:
         InputOutputs.writeToFile(_filePath, fileContent)
             
     def installKDE4Languages():
-        if Settings.isAvailablePyKDE4():
+        if Variables.isAvailablePyKDE4():
             for langCode in InputOutputs.getInstalledLanguagesCodes():
                 installKDE4Language(langCode)
             Universals.setMySetting("isInstalledKDE4Language", True)
@@ -26,7 +27,7 @@ class MyConfigure:
         if Execute.isRunningAsRoot():
             _KDELocalateDir = "/usr/share/locale/~langCode~/LC_MESSAGES/"
         _KDELocalateDir = str(_KDELocalateDir)
-        if Settings.isAvailablePyKDE4():
+        if Variables.isAvailablePyKDE4():
             _KDELocalateDir = _KDELocalateDir.replace("~langCode~", str(_language[:2]))
             langFile = Universals.HamsiManagerDirectory+"/Languages/" + str(_language)+".mo"
             if InputOutputs.isFile(_KDELocalateDir+u"HamsiManager.mo")==False:

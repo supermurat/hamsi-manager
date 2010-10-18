@@ -7,6 +7,7 @@ sys.setdefaultencoding("utf-8")
 if str(sys.path[0])=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Core")
+import Variables
 import RoutineChecks
 if RoutineChecks.checkPyQt4Exist():
     import Settings
@@ -188,7 +189,7 @@ if RoutineChecks.checkPyQt4Exist():
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                     import Settings
-                    desktopPath = Settings.getUserDesktopPath()
+                    desktopPath = Variables.getUserDesktopPath()
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(Universals.HamsiManagerDirectory)
                     InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
             executableLink = str(self.leExecutableLink)

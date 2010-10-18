@@ -49,7 +49,7 @@ class Musics:
                 try:
                     tag = eyeD3.Tag()
                     try:
-                        tag.link((_directoryPath+"/"+musicName).encode(InputOutputs.systemsCharSet), musicTagType)
+                        tag.link((_directoryPath+"/"+musicName).encode(InputOutputs.fileSystemEncoding), musicTagType)
                     except:
                         tag = eyeD3.Tag()
                         tag.link(_directoryPath+"/"+musicName, musicTagType)
@@ -81,7 +81,7 @@ class Musics:
                     if _filePath!=None:
                         try:
                             try:
-                                musicFileDetail = eyeD3.Mp3AudioFile((_directoryPath+"/"+musicName).encode(InputOutputs.systemsCharSet))
+                                musicFileDetail = eyeD3.Mp3AudioFile((_directoryPath+"/"+musicName).encode(InputOutputs.fileSystemEncoding))
                             except:
                                 musicFileDetail = eyeD3.Mp3AudioFile(_directoryPath+"/"+musicName)
                             musicTagsValues.append(str(musicFileDetail.getSize()))
@@ -159,7 +159,7 @@ class Musics:
                         continue
                     tag = eyeD3.Tag()
                     try:
-                        tag.link((InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1]).encode(InputOutputs.systemsCharSet), musicTagType)
+                        tag.link((InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1]).encode(InputOutputs.fileSystemEncoding), musicTagType)
                     except:
                         tag = eyeD3.Tag()
                         tag.link(InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1], musicTagType)
@@ -285,7 +285,7 @@ class Musics:
             musicTagType = getSelectedMusicTagType()
             tag = eyeD3.Tag()
             try:
-                tag.link((_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]).encode(InputOutputs.systemsCharSet), musicTagType)
+                tag.link((_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]).encode(InputOutputs.fileSystemEncoding), musicTagType)
             except:
                 tag = eyeD3.Tag()
                 tag.link(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1], musicTagType)

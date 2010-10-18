@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys,os
+import Variables
 from MyObjects import *
 import Settings, Dialogs , Universals, InputOutputs, Records, Organizer
 import ReportBug
@@ -776,7 +777,7 @@ class General(MWidget):
                     translate("Options/General", "You can select Hamsi Manager`s language.")]
         self.typesOfValues = [["options", 1], ["options", 4], "Yes/No", ["number", 3], 
                                 "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 5], ["options", 0]]
-        styles = Settings.getStyles()
+        styles = Variables.getStyles()
         themes = InputOutputs.getInstalledThemes()
         self.valuesOfOptions = [InputOutputs.getInstalledLanguagesNames(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
@@ -1156,14 +1157,14 @@ class Advanced(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["systemsCharSet", "isMoveToTrash", "imageExtensions", "musicExtensions", "NeededObjectsName", "isActivePyKDE4"]
+        self.keysOfSettings = ["fileSystemEncoding", "isMoveToTrash", "imageExtensions", "musicExtensions", "NeededObjectsName", "isActivePyKDE4"]
         self.tabsOfSettings = [None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
-        self.neededRestartSettingKeys = ["systemsCharSet", "NeededObjectsName", "isActivePyKDE4"]
+        self.neededRestartSettingKeys = ["fileSystemEncoding", "NeededObjectsName", "isActivePyKDE4"]
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/Advanced", "File System Character Set"), 
                     translate("Options/Advanced", "Move To Trash"),  
@@ -1171,14 +1172,14 @@ class Advanced(MWidget):
                     translate("Options/Advanced", "Music Files` Extensions"), 
                     translate("Options/Advanced", "Please Select The Object Set You Want To Use"), 
                     translate("Options/Advanced", "Do You Want To Use PyKDE4?")]
-        self.toolTips = [(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Settings.defaultFileSystemEncoding)).decode("utf-8"), 
+        self.toolTips = [(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Variables.defaultFileSystemEncoding)).decode("utf-8"), 
                     translate("Options/Advanced", "Would you like to move files to the trash files to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"), 
                     translate("Options/Advanced", "KPlease select the object set you want to use (the object types installed on your system will be presented in the Options dialog.)"), 
                     translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>")]
         self.typesOfValues = [["options", 0], "Yes/No", "list", "list", ["options", 1], "Yes/No"]
-        charSets = Settings.getCharSets()
+        charSets = Variables.getCharSets()
         objectsNames = [] 
         try:
             import PyQt4
@@ -1244,8 +1245,8 @@ class Player(MWidget):
                     translate("Options/Player", "The argument used to point to the sound device you want to use.<br><font color=red>Default value: -ao</font>"),
                     translate("Options/Player", "The sound device you want to use.<br><font color=red>Default value: alsa</font>")]
         self.typesOfValues = [["options", 0], ["file", "executable"], "string", "string", ["options", 1]]
-        self.valuesOfOptions = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
-        self.valuesOfOptionsKeys = [Settings.getAvailablePlayers(), Universals.mplayerSoundDevices]
+        self.valuesOfOptions = [Variables.getAvailablePlayers(), Universals.mplayerSoundDevices]
+        self.valuesOfOptionsKeys = [Variables.getAvailablePlayers(), Universals.mplayerSoundDevices]
         createOptions(self)
         if self.visibleKeys.count("playerName")>0:
             MObject.connect(self.values[self.keysOfSettings.index("playerName")], SIGNAL("currentIndexChanged(int)"), self.playerChanged)
