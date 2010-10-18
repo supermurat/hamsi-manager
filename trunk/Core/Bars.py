@@ -269,13 +269,8 @@ class Bars():
                     import FileTreeBuilder
                     FileTreeBuilder.FileTreeBuilder(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Run Command"):
-                    try:
-                        from PyQt4.Qsci import QsciScintilla
-                    except:
-                        Dialogs.showError(translate("MenuBar", "Qsci Is Not Installed"), 
-                                translate("MenuBar", "Qsci is not installed on your systems.<br>Please install Qsci on your system and try again."))
-                    else:
-                        import RunCommand
+                    import RunCommand
+                    if RunCommand.checkRunCommand():
                         RunCommand.RunCommand(Universals.MainWindow)
                 elif actionName==translate("ToolsBar", "Remove Sub Files"):
                     answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),

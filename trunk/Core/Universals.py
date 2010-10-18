@@ -64,7 +64,6 @@ class Universals():
             if newSettingVersion!=settingVersion:
                 newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion)
                 isShowVerifySettings = True
-            Settings.checkDatabases()
         if _isActivePyKDE4!=False:
             if getBoolValue("isActivePyKDE4"):
                 try:
