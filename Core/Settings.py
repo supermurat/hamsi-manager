@@ -30,7 +30,7 @@ import InputOutputs
 import RoutineChecks
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, codesOfUser, reFillCodesOfUser, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize, getUniversalSetting, setUniversalSetting, willNotReportSettings, getAmendedSQLInputQueries
+    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, getCharSets, getStyles, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, fileOfSettings, saveStateOfSettings, openStateOfSettings, getAvailablePlayers, getMyObjectsNames, isAvailablePyKDE4, pathOfSettingsDirectory, setPathOfSettingsDirectory, getUserDesktopPath, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getScreenSize, getUniversalSetting, setUniversalSetting, willNotReportSettings, getAmendedSQLInputQueries
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
@@ -179,22 +179,16 @@ class Settings():
         con.commit()
     
     def checkSettings():
-        if os.path.isdir(os.path.dirname(pathOfSettingsDirectory))==False:
-            os.mkdir(os.path.dirname(pathOfSettingsDirectory))
-        if os.path.isdir(pathOfSettingsDirectory)==False:
-            os.mkdir(pathOfSettingsDirectory)
-            os.mkdir(pathOfSettingsDirectory + "/SettingFiles")
-            os.mkdir(pathOfSettingsDirectory + "/BackUps")
+        if InputOutputs.isDir(pathOfSettingsDirectory)==False:
+            InputOutputs.makeDirs(pathOfSettingsDirectory)
             reFillSettings()
             reFillDatabases("All")
-            reFillCodesOfUser()
         else:
-            if os.path.isfile(pathOfSettingsDirectory + "/database.sqlite")==False:
+            if InputOutputs.isFile(pathOfSettingsDirectory + "/database.sqlite")==False:
                 reFillDatabases("All")
-            if os.path.isfile(pathOfSettingsDirectory + "/codesOfUser.py")==False:
-                reFillCodesOfUser()
-            if os.path.isfile(pathOfSettingsDirectory + "/" + fileOfSettings)==False:
+            if InputOutputs.isFile(pathOfSettingsDirectory + "/" + fileOfSettings)==False:
                 reFillSettings()
+            checkDatabases()
         
     def saveUniversalSettings():
         mySetting = universalSetting()
@@ -635,9 +629,8 @@ class Settings():
             files.append("database.sqlite")
         if _settingType=="Settings" or _settingType=="All":
             files.append(fileOfSettings)
-        try:
+        if InputOutputs.isDir(pathOfSettingsDirectory + "/" + _backUpDirectory)==False:
             InputOutputs.makeDirs(pathOfSettingsDirectory + "/" + _backUpDirectory)
-        except:pass
         isReturn = False
         for file in files:
             if _newFileName=="mirror":
@@ -692,24 +685,6 @@ class Settings():
             if isMake==True:
                 InputOutputs.writeToFile(pathOfSettingsDirectory + "/BackUps/"+file, oldInfo)
         return True
-    
-    def codesOfUser(_codes=""):
-        if _codes=="":
-            return InputOutputs.readFromFile(pathOfSettingsDirectory + "/codesOfUser.py")
-        else:
-            InputOutputs.writeToFile(pathOfSettingsDirectory + "/codesOfUser.py", _codes)
-            
-    def reFillCodesOfUser():
-        f = open(pathOfSettingsDirectory + "/codesOfUser.py", "w")
-        f.write("#!/usr/bin/env python\n" +
-                            "# -*- coding: utf-8 -*-\n"+
-                            "\n"+
-                            "#You can type and execute the commands you wish to run here.\n"+
-                            "#You can get detailed information from our official website.\n"+
-                            "import Dialogs\nDialogs.show(\"This is an example\",\"You can develop the examples as you wish.\")"+
-                            "\n\n\n\n\n\n\n\n\n")
-        f.close()
-
 
     def saveStateOfSettings(_file):
         import MyConfigure

@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from MyObjects import *
-from PyQt4.Qsci import QsciScintilla, QsciLexerPython, QsciAPIs
 import sys
 import Settings
 import Dialogs
 import Universals
+import InputOutputs
 
 class RunCommand(MDialog):
+    global checkRunCommand, codesOfUser, reFillCodesOfUser
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
+        from PyQt4.Qsci import QsciScintilla, QsciLexerPython, QsciAPIs
         if Universals.isActivePyKDE4==True:
             self.setButtons(MDialog.None)
         self.sciCommand = QsciScintilla()
         self.sciCommand.setUtf8(True)
-        self.sciCommand.setText(Settings.codesOfUser().decode("utf-8"))
+        self.sciCommand.setText(codesOfUser().decode("utf-8"))
         self.sciCommand.setAutoIndent(True)
         self.sciCommand.setAutoCompletionThreshold(2)
         self.sciCommand.setAutoCompletionSource(QsciScintilla.AcsDocument)
@@ -50,7 +52,34 @@ class RunCommand(MDialog):
     def closeEvent(self, _event):
         if self.saveCommand()==False:
             _event.ignore() 
+    
+    def checkRunCommand(_isAlertIfNotAvailable=True):
+        try:
+            from PyQt4.Qsci import QsciScintilla
+            return True
+        except:
+            if _isAlertIfNotAvailable:
+                Dialogs.showError(translate("MenuBar", "Qsci Is Not Installed"), 
+                    translate("MenuBar", "Qsci is not installed on your systems.<br>Please install Qsci on your system and try again."))
+            return False
+    
+    def codesOfUser(_codes=""):
+        if _codes=="":
+            if InputOutputs.isFile(Settings.pathOfSettingsDirectory + "/codesOfUser.py")==False:
+                reFillCodesOfUser()
+            return InputOutputs.readFromFile(Settings.pathOfSettingsDirectory + "/codesOfUser.py")
+        else:
+            InputOutputs.writeToFile(Settings.pathOfSettingsDirectory + "/codesOfUser.py", _codes)
 
+    def reFillCodesOfUser():
+        codesOfUser("#!/usr/bin/env python\n" +
+                            "# -*- coding: utf-8 -*-\n"+
+                            "\n"+
+                            "#You can type and execute the commands you wish to run here.\n"+
+                            "#You can get detailed information from our official website.\n"+
+                            "import Dialogs\nDialogs.show(\"This is an example\",\"You can develop the examples as you wish.\")"+
+                            "\n\n\n\n\n\n\n\n\n")
+        
     def runCommandAndClose(self):
         if self.runCommand():
             self.close()
@@ -74,11 +103,11 @@ class RunCommand(MDialog):
             return False
     
     def saveCommand(self):
-        if str(Settings.codesOfUser())!=str(unicode(self.sciCommand.text(), "utf-8")):
+        if str(codesOfUser())!=str(unicode(self.sciCommand.text(), "utf-8")):
             answer = Dialogs.ask(translate("RunCommand", "Do You Wish To Save Your Codes?"), 
                             translate("RunCommand", "Do you wish to save your codes so that you can continue later?"), True)
             if answer==Dialogs.Yes:
-                Settings.codesOfUser(unicode(self.sciCommand.text(), "utf-8"))
+                codesOfUser(unicode(self.sciCommand.text(), "utf-8"))
             elif answer==Dialog.Cancel:
                 return False
         return True
@@ -87,8 +116,8 @@ class RunCommand(MDialog):
         answer = Dialogs.ask(translate("RunCommand", "Your Codes Will Be Deleted!.."), 
                             translate("RunCommand", "Your codes will be deleted and the default codes will be installed. Do you wish to clear the current codes?"))
         if answer==Dialogs.Yes:
-            Settings.reFillCodesOfUser()
-            self.sciCommand.setText(Settings.codesOfUser().decode("utf-8"))
+            reFillCodesOfUser()
+            self.sciCommand.setText(codesOfUser().decode("utf-8"))
         
         
         
