@@ -17,7 +17,7 @@ class Options(MDialog):
         self.focusTo = _focusTo
         self.focusToCategory = None
         self.markedKeys = _markedKeys
-        self.defaultValues = Settings.getDefaultValues()
+        self.defaultValues = Variables.getDefaultValues()
         self.checkVisibility(self.showType)
         if self.showType=="Normal":
             self.tboxCategories = MToolBox()
@@ -358,8 +358,8 @@ class Options(MDialog):
             isNeededRestart = False
             isDontClose = False
             isSaveSearchAndReplaceTable, searchAndReplaceCategoryNo = False, 0
-            defaultValues = Settings.getDefaultValues()
-            valueTypesAndValues = Settings.getValueTypesAndValues()
+            defaultValues = Variables.getDefaultValues()
+            valueTypesAndValues = Variables.getValueTypesAndValues()
             for categoryNo, category in enumerate(self.categories):
                 for x, keyValue in enumerate(category.keysOfSettings):
                     if category.visibleKeys.count(keyValue)>0:
@@ -435,8 +435,8 @@ class Options(MDialog):
             
     def applySetting(_category, _keyValue):
         try:
-            defaultValues = Settings.getDefaultValues()
-            valueTypesAndValues = Settings.getValueTypesAndValues()
+            defaultValues = Variables.getDefaultValues()
+            valueTypesAndValues = Variables.getValueTypesAndValues()
             x = _category.keysOfSettings.index(_keyValue)
             if _category.visibleKeys.count(_keyValue)>0:
                 if _category.typesOfValues[x]=="string":
@@ -1181,6 +1181,7 @@ class Advanced(MWidget):
         self.typesOfValues = [["options", 0], "Yes/No", "list", "list", ["options", 1], "Yes/No"]
         charSets = Variables.getCharSets()
         objectsNames = [] 
+        #FIXME: you make this switch (or remove this)
         try:
             import PyQt4
             objectsNames.append("PyQt4")
@@ -1189,9 +1190,7 @@ class Advanced(MWidget):
 #            import PySide
 #            objectsNames.append("PySide")
 #        except:pass
-        try:
-            import PyKDE4
-        except:
+        if Variables.isAvailablePyKDE4()==False:
             keyNo = self.keysOfSettings.index("isActivePyKDE4")
             del self.keysOfSettings[keyNo]
             del self.labels[keyNo]
@@ -1556,7 +1555,6 @@ class MySettings(MWidget):
             answer = Dialogs.ask(translate("Options/MySettings", "KDE4 Language Will Be Reinstalled Into Hamsi Manager"),
                         translate("Options/MySettings", "Are you sure you want to reinstall kde4 language into Hamsi Manager?"))
             if answer==Dialogs.Yes:
-                from PyQt4.QtCore import QLocale 
                 MyConfigure.installKDE4Languages()
                 Dialogs.show(translate("Options/MySettings", "Language Reinstallation Completed"), 
                         translate("Options/MySettings", "Language has successfully been reinstalled."))

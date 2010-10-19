@@ -8,7 +8,7 @@ import Universals
 import Settings
 import InputOutputs, Records
 import traceback
-from RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs, __intversion__
+from RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
 iSClosingInErrorReporting = False
 
 class ReportBug(MDialog):
@@ -135,17 +135,30 @@ class ReportBug(MDialog):
                     errorDetails += "<br>"
             except:
                 errorDetails += "<br>"
-            try:
-                errorDetails += "<b>PyQt4 (Qt) Version : </b>"
-                errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
-            except:
-                errorDetails += "<br>"
-            try:
-                from PySide import QtCore
-                errorDetails += "<b>PySide (Qt) Version : </b>"
-                errorDetails += str(QtCore.qVersion()) + " (" + QtCore.QT_VERSION_STR +")<br>"
-            except:
-                errorDetails += "<br>"
+            if Variables.MObjectName == "PyQt4":
+                try:
+                    errorDetails += "<b>PyQt4 (Qt) Version : </b>"
+                    errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
+                except:
+                    errorDetails += "<br>"
+                try:
+                    from PySide import QtCore
+                    errorDetails += "<b>PySide (Qt) Version : </b>"
+                    errorDetails += str(QtCore.qVersion()) + " (" + QtCore.QT_VERSION_STR +")<br>"
+                except:
+                    errorDetails += "<br>"
+            elif Variables.MObjectName == "PySide":
+                try:
+                    errorDetails += "<b>PySide (Qt) Version : </b>"
+                    errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
+                except:
+                    errorDetails += "<br>"
+                try:
+                    from PyQt4 import QtCore
+                    errorDetails += "<b>PyQt4 (Qt) Version : </b>"
+                    errorDetails += str(QtCore.qVersion()) + " (" + QtCore.QT_VERSION_STR +")<br>"
+                except:
+                    errorDetails += "<br>"
             try:
                 from PyKDE4 import kdecore
                 errorDetails += "<b>PyKDE4 Version : </b>"
@@ -255,7 +268,7 @@ class ReportBug(MDialog):
                     '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
                     '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
                     '<INPUT TYPE="hidden" name="l" value="' + str(Universals.MySettings["language"]) + '" />'+
-                    '<INPUT TYPE="hidden" name="v" value="' + str(__intversion__) + '" /></form>'+
+                    '<INPUT TYPE="hidden" name="v" value="' + str(Variables.intversion) + '" /></form>'+
                     '~ADDITIONALDETAILS~</center></body></html>'
                     ) % (
                     str(translate("ReportBug", "<b>Error description :</b> <br>(Be can null)<br><b>Note:</b>Please write what you did before you received the error here.")), 

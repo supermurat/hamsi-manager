@@ -3,6 +3,7 @@
 import sys
 from os import path
 from datetime import timedelta, datetime
+import Variables
 
 class Universals():
     global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatKeys, iconNameFormatLabels, checkMysqldSafe
@@ -53,9 +54,9 @@ class Universals():
         import Settings, InputOutputs
         sets = Settings.setting()
         settingVersion = str(sets.value("settingsVersion").toString())
-        defaultValues = Settings.getDefaultValues()
-        valueTypesAndValues = Settings.getValueTypesAndValues()
-        for keyValue in Settings.keysOfSettings:
+        defaultValues = Variables.getDefaultValues()
+        valueTypesAndValues = Variables.getValueTypesAndValues()
+        for keyValue in Variables.keysOfSettings:
             value = sets.value(keyValue, defaultValues[keyValue].decode("utf-8")).toString()
             if MySettings.keys().count(keyValue)==0 or _setAgain:
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
@@ -120,10 +121,10 @@ class Universals():
         
     def saveSettings(_key=None):
         from MyObjects import MVariant
-        from Settings import setting, keysOfSettings
+        from Settings import setting
         sets = setting()
         if _key==None:
-            keys = keysOfSettings
+            keys = Variables.keysOfSettings
         else:
             keys = [_key]
         for value in keys:

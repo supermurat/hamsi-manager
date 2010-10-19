@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import sys,os
-
+import Variables
 from MyObjects import *
 import Universals
 import Settings
-from RoutineChecks import __intversion__
 
 class SuggestIdea(MDialog):
     def __init__(self):
@@ -50,7 +49,7 @@ class SuggestIdea(MDialog):
                     '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
                     '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
                     '<INPUT TYPE="hidden" name="l" value="' + str(Universals.MySettings["language"]) + '" />'+
-                    '<INPUT TYPE="hidden" name="v" value="' + str(__intversion__) + '" /></form>'+
+                    '<INPUT TYPE="hidden" name="v" value="' + str(Variables.intversion) + '" /></form>'+
                     '</center></body></html>'
                     ) % (
                     str(translate("SuggestIdea", "<b>Idea :</b>")), 

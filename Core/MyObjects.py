@@ -78,9 +78,9 @@ if Universals.MySettings.keys().count("isActivePyKDE4")>0:
             #this PyKDE4 objects different from PyQt4 objects
             QMessageBox = QtGui.QMessageBox
             QDirModel = QtGui.QDirModel
+            QIcon = QtGui.QIcon
             MFileDialog = QtGui.QFileDialog 
             MLocale = QtCore.QLocale
-            
             KFileDialog = kio.KFileDialog
             KLocale = kdecore.KLocale
         except:

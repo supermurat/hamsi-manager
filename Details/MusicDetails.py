@@ -4,7 +4,6 @@ from InputOutputs import Musics
 import InputOutputs
 import os,sys
 from MyObjects import *
-from PyQt4.Qt import QIcon
 import Dialogs
 import Organizer
 from Viewers import MusicPlayer

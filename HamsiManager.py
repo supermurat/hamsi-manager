@@ -12,7 +12,7 @@ sys.path.insert(2,sys.path[0]+"/SearchEngines")
 import Variables
 Variables.checkStartupVariables()
 import RoutineChecks
-if RoutineChecks.checkPyQt4Exist():
+if RoutineChecks.checkQt4Exist():
     myUniversals = ""
     if RoutineChecks.checkParameters():
         import Settings
@@ -30,7 +30,7 @@ if RoutineChecks.checkPyQt4Exist():
             Universals.printForDevelopers("ActivePyKDE4")
             appName     = "HamsiManager"
             programName = ki18n ("Hamsi Manager")
-            version     = RoutineChecks.__version__
+            version     = Variables.version
             license     = MAboutData.License_GPL_V3
             copyright   = ki18n (u"Murat Demir (mopened@gmail.com)")
             kde4LangKode = str(KLocale(Universals.Catalog).language())+"_"+str(KLocale(Universals.Catalog).country()).upper()
@@ -93,7 +93,7 @@ if RoutineChecks.checkPyQt4Exist():
                             str(Universals.MySettings["language"]+".qm")).decode(Variables.defaultFileSystemEncoding))
                 HamsiManagerApp.installTranslator(languageFile)
         HamsiManagerApp.setApplicationName("HamsiManager")
-        HamsiManagerApp.setApplicationVersion(RoutineChecks.__version__)
+        HamsiManagerApp.setApplicationVersion(Variables.version)
         HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
         HamsiManagerApp.setOrganizationName("Hamsi Apps")
         MApplication.setQuitOnLastWindowClosed(True)
