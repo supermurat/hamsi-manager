@@ -2,6 +2,7 @@
 
 import sys,os
 import time
+import Variables
 import Universals
 import InputOutputs
 import Dialogs
@@ -82,7 +83,7 @@ class UpdateControl(MDialog):
         urlSubFix = ""
         if Universals.isDeveloperMode:
             urlSubFix = "&m=develop"
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(RoutineChecks.__intversion__) + "&l=" + str(Universals.MySettings["language"]) + urlSubFix))
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"]) + urlSubFix))
     
     def remindMeLaterAndClose(self):
         Universals.setMySetting("remindMeLaterForUpdate", self.cbRemindMeLater.value())
@@ -109,8 +110,8 @@ class UpdateControl(MDialog):
                             try:
                                 lastVersion = int(self.updateInformations[0].replace("V", "").replace(".", ""))
                             except:
-                                lastVersion = RoutineChecks.__intversion__ -1
-                            if lastVersion > RoutineChecks.__intversion__:
+                                lastVersion = Variables.intversion -1
+                            if lastVersion > Variables.intversion:
                                 self.lblInfo.setText(str(translate("UpdateControl", "New release is available. Please download and install.<br>"+
                                                     "For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[2]))
                                 self.pbtnDownloadAndInstall.setVisible(True)
@@ -121,7 +122,7 @@ class UpdateControl(MDialog):
                                     details += detail+"<br>"
                                 self.details.setText(str(translate("UpdateControl", "Version %s is available. Please download and install the new release.<br>"+
                                                       "%s For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a><br>You can download from <a href='%s' target='_blank'>Hamsi Manager %s</a>")) % (self.updateInformations[0] + self.updateInformations[3], details, self.updateInformations[2], self.updateInformations[1], self.updateInformations[0]))
-                            elif lastVersion < RoutineChecks.__intversion__:
+                            elif lastVersion < Variables.intversion:
                                 self.lblInfo.setText(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>"+
                                                     "For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[0], self.updateInformations[2]))
                                 self.pbtnDownloadAndInstall.setVisible(True)

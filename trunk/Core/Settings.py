@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os, sys
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
-#from PySide.QtGui import *
-#from PySide.QtCore import *
 from datetime import datetime
 if float(sys.version[:3])>=2.6:
     import sqlite3 as sqlite
@@ -17,55 +13,7 @@ import InputOutputs
 import RoutineChecks
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, emendValue, getDefaultValues, getValueTypesAndValues, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, keysOfSettings, fileOfSettings, saveStateOfSettings, openStateOfSettings, pathOfSettingsDirectory, setPathOfSettingsDirectory, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getUniversalSetting, setUniversalSetting, willNotReportSettings, getAmendedSQLInputQueries
-    keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
-                  "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
-                  "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
-                  "hiddenFileTableColumns", "hiddenMusicTableColumns", "hiddenSubFolderTableColumns", 
-                  "hiddenCoverTableColumns", 
-                  "isPlayNow", "MainWindowGeometries", "tableType", 
-                  "activeTabNoOfSpecialTools", "unneededFiles", "ignoredFiles", 
-                  "imageExtensions", "musicExtensions", "priorityIconNames", 
-                  "unneededFileExtensions","ignoredFileExtensions", "fileReNamerType", 
-                  "validSentenceStructure", 
-                  "mplayerPath", "mplayerArgs", "mplayerAudioDevicePointer",
-                  "mplayerAudioDevice", "isSaveActions", "fileSystemEncoding", 
-                  "applicationStyle", "playerName", "musicTagType", "isMinimumWindowMode", 
-                  "packagerUnneededFileExtensions", "packagerUnneededFiles", "packagerUnneededDirectories", 
-                  "lastUpdateControlDate", "updateInterval", 
-                  "NeededObjectsName", "isActivePyKDE4", "isCloseOnCleanAndPackage", 
-                  "TableToolsBarButtonStyle", "ToolsBarButtonStyle", "PlayerBarButtonStyle", 
-                  "MusicOptionsBarButtonStyle", "SubDirectoryOptionsBarButtonStyle", 
-                  "CoverOptionsBarButtonStyle",
-                  "language", "isShowQuickMakeWindow", "isChangeExistIcon", 
-                  "isClearFirstAndLastSpaceChars", "isEmendIncorrectChars", "validSentenceStructureForFile", 
-                  "validSentenceStructureForFileExtension", "isCorrectFileNameWithSearchAndReplaceTable", 
-                  "isCorrectDoubleSpaceChars", "fileExtesionIs", "settingsVersion", "subDirectoryDeep", 
-                  "isMoveToTrash", "maxRecordFileSize", "themeName", 
-                  "unneededDirectories", "ignoredDirectories", 
-                  "unneededDirectoriesIfIsEmpty",  
-                  "isClearEmptyDirectoriesWhenPath", "isAutoCleanSubFolderWhenPath", 
-                  "cleanerUnneededFileExtensions", "cleanerUnneededFiles", "cleanerUnneededDirectories", 
-                  "isClearEmptyDirectoriesWhenClear", "isAutoCleanSubFolderWhenClear", 
-                  "isClearEmptyDirectoriesWhenSave", "isClearEmptyDirectoriesWhenMoveOrChange", 
-                  "isClearEmptyDirectoriesWhenCopyOrChange", "isClearEmptyDirectoriesWhenFileMove", 
-                  "isAutoCleanSubFolderWhenSave", "isAutoCleanSubFolderWhenMoveOrChange", 
-                  "isAutoCleanSubFolderWhenCopyOrChange", "isAutoCleanSubFolderWhenFileMove", 
-                  "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", 
-                  "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove", 
-                  "isDeleteEmptyDirectories", 
-                  "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories", 
-                  "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate", 
-                  "isShowTransactionDetails", "windowMode", "isInstalledKDE4Language", 
-                  "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReconfigureWizard", 
-                  "isAskIfHasManyImagesInAlbumDirectory", "isDeleteOtherImages", 
-                  "CoversSubDirectoryDeep", 
-                  "amarokDBHost", "amarokDBPort", "amarokDBUser", 
-                  "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
-                  "iconNameFormat", "iconFileType", "pathOfMysqldSafe"
-                  ]
-    willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
-                  "amarokDBPass", "amarokDBDB"]
+    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, emendValue, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, fileOfSettings, saveStateOfSettings, openStateOfSettings, pathOfSettingsDirectory, setPathOfSettingsDirectory, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getUniversalSetting, setUniversalSetting, getAmendedSQLInputQueries
     fileOfSettings = "mySettings.ini"
     pathOfSettingsDirectory = Universals.userDirectoryPath+"/.HamsiApps/HamsiManager"
     recordFilePath = pathOfSettingsDirectory + "/logs.txt"
@@ -78,10 +26,10 @@ class Settings():
         pathOfSettingsDirectory = _path
     
     def setting():
-        return QSettings((pathOfSettingsDirectory + "/" + fileOfSettings).decode("utf-8") ,QSettings.IniFormat)
+        return Variables.MQtCore.QSettings((pathOfSettingsDirectory + "/" + fileOfSettings).decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
     
     def universalSetting():
-        return QSettings((Universals.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini").decode("utf-8") ,QSettings.IniFormat)
+        return Variables.MQtCore.QSettings((Universals.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini").decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
           
     def bookmarksOfDirectories(_action="read", _value0="", _value1="", _value2="", _value3=""):
         con = sqlite.connect(pathOfSettingsDirectory + "/database.sqlite")
@@ -183,7 +131,7 @@ class Settings():
         values = [Universals.executableHamsiManagerPath]
         for x, keyValue in enumerate(keysOfUniversalSettings):
             if unicode(mySetting.value(keyValue).toString(), "utf-8") != values[x]:
-                mySetting.setValue(keyValue,QVariant(values[x].decode("utf-8")))
+                mySetting.setValue(keyValue,Variables.MQtCore.QVariant(values[x].decode("utf-8")))
                 
     def getUniversalSetting(_key, _defaultValue):
         mySetting = universalSetting()
@@ -194,260 +142,23 @@ class Settings():
     
     def setUniversalSetting(_key, _value):
         mySetting = universalSetting()
-        mySetting.setValue(_key, QVariant(_value.decode("utf-8")))
+        mySetting.setValue(_key, Variables.MQtCore.QVariant(_value.decode("utf-8")))
 
     def reFillSettings(_askMakeBackUp=False, _makeBackUp=False):
         if _askMakeBackUp==True:
             isMakeBackUp("Settings")
         elif _makeBackUp==True:
             makeBackUp("Settings")
-        mySetting = QSettings((pathOfSettingsDirectory + "/" + fileOfSettings).decode("utf-8"), QSettings.IniFormat)
-        defaultValues = getDefaultValues()
-        for keyValue in keysOfSettings:
-            mySetting.setValue(keyValue,QVariant(defaultValues[keyValue].decode("utf-8")))
+        mySetting = Variables.MQtCore.QSettings((pathOfSettingsDirectory + "/" + fileOfSettings).decode("utf-8"), Variables.MQtCore.QSettings.IniFormat)
+        defaultValues = Variables.getDefaultValues()
+        for keyValue in Variables.keysOfSettings:
+            mySetting.setValue(keyValue,Variables.MQtCore.QVariant(defaultValues[keyValue].decode("utf-8")))
     
-    def getDefaultValues():
-        if InputOutputs.getInstalledLanguagesCodes().count(str(QLocale.system().name()))>0:
-            insLangCode = str(QLocale.system().name())
-        else:
-            insLangCode = "en_GB"
-        myStyle , PlayerName, myObjectsName = "Plastique", Variables.getAvailablePlayers().pop(), Variables.getMyObjectsNames()[0]
-        for stil in QStyleFactory.keys():
-            if stil == "Oxygen":
-                myStyle = str(stil)
-                break
-        return {
-                "lastDirectory": unicode(Universals.userDirectoryPath).encode("utf-8"), 
-                "isMainWindowMaximized": "False", 
-                "isShowAdvancedSelections": "False", 
-                "isShowOldValues": "False", 
-                "isRunOnDoubleClick": "False", 
-                "isChangeSelected": "False", 
-                "isChangeAll": "True", 
-                "isOpenDetailsInNewWindow": "False", 
-                "hiddenFolderTableColumns": str([]), 
-                "hiddenFileTableColumns": str([]), 
-                "hiddenMusicTableColumns": str([]), 
-                "hiddenSubFolderTableColumns": str([]), 
-                "hiddenCoverTableColumns": str([]),
-                "isPlayNow": "False", 
-                "MainWindowGeometries": str([50, 50, 850, 533]), 
-                "tableType": "2", 
-                "activeTabNoOfSpecialTools": "0", 
-                "unneededFiles": str(['Thumbs.db']), 
-                "ignoredFiles": str(['.directory']), 
-                "imageExtensions": str(['png', 'gif', 'jpeg', 'jpg']), 
-                "musicExtensions": str(['mp3', 'ogg']), 
-                "priorityIconNames": str(['cover']), 
-                "unneededFileExtensions": str([]), 
-                "ignoredFileExtensions": str(['m3u']), 
-                "fileReNamerType": "Personal Computer", 
-                "validSentenceStructure": "Title", 
-                "mplayerPath": "mplayer", 
-                "mplayerArgs": "-slave -quiet", 
-                "mplayerAudioDevicePointer": "-ao",
-                "mplayerAudioDevice": Universals.mplayerSoundDevices[0], 
-                "isSaveActions": "True", 
-                "fileSystemEncoding": Variables.defaultFileSystemEncoding, 
-                "applicationStyle": myStyle, 
-                "playerName": PlayerName, 
-                "musicTagType": "ID3 V2", 
-                "isMinimumWindowMode": "False", 
-                "packagerUnneededFileExtensions": str(['pyc', 'py~', 'e4p', 'pro', 'pro.user', 'kdev4', 'kdevelop', 'kdevelop.pcs', 'kdevses', 'ts', 'anjuta']), 
-                "packagerUnneededFiles": str(['.directory', '.project', '.bzrignore']), 
-                "packagerUnneededDirectories": str(['.eric4project', '.svn', '.git', 'CVS', '.bzr', '.cache', '.settings']), 
-                "lastUpdateControlDate": datetime.now().strftime("%Y %m %d %H %M %S"), 
-                "updateInterval": "7", 
-                "NeededObjectsName": myObjectsName, 
-                "isActivePyKDE4": str(Variables.isAvailablePyKDE4()), 
-                "isCloseOnCleanAndPackage": "True", 
-                "TableToolsBarButtonStyle": "0", 
-                "ToolsBarButtonStyle": "0", 
-                "PlayerBarButtonStyle": "0", 
-                "MusicOptionsBarButtonStyle": "0", 
-                "SubDirectoryOptionsBarButtonStyle": "0",
-                "CoverOptionsBarButtonStyle": "0",
-                "language": insLangCode, 
-                "isShowQuickMakeWindow": "True", 
-                "isChangeExistIcon": "False", 
-                "isClearFirstAndLastSpaceChars": "True", 
-                "isEmendIncorrectChars": "True", 
-                "validSentenceStructureForFile": "Title", 
-                "validSentenceStructureForFileExtension": "All Small", 
-                "isCorrectFileNameWithSearchAndReplaceTable": "True", 
-                "isCorrectDoubleSpaceChars": "True", 
-                "fileExtesionIs": "After The Last Point", 
-                "settingsVersion": RoutineChecks.__settingVersion__, 
-                "subDirectoryDeep": "-1", 
-                "isMoveToTrash": "False", 
-                "maxRecordFileSize": "256", 
-                "themeName": "Default", 
-                "unneededDirectories": str([]),
-                "ignoredDirectories": str([]), 
-                "unneededDirectoriesIfIsEmpty": str([]), 
-                "isClearEmptyDirectoriesWhenPath": "True", 
-                "isAutoCleanSubFolderWhenPath": "True", 
-                "cleanerUnneededFileExtensions": str(['pyc', 'py~', 'e4p', 'pro', 'pro.user', 'kdev4', 'kdevelop', 'kdevelop.pcs', 'kdevses', 'ts', 'anjuta']),
-                "cleanerUnneededFiles": str(['.directory', '.project', '.bzrignore']),
-                "cleanerUnneededDirectories": str(['.eric4project', '.svn', '.git', 'CVS', '.bzr', '.cache', '.settings']),
-                "isClearEmptyDirectoriesWhenClear": "True",
-                "isAutoCleanSubFolderWhenClear": "True", 
-                "isClearEmptyDirectoriesWhenSave": "True", 
-                "isClearEmptyDirectoriesWhenMoveOrChange": "True", 
-                "isClearEmptyDirectoriesWhenCopyOrChange": "True", 
-                "isClearEmptyDirectoriesWhenFileMove": "True", 
-                "isAutoCleanSubFolderWhenSave": "True", 
-                "isAutoCleanSubFolderWhenMoveOrChange": "True", 
-                "isAutoCleanSubFolderWhenCopyOrChange": "True", 
-                "isAutoCleanSubFolderWhenFileMove": "True", 
-                "isAutoMakeIconToDirectoryWhenSave": "True", 
-                "isAutoMakeIconToDirectoryWhenMoveOrChange": "True", 
-                "isAutoMakeIconToDirectoryWhenCopyOrChange": "True", 
-                "isAutoMakeIconToDirectoryWhenFileMove": "True", 
-                "isDeleteEmptyDirectories": "True", 
-                "isCleanerDeleteEmptyDirectories": "True", 
-                "isPackagerDeleteEmptyDirectories": "True", 
-                "remindMeLaterForUpdate": "-1", 
-                "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S"), 
-                "isShowTransactionDetails": "False", 
-                "windowMode": Universals.windowModeKeys[0], 
-                "isInstalledKDE4Language": "False", 
-                "isShowWindowModeSuggestion": "True", 
-                "isMakeAutoDesign": "True", 
-                "isShowReconfigureWizard": "True", 
-                "isAskIfHasManyImagesInAlbumDirectory": "True", 
-                "isDeleteOtherImages": "False", 
-                "CoversSubDirectoryDeep": "-1", 
-                "amarokDBHost": "localhost", 
-                "amarokDBPort": "3306", 
-                "amarokDBUser": "amarokuser", 
-                "amarokDBPass": "amarokpassword", 
-                "amarokDBDB": "amarokdb", 
-                "amarokIsUseHost": "False", 
-                "iconNameFormat": "%Album%", 
-                "iconFileType": "png", 
-                "pathOfMysqldSafe": "mysqld_safe"
-                }
-                
-    def getValueTypesAndValues():
-        return {
-                "lastDirectory": "str", 
-                "isMainWindowMaximized": "bool", 
-                "isShowAdvancedSelections": "bool", 
-                "isShowOldValues": "bool", 
-                "isRunOnDoubleClick": "bool", 
-                "isChangeSelected": "bool", 
-                "isChangeAll": "bool", 
-                "isOpenDetailsInNewWindow": "bool", 
-                "hiddenFolderTableColumns": ["intList", range(0, 2)], 
-                "hiddenFileTableColumns": ["intList", range(0, 2)], 
-                "hiddenMusicTableColumns": ["intList", range(0, 10)], 
-                "hiddenSubFolderTableColumns": ["intList", range(0, 2)], 
-                "hiddenCoverTableColumns": ["intList", range(0, 2)], 
-                "isPlayNow": "bool", 
-                "MainWindowGeometries": ["intStaticListLen", 4], 
-                "tableType": ["int", range(0, 5)], 
-                "activeTabNoOfSpecialTools": ["int", range(0, 5)], 
-                "unneededFiles": "list", 
-                "ignoredFiles": "list", 
-                "imageExtensions": "list", 
-                "musicExtensions": "list", 
-                "priorityIconNames": "list", 
-                "unneededFileExtensions": "list", 
-                "ignoredFileExtensions": "list", 
-                "fileReNamerType": ["options", Universals.fileReNamerTypeNamesKeys], 
-                "validSentenceStructure": ["options", Universals.validSentenceStructureKeys], 
-                "mplayerPath": "str", 
-                "mplayerArgs": "str", 
-                "mplayerAudioDevicePointer": "str",
-                "mplayerAudioDevice": ["options", Universals.mplayerSoundDevices], 
-                "isSaveActions": "bool", 
-                "fileSystemEncoding": ["options", Variables.getCharSets()], 
-                "applicationStyle": ["options", Variables.getStyles()], 
-                "playerName": ["options", Variables.getAvailablePlayers()], 
-                "musicTagType": ["options", ["ID3 V1", "ID3 V2"]], 
-                "isMinimumWindowMode": "bool", 
-                "packagerUnneededFileExtensions": "list", 
-                "packagerUnneededFiles": "list", 
-                "packagerUnneededDirectories": "list", 
-                "lastUpdateControlDate": "date", 
-                "updateInterval": ["int", range(0, 32)], 
-                "NeededObjectsName": ["options", ["PyQt4"]], 
-                "isActivePyKDE4": "bool", 
-                "isCloseOnCleanAndPackage": "bool", 
-                "TableToolsBarButtonStyle": ["int", range(0, 4)], 
-                "ToolsBarButtonStyle": ["int", range(0, 4)], 
-                "PlayerBarButtonStyle": ["int", range(0, 4)], 
-                "MusicOptionsBarButtonStyle": ["int", range(0, 4)], 
-                "SubDirectoryOptionsBarButtonStyle": ["int", range(0, 4)], 
-                "CoverOptionsBarButtonStyle": ["int", range(0, 4)], 
-                "language": ["options", InputOutputs.getInstalledLanguagesCodes()], 
-                "isShowQuickMakeWindow": "bool", 
-                "isChangeExistIcon": "bool", 
-                "isClearFirstAndLastSpaceChars": "bool", 
-                "isEmendIncorrectChars": "bool", 
-                "validSentenceStructureForFile": ["options", Universals.validSentenceStructureKeys], 
-                "validSentenceStructureForFileExtension": ["options", Universals.validSentenceStructureKeys], 
-                "isCorrectFileNameWithSearchAndReplaceTable": "bool", 
-                "isCorrectDoubleSpaceChars": "bool", 
-                "fileExtesionIs": ["options", Universals.fileExtesionIsKeys], 
-                "settingsVersion": ["options", [RoutineChecks.__settingVersion__]], 
-                "subDirectoryDeep": ["int", range(-1, 10)], 
-                "isMoveToTrash": "bool", 
-                "maxRecordFileSize": "int", 
-                "themeName": ["options", InputOutputs.getInstalledThemes()], 
-                "unneededDirectories": "list", 
-                "ignoredDirectories": "list", 
-                "unneededDirectoriesIfIsEmpty": "list", 
-                "isClearEmptyDirectoriesWhenPath": "bool", 
-                "isAutoCleanSubFolderWhenPath": "bool", 
-                "cleanerUnneededFileExtensions": "list",
-                "cleanerUnneededFiles": "list",
-                "cleanerUnneededDirectories": "list",
-                "isClearEmptyDirectoriesWhenClear": "bool",
-                "isAutoCleanSubFolderWhenClear": "bool", 
-                "isClearEmptyDirectoriesWhenSave": "bool", 
-                "isClearEmptyDirectoriesWhenMoveOrChange": "bool", 
-                "isClearEmptyDirectoriesWhenCopyOrChange": "bool", 
-                "isClearEmptyDirectoriesWhenFileMove": "bool", 
-                "isAutoCleanSubFolderWhenSave": "bool", 
-                "isAutoCleanSubFolderWhenMoveOrChange": "bool", 
-                "isAutoCleanSubFolderWhenCopyOrChange": "bool", 
-                "isAutoCleanSubFolderWhenFileMove": "bool", 
-                "isAutoMakeIconToDirectoryWhenSave": "bool", 
-                "isAutoMakeIconToDirectoryWhenMoveOrChange": "bool", 
-                "isAutoMakeIconToDirectoryWhenCopyOrChange": "bool", 
-                "isAutoMakeIconToDirectoryWhenFileMove": "bool", 
-                "isDeleteEmptyDirectories": "bool", 
-                "isCleanerDeleteEmptyDirectories": "bool", 
-                "isPackagerDeleteEmptyDirectories": "bool", 
-                "remindMeLaterForUpdate": ["int", range(-1, 7)], 
-                "remindMeLaterShowDateForUpdate": "date", 
-                "isShowTransactionDetails": "bool", 
-                "windowMode": ["options", Universals.windowModeKeys], 
-                "isInstalledKDE4Language": "bool", 
-                "isShowWindowModeSuggestion": "bool", 
-                "isMakeAutoDesign": "bool", 
-                "isShowReconfigureWizard": "bool", 
-                "isAskIfHasManyImagesInAlbumDirectory": "bool", 
-                "isDeleteOtherImages": "bool", 
-                "CoversSubDirectoryDeep": ["int", [ x for x in range(-1, 10) if x!=0 ]], 
-                "amarokDBHost": "str", 
-                "amarokDBPort": "int", 
-                "amarokDBUser": "str", 
-                "amarokDBPass": "str", 
-                "amarokDBDB": "str", 
-                "amarokIsUseHost": "bool", 
-                "iconNameFormat": "str", 
-                "iconFileType": ["options", ["png", "jpg"]], 
-                "pathOfMysqldSafe": "str"
-                }
-   
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
         if _valueTypesAndValue==None:
-            _valueTypesAndValue = getValueTypesAndValues()[_keyOfSetting]
+            _valueTypesAndValue = Variables.getValueTypesAndValues()[_keyOfSetting]
         if _defaultValue==None:
-            _defaultValue = getDefaultValues()[_keyOfSetting]
+            _defaultValue = Variables.getDefaultValues()[_keyOfSetting]
         if _valueTypesAndValue=="bool":
             try:
                 eval(str(_value).title())
@@ -803,7 +514,7 @@ class Settings():
                 conNewDB.commit()
         if oldVersion<906:
             sets = setting()
-            sets.setValue("fileSystemEncoding", QVariant(sets.value("settingsVersion").toString()))
+            sets.setValue("fileSystemEncoding", Variables.MQtCore.QVariant(sets.value("settingsVersion").toString()))
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():

@@ -8,8 +8,9 @@ if str(sys.path[0])=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Core")
 import Variables
+Variables.checkStartupVariables()
 import RoutineChecks
-if RoutineChecks.checkPyQt4Exist():
+if RoutineChecks.checkQt4Exist():
     import Settings
     import Universals
     Universals.fillMySettings(False, False, False)
@@ -31,7 +32,7 @@ if RoutineChecks.checkPyQt4Exist():
     HamsiManagerApp.installTranslator(languageFile)
     HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
     HamsiManagerApp.setApplicationName("ConfigureHamsiManager")
-    HamsiManagerApp.setApplicationVersion(RoutineChecks.__version__)
+    HamsiManagerApp.setApplicationVersion(Variables.version)
     HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
     HamsiManagerApp.setOrganizationName("Hamsi Apps")
     activePageNo = 0
