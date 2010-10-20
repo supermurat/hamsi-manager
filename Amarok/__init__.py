@@ -2,6 +2,7 @@
 
 from os import *
 import sys
+import Variables
 import InputOutputs
 from MyObjects import *
 from time import gmtime
@@ -35,9 +36,9 @@ class Amarok:
             
     def checkEmbeddedDB():
         global isAskAmarokEmbeddedDBConfiguration
-        if (InputOutputs.isDir(Settings.pathOfSettingsDirectory+"/Amarok/mysqle/amarok") and
-            InputOutputs.isDir(Settings.pathOfSettingsDirectory+"/Amarok/mysqle/mysql") and
-            InputOutputs.isFile(Settings.pathOfSettingsDirectory+"/Amarok/my.cnf")):
+        if (InputOutputs.isDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok") and
+            InputOutputs.isDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql") and
+            InputOutputs.isFile(Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")):
             return startEmbeddedDB()
         else:
             if isAskAmarokEmbeddedDBConfiguration:
@@ -56,7 +57,7 @@ class Amarok:
             if Universals.getBoolValue("amarokIsUseHost"):
                 dbConnection = mdb.connect(host=Universals.MySettings["amarokDBHost"], port=int(Universals.MySettings["amarokDBPort"]), user=Universals.MySettings["amarokDBUser"], passwd=Universals.MySettings["amarokDBPass"], db=Universals.MySettings["amarokDBDB"])
             else:
-                dbConnection = mdb.connect(read_default_file=Settings.pathOfSettingsDirectory+"/Amarok/my.cnf", read_default_group="client", db="amarok")
+                dbConnection = mdb.connect(read_default_file=Universals.pathOfSettingsDirectory+"/Amarok/my.cnf", read_default_group="client", db="amarok")
         return dbConnection
         
     def checkAndGetDB(_isNoAlertIfSuccesfully=True, _isReCheck=False):
@@ -105,16 +106,16 @@ class AmarokEmbeddedDBCore():
     def createEmbeddedDB(_isNoAlertIfSuccesfully=True):
         stopEmbeddedDB()
         import MyConfigure
-        if InputOutputs.isDir(Settings.pathOfSettingsDirectory+"/Amarok"):
-            InputOutputs.removeFileOrDir(Settings.pathOfSettingsDirectory+"/Amarok", True)
-        InputOutputs.makeDirs(Settings.pathOfSettingsDirectory+"/Amarok/mysqle")
-        InputOutputs.copyFileOrDir(Universals.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysqle/mysql", Settings.pathOfSettingsDirectory+"/Amarok/mysqle/mysql", )
-        InputOutputs.copyFileOrDir(Universals.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my.cnf", Settings.pathOfSettingsDirectory+"/Amarok/my.cnf")
-        MyConfigure.reConfigureFile(Settings.pathOfSettingsDirectory+"/Amarok/my.cnf")
-        InputOutputs.makeDirs(Settings.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
-        InputOutputs.copyFileOrDir(Universals.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile0", Settings.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile0")
-        InputOutputs.copyFileOrDir(Universals.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile1", Settings.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile1")
-        InputOutputs.copyFileOrDir(Universals.getKDE4HomePath() +"/share/apps/amarok/mysqle/ibdata1", Settings.pathOfSettingsDirectory+"/Amarok/mysqle/ibdata1")
+        if InputOutputs.isDir(Universals.pathOfSettingsDirectory+"/Amarok"):
+            InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok", True)
+        InputOutputs.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle")
+        InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysqle/mysql", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql", )
+        InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my.cnf", Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
+        MyConfigure.reConfigureFile(Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
+        InputOutputs.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile0", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile0")
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile1", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile1")
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ibdata1", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ibdata1")
         generateEmbeddedDB()
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("AmarokEmbeddedDBCore", "Created Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server created and generated."))
@@ -122,8 +123,8 @@ class AmarokEmbeddedDBCore():
         
     def generateEmbeddedDB(_isNoAlertIfSuccesfully=True):
         stopEmbeddedDB()
-        InputOutputs.removeFileOrDir(Settings.pathOfSettingsDirectory+"/Amarok/mysqle/amarok", True)
-        InputOutputs.copyFileOrDir(Universals.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", Settings.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
+        InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok", True)
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("AmarokEmbeddedDBCore", "Generated Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server generated."))
         return True
@@ -132,7 +133,7 @@ class AmarokEmbeddedDBCore():
         global isStarted
         if Universals.checkMysqldSafe():
             import Execute
-            Execute.executeAsThread(Universals.MySettings["pathOfMysqldSafe"] + " --defaults-file=\"" + Settings.pathOfSettingsDirectory+"/Amarok/my.cnf" + "\"")
+            Execute.executeAsThread(Universals.MySettings["pathOfMysqldSafe"] + " --defaults-file=\"" + Universals.pathOfSettingsDirectory+"/Amarok/my.cnf" + "\"")
             Dialogs.sleep(translate("AmarokEmbeddedDBCore", "Starting Embedded Server..."), 3)
             if _isNoAlertIfSuccesfully==False:
                 Dialogs.show(translate("AmarokEmbeddedDBCore", "Started Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server started."))
@@ -155,9 +156,9 @@ class AmarokEmbeddedDBCore():
         
     def getPID():
         global isStarted
-        if InputOutputs.isFile(Settings.pathOfSettingsDirectory+"/Amarok/mysqld.pid"):
+        if InputOutputs.isFile(Universals.pathOfSettingsDirectory+"/Amarok/mysqld.pid"):
             isStarted = True
-            return InputOutputs.readFromFile(Settings.pathOfSettingsDirectory+"/Amarok/mysqld.pid")
+            return InputOutputs.readFromFile(Universals.pathOfSettingsDirectory+"/Amarok/mysqld.pid")
         isStarted = False
         return None
         

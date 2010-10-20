@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+import Variables
 import Tables
 import SpecialTools
 import Universals
@@ -131,20 +133,20 @@ class Bars():
             if actionName==translate("MenuBar", "Open State"):
                 import os, Settings
                 f = MFileDialog.getOpenFileName(Universals.activeWindow(),translate("MenuBar", "Open State"),
-                                    Universals.userDirectoryPath,str(translate("MenuBar", "Application Runner") + " (*.desktop)").decode("utf-8"))
+                                    Variables.userDirectoryPath,str(translate("MenuBar", "Application Runner") + " (*.desktop)").decode("utf-8"))
                 if f!="":
                     Settings.openStateOfSettings(unicode(f, "utf-8"))
             elif actionName==translate("MenuBar", "Save State"):
                 import Settings
                 import os
-                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Universals.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + u" (*.desktop)")
+                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + u" (*.desktop)")
                 if f!="":
                     Settings.saveStateOfSettings(unicode(f, "utf-8"))
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
                 import Execute, Settings
-                if Execute.executeHamsiManagerAsRoot("-sDirectoryPath \"" + Settings.pathOfSettingsDirectory + "\""):
+                if Execute.executeHamsiManagerAsRoot("-sDirectoryPath \"" + Universals.pathOfSettingsDirectory + "\""):
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
@@ -215,7 +217,7 @@ class Bars():
                 error.show()
             elif actionName==translate("MenuBar", "About Hamsi Manager"):
                 if Universals.isActivePyKDE4==False:
-                    MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Universals.aboutOfHamsiManager)
+                    MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Variables.aboutOfHamsiManager)
             elif _isFromMenu==False:
                 if actionName==translate("Tables", "Show Also Previous Information"):
                     if Universals.tableType!=4:
@@ -401,7 +403,7 @@ class TableToolsBar(MToolBar):
             self.isChangeSelected.setEnabled(False)
         actgActionGroupTableTypes = MActionGroup(self)
         for x, name in enumerate(Universals.tableTypesNames):
-            a = actgActionGroupTableTypes.addAction(MIcon(u"Images:"+Universals.tableTypeIcons[x]),
+            a = actgActionGroupTableTypes.addAction(MIcon(u"Images:"+Variables.tableTypeIcons[x]),
                                         name)
             a.setCheckable(True)
             a.setObjectName(name)
@@ -422,9 +424,9 @@ class TableToolsBar(MToolBar):
             actsFileReNamerTypes[x].setToolTip(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name.decode("utf-8")))
             actsFileReNamerTypes[x].setCheckable(True)
             actgActionGroupReNamerTypes.addAction(actsFileReNamerTypes[x])
-            if Universals.MySettings["fileReNamerType"]==Universals.fileReNamerTypeNamesKeys[x]:
+            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[x]:
                 actsFileReNamerTypes[x].setChecked(True)
-        if Universals.fileReNamerTypeNamesKeys.count(str(Universals.MySettings["fileReNamerType"]))==0:
+        if Variables.fileReNamerTypeNamesKeys.count(str(Universals.MySettings["fileReNamerType"]))==0:
             actsFileReNamerTypes[0].setChecked(True)
         self.addActions(actgActionGroupReNamerTypes.actions())
         MObject.connect(actgActionGroupReNamerTypes, SIGNAL("selected(QAction *)"), changeReNamerType)
@@ -432,7 +434,7 @@ class TableToolsBar(MToolBar):
         self.addAction(self.isShowOldValues)
         self.addAction(self.isChangeAll)
         self.addAction(self.isChangeSelected)
-        if Universals.windowMode==Universals.windowModeKeys[1]:
+        if Universals.windowMode==Variables.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
         else:
             self.setIconSize(MSize(32,32))
@@ -457,11 +459,11 @@ class TableToolsBar(MToolBar):
         try:
             if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
                 _action.setChecked(False)
-                for x, typeName in enumerate(Universals.fileReNamerTypeNamesKeys):
+                for x, typeName in enumerate(Variables.fileReNamerTypeNamesKeys):
                     if typeName == Universals.MySettings["fileReNamerType"]:
                         actsFileReNamerTypes[x].setChecked(True)
                 return False
-            for x, typeName in enumerate(Universals.fileReNamerTypeNamesKeys):
+            for x, typeName in enumerate(Variables.fileReNamerTypeNamesKeys):
                 if actsFileReNamerTypes[x].isChecked():
                     Universals.setMySetting("fileReNamerType", typeName)
             Universals.MainWindow.FileManager.makeRefresh()
@@ -523,7 +525,7 @@ class ToolsBar(MToolBar):
         self.addAction(self.clearEmptyDirectories)
         self.addAction(self.actRemoveOnlySubFiles)
         self.addAction(self.actCheckIcon)
-        if Universals.windowMode==Universals.windowModeKeys[1]:
+        if Universals.windowMode==Variables.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
         else:
             self.setIconSize(MSize(32,32))

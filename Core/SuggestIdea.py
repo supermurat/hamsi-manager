@@ -10,6 +10,7 @@ class SuggestIdea(MDialog):
     def __init__(self):
         global errorDetails
         MDialog.__init__(self, Universals.MainWindow)
+        QtWebKit = getMyObject("QtWebKit")
         if Universals.isActivePyKDE4==True:
             self.setButtons(MDialog.None)
         pnlMain = MWidget(self)

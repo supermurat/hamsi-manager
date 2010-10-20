@@ -1,30 +1,9 @@
 # -*- coding: utf-8 -*-
 
-#tr(self,"File")
-#myTr("File")
-#translate("HamsiManager","File")
-
+import Variables
 import Universals
-isPySide = False
-if Universals.MySettings.keys().count("NeededObjectsName")>0:
-    if Universals.MySettings["NeededObjectsName"]=="PySide":
-        isPySide = True
-        from PySide import QtWebKit
-        from PySide import QtGui
-        for obj in dir(QtGui):
-            if obj[0]=="Q":
-                exec "M"+obj[1:]+" = QtGui." + obj
-            else:
-                exec obj + " = QtGui." + obj
-        from PySide import QtCore
-        for obj in dir(QtCore):
-            if obj[0]=="Q":
-                exec "M"+obj[1:]+" = QtCore." + obj
-            else:
-                exec obj + " = QtCore." + obj
-                
-if isPySide==False:
-    from PyQt4 import QtWebKit
+
+if Variables.MyObjectName=="PyQt4":
     from PyQt4 import QtGui
     for obj in dir(QtGui):
         if obj[0]=="Q":
@@ -43,17 +22,27 @@ if isPySide==False:
             exec "M"+obj[1:]+" = QtNetwork." + obj
         else:
             exec obj + " = QtNetwork." + obj
-  
-def tr(_p, _s):
-    return _p.tr(_s)
-    
-def myTr(_s):
-    return MApplication.translate("HamsiManager", _s)
-        
-def translate(_p, _s):
-    return MApplication.translate(_p, _s)
-
-if Universals.MySettings.keys().count("isActivePyKDE4")>0:
+elif Variables.MyObjectName=="PySide":
+    from PySide import QtGui
+    for obj in dir(QtGui):
+        if obj[0]=="Q":
+            exec "M"+obj[1:]+" = QtGui." + obj
+        else:
+            exec obj + " = QtGui." + obj
+    from PySide import QtCore
+    for obj in dir(QtCore):
+        if obj[0]=="Q":
+            exec "M"+obj[1:]+" = QtCore." + obj
+        else:
+            exec obj + " = QtCore." + obj
+    from PySide import QtNetwork
+    for obj in dir(QtNetwork):
+        if obj[0]=="Q":
+            exec "M"+obj[1:]+" = QtNetwork." + obj
+        else:
+            exec obj + " = QtNetwork." + obj
+            
+if Variables.MyObjectName=="PyQt4" and Universals.MySettings.keys().count("isActivePyKDE4")>0:
     if Universals.isActivePyKDE4==True:
         try:
             from PyKDE4 import kdeui
@@ -68,7 +57,6 @@ if Universals.MySettings.keys().count("isActivePyKDE4")>0:
                     exec "M"+obj[1:]+" = kdecore." + obj
                 else:
                     exec obj + " = kdecore." + obj
-            from PyKDE4.kio import *
             from PyKDE4 import kio
             for obj in dir(kio):
                 if obj[0]=="K":
@@ -85,6 +73,21 @@ if Universals.MySettings.keys().count("isActivePyKDE4")>0:
             KLocale = kdecore.KLocale
         except:
             Universals.isActivePyKDE4 = False
+else:
+    #PySide not using with PyKDE4
+    Universals.isActivePyKDE4 = False
+    
+def translate(_p, _s):
+    return MApplication.translate(_p, _s)
+    
+def getMyObject(_objectName):
+    if Variables.MyObjectName=="PySide":
+        exec "from PySide import " + _objectName + " as MyObject"
+    elif Variables.MyObjectName=="PyQt4":
+        exec "from PyQt4 import " + _objectName + " as MyObject"
+    else:
+        MyObject = None
+    return MyObject
             
 def getMyDialog():
     try:

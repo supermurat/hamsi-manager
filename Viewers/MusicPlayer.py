@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 from InputOutputs import Musics
 import InputOutputs
 import os
@@ -42,7 +43,7 @@ class MusicPlayer(MWidget):
         MObject.connect(self.tbMute, SIGNAL("clicked()"), self.mute)
         MObject.connect(self.tbPlay, SIGNAL("clicked()"), self.play)
         MObject.connect(self.tbStop, SIGNAL("clicked()"), self.stop)
-        if _type == "bar" and Universals.windowMode==Universals.windowModeKeys[1]:
+        if _type == "bar" and Universals.windowMode==Variables.windowModeKeys[1]:
             pass
         else:
             self.info = MLabel(translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
@@ -62,7 +63,7 @@ class MusicPlayer(MWidget):
             HBOXs[0].addWidget(self.tbMute)
             HBOXs[0].addWidget(self.playInBar)
             HBOXs.append(MHBoxLayout())
-            if Universals.windowMode==Universals.windowModeKeys[1]:
+            if Universals.windowMode==Variables.windowModeKeys[1]:
                 self.playInBar.setMaximumHeight(16)
                 self.tbPause.setMaximumHeight(16)
                 self.tbMute.setMaximumHeight(16)
@@ -103,12 +104,12 @@ class MusicPlayer(MWidget):
             self.tbPlay.setMinimumHeight(22)
             self.tbStop.setMinimumHeight(22)
             self.setMaximumSize(390, 44)
-        if self.type != "bar" or Universals.windowMode!=Universals.windowModeKeys[1]:
+        if self.type != "bar" or Universals.windowMode!=Variables.windowModeKeys[1]:
             self.infoScroller = InfoScroller(self)
             self.infoScroller.start()
             
     def setInfoText(self, _info):
-        if self.type == "bar" and Universals.windowMode==Universals.windowModeKeys[1]:
+        if self.type == "bar" and Universals.windowMode==Variables.windowModeKeys[1]:
             Universals.MainWindow.StatusBar.showMessage(_info)
         else:
             MApplication.processEvents()

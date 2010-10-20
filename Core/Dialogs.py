@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 from MyObjects import *
 import Universals
 
@@ -128,7 +129,7 @@ class Dialogs():
                 return _btnString
                 
     def showState(_title, _value=0, _maxValue=100, _isShowCancel=False):
-        if Universals.windowMode==Universals.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
+        if Universals.windowMode==Variables.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
             return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel)
         MApplication.processEvents()
         global pnlState, prgbState, lblState, pbtnCancel

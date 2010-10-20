@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 from MyObjects import *
 import Universals
 import Dialogs
@@ -70,11 +71,11 @@ class MyPlugins(MDialog):
                 try:InputOutputs.makeDirs(setupDirectory)
                 except:pass
                 for pluginFile in pluginFiles:
-                    InputOutputs.copyOrChange(Universals.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, setupDirectory+"/"+pluginFile, "file", "only", True)
-                    MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Universals.HamsiManagerDirectory)
+                    InputOutputs.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, setupDirectory+"/"+pluginFile, "file", "only", True)
+                    MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                newFileName = InputOutputs.copyOrChange(Universals.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                newFileName = InputOutputs.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
                 if newFileName!=False:
                     isInstalled = True
         else:
@@ -151,11 +152,11 @@ class MyPluginsForSystem(MWidget):
                 try:InputOutputs.makeDirs(setupDirectory)
                 except:pass
                 for pluginFile in pluginFiles:
-                    InputOutputs.copyOrChange(Universals.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, setupDirectory+"/"+pluginFile, "file", "only", True)
-                    MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Universals.HamsiManagerDirectory)
+                    InputOutputs.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, setupDirectory+"/"+pluginFile, "file", "only", True)
+                    MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                newFileName = InputOutputs.copyOrChange(Universals.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                newFileName = InputOutputs.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
                 if newFileName!=False:
                     isInstalled = True
         else:
@@ -175,4 +176,3 @@ class MyPluginsForSystem(MWidget):
                          str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (pluginName))
 
  
-

@@ -263,7 +263,7 @@ class Options(MDialog):
             if requestInfos[1]=="image":
                 directory = InputOutputs.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Image"),
-                                            directory,(str(translate("Options", "Images")) + " " + Universals.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
+                                            directory,(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
                 if filePath!="":
                     leValue.setText(filePath)   
             if requestInfos[1]=="executable":
@@ -411,7 +411,8 @@ class Options(MDialog):
                                 else:
                                     if self.showType=="Normal":
                                         self.tboxCategories.setCurrentIndex(categoryNo)
-                                        category.tabwTabs.setCurrentIndex(category.tabsOfSettings[x])
+                                        if category.tabsOfSettings[x]!=None:
+                                            category.tabwTabs.setCurrentIndex(category.tabsOfSettings[x])
                                     category.values[x].setStyleSheet("background-color: #FF5E5E;")
                                     isDontClose = True
                             else:
@@ -425,9 +426,9 @@ class Options(MDialog):
             if isSaveSearchAndReplaceTable:
                 self.categories[searchAndReplaceCategoryNo].searchAndReplaceTable.save()
             Records.checkSize()
+            if isDontClose:return False
             if isNeededRestart==True:
                 self.reStart()
-            if isDontClose:return False
             else:return True
         except:
             self.error = ReportBug.ReportBug()
@@ -785,7 +786,7 @@ class General(MWidget):
                                     translate("Options/General", "Mini")]]
         self.valuesOfOptionsKeys = [InputOutputs.getInstalledLanguagesCodes(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
-                                Universals.windowModeKeys]
+                                Variables.windowModeKeys]
         createOptions(self)
         if Universals.isActivePyKDE4==True:
             setVisibleFormItems(self, "language", False)
@@ -857,8 +858,8 @@ class Correct(MWidget):
                                     translate("Options/Correct", "Don`t Change")], 
                                 [translate("Options/Correct", "After The First Point"), 
                                     translate("Options/Correct", "After The Last Point")]]
-        self.valuesOfOptionsKeys = [Universals.validSentenceStructureKeys, 
-                        Universals.fileExtesionIsKeys]
+        self.valuesOfOptionsKeys = [Variables.validSentenceStructureKeys, 
+                        Variables.fileExtesionIsKeys]
         createOptions(self)
                 
 class SearchAndReplace(MWidget):
@@ -1144,7 +1145,7 @@ class Cover(MWidget):
                             ["trString", 0], ["options", 0]]
         self.valuesOfOptions = [["png", "jpg"]]
         self.valuesOfOptionsKeys = [["png", "jpg"]]
-        self.stringSearchList = [Universals.iconNameFormatKeys]
+        self.stringSearchList = [Variables.iconNameFormatKeys]
         self.stringReplaceList = [Universals.iconNameFormatLabels]
         createOptions(self) 
  
@@ -1180,16 +1181,7 @@ class Advanced(MWidget):
                     translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>")]
         self.typesOfValues = [["options", 0], "Yes/No", "list", "list", ["options", 1], "Yes/No"]
         charSets = Variables.getCharSets()
-        objectsNames = [] 
-        #FIXME: you make this switch (or remove this)
-        try:
-            import PyQt4
-            objectsNames.append("PyQt4")
-        except:pass
-#        try:
-#            import PySide
-#            objectsNames.append("PySide")
-#        except:pass
+        objectsNames = Variables.getMyObjectsNames()
         if Variables.isAvailablePyKDE4()==False:
             keyNo = self.keysOfSettings.index("isActivePyKDE4")
             del self.keysOfSettings[keyNo]
@@ -1244,8 +1236,8 @@ class Player(MWidget):
                     translate("Options/Player", "The argument used to point to the sound device you want to use.<br><font color=red>Default value: -ao</font>"),
                     translate("Options/Player", "The sound device you want to use.<br><font color=red>Default value: alsa</font>")]
         self.typesOfValues = [["options", 0], ["file", "executable"], "string", "string", ["options", 1]]
-        self.valuesOfOptions = [Variables.getAvailablePlayers(), Universals.mplayerSoundDevices]
-        self.valuesOfOptionsKeys = [Variables.getAvailablePlayers(), Universals.mplayerSoundDevices]
+        self.valuesOfOptions = [Variables.getAvailablePlayers(), Variables.mplayerSoundDevices]
+        self.valuesOfOptionsKeys = [Variables.getAvailablePlayers(), Variables.mplayerSoundDevices]
         createOptions(self)
         if self.visibleKeys.count("playerName")>0:
             MObject.connect(self.values[self.keysOfSettings.index("playerName")], SIGNAL("currentIndexChanged(int)"), self.playerChanged)
@@ -1734,8 +1726,8 @@ class QuickOptions(MMenu):
                                     translate("QuickOptions", "Don`t Change")], 
                                 [translate("QuickOptions", "After The First Point"), 
                                     translate("QuickOptions", "After The Last Point")]]
-        self.valuesOfOptionsKeys = [Universals.validSentenceStructureKeys,
-                                    Universals.fileExtesionIsKeys]
+        self.valuesOfOptionsKeys = [Variables.validSentenceStructureKeys,
+                                    Variables.fileExtesionIsKeys]
         self.createActions()
         
     def createActions(self):
