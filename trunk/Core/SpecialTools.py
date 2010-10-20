@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 import Organizer
 import Settings
 import Universals
@@ -15,7 +16,7 @@ class SpecialTools(MWidget):
         self.tbAddToBefore = MToolButton(self)
         self.btChange = MToolButton(self)
         self.tbAddToAfter = MToolButton(self)
-        if Universals.windowMode==Universals.windowModeKeys[1]:
+        if Universals.windowMode==Variables.windowModeKeys[1]:
             self.isShowAdvancedSelections = False
         else:
             self.isShowAdvancedSelections = Universals.getBoolValue("isShowAdvancedSelections")

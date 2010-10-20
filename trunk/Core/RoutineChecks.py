@@ -51,8 +51,8 @@ def checkParameters():
                     Settings.fileOfSettings = "SettingFiles/" + argvs[argvNo+1]
                     continue
                 elif argv=="-sDirectoryPath":
-                    import Settings
-                    Settings.setPathOfSettingsDirectory(argvs[argvNo+1])
+                    import Universals
+                    Universals.setPathOfSettingsDirectory(argvs[argvNo+1])
                     continue
                 elif argv=="-t":
                     import Universals
@@ -162,12 +162,12 @@ def checkWindowMode(_isCheck=False):
     import Dialogs, Universals, Settings 
     from MyObjects import translate
     if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
-        if Universals.windowMode == Universals.windowModeKeys[0]:
+        if Universals.windowMode == Variables.windowModeKeys[0]:
             screenSize = Variables.getScreenSize()
             if screenSize!=None:
                 if screenSize.width()<1024:
-                    Universals.windowMode = Universals.windowModeKeys[1]
-        if Universals.windowMode == Universals.windowModeKeys[1]:
+                    Universals.windowMode = Variables.windowModeKeys[1]
+        if Universals.windowMode == Variables.windowModeKeys[1]:
             answer = Dialogs.ask(translate("HamsiManager", "We Have A Suggestion"),
                     translate("HamsiManager", "Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?"), False)
             if answer==Dialogs.Yes: 

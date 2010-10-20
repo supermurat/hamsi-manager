@@ -3,14 +3,27 @@
 import os, sys
 
 class Variables():
-    global checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues
-    global MQtGui, MQtCore, MObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings
-    global version, intversion, settingVersion
-    MQtGui, MQtCore, isQt4Exist, MObjectName = None, None, False, ""
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath
+    global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
+    global version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys
+    MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
+    Catalog = "HamsiManager" 
     version = "0.9.06"
     intversion = 906
     settingVersion = "906"
+    aboutOfHamsiManager = ""
+    HamsiManagerDirectory = sys.path[0]
+    executableHamsiManagerPath = str(sys.argv[0])
+    userDirectoryPath = os.path.expanduser("~")
     defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
+    fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
+    validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
+    fileExtesionIsKeys = ["After The First Point", "After The Last Point"]
+    mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
+    imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
+    windowModeKeys = ["Normal", "Mini"]
+    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "cover.png"]
+    iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
@@ -59,24 +72,32 @@ class Variables():
                   ]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
-        
-    def checkStartupVariables():
-        global MQtGui, MQtCore, isQt4Exist, MObjectName
-        try:
-            from PyQt4 import QtGui
-            from PyQt4 import QtCore
-            MObjectName = "PyQt4"
-        except:
-            try:
+    
+    def checkMyObjects():
+        global MQtGui, MQtCore, isQt4Exist, MyObjectName
+        myObjectsNames = getMyObjectsNames()
+        if myObjectsNames.count("PySide")>0:
+            from PySide import QtCore
+            sets = QtCore.QSettings((os.path.expanduser("~") + "/.HamsiApps/HamsiManager/mySettings.ini").decode("utf-8") ,QtCore.QSettings.IniFormat)
+            if str(sets.value("NeededObjectsName").toString())=="PySide":
                 from PySide import QtGui
                 from PySide import QtCore
-                MObjectName = "PySide"
-            except:
-                isQt4Exist = False
-                return False
+                MyObjectName = "PySide"
+        if MyObjectName=="" and myObjectsNames.count("PyQt4")>0:
+            from PyQt4 import QtGui
+            from PyQt4 import QtCore
+            MyObjectName = "PyQt4"
+        if MyObjectName=="":
+            isQt4Exist = False
+            return False
         MQtGui, MQtCore = QtGui, QtCore
         if MQtGui!=None and MQtCore!=None:
             isQt4Exist=True
+            return True
+        return False
+    
+    def checkStartupVariables():
+        if checkMyObjects():
             checkEncoding()
 
     def checkEncoding(_isSetUTF8=False):
@@ -91,7 +112,7 @@ class Variables():
 
     def getDefaultValues():
         from datetime import datetime
-        import Universals, InputOutputs
+        import InputOutputs
         if InputOutputs.getInstalledLanguagesCodes().count(str(MQtCore.QLocale.system().name()))>0:
             insLangCode = str(MQtCore.QLocale.system().name())
         else:
@@ -102,7 +123,7 @@ class Variables():
                 myStyle = str(stil)
                 break
         return {
-                "lastDirectory": unicode(Universals.userDirectoryPath).encode("utf-8"), 
+                "lastDirectory": str(userDirectoryPath), 
                 "isMainWindowMaximized": "False", 
                 "isShowAdvancedSelections": "False", 
                 "isShowOldValues": "False", 
@@ -131,7 +152,7 @@ class Variables():
                 "mplayerPath": "mplayer", 
                 "mplayerArgs": "-slave -quiet", 
                 "mplayerAudioDevicePointer": "-ao",
-                "mplayerAudioDevice": Universals.mplayerSoundDevices[0], 
+                "mplayerAudioDevice": mplayerSoundDevices[0], 
                 "isSaveActions": "True", 
                 "fileSystemEncoding": defaultFileSystemEncoding, 
                 "applicationStyle": myStyle, 
@@ -195,7 +216,7 @@ class Variables():
                 "remindMeLaterForUpdate": "-1", 
                 "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S"), 
                 "isShowTransactionDetails": "False", 
-                "windowMode": Universals.windowModeKeys[0], 
+                "windowMode": windowModeKeys[0], 
                 "isInstalledKDE4Language": "False", 
                 "isShowWindowModeSuggestion": "True", 
                 "isMakeAutoDesign": "True", 
@@ -216,7 +237,7 @@ class Variables():
                 
     def getValueTypesAndValues():
         from datetime import datetime
-        import Universals, InputOutputs
+        import InputOutputs
         return {
                 "lastDirectory": "str", 
                 "isMainWindowMaximized": "bool", 
@@ -242,12 +263,12 @@ class Variables():
                 "priorityIconNames": "list", 
                 "unneededFileExtensions": "list", 
                 "ignoredFileExtensions": "list", 
-                "fileReNamerType": ["options", Universals.fileReNamerTypeNamesKeys], 
-                "validSentenceStructure": ["options", Universals.validSentenceStructureKeys], 
+                "fileReNamerType": ["options", fileReNamerTypeNamesKeys], 
+                "validSentenceStructure": ["options", validSentenceStructureKeys], 
                 "mplayerPath": "str", 
                 "mplayerArgs": "str", 
                 "mplayerAudioDevicePointer": "str",
-                "mplayerAudioDevice": ["options", Universals.mplayerSoundDevices], 
+                "mplayerAudioDevice": ["options", mplayerSoundDevices], 
                 "isSaveActions": "bool", 
                 "fileSystemEncoding": ["options", getCharSets()], 
                 "applicationStyle": ["options", getStyles()], 
@@ -259,7 +280,7 @@ class Variables():
                 "packagerUnneededDirectories": "list", 
                 "lastUpdateControlDate": "date", 
                 "updateInterval": ["int", range(0, 32)], 
-                "NeededObjectsName": ["options", ["PyQt4"]], 
+                "NeededObjectsName": ["options", getMyObjectsNames()], 
                 "isActivePyKDE4": "bool", 
                 "isCloseOnCleanAndPackage": "bool", 
                 "TableToolsBarButtonStyle": ["int", range(0, 4)], 
@@ -273,11 +294,11 @@ class Variables():
                 "isChangeExistIcon": "bool", 
                 "isClearFirstAndLastSpaceChars": "bool", 
                 "isEmendIncorrectChars": "bool", 
-                "validSentenceStructureForFile": ["options", Universals.validSentenceStructureKeys], 
-                "validSentenceStructureForFileExtension": ["options", Universals.validSentenceStructureKeys], 
+                "validSentenceStructureForFile": ["options", validSentenceStructureKeys], 
+                "validSentenceStructureForFileExtension": ["options", validSentenceStructureKeys], 
                 "isCorrectFileNameWithSearchAndReplaceTable": "bool", 
                 "isCorrectDoubleSpaceChars": "bool", 
-                "fileExtesionIs": ["options", Universals.fileExtesionIsKeys], 
+                "fileExtesionIs": ["options", fileExtesionIsKeys], 
                 "settingsVersion": ["options", [settingVersion]],
                 "subDirectoryDeep": ["int", range(-1, 10)], 
                 "isMoveToTrash": "bool", 
@@ -311,7 +332,7 @@ class Variables():
                 "remindMeLaterForUpdate": ["int", range(-1, 7)], 
                 "remindMeLaterShowDateForUpdate": "date", 
                 "isShowTransactionDetails": "bool", 
-                "windowMode": ["options", Universals.windowModeKeys], 
+                "windowMode": ["options", windowModeKeys], 
                 "isInstalledKDE4Language": "bool", 
                 "isShowWindowModeSuggestion": "bool", 
                 "isMakeAutoDesign": "bool", 
@@ -362,6 +383,7 @@ class Variables():
         return styles
         
     def getScreenSize():
+        import Universals
         if Universals.MainWindow!=None:
             return MQtGui.QDesktopWidget().screenGeometry()
         else:
@@ -373,10 +395,10 @@ class Variables():
             import PyQt4
             myObjectsName.append("PyQt4")
         except:pass
-        try:
-            import PySide
-            myObjectsName.append("PySide")
-        except:pass
+#        try:
+#            import PySide
+#            myObjectsName.append("PySide")
+#        except:pass
         return myObjectsName
         
     def isAvailablePyKDE4():
@@ -387,7 +409,7 @@ class Variables():
             return False
         
     def getUserDesktopPath():
-        import Universals
+        import Universals, InputOutputs
         if isAvailablePyKDE4():
             from PyKDE4.kdeui import KGlobalSettings
             desktopPath = str(KGlobalSettings.desktopPath())
@@ -395,9 +417,28 @@ class Variables():
             from MyObjects import translate
             desktopNames = [str(translate("Install","Desktop")), "Desktop"]
             for dirName in desktopNames:
-                if InputOutputs.isDir(Universals.userDirectoryPath + "/" + dirName):
-                    desktopPath = Universals.userDirectoryPath + "/" + dirName
+                if InputOutputs.isDir(userDirectoryPath + "/" + dirName):
+                    desktopPath = userDirectoryPath + "/" + dirName
                     break
                 else:
-                    desktopPath = Universals.userDirectoryPath
+                    desktopPath = userDirectoryPath
+                    
+    def getKDE4HomePath():
+        try:
+            from MyObjects import MStandardDirs
+            kdedirPath = str(MStandardDirs().localkdedir())
+            if kdedirPath[-1]=="/":
+                kdedirPath = kdedirPath[:-1]
+            return kdedirPath
+        except:
+            import InputOutputs
+            if InputOutputs.isDir(Variables.userDirectoryPath + "/.kde4/share/config"):
+                return Variables.userDirectoryPath + "/.kde4"
+            else:
+                return Variables.userDirectoryPath + "/.kde"
+    
+    
+    
+    
+    
         return desktopPath

@@ -15,6 +15,7 @@ class UpdateControl(MDialog):
     global isMakeUpdateControl
     def __init__(self,_parent, _isNotInstall=False):
         MDialog.__init__(self, _parent)
+        QtWebKit = getMyObject("QtWebKit")
         if Universals.isActivePyKDE4==True:
             self.setButtons(MDialog.None)
         if _isNotInstall==False:
@@ -187,7 +188,7 @@ class UpdateControl(MDialog):
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save As")
-            fileName = MFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(Universals.HamsiManagerDirectory)+"/"+defaultFileName)
+            fileName = MFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/"+defaultFileName)
             if fileName== "":
                 import random, tempfile
                 fileName = tempfile.gettempdir() + "/" + defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:]
@@ -238,15 +239,15 @@ class UpdateControl(MDialog):
         Dialogs.show(translate("UpdateControl", "Update Will Be Complete"),
                         translate("UpdateControl", "Please restart Hamsi Manager now."),
                         translate("UpdateControl", "Restart"))
-        if InputOutputs.isFile(Universals.HamsiManagerDirectory+"/Update.py")==False:
-            if InputOutputs.isFile(Universals.HamsiManagerDirectory+"/ConfigureUpdate.py"):
-                InputOutputs.moveFileOrDir(Universals.HamsiManagerDirectory+"/ConfigureUpdate.py", Universals.HamsiManagerDirectory+"/Update.py")
-        executeWithPython(Universals.HamsiManagerDirectory+"/Update.py "+str(_fileName))
+        if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Update.py")==False:
+            if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/ConfigureUpdate.py"):
+                InputOutputs.moveFileOrDir(Variables.HamsiManagerDirectory+"/ConfigureUpdate.py", Variables.HamsiManagerDirectory+"/Update.py")
+        executeWithPython(Variables.HamsiManagerDirectory+"/Update.py "+str(_fileName))
         self.close()
         self.parent().close()
         
     def isUpdatable(self):
-        return InputOutputs.isWritableFileOrDir(Universals.HamsiManagerDirectory, True)
+        return InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True)
         
     def isMakeUpdateControl():
         lastUpdateControlTime = Universals.getDateValue("lastUpdateControlDate")

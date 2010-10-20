@@ -3,6 +3,7 @@
 import os, sys
 from threading import Thread
 import time
+import Variables
 import Universals
 
 class Execute:
@@ -40,12 +41,12 @@ class Execute:
     def executeHamsiManager(_command=""):
         if _command!="":
             _command = " " + _command.replace("\"", "'")
-        return execute("\"" + sys.executable + "\" \"" + Universals.executableHamsiManagerPath + _command + "\"")
+        return execute("\"" + sys.executable + "\" \"" + Variables.executableHamsiManagerPath + _command + "\"")
         
     def executeReconfigure(_command=""):
         if _command!="":
             _command = " " + _command.replace("\"", "'")
-        return execute("\"" + sys.executable + "\" \"" + Universals.HamsiManagerDirectory+"/Reconfigure.py\"" + _command)
+        return execute("\"" + sys.executable + "\" \"" + Variables.HamsiManagerDirectory+"/Reconfigure.py\"" + _command)
         
     def isRunableAsRoot():
         try:
@@ -58,7 +59,7 @@ class Execute:
         
     def isRunningAsRoot():
         import Universals
-        if Universals.userDirectoryPath=="/root":
+        if Variables.userDirectoryPath=="/root":
             return True
         return False
         
@@ -101,7 +102,7 @@ class RunHamsiManagerAsRoot(Thread):
         self.command = _command
     
     def run(self):
-        executeWithPythonAsRoot("\"" + Universals.executableHamsiManagerPath + "\" " + self.command)
+        executeWithPythonAsRoot("\"" + Variables.executableHamsiManagerPath + "\" " + self.command)
         
 class RunReconfigureAsRoot(Thread):
     def __init__(self, _command):
@@ -111,7 +112,7 @@ class RunReconfigureAsRoot(Thread):
         self.command = _command
     
     def run(self):
-        executeWithPythonAsRoot("\"" + Universals.HamsiManagerDirectory + "/Reconfigure.py\" " + self.command)
+        executeWithPythonAsRoot("\"" + Variables.HamsiManagerDirectory + "/Reconfigure.py\" " + self.command)
         
 class RunAsThread(Thread):
     def __init__(self, _command):

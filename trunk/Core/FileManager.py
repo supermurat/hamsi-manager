@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 import Tables
 import InputOutputs
 import Settings
@@ -103,7 +104,7 @@ class FileManager():
         self.actBack.setEnabled(False)
         self.actForward.setEnabled(False)
         self.goTo(self.currentDirectory)
-        if Universals.windowMode==Universals.windowModeKeys[1]:
+        if Universals.windowMode==Variables.windowModeKeys[1]:
             tools.setIconSize(MSize(16, 16))
             self.tbarBrowserTools = MToolBar(_parent)
             self.tbarBrowserTools.setWindowTitle(translate("FileManager", "Browser Tools"))

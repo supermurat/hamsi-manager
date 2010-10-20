@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from urllib import unquote, quote
+import Variables
 import Settings
 import Universals
 
@@ -48,27 +49,27 @@ class Organizer:
                 _inputString = _inputString.rsplit("/", 1)[1]
             if _type=="file":
                 if _inputString.find(".")!=-1:
-                    if Universals.MySettings["fileExtesionIs"]==Universals.fileExtesionIsKeys[0]:
+                    if Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[0]:
                         extString = "." + _inputString.split(".", 1)[1]
                         _inputString = _inputString.split(".", 1)[0]
-                    elif Universals.MySettings["fileExtesionIs"]==Universals.fileExtesionIsKeys[1]:
+                    elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
                         extString = "." + _inputString.rsplit(".", 1)[1]
                         _inputString = _inputString.rsplit(".", 1)[0]
             if _isCorrectCaseSensitive:
                 extString = makeCorrectCaseSensitive(extString, Universals.MySettings["validSentenceStructureForFileExtension"])
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])
-            if Universals.MySettings["fileReNamerType"]==Universals.fileReNamerTypeNamesKeys[0]:
+            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[0]:
                 oldChars = []
                 newChars = []
-            elif Universals.MySettings["fileReNamerType"]==Universals.fileReNamerTypeNamesKeys[1]:
+            elif Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
                 oldChars = [" ", "ç", "Ç", "ğ", "Ğ", "İ", "ı", "ö", "Ö", "ü", "Ü", "ş", "Ş"]
                 newChars = ["_", "c", "C", "g", "G", "I", "i", "o", "O", "u", "U", "s", "S"]
-            elif Universals.MySettings["fileReNamerType"]==Universals.fileReNamerTypeNamesKeys[2]:
+            elif Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
                 oldChars = ["ç", "Ç", "ğ", "Ğ", "İ", "ı", "ö", "Ö", "ü", "Ü", "ş", "Ş"]
                 newChars = ["c", "C", "g", "G", "I", "i", "o", "O", "u", "U", "s", "S"]
             for x in range(0,len(oldChars)):
                 _inputString = _inputString.replace(oldChars[x],newChars[x])
-            if Universals.MySettings["fileReNamerType"]==Universals.fileReNamerTypeNamesKeys[1]:
+            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
                 _inputString = quote(_inputString)
             if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
                 _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
@@ -85,13 +86,13 @@ class Organizer:
         return preString + _inputString + extString + ext2String
     
     def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
-        if _cbCharacterType==Universals.validSentenceStructureKeys[0]:
+        if _cbCharacterType==Variables.validSentenceStructureKeys[0]:
             return str(unicode(_inputString).title())
-        elif _cbCharacterType==Universals.validSentenceStructureKeys[1]:
+        elif _cbCharacterType==Variables.validSentenceStructureKeys[1]:
             return str(unicode(_inputString).lower())
-        elif _cbCharacterType==Universals.validSentenceStructureKeys[2]:
+        elif _cbCharacterType==Variables.validSentenceStructureKeys[2]:
             return str(unicode(_inputString).upper())
-        elif _cbCharacterType==Universals.validSentenceStructureKeys[3]:
+        elif _cbCharacterType==Variables.validSentenceStructureKeys[3]:
             return str(unicode(_inputString).capitalize())
         else :
             return str(unicode(_inputString))
@@ -111,10 +112,10 @@ class Organizer:
     
     def getIconName(_artist, _album, _year, _genre):
         iconName = Universals.MySettings["iconNameFormat"]
-        iconName = iconName.replace(Universals.iconNameFormatKeys[0], _artist)
-        iconName = iconName.replace(Universals.iconNameFormatKeys[1], _album)
-        iconName = iconName.replace(Universals.iconNameFormatKeys[2], _year)
-        iconName = iconName.replace(Universals.iconNameFormatKeys[3], _genre)
+        iconName = iconName.replace(Variables.iconNameFormatKeys[0], _artist)
+        iconName = iconName.replace(Variables.iconNameFormatKeys[1], _album)
+        iconName = iconName.replace(Variables.iconNameFormatKeys[2], _year)
+        iconName = iconName.replace(Variables.iconNameFormatKeys[3], _genre)
         return iconName + "." + Universals.MySettings["iconFileType"]
 
     def searchAndReplaceFromSearchAndReplaceTable(_oldString):
@@ -535,7 +536,7 @@ class Organizer:
                     myString = ""
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
                     informationSectionY = _SpecialTools.cbInformationSectionY.value()
-                    cbCharacterType = Universals.validSentenceStructureKeys[_SpecialTools.characterState.cbCharacterType.currentIndex()]
+                    cbCharacterType = Variables.validSentenceStructureKeys[_SpecialTools.characterState.cbCharacterType.currentIndex()]
                     isCaseSensitive = _SpecialTools.characterState.cckbCaseSensitive.isChecked()
                     isRegExp = _SpecialTools.characterState.cckbRegExp.isChecked()
                     isCorrectText = _SpecialTools.characterState.cckbCorrectText.isChecked()

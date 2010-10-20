@@ -6,48 +6,44 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, mplayerSoundDevices, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, aboutOfHamsiManager, HamsiManagerDirectory, Catalog, validSentenceStructureKeys, fileReNamerTypeNamesKeys, fileExtesionIsKeys, userDirectoryPath, isShowVerifySettings, imageExtStringOnlyPNGAndJPG, themePath, executableHamsiManagerPath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, getKDE4HomePath, isLoadedMyObjects, getBoolValue, windowMode, windowModeKeys, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableTypeIcons, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatKeys, iconNameFormatLabels, checkMysqldSafe
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
     MySettings = {}
     isDebugMode = False
     isDeveloperMode = False
-    aboutOfHamsiManager = ""
-    HamsiManagerDirectory = sys.path[0]
-    Catalog = "HamsiManager" 
-    fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
-    validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
-    fileExtesionIsKeys = ["After The First Point", "After The Last Point"]
-    userDirectoryPath = path.expanduser("~")
     isShowVerifySettings = False
     changedDefaultValuesKeys = []
     newSettingsKeys = []
-    mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
-    imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
-    themePath = HamsiManagerDirectory + "/Themes/Default"
-    executableHamsiManagerPath = str(sys.argv[0])
+    themePath = Variables.HamsiManagerDirectory + "/Themes/Default"
     isCanBeShowOnMainWindow = False
     isActivePyKDE4 = False
     isLoadedMyObjects = False
     windowMode = "Normal"
-    windowModeKeys = ["Normal", "Mini"]
     isShowOldValues = None
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
-    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "cover.png"]
     tableTypesNames = ["", "", "", "", ""]
     tableType = None
-    iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
-    iconNameFormatLabels = iconNameFormatKeys
-    if executableHamsiManagerPath.find("HamsiManager")==-1 or executableHamsiManagerPath.find("./HamsiManager")!=-1:
-        executableHamsiManagerPath = HamsiManagerDirectory + "/HamsiManager.py"
+    iconNameFormatLabels = Variables.iconNameFormatKeys
+    pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
+    fileOfSettings = "mySettings.ini"
+    if Variables.executableHamsiManagerPath.find("HamsiManager")==-1 or Variables.executableHamsiManagerPath.find("./HamsiManager")!=-1:
+        Variables.executableHamsiManagerPath = Variables.HamsiManagerDirectory + "/HamsiManager.py"
     
     def __init__(self, _app, _main):
         global MainWindow, HamsiManagerApp
         HamsiManagerApp = _app
         MainWindow = _main
+    
+    def setPathOfSettingsDirectory(_path):
+        global pathOfSettingsDirectory
+        _path = str(_path)
+        if _path[-1]=="/":
+            _path = _path[:-1]
+        pathOfSettingsDirectory = _path
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActivePyKDE4=None):
         global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isShowOldValues, isChangeAll, isChangeSelected
@@ -57,7 +53,7 @@ class Universals():
         defaultValues = Variables.getDefaultValues()
         valueTypesAndValues = Variables.getValueTypesAndValues()
         for keyValue in Variables.keysOfSettings:
-            value = sets.value(keyValue, defaultValues[keyValue].decode("utf-8")).toString()
+            value = sets.value(keyValue, Variables.MQtCore.QVariant(defaultValues[keyValue].decode("utf-8"))).toString()
             if MySettings.keys().count(keyValue)==0 or _setAgain:
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
         newSettingVersion = str(MySettings["settingsVersion"])
@@ -79,7 +75,7 @@ class Universals():
         else:
             isActivePyKDE4 = False
         windowMode = MySettings["windowMode"]
-        themePath = HamsiManagerDirectory + "/Themes/" + MySettings["themeName"]
+        themePath = Variables.HamsiManagerDirectory + "/Themes/" + MySettings["themeName"]
         if tableType == None:
             tableType = int(MySettings["tableType"])
             if tableType<0 or tableType>=len(tableTypesNames) or tableType==3:
@@ -137,20 +133,6 @@ class Universals():
         else:
             return MainWindow
         
-    def getKDE4HomePath():
-        try:
-            from MyObjects import MStandardDirs
-            kdedirPath = str(MStandardDirs().localkdedir())
-            if kdedirPath[-1]=="/":
-                kdedirPath = kdedirPath[:-1]
-            return kdedirPath
-        except:
-            import InputOutputs
-            if InputOutputs.isDir(userDirectoryPath + "/.kde4/share/config"):
-                return userDirectoryPath + "/.kde4"
-            else:
-                return userDirectoryPath + "/.kde"
-    
     def getThisTableType(_tableType):
         try:
             tt = int(_tableType)

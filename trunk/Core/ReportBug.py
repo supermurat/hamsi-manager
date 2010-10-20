@@ -25,6 +25,7 @@ class ReportBug(MDialog):
             isShowFixMe = True
         try:MDialog.__init__(self, MainWindow)
         except:MDialog.__init__(self, None)
+        QtWebKit = getMyObject("QtWebKit")
         self.pathOfReportFile = ""
         self.isOnlyReport=True
         isClose=False
@@ -135,7 +136,7 @@ class ReportBug(MDialog):
                     errorDetails += "<br>"
             except:
                 errorDetails += "<br>"
-            if Variables.MObjectName == "PyQt4":
+            if Variables.MyObjectName == "PyQt4":
                 try:
                     errorDetails += "<b>PyQt4 (Qt) Version : </b>"
                     errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
@@ -147,7 +148,7 @@ class ReportBug(MDialog):
                     errorDetails += str(QtCore.qVersion()) + " (" + QtCore.QT_VERSION_STR +")<br>"
                 except:
                     errorDetails += "<br>"
-            elif Variables.MObjectName == "PySide":
+            elif Variables.MyObjectName == "PySide":
                 try:
                     errorDetails += "<b>PySide (Qt) Version : </b>"
                     errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
@@ -166,7 +167,7 @@ class ReportBug(MDialog):
             except:
                 errorDetails += "<br>"
             for keyName in Universals.MySettings:
-                if Settings.willNotReportSettings.count(keyName)==0:
+                if Variables.willNotReportSettings.count(keyName)==0:
                     errorDetails += "<b>" + str(keyName) + " : " + "</b>"
                     errorDetails += str(Universals.MySettings[keyName]) + "<br>"
         except:pass
@@ -178,7 +179,7 @@ class ReportBug(MDialog):
             errorDetails += str(realErrorDetails)
         try:
             import Dialogs
-            if Dialogs.pnlState!="":
+            if Dialogs.pnlState!=None:
                 Dialogs.showState("", 1, 1)
         except:pass
         pnlMain = MWidget(self)
@@ -235,7 +236,7 @@ class ReportBug(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
-                    Settings.setting().setValue("lastDirectory",MVariant(Universals.userDirectoryPath.decode("utf-8")))
+                    Settings.setting().setValue("lastDirectory",MVariant(Variables.userDirectoryPath.decode("utf-8")))
                 elif answer==translate("ReportBug", "Settings"):
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):

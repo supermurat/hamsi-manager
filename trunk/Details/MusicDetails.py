@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 from InputOutputs import Musics
 import InputOutputs
 import os,sys
@@ -341,7 +342,7 @@ class MusicDetails(MDialog):
     def selectImage(self):
         try:
             imagePath = MFileDialog.getOpenFileName(self,translate("MusicDetails", "Choose Image"),
-                                    self.musicValues[0],(str(translate("MusicDetails", "Images")) + " " +Universals.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
+                self.musicValues[0],(str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
             if imagePath!="":
                 self.leImagePath.setText(imagePath)
         except:

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 import MusicTable
 import FileTable
 import FolderTable
@@ -505,7 +506,7 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(table.parent(),translate("Tables", "Save As"),
-                                    Universals.userDirectoryPath.decode("utf-8"),formatTypeName+u" (*."+fileExt.decode("utf-8")+")")
+                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+u" (*."+fileExt.decode("utf-8")+")")
             if filePath!="":
                 filePath = unicode(filePath, "utf-8")
                 if _formatType=="html" and filePath[-5:]!=".html":
@@ -523,7 +524,7 @@ class Tables(MTableWidget):
             mainPanel = MWidget(dDialog)
             vblMain = MVBoxLayout(mainPanel)
             if _formatType=="html":
-                from PyQt4 import QtWebKit
+                QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
                 wvWeb.setHtml(info.decode("utf-8"))
             elif _formatType=="plainText":

@@ -684,29 +684,29 @@ class InputOutputs:
         
     def getSearchEnginesNames():
         engines = []
-        for name in readDirectoryAll(Universals.HamsiManagerDirectory+"/SearchEngines"):
-            if name[:1] != "." and isDir(Universals.HamsiManagerDirectory+"/SearchEngines"+"/"+name):
+        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/SearchEngines"):
+            if name[:1] != "." and isDir(Variables.HamsiManagerDirectory+"/SearchEngines"+"/"+name):
                 engines.append(name)
         return engines
         
     def getMyPluginsNames():
         plugins = []
-        for name in readDirectoryAll(Universals.HamsiManagerDirectory+"/MyPlugins"):
-            if name[:1] != "." and isDir(Universals.HamsiManagerDirectory+"/MyPlugins"+"/"+name):
+        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/MyPlugins"):
+            if name[:1] != "." and isDir(Variables.HamsiManagerDirectory+"/MyPlugins"+"/"+name):
                 plugins.append(name)
         return plugins
         
     def getInstalledThemes():
         themes = []
-        for name in readDirectoryAll(Universals.HamsiManagerDirectory+"/Themes"):
-            if name[:1] != "." and isDir(Universals.HamsiManagerDirectory+"/Themes"+"/"+name):
+        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/Themes"):
+            if name[:1] != "." and isDir(Variables.HamsiManagerDirectory+"/Themes"+"/"+name):
                 themes.append(name)
         return themes
     
     def getInstalledLanguagesCodes():
         languages = []
-        for name in readDirectoryAll(Universals.HamsiManagerDirectory+"/Languages"):
-            if isFile(Universals.HamsiManagerDirectory+"/Languages"+"/"+name) and name[-3:]==".qm":
+        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/Languages"):
+            if isFile(Variables.HamsiManagerDirectory+"/Languages"+"/"+name) and name[-3:]==".qm":
                 langCode = name[-8:-3]
                 if languages.count(langCode)==0:
                     languages.append(langCode)
@@ -717,8 +717,8 @@ class InputOutputs:
     def getInstalledLanguagesNames():
         from MyObjects import MLocale
         languages = []
-        for name in readDirectoryAll(Universals.HamsiManagerDirectory+"/Languages"):
-            if isFile(Universals.HamsiManagerDirectory+"/Languages"+"/"+name) and name[-3:]==".qm":
+        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/Languages"):
+            if isFile(Variables.HamsiManagerDirectory+"/Languages"+"/"+name) and name[-3:]==".qm":
                 langCode = name[-8:-3]
                 if languages.count(str(MLocale.languageToString(MLocale(langCode).language())))==0:
                     languages.append(str(MLocale.languageToString(MLocale(langCode).language())))
@@ -1097,7 +1097,7 @@ class InputOutputs:
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
-                                    Universals.userDirectoryPath.decode("utf-8"),formatTypeName+u" (*."+fileExt.decode("utf-8")+")")
+                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+u" (*."+fileExt.decode("utf-8")+")")
             if filePath!="":
                 filePath = unicode(filePath, "utf-8")
                 if _formatType=="html" and filePath[-5:]!=".html":
@@ -1108,7 +1108,7 @@ class InputOutputs:
                 Dialogs.show(translate("Tables", "File Tree Created"),
                             str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
         elif _actionType=="dialog":
-            from MyObjects import MDialog, MWidget, MVBoxLayout, MTextEdit, MPushButton, MObject, SIGNAL
+            from MyObjects import MDialog, MWidget, MVBoxLayout, MTextEdit, MPushButton, MObject, SIGNAL, getMyObject
             dDialog = MDialog(Universals.MainWindow)
             if Universals.isActivePyKDE4==True:
                 dDialog.setButtons(MDialog.None)
@@ -1116,7 +1116,7 @@ class InputOutputs:
             mainPanel = MWidget(dDialog)
             vblMain = MVBoxLayout(mainPanel)
             if _formatType=="html":
-                from PyQt4 import QtWebKit
+                QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
                 wvWeb.setHtml(info.decode("utf-8"))
             elif _formatType=="plainText":
