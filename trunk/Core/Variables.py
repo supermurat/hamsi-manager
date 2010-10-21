@@ -407,6 +407,7 @@ class Variables():
             return True
         except:
             return False
+        return False
         
     def getUserDesktopPath():
         import Universals, InputOutputs
@@ -432,10 +433,10 @@ class Variables():
             return kdedirPath
         except:
             import InputOutputs
-            if InputOutputs.isDir(Variables.userDirectoryPath + "/.kde4/share/config"):
-                return Variables.userDirectoryPath + "/.kde4"
+            if InputOutputs.isDir(userDirectoryPath + "/.kde4/share/config"):
+                return userDirectoryPath + "/.kde4"
             else:
-                return Variables.userDirectoryPath + "/.kde"
+                return userDirectoryPath + "/.kde"
     
     
     
