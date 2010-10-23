@@ -16,7 +16,7 @@ class TextDetails(MDialog):
     
     def __init__(self,_filePath,_isOpenDetailsOnNewWindow):
         global textDialogs
-        if InputOutputs.isFile(_filePath):
+        if InputOutputs.IA.isFile(_filePath):
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
                 for dialog in textDialogs:
@@ -81,8 +81,8 @@ class TextDetails(MDialog):
             MainWindow.FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
-        self.fileValues = InputOutputs.readTextFile(_filePath)
-        self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.getBaseName(_filePath)).decode("utf-8"))                
+        self.fileValues = InputOutputs.IA.readTextFile(_filePath)
+        self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.IA.getBaseName(_filePath)).decode("utf-8"))                
         for infoNo, label in enumerate(self.labelsValues):
             if self.fileValues[infoNo]=="None":
                 self.fileValues[infoNo] = ""
@@ -137,15 +137,15 @@ class TextDetails(MDialog):
             newFileValues=[]
             for infoNo,value in enumerate(self.infoValues):
                 if infoNo==0:
-                    if str(unicode(value.text()).encode("utf-8")).find(InputOutputs.getDirName(self.fileValues[0]))!=-1:
+                    if str(unicode(value.text()).encode("utf-8")).find(InputOutputs.IA.getDirName(self.fileValues[0]))!=-1:
                         newFileValues.append(unicode(value.text()).encode("utf-8"))
                     else:
-                        newFileValues.append(InputOutputs.getDirName(self.fileValues[0])+unicode(value.text()).encode("utf-8"))
+                        newFileValues.append(InputOutputs.IA.getDirName(self.fileValues[0])+unicode(value.text()).encode("utf-8"))
                 elif infoNo==2:
                     newFileValues.append(unicode(value.toPlainText()).encode("utf-8"))
                 else:
                     newFileValues.append(unicode(value.text()).encode("utf-8"))
-            newPath = InputOutputs.writeTextFile(self.fileValues,newFileValues, unicode(self.charSet.currentText()).encode("utf-8"))
+            newPath = InputOutputs.IA.writeTextFile(self.fileValues,newFileValues, unicode(self.charSet.currentText()).encode("utf-8"))
             if newPath!=self.fileValues[0]+"/"+self.fileValues[1]:
                 self.changeFile(newPath)
             from Universals import MainWindow

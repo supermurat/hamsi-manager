@@ -20,7 +20,7 @@ class SubFolders:
         global currentFilesAndFoldersValues,types,types_nos, changedValueNumber
         changedValueNumber = 0
         currentFilesAndFoldersValues=[]
-        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
+        allFilesAndDirectories = InputOutputs.IA.readDirectoryWithSubDirectories(_directoryPath, 
                     int(Universals.MySettings["subDirectoryDeep"]))
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
@@ -28,9 +28,9 @@ class SubFolders:
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 fileValues=[]
-                fileValues.append(str(str(InputOutputs.getBaseName(_directoryPath)) + 
-                                str(InputOutputs.getDirName(fileName)).replace(_directoryPath,"")))
-                fileValues.append(InputOutputs.getBaseName(fileName))
+                fileValues.append(str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
+                                str(InputOutputs.IA.getDirName(fileName)).replace(_directoryPath,"")))
+                fileValues.append(InputOutputs.IA.getBaseName(fileName))
                 currentFilesAndFoldersValues.append(fileValues)
             else:
                 allItemNumber = fileNo+1
@@ -58,16 +58,16 @@ class SubFolders:
                 realRowNo=rowNo
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isWritableFileOrDir(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
+                if InputOutputs.IA.IA.isWritableFileOrDir(str(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
-                        InputOutputs.removeFileOrDir(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
+                        InputOutputs.IA.removeFileOrDir(str(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
                         continue
                     newFileName=str(currentFilesAndFoldersValues[realRowNo][1])
                     if _table.isColumnHidden(1)!=True and _table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                         if str(currentFilesAndFoldersValues[realRowNo][1])!=unicode(_table.item(rowNo,1).text()).encode("utf-8"):
                             if unicode(_table.item(rowNo,1).text()).encode("utf-8").strip()!="":
                                 _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
-                                newFileName = InputOutputs.moveOrChange(str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]),str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                                newFileName = InputOutputs.IA.moveOrChange(str(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]),str(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
                                 changedValueNumber += 1
                     if newFileName==False:
                         continue
@@ -80,7 +80,7 @@ class SubFolders:
                             if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
                                 newDirectoryName=str(currentFilesAndFoldersValues[realRowNo][0])
                         if str(currentFilesAndFoldersValues[realRowNo][0])!=newDirectoryName:
-                            newPath=InputOutputs.getDirName(InputOutputs.currentDirectoryPath)
+                            newPath=InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath)
                             changingFileDirectories.append([])
                             changingFileDirectories[-1].append(str(newPath)+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(newFileName))
                             changingFileDirectories[-1].append(str(newPath)+"/"+str(newDirectoryName)+"/"+str(newFileName))
@@ -91,5 +91,5 @@ class SubFolders:
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        return InputOutputs.changeDirectories(changingFileDirectories)
+        return InputOutputs.IA.changeDirectories(changingFileDirectories)
     

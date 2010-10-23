@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import Variables
 from MyObjects import *
 import Universals
 import Dialogs
@@ -27,7 +28,7 @@ class Hasher(MyDialog):
         lblHashDigest = MLabel(translate("Hasher", "Hash Digest : "))
         self.teHashDigest = MTextEdit(u"")
         self.cbHash = MComboBox()
-        self.cbHash.addItems(InputOutputs.getHashTypes())
+        self.cbHash.addItems(Variables.getHashTypes())
         self.cbHashOutput = MComboBox()
         self.cbHashOutput.addItems([translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")])
         self.leHashDigestFile = MLineEdit(_file.decode("utf-8"))
@@ -113,14 +114,14 @@ class Hasher(MyDialog):
     
     def hash(self):
         sourceFile = unicode(self.lePathOfPackage.text(), "utf-8")
-        if InputOutputs.checkSource(sourceFile, "file"):
+        if InputOutputs.IA.checkSource(sourceFile, "file"):
             hashType = str(self.cbHash.currentText())
             if hashType!=None:
-                hashDigestContent = InputOutputs.getHashDigest(sourceFile, hashType)
+                hashDigestContent = InputOutputs.IA.getHashDigest(sourceFile, hashType)
                 if hashDigestContent!=False:
                     self.teHashDigest.setText(hashDigestContent.decode("utf-8"))
                     if self.cbHashOutput.currentIndex()==1:
-                        if InputOutputs.createHashDigestFile(sourceFile, unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False, hashDigestContent):
+                        if InputOutputs.IA.createHashDigestFile(sourceFile, unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False, hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
                                         str(translate("Hasher", "Hash digest writed into %s")) % unicode(self.leHashDigestFile.text(), "utf-8"))
                         else:

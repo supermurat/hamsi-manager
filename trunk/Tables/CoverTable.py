@@ -41,11 +41,11 @@ class CoverTable():
         self.hblBox.addLayout(hbox1)
         
     def _subShowDetails(self, _fileNo, _infoNo):
-        directoryPathOfCover = InputOutputs.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_fileNo][1]
+        directoryPathOfCover = InputOutputs.IA.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_fileNo][1]
         coverValues = [directoryPathOfCover, 
-                       InputOutputs.getRealPath(str(self.item(_fileNo, 2).text()), directoryPathOfCover), 
-                       InputOutputs.getRealPath(str(self.item(_fileNo, 3).text()), directoryPathOfCover), 
-                       InputOutputs.getRealPath(str(self.item(_fileNo, 4).text()), directoryPathOfCover)]
+                       InputOutputs.IA.getRealPath(str(self.item(_fileNo, 2).text()), directoryPathOfCover), 
+                       InputOutputs.IA.getRealPath(str(self.item(_fileNo, 3).text()), directoryPathOfCover), 
+                       InputOutputs.IA.getRealPath(str(self.item(_fileNo, 4).text()), directoryPathOfCover)]
         CoverDetails.CoverDetails(coverValues, self.isOpenDetailsOnNewWindow.isChecked(), _infoNo)
         
     def _subTableCellClicked(self,_row,_column):
@@ -61,7 +61,7 @@ class CoverTable():
         except:
             Dialogs.showError(translate("CoverTable", "Cannot Open File"), 
                         str(translate("CoverTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                        ) % Organizer.getLink(InputOutputs.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_row][1]))
+                        ) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_row][1]))
        
     def _refreshSubTableColumns(self):
         self.tableColumns=[translate("CoverTable", "Directory"), 
@@ -125,7 +125,7 @@ class CoverTable():
                     for rowNo in range(table.rowCount()):
                         if Tables.checkHiddenColumn(3) and Tables.checkHiddenColumn(4):
                             if table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-                                directoryPath = str(InputOutputs.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(table.item(rowNo,1).text()).encode("utf-8")
+                                directoryPath = str(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))+"/"+unicode(table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(table.item(rowNo,1).text()).encode("utf-8")
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]
                                     table.item(rowNo,3).setText(directoryAndValues["coverPath"][0].replace(directoryPath, "."))

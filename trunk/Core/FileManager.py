@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import Variables
-import Tables
 import InputOutputs
+import Tables
 import Settings
 import Universals
 import Dialogs
 from MyObjects import *
-import os,sys
 import ReportBug
 import Organizer
+#from InputOutputs import IA
 
 class FileManager():
     
@@ -39,8 +39,8 @@ class FileManager():
         self.lstvFileManager = MListView()
         self.trvFileManager.setModel(self.dirModel)
         self.lstvFileManager.setModel(self.dirModel)
-        self.currentDirectory = InputOutputs.getRealDirName(Universals.MySettings["lastDirectory"]).decode("utf-8")
-        if InputOutputs.isDir(str(self.currentDirectory))==False:
+        self.currentDirectory = InputOutputs.IA.getRealDirName(Universals.MySettings["lastDirectory"]).decode("utf-8")
+        if InputOutputs.IA.isDir(str(self.currentDirectory))==False:
             self.currentDirectory = MDir.homePath()
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndex)
         MObject.connect(self.lstvFileManager, SIGNAL("doubleClicked(QModelIndex)"),self.setMyCurrentIndex)
@@ -173,8 +173,8 @@ class FileManager():
 
     def goTo(self, _path, _isRemember = True):
         try:
-            if InputOutputs.isReadableFileOrDir(_path):
-                if InputOutputs.isDir(_path):
+            if InputOutputs.IA.isReadableFileOrDir(_path):
+                if InputOutputs.IA.isDir(_path):
                     if _isRemember:
                         self.future = []
                         self.history.append(self.currentDirectory)
@@ -198,7 +198,7 @@ class FileManager():
                         self.actUp.setEnabled(False)
                     else:
                         self.actUp.setEnabled(True)
-                elif InputOutputs.isFile(_path):
+                elif InputOutputs.IA.isFile(_path):
                     if Universals.tableType==2:
                         for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
                             if str(_path).split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
@@ -247,7 +247,7 @@ class FileManager():
 
     def goUp(self):
         try:
-            self.goTo(InputOutputs.getDirName(self.currentDirectory).decode("utf-8"))
+            self.goTo(InputOutputs.IA.getDirName(self.currentDirectory).decode("utf-8"))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -305,7 +305,7 @@ class FileManager():
         try:
             while 1==1:
                 selected = unicode(self.getPathOfIndex(_index), "utf-8")
-                if InputOutputs.isDir(selected)==True or InputOutputs.isFile(selected)==True:
+                if InputOutputs.IA.isDir(selected)==True or InputOutputs.IA.isFile(selected)==True:
                     self.makeRefreshOnlyFileList(_index)
                     break
                 else:
@@ -317,8 +317,8 @@ class FileManager():
     
     def showInTable(self):
         try:
-            InputOutputs.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
-            Tables.refreshTable(InputOutputs.currentDirectoryPath)
+            InputOutputs.IA.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
+            Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -351,7 +351,7 @@ class BookmarksMenu(MMenu):
                 return
             for info in Settings.bookmarksOfDirectories():
                 if info[1]==str(_action.objectName()):
-                    if InputOutputs.isDir(str(info[2]))==True:
+                    if InputOutputs.IA.isDir(str(info[2]))==True:
                         Universals.MainWindow.FileManager.goTo(info[2].decode("utf-8"))
                         return
                     else:
@@ -414,8 +414,8 @@ class Bookmarks(MDialog):
             
     def addBookmark(self):
         try:
-            isim=str(InputOutputs.currentDirectoryPath).split("/")
-            Settings.bookmarksOfDirectories("add",isim[len(isim)-1],InputOutputs.currentDirectoryPath)
+            isim=str(InputOutputs.IA.currentDirectoryPath).split("/")
+            Settings.bookmarksOfDirectories("add",isim[len(isim)-1],InputOutputs.IA.currentDirectoryPath)
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:

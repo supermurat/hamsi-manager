@@ -35,7 +35,7 @@ class FolderTable():
         self.hblBox.addLayout(hbox1)
         
     def _subShowDetails(self, _fileNo, _infoNo):
-        TextDetails.TextDetails(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_fileNo][1],self.isOpenDetailsOnNewWindow.isChecked())
+        TextDetails.TextDetails(InputOutputs.IA.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_fileNo][1],self.isOpenDetailsOnNewWindow.isChecked())
     
     def _subTableCellClicked(self,_row,_column):
         for row_no in range(self.rowCount()):
@@ -50,7 +50,7 @@ class FolderTable():
         except:
             Dialogs.showError(translate("FolderTable", "Cannot Open File"), 
                         str(translate("FolderTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                        ) % Organizer.getLink(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_row][1]))
+                        ) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_row][1]))
        
     def _refreshSubTableColumns(self):
         self.tableColumns=[translate("FolderTable", "Directory"), 
@@ -91,7 +91,7 @@ class FolderTable():
                 if itemNo==0:
                     newString = Organizer.emend(Folders.currentFilesAndFoldersValues[realFileNo][itemNo], "directory")
                 else:
-                    newString = Organizer.emend(Folders.currentFilesAndFoldersValues[realFileNo][itemNo], InputOutputs.getObjectType(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[realFileNo][1]))
+                    newString = Organizer.emend(Folders.currentFilesAndFoldersValues[realFileNo][itemNo], InputOutputs.IA.getObjectType(InputOutputs.IA.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[realFileNo][1]))
                 item = MTableWidgetItem(newString.decode("utf-8"))
                 item.setStatusTip(item.text())
                 self.setItem(fileNo,itemNo,item)
@@ -113,6 +113,6 @@ class FolderTable():
                 if itemNo==0:
                     newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "directory")
                 else:
-                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), InputOutputs.getObjectType(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[realRowNo][1]))
+                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), InputOutputs.IA.getObjectType(InputOutputs.IA.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[realRowNo][1]))
                 self.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
           

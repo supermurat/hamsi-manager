@@ -45,7 +45,7 @@ class ImageViewer(MWidget):
     def changeCoverValues(self, _image=None, _valueType="file"):
         self.zoomValue = 1.0
         if _image!=None and _valueType=="file":
-            if InputOutputs.isFile(_image)==False:
+            if InputOutputs.IA.isFile(_image)==False:
                 if self.isCorrectedWhenNotExist==True:
                     _image = Universals.themePath + "/Images/ok.png"
                 else:
