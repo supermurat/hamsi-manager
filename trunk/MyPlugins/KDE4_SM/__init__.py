@@ -17,4 +17,4 @@ else:
     setupDirectory = Variables.getKDE4HomePath() + "/share/kde4/services/ServiceMenus"
 
 def isInstallable():
-    return Variables.isAvailablePyKDE4()
+    return Variables.isAvailableKDE4()

@@ -81,16 +81,16 @@ class InputOutputs:
             realDirName = getDirName(realDirName)
         return realDirName
         
-    def getRealPath(_oldPath, _parentPath):
-        _oldPath = str(_oldPath)
-        if len(_oldPath)==0: return "/"
-        if _oldPath[-1]=="/":
-            _oldPath = _oldPath[:-1]
-        if _parentPath[-1]=="/":
-            _parentPath = _parentPath[:-1]
-        if _oldPath[:2]=="./":
-            _oldPath = _parentPath + _oldPath[1:]
-        return _oldPath
+    def getRealPath(_path, _parentPath=None):
+        _path = str(_path)
+        if len(_path)==0: return "/"
+        if _path[-1]=="/":
+            _path = _path[:-1]
+        if _parentPath!=None:
+            _parentPath = getRealPath(_parentPath)
+            if _path[:2]=="./":
+                _path = _parentPath + _path[1:]
+        return _path
     
     def getBaseName(_oldPath):
         _oldPath = str(_oldPath)
@@ -193,9 +193,10 @@ class InputOutputs:
         Records.add("Removed", _oldPath)
     
     def moveToTrash(_oldPath):
-        import Execute
-        try:Execute.execute("kioclient move '" + _oldPath.encode(fileSystemEncoding) + "' trash:/")
-        except:Execute.execute("kioclient move '" + _oldPath + "' trash:/")
+        if Variables.isAvailableKDE4():
+            import Execute
+            try:Execute.execute("kioclient move '" + _oldPath.encode(fileSystemEncoding) + "' trash:/")
+            except:Execute.execute("kioclient move '" + _oldPath + "' trash:/")
     
     def trSort(_info):
         try:

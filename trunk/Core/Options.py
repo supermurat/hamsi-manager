@@ -1188,6 +1188,7 @@ class Advanced(MWidget):
             del self.labels[keyNo]
             del self.toolTips[keyNo]
             del self.typesOfValues[keyNo]
+        if Variables.isAvailableKDE4()==False:
             keyNo = self.keysOfSettings.index("isMoveToTrash")
             del self.keysOfSettings[keyNo]
             del self.labels[keyNo]

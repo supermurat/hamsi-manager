@@ -20,7 +20,7 @@ class Cleaner(MyDialog):
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = Options.Options(None, "clear", None, newOrChangedKeys)
-        lblPleaseSelect = MLabel(translate("Cleaner", "<font color=red><b>Directory</b></font>"))
+        lblPleaseSelect = MLabel(translate("Cleaner", "Directory"))
         self.pbtnClear = MPushButton(translate("Cleaner", "Clear"))
         self.pbtnClose = MPushButton(translate("Cleaner", "Close"))
         self.lePathOfProject = MLineEdit(_directory.decode("utf-8"))

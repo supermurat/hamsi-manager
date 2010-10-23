@@ -3,7 +3,7 @@
 import os, sys
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
@@ -236,7 +236,6 @@ class Variables():
                 }
                 
     def getValueTypesAndValues():
-        from datetime import datetime
         import InputOutputs
         return {
                 "lastDirectory": "str", 
@@ -401,14 +400,6 @@ class Variables():
 #        except:pass
         return myObjectsName
         
-    def isAvailablePyKDE4():
-        try:
-            import PyKDE4
-            return True
-        except:
-            return False
-        return False
-        
     def getUserDesktopPath():
         import Universals, InputOutputs
         if isAvailablePyKDE4():
@@ -423,23 +414,38 @@ class Variables():
                     break
                 else:
                     desktopPath = userDirectoryPath
-                    
-    def getKDE4HomePath():
-        try:
-            from MyObjects import MStandardDirs
-            kdedirPath = str(MStandardDirs().localkdedir())
-            if kdedirPath[-1]=="/":
-                kdedirPath = kdedirPath[:-1]
-            return kdedirPath
-        except:
-            import InputOutputs
-            if InputOutputs.isDir(userDirectoryPath + "/.kde4/share/config"):
-                return userDirectoryPath + "/.kde4"
-            else:
-                return userDirectoryPath + "/.kde"
-    
-    
-    
-    
-    
         return desktopPath
+        
+    def isAvailablePyKDE4():
+        try:
+            import PyKDE4
+            return True
+        except:
+            return False
+        return False
+                   
+    def isAvailableKDE4():
+        if InputOutputs.isFile("/usr/bin/kded4"):
+            return True
+        else:
+            return False
+        return False
+    
+    def getKDE4HomePath():
+        if isAvailableKDE4():
+            try:
+                from MyObjects import MStandardDirs
+                kdedirPath = str(MStandardDirs().localkdedir())
+                if kdedirPath[-1]=="/":
+                    kdedirPath = kdedirPath[:-1]
+                return kdedirPath
+            except:
+                import InputOutputs
+                if InputOutputs.isDir(userDirectoryPath + "/.kde4/share/config"):
+                    return userDirectoryPath + "/.kde4"
+                else:
+                    return userDirectoryPath + "/.kde"
+        return None
+                
+                
+                

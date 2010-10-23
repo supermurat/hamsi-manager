@@ -60,9 +60,10 @@ def getSettingsFromOldNameAndSettings():
             if isMakeThis:
                 InputOutputs.moveFileOrDir(Variables.userDirectoryPath + "/.OrganizasyonizM/BackUps", 
                                        Variables.userDirectoryPath + "/.HamsiApps/HamsiManager/BackUps")
-        if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc"):
-            InputOutputs.moveFileOrDir(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc", 
-                                       Variables.getKDE4HomePath() + "/share/config/HamsiManagerrc")
+        if Variables.isAvailableKDE4():
+            if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc"):
+                InputOutputs.moveFileOrDir(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc", 
+                                           Variables.getKDE4HomePath() + "/share/config/HamsiManagerrc")
         for langCode in InputOutputs.getInstalledLanguagesCodes():
             if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/locale/" + langCode + "/LC_MESSAGES/OrganizasyonizM.mo"):
                 import MyConfigure

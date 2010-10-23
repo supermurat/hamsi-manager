@@ -112,16 +112,16 @@ class QuickMakeWindow(MyDialog):
         if _isShowEmendWidgets:
             lblOldValue = MLabel(translate("QuickMake", "Old Value : "))
             lblNewValue = MLabel(translate("QuickMake", "New Value : "))
-            leOldValue = MLineEdit(Organizer.showWithIncorrectChars(QuickMakeParameters[1]).decode("utf-8"))
+            leOldValue = MLineEdit(Organizer.showWithIncorrectChars(InputOutputs.getRealPath(QuickMakeParameters[1])).decode("utf-8"))
             leOldValue.setEnabled(False)
-            self.leNewValue = MLineEdit(Organizer.emend(QuickMakeParameters[1], InputOutputs.getObjectType(QuickMakeParameters[1])).decode("utf-8"))
+            self.leNewValue = MLineEdit(Organizer.emend(InputOutputs.getRealPath(QuickMakeParameters[1]), InputOutputs.getObjectType(InputOutputs.getRealPath(QuickMakeParameters[1])).decode("utf-8")))
             vblInfo.addWidget(lblOldValue)
             vblInfo.addWidget(leOldValue)
             vblInfo.addWidget(lblNewValue)
             vblInfo.addWidget(self.leNewValue)
         else:
             lblValue = MLabel(translate("QuickMake", "Value : "))
-            leValue = MLineEdit(Organizer.showWithIncorrectChars(QuickMakeParameters[1]).decode("utf-8"))
+            leValue = MLineEdit(Organizer.showWithIncorrectChars(InputOutputs.getRealPath(QuickMakeParameters[1])).decode("utf-8"))
             leValue.setEnabled(False)
             vblInfo.addWidget(lblValue)
             vblInfo.addWidget(leValue)
@@ -179,28 +179,28 @@ class QuickMakeWindow(MyDialog):
     
     def pack(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
                 import Packager
-                self.newDialog = Packager.Packager(QuickMakeParameters[1])
+                self.newDialog = Packager.Packager(InputOutputs.getRealPath(QuickMakeParameters[1]))
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()   
     
     def hash(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "file"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "file"):
                 import Hasher
-                self.newDialog = Hasher.Hasher(QuickMakeParameters[1])
+                self.newDialog = Hasher.Hasher(InputOutputs.getRealPath(QuickMakeParameters[1]))
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()   
                 
     def checkIcon(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
-                InputOutputs.checkIcon(QuickMakeParameters[1])
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
+                InputOutputs.checkIcon(InputOutputs.getRealPath(QuickMakeParameters[1]))
                 Dialogs.show(translate("QuickMake", "Directory Icon Checked"),
-                        str(translate("QuickMake", "\"%s\"`s icon checked.<br>The default action based on the data is executed.")) % Organizer.getLink(QuickMakeParameters[1]))
+                        str(translate("QuickMake", "\"%s\"`s icon checked.<br>The default action based on the data is executed.")) % Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -208,13 +208,13 @@ class QuickMakeWindow(MyDialog):
 
     def clearEmptyDirectories(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
                 InputOutputs.activateSmartCheckIcon()
-                InputOutputs.clearEmptyDirectories(QuickMakeParameters[1], True, True)
-                if InputOutputs.isDir(QuickMakeParameters[1]):
+                InputOutputs.clearEmptyDirectories(InputOutputs.getRealPath(QuickMakeParameters[1]), True, True)
+                if InputOutputs.isDir(InputOutputs.getRealPath(QuickMakeParameters[1])):
                     InputOutputs.complateSmartCheckIcon()
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
-                        str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(QuickMakeParameters[1]))
+                        str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -222,10 +222,10 @@ class QuickMakeWindow(MyDialog):
                 
     def clearUnneededs(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
-                InputOutputs.clearUnneededs(QuickMakeParameters[1])
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
+                InputOutputs.clearUnneededs(InputOutputs.getRealPath(QuickMakeParameters[1]))
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
-                        str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(QuickMakeParameters[1]))
+                        str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -233,10 +233,10 @@ class QuickMakeWindow(MyDialog):
                 
     def clearIgnoreds(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
-                InputOutputs.clearIgnoreds(QuickMakeParameters[1])
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
+                InputOutputs.clearIgnoreds(InputOutputs.getRealPath(QuickMakeParameters[1]))
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
-                        str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(QuickMakeParameters[1]))
+                        str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -244,17 +244,17 @@ class QuickMakeWindow(MyDialog):
                         
     def emendFile(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "file"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "file"):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(QuickMakeParameters[1], InputOutputs.getObjectType(QuickMakeParameters[1]))
+                    newEmendedName = Organizer.emend(InputOutputs.getRealPath(QuickMakeParameters[1]), InputOutputs.getObjectType(InputOutputs.getRealPath(QuickMakeParameters[1])))
                 import Organizer
-                newFileName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName)
+                newFileName = InputOutputs.moveOrChange(InputOutputs.getRealPath(QuickMakeParameters[1]), newEmendedName)
                 if newFileName!=False:
                     Dialogs.show(translate("QuickMake", "File Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This file is \"%s\" now.")) % 
-                            (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newFileName)))
+                            (Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])), Organizer.getLink(InputOutputs.getDirName(InputOutputs.getRealPath(QuickMakeParameters[1]))+"/"+newFileName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -262,18 +262,18 @@ class QuickMakeWindow(MyDialog):
 
     def emendDirectory(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(QuickMakeParameters[1], InputOutputs.getObjectType(QuickMakeParameters[1]))
+                    newEmendedName = Organizer.emend(InputOutputs.getRealPath(QuickMakeParameters[1]), InputOutputs.getObjectType(InputOutputs.getRealPath(QuickMakeParameters[1])))
                 import Organizer
-                newName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName, "directory")
+                newName = InputOutputs.moveOrChange(InputOutputs.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
                 if newName!=False:
-                    newDirName = InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newName
+                    newDirName = InputOutputs.getDirName(InputOutputs.getRealPath(QuickMakeParameters[1]))+"/"+newName
                     Dialogs.show(translate("QuickMake", "Directory Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
-                            (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(newDirName)))
+                            (Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newDirName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -281,16 +281,16 @@ class QuickMakeWindow(MyDialog):
                             
     def emendDirectoryWithContents(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(QuickMakeParameters[1], InputOutputs.getObjectType(QuickMakeParameters[1]))
+                    newEmendedName = Organizer.emend(InputOutputs.getRealPath(QuickMakeParameters[1]), InputOutputs.getObjectType(InputOutputs.getRealPath(QuickMakeParameters[1])))
                 import Organizer
                 InputOutputs.activateSmartCheckIcon()
-                newName = InputOutputs.moveOrChange(QuickMakeParameters[1], newEmendedName, "directory")
+                newName = InputOutputs.moveOrChange(InputOutputs.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
                 if newName!=False:
-                    newDirName = InputOutputs.getDirName(QuickMakeParameters[1])+"/"+newName
+                    newDirName = InputOutputs.getDirName(InputOutputs.getRealPath(QuickMakeParameters[1]))+"/"+newName
                     fileAndDirectoryNames = InputOutputs.readDirectory(newDirName, "fileAndDirectory")
                     for fileAndDirs in fileAndDirectoryNames:
                         objectType = InputOutputs.getObjectType(newDirName + "/" + fileAndDirs)
@@ -302,7 +302,7 @@ class QuickMakeWindow(MyDialog):
                         InputOutputs.complateSmartCheckIcon()
                     Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
-                            (Organizer.getLink(QuickMakeParameters[1]), Organizer.getLink(newDirName)))
+                            (Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newDirName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -310,10 +310,10 @@ class QuickMakeWindow(MyDialog):
                             
     def copyPath(self):
         try:
-            if self.checkSource(QuickMakeParameters[1]):
-                MApplication.clipboard().setText(QuickMakeParameters[1].decode("utf-8"))
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1])):
+                MApplication.clipboard().setText(InputOutputs.getRealPath(QuickMakeParameters[1]).decode("utf-8"))
                 Dialogs.show(translate("QuickMake", "Copied To Clipboard"),
-                        str(translate("QuickMake", "\"%s\" copied to clipboard.")) % Organizer.getLink(QuickMakeParameters[1]))
+                        str(translate("QuickMake", "\"%s\" copied to clipboard.")) % Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -321,24 +321,24 @@ class QuickMakeWindow(MyDialog):
 
     def fileTree(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
                 import FileTreeBuilder
-                self.newDialog = FileTreeBuilder.FileTreeBuilder(QuickMakeParameters[1])
+                self.newDialog = FileTreeBuilder.FileTreeBuilder(InputOutputs.getRealPath(QuickMakeParameters[1]))
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()     
     
     def removeOnlySubFiles(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
                 answer = Dialogs.ask(translate("QuickMake", "All Files Will Be Removed"),
-                        str(translate("QuickMake", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(QuickMakeParameters[1]))
+                        str(translate("QuickMake", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])))
                 if answer==Dialogs.Yes:
                     Universals.MainWindow.setEnabled(False)
-                    InputOutputs.removeOnlySubFiles(QuickMakeParameters[1])
+                    InputOutputs.removeOnlySubFiles(InputOutputs.getRealPath(QuickMakeParameters[1]))
                     Universals.MainWindow.setEnabled(True)
                     Dialogs.show(translate("QuickMake", "Removed Only All Files"),
-                        str(translate("QuickMake", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(QuickMakeParameters[1]))
+                        str(translate("QuickMake", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.getRealPath(QuickMakeParameters[1])))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -346,9 +346,9 @@ class QuickMakeWindow(MyDialog):
 
     def clear(self):
         try:
-            if self.checkSource(QuickMakeParameters[1], "directory"):
+            if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
                 import Cleaner
-                self.newDialog = Cleaner.Cleaner(QuickMakeParameters[1])
+                self.newDialog = Cleaner.Cleaner(InputOutputs.getRealPath(QuickMakeParameters[1]))
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()     

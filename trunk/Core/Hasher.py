@@ -20,11 +20,11 @@ class Hasher(MyDialog):
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = Options.Options(None, "hash", None, newOrChangedKeys)
-        lblPathOfPackage = MLabel(translate("Hasher", "<b>Path Of The File : </b>"))
-        lblHash = MLabel(translate("Hasher", "<b>Hash Type : </b>"))
-        lblHashOutput = MLabel(translate("Hasher", "<b>Hash Output : </b>"))
-        lblHashDigestFile = MLabel(translate("Hasher", "<b>Hash Digest File : </b>"))
-        lblHashDigest = MLabel(translate("Hasher", "<b>Hash Digest : </b>"))
+        lblPathOfPackage = MLabel(translate("Hasher", "Path Of The File : "))
+        lblHash = MLabel(translate("Hasher", "Hash Type : "))
+        lblHashOutput = MLabel(translate("Hasher", "Hash Output : "))
+        lblHashDigestFile = MLabel(translate("Hasher", "Hash Digest File : "))
+        lblHashDigest = MLabel(translate("Hasher", "Hash Digest : "))
         self.teHashDigest = MTextEdit(u"")
         self.cbHash = MComboBox()
         self.cbHash.addItems(InputOutputs.getHashTypes())

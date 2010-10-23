@@ -15,4 +15,4 @@ else:
     setupDirectory = Variables.getKDE4HomePath() + "/share/apps/amarok/scripts"
 
 def isInstallable():
-    return Variables.isAvailablePyKDE4()
+    return Variables.isAvailableKDE4()
