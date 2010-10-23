@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
 import Variables
-import Universals
 import InputOutputs
-import Settings, Execute
+import Execute
 from MyObjects import translate
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
 pluginVersion = "0.2"

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os, sys
+import sys
 from datetime import datetime
 if float(sys.version[:3])>=2.6:
     import sqlite3 as sqlite
@@ -10,15 +10,12 @@ else:
 import Variables
 import Universals
 import InputOutputs
-import RoutineChecks
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, emendValue, checkSettings, reFillSettings, reFillAll, isMakeBackUp, makeBackUp, restoreBackUp, fileOfSettings, saveStateOfSettings, openStateOfSettings, updateOldSettings, recordFilePath, universalSetting, checkDatabases, getUniversalSetting, setUniversalSetting, getAmendedSQLInputQueries
-    fileOfSettings = "mySettings.ini"
-    recordFilePath = Universals.pathOfSettingsDirectory + "/logs.txt"
+    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, checkDatabases, getUniversalSetting, setUniversalSetting, getAmendedSQLInputQueries
     
     def setting():
-        return Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + fileOfSettings).decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
+        return Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings).decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
     
     def universalSetting():
         return Variables.MQtCore.QSettings((Variables.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini").decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
@@ -113,7 +110,7 @@ class Settings():
         else:
             if InputOutputs.isFile(Universals.pathOfSettingsDirectory + "/database.sqlite")==False:
                 reFillDatabases("All")
-            if InputOutputs.isFile(Universals.pathOfSettingsDirectory + "/" + fileOfSettings)==False:
+            if InputOutputs.isFile(Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings)==False:
                 reFillSettings()
             checkDatabases()
         
@@ -136,12 +133,10 @@ class Settings():
         mySetting = universalSetting()
         mySetting.setValue(_key, Variables.MQtCore.QVariant(_value.decode("utf-8")))
 
-    def reFillSettings(_askMakeBackUp=False, _makeBackUp=False):
-        if _askMakeBackUp==True:
-            isMakeBackUp("Settings")
-        elif _makeBackUp==True:
+    def reFillSettings(_makeBackUp=False):
+        if _makeBackUp==True:
             makeBackUp("Settings")
-        mySetting = Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + fileOfSettings).decode("utf-8"), Variables.MQtCore.QSettings.IniFormat)
+        mySetting = Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings).decode("utf-8"), Variables.MQtCore.QSettings.IniFormat)
         defaultValues = Variables.getDefaultValues()
         for keyValue in Variables.keysOfSettings:
             mySetting.setValue(keyValue,Variables.MQtCore.QVariant(defaultValues[keyValue].decode("utf-8")))
@@ -211,10 +206,8 @@ class Settings():
                 return _defaultValue
         return _value
         
-    def reFillDatabases(_table="", _actionType="dropAndInsert", _askMakeBackUp=False, _makeBackUp=False):
-        if _askMakeBackUp==True:
-            isMakeBackUp(_table)
-        elif _makeBackUp==True:
+    def reFillDatabases(_table="", _actionType="dropAndInsert", _makeBackUp=False):
+        if _makeBackUp==True:
             makeBackUp(_table)
         tableCreateQueries = ["CREATE TABLE IF NOT EXISTS dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)",
             "CREATE TABLE IF NOT EXISTS bookmarksOfDirectories ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'type' TEXT)", 
@@ -297,28 +290,18 @@ class Settings():
             i +=1
         return [sqlString0 + sqlString1 + sqlString2 + ")=0;" , sqlString3 + sqlString4 + ";"]
     
-    def reFillAll(_askMakeBackUp=False, _makeBackUp=False):
-        if _askMakeBackUp==True:
-            isMakeBackUp()
-        elif _makeBackUp==True:
+    def reFillAll(_makeBackUp=False):
+        if _makeBackUp==True:
             makeBackUp("All")
         reFillDatabases("All")
         reFillSettings()
-        
-    def isMakeBackUp(_settingType="All"):
-        import Dialogs
-        from MyObjects import translate
-        answer = Dialogs.ask(translate("Settings", "Do You Want To Back Up?"),
-                    translate("Settings", "Do you want to back up current data?"))
-        if answer==Dialogs.Yes:
-            makeBackUp(_settingType)
         
     def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mirror"):
         files = []
         if _settingType=="database" or _settingType=="All":
             files.append("database.sqlite")
         if _settingType=="Settings" or _settingType=="All":
-            files.append(fileOfSettings)
+            files.append(Universals.fileOfSettings)
         if InputOutputs.isDir(Universals.pathOfSettingsDirectory + "/" + _backUpDirectory)==False:
             InputOutputs.makeDirs(Universals.pathOfSettingsDirectory + "/" + _backUpDirectory)
         isReturn = False
@@ -343,23 +326,15 @@ class Settings():
                     return newFileName
             except:pass
         
-    def restoreBackUp(_settingType="All"):
-        import Dialogs
-        from MyObjects import translate
-        answer = Dialogs.ask(translate("Settings", "Do You Want To Back Up Current Data?"),
-                        translate("Settings", "Do you want to back up current data before restoring?"), True)
-        isMake = False
-        if answer==Dialogs.Yes:
-            isMake = True
-        elif answer==Dialogs.Cancel:
-            return False
+    def restoreBackUp(_settingType="All", _isMakeBackUp=True):
         files = []
+        isSuccesfully = True
         if _settingType=="database" or _settingType=="All":
             files.append("database.sqlite")
         if _settingType=="Settings" or _settingType=="All":
-            files.append(fileOfSettings)
+            files.append(Universals.fileOfSettings)
         for file in files:
-            if isMake==True:
+            if _isMakeBackUp==True:
                 oldInfo = InputOutputs.readFromFile(Universals.pathOfSettingsDirectory + "/" + file)
             else:
                 try:
@@ -369,12 +344,11 @@ class Settings():
                 if InputOutputs.isFile(Universals.pathOfSettingsDirectory + "/BackUps/"+file):
                     InputOutputs.moveFileOrDir(Universals.pathOfSettingsDirectory + "/BackUps/"+file, Universals.pathOfSettingsDirectory+file)
                 else:
-                    Dialogs.showError("There Is No Back Up", "No back up file found to restore.")
-                    return False
+                    isSuccesfully = False
             except:pass
-            if isMake==True:
+            if _isMakeBackUp==True:
                 InputOutputs.writeToFile(Universals.pathOfSettingsDirectory + "/BackUps/"+file, oldInfo)
-        return True
+        return isSuccesfully
 
     def saveStateOfSettings(_file):
         import MyConfigure
@@ -507,7 +481,7 @@ class Settings():
                 conNewDB.commit()
         if oldVersion<906:
             sets = setting()
-            sets.setValue("fileSystemEncoding", Variables.MQtCore.QVariant(sets.value("settingsVersion").toString()))
+            sets.setValue("fileSystemEncoding", Variables.MQtCore.QVariant(sets.value("systemsCharSet").toString()))
         return newSettingsKeys, changedDefaultValuesKeys
         
     def checkDatabases():

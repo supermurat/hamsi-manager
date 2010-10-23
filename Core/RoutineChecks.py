@@ -47,8 +47,8 @@ def checkParameters():
                         print "Incorrect Command : Your action unable to process.Please try again."
                         break
                 if argv=="-s":
-                    import Settings
-                    Settings.fileOfSettings = "SettingFiles/" + argvs[argvNo+1]
+                    import Universals
+                    Universals.fileOfSettings = "SettingFiles/" + argvs[argvNo+1]
                     continue
                 elif argv=="-sDirectoryPath":
                     import Universals

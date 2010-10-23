@@ -779,12 +779,12 @@ class General(MWidget):
         self.typesOfValues = [["options", 1], ["options", 4], "Yes/No", ["number", 3], 
                                 "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 5], ["options", 0]]
         styles = Variables.getStyles()
-        themes = InputOutputs.getInstalledThemes()
-        self.valuesOfOptions = [InputOutputs.getInstalledLanguagesNames(), styles, 
+        themes = Variables.getInstalledThemes()
+        self.valuesOfOptions = [Variables.getInstalledLanguagesNames(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
                                 [translate("Options/General", "Normal"), 
                                     translate("Options/General", "Mini")]]
-        self.valuesOfOptionsKeys = [InputOutputs.getInstalledLanguagesCodes(), styles, 
+        self.valuesOfOptionsKeys = [Variables.getInstalledLanguagesCodes(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
                                 Variables.windowModeKeys]
         createOptions(self)
@@ -1596,6 +1596,8 @@ class MySettings(MWidget):
         try:
             if Settings.restoreBackUp("bookmarks")==True:
                 self.parent().parent().reStart()
+            else:
+                Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1604,6 +1606,8 @@ class MySettings(MWidget):
         try:
             if Settings.restoreBackUp("searchAndReplaceTable")==True:
                 self.parent().parent().close()
+            else:
+                Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1612,6 +1616,8 @@ class MySettings(MWidget):
         try:
             if Settings.restoreBackUp("Settings")==True:
                 self.parent().parent().reStart()
+            else:
+                Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1620,6 +1626,8 @@ class MySettings(MWidget):
         try:
             if Settings.restoreBackUp("All")==True:
                 self.parent().parent().reStart()
+            else:
+                Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1666,7 +1674,7 @@ class MySettings(MWidget):
             if answer==translate("Options/MySettings", "Yes"):
                 Settings.reFillSettings()
             elif answer==translate("Options/MySettings", "Back Up And Reset"):
-                Settings.reFillSettings(False, True)
+                Settings.reFillSettings(True)
             self.parent().parent().reStart()
         except:
             error = ReportBug.ReportBug()
@@ -1682,7 +1690,7 @@ class MySettings(MWidget):
             if answer==translate("Options/MySettings", "Yes"):
                 Settings.reFillAll()
             elif answer==translate("Options/MySettings", "Back Up And Reset"):
-                Settings.reFillAll(False, True)
+                Settings.reFillAll(True)
             self.parent().parent().reStart()
         except:
             error = ReportBug.ReportBug()

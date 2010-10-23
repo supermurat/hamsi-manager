@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import Variables
-import Universals
-import Settings, Execute
+import Execute
 from MyObjects import translate
 pluginName = str(translate("MyPlugins/KDE4_SM", "For KDE4 Applications` Service Menus"))
 pluginVersion = "0.2"
