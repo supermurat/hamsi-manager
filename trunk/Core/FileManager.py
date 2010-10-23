@@ -9,7 +9,7 @@ import Dialogs
 from MyObjects import *
 import ReportBug
 import Organizer
-#from InputOutputs import IA
+import Databases
 
 class FileManager():
     
@@ -336,7 +336,7 @@ class BookmarksMenu(MMenu):
     def makeRefresh(self):
         try:
             self.clear()
-            for fav in Settings.bookmarksOfDirectories():
+            for fav in Databases.BookmarksOfDirectories.fetchAll():
                 self.addAction(fav[1].decode("utf-8")).setObjectName(fav[1].decode("utf-8"))
             self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(translate("BookmarksMenu", "Edit Bookmarks"))
         except:
@@ -349,7 +349,7 @@ class BookmarksMenu(MMenu):
                 Universals.MainWindow.FileManager.bookmarks.makeRefresh()
                 Universals.MainWindow.FileManager.bookmarks.show()
                 return
-            for info in Settings.bookmarksOfDirectories():
+            for info in Databases.BookmarksOfDirectories.fetchAll():
                 if info[1]==str(_action.objectName()):
                     if InputOutputs.IA.isDir(str(info[2]))==True:
                         Universals.MainWindow.FileManager.goTo(info[2].decode("utf-8"))
@@ -358,7 +358,7 @@ class BookmarksMenu(MMenu):
                         answer = Dialogs.ask(translate("BookmarksMenu", "Cannot Find Folder"), 
                                             str(translate("BookmarksMenu", "\"%s\" cannot be found.<br>Delete this folder from the bookmarks?")) % Organizer.getLink(info[1]))
                         if answer==Dialogs.Yes:
-                            Settings.bookmarksOfDirectories("delete",str(info[0]))
+                            Databases.BookmarksOfDirectories.delete(str(info[0]))
                             self.makeRefresh()
                             Universals.MainWindow.FileManager.bookmarks.makeRefresh()
             Universals.MainWindow.FileManager.makeRefreshOnlyFileList()   
@@ -407,7 +407,7 @@ class Bookmarks(MDialog):
         
     def bookmarksChanged(self, _index):
         try:
-            self.pathOfBookmark.setText(Settings.bookmarksOfDirectories()[self.cbBookmarks.currentIndex()][2].decode("utf-8"))
+            self.pathOfBookmark.setText(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2].decode("utf-8"))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -415,7 +415,7 @@ class Bookmarks(MDialog):
     def addBookmark(self):
         try:
             isim=str(InputOutputs.IA.currentDirectoryPath).split("/")
-            Settings.bookmarksOfDirectories("add",isim[len(isim)-1],InputOutputs.IA.currentDirectoryPath)
+            Databases.BookmarksOfDirectories.insert(isim[len(isim)-1], InputOutputs.IA.currentDirectoryPath)
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:
@@ -424,8 +424,8 @@ class Bookmarks(MDialog):
         
     def saveBookmark(self):
         try:
-            info = Settings.bookmarksOfDirectories()[self.cbBookmarks.currentIndex()]
-            Settings.bookmarksOfDirectories("update",info[0],self.cbBookmarks.currentText(),self.pathOfBookmark.text())
+            info = Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
+            Databases.BookmarksOfDirectories.update(info[0], str(self.cbBookmarks.currentText()), str(self.pathOfBookmark.text()))
             self.makeRefresh()
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
         except:
@@ -435,8 +435,8 @@ class Bookmarks(MDialog):
     def deleteBookmark(self):
         try:
             if self.cbBookmarks.currentIndex()!=-1:
-                info = Settings.bookmarksOfDirectories()[self.cbBookmarks.currentIndex()]
-                Settings.bookmarksOfDirectories("delete",info[0])
+                info = Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
+                Databases.BookmarksOfDirectories.delete(str(info[0]))
                 self.makeRefresh()
                 Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
         except:
@@ -446,7 +446,7 @@ class Bookmarks(MDialog):
     def makeRefresh(self):
         try:
             self.cbBookmarks.clear()
-            for fav in Settings.bookmarksOfDirectories():
+            for fav in Databases.BookmarksOfDirectories.fetchAll():
                 self.cbBookmarks.addItem(fav[1].decode("utf-8")) 
         except:
             error = ReportBug.ReportBug()

@@ -119,8 +119,9 @@ class Organizer:
         return iconName + "." + Universals.MySettings["iconFileType"]
 
     def searchAndReplaceFromSearchAndReplaceTable(_oldString):
+        import Databases
         newString = _oldString
-        for info in Settings.searchAndReplaceTable():
+        for info in Databases.SearchAndReplaceTable.fetchAll():
             if info[3]==1:
                 isCaseSensitive, isRegExp = False, False
                 if info[4]==1:

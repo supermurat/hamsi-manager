@@ -12,7 +12,7 @@ import Universals
 import InputOutputs
     
 class Settings():
-    global setting, bookmarksOfDirectories, bookmarksOfSpecialTools, searchAndReplaceTable, saveUniversalSettings, reFillDatabases, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, checkDatabases, getUniversalSetting, setUniversalSetting, getAmendedSQLInputQueries
+    global setting, saveUniversalSettings, reFillDatabases, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, checkDatabases, getUniversalSetting, setUniversalSetting, getAmendedSQLInputQueries
     
     def setting():
         return Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings).decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
@@ -20,88 +20,6 @@ class Settings():
     def universalSetting():
         return Variables.MQtCore.QSettings((Variables.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini").decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
           
-    def bookmarksOfDirectories(_action="read", _value0="", _value1="", _value2="", _value3=""):
-        con = sqlite.connect(Universals.pathOfSettingsDirectory + "/database.sqlite")
-        cur = con.cursor()
-        if _action=="read":
-            try:
-                cur.execute("SELECT * FROM bookmarksOfDirectories")
-                return cur.fetchall()
-            except: return []
-        elif _action=="readOneRecord":
-            try:
-                cur.execute("SELECT * FROM bookmarksOfDirectories where id="+str(_value0))
-                return cur.fetchall()
-            except: return []
-        elif _action=="add":
-            _value0 = _value0.replace("'", "''")
-            _value1 = _value1.replace("'", "''")
-            _value2 = _value2.replace("'", "''")
-            cur.execute("insert into bookmarksOfDirectories(bookmark,value,type) values('"+_value0+"','" + _value1+"','"+_value2+"')")
-        elif _action=="delete":
-            cur.execute("delete from bookmarksOfDirectories where id="+str(_value0))
-        elif _action=="update":
-            _value1 = _value1.replace("'", "''")
-            _value2 = _value2.replace("'", "''")
-            cur.execute(str("update bookmarksOfDirectories set bookmark='"+_value1+"', value='"+_value2+"', type='"+_value3+"' where id="+str(_value0)))
-        con.commit()
-        
-    def bookmarksOfSpecialTools(_action="read", _value0="", _value1="", _value2="", _value3=""):
-        con = sqlite.connect(Universals.pathOfSettingsDirectory + "/database.sqlite")
-        cur = con.cursor()
-        import Organizer
-        requirement = Universals.MainWindow.Table.specialTollsBookmarkPointer
-        if _action=="read":
-            try:
-                cur.execute("SELECT * FROM bookmarksOfSpecialTools where type='"+requirement+"'")
-                myBookmarks = []
-                for mybm in cur.fetchall():
-                    tempT = mybm[2]
-                    tempString = tempT.split(";")
-                    tempT = ""
-                    for t in tempString[:-2]:
-                        tempT+=t
-                    newText  = Organizer.whatDoesSpecialCommandDo("-",
-                                    tempString[-2],
-                                    tempT, False, True)
-                    myBookmarks.append([mybm[0], newText, mybm[2], mybm[3]])
-                return myBookmarks
-            except: return []
-        if _action=="add":
-            _value0 = _value0.replace("'", "''")
-            _value1 = _value1.replace("'", "''")
-            cur.execute("insert into bookmarksOfSpecialTools(bookmark,value,type) values('"+_value0+"','"+_value1+"','"+requirement+"')")
-        if _action=="delete":
-            cur.execute("delete from bookmarksOfSpecialTools where value='"+_value0+"' and type='"+requirement+"'")
-        if _action=="update":
-            _value1 = _value1.replace("'", "''")
-            _value2 = _value2.replace("'", "''")
-            cur.execute(str("update bookmarksOfSpecialTools set bookmark='"+_value1+"', value='"+_value2+"' where id="+str(_value0)))
-        con.commit()
-        
-    def searchAndReplaceTable(_action="read", _value0="", _value1="", _value2="", _value3="", _value4="", _value5=""):
-        con = sqlite.connect(Universals.pathOfSettingsDirectory + "/database.sqlite")
-        cur = con.cursor()
-        if _action=="read":
-            try:
-                cur.execute("SELECT * FROM searchAndReplaceTable")
-                return cur.fetchall()
-            except: return []
-        if _action=="add":
-            _value0 = _value0.replace("'", "''")
-            _value1 = _value1.replace("'", "''")
-            cur.execute("insert into searchAndReplaceTable(searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp) values('"+_value0+"','"+_value1+"',"+str(_value2)+","+str(_value3)+","+str(_value4)+")")
-            cur.execute("SELECT last_insert_rowid();")
-            con.commit()
-            return cur.fetchall()[0][0]
-        if _action=="delete":
-            cur.execute("delete from searchAndReplaceTable where id="+str(_value0))
-        if _action=="update":
-            _value1 = _value1.replace("'", "''")
-            _value2 = _value2.replace("'", "''")
-            cur.execute(str("update searchAndReplaceTable set searching='"+_value1+"', replacing='"+_value2+"', intIsActive="+str(_value3)+", intIsCaseSensitive="+str(_value4)+", intIsRegExp="+str(_value5)+" where id="+str(_value0)))
-        con.commit()
-    
     def checkSettings():
         if InputOutputs.isDir(Universals.pathOfSettingsDirectory)==False:
             InputOutputs.makeDirs(Universals.pathOfSettingsDirectory)

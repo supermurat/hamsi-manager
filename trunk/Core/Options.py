@@ -4,6 +4,7 @@ import sys,os
 import Variables
 from MyObjects import *
 import Settings, Dialogs, Universals, InputOutputs, Records
+import Databases
 import ReportBug
 
 class Options(MDialog):
@@ -908,7 +909,7 @@ class SearchAndReplace(MWidget):
             self.setColumnWidth(3,50)
             self.setColumnWidth(4,50)
             self.setColumnWidth(5,50)
-            self.searchAndReplaceTableValues = Settings.searchAndReplaceTable()
+            self.searchAndReplaceTableValues = Databases.SearchAndReplaceTable.fetchAll()
             self.setRowCount(len(self.searchAndReplaceTableValues)+1)
             self.isShowChanges=False
             for rowNo, info in enumerate(self.searchAndReplaceTableValues):
@@ -1011,13 +1012,13 @@ class SearchAndReplace(MWidget):
                 try:
                     temp = self.item(rowNo, 0).text()
                     if self.isRowHidden(rowNo):
-                        Settings.searchAndReplaceTable("delete", str(self.item(rowNo, 0).text()))
+                        Databases.SearchAndReplaceTable.delete(str(self.item(rowNo, 0).text()))
                     else:
                         if str(self.item(rowNo, 1).text()).strip()!="":
-                            Settings.searchAndReplaceTable("update", str(self.item(rowNo, 0).text()), str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
+                            Databases.SearchAndReplaceTable.update(str(self.item(rowNo, 0).text()), str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
                 except:
                     if str(self.item(rowNo, 1).text()).strip()!="":
-                        insertedId = Settings.searchAndReplaceTable("add", str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
+                        insertedId = Databases.SearchAndReplaceTable.insert(str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
                         self.setItem(rowNo, 0, MTableWidgetItem(str(insertedId)))
         
 class ClearGeneral(MWidget):

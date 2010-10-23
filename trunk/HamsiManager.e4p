@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-10-23, 23:02:51 -->
+<!-- Saved: 2010-10-24, 01:31:08 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -104,6 +104,10 @@
     <Source>Tools/Cleaner.py</Source>
     <Source>Tools/Hasher.py</Source>
     <Source>Tools/__init__.py</Source>
+    <Source>Databases/__init__.py</Source>
+    <Source>Databases/SearchAndReplaceTable.py</Source>
+    <Source>Databases/BookmarksOfDirectories.py</Source>
+    <Source>Databases/BookmarksOfSpecialTools.py</Source>
   </Sources>
   <Forms>
   </Forms>
