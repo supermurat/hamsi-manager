@@ -164,6 +164,7 @@ class Universals():
                             translate("Universals", "%Year%"), 
                             translate("Universals", "%Genre%")]
         from InputOutputs import IA #For first import
+        from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable #For first import
             
     def clearAllChilds(_object):
         from MyObjects import MWidget

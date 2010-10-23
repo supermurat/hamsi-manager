@@ -9,6 +9,7 @@ import Tables
 import Dialogs
 import sys
 import ReportBug
+import Databases
 
 class SpecialTools(MWidget):
     def __init__(self,_parent):
@@ -501,7 +502,7 @@ class SpecialActions(MWidget):
     def cbBookmarksChanged(self,_index):
         try:
             if _index>0:
-                tempT = Settings.bookmarksOfSpecialTools()[_index-1][2]
+                tempT = Databases.BookmarksOfSpecialTools.fetchAllByType()[_index-1][2]
                 tempString = tempT.split(";")
                 tempT = ""
                 tempA = ""
@@ -542,7 +543,7 @@ class SpecialActions(MWidget):
             tempString = self.actionCommand
             if Organizer.whatDoesSpecialCommandDo(unicode(self.leSplitPointer.text()).encode("utf-8"),self.whereIsSplitPointer,unicode(self.leActionString.text()).encode("utf-8"),True)==True:
                 addition = " ;"+self.whereIsSplitPointer +";"+ str(self.numberOfActionCommand)
-                Settings.bookmarksOfSpecialTools("add","",tempString+addition)
+                Databases.BookmarksOfSpecialTools.insert("", tempString+addition)
                 self.refreshBookmarks()
                 self.cbBookmarks.setCurrentIndex(self.cbBookmarks.count()-1)
         except:
@@ -552,7 +553,7 @@ class SpecialActions(MWidget):
     def deleteBookmark(self):
         try:
             if self.cbBookmarks.currentIndex()!=-1 and self.cbBookmarks.currentIndex()!=0:
-                Settings.bookmarksOfSpecialTools("delete",Settings.bookmarksOfSpecialTools()[self.cbBookmarks.currentIndex()-1][2])
+                Databases.BookmarksOfSpecialTools.delete(Databases.BookmarksOfSpecialTools.fetchAllByType()[self.cbBookmarks.currentIndex()-1][0])
                 self.refreshBookmarks()
         except:
             error = ReportBug.ReportBug()
@@ -562,7 +563,7 @@ class SpecialActions(MWidget):
         try:
             self.cbBookmarks.clear()
             self.cbBookmarks.addItem(translate("SpecialTools", "Please Select An Action!"))
-            for fav in Settings.bookmarksOfSpecialTools():
+            for fav in Databases.BookmarksOfSpecialTools.fetchAllByType():
                 if Universals.MySettings["musicTagType"]=="ID3 V2":
                     self.cbBookmarks.addItem(fav[1].decode("utf-8"))
                 else:
