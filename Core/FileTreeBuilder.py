@@ -19,11 +19,11 @@ class FileTreeBuilder(MyDialog):
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = Options.Options(None, "fileTree", None, newOrChangedKeys)
-        lblDirectory = MLabel(u"<b>" + translate("FileTreeBuilder", "Directory : ") + u"</b>")
-        lblOutputType = MLabel(u"<b>" + translate("FileTreeBuilder", "Output Type : ") + u"</b>")
-        lblContentType = MLabel(u"<b>" + translate("FileTreeBuilder", "Content Type : ") + u"</b>")
+        lblDirectory = MLabel(translate("FileTreeBuilder", "Directory : "))
+        lblOutputType = MLabel(translate("FileTreeBuilder", "Output Type : "))
+        lblContentType = MLabel(translate("FileTreeBuilder", "Content Type : "))
         lblSubDirectoryDeepDetails = translate("FileTreeBuilder", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(u"<b>" + translate("FileTreeBuilder", "Deep : ") + u"</b>")
+        lblSubDirectoryDeep = MLabel(translate("FileTreeBuilder", "Deep : "))
         self.cbSubDirectoryDeep = MComboBox(self)
         for x in range(-1, 10):
             self.cbSubDirectoryDeep.addItem(str(x))

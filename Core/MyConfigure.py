@@ -15,7 +15,7 @@ class MyConfigure:
         InputOutputs.writeToFile(_filePath, fileContent)
             
     def installKDE4Languages():
-        if Variables.isAvailablePyKDE4():
+        if Variables.isAvailableKDE4():
             for langCode in InputOutputs.getInstalledLanguagesCodes():
                 installKDE4Language(langCode)
             Universals.setMySetting("isInstalledKDE4Language", True)
@@ -23,7 +23,7 @@ class MyConfigure:
         return False
             
     def installKDE4Language(_language="tr_TR", _KDELocalateDir = None):
-        if Variables.isAvailablePyKDE4():
+        if Variables.isAvailableKDE4():
             if _KDELocalateDir==None:
                 _KDELocalateDir = Variables.getKDE4HomePath() +"/share/locale/~langCode~/LC_MESSAGES/"
             import Execute

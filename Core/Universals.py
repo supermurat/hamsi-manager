@@ -45,7 +45,7 @@ class Universals():
             _path = _path[:-1]
         pathOfSettingsDirectory = _path
         
-    def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActivePyKDE4=None):
+    def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActiveKDE4=None):
         global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isShowOldValues, isChangeAll, isChangeSelected
         import Settings, InputOutputs
         sets = Settings.setting()
@@ -61,19 +61,16 @@ class Universals():
             if newSettingVersion!=settingVersion:
                 newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion)
                 isShowVerifySettings = True
-        if _isActivePyKDE4!=False:
-            if getBoolValue("isActivePyKDE4"):
-                try:
-                    import PyKDE4
-                except:
-                    MySettings["isActivePyKDE4"] = "False"
+        if _isActiveKDE4!=False:
             InputOutputs.fileSystemEncoding = MySettings["fileSystemEncoding"]
-            if getBoolValue("isActivePyKDE4"):
-                if isLoadedMyObjects==False:
-                    isActivePyKDE4 = True
-                    InputOutputs.isMoveToTrash = getBoolValue("isMoveToTrash")
-        else:
-            isActivePyKDE4 = False
+            if Variables.isAvailableKDE4():
+                if getBoolValue("isActivePyKDE4"):
+                    if Variables.isAvailablePyKDE4():
+                        if isLoadedMyObjects==False:
+                            isActivePyKDE4 = True
+                    else:
+                        MySettings["isActivePyKDE4"] = "False"
+                InputOutputs.isMoveToTrash = getBoolValue("isMoveToTrash")
         windowMode = MySettings["windowMode"]
         themePath = Variables.HamsiManagerDirectory + "/Themes/" + MySettings["themeName"]
         if tableType == None:

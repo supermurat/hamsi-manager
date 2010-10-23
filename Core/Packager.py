@@ -20,12 +20,12 @@ class Packager(MyDialog):
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = Options.Options(None, "pack", None, newOrChangedKeys)
-        lblPleaseSelect = MLabel(translate("Packager", "<font color=red><b>Project Folder</b></font>"))
-        lblPathOfPackage = MLabel(translate("Packager", "<b>Path Of The Pack</b>"))
-        lblPackageType = MLabel(translate("Packager", "<b>Package Compression Type : </b>"))
-        lblHash = MLabel(translate("Packager", "<b>Hash : </b>"))
-        lblHashOutput = MLabel(translate("Packager", "<b>Hash Output : </b>"))
-        lblHashDigestFile = MLabel(translate("Packager", "<b>Hash Digest File : </b>"))
+        lblPleaseSelect = MLabel(translate("Packager", "Path Of The Directory"))
+        lblPathOfPackage = MLabel(translate("Packager", "Path Of The Pack"))
+        lblPackageType = MLabel(translate("Packager", "Package Compression Type : "))
+        lblHash = MLabel(translate("Packager", "Hash : "))
+        lblHashOutput = MLabel(translate("Packager", "Hash Output : "))
+        lblHashDigestFile = MLabel(translate("Packager", "Hash Digest File : "))
         self.cbPackageType = MComboBox()
         self.cbPackageType.addItems([translate("Packager", "Archive Without Compression"),
                                     u".tar.gz",u".tar.bz2", ".amarokscript.tar.gz"])

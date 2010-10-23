@@ -25,7 +25,7 @@ class Amarok:
     dbConnection = None
     
     def checkAmarok():
-        if isLoadedMysql:
+        if isLoadedMysql and Variables.isAvailableKDE4():
             if Universals.getBoolValue("amarokIsUseHost"):
                 return True
             else:
@@ -95,6 +95,8 @@ class Amarok:
         else:
             if isLoadedMysql==False:
                 Dialogs.showError(translate("Amarok", "Amarok Module Is Not Usable"), translate("Amarok", "\"python-mysql\" (MySQLdb / _mysql) named module is not installed on your system. Please install this module and try again."))
+            elif Variables.isAvailableKDE4()==False:
+                Dialogs.showError(translate("Amarok", "Amarok Module Is Not Usable"), translate("Amarok", "Please open user session with KDE4 once."))
             else:
                 Dialogs.showError(translate("Amarok", "Amarok Module Is Not Usable"), translate("Amarok", "Please run Amarok once."))
             return None

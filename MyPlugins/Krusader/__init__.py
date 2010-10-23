@@ -12,7 +12,7 @@ pluginDirectory = ""
 setupDirectory = ""
 
 def isInstallable():
-    return Variables.isAvailablePyKDE4()
+    return Variables.isAvailableKDE4()
 
 def installThisPlugin():
     try:
