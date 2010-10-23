@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-10-19, 00:40:31 -->
+<!-- Saved: 2010-10-23, 23:02:51 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -63,10 +63,8 @@
     <Source>SearchEngines/musicbrainz2/data/countrynames.py</Source>
     <Source>SearchEngines/musicbrainz2/data/__init__.py</Source>
     <Source>Core/MyObjects.py</Source>
-    <Source>Core/Cleaner.py</Source>
     <Source>Core/SpecialTools.py</Source>
     <Source>Core/QuickMake.py</Source>
-    <Source>Core/FileTreeBuilder.py</Source>
     <Source>Core/Records.py</Source>
     <Source>Core/Universals.py</Source>
     <Source>Core/UpdateControl.py</Source>
@@ -74,8 +72,6 @@
     <Source>Core/ReportBug.py</Source>
     <Source>Core/Bars.py</Source>
     <Source>Core/MyConfigure.py</Source>
-    <Source>Core/RunCommand.py</Source>
-    <Source>Core/Packager.py</Source>
     <Source>Core/Options.py</Source>
     <Source>Core/SuggestIdea.py</Source>
     <Source>Core/Settings.py</Source>
@@ -86,7 +82,6 @@
     <Source>Core/Organizer.py</Source>
     <Source>Core/__init__.py</Source>
     <Source>Reconfigure.py</Source>
-    <Source>Core/Hasher.py</Source>
     <Source>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/main.js</Source>
     <Source>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/script.spec</Source>
     <Source>InputOutputs/Covers.py</Source>
@@ -102,6 +97,13 @@
     <Source>test.py</Source>
     <Source>Amarok/Commands.py</Source>
     <Source>Core/Variables.py</Source>
+    <Source>InputOutputs/IA.py</Source>
+    <Source>Tools/Packager.py</Source>
+    <Source>Tools/RunCommand.py</Source>
+    <Source>Tools/FileTreeBuilder.py</Source>
+    <Source>Tools/Cleaner.py</Source>
+    <Source>Tools/Hasher.py</Source>
+    <Source>Tools/__init__.py</Source>
   </Sources>
   <Forms>
   </Forms>

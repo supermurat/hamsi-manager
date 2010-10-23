@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import InputOutputs
 import os,sys
 from MyObjects import *
 from Viewers import ImageViewer

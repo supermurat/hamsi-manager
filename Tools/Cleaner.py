@@ -70,7 +70,7 @@ class Cleaner(MyDialog):
                     "This action will delete the files completely, without any chance to recover.<br>"+
                     "Are you sure you want to perform the action?")) % Organizer.getLink(Organizer.getLink(unicode(self.lePathOfProject.text(), "utf-8"))))
             if answer==Dialogs.Yes:
-                if InputOutputs.clearCleaningDirectory(unicode(self.lePathOfProject.text(), "utf-8"), True, True):
+                if InputOutputs.IA.clearCleaningDirectory(unicode(self.lePathOfProject.text(), "utf-8"), True, True):
                     Dialogs.show(translate("Cleaner", "Directory Is Cleared"),
                                 str(translate("Cleaner", "This directory is cleared : \"%s\"")) % Organizer.getLink(str(self.lePathOfProject.text())))
             Universals.isCanBeShowOnMainWindow = True

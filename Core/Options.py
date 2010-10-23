@@ -3,7 +3,7 @@
 import sys,os
 import Variables
 from MyObjects import *
-import Settings, Dialogs , Universals, InputOutputs, Records, Organizer
+import Settings, Dialogs, Universals, InputOutputs, Records
 import ReportBug
 
 class Options(MDialog):
@@ -261,13 +261,13 @@ class Options(MDialog):
         leValue = self.categories[self.tboxCategories.currentIndex()].values[int(requestInfos[2])]
         if requestInfos[0]=="file":
             if requestInfos[1]=="image":
-                directory = InputOutputs.getRealDirName(leValue.text())
+                directory = InputOutputs.IA.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Image"),
                                             directory,(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
                 if filePath!="":
                     leValue.setText(filePath)   
             if requestInfos[1]=="executable":
-                directory = InputOutputs.getRealDirName(leValue.text())
+                directory = InputOutputs.IA.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
                                             directory,translate("Options", "Executable Files") + u" (*)")
                 if filePath!="":
@@ -1521,12 +1521,10 @@ class MySettings(MWidget):
         
     def clearErrorFiles(self):
         try:
-            import InputOutputs, Records
-            InputOutputs.clearTempFiles()
+            InputOutputs.IA.clearTempFiles()
             Records.saveAllRecords()
             Dialogs.show(translate("Options/General", "Error Logs Deleted"), translate("Options/General", "All created by Hamsi Manager error logs and temp files is deleted."))
         except:
-            import ReportBug
             error = ReportBug.ReportBug()
             error.show()
     

@@ -27,11 +27,11 @@ class Musics:
         changedValueNumber = 0
         musicTagType = getSelectedMusicTagType()
         if _filePath!=None:
-            _directoryPath = InputOutputs.getDirName(_filePath)
-            musicFileNames = [InputOutputs.getBaseName(_filePath)]
+            _directoryPath = InputOutputs.IA.getDirName(_filePath)
+            musicFileNames = [InputOutputs.IA.getBaseName(_filePath)]
         else:
             currentFilesAndFoldersValues = []
-            musicFileNames = InputOutputs.readDirectory(_directoryPath, "music")
+            musicFileNames = InputOutputs.IA.readDirectory(_directoryPath, "music")
         isCanNoncompatible = False
         allItemNumber = len(musicFileNames)
         Universals.startThreadAction()
@@ -44,12 +44,12 @@ class Musics:
                 if _filePath!=None:
                     musicTagsValues.append(_directoryPath)
                 else:
-                    musicTagsValues.append(InputOutputs.getBaseName(_directoryPath))
+                    musicTagsValues.append(InputOutputs.IA.getBaseName(_directoryPath))
                 musicTagsValues.append(musicName)
                 try:
                     tag = eyeD3.Tag()
                     try:
-                        tag.link((_directoryPath+"/"+musicName).encode(InputOutputs.fileSystemEncoding), musicTagType)
+                        tag.link((_directoryPath+"/"+musicName).encode(InputOutputs.IA.fileSystemEncoding), musicTagType)
                     except:
                         tag = eyeD3.Tag()
                         tag.link(_directoryPath+"/"+musicName, musicTagType)
@@ -81,7 +81,7 @@ class Musics:
                     if _filePath!=None:
                         try:
                             try:
-                                musicFileDetail = eyeD3.Mp3AudioFile((_directoryPath+"/"+musicName).encode(InputOutputs.fileSystemEncoding))
+                                musicFileDetail = eyeD3.Mp3AudioFile((_directoryPath+"/"+musicName).encode(InputOutputs.IA.fileSystemEncoding))
                             except:
                                 musicFileDetail = eyeD3.Mp3AudioFile(_directoryPath+"/"+musicName)
                             musicTagsValues.append(str(musicFileDetail.getSize()))
@@ -153,16 +153,16 @@ class Musics:
                 realRowNo=rowNo
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isWritableFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
+                if InputOutputs.IA.IA.isWritableFileOrDir(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
-                        InputOutputs.removeFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
+                        InputOutputs.IA.removeFileOrDir(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
                         continue
                     tag = eyeD3.Tag()
                     try:
-                        tag.link((InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1]).encode(InputOutputs.fileSystemEncoding), musicTagType)
+                        tag.link((InputOutputs.IA.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1]).encode(InputOutputs.IA.fileSystemEncoding), musicTagType)
                     except:
                         tag = eyeD3.Tag()
-                        tag.link(InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1], musicTagType)
+                        tag.link(InputOutputs.IA.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1], musicTagType)
                     correctForMusicTagType(tag)
                     if _table.isColumnHidden(2)!=True and (_table.item(rowNo,2).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,2).text(), "utf-8")
@@ -253,7 +253,7 @@ class Musics:
                                     extState = unicode(_table.item(rowNo,1).text()).encode("utf-8").decode("utf-8").lower().find(orgExt)
                                     if extState!=-1:
                                         _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")[:extState] + "." + orgExt).decode("utf-8")))
-                                newFileName = InputOutputs.moveOrChange(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]), InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                                newFileName = InputOutputs.IA.moveOrChange(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]), InputOutputs.IA.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
                                 changedValueNumber += 1
                     if newFileName==False:
                         continue
@@ -266,7 +266,7 @@ class Musics:
                             if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
                                 newDirectoryName=str(currentFilesAndFoldersValues[realRowNo][0])
                         if str(currentFilesAndFoldersValues[realRowNo][0])!=newDirectoryName:
-                            newPath=InputOutputs.getDirName(InputOutputs.currentDirectoryPath)
+                            newPath=InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath)
                             changingFileDirectories.append([])
                             changingFileDirectories[-1].append(newPath+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
                             changingFileDirectories[-1].append(newPath+"/"+newDirectoryName+"/"+newFileName)
@@ -277,15 +277,15 @@ class Musics:
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        return InputOutputs.changeDirectories(changingFileDirectories)
+        return InputOutputs.IA.changeDirectories(changingFileDirectories)
         
     def writeMusicFile(_oldMusicTagsValues,_newMusicTagsValues,_isImageAction=False,_ImageType=False,_ImagePath=False):
         global musicTagType
-        if InputOutputs.isWritableFileOrDir(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]):
+        if InputOutputs.IA.IA.isWritableFileOrDir(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]):
             musicTagType = getSelectedMusicTagType()
             tag = eyeD3.Tag()
             try:
-                tag.link((_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]).encode(InputOutputs.fileSystemEncoding), musicTagType)
+                tag.link((_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]).encode(InputOutputs.IA.fileSystemEncoding), musicTagType)
             except:
                 tag = eyeD3.Tag()
                 tag.link(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1], musicTagType)
@@ -341,19 +341,19 @@ class Musics:
                             extState = _newMusicTagsValues[1].lower().find(orgExt)
                             if extState!=-1:
                                 _newMusicTagsValues[1] = _newMusicTagsValues[1].split(".")[-1][:extState] + "." + orgExt
-                        newFileName = InputOutputs.moveOrChange(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1],_oldMusicTagsValues[0]+"/"+_newMusicTagsValues[1])
+                        newFileName = InputOutputs.IA.moveOrChange(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1],_oldMusicTagsValues[0]+"/"+_newMusicTagsValues[1])
                         if newFileName==False:
                             newFileName=_oldMusicTagsValues[1]
-                newDirectoryName=_newMusicTagsValues[0].replace(InputOutputs.getDirName(_oldMusicTagsValues[0])+"/","")
+                newDirectoryName=_newMusicTagsValues[0].replace(InputOutputs.IA.getDirName(_oldMusicTagsValues[0])+"/","")
                 try:
                     newDirectoryName=str(newDirectoryName)
                     newDirectoryName=int(newDirectoryName)
                 except:
                     if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
                         newDirectoryName=_oldMusicTagsValues[0]
-                if InputOutputs.getBaseName(_oldMusicTagsValues[0])!=newDirectoryName:
-                    if InputOutputs.moveOrChange(_oldMusicTagsValues[0]+"/"+newFileName,InputOutputs.getDirName(_oldMusicTagsValues[0])+"/"+newDirectoryName+"/"+newFileName)!=False:
-                        return InputOutputs.getDirName(_oldMusicTagsValues[0])+"/"+newDirectoryName+"/"+newFileName
+                if InputOutputs.IA.getBaseName(_oldMusicTagsValues[0])!=newDirectoryName:
+                    if InputOutputs.IA.moveOrChange(_oldMusicTagsValues[0]+"/"+newFileName,InputOutputs.IA.getDirName(_oldMusicTagsValues[0])+"/"+newDirectoryName+"/"+newFileName)!=False:
+                        return InputOutputs.IA.getDirName(_oldMusicTagsValues[0])+"/"+newDirectoryName+"/"+newFileName
             
             #Making changes on image files
             else:

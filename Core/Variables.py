@@ -3,7 +3,8 @@
 import os, sys
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
@@ -123,6 +124,13 @@ class Variables():
         if InputOutputs.isFile("/usr/bin/kded4"):
             return True
         else:
+            return False
+            
+    def isAvailableSymLink():
+        try:
+            from os import symlink
+            return True
+        except:
             return False
 
     def getDefaultValues():
@@ -491,6 +499,23 @@ class Variables():
         if languages.count("English")==0:
             languages.append("English")
         return languages
+        
+    def getHashTypes():
+        try:
+            import hashlib
+            return ["MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512"]
+        except:
+            #for x < python 2.5
+            hashTypes = []
+            try:
+                import md5
+                hashTypes.append("MD5")
+            except:pass
+            try:
+                import md5
+                hashTypes.append("SHA1")
+            except:pass
+            return hashTypes
 
     
                 

@@ -154,7 +154,6 @@ class Universals():
         
     def fillUIUniversals():
         global tableTypesNames, tableType, iconNameFormatLabels
-        from MyObjects import translate
         tableTypesNames = [translate("Tables", "Folder Table"), 
                             translate("Tables", "File Table"), 
                             translate("Tables", "Music Table"), 
@@ -164,6 +163,7 @@ class Universals():
                             translate("Universals", "%Album%"), 
                             translate("Universals", "%Year%"), 
                             translate("Universals", "%Genre%")]
+        from InputOutputs import IA #For first import
             
     def clearAllChilds(_object):
         from MyObjects import MWidget

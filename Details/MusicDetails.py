@@ -18,7 +18,7 @@ class MusicDetails(MDialog):
     def __init__(self,_filePath,_isOpenDetailsOnNewWindow=True,_isPlayNow=True,_FocusedInfoNo=None):
         global musicDialogs, musicTagType
         musicTagType = Universals.MySettings["musicTagType"]
-        if InputOutputs.isFile(_filePath):
+        if InputOutputs.IA.isFile(_filePath):
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
                 for dialog in musicDialogs:
@@ -170,7 +170,7 @@ class MusicDetails(MDialog):
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
         self.musicValues = Musics.readMusics(None,self.musicFile)
-        self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.getBaseName(self.musicFile)).decode("utf-8"))  
+        self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.IA.getBaseName(self.musicFile)).decode("utf-8"))  
         self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)              
         for infoNo, label in enumerate(self.labels):
             if self.musicValues[infoNo]=="None" or self.musicValues[infoNo]=="None/None":
@@ -257,10 +257,10 @@ class MusicDetails(MDialog):
             newMusicValues=[]
             for infoNo,info in enumerate(self.infoValues):
                 if infoNo==0:
-                    if str(unicode(info.text()).encode("utf-8")).find(InputOutputs.getDirName(self.musicValues[0]))!=-1:
+                    if str(unicode(info.text()).encode("utf-8")).find(InputOutputs.IA.getDirName(self.musicValues[0]))!=-1:
                         newMusicValues.append(unicode(info.text()).encode("utf-8"))
                     else:
-                        newMusicValues.append(InputOutputs.getDirName(self.musicValues[0])+unicode(info.text()).encode("utf-8"))
+                        newMusicValues.append(InputOutputs.IA.getDirName(self.musicValues[0])+unicode(info.text()).encode("utf-8"))
                 elif infoNo==8 or infoNo==9:
                     newMusicValues.append(unicode(info.toPlainText()).encode("utf-8"))
                 elif infoNo>9:
@@ -297,7 +297,7 @@ class MusicDetails(MDialog):
             self.pbtnDeleteImage.hide()
             self.pbtnSaveAsImage.hide()
         else:
-            if InputOutputs.isFile(self.leImagePath.text())==True:
+            if InputOutputs.IA.isFile(self.leImagePath.text())==True:
                 closeAllImageDialogs()
                 Musics.writeMusicFile(self.musicValues,False,True,self.cbImageType.currentIndex(),str(unicode(self.leImagePath.text()).encode("utf-8")))
                 self.changeFile(self.musicFile)
@@ -321,8 +321,8 @@ class MusicDetails(MDialog):
                                         ) %(str(self.musicValues[-1][self.lstwImages.currentRow()][2]).split("/")[1].decode("utf-8")))
                 if imagePath!="":
                     sourceFile = os.getenv("TMP")+"/HamsiManager-image-file."+self.musicValues[-1][self.lstwImages.currentRow()][2].split("/")[1]
-                    InputOutputs.writeToBinaryFile(sourceFile, self.musicValues[-1][self.lstwImages.currentRow()][3])
-                    InputOutputs.moveOrChange(sourceFile,unicode(imagePath, "utf-8"))
+                    InputOutputs.IA.writeToBinaryFile(sourceFile, self.musicValues[-1][self.lstwImages.currentRow()][3])
+                    InputOutputs.IA.moveOrChange(sourceFile,unicode(imagePath, "utf-8"))
         except:
             error = ReportBug.ReportBug()
             error.show()  

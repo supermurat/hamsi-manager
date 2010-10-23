@@ -174,18 +174,18 @@ class Bars():
                     Tables.exportTableValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "title")
             elif actionName==translate("MenuBar", "Text Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "Show Last Action"):
                 Records.showInWindow()
             elif actionName==translate("MenuBar", "About QT"):
@@ -223,7 +223,7 @@ class Bars():
                     if Universals.tableType!=4:
                         if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
                             Universals.isShowOldValues = _action.isChecked()
-                            Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                            Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
                         else:
                             _action.setChecked(Universals.isShowOldValues)
                     else:
@@ -240,7 +240,7 @@ class Bars():
                     Universals.MainWindow.StatusBar.fillSelectionInfo()
                 elif actionName==translate("ToolsBar", "Check Icon"):
                     Universals.MainWindow.setEnabled(False)
-                    InputOutputs.checkIcon(InputOutputs.currentDirectoryPath)
+                    InputOutputs.IA.checkIcon(InputOutputs.IA.currentDirectoryPath)
                     Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
                             translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
                     Universals.MainWindow.setEnabled(True)
@@ -249,40 +249,40 @@ class Bars():
                         _action.setChecked(False)
                         return False
                     answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
-                            str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
+                            str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath))
                     if answer==Dialogs.Yes:
                         import FileManager
                         Universals.MainWindow.setEnabled(False)
-                        InputOutputs.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True)
+                        InputOutputs.IA.clearEmptyDirectories(InputOutputs.IA.currentDirectoryPath, True, True)
                         Universals.MainWindow.setEnabled(True)
                         Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
                             translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))
                         Universals.MainWindow.FileManager.makeRefresh()
                 elif actionName==translate("ToolsBar", "Pack"):
-                    import Packager
-                    Packager.Packager(InputOutputs.currentDirectoryPath)
+                    from Tools import Packager
+                    Packager.Packager(InputOutputs.IA.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Hash"):
-                    import Hasher
-                    Hasher.Hasher(InputOutputs.currentDirectoryPath)
+                    from Tools import Hasher
+                    Hasher.Hasher(InputOutputs.IA.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Clear"):
-                    import Cleaner
-                    Cleaner.Cleaner(InputOutputs.currentDirectoryPath)
+                    from Tools import Cleaner
+                    Cleaner.Cleaner(InputOutputs.IA.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "File Tree"):
-                    import FileTreeBuilder
-                    FileTreeBuilder.FileTreeBuilder(InputOutputs.currentDirectoryPath)
+                    from Tools import FileTreeBuilder
+                    FileTreeBuilder.FileTreeBuilder(InputOutputs.IA.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Run Command"):
-                    import RunCommand
+                    from Tools import RunCommand
                     if RunCommand.checkRunCommand():
                         RunCommand.RunCommand(Universals.MainWindow)
                 elif actionName==translate("ToolsBar", "Remove Sub Files"):
                     answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
-                            str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
+                            str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath))
                     if answer==Dialogs.Yes:
                         Universals.MainWindow.setEnabled(False)
-                        InputOutputs.removeOnlySubFiles(InputOutputs.currentDirectoryPath)
+                        InputOutputs.IA.removeOnlySubFiles(InputOutputs.IA.currentDirectoryPath)
                         Universals.MainWindow.setEnabled(True)
                         Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
-                            str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
+                            str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath))
                 elif actionName==translate("ToolsBar", "Amarok Embedded Database Configurator"):
                     import Amarok
                     Amarok.AmarokEmbeddedDBConfigurator()
@@ -588,7 +588,7 @@ class MusicOptionsBar(MToolBar):
                     Universals.setMySetting("musicTagType", selectedType)
                     Tables.refreshForTableColumns()
                     Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                    Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(Universals.MySettings["musicTagType"]))
                 if self.cbMusicTagTypeForMenu != None:
@@ -645,7 +645,7 @@ class SubDirectoryOptionsBar(MToolBar):
                     Universals.setMySetting("subDirectoryDeep", int(selectedDeep))
                     Tables.refreshForTableColumns()
                     Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                    Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["subDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
@@ -704,7 +704,7 @@ class CoverOptionsBar(MToolBar):
                     Universals.setMySetting("CoversSubDirectoryDeep", int(selectedDeep))
                     Tables.refreshForTableColumns()
                     Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                    Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["CoversSubDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
