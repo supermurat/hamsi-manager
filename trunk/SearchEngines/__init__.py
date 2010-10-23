@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
+import Variables
 from MyObjects import *
 import Dialogs
 import ReportBug
@@ -11,8 +11,7 @@ class SearchEngines(MMenu):
         MMenu.__init__(self, _parent)
         self.setTitle(translate("SearchEngines", "Verify On The Internet"))
         self.actions, self.searchDepths = [], []
-        from InputOutputs import getSearchEnginesNames
-        for sEngine in getSearchEnginesNames():
+        for sEngine in Variables.getSearchEnginesNames():
             exec "from " + sEngine + " import pluginName"
             self.actions.append(MAction(pluginName.decode("utf-8"), self))
             self.actions[-1].setObjectName(str(len(self.actions)-1))
@@ -30,14 +29,13 @@ class SearchEngines(MMenu):
     def triggered(self, _action):
         try:
             if self.parent().rowCount()!=0:
-                from InputOutputs import getSearchEnginesNames
                 selectedSearchDepth = 3
                 if str(_action.objectName()).find(u"-MusicBrainz-")!=-1:
                     info = _action.objectName().split("-")
-                    engine = getSearchEnginesNames()[int(info[0])]
+                    engine = Variables.getSearchEnginesNames()[int(info[0])]
                     selectedSearchDepth = info[2]
                 else:
-                    engine = getSearchEnginesNames()[int(_action.objectName())]
+                    engine = Variables.getSearchEnginesNames()[int(_action.objectName())]
                 exec "from " + engine + " import Search"
                 Search.Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
             else:

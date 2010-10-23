@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from os import listdir,path,removedirs,makedirs, rmdir, remove, rename
 import os
-import sys, stat
-from shutil import move, copytree, copy
-import locale
+import shutil
 import Variables
 import Universals
 import Settings
 import Records
 import Organizer
+from Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, getSearchEnginesNames, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, getMyPluginsNames, copyOrChange, isExist, getInstalledLanguagesCodes, getInstalledLanguagesNames, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath
-    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, getInstalledThemes, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory, getRealPath
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory,moveOrChange,moveDir,appendingDirectories,readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath
+    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, isAvailableSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getHashTypes, getIconFromDirectory, getRealPath
     appendingDirectories = []
     currentDirectoryPath = ""
     fileSystemEncoding = Variables.defaultFileSystemEncoding
@@ -24,13 +22,13 @@ class InputOutputs:
     
     def isFile(_oldPath):
         _oldPath = str(_oldPath)
-        try:return path.isfile(_oldPath.encode(fileSystemEncoding))
-        except:return path.isfile(_oldPath)
+        try:return os.path.isfile(_oldPath.encode(fileSystemEncoding))
+        except:return os.path.isfile(_oldPath)
     
     def isDir(_oldPath):
         _oldPath = str(_oldPath)
-        try:return path.isdir(_oldPath.encode(fileSystemEncoding))
-        except:return path.isdir(_oldPath)
+        try:return os.path.isdir(_oldPath.encode(fileSystemEncoding))
+        except:return os.path.isdir(_oldPath)
     
     def isDirEmpty(_oldPath):
         _oldPath = str(_oldPath)
@@ -47,8 +45,9 @@ class InputOutputs:
         return False
     
     def getSize(_oldPath):
-        try:return os.stat(_oldPath.encode(fileSystemEncoding))[stat.ST_SIZE]
-        except:return os.stat(_oldPath)[stat.ST_SIZE]
+        from stat import ST_SIZE
+        try:return os.stat(_oldPath.encode(fileSystemEncoding))[ST_SIZE]
+        except:return os.stat(_oldPath)[ST_SIZE]
     
     def getObjectType(_oldPath):
         objectType="file"
@@ -58,8 +57,8 @@ class InputOutputs:
     
     def getDirName(_oldPath):
         _oldPath = str(_oldPath)
-        try:returnValue = path.dirname(_oldPath.encode(fileSystemEncoding))
-        except:returnValue = path.dirname(_oldPath)
+        try:returnValue = os.path.dirname(_oldPath.encode(fileSystemEncoding))
+        except:returnValue = os.path.dirname(_oldPath)
         try:return returnValue.decode(fileSystemEncoding)
         except:return returnValue
     
@@ -94,8 +93,8 @@ class InputOutputs:
     
     def getBaseName(_oldPath):
         _oldPath = str(_oldPath)
-        try:returnValue = path.basename(_oldPath.encode(fileSystemEncoding))
-        except:returnValue = path.basename(_oldPath)
+        try:returnValue = os.path.basename(_oldPath.encode(fileSystemEncoding))
+        except:returnValue = os.path.basename(_oldPath)
         try:return returnValue.decode(fileSystemEncoding)
         except:return returnValue
     
@@ -114,13 +113,13 @@ class InputOutputs:
     def moveFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         if getDirName(_oldPath)==getDirName(_newPath):
-            try:rename(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
-            except:rename(_oldPath,_newPath)
+            try:os.rename(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+            except:os.rename(_oldPath,_newPath)
         else:
             if isDir(getDirName(_newPath))==False:
                 makeDirs(getDirName(_newPath))
-            try:move(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
-            except:move(_oldPath,_newPath)
+            try:shutil.move(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+            except:shutil.move(_oldPath,_newPath)
         Records.add("Moved", _oldPath, _newPath)
     
     def copyFileOrDir(_oldPath, _newPath):
@@ -128,16 +127,16 @@ class InputOutputs:
         if isDir(getDirName(_newPath))==False:
             makeDirs(getDirName(_newPath))
         if isFile(_oldPath):
-            try:copy(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
-            except:copy(_oldPath,_newPath)
+            try:shutil.copy(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+            except:shutil.copy(_oldPath,_newPath)
         else:
             copyDirTree(_oldPath, _newPath)
         Records.add("Copied", _oldPath, _newPath)
             
     def copyDirTree(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
-        try:copytree(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
-        except:copytree(_oldPath,_newPath)
+        try:shutil.copytree(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+        except:shutil.copytree(_oldPath,_newPath)
         Records.add("Copied", _oldPath, _newPath)
     
     def isAvailableSymLink():
@@ -165,31 +164,31 @@ class InputOutputs:
     def listDir(_oldPath):
         names = []
         if checkSource(_oldPath, "directory"):
-            try:names = listdir(_oldPath.encode(fileSystemEncoding))
-            except:names = listdir(_oldPath)
+            try:names = os.listdir(_oldPath.encode(fileSystemEncoding))
+            except:names = os.listdir(_oldPath)
             names.sort(key=trSort)
         return names
         
     def makeDirs(_newPath):
         if isWritableFileOrDir(getRealDirName(_newPath)):
-            try:makedirs(_newPath.encode(fileSystemEncoding))
-            except:makedirs(_newPath)
+            try:os.makedirs(_newPath.encode(fileSystemEncoding))
+            except:os.makedirs(_newPath)
             Records.add("Created", _newPath)
         
     def removeDir(_oldPath):
         if isMoveToTrash:
             moveToTrash(_oldPath)
         else:
-            try:rmdir(_oldPath.encode(fileSystemEncoding))
-            except:rmdir(_oldPath)
+            try:os.rmdir(_oldPath.encode(fileSystemEncoding))
+            except:os.rmdir(_oldPath)
         Records.add("Removed", _oldPath)
         
     def removeFile(_oldPath):
         if isMoveToTrash:
             moveToTrash(_oldPath)
         else:
-            try:remove(_oldPath.encode(fileSystemEncoding))
-            except:remove(_oldPath)
+            try:os.remove(_oldPath.encode(fileSystemEncoding))
+            except:os.remove(_oldPath)
         Records.add("Removed", _oldPath)
     
     def moveToTrash(_oldPath):
@@ -199,6 +198,7 @@ class InputOutputs:
             except:Execute.execute("kioclient move '" + _oldPath + "' trash:/")
     
     def trSort(_info):
+        import locale
         try:
             return locale.strxfrm(_info.encode(fileSystemEncoding))
         except:
@@ -216,18 +216,16 @@ class InputOutputs:
                 return True
         if _isOnlyCheck==False:
             if isDir(realPath):
-                from MyObjects import translate
                 import Dialogs
                 Dialogs.showError(translate("InputOutputs", "Access Denied"),
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
             else:
-                from MyObjects import translate
                 import Dialogs
                 Dialogs.showError(translate("InputOutputs", "Access Denied"),
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
         return False
         
-    def isWritableFileOrDir(_newPath, _isOnlyCheck=False): 
+    def isWritableFileOrDir(_newPath, _isOnlyCheck=False):
         realPath = _newPath
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
@@ -239,12 +237,10 @@ class InputOutputs:
                 return True
         if _isOnlyCheck==False:
             if isDir(realPath):
-                from MyObjects import translate
                 import Dialogs
                 Dialogs.showError(translate("InputOutputs", "Access Denied"),
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
             else:
-                from MyObjects import translate
                 import Dialogs
                 Dialogs.showError(translate("InputOutputs", "Access Denied"),
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
@@ -253,19 +249,16 @@ class InputOutputs:
     def checkSource(_oldPath, _objectType="fileOrDirectory"):
         if _objectType=="file" and isFile(_oldPath)==False:
             import Dialogs
-            from MyObjects import translate
             Dialogs.showError(translate("InputOutputs", "Cannot Find File"),
                     str(translate("InputOutputs", "\"%s\" : cannot find a file with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
             return False
         elif _objectType=="directory" and isDir(_oldPath)==False:
             import Dialogs
-            from MyObjects import translate
             Dialogs.showError(translate("InputOutputs", "Cannot Find Directory"),
                     str(translate("InputOutputs", "\"%s\" : cannot find a folder with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
             return False
         elif isDir(_oldPath)==False and isFile(_oldPath)==False:
             import Dialogs
-            from MyObjects import translate
             Dialogs.showError(translate("InputOutputs", "Cannot Find File Or Directory"),
                     str(translate("InputOutputs", "\"%s\" : cannot find a file or directory with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
             return False
@@ -275,12 +268,11 @@ class InputOutputs:
         global appendingDirectories
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
-                if _oldPath.lower()!=_newPath.lower() or os.name=="posix": 
+                if _oldPath.lower()!=_newPath.lower() or Variables.osName=="posix": 
                     if isFile(_newPath):
                         if _isQuiet:
                             return _newPath
                         else:
-                            from MyObjects import translate
                             import Dialogs
                             answer = Dialogs.ask(translate("InputOutputs", "Current File Name"),
                                         str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath))
@@ -290,7 +282,6 @@ class InputOutputs:
                                 return False
                     elif isDir(_newPath):
                         if isFile(_oldPath):
-                            from MyObjects import translate
                             import Dialogs
                             answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"),
                                     str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)))
@@ -309,7 +300,6 @@ class InputOutputs:
                                     appendingDirectories.append(_newPath)
                                     return _newPath
                                 else:
-                                    from MyObjects import translate
                                     import Dialogs
                                     answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"), 
                                             str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>Add your files to the current folder?")) % Organizer.getLink(_newPath))
@@ -480,14 +470,13 @@ class InputOutputs:
             if newDirectory.decode("utf-8").lower()==newDirectory.upper():
                 newDirectory=_oldFileValues[0]
         if getBaseName(_oldFileValues[0])!=newDirectory:
-            if moveOrChange(_oldFileValues[0]+"/"+newFileName,path.dirname(_oldFileValues[0])+"/"+newDirectory+"/"+newFileName)!=False:
+            if moveOrChange(_oldFileValues[0]+"/"+newFileName,getDirName(_oldFileValues[0])+"/"+newDirectory+"/"+newFileName)!=False:
                 return getDirName(_oldFileValues[0])+"/"+newDirectory+"/"+newFileName
         return _oldFileValues[0]+"/"+_oldFileValues[1]
                 
     def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True):
         #If directory deleted : returned True
         #If directory cleaned : returned False
-        from MyObjects import translate
         import Dialogs
         clearUnneededs(_path)
         dontRemovingFilesCount = 0
@@ -667,7 +656,6 @@ class InputOutputs:
     
     def changeDirectories(_values):
         #will return directory(new) name
-        from MyObjects import translate
         import Dialogs
         if len(_values)!=0:
             Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),0,len(_values))
@@ -683,50 +671,6 @@ class InputOutputs:
                     checkIcon(currentDirectoryPath)
         return currentDirectoryPath
         
-    def getSearchEnginesNames():
-        engines = []
-        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/SearchEngines"):
-            if name[:1] != "." and isDir(Variables.HamsiManagerDirectory+"/SearchEngines"+"/"+name):
-                engines.append(name)
-        return engines
-        
-    def getMyPluginsNames():
-        plugins = []
-        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/MyPlugins"):
-            if name[:1] != "." and isDir(Variables.HamsiManagerDirectory+"/MyPlugins"+"/"+name):
-                plugins.append(name)
-        return plugins
-        
-    def getInstalledThemes():
-        themes = []
-        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/Themes"):
-            if name[:1] != "." and isDir(Variables.HamsiManagerDirectory+"/Themes"+"/"+name):
-                themes.append(name)
-        return themes
-    
-    def getInstalledLanguagesCodes():
-        languages = []
-        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/Languages"):
-            if isFile(Variables.HamsiManagerDirectory+"/Languages"+"/"+name) and name[-3:]==".qm":
-                langCode = name[-8:-3]
-                if languages.count(langCode)==0:
-                    languages.append(langCode)
-        if languages.count("en_GB")==0:
-            languages.append("en_GB")
-        return languages
-        
-    def getInstalledLanguagesNames():
-        from MyObjects import MLocale
-        languages = []
-        for name in readDirectoryAll(Variables.HamsiManagerDirectory+"/Languages"):
-            if isFile(Variables.HamsiManagerDirectory+"/Languages"+"/"+name) and name[-3:]==".qm":
-                langCode = name[-8:-3]
-                if languages.count(str(MLocale.languageToString(MLocale(langCode).language())))==0:
-                    languages.append(str(MLocale.languageToString(MLocale(langCode).language())))
-        if languages.count("English")==0:
-            languages.append("English")
-        return languages
-
     def activateSmartCheckIcon():
         global isSmartCheckIcon, willCheckIconDirectories
         isSmartCheckIcon = True
@@ -752,7 +696,6 @@ class InputOutputs:
     
     def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False, _isAsk=True):
         import Dialogs
-        from MyObjects import translate
         _path = str(_path)
         cover = None
         imageFiles = []
@@ -877,7 +820,6 @@ class InputOutputs:
         return iconPath, isCorrectedFileContent
 
     def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
-        from MyObjects import translate
         import Dialogs
         if checkSource(_path, "directory"):
             _path = str(_path)
@@ -925,7 +867,6 @@ class InputOutputs:
             False
             
     def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
-        from MyObjects import translate
         import Dialogs
         if checkSource(_path, "directory"):
             _path = str(_path)
@@ -974,7 +915,6 @@ class InputOutputs:
 
     def makePack(_filePath, _packageType, _sourcePath):
         import tarfile
-        from MyObjects import translate
         import Dialogs
         _filePath, _sourcePath = str(_filePath), str(_sourcePath)
         if isDir(_filePath):
@@ -1015,7 +955,6 @@ class InputOutputs:
                     
     def getFileTree(_path, _subDirectoryDeep=-1, _actionType="return", _formatType="html", _extInfo="no"):
         _path = str(_path)
-        from MyObjects import translate
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True)
         info = ""
         if _formatType=="html":

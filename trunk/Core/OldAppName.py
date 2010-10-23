@@ -64,7 +64,7 @@ def getSettingsFromOldNameAndSettings():
             if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc"):
                 InputOutputs.moveFileOrDir(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc", 
                                            Variables.getKDE4HomePath() + "/share/config/HamsiManagerrc")
-        for langCode in InputOutputs.getInstalledLanguagesCodes():
+        for langCode in Variables.getInstalledLanguagesCodes():
             if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/locale/" + langCode + "/LC_MESSAGES/OrganizasyonizM.mo"):
                 import MyConfigure
                 MyConfigure.installKDE4Language(langCode)
@@ -72,8 +72,8 @@ def getSettingsFromOldNameAndSettings():
         Universals.saveSettings()
     
 def checkAndGetPlugins():
-    import InputOutputs, Universals
-    for plugin in InputOutputs.getMyPluginsNames():
+    import Variables, InputOutputs, Universals
+    for plugin in Variables.getMyPluginsNames():
         isInstalled = False
         exec "from MyPlugins." + plugin + " import pluginName, setupDirectory, pluginFiles, pluginDirectory"
         for pluginFile in pluginFiles:
@@ -92,14 +92,14 @@ def clearOldAppNameAndSettings():
     import Variables, InputOutputs, Universals, Dialogs, Organizer
     from MyObjects import translate
     #Clear language file
-    for langCode in InputOutputs.getInstalledLanguagesCodes():
+    for langCode in Variables.getInstalledLanguagesCodes():
         if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/locale/" + langCode + "/LC_MESSAGES/OrganizasyonizM.mo"):
             InputOutputs.removeFile(Variables.userDirectoryPath + "/.kde4/share/locale/" + langCode + "/LC_MESSAGES/OrganizasyonizM.mo")
     #Clear config file
     if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc"):
         InputOutputs.removeFile(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc")
     #Clear My Plugins
-    for plugin in InputOutputs.getMyPluginsNames():
+    for plugin in Variables.getMyPluginsNames():
         exec "from MyPlugins." + plugin + " import pluginName, setupDirectory, pluginFiles, pluginDirectory"
         for pluginFile in pluginFiles:
             pluginFilePath = (setupDirectory + "/" + pluginFile).replace("HamsiManager", "OrganizasyonizM")

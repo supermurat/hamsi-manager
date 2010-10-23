@@ -59,8 +59,8 @@ if RoutineChecks.checkQt4Exist():
             HamsiManagerApp = MApplication()
             kde4LangKode = str(MGlobal.locale().language())
             if len(kde4LangKode)!=5: kde4LangKode += "_"+str(MGlobal.locale().country()).upper()
-            if InputOutputs.getInstalledLanguagesCodes().count(kde4LangKode)==0:
-                for lcode in InputOutputs.getInstalledLanguagesCodes():
+            if Variables.getInstalledLanguagesCodes().count(kde4LangKode)==0:
+                for lcode in Variables.getInstalledLanguagesCodes():
                     if lcode.find(kde4LangKode[:2])!=-1:
                         kde4LangKode = lcode
             kconf = MGlobal.config()

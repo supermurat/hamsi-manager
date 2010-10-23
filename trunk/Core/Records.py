@@ -4,6 +4,7 @@ import time
 import Universals
 import InputOutputs
 import Settings
+from Universals import translate
 
 class Records():
     global add, create, read, setTitle, showInWindow, clearRecords, recordContents, isSetedTitle, saveAllRecords,recordContents, checkSize, recordType, lastRecordType, setRecordType, restoreRecordType
@@ -15,7 +16,6 @@ class Records():
     
     def create():
         global recordContents
-        from MyObjects import translate
         recordContents += str(translate("Records", "Hamsi Manager Log File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
     
     def setTitle(_title):
@@ -46,38 +46,36 @@ class Records():
     def saveAllRecords():
         global recordContents, isSetedTitle
         if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
-            if InputOutputs.isFile(Settings.recordFilePath)==False:
+            if InputOutputs.isFile(Universals.recordFilePath)==False:
                 create()
             setRecordType(1)
-            InputOutputs.addToFile(Settings.recordFilePath, recordContents)
+            InputOutputs.addToFile(Universals.recordFilePath, recordContents)
             restoreRecordType()
         recordContents = ""
         isSetedTitle = False
     
     def checkSize():
         setRecordType(1)
-        InputOutputs.fixToSize(Settings.recordFilePath, (int(Universals.MySettings["maxRecordFileSize"])*1024))
+        InputOutputs.fixToSize(Universals.recordFilePath, (int(Universals.MySettings["maxRecordFileSize"])*1024))
         restoreRecordType()
         
     def read(_isShowErrorDialog=True):
-        if InputOutputs.isFile(Settings.recordFilePath)==True:
-            return InputOutputs.readFromFile(Settings.recordFilePath)
+        if InputOutputs.isFile(Universals.recordFilePath)==True:
+            return InputOutputs.readFromFile(Universals.recordFilePath)
         else:
             if _isShowErrorDialog:
                 import Dialogs
-                from MyObjects import translate
                 Dialogs.showError(translate("Records", "Cannot Find The Log File"), 
                             translate("Records", "No log files found."))
             return False
             
     def clearRecords():
-        from MyObjects import translate
-        InputOutputs.writeToFile(Settings.recordFilePath, unicode(translate("Records", "Hamsi Manager Log File - Time Clear : "), "utf-8") + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+        InputOutputs.writeToFile(Universals.recordFilePath, unicode(translate("Records", "Hamsi Manager Log File - Time Clear : "), "utf-8") + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
         try:dialog.close()
         except:pass
         
     def showInWindow():
-        from MyObjects import MDialog, translate, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject
+        from MyObjects import MDialog, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject
         import Organizer
         global dialog
         recordString = read()

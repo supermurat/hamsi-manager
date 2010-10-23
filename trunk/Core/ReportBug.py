@@ -236,7 +236,7 @@ class ReportBug(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
-                    Settings.setting().setValue("lastDirectory",MVariant(Variables.userDirectoryPath.decode("utf-8")))
+                    Settings.setting().setValue("lastDirectory", MVariant(Variables.userDirectoryPath.decode("utf-8")))
                 elif answer==translate("ReportBug", "Settings"):
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):

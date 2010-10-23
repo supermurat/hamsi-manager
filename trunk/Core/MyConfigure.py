@@ -16,7 +16,7 @@ class MyConfigure:
             
     def installKDE4Languages():
         if Variables.isAvailableKDE4():
-            for langCode in InputOutputs.getInstalledLanguagesCodes():
+            for langCode in Variables.getInstalledLanguagesCodes():
                 installKDE4Language(langCode)
             Universals.setMySetting("isInstalledKDE4Language", True)
             return True

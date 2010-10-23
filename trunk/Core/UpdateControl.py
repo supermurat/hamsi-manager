@@ -7,7 +7,6 @@ import Universals
 import InputOutputs
 import Dialogs
 import ReportBug
-import RoutineChecks
 from MyObjects import *
 from datetime import timedelta, datetime
 
