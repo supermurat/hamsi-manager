@@ -234,6 +234,7 @@ class SpecialTools(MWidget):
         
     def apply(self):
         try:
+            self.checkCompleters()
             Universals.MainWindow.Table.createHistoryPoint()
             if self.tabwTabs.currentIndex()==0:
                 if Organizer.whatDoesSpecialCommandDo(unicode(self.specialActions.leSplitPointer.text()).encode("utf-8"),
@@ -254,6 +255,13 @@ class SpecialTools(MWidget):
         except:
             error = ReportBug.ReportBug()
             error.show()
+    
+    def checkCompleters(self):
+        self.specialActions.checkCompleters()
+        self.searchAndReplace.checkCompleters()
+        self.fill.checkCompleters()
+        self.clear.checkCompleters()
+        self.characterState.checkCompleters()
     
 class SpecialActions(MWidget):
     def __init__(self, _parent):
@@ -572,16 +580,20 @@ class SpecialActions(MWidget):
         except:
             error = ReportBug.ReportBug()
             error.show()
-            
-        
+    
+    def checkCompleters(self):
+        pass
+    
                 
 class SearchAndReplace(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        lblSearch=MLabel(translate("SpecialTools", "Search: "))
-        lblReplace=MLabel(translate("SpecialTools", "Replace: "))
+        self.lblSearch=MLabel(translate("SpecialTools", "Search: "))
+        self.lblReplace=MLabel(translate("SpecialTools", "Replace: "))
         self.leSearch = MLineEdit("")
+        addCompleter(self.leSearch, self.lblSearch.text())
         self.leReplace = MLineEdit("")
+        addCompleter(self.leReplace, self.lblReplace.text())
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         srExamples = translate("SpecialTools", "<table><tr><td><nobr>Before</nobr></td><td>>></td><td><nobr>Search</nobr></td><td>-</td><td><nobr>Replace</nobr></td><td>>></td><td><nobr>After</nobr></td></tr>" +
                                  "<tr><td><nobr>HamsiManager</nobr></td><td>>></td><td><nobr>ager</nobr></td><td>-</td><td><nobr></nobr></td><td>>></td><td><nobr>HamsiMan</nobr></td></tr>" +
@@ -605,15 +617,15 @@ class SearchAndReplace(MWidget):
         self.pbtnEditValueForReplace.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForReplace.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForReplace, SIGNAL("clicked()"), self.pbtnEditValueClicked)
-        lblSearch.setFixedWidth(60)
-        lblReplace.setFixedWidth(100)
+        self.lblSearch.setFixedWidth(60)
+        self.lblReplace.setFixedWidth(100)
         lblColumns.setFixedWidth(60)
         HBoxs = []
         HBoxs.append(MHBoxLayout())
-        HBoxs[0].addWidget(lblSearch)
+        HBoxs[0].addWidget(self.lblSearch)
         HBoxs[0].addWidget(self.leSearch)
         HBoxs[0].addWidget(self.pbtnEditValueForSearch)
-        HBoxs[0].addWidget(lblReplace)
+        HBoxs[0].addWidget(self.lblReplace)
         HBoxs[0].addWidget(self.leReplace)
         HBoxs[0].addWidget(self.pbtnEditValueForReplace)
         HBoxs.append(MHBoxLayout())
@@ -643,11 +655,15 @@ class SearchAndReplace(MWidget):
         
     def pbtnEditValueClicked(self):
         sarled = SearchAndReplaceListEditDialog(self)
+    
+    def checkCompleters(self):
+        Databases.CompleterTable.insert(self.lblSearch.text(), self.leSearch.text())
+        Databases.CompleterTable.insert(self.lblReplace.text(), self.leReplace.text())
+        
 
 class Fill(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        self.leFill = MLineEdit("")
         lblFillType = MLabel(translate("SpecialTools", "Content Type: "))
         self.cbFillType = MComboBox()
         self.cbFillType.addItems([translate("SpecialTools", "Text"),
@@ -659,8 +675,10 @@ class Fill(MWidget):
         self.columns = MComboBox()
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblColumns.setFixedWidth(60)
-        lblFill = MLabel(translate("SpecialTools", "Text: "))
-        lblFill.setFixedWidth(60)
+        self.lblFill = MLabel(translate("SpecialTools", "Text: "))
+        self.lblFill.setFixedWidth(60)
+        self.leFill = MLineEdit("")
+        addCompleter(self.leFill, self.lblFill.text())
         self.lblSort = MLabel(translate("SpecialTools", "Sort: "))
         self.lblSort.setFixedWidth(80)
         self.cbSort = MComboBox()
@@ -681,7 +699,7 @@ class Fill(MWidget):
         HBoxs[0].addWidget(lblFillType)
         HBoxs[0].addWidget(self.cbFillType)
         HBoxs.append(MHBoxLayout())
-        HBoxs[1].addWidget(lblFill)
+        HBoxs[1].addWidget(self.lblFill)
         HBoxs[1].addWidget(self.leFill)
         HBoxs[1].addWidget(lblspCharNumberOfDigit)
         HBoxs[1].addWidget(self.spCharNumberOfDigit)
@@ -739,12 +757,16 @@ class Fill(MWidget):
             self.spCharNumberOfDigit.setEnabled(False)
             self.cbSort.setEnabled(False)
             self.spStartDigit.setEnabled(False)
+    
+    def checkCompleters(self):
+        Databases.CompleterTable.insert(self.lblFill.text(), self.leFill.text())
        
 class Clear(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
         self.leClear = MLineEdit("")
         self.lblClear = MLabel(translate("SpecialTools", "Text: "))
+        addCompleter(self.leClear, self.lblClear.text())
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblClearType = MLabel(translate("SpecialTools", "Content Type: "))
         self.cbClearType = MComboBox()
@@ -802,12 +824,16 @@ class Clear(MWidget):
     def hideAdvancedSelections(self):
         self.cckbRegExp.hide()
         self.cckbRegExp.setChecked(False)
+    
+    def checkCompleters(self):
+        Databases.CompleterTable.insert(self.lblClear.text(), self.leClear.text())
             
 class CharacterState(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
         self.leSearch = MLineEdit("")
         self.cckbCorrectText = MCheckBox(translate("SpecialTools", "Correct Text"))
+        addCompleter(self.leSearch, self.cckbCorrectText.text())
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblCharacterType = MLabel(translate("SpecialTools", "Character Format: "))
         self.columns = MComboBox()
@@ -859,6 +885,9 @@ class CharacterState(MWidget):
             self.cckbCaseSensitive.setEnabled(False)
             self.cckbRegExp.setEnabled(False)
             self.leSearch.setEnabled(False)
+    
+    def checkCompleters(self):
+        Databases.CompleterTable.insert(self.cckbCorrectText.text(), self.leSearch.text())
             
             
 class SearchAndReplaceListEditDialog(MDialog):

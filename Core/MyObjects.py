@@ -108,4 +108,13 @@ def moveToCenter(_dialog):
     _dialog.move(int((desk.width() - _dialog.width()) / 2),
       int((desk.height() - _dialog.height()) / 2))
     
+def addCompleter(_object, _objectName=None):
+    from Databases import CompleterTable
+    if _objectName==None:
+        _objectName = _object.objectName()
+    _objectName = str(_objectName)
+    completer = MCompleter(CompleterTable.fetchAllByObjectName(_objectName))
+    completer.setCaseSensitivity(Mt.CaseInsensitive)
+    _object.setCompleter(completer)
+
 Universals.isLoadedMyObjects = True

@@ -67,7 +67,7 @@ class Covers:
             realRowNo=rowNo
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.IA.isWritableFileOrDir(str(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
+                if InputOutputs.IA.isWritableFileOrDir(str(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(str(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
                         continue

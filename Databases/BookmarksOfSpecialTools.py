@@ -5,12 +5,12 @@ import Universals
 from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInputQueries
 
 class BookmarksOfSpecialTools:
-    global fetchAll, fetchAllByType, fetch, insert, update, delete
+    global fetchAll, fetchAllByType, fetch, checkValues, insert, update, delete
     global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries
     global tableName, tableVersion, allForFetch, allForFetchByType
     tableName = "bookmarksOfSpecialTools"
     tableVersion = 2
-    allForFetch, allForFetchByType = None, None
+    allForFetch, allForFetchByType = None, {}
         
     def fetchAll():
         global allForFetch
@@ -23,10 +23,10 @@ class BookmarksOfSpecialTools:
         
     def fetchAllByType(_type=None):
         global allForFetchByType
-        if allForFetchByType==None:
+        if _type==None:
+            _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
+        if _type not in allForFetchByType or allForFetchByType[_type]==None:
             import Organizer
-            if _type==None:
-                _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
             con = getDefaultConnection()
             cur = con.cursor()
             cur.execute("SELECT * FROM " + tableName + " where type='" + _type + "'")
@@ -41,8 +41,8 @@ class BookmarksOfSpecialTools:
                                 tempString[-2],
                                 tempT, False, True)
                 myBookmarks.append([mybm[0], newText, mybm[2], mybm[3]])
-            allForFetchByType = myBookmarks
-        return allForFetchByType
+            allForFetchByType[_type] = myBookmarks
+        return allForFetchByType[_type]
     
     def fetch(_id):
         con = getDefaultConnection()
@@ -50,31 +50,43 @@ class BookmarksOfSpecialTools:
         cur.execute("SELECT * FROM " + tableName + " where id=" + str(int(_id)))
         return cur.fetchall()
     
+    def checkValues(_bookmark, _value, _type):
+        if len(_bookmark)==0 or len(_value)==0:
+            return False
+        return True
+    
     def insert(_bookmark, _value, _type=None):
         global allForFetch, allForFetchByType
-        allForFetch, allForFetchByType = None, None
         if _type==None:
             _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
-        con = getDefaultConnection()
-        cur = con.cursor()
-        cur.execute("insert into " + tableName + " (bookmark,value,type) values('" + correctForSql(_bookmark) + "','" + correctForSql(_value) + "','" + correctForSql(_type) + "')")
-        con.commit()
-        cur.execute("SELECT last_insert_rowid();")
-        return cur.fetchall()[0][0]
+        if checkValues(_bookmark, _value, _type):
+            allForFetch, allForFetchByType[_type] = None, None
+            con = getDefaultConnection()
+            cur = con.cursor()
+            sqlQueries = getAmendedSQLInputQueries(tableName, {"bookmark" : "'" + correctForSql(_bookmark) + "'", "value" : "'" + correctForSql(_value) + "'", "type" : "'" + correctForSql(_type) + "'"}, ["value"])
+            cur.execute(sqlQueries[0])
+            cur.execute(sqlQueries[1])
+            con.commit()
+            cur.execute("SELECT last_insert_rowid();")
+            return cur.fetchall()[0][0]
+        return None
     
     def update(_id, _bookmark, _value, _type=None):
         global allForFetch, allForFetchByType
-        allForFetch, allForFetchByType = None, None
         if _type==None:
             _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
-        con = getDefaultConnection()
-        cur = con.cursor()
-        cur.execute(str("update " + tableName + " set bookmark='" + correctForSql(_bookmark) + "', value='" + correctForSql(_value) + "', type='" + correctForSql(_type) + "' where id=" + str(int(_id))))
-        con.commit()
+        if checkValues(_bookmark, _value, _type):
+            allForFetch, allForFetchByType[_type] = None, None
+            con = getDefaultConnection()
+            cur = con.cursor()
+            cur.execute(str("update " + tableName + " set bookmark='" + correctForSql(_bookmark) + "', value='" + correctForSql(_value) + "', type='" + correctForSql(_type) + "' where id=" + str(int(_id))))
+            con.commit()
     
-    def delete(_id):
+    def delete(_id, _type=None):
+        if _type==None:
+            _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
         global allForFetch, allForFetchByType
-        allForFetch, allForFetchByType = None, None
+        allForFetch, allForFetchByType[_type] = None, None
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute("delete from " + tableName + " where id="+str(int(_id)))
