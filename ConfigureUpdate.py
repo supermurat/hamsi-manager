@@ -18,7 +18,7 @@ except:fileSystemEncoding = sys.getdefaultencoding().lower()
 HamsiManagerApp = QApplication(sys.argv)
 
 class Update():
-    global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, listDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree
+    global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, getRealDirName, listDir, isWritableFileOrDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree
     UniSettings = QSettings((os.path.expanduser("~")+"/.HamsiApps/universalSettings.ini").decode("utf-8"), QSettings.IniFormat)
     def __init__(self):
         global UniSettings
@@ -38,26 +38,34 @@ class Update():
         else:
             parent = QMainWindow()
             sourceFile = str(selectSourceFile(parent))
-        if isRun==True and isFile(sourceFile):
-            tempDir = str(tempfile.gettempdir()) + "/HamsiManager-" + str(random.randrange(0, 1000000))
-            import tarfile
-            intSleepTime = 0
-            while intSleepTime<6:
-                try:
-                    try:tar = tarfile.open(sourceFile.encode(fileSystemEncoding), "r:gz")
-                    except:tar = tarfile.open(sourceFile, "r:gz")
-                    break
-                except:
-                    intSleepTime +=1
-                    time.sleep(1)
-            try:tar.extractall(tempDir.encode(fileSystemEncoding), members=tar.getmembers())
-            except:tar.extractall(tempDir, members=tar.getmembers())
-            tar.close()
-            time.sleep(4)
-            for file in listDir(tempDir+"/HamsiManager"):
-                if file!="Update.py" and file!="install.py":
-                    moveFileOrDir(tempDir+"/HamsiManager/"+file,sys.path[1]+"/"+file)
-            popen = os.popen("\"" + sys.executable+"\" " + sys.path[1] + "/ConfigureUpdate.py -ConfigureUpdate", "w")
+        if isRun==True:
+            if isFile(sourceFile):
+                if isWritableFileOrDir(sys.path[1]):
+                    tempDir = str(tempfile.gettempdir()) + "/HamsiManager-" + str(random.randrange(0, 1000000))
+                    import tarfile
+                    intSleepTime = 0
+                    while intSleepTime<6:
+                        try:
+                            try:tar = tarfile.open(sourceFile.encode(fileSystemEncoding), "r:gz")
+                            except:tar = tarfile.open(sourceFile, "r:gz")
+                            break
+                        except:
+                            intSleepTime +=1
+                            time.sleep(1)
+                    try:tar.extractall(tempDir.encode(fileSystemEncoding), members=tar.getmembers())
+                    except:tar.extractall(tempDir, members=tar.getmembers())
+                    tar.close()
+                    time.sleep(4)
+                    for file in listDir(tempDir+"/HamsiManager"):
+                        if file!="Update.py" and file!="install.py":
+                            moveFileOrDir(tempDir+"/HamsiManager/"+file,sys.path[1]+"/"+file)
+                    popen = os.popen("\"" + sys.executable+"\" " + sys.path[1] + "/ConfigureUpdate.py -ConfigureUpdate", "w")
+                else:
+                    parent = QMainWindow()
+                    QMessageBox.critical(parent, u"Access Denied!..",u"<b>Access Denied :</b> \"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.</b><br>" % sys.path[1])
+            else:
+                parent = QMainWindow()
+                QMessageBox.critical(parent, u"File Is Not Found!..",u"<b>File Is Not Found :</b> \"%s\" : this file is not found.<br />Please check your file and retry." % sourceFile)
             
     def isFile(_oldPath):
         _oldPath = str(_oldPath)
@@ -75,6 +83,24 @@ class Update():
         except:returnValue = path.dirname(_oldPath)
         try:return returnValue.encode(fileSystemEncoding)
         except:return returnValue 
+    
+    def getRealDirName(_oldPath, isGetParent=False):
+        _oldPath = str(_oldPath)
+        if len(_oldPath)==0: return "/"
+        if _oldPath[-1]=="/":
+            _oldPath = _oldPath[:-1]
+        if isGetParent:
+            realDirName = getDirName(str(_oldPath))
+        else:
+            realDirName = str(_oldPath)
+        while 1:
+            if isDir(realDirName):
+                break
+            if realDirName=="":
+                realDirName = "/"
+                break
+            realDirName = getDirName(realDirName)
+        return realDirName
         
     def listDir(_oldPath):
         names = []
@@ -82,6 +108,18 @@ class Update():
             try:names = listdir(_oldPath.encode(fileSystemEncoding))
             except:names = listdir(_oldPath)
         return names
+    
+    def isWritableFileOrDir(_newPath):
+        realPath = _newPath
+        if isFile(realPath)==False:
+            realPath = getRealDirName(realPath)
+        try: 
+            if os.access(realPath.encode(fileSystemEncoding), os.W_OK): 
+                return True 
+        except: 
+            if os.access(realPath, os.W_OK): 
+                return True
+        return False
     
     def moveFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)

@@ -200,7 +200,7 @@ class InputOutputs:
         except:
             return locale.strxfrm(_info)
     
-    def isReadableFileOrDir(_newPath, _isOnlyCheck=False): 
+    def isReadableFileOrDir(_newPath): 
         realPath = _newPath
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
@@ -212,7 +212,7 @@ class InputOutputs:
                 return True
         return False
         
-    def isWritableFileOrDir(_newPath, _isOnlyCheck=False):
+    def isWritableFileOrDir(_newPath):
         realPath = _newPath
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)

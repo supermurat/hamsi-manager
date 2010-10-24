@@ -170,13 +170,18 @@ class UpdateControl(MDialog):
         
     def downloadAndInstall(self):
         try:
-            self.setFixedHeight(130)   
-            self.isDownloading=True
-            self.prgbState.setVisible(True)
-            self.lblInfo.setVisible(False)
-            self.setWindowTitle(translate("UpdateControl", "Downloading Latest Release..."))
-            self.request = MNetworkRequest(MUrl(self.updateInformations[1]))
-            self.willDownload(self.request)
+            if InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory):
+                self.setFixedHeight(130)   
+                self.isDownloading=True
+                self.prgbState.setVisible(True)
+                self.lblInfo.setVisible(False)
+                self.setWindowTitle(translate("UpdateControl", "Downloading Latest Release..."))
+                self.request = MNetworkRequest(MUrl(self.updateInformations[1]))
+                self.willDownload(self.request)
+            else:
+                import Organizer
+                Dialogs.showError(translate("UpdateControl", "Access Denied"),
+                        str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(realPath))
         except:
             error = ReportBug.ReportBug()
             error.show()  
