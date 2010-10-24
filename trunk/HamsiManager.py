@@ -292,8 +292,8 @@ if RoutineChecks.checkQt4Exist():
                     import ReportBug
                     error = ReportBug.ReportBug()
                     error.show()
-                    print str(MApplication.translate("ReportBug", "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details." )) % (error.pathOfReportFile)
-                    print str(MApplication.translate("ReportBug", "Thanks in advance for your interest."))
+                    print (str(MApplication.translate("ReportBug", "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details." )) % (error.pathOfReportFile))
+                    print (str(MApplication.translate("ReportBug", "Thanks in advance for your interest.")))
                 else:
                     sys.exit()
         else:

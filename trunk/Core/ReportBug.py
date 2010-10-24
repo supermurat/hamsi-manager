@@ -39,7 +39,7 @@ class ReportBug(MDialog):
             cla, error, trbk = lastErrorDetailsValues
             try:
                 excArgs = error.__dict__["args"]
-            except KeyError:
+            except:
                 excArgs = ""
             try:realErrorDetails += "<p><b>" + str(translate("ReportBug", "Error : ")) + "</b>" + traceback.format_tb(trbk, 5) + "</p>"
             except:pass
@@ -248,7 +248,7 @@ class ReportBug(MDialog):
         excName = cla.__name__
         try:
             excArgs = exc.__dict__["args"]
-        except KeyError:
+        except:
             excArgs = "<no args>"
         excTb = traceback.format_tb(trbk, maxTBlevel)
         return (excName, excArgs, excTb)

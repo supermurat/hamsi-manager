@@ -75,7 +75,7 @@ def checkAndGetPlugins():
     import Variables, InputOutputs, Universals
     for plugin in Variables.getMyPluginsNames():
         isInstalled = False
-        exec "from MyPlugins." + plugin + " import pluginName, setupDirectory, pluginFiles, pluginDirectory"
+        exec ("from MyPlugins." + plugin + " import pluginName, setupDirectory, pluginFiles, pluginDirectory")
         for pluginFile in pluginFiles:
             if InputOutputs.isFile((setupDirectory + "/" + pluginFile).replace("HamsiManager", "OrganizasyonizM")):
                 isInstalled = True
@@ -100,7 +100,7 @@ def clearOldAppNameAndSettings():
         InputOutputs.removeFile(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc")
     #Clear My Plugins
     for plugin in Variables.getMyPluginsNames():
-        exec "from MyPlugins." + plugin + " import pluginName, setupDirectory, pluginFiles, pluginDirectory"
+        exec ("from MyPlugins." + plugin + " import pluginName, setupDirectory, pluginFiles, pluginDirectory")
         for pluginFile in pluginFiles:
             pluginFilePath = (setupDirectory + "/" + pluginFile).replace("HamsiManager", "OrganizasyonizM")
             if InputOutputs.isFile(pluginFilePath):

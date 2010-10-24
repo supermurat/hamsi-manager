@@ -775,7 +775,7 @@ class Tag:
             dateFrame = DateFrame(header, encoding = self.encoding,
                                   date_str = self.strToUnicode(dateStr));
             self.frames.addFrame(dateFrame);
-      except FrameException, ex:
+      except FrameException as ex:
          raise TagException(str(ex));
 
    # Three types are accepted for the genre parameter.  A Genre object, an
@@ -1354,7 +1354,7 @@ class Tag:
          self.frames.setTagHeader(self.header);
          padding = self.frames.parse(fp, self.header, self.extendedHeader);
          TRACE_MSG("Tag contains %d bytes of padding." % padding);
-      except FrameException, ex:
+      except FrameException as ex:
          fp.close();
          raise TagException(str(ex));
       except TagException:
@@ -1438,7 +1438,7 @@ class Genre:
 
       try:
           name = genres[id];
-      except Exception, ex:
+      except Exception as ex:
           if utils.strictID3():
               raise GenreException("Invalid genre id: " + str(id));
 
@@ -1591,7 +1591,7 @@ class TagFile:
        try:
            os.rename(self.fileName, new_name);
            self.fileName = new_name;
-       except OSError, ex:
+       except OSError as ex:
            raise TagException("Error renaming '%s' to '%s'" % (self.fileName,
                                                                new_name));
 
@@ -1636,7 +1636,7 @@ class Mp3AudioFile(TagFile):
       if header:
           try:
               self.header = mp3.Header(header)
-          except mp3.Mp3Exception, ex:
+          except mp3.Mp3Exception as ex:
               self.header = None
               raise InvalidAudioFormatException(str(ex));
           else:
@@ -1727,7 +1727,7 @@ class GenreMap(list):
          else:
             raise IndexError("genre index out of range");
       elif isinstance(key, str):
-         if self.reverseDict.has_key(key.lower()):
+         if key.lower() in self.reverseDict:
             return self.reverseDict[key.lower()];
          else:
             raise IndexError(key + " genre not found");

@@ -98,10 +98,10 @@ class Search(MDialog):
                 except:
                     webservice.isActiveSecondServer = False
                     self.checkIt(tagsOfSong, _SearchDepth)
-            except webservice.WebServiceError, errorDetails:
+            except webservice.WebServiceError as errorDetails:
                 Dialogs.showError(translate("SearchEngines", "An Error Occured"),
                             str(translate("SearchEngines", "Please retry the process.<br>If you receive the same error, please try the other search engines.<br><b>Error details:</b><br>%s")) % (str(errorDetails)))
-            except ValueError, errorDetails:
+            except ValueError as errorDetails:
                 Dialogs.showError(translate("SearchEngines", "An Error Occured"),
                             str(translate("SearchEngines", "Fetching information for the music file that caused the error is canceled.<br>If you receive the same error, please try the other search engines.<br><b>Error details:</b><br>%s")) % (str(errorDetails)))
                 self.incorrectSongs.append([_parent.item(tagsOfSong[3],1).text(), tagsOfSong[0], tagsOfSong[1], tagsOfSong[2], tagsOfSong[3]])
@@ -212,7 +212,7 @@ class Search(MDialog):
             try:
                 returnedValues = Query().getArtists(ArtistFilter(_artistName, limit=5))
                 controlValue=0
-            except webservice.WebServiceError, errorDetails:
+            except webservice.WebServiceError as errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
                     controlValue+=1
@@ -238,7 +238,7 @@ class Search(MDialog):
             try:
                 returnedValues = Query().getReleases(ReleaseFilter(query=_albumName))
                 controlValue=0
-            except webservice.WebServiceError, errorDetails:
+            except webservice.WebServiceError as errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
                     controlValue+=1
@@ -264,7 +264,7 @@ class Search(MDialog):
             try:
                 returnedValues = Query().getTracks(TrackFilter(query=_titleName))
                 controlValue=0
-            except webservice.WebServiceError, errorDetails:
+            except webservice.WebServiceError as errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
                     controlValue+=1
@@ -292,7 +292,7 @@ class Search(MDialog):
                 inc = webservice.ArtistIncludes(tags=True)
                 artist = q.getArtistById(_artistId, inc)
                 controlValue=0
-            except webservice.WebServiceError, errorDetails:
+            except webservice.WebServiceError as errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
                     controlValue+=1
@@ -329,7 +329,7 @@ class Search(MDialog):
                                 inc = webservice.ArtistIncludes(releases=(albumState, albumType),tags=True)
                                 artist = q.getArtistById(_artistId, inc)
                                 controlValue=0
-                            except webservice.WebServiceError, errorDetails:
+                            except webservice.WebServiceError as errorDetails:
                                 if str(errorDetails)[:15]=="HTTP Error 503:":
                                     time.sleep(controlValue)
                                     controlValue+=1
@@ -363,7 +363,7 @@ class Search(MDialog):
                 inc = webservice.ReleaseIncludes(artist=True, releaseEvents=True, labels=True, discs=True, tracks=True)
                 release = q.getReleaseById(_albumId, inc)
                 controlValue=0
-            except webservice.WebServiceError, errorDetails:
+            except webservice.WebServiceError as errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
                     controlValue+=1
@@ -399,7 +399,7 @@ class Search(MDialog):
                 inc = webservice.ReleaseIncludes(artist=True, releaseEvents=True, labels=True, discs=True, tracks=True)
                 release = q.getReleaseById(_albumId, inc)
                 controlValue=0
-            except webservice.WebServiceError, errorDetails:
+            except webservice.WebServiceError as errorDetails:
                 if str(errorDetails)[:15]=="HTTP Error 503:":
                     time.sleep(controlValue)
                     controlValue+=1

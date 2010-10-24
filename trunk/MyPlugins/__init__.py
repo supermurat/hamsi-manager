@@ -41,7 +41,7 @@ class MyPlugins(MDialog):
     def fillPlugins(self):
         self.lstwPluginList.clear()
         for plugin in Variables.getMyPluginsNames():
-            exec "from " + plugin + " import pluginName , pluginVersion, isInstallable"
+            exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
             if isInstallable():
                 installedVersion = Settings.getUniversalSetting(pluginName.decode("utf-8"), "")
                 if installedVersion == "":
@@ -65,7 +65,7 @@ class MyPlugins(MDialog):
     
     def installPlugin(_pluginName, _isQuiet=False):
         isInstalled = False
-        exec "from " + _pluginName + " import pluginName, pluginFiles, pluginDirectory, installThisPlugin, setupDirectory, pluginVersion"
+        exec ("from " + _pluginName + " import pluginName, pluginFiles, pluginDirectory, installThisPlugin, setupDirectory, pluginVersion")
         if installThisPlugin==None:
             if pluginDirectory=="":
                 try:InputOutputs.IA.makeDirs(setupDirectory)
@@ -122,7 +122,7 @@ class MyPluginsForSystem(MWidget):
     def fillPlugins(self):
         self.lstwPluginList.clear()
         for plugin in Variables.getMyPluginsNames():
-            exec "from " + plugin + " import pluginName , pluginVersion, isInstallable"
+            exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
             if isInstallable():
                 installedVersion = Settings.getUniversalSetting(pluginName.decode("utf-8"), "")
                 if installedVersion == "":
@@ -146,7 +146,7 @@ class MyPluginsForSystem(MWidget):
     
     def installPlugin(_pluginName, _isQuiet=False):
         isInstalled = False
-        exec "from " + _pluginName + " import pluginName, pluginFiles, pluginDirectory, installThisPlugin, setupDirectory, pluginVersion"
+        exec ("from " + _pluginName + " import pluginName, pluginFiles, pluginDirectory, installThisPlugin, setupDirectory, pluginVersion")
         if installThisPlugin==None:
             if pluginDirectory=="":
                 try:InputOutputs.IA.makeDirs(setupDirectory)

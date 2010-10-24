@@ -37,14 +37,14 @@ def checkParameters():
                 if argv=="-s" or argv=="-sDirectoryPath" or argv=="-t" or argv=="-f" or argv=="-PyKDE4" or argv=="-qmw" or argv=="-qm":
                     isMyArgs = True
                     argvs.remove(argv)
-                    print "Incorrect Command : Your action unable to process.Please try again."
+                    print ("Incorrect Command : Your action unable to process.Please try again.")
                     break
             else:
                 if argv=="-s" or argv=="-sDirectoryPath" or argv=="-t" or argv=="-f" or argv=="-PyKDE4" or argv=="-qmw" or argv=="-qm":
                     isMyArgs = True
                     if argvs[argvNo+1][0]=="-":
                         argvs.remove(argv)
-                        print "Incorrect Command : Your action unable to process.Please try again."
+                        print ("Incorrect Command : Your action unable to process.Please try again.")
                         break
                 if argv=="-s":
                     import Universals
@@ -206,7 +206,7 @@ def checkMyModules(_HamsiManagerApp):
         import FileManager
         import Bars
         return True
-    except ImportError , error:
+    except ImportError as error:
         errorForm = Variables.MQtGui.QWidget()
         errorForm.vblMain = Variables.MQtGui.QVBoxLayout(errorForm)
         if str(error)[16:].find(" ")==-1:
@@ -306,8 +306,8 @@ def checkQt4Exist():
                     btnClose.pack(side = Tkinter.RIGHT)
                     Tkinter.mainloop()
                 except:
-                    print "Critical Error!"
-                    print "You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager."
+                    print ("Critical Error!")
+                    print ("You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager.")
         return False    
         
         

@@ -86,9 +86,9 @@ class RunCommand(MDialog):
         
     def runCommand(self):
         try:
-            exec str(self.sciCommand.text())
+            exec (str(self.sciCommand.text()))
             return True
-        except Exception , error:
+        except Exception as error:
             import traceback
             cla, error, trbk = sys.exc_info()
             errorName = cla.__name__

@@ -60,7 +60,7 @@ class Databases:
         sqlString3 = "UPDATE " + _table + " SET "
         sqlString4 = " WHERE "
         i, j = 0, 0
-        for key, value in _columnNamesAndValues.iteritems():
+        for key, value in _columnNamesAndValues.items():
             if i>0:
                 sqlString0 += ","
                 sqlString1 += ","
@@ -130,6 +130,5 @@ class Databases:
             reFillDatabases()
     
         
-
 
 

@@ -12,7 +12,7 @@ class SearchEngines(MMenu):
         self.setTitle(translate("SearchEngines", "Verify On The Internet"))
         self.actions, self.searchDepths = [], []
         for sEngine in Variables.getSearchEnginesNames():
-            exec "from " + sEngine + " import pluginName"
+            exec ("from " + sEngine + " import pluginName")
             self.actions.append(MAction(pluginName.decode("utf-8"), self))
             self.actions[-1].setObjectName(str(len(self.actions)-1))
             self.addAction(self.actions[-1])
@@ -36,7 +36,7 @@ class SearchEngines(MMenu):
                     selectedSearchDepth = info[2]
                 else:
                     engine = Variables.getSearchEnginesNames()[int(_action.objectName())]
-                exec "from " + engine + " import Search"
+                exec ("from " + engine + " import Search")
                 Search.Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
             else:
                 Dialogs.show(translate("SearchEngines", "Table Is Empty"), 

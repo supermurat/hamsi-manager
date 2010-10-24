@@ -106,7 +106,7 @@ class Variables():
     def checkEncoding(_isSetUTF8=False):
         global defaultFileSystemEncoding
         from encodings import aliases
-        if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.iteritems()].count(defaultFileSystemEncoding)==0:
+        if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.items()].count(defaultFileSystemEncoding)==0:
             if _isSetUTF8:
                 defaultFileSystemEncoding = "utf-8"
             else:
@@ -395,7 +395,7 @@ class Variables():
     def getCharSets():
         from encodings import aliases
         charSets = []
-        for k, v in aliases.aliases.iteritems():
+        for k, v in aliases.aliases.items():
             if charSets.count(v.replace("_", "-"))==0:
                 charSets.append(v.replace("_", "-"))
         charSets.sort()

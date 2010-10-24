@@ -84,7 +84,7 @@ prefix = "eyeD3 trace> ";
 def TRACE_MSG(msg):
    if TRACE:
        try:
-           print prefix + msg;
+           print (prefix + msg);
        except UnicodeEncodeError:
            pass;
 
