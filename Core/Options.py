@@ -1639,9 +1639,9 @@ class MySettings(MWidget):
                         translate("Options/MySettings", "No (Cancel)"), 
                         translate("Options/MySettings", "Back Up And Reset"))
             if answer==translate("Options/MySettings", "Yes"):
-                Settings.reFillDatabases("bookmarks")
+                Databases.reFillDatabases("bookmarks")
             elif answer==translate("Options/MySettings", "Back Up And Reset"):
-                Settings.reFillDatabases("bookmarks", _makeBackUp=True)
+                Databases.reFillDatabases("bookmarks", _makeBackUp=True)
             self.parent().parent().reStart()
         except:
             error = ReportBug.ReportBug()
@@ -1655,9 +1655,9 @@ class MySettings(MWidget):
                         translate("Options/MySettings", "No (Cancel)"), 
                         translate("Options/MySettings", "Back Up And Reset"))
             if answer==translate("Options/MySettings", "Yes"):
-                Settings.reFillDatabases("searchAndReplaceTable")
+                Databases.reFillDatabases("searchAndReplaceTable")
             elif answer==translate("Options/MySettings", "Back Up And Reset"):
-                Settings.reFillDatabases("searchAndReplaceTable", _makeBackUp=True)
+                Databases.reFillDatabases("searchAndReplaceTable", _makeBackUp=True)
             self.parent().parent().close()
         except:
             error = ReportBug.ReportBug()
