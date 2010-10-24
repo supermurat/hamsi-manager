@@ -312,5 +312,7 @@ class Settings():
         if oldVersion<906:
             sets = setting()
             sets.setValue("fileSystemEncoding", Variables.MQtCore.QVariant(sets.value("systemsCharSet").toString()))
+        if oldVersion<907:
+            newSettingsKeys = newSettingsKeys + ["isActiveCompleter", "isShowAllForCompleter"]
         return newSettingsKeys, changedDefaultValuesKeys
         
