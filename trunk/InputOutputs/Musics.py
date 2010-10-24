@@ -153,7 +153,7 @@ class Musics:
                 realRowNo=rowNo
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.IA.isWritableFileOrDir(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
+                if InputOutputs.IA.isWritableFileOrDir(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
                         continue
@@ -281,7 +281,7 @@ class Musics:
         
     def writeMusicFile(_oldMusicTagsValues,_newMusicTagsValues,_isImageAction=False,_ImageType=False,_ImagePath=False):
         global musicTagType
-        if InputOutputs.IA.IA.isWritableFileOrDir(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]):
+        if InputOutputs.IA.isWritableFileOrDir(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]):
             musicTagType = getSelectedMusicTagType()
             tag = eyeD3.Tag()
             try:

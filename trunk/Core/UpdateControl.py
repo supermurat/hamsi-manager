@@ -246,7 +246,7 @@ class UpdateControl(MDialog):
         self.parent().close()
         
     def isUpdatable(self):
-        return InputOutputs.IA.IA.isWritableFileOrDir(Variables.HamsiManagerDirectory, True)
+        return InputOutputs.IA.isWritableFileOrDir(Variables.HamsiManagerDirectory, True)
         
     def isMakeUpdateControl():
         lastUpdateControlTime = Universals.getDateValue("lastUpdateControlDate")

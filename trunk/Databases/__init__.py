@@ -19,7 +19,7 @@ class Databases:
         return defaultConnection
     
     def getAllDatabases():
-        return [BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable]
+        return [BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable]
     
     def getDBPropertiesCreateQuery():
         return "CREATE TABLE IF NOT EXISTS dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)"
@@ -34,7 +34,8 @@ class Databases:
                 tableCreateQueries.append(database.getTableCreateQuery())
                 if _actionType=="dropAndInsert":
                     sqlCommands.append(database.getDeleteTableQuery())
-                tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + database.tableVersion + "'"}, ["keyName"])
+                sqlCommands += database.getDefaultsQueries()
+                tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
         con = getDefaultConnection()
         for sqlCommand in tableCreateQueries:
             cur = con.cursor()
@@ -82,7 +83,28 @@ class Databases:
             con = getDefaultConnection()
             cur = con.cursor()
             cur.execute("SELECT * FROM dbProperties")
-            #Bottom lines for new versions
+            tableCreateQueries, sqlCommands, tableInsertImportantQueries = [], [], []
+            for database in getAllDatabases():
+                cur = con.cursor()
+                cur.execute("SELECT * FROM dbProperties where keyName='" + database.tableName + "_Version'")
+                tableVersion = int(cur.fetchall()[0][1])
+                if tableVersion<database.tableVersion:
+                    tableCreateQueries.append(database.getTableCreateQuery())
+                    sqlCommands += database.getDefaultsQueries()
+                    tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
+            for sqlCommand in tableCreateQueries:
+                cur = con.cursor()
+                cur.execute(str(sqlCommand))
+                con.commit()
+            for sqlCommand in tableInsertImportantQueries:
+                cur = con.cursor()
+                cur.execute(str(sqlCommand))
+                con.commit()
+            for sqlCommand in sqlCommands:
+                cur = con.cursor()
+                cur.execute(str(sqlCommand))
+                con.commit()
+                
 #            try:
 #                cur.execute("SELECT * FROM dbProperties where keyName='bookmarksOfDirectories_Version'")
 #                bookmarksOfDirectoriesVersion = int(cur.fetchall()[0][1])

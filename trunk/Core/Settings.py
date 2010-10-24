@@ -4,7 +4,7 @@ import Variables
 import Universals
 import InputOutputs
 from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, getAmendedSQLInputQueries, checkDatabases
-from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable
+from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
     
 class Settings():
     global setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting
