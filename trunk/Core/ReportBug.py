@@ -256,6 +256,9 @@ class ReportBug(MDialog):
     def createErrorPage(self, _errorDetails, _userNote="", _userName="", _mail=""):
         _errorDetails = _errorDetails.replace("\"", "&quot;").replace("\'", "&#39;")
         self.isLoading=False
+        language = "en_GB"
+        if "language" in Universals.MySettings:
+            language = Universals.MySettings["language"]
         htmlString=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
                     '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Hamsi Manager</title></head><body>'+
                     '<center>'+
@@ -268,7 +271,7 @@ class ReportBug(MDialog):
                     '<INPUT TYPE="hidden" name="error" value="~ERRORDETAILS~" />'+
                     '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
                     '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
-                    '<INPUT TYPE="hidden" name="l" value="' + str(Universals.MySettings["language"]) + '" />'+
+                    '<INPUT TYPE="hidden" name="l" value="' + str(language) + '" />'+
                     '<INPUT TYPE="hidden" name="v" value="' + str(Variables.intversion) + '" /></form>'+
                     '~ADDITIONALDETAILS~</center></body></html>'
                     ) % (

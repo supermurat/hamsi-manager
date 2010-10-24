@@ -3,7 +3,7 @@
 import Variables
 import Universals
 
-if Variables.MyObjectName=="PyQt4":
+if Variables.MyObjectName=="PyQt4" or Variables.MyObjectName=="":
     from PyQt4 import QtGui
     for obj in dir(QtGui):
         if obj[0]=="Q":
@@ -83,7 +83,7 @@ def translate(_p, _s):
 def getMyObject(_objectName):
     if Variables.MyObjectName=="PySide":
         exec "from PySide import " + _objectName + " as MyObject"
-    elif Variables.MyObjectName=="PyQt4":
+    elif Variables.MyObjectName=="PyQt4" or Variables.MyObjectName=="":
         exec "from PyQt4 import " + _objectName + " as MyObject"
     else:
         MyObject = None
