@@ -40,3 +40,4 @@ fpv				=	MFilePlacesView
 fpm				=	MFilePlacesModel
 dck				=	MDockWidget
 dop				=	MDirOperator
+cmp				=	MCompleter

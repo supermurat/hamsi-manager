@@ -81,7 +81,7 @@ class Variables():
         myObjectsNames = getMyObjectsNames()
         if myObjectsNames.count("PySide")>0:
             from PySide import QtCore
-            sets = QtCore.QSettings((os.path.expanduser("~") + "/.HamsiApps/HamsiManager/mySettings.ini").decode("utf-8") ,QtCore.QSettings.IniFormat)
+            sets = QtCore.QSettings((userDirectoryPath + "/.HamsiApps/HamsiManager/mySettings.ini").decode("utf-8") ,QtCore.QSettings.IniFormat)
             if str(sets.value("NeededObjectsName").toString())=="PySide":
                 from PySide import QtGui
                 from PySide import QtCore

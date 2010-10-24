@@ -82,12 +82,11 @@ class InputOutputs:
     def getRealPath(_path, _parentPath=None):
         _path = str(_path)
         if len(_path)==0: return "/"
-        if _path[-1]=="/":
-            _path = _path[:-1]
         if _parentPath!=None:
             _parentPath = getRealPath(_parentPath)
             if _path[:2]=="./":
                 _path = _parentPath + _path[1:]
+        return os.path.abspath(_path)
         return _path
     
     def getBaseName(_oldPath):
