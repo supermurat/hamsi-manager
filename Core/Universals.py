@@ -196,7 +196,7 @@ class Universals():
     
     def printForDevelopers(_message):
         if isDebugMode or isDeveloperMode:
-            print str(_message)
+            print (str(_message))
         
     def checkMysqldSafe(_isAskIfNotFound=True):
         import InputOutputs, Dialogs

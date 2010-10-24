@@ -23,7 +23,7 @@ class Records():
         if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
             recordContents += str(_title) + "\n"
         if Universals.isDebugMode:
-            print _title
+            print (_title)
         isSetedTitle = True
     
     def add(_action, _previous="", _now=""):
@@ -32,7 +32,7 @@ class Records():
             if recordType==0 or (recordType==1 and Universals.isDebugMode):
                 recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
         if Universals.isDebugMode:
-            print _title
+            print (_title)
         
     def setRecordType(_recordType):
         global lastRecordType, recordType

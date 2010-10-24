@@ -246,7 +246,7 @@ class MusicDetails(MDialog):
                 if dialog.isVisible()==True:
                     dialog.player.stop()
                     dialog.close()
-            except AttributeError:
+            except:
                 continue
         
     def save(self):

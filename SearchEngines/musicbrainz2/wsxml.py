@@ -700,10 +700,10 @@ class MbXmlParser(object):
 			doc.unlink()
 
 			return md
-		except ExpatError, e:
+		except ExpatError as e:
 			self._log.debug('ExpatError: ' + str(e))
 			raise ParseError(msg=str(e), reason=e)
-		except DOMException, e:
+		except DOMException as e:
 			self._log.debug('DOMException: ' + str(e))
 			raise ParseError(msg=str(e), reason=e)
 			
@@ -1164,7 +1164,7 @@ class _XmlWriter(object):
 	def _makeTag(self, name, attrs={ }, close=False):
 		ret = '<' + name
 
-		for (k, v) in attrs.iteritems():
+		for (k, v) in attrs.items():
 			if v is not None:
 				v = saxutils.quoteattr(str(v))
 				ret += ' %s=%s' % (k, v)

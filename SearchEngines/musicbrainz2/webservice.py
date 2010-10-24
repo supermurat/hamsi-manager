@@ -14,9 +14,13 @@ model <musicbrainz2.model>}.
 """
 __revision__ = '$Id: webservice.py 12708 2010-03-15 17:45:25Z matt $'
 
+import sys
 import re
 import urllib
-import urllib2
+if float(sys.version[:3])>=3.0:
+    urllib2 = urllib
+else:
+    import urllib2
 import urlparse
 import logging
 import os.path
@@ -271,7 +275,7 @@ class WebService(IWebService):
 
 		try:
 			return self._openUrl(url)
-		except urllib2.HTTPError, e:
+		except urllib2.HTTPError as e:
 			self._log.debug("GET failed: " + str(e))
 			if e.code == 400:   # in python 2.4: httplib.BAD_REQUEST
 				raise RequestError(str(e), e)
@@ -281,7 +285,7 @@ class WebService(IWebService):
 				raise ResourceNotFoundError(str(e), e)
 			else:
 				raise WebServiceError(str(e), e)
-		except urllib2.URLError, e:
+		except urllib2.URLError as e:
 			self._log.debug("GET failed: " + str(e))
 			raise ConnectionError(str(e), e)
 
@@ -306,7 +310,7 @@ class WebService(IWebService):
 
 		try:
 			return self._openUrl(url, data)
-		except urllib2.HTTPError, e:
+		except urllib2.HTTPError as e:
 			self._log.debug("POST failed: " + str(e))
 			if e.code == 400:   # in python 2.4: httplib.BAD_REQUEST
 				raise RequestError(str(e), e)
@@ -316,7 +320,7 @@ class WebService(IWebService):
 				raise ResourceNotFoundError(str(e), e)
 			else:
 				raise WebServiceError(str(e), e)
-		except urllib2.URLError, e:
+		except urllib2.URLError as e:
 			self._log.debug("POST failed: " + str(e))
 			raise ConnectionError(str(e), e)
 
@@ -1178,7 +1182,7 @@ class Query(object):
 		try:
 			parser = MbXmlParser()
 			return parser.parse(stream)
-		except ParseError, e:
+		except ParseError as e:
 			raise ResponseError(str(e), e)
 
 
@@ -1204,7 +1208,7 @@ class Query(object):
 		params = [ ]
 		params.append( ('client', self._clientId.encode('utf-8')) )
 
-		for (trackId, puid) in tracks2puids.iteritems():
+		for (trackId, puid) in tracks2puids.items():
 			trackId = mbutils.extractUuid(trackId, 'track')
 			params.append( ('puid', trackId + ' ' + puid) )
 
@@ -1232,7 +1236,7 @@ class Query(object):
 		"""
 		params = [ ]
 
-		for (trackId, isrc) in tracks2isrcs.iteritems():
+		for (trackId, isrc) in tracks2isrcs.items():
 			trackId = mbutils.extractUuid(trackId, 'track')
 			params.append( ('isrc', trackId + ' ' + isrc) )
 
@@ -1304,11 +1308,11 @@ class Query(object):
 		params = { 'offset': offset, 'maxitems': maxitems }
 		
 		stream = self._ws.get('collection', '', filter=params)
-		print stream
+		print (stream)
 		try:
 			parser = MbXmlParser()
 			result = parser.parse(stream)
-		except ParseError, e:
+		except ParseError as e:
 			raise ResponseError(str(e), e)
 		
 		return result.getReleaseResults()
@@ -1372,7 +1376,7 @@ class Query(object):
 		try:
 			parser = MbXmlParser()
 			result = parser.parse(stream)
-		except ParseError, e:
+		except ParseError as e:
 			raise ResponseError(str(e), e)
 		
 		return result.getTagList()
@@ -1436,7 +1440,7 @@ class Query(object):
 		try:
 			parser = MbXmlParser()
 			result = parser.parse(stream)
-		except ParseError, e:
+		except ParseError as e:
 			raise ResponseError(str(e), e)
 		
 		return result.getRating()

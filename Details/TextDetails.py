@@ -127,7 +127,7 @@ class TextDetails(MDialog):
             try:
                 if dialog.isVisible()==True:
                     dialog.close()
-            except AttributeError:
+            except:
                 continue
         
     def save(self):

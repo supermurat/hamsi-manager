@@ -46,7 +46,7 @@ def _openLibrary():
 			libDiscId = ctypes.cdll.find('discid')
 			_setPrototypes(libDiscId)
 			return libDiscId
-	except OSError, e:
+	except OSError as e:
 		raise NotImplementedError('Error opening library: ' + str(e))
 
 	# Try to find the library using ctypes.util
@@ -56,7 +56,7 @@ def _openLibrary():
 			libDiscId = ctypes.cdll.LoadLibrary(libName)
 			_setPrototypes(libDiscId)
 			return libDiscId
-		except OSError, e:
+		except OSError as e:
 			raise NotImplementedError('Error opening library: ' +
 				str(e))
 
@@ -78,7 +78,7 @@ def _openLibrary():
 		libDiscId = ctypes.cdll.LoadLibrary(libName)
 		_setPrototypes(libDiscId)
 		return libDiscId
-	except OSError, e:
+	except OSError as e:
 		raise NotImplementedError('Error opening library: ' + str(e))
 
 	assert False # not reached

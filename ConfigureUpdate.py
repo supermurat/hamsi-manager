@@ -123,7 +123,7 @@ class Update():
     
     def moveFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
-        print _oldPath, _newPath
+        print (_oldPath + " >>> " + _newPath)
         if getDirName(_oldPath)==getDirName(_newPath):
             try:rename(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
             except:rename(_oldPath,_newPath)

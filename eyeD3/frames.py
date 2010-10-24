@@ -733,7 +733,7 @@ class TextFrame(Frame):
           self.text = encodeUnicode(data, id3EncodingToString(self.encoding))
           if not strictID3():
               self.text = cleanNulls(self.text)
-      except TypeError, excArg:
+      except TypeError as excArg:
           # if data is already unicode, just copy it
           if excArg.args == ("decoding Unicode is not supported",):
               self.text = data
@@ -797,7 +797,7 @@ class DateFrame(TextFrame):
 
                try:
                   self.date = time.strptime(d, fmt);
-               except TypeError, ex:
+               except TypeError as ex:
                   continue;
                self.date_str = d;
             break;
@@ -1018,7 +1018,7 @@ class UserURLFrame(URLFrame):
                 id3EncodingToString(self.encoding))
       try:
           (d, u) = splitUnicode(data[1:], self.encoding)
-      except ValueError, ex:
+      except ValueError as ex:
           if strictID3():
               raise FrameException("Invalid WXXX frame, no null byte")
           d = data[1:]
@@ -1086,7 +1086,7 @@ class CommentFrame(Frame):
              if strictID3():
                  raise FrameException("[CommentFrame] Invalid language "\
                                        "code: %s" % self.lang);
-      except UnicodeDecodeError, ex:
+      except UnicodeDecodeError as ex:
           if strictID3():
               raise FrameException("[CommentFrame] Invalid language code: "\
                                    "[%s] %s" % (ex.object, ex.reason));
@@ -1168,7 +1168,7 @@ class LyricsFrame(Frame):
              if strictID3():
                  raise FrameException("[LyricsFrame] Invalid language "\
                                        "code: %s" % self.lang);
-      except UnicodeDecodeError, ex:
+      except UnicodeDecodeError as ex:
           if strictID3():
               raise FrameException("[LyricsFrame] Invalid language code: "\
                                    "[%s] %s" % (ex.object, ex.reason));
@@ -2220,7 +2220,7 @@ def createFrame(frameHeader, data, tagHeader):
 
 
 def map2_2FrameId(originalId):
-    if not TAGS2_2_TO_TAGS_2_3_AND_4.has_key(originalId):
+    if originalId not in TAGS2_2_TO_TAGS_2_3_AND_4:
         return originalId
     return TAGS2_2_TO_TAGS_2_3_AND_4[originalId]
 

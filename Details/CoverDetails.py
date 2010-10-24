@@ -128,7 +128,7 @@ class CoverDetails(MDialog):
             try:
                 if dialog.isVisible()==True:
                     dialog.close()
-            except AttributeError:
+            except:
                 continue
     
     
