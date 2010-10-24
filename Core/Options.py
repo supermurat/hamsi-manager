@@ -820,10 +820,11 @@ class Correct(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["validSentenceStructure", "validSentenceStructureForFile", 
-                                "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
-                                "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
-        self.tabsOfSettings = [None, None, 
+        self.keysOfSettings = ["isActiveCompleter", "isShowAllForCompleter",
+            "validSentenceStructure", "validSentenceStructureForFile", 
+            "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
+            "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
+        self.tabsOfSettings = [None, None, None, None, 
                                 None, None, None, 
                                 None, None, None]
         self.tabNames = []
@@ -833,7 +834,9 @@ class Correct(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options/Correct", "Valid Sentence Structure"), 
+        self.labels = [translate("Options/Correct", "Use Completer"), 
+                    translate("Options/Correct", "Show All"), 
+                    translate("Options/Correct", "Valid Sentence Structure"), 
                     translate("Options/Correct", "Valid Sentence Structure For Files"),
                     translate("Options/Correct", "Valid Sentence Structure For File Extensions"), 
                     translate("Options/Correct", "Which Part Is The File Extension"), 
@@ -841,7 +844,9 @@ class Correct(MWidget):
                     translate("Options/Correct", "Correct File Name By Search Table"), 
                     translate("Options/Correct", "Clear First And Last Space Chars"), 
                     translate("Options/Correct", "Correct Double Space Chars")]
-        self.toolTips = [translate("Options/Correct", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
+        self.toolTips = [translate("Options/Correct", "Are you want to activate completer for auto complete some input controls?"), 
+                    translate("Options/Correct", "Are you want to show all words in all input controls?"), 
+                    translate("Options/Correct", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
                     translate("Options/Correct", "File and directory names will be changed automatically to the format you selected."),
                     translate("Options/Correct", "File extensions will be changed automatically to the format you selected."), 
                     translate("Options/Correct", "Which part of the filename is the file extension?"), 
@@ -849,7 +854,7 @@ class Correct(MWidget):
                     translate("Options/Correct", "Are you want to correct file and directory names by search and replace table?"), 
                     translate("Options/Correct", "Are you want to clear first and last space chars?"), 
                     translate("Options/Correct", "Are you want to correct double space chars?")]
-        self.typesOfValues = [["options", 0], ["options", 0], ["options", 0], 
+        self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("Options/Correct", "Title"), 
@@ -862,6 +867,16 @@ class Correct(MWidget):
         self.valuesOfOptionsKeys = [Variables.validSentenceStructureKeys, 
                         Variables.fileExtesionIsKeys]
         createOptions(self)
+        if self.visibleKeys.count("isActiveCompleter")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("isActiveCompleter")], SIGNAL("currentIndexChanged(int)"), self.activeCompleterChanged)
+            self.activeCompleterChanged()
+    
+    def activeCompleterChanged(self):
+        if self.values[self.keysOfSettings.index("isActiveCompleter")].currentIndex()==1:
+            setEnabledFormItems(self, "isShowAllForCompleter", True)
+        else:
+            setEnabledFormItems(self, "isShowAllForCompleter", False)
+    
                 
 class SearchAndReplace(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):

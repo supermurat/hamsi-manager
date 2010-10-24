@@ -108,7 +108,9 @@ def moveToCenter(_dialog):
     _dialog.move(int((desk.width() - _dialog.width()) / 2),
       int((desk.height() - _dialog.height()) / 2))
     
-def addCompleter(_object, _objectName=None):
+def setCompleter(_object, _objectName=None):
+    if Universals.getBoolValue("isShowAllForCompleter"):
+        _objectName = "%*%"
     from Databases import CompleterTable
     if _objectName==None:
         _objectName = _object.objectName()

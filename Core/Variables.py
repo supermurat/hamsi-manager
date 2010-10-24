@@ -10,9 +10,9 @@ class Variables():
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
     osName = os.name
     Catalog = "HamsiManager" 
-    version = "0.9.06"
-    intversion = 906
-    settingVersion = "906"
+    version = "0.9.07"
+    intversion = 907
+    settingVersion = "907"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])
@@ -70,7 +70,8 @@ class Variables():
                   "CoversSubDirectoryDeep", 
                   "amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
-                  "iconNameFormat", "iconFileType", "pathOfMysqldSafe"
+                  "iconNameFormat", "iconFileType", "pathOfMysqldSafe", 
+                  "isActiveCompleter", "isShowAllForCompleter"
                   ]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
@@ -254,7 +255,9 @@ class Variables():
                 "amarokIsUseHost": "False", 
                 "iconNameFormat": "%Album%", 
                 "iconFileType": "png", 
-                "pathOfMysqldSafe": "mysqld_safe"
+                "pathOfMysqldSafe": "mysqld_safe", 
+                "isActiveCompleter": "True", 
+                "isShowAllForCompleter": "True"
                 }
                 
     def getValueTypesAndValues():
@@ -368,7 +371,9 @@ class Variables():
                 "amarokIsUseHost": "bool", 
                 "iconNameFormat": "str", 
                 "iconFileType": ["options", ["png", "jpg"]], 
-                "pathOfMysqldSafe": "str"
+                "pathOfMysqldSafe": "str", 
+                "isActiveCompleter": "bool", 
+                "isShowAllForCompleter": "bool"
                 }
 
     def getAvailablePlayers():

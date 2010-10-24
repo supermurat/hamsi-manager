@@ -24,11 +24,14 @@ class CompleterTable:
     def fetchAllByObjectName(_objectName=None):
         global allForFetchByObjectName
         if _objectName==None:
-            _objectName = "*"
+            _objectName = "%*%"
         if _objectName not in allForFetchByObjectName or allForFetchByObjectName[_objectName]==None:
             con = getDefaultConnection()
             cur = con.cursor()
-            cur.execute("SELECT value FROM " + tableName + " where objectName='" + _objectName + "' or objectName='*'")
+            if _objectName=="%*%":
+                cur.execute("SELECT DISTINCT value FROM " + tableName)
+            else:
+                cur.execute("SELECT DISTINCT value FROM " + tableName + " where objectName='" + _objectName + "' or objectName='*'")
             myValues = []
             for myval in cur.fetchall():
                 myValues.append(myval[0])
@@ -49,7 +52,7 @@ class CompleterTable:
     def insert(_objectName, _value):
         global allForFetch, allForFetchByObjectName
         if checkValues(_objectName, _value):
-            allForFetch, allForFetchByObjectName[_objectName] = None, None
+            allForFetch, allForFetchByObjectName[_objectName], allForFetchByObjectName["%*%"] = None, None, None
             con = getDefaultConnection()
             cur = con.cursor()
             sqlQueries = getAmendedSQLInputQueries(tableName, {"objectName" : "'" + correctForSql(_objectName) + "'", "value" : "'" + correctForSql(_value) + "'"}, ["objectName", "value"])
@@ -63,7 +66,7 @@ class CompleterTable:
     def update(_id, _objectName, _value):
         global allForFetch, allForFetchByObjectName
         if checkValues(_objectName, _value):
-            allForFetch, allForFetchByObjectName[_objectName] = None, None
+            allForFetch, allForFetchByObjectName[_objectName], allForFetchByObjectName["%*%"] = None, None, None
             con = getDefaultConnection()
             cur = con.cursor()
             cur.execute(str("update " + tableName + " set objectName='" + correctForSql(_objectName) + "', value='" + correctForSql(_value) + "' where id=" + str(int(_id))))

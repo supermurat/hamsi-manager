@@ -107,6 +107,7 @@ class SpecialTools(MWidget):
         self.cbInformationSection.setFixedWidth(175)
         MObject.connect(self.cbInformationSection, SIGNAL("currentIndexChanged(int)"), self.InformationSectionChanged)
         self.refreshForTableColumns()
+        self.reFillCompleters()
         
     def InformationSectionChanged(self):
         if self.cbInformationSection.currentIndex()==0:
@@ -235,6 +236,7 @@ class SpecialTools(MWidget):
     def apply(self):
         try:
             self.checkCompleters()
+            self.reFillCompleters()
             Universals.MainWindow.Table.createHistoryPoint()
             if self.tabwTabs.currentIndex()==0:
                 if Organizer.whatDoesSpecialCommandDo(unicode(self.specialActions.leSplitPointer.text()).encode("utf-8"),
@@ -257,11 +259,20 @@ class SpecialTools(MWidget):
             error.show()
     
     def checkCompleters(self):
-        self.specialActions.checkCompleters()
-        self.searchAndReplace.checkCompleters()
-        self.fill.checkCompleters()
-        self.clear.checkCompleters()
-        self.characterState.checkCompleters()
+        if Universals.getBoolValue("isActiveCompleter"):
+            self.specialActions.checkCompleters()
+            self.searchAndReplace.checkCompleters()
+            self.fill.checkCompleters()
+            self.clear.checkCompleters()
+            self.characterState.checkCompleters()
+    
+    def reFillCompleters(self):
+        if Universals.getBoolValue("isActiveCompleter"):
+            self.specialActions.reFillCompleters()
+            self.searchAndReplace.reFillCompleters()
+            self.fill.reFillCompleters()
+            self.clear.reFillCompleters()
+            self.characterState.reFillCompleters()
     
 class SpecialActions(MWidget):
     def __init__(self, _parent):
@@ -583,6 +594,9 @@ class SpecialActions(MWidget):
     
     def checkCompleters(self):
         pass
+        
+    def reFillCompleters(self):
+        pass
     
                 
 class SearchAndReplace(MWidget):
@@ -591,9 +605,7 @@ class SearchAndReplace(MWidget):
         self.lblSearch=MLabel(translate("SpecialTools", "Search: "))
         self.lblReplace=MLabel(translate("SpecialTools", "Replace: "))
         self.leSearch = MLineEdit("")
-        addCompleter(self.leSearch, self.lblSearch.text())
         self.leReplace = MLineEdit("")
-        addCompleter(self.leReplace, self.lblReplace.text())
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         srExamples = translate("SpecialTools", "<table><tr><td><nobr>Before</nobr></td><td>>></td><td><nobr>Search</nobr></td><td>-</td><td><nobr>Replace</nobr></td><td>>></td><td><nobr>After</nobr></td></tr>" +
                                  "<tr><td><nobr>HamsiManager</nobr></td><td>>></td><td><nobr>ager</nobr></td><td>-</td><td><nobr></nobr></td><td>>></td><td><nobr>HamsiMan</nobr></td></tr>" +
@@ -659,6 +671,10 @@ class SearchAndReplace(MWidget):
     def checkCompleters(self):
         Databases.CompleterTable.insert(self.lblSearch.text(), self.leSearch.text())
         Databases.CompleterTable.insert(self.lblReplace.text(), self.leReplace.text())
+    
+    def reFillCompleters(self):
+        setCompleter(self.leReplace, self.lblReplace.text())
+        setCompleter(self.leSearch, self.lblSearch.text())
         
 
 class Fill(MWidget):
@@ -678,7 +694,6 @@ class Fill(MWidget):
         self.lblFill = MLabel(translate("SpecialTools", "Text: "))
         self.lblFill.setFixedWidth(60)
         self.leFill = MLineEdit("")
-        addCompleter(self.leFill, self.lblFill.text())
         self.lblSort = MLabel(translate("SpecialTools", "Sort: "))
         self.lblSort.setFixedWidth(80)
         self.cbSort = MComboBox()
@@ -760,13 +775,15 @@ class Fill(MWidget):
     
     def checkCompleters(self):
         Databases.CompleterTable.insert(self.lblFill.text(), self.leFill.text())
+    
+    def reFillCompleters(self):
+        setCompleter(self.leFill, self.lblFill.text())
        
 class Clear(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
         self.leClear = MLineEdit("")
         self.lblClear = MLabel(translate("SpecialTools", "Text: "))
-        addCompleter(self.leClear, self.lblClear.text())
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblClearType = MLabel(translate("SpecialTools", "Content Type: "))
         self.cbClearType = MComboBox()
@@ -827,13 +844,15 @@ class Clear(MWidget):
     
     def checkCompleters(self):
         Databases.CompleterTable.insert(self.lblClear.text(), self.leClear.text())
+    
+    def reFillCompleters(self):
+        setCompleter(self.leClear, self.lblClear.text())
             
 class CharacterState(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
         self.leSearch = MLineEdit("")
         self.cckbCorrectText = MCheckBox(translate("SpecialTools", "Correct Text"))
-        addCompleter(self.leSearch, self.cckbCorrectText.text())
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblCharacterType = MLabel(translate("SpecialTools", "Character Format: "))
         self.columns = MComboBox()
@@ -888,6 +907,9 @@ class CharacterState(MWidget):
     
     def checkCompleters(self):
         Databases.CompleterTable.insert(self.cckbCorrectText.text(), self.leSearch.text())
+    
+    def reFillCompleters(self):
+        setCompleter(self.leSearch, self.cckbCorrectText.text())
             
             
 class SearchAndReplaceListEditDialog(MDialog):
