@@ -115,8 +115,8 @@ def setCompleter(_object, _objectName=None):
     if _objectName==None:
         _objectName = _object.objectName()
     _objectName = str(_objectName)
-    completer = MCompleter(CompleterTable.fetchAllByObjectName(_objectName))
-    completer.setCaseSensitivity(Mt.CaseInsensitive)
-    _object.setCompleter(completer)
+    cmpCompleter = MCompleter(CompleterTable.fetchAllByObjectName(_objectName))
+    cmpCompleter.setCaseSensitivity(Mt.CaseInsensitive)
+    _object.setCompleter(cmpCompleter)
 
 Universals.isLoadedMyObjects = True

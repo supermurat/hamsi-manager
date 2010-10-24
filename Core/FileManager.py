@@ -31,10 +31,15 @@ class FileManager():
             self.fpmPlacesModel = MFilePlacesModel()
             self.fpvPlaces = MFilePlacesView()
             self.fpvPlaces.setModel(self.fpmPlacesModel)
+            self.dirModelForNavigator = MDirSortFilterProxyModel()
+            self.dirModelForNavigator.setSourceModel(self.dirModelMain)
         else:
             self.dirModel = MDirModel()
             self.dirModel.setFilter(MDir.AllEntries | MDir.Readable | MDir.NoDotAndDotDot)
             self.dirModel.sort(0)
+            self.dirModelForNavigator = MDirModel()
+            self.dirModelForNavigator.setFilter(MDir.AllEntries | MDir.Readable)
+            self.dirModelForNavigator.sort(0)
         self.trvFileManager = MTreeView()
         self.lstvFileManager = MListView()
         self.trvFileManager.setModel(self.dirModel)
@@ -94,6 +99,12 @@ class FileManager():
             self.isGoToFromUrlNavigator = True
             MObject.connect(self.urlNavigator, SIGNAL("urlChanged(KUrl)"),self.urlNavigatorUrlChanged)
             MObject.connect(self.fpvPlaces, SIGNAL("urlChanged(KUrl)"),self.setPlacesUrlChanged)
+        self.leNavigator = MLineEdit()
+        cmpCompleter = MCompleter()
+        cmpCompleter.setModel(self.dirModelForNavigator)
+        cmpCompleter.setCaseSensitivity(Mt.CaseInsensitive)
+        self.leNavigator.setCompleter(cmpCompleter)
+        MObject.connect(self.leNavigator, SIGNAL("returnPressed()"),self.leNavigatorPressed)
         tools.addAction(self.actBack)
         tools.addAction(self.actForward)
         tools.addAction(self.actUp)
@@ -112,6 +123,12 @@ class FileManager():
             self.tbarBrowserTools.setIconSize(MSize(16,16))
             self.tbarBrowserTools.addWidget(tools)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserTools)
+            self.tbarLocationBar = MToolBar(_parent)
+            self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
+            self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
+            self.tbarLocationBar.setIconSize(MSize(16,16))
+            self.tbarLocationBar.addWidget(self.leNavigator)
+            _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
             if Universals.isActivePyKDE4==True:
                 toolsFull.setIconSize(MSize(16, 16))
                 self.tbarBrowserToolsFull = MToolBar(_parent)
@@ -121,8 +138,8 @@ class FileManager():
                 self.tbarBrowserToolsFull.addWidget(toolsFull)
                 _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserToolsFull)
                 self.tbarLocationBar = MToolBar(_parent)
-                self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
-                self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
+                self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar (KDE4)"))
+                self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
                 self.tbarLocationBar.setIconSize(MSize(16,16))
                 self.tbarLocationBar.addWidget(self.urlNavigator)
                 _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
@@ -134,6 +151,12 @@ class FileManager():
             self.dckwBrowserTools.setAllowedAreas(Mt.AllDockWidgetAreas)
             self.dckwBrowserTools.setFeatures(MDockWidget.AllDockWidgetFeatures)
             _parent.addDockWidget(Mt.LeftDockWidgetArea, self.dckwBrowserTools)
+            self.tbarLocationBar = MToolBar(_parent)
+            self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
+            self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
+            self.tbarLocationBar.setIconSize(MSize(16,16))
+            self.tbarLocationBar.addWidget(self.leNavigator)
+            _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
             if Universals.isActivePyKDE4==True:
                 toolsFull.setIconSize(MSize(22, 22))
                 self.dckwBrowserToolsFull = MDockWidget(translate("FileManager", "Browser Tools (KDE4)"))
@@ -143,8 +166,8 @@ class FileManager():
                 self.dckwBrowserToolsFull.setFeatures(MDockWidget.AllDockWidgetFeatures)
                 _parent.addDockWidget(Mt.LeftDockWidgetArea, self.dckwBrowserToolsFull)
                 self.tbarLocationBar = MToolBar(_parent)
-                self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
-                self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
+                self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar (KDE4)"))
+                self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
                 self.tbarLocationBar.setIconSize(MSize(16,16))
                 self.tbarLocationBar.addWidget(self.urlNavigator)
                 _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
@@ -173,6 +196,7 @@ class FileManager():
 
     def goTo(self, _path, _isRemember = True):
         try:
+            _path = InputOutputs.getRealPath(str(_path))
             if InputOutputs.IA.isReadableFileOrDir(_path):
                 if InputOutputs.IA.isDir(_path):
                     if _isRemember:
@@ -199,16 +223,17 @@ class FileManager():
                     else:
                         self.actUp.setEnabled(True)
                 elif InputOutputs.IA.isFile(_path):
-                    if Universals.tableType==2:
-                        for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                            if str(_path).split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
-                                if Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
-                                    Universals.MainWindow.PlayerBar.Player.play(str(_path))
-                                else:
-                                    from Tables import MusicTable
-                                    from Details import MusicDetails
-                                    MusicDetails.MusicDetails(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
-                    else:
+                    isOpened = False
+                    for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                        if str(_path).split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
+                            if Universals.tableType==2 and Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
+                                Universals.MainWindow.PlayerBar.Player.play(str(_path))
+                            else:
+                                from Tables import MusicTable
+                                from Details import MusicDetails
+                                MusicDetails.MusicDetails(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
+                            isOpened = True
+                    if isOpened==False:
                         try:
                             from Details import TextDetails
                             TextDetails.TextDetails(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
@@ -289,6 +314,10 @@ class FileManager():
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index))
         else:
             return self.dirModel.fileInfo(_index)
+    
+    def leNavigatorPressed(self):
+        self.goTo(str(self.currentDirectory + u"/" + self.leNavigator.text()))
+        self.leNavigator.setText(u"")
     
     def urlNavigatorUrlChanged(self, _murl):
         if self.isGoToFromUrlNavigator:
