@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-10-25, 21:47:57 -->
+<!-- Saved: 2010-10-25, 23:07:39 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -23,12 +23,6 @@
     <Source>InputOutputs/Folders.py</Source>
     <Source>InputOutputs/Files.py</Source>
     <Source>InputOutputs/__init__.py</Source>
-    <Source>eyeD3/mp3.py</Source>
-    <Source>eyeD3/utils.py</Source>
-    <Source>eyeD3/tag.py</Source>
-    <Source>eyeD3/__init__.py</Source>
-    <Source>eyeD3/frames.py</Source>
-    <Source>eyeD3/binfuncs.py</Source>
     <Source>Tables/SubFolderTable.py</Source>
     <Source>Tables/MusicTable.py</Source>
     <Source>Tables/FolderTable.py</Source>
@@ -40,13 +34,6 @@
     <Source>Details/TextDetails.py</Source>
     <Source>Details/__init__.py</Source>
     <Source>MyPlugins/__init__.py</Source>
-    <Source>SearchEngines/musicbrainz2/disc.py</Source>
-    <Source>SearchEngines/musicbrainz2/Search.py</Source>
-    <Source>SearchEngines/musicbrainz2/webservice.py</Source>
-    <Source>SearchEngines/musicbrainz2/utils.py</Source>
-    <Source>SearchEngines/musicbrainz2/wsxml.py</Source>
-    <Source>SearchEngines/musicbrainz2/__init__.py</Source>
-    <Source>SearchEngines/musicbrainz2/model.py</Source>
     <Source>MyPlugins/KDE4_SM/HamsiManager_KDE4_SM_File.desktop</Source>
     <Source>MyPlugins/KDE4_SM/HamsiManager_KDE4_SM_Dir.desktop</Source>
     <Source>MyPlugins/KDE4_SM/__init__.py</Source>
@@ -57,11 +44,6 @@
     <Source>MyPlugins/KDE4_CM/HamsiManager_KDE4_CM_File.desktop</Source>
     <Source>MyPlugins/KDE4_CM/HamsiManager_KDE4_CM_Dir.desktop</Source>
     <Source>MyPlugins/KDE4_CM/__init__.py</Source>
-    <Source>SearchEngines/musicbrainz2/data/scriptnames.py</Source>
-    <Source>SearchEngines/musicbrainz2/data/releasetypenames.py</Source>
-    <Source>SearchEngines/musicbrainz2/data/languagenames.py</Source>
-    <Source>SearchEngines/musicbrainz2/data/countrynames.py</Source>
-    <Source>SearchEngines/musicbrainz2/data/__init__.py</Source>
     <Source>Core/MyObjects.py</Source>
     <Source>Core/SpecialTools.py</Source>
     <Source>Core/QuickMake.py</Source>
@@ -109,7 +91,7 @@
     <Source>Databases/BookmarksOfDirectories.py</Source>
     <Source>Databases/BookmarksOfSpecialTools.py</Source>
     <Source>Databases/CompleterTable.py</Source>
-    <Source>SearchEngines/musicbrainz2.py</Source>
+    <Source>SearchEngines/MusicBrainzEngine.py</Source>
   </Sources>
   <Forms>
   </Forms>
