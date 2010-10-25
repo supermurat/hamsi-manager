@@ -4,10 +4,10 @@ import os, sys
 
 class Variables():
     global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
-    global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys
+    global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
+    installedLanguagesCodes, installedLanguagesNames = None, None
     osName = os.name
     Catalog = "HamsiManager" 
     version = "0.9.07"
@@ -427,12 +427,12 @@ class Variables():
         return myObjectsName
         
     def getUserDesktopPath():
-        import Universals, InputOutputs
+        import InputOutputs
         if isAvailablePyKDE4():
             from PyKDE4.kdeui import KGlobalSettings
             desktopPath = str(KGlobalSettings.desktopPath())
         else:
-            desktopNames = [str(Universals.translate("Variables", "Desktop")), "Desktop"]
+            desktopNames = [str(MQtGui.QApplication.translate("Variables", "Desktop")), "Desktop"]
             for dirName in desktopNames:
                 if InputOutputs.isDir(userDirectoryPath + "/" + dirName):
                     desktopPath = userDirectoryPath + "/" + dirName
@@ -461,15 +461,20 @@ class Variables():
         import InputOutputs
         engines = []
         for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/SearchEngines"):
-            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/SearchEngines"+"/"+name):
-                engines.append(name)
+            try:
+                moduleName = name.split(".")[0]
+                moduleNameExt = name.split(".")[1]
+                if engines.count(moduleName)==0:
+                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(HamsiManagerDirectory+"/SearchEngines/"+name):
+                        engines.append(moduleName)
+            except:pass
         return engines
         
     def getMyPluginsNames():
         import InputOutputs
         plugins = []
         for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/MyPlugins"):
-            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/MyPlugins"+"/"+name):
+            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/MyPlugins/"+name):
                 plugins.append(name)
         return plugins
         
@@ -477,33 +482,39 @@ class Variables():
         import InputOutputs
         themes = []
         for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Themes"):
-            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/Themes"+"/"+name):
+            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/Themes/"+name):
                 themes.append(name)
         return themes
     
     def getInstalledLanguagesCodes():
-        import InputOutputs
-        languages = []
-        for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Languages"):
-            if InputOutputs.isFile(HamsiManagerDirectory+"/Languages"+"/"+name) and name[-3:]==".qm":
-                langCode = name[-8:-3]
-                if languages.count(langCode)==0:
-                    languages.append(langCode)
-        if languages.count("en_GB")==0:
-            languages.append("en_GB")
-        return languages
+        global installedLanguagesCodes
+        if installedLanguagesCodes==None:
+            import InputOutputs
+            languages = []
+            for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Languages"):
+                if InputOutputs.isFile(HamsiManagerDirectory+"/Languages/"+name) and name[-3:]==".qm":
+                    langCode = name[-8:-3]
+                    if languages.count(langCode)==0:
+                        languages.append(langCode)
+            if languages.count("en_GB")==0:
+                languages.append("en_GB")
+            installedLanguagesNames = languages
+        return installedLanguagesNames
         
     def getInstalledLanguagesNames():
-        import InputOutputs
-        languages = []
-        for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Languages"):
-            if InputOutputs.isFile(HamsiManagerDirectory+"/Languages"+"/"+name) and name[-3:]==".qm":
-                langCode = name[-8:-3]
-                if languages.count(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))==0:
-                    languages.append(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))
-        if languages.count("English")==0:
-            languages.append("English")
-        return languages
+        global installedLanguagesNames
+        if installedLanguagesNames==None:
+            import InputOutputs
+            languages = []
+            for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Languages"):
+                if InputOutputs.isFile(HamsiManagerDirectory+"/Languages/"+name) and name[-3:]==".qm":
+                    langCode = name[-8:-3]
+                    if languages.count(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))==0:
+                        languages.append(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))
+            if languages.count("English")==0:
+                languages.append("English")
+            installedLanguagesNames = languages
+        return installedLanguagesNames
         
     def getHashTypes():
         try:

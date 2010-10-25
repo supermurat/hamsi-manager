@@ -11,7 +11,8 @@ class SearchEngines(MMenu):
         MMenu.__init__(self, _parent)
         self.setTitle(translate("SearchEngines", "Verify On The Internet"))
         self.actions, self.searchDepths = [], []
-        for sEngine in Variables.getSearchEnginesNames():
+        self.searchEnginesNames = Variables.getSearchEnginesNames()
+        for sEngine in self.searchEnginesNames:
             exec ("from " + sEngine + " import pluginName")
             self.actions.append(MAction(pluginName.decode("utf-8"), self))
             self.actions[-1].setObjectName(str(len(self.actions)-1))
@@ -32,10 +33,10 @@ class SearchEngines(MMenu):
                 selectedSearchDepth = 3
                 if str(_action.objectName()).find("-MusicBrainz-")!=-1:
                     info = _action.objectName().split("-")
-                    engine = Variables.getSearchEnginesNames()[int(info[0])]
+                    engine = self.searchEnginesNames[int(info[0])]
                     selectedSearchDepth = info[2]
                 else:
-                    engine = Variables.getSearchEnginesNames()[int(_action.objectName())]
+                    engine = self.searchEnginesNames[int(_action.objectName())]
                 exec ("from " + engine + " import Search")
                 Search.Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
             else:

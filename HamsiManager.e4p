@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-10-25, 00:29:16 -->
+<!-- Saved: 2010-10-25, 21:47:57 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -109,6 +109,7 @@
     <Source>Databases/BookmarksOfDirectories.py</Source>
     <Source>Databases/BookmarksOfSpecialTools.py</Source>
     <Source>Databases/CompleterTable.py</Source>
+    <Source>SearchEngines/musicbrainz2.py</Source>
   </Sources>
   <Forms>
   </Forms>

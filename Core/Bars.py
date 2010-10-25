@@ -284,8 +284,9 @@ class Bars():
                         Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
                             str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath))
                 elif actionName==translate("ToolsBar", "Amarok Embedded Database Configurator"):
-                    import Amarok
-                    Amarok.AmarokEmbeddedDBConfigurator()
+                    if Amarok.checkAmarok():
+                        import Amarok
+                        Amarok.AmarokEmbeddedDBConfigurator()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
