@@ -21,7 +21,7 @@ class SearchEngines(MMenu):
                 self.mSearchDepth.setTitle(translate("SearchEngines", "MusicBrainz (Choose Search Depth)"))
                 for no in range(1, 12):
                     self.searchDepths.append(MAction(str(no), self.mSearchDepth))
-                    self.searchDepths[-1].setObjectName(str(len(self.actions)-1)+u"-MusicBrainz-"+str(no))
+                    self.searchDepths[-1].setObjectName(str(len(self.actions)-1)+"-MusicBrainz-"+str(no))
                     self.mSearchDepth.addAction(self.searchDepths[-1])
                 self.addMenu(self.mSearchDepth )
         MObject.connect(self,SIGNAL("triggered(QAction *)"),self.triggered)
@@ -30,7 +30,7 @@ class SearchEngines(MMenu):
         try:
             if self.parent().rowCount()!=0:
                 selectedSearchDepth = 3
-                if str(_action.objectName()).find(u"-MusicBrainz-")!=-1:
+                if str(_action.objectName()).find("-MusicBrainz-")!=-1:
                     info = _action.objectName().split("-")
                     engine = Variables.getSearchEnginesNames()[int(info[0])]
                     selectedSearchDepth = info[2]

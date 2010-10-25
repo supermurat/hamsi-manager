@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-reload(sys)
-sys.setdefaultencoding("utf-8")
+if float(sys.version[:3])<3.0:
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
 if str(sys.path[0])=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Core")
@@ -104,7 +105,7 @@ if RoutineChecks.checkQt4Exist():
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                self.leInstallationDirectory = MLineEdit(Settings.getUniversalSetting("pathOfInstallationDirectory", InputOutputs.getDirName(Variables.HamsiManagerDirectory).decode("utf-8")+u"/HamsiManager"))
+                self.leInstallationDirectory = MLineEdit(Settings.getUniversalSetting("pathOfInstallationDirectory", (InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/HamsiManager").decode("utf-8")))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
                 HBox.addWidget(self.leInstallationDirectory)
@@ -201,7 +202,7 @@ if RoutineChecks.checkQt4Exist():
                 self.installationDirectory = self.installationDirectory[:-1]
             if self.installationDirectory==Variables.HamsiManagerDirectory:
                 self.pageNo-=1
-                self.lblActions.setText(u"")
+                self.lblActions.setText("")
                 Dialogs.showError(MApplication.translate("Install", "The path you selected is not valid."),
                             MApplication.translate("Install", "The selected path is Hamsi Manager source directory.<br>Please choose a valid installation path."))
             elif InputOutputs.isFile(self.installationDirectory)==False:
@@ -250,7 +251,7 @@ if RoutineChecks.checkQt4Exist():
                     self.pageNo-=1
             else:
                 self.pageNo-=1
-                self.lblActions.setText(u"")
+                self.lblActions.setText("")
                 Dialogs.showError(MApplication.translate("Install", "The path you selected is not valid."),
                             MApplication.translate("Install", "The selected path points to a file not a folder.<br>Please choose a valid installation path."))
             self.pageChanged(True)

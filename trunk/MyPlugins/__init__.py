@@ -101,7 +101,7 @@ class MyPluginsForSystem(MWidget):
     
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        lblHeader = MLabel(u"<b>" + translate("MyPlugins", "My Plug-ins") + "</b>")
+        lblHeader = MLabel("<b>".decode("utf-8") + translate("MyPlugins", "My Plug-ins") + "</b>".decode("utf-8"))
         lblNote = MLabel(translate("MyPlugins", "You can manage plugins in your system"))
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))

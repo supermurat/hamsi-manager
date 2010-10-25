@@ -492,7 +492,7 @@ class Search(MDialog):
                             HBoxs[-1].addWidget(self.cbTags[-1])
                         else:
                             try: self.leTags.append(MLineEdit(song[no][0].decode("utf-8")))
-                            except: self.leTags.append(MLineEdit(u""))
+                            except: self.leTags.append(MLineEdit(""))
                             self.leTags[-1].setObjectName(tagNamesKeys[no]+str(song[3]))
                             self.leTags[-1].setMaximumWidth(200)
                             self.leTags[-1].setMinimumWidth(200)
@@ -618,7 +618,7 @@ class Search(MDialog):
                 rowNo=rowNo/2
             else:
                 rowNo = rowNo
-            self.findChild(MComboBox, u"Album"+str(rowNo)).setCurrentIndex(self.findChild(MComboBox, u"album0").currentIndex())
+            self.findChild(MComboBox, "Album"+str(rowNo)).setCurrentIndex(self.findChild(MComboBox, "album0").currentIndex())
     
     def sortBySelectedAlbum(self):
         for rowNo in self.rows:
@@ -626,12 +626,12 @@ class Search(MDialog):
                 rowNo=rowNo/2
             else:
                 rowNo = rowNo
-            self.findChild(MComboBox, u"Title"+str(rowNo)).setCurrentIndex(rowNo)
+            self.findChild(MComboBox, "Title"+str(rowNo)).setCurrentIndex(rowNo)
 
     def showSuggest(self, _isHidden=False):
-        #self.pbtnSuggest = MPushButton(MIcon("Images:suggest.gif"),u"", self)
+        #self.pbtnSuggest = MPushButton(MIcon("Images:suggest.gif"),"", self)
         self.lblSuggest = MLabel(self)
-        self.pbtnSuggest = MPushButton(u"s", self)
+        self.pbtnSuggest = MPushButton("s", self)
         self.pbtnSuggest.setFlat(True)
         self.movie = MMovie("Images:suggest.gif")
         self.lblSuggest.setMovie(self.movie)
@@ -658,7 +658,7 @@ class Search(MDialog):
     def applySuggest(self, _action):
         if str(_action.text()) == str(self.labelsOfSuggests[0]):
             isPracticable = True
-            id= self.getAlbumIdFromAlbum(self.findChild(MComboBox, u"album0").currentText())
+            id= self.getAlbumIdFromAlbum(self.findChild(MComboBox, "album0").currentText())
             if len(self.rows)!=len(self.getSongsOfAlbum(id)):
                 isPracticable = False
                 answer = Dialogs.ask(translate("SearchEngines", "Number Of Songs Are Different"), 

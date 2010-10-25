@@ -194,8 +194,7 @@ class ReportBug(MDialog):
         try:
             self.teErrorDetails.setHtml(errorDetails.replace("<hr>", "").decode("utf-8"))
         except:
-            self.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>"+
-                                         u"To see the details, please click on the \"Show details file\" button."))
+            self.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>To see the details, please click on the \"Show details file\" button."))
             self.teErrorDetails.setEnabled(False)
         self.connect(self.teErrorDetails,SIGNAL("textChanged()"), self.errorDetailsChanged)
         self.connect(self.pbtnClose,SIGNAL("clicked()"), self.close)

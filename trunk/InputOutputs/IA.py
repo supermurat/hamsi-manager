@@ -617,7 +617,7 @@ class IA:
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
-                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+u" (*."+fileExt.decode("utf-8")+")")
+                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+(" (*."+fileExt).decode("utf-8")+")")
             if filePath!="":
                 filePath = unicode(filePath, "utf-8")
                 if _formatType=="html" and filePath[-5:]!=".html":

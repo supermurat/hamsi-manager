@@ -24,7 +24,7 @@ class UpdateControl(MDialog):
         self.pnlMain = MWidget()
         self.vblMain = MVBoxLayout(self.pnlMain)
         self.isDownloading=False
-        self.lblInfo = MLabel(u"")
+        self.lblInfo = MLabel("")
         self.lblInfo.setVisible(False)
         self.lblInfo.setWordWrap(True)
         self.lblInfo.setOpenExternalLinks(True)
@@ -66,7 +66,7 @@ class UpdateControl(MDialog):
         hbox0.addWidget(self.pbtnCancel,1)
         self.vblMain.addLayout(hbox0)
         self.setWindowTitle(translate("UpdateControl", "Checking for the updates"))
-        self.details = MLabel(u"")
+        self.details = MLabel("")
         self.details.setWordWrap(True)
         self.details.setOpenExternalLinks(True)
         self.details.setMinimumHeight(220)
@@ -126,7 +126,7 @@ class UpdateControl(MDialog):
                                 self.lblInfo.setText(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>"+
                                                     "For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[0], self.updateInformations[2]))
                                 self.pbtnDownloadAndInstall.setVisible(True)
-                                self.pbtnDownloadAndInstall.setText(self.pbtnDownloadAndInstall.text() + u" (!)")
+                                self.pbtnDownloadAndInstall.setText(self.pbtnDownloadAndInstall.text() + " (!)".decode("utf-8"))
                                 self.pbtnRemindMeLater.setVisible(True)
                                 self.cbRemindMeLater.setVisible(True)
                                 details = ""

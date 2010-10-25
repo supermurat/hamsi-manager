@@ -202,7 +202,7 @@ class Dialogs():
             step += 1
             time.sleep(0.25)
             
-    def select(_title="Hamsi Cover", _detail="", _itemList=[u""], _currentItem=0):
+    def select(_title="Hamsi Cover", _detail="", _itemList=[""], _currentItem=0):
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Cover"

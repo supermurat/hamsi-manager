@@ -224,7 +224,7 @@ class Tables(MTableWidget):
                     if selectedItem.objectName()==self.mContextMenuActionNames[0]:
                         self.createHistoryPoint()
                         MApplication.clipboard().setText(self.currentItem().text())
-                        self.currentItem().setText(u"")
+                        self.currentItem().setText("")
                     elif selectedItem.objectName()==self.mContextMenuActionNames[1]:
                         MApplication.clipboard().setText(self.currentItem().text())
                     elif selectedItem.objectName()==self.mContextMenuActionNames[2]:
@@ -506,7 +506,7 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(table.parent(),translate("Tables", "Save As"),
-                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+u" (*."+fileExt.decode("utf-8")+")")
+                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+(" (*."+fileExt).decode("utf-8")+")")
             if filePath!="":
                 filePath = unicode(filePath, "utf-8")
                 if _formatType=="html" and filePath[-5:]!=".html":

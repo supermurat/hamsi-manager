@@ -29,7 +29,7 @@ class Packager(MyDialog):
         lblHashDigestFile = MLabel(translate("Packager", "Hash Digest File : "))
         self.cbPackageType = MComboBox()
         self.cbPackageType.addItems([translate("Packager", "Archive Without Compression"),
-                                    u".tar.gz",u".tar.bz2", ".amarokscript.tar.gz"])
+                                    ".tar.gz", ".tar.bz2", ".amarokscript.tar.gz"])
         self.cbPackageType.setCurrentIndex(1)
         self.cbHash = MComboBox()
         self.cbHash.addItems([translate("Packager", "No Hash")] + Variables.getHashTypes())
