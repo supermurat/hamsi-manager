@@ -236,8 +236,9 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["isDeleteEmptyDirectories", "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories"]
         if oldVersion<822:
             if Variables.isAvailableKDE4():
-                if InputOutputs.isFile(Variables.getKDE4HomePath() + "/share/config/HamsiManagerrc"):
-                    InputOutputs.removeFile(Variables.getKDE4HomePath() + "/share/config/HamsiManagerrc")
+                KDE4HomePath = Variables.getKDE4HomePath()
+                if InputOutputs.isFile(KDE4HomePath + "/share/config/HamsiManagerrc"):
+                    InputOutputs.removeFile(KDE4HomePath + "/share/config/HamsiManagerrc")
         if oldVersion<840:
             try:
                 con = sqlite.connect(Universals.pathOfSettingsDirectory + "/bookmarks.sqlite")

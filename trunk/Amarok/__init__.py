@@ -24,7 +24,7 @@ class Amarok:
     isAskAmarokEmbeddedDBConfiguration = True
     dbConnection = None
     
-    def checkAmarok():
+    def checkAmarok(_isAlertIfNotAvailable=True):
         if isLoadedMysql and Variables.isAvailableKDE4():
             if Universals.getBoolValue("amarokIsUseHost"):
                 return True
@@ -32,6 +32,8 @@ class Amarok:
                 isAskAmarokEmbeddedDBConfiguration = True
                 return checkEmbeddedDB()
         else:
+            if _isAlertIfNotAvailable:
+                Dialogs.showError(translate("ToolsBar", "Amarok Module Is Not Usable"), translate("Amarok", "Please run Amarok once."))
             return False
             
     def checkEmbeddedDB():

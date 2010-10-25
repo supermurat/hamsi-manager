@@ -40,7 +40,8 @@ class MyPlugins(MDialog):
     
     def fillPlugins(self):
         self.lstwPluginList.clear()
-        for plugin in Variables.getMyPluginsNames():
+        self.myPluginsNames = Variables.getMyPluginsNames()
+        for plugin in self.myPluginsNames:
             exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
             if isInstallable():
                 installedVersion = Settings.getUniversalSetting(pluginName.decode("utf-8"), "")
@@ -57,7 +58,7 @@ class MyPlugins(MDialog):
     
     def installThis(self):
         try:
-            installPlugin(Variables.getMyPluginsNames()[self.lstwPluginList.currentRow()])
+            installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
             error = ReportBug.ReportBug()
@@ -121,7 +122,8 @@ class MyPluginsForSystem(MWidget):
     
     def fillPlugins(self):
         self.lstwPluginList.clear()
-        for plugin in Variables.getMyPluginsNames():
+        self.myPluginsNames = Variables.getMyPluginsNames()
+        for plugin in self.myPluginsNames:
             exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
             if isInstallable():
                 installedVersion = Settings.getUniversalSetting(pluginName.decode("utf-8"), "")
@@ -138,7 +140,7 @@ class MyPluginsForSystem(MWidget):
     
     def installThis(self):
         try:
-            installPlugin(Variables.getMyPluginsNames()[self.lstwPluginList.currentRow()])
+            installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
             error = ReportBug.ReportBug()

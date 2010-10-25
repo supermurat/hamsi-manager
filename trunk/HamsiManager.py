@@ -8,7 +8,6 @@ if float(sys.version[:3])<3.0:
 if sys.path[0]=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Core")
-sys.path.insert(2,sys.path[0]+"/SearchEngines")
 
 import Variables
 Variables.checkStartupVariables()
