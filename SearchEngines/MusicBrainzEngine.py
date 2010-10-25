@@ -3,8 +3,8 @@
 
 from MyObjects import *
 import Dialogs
-#from musicbrainz2 import webservice, model, utils
-#from musicbrainz2.webservice import Query, ArtistFilter, WebServiceError, ReleaseFilter, TrackFilter
+from musicbrainz2 import webservice, model, utils
+from musicbrainz2.webservice import Query, ArtistFilter, WebServiceError, ReleaseFilter, TrackFilter
 import time
 import Universals
 pluginName = "MusicBrainz"
