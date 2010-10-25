@@ -62,10 +62,10 @@ class Update():
                     popen = os.popen("\"" + sys.executable+"\" " + sys.path[1] + "/ConfigureUpdate.py -ConfigureUpdate", "w")
                 else:
                     parent = QMainWindow()
-                    QMessageBox.critical(parent, u"Access Denied!..",u"<b>Access Denied :</b> \"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.</b><br>" % sys.path[1])
+                    QMessageBox.critical(parent, "Access Denied!..","<b>Access Denied :</b> \"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.</b><br>" % sys.path[1])
             else:
                 parent = QMainWindow()
-                QMessageBox.critical(parent, u"File Is Not Found!..",u"<b>File Is Not Found :</b> \"%s\" : this file is not found.<br />Please check your file and retry." % sourceFile)
+                QMessageBox.critical(parent, "File Is Not Found!..","<b>File Is Not Found :</b> \"%s\" : this file is not found.<br />Please check your file and retry." % sourceFile)
             
     def isFile(_oldPath):
         _oldPath = str(_oldPath)
@@ -172,7 +172,7 @@ class Update():
             except:rmdir(_path)
     
     def selectSourceFile(_parent):
-        f = QFileDialog.getOpenFileName(_parent, u"Please Choose the Hamsi Manager Installation File.",getDirName(sys.path[1]).decode("utf-8"),u"Hamsi Manager Installation File (*HamsiManager*.tar.gz)")
+        f = QFileDialog.getOpenFileName(_parent, "Please Choose the Hamsi Manager Installation File.",getDirName(sys.path[1]).decode("utf-8"),"Hamsi Manager Installation File (*HamsiManager*.tar.gz)")
         if f!="":
             return unicode(str(f), "utf-8")
         return ""

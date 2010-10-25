@@ -27,7 +27,7 @@ class SpecialTools(MWidget):
         self.fill = Fill(self.tabwTabs)
         self.clear = Clear(self.tabwTabs)
         self.characterState = CharacterState(self.tabwTabs)
-        self.pbtnAdvancedSelections = MPushButton(u"Simple")
+        self.pbtnAdvancedSelections = MPushButton("Simple")
         self.pbtnApply = MPushButton(translate("SpecialTools", "Apply"))
         self.pbtnApply.setIcon(MIcon("Images:apply.png"))
         self.pbtnApply.setObjectName("pbtnApply")
@@ -401,8 +401,8 @@ class SpecialActions(MWidget):
                 self.tbGoForward.setEnabled(False)
                 self.numberOfActionCommand+=1
                 self.isPressedAddObjects=True
-                self.leActionString.setText(str(self.leActionString.text()) + 
-                            str(self.sender().objectName())+u" ")
+                self.leActionString.setText((str(self.leActionString.text()) + 
+                            str(self.sender().objectName())+" ").decode("utf-8"))
                 self.actionCommand += Universals.MainWindow.Table.getColumnKeyFromName(self.sender().text())
         except:
             error = ReportBug.ReportBug()
@@ -414,7 +414,7 @@ class SpecialActions(MWidget):
                 self.history.append(self.leActionString.text())
                 self.future=[]
                 self.tbGoForward.setEnabled(False)
-                self.leActionString.setText(self.leActionString.text() + u", ")
+                self.leActionString.setText(self.leActionString.text() + ", ".decode("utf-8"))
                 self.actionCommand += ", "
                 self.tbAddComma.setEnabled(False)
                 self.numberOfActionCommand+=100
@@ -434,8 +434,8 @@ class SpecialActions(MWidget):
                 self.history.append(self.leActionString.text())
                 self.future=[]
                 self.tbGoForward.setEnabled(False)
-                self.leActionString.setText(self.leActionString.text() + (unicode(self.leSplitPointer.text(), "utf-8").strip()).decode("utf-8") + u" ")
-                self.actionCommand += unicode(self.leSplitPointer.text(), "utf-8").strip() + u" "
+                self.leActionString.setText(self.leActionString.text() + (str(self.leSplitPointer.text()).strip() + " ").decode("utf-8"))
+                self.actionCommand += str(self.leSplitPointer.text()).strip() + " "
                 self.numberOfActionCommand+=10
                 self.commaAndSplitControl = self.numberOfActionCommand
                 self.isPressedAddObjects=False
@@ -548,7 +548,7 @@ class SpecialActions(MWidget):
                                     _isReturnDetails=True)).decode("utf-8"))
             else:
                 self.whereIsSplitPointer, self.numberOfActionCommand, self.commaAndSplitControl, self.isPressedAddObjects="right",0,0, False
-                self.leActionString.setText(u"")
+                self.leActionString.setText("")
                 self.actionCommand = ""
                 self.tbDeleteBookmark.setEnabled(False)
                 self.tbAddComma.setEnabled(True)
@@ -615,17 +615,17 @@ class SearchAndReplace(MWidget):
         self.cckbCaseSensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
         self.cckbCaseSensitive.setChecked(True)
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
-        self.leSearch.setToolTip(srExamples+sExample+u"</table>")
-        self.leReplace.setToolTip(srExamples+rExample+"</table>")
+        self.leSearch.setToolTip(srExamples+sExample+"</table>".decode("utf-8"))
+        self.leReplace.setToolTip(srExamples+rExample+"</table>".decode("utf-8"))
         self.columns = MComboBox()
         self.columns.addItem(translate("SpecialTools", "All"))
         self.pbtnEditValueForSearch = MPushButton(translate("Options", "*"))
-        self.pbtnEditValueForSearch.setObjectName(translate("Options", "Edit Values With Advanced Value Editor") + u"For Search")
+        self.pbtnEditValueForSearch.setObjectName(translate("Options", "Edit Values With Advanced Value Editor") + "For Search".decode("utf-8"))
         self.pbtnEditValueForSearch.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForSearch.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForSearch, SIGNAL("clicked()"), self.pbtnEditValueClicked)
         self.pbtnEditValueForReplace = MPushButton(translate("Options", "*"))
-        self.pbtnEditValueForReplace.setObjectName(translate("Options", "Edit Values With Advanced Value Editor") + u"For Replace")
+        self.pbtnEditValueForReplace.setObjectName(translate("Options", "Edit Values With Advanced Value Editor") + "For Replace".decode("utf-8"))
         self.pbtnEditValueForReplace.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForReplace.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForReplace, SIGNAL("clicked()"), self.pbtnEditValueClicked)

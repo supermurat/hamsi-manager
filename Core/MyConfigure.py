@@ -32,11 +32,11 @@ class MyConfigure:
             _KDELocalateDir = str(_KDELocalateDir)
             _KDELocalateDir = _KDELocalateDir.replace("~langCode~", str(_language[:2]))
             langFile = Variables.HamsiManagerDirectory+"/Languages/" + str(_language)+".mo"
-            if InputOutputs.isFile(_KDELocalateDir+u"HamsiManager.mo")==False:
+            if InputOutputs.isFile(_KDELocalateDir+"HamsiManager.mo")==False:
                 if InputOutputs.isFile(langFile):
                     if InputOutputs.isDir(_KDELocalateDir)==False:
                         InputOutputs.makeDirs(_KDELocalateDir)
-                    InputOutputs.copyFileOrDir(langFile,_KDELocalateDir+u"HamsiManager.mo")
+                    InputOutputs.copyFileOrDir(langFile,_KDELocalateDir+"HamsiManager.mo")
             return True
         return False
         

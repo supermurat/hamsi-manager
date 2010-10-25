@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-reload(sys)
-sys.setdefaultencoding("utf-8")
+if float(sys.version[:3])<3.0:
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
 if str(sys.path[0])=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Core")

@@ -270,7 +270,7 @@ class Options(MDialog):
             if requestInfos[1]=="executable":
                 directory = InputOutputs.IA.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
-                                            directory,translate("Options", "Executable Files") + u" (*)")
+                                            directory,translate("Options", "Executable Files") + " (*)".decode("utf-8"))
                 if filePath!="":
                     leValue.setText(filePath)     
             
@@ -579,7 +579,7 @@ class Options(MDialog):
                 valueLayout.addWidget(pbtnDefaultValue)
                 valueLayout.insertWidget(0, _category.values[x])
                 _category.values[x].setToolTip(_category.toolTips[x])
-                lblLabel = MLabel(_category.labels[x]+u" : ")
+                lblLabel = MLabel(_category.labels[x]+" : ".decode("utf-8"))
                 lblLabel.setToolTip(_category.toolTips[x])
                 _category.lblLabels.append(lblLabel)
                 if _category.tabsOfSettings[x]==None:
@@ -934,20 +934,20 @@ class SearchAndReplace(MWidget):
                             checkState = Mt.Checked
                         else:
                             checkState = Mt.Unchecked
-                        twiItem = MTableWidgetItem(u" ")
+                        twiItem = MTableWidgetItem(" ")
                         twiItem.setCheckState(checkState)
                         self.setItem(rowNo, columnNo, twiItem)
                     else:
                         self.setItem(rowNo, columnNo, MTableWidgetItem(str(info[columnNo]).decode("utf-8")))
-            self.setItem(len(self.searchAndReplaceTableValues), 1, MTableWidgetItem(u""))
-            self.setItem(len(self.searchAndReplaceTableValues), 2, MTableWidgetItem(u""))
-            twiItem = MTableWidgetItem(u" ")
+            self.setItem(len(self.searchAndReplaceTableValues), 1, MTableWidgetItem(""))
+            self.setItem(len(self.searchAndReplaceTableValues), 2, MTableWidgetItem(""))
+            twiItem = MTableWidgetItem(" ")
             twiItem.setCheckState(Mt.Checked)
             self.setItem(len(self.searchAndReplaceTableValues), 3, twiItem)
-            twiItem1 = MTableWidgetItem(u" ")
+            twiItem1 = MTableWidgetItem(" ")
             twiItem1.setCheckState(Mt.Checked)
             self.setItem(len(self.searchAndReplaceTableValues), 4, twiItem1)
-            twiItem2 = MTableWidgetItem(u" ")
+            twiItem2 = MTableWidgetItem(" ")
             twiItem2.setCheckState(Mt.Unchecked)
             self.setItem(len(self.searchAndReplaceTableValues), 5, twiItem2)
             self.isShowChanges=True
@@ -968,13 +968,13 @@ class SearchAndReplace(MWidget):
                 if selected!=None:
                     if selected.objectName()==self.namesOfButtons[0]:
                         MApplication.clipboard().setText(self.currentItem().text())
-                        self.currentItem().setText(u"")
+                        self.currentItem().setText("")
                     elif selected.objectName()==self.namesOfButtons[1]:
                         MApplication.clipboard().setText(self.currentItem().text())
                     elif selected.objectName()==self.namesOfButtons[2]:
                         self.currentItem().setText(MApplication.clipboard().text())
                     elif selected.objectName()==self.namesOfButtons[3]:
-                        self.currentItem().setText(u"")
+                        self.currentItem().setText("")
                         self.editItem(self.currentItem())
                     elif selected.objectName()==self.namesOfButtons[4]:
                         self.editItem(self.currentItem())
@@ -1001,15 +1001,15 @@ class SearchAndReplace(MWidget):
                     if _item.row()==lastRowNo and self.item(lastRowNo, 1).text()!="" :
                         self.setRowCount(self.rowCount()+1)
                         self.isShowChanges = False
-                        self.setItem(self.rowCount()-1, 1, MTableWidgetItem(u""))
-                        self.setItem(self.rowCount()-1, 2, MTableWidgetItem(u""))
-                        twiItem = MTableWidgetItem(u" ")
+                        self.setItem(self.rowCount()-1, 1, MTableWidgetItem(""))
+                        self.setItem(self.rowCount()-1, 2, MTableWidgetItem(""))
+                        twiItem = MTableWidgetItem(" ")
                         twiItem.setCheckState(Mt.Checked)
                         self.setItem(self.rowCount()-1, 3, twiItem)
-                        twiItem1 = MTableWidgetItem(u" ")
+                        twiItem1 = MTableWidgetItem(" ")
                         twiItem1.setCheckState(Mt.Checked)
                         self.setItem(self.rowCount()-1, 4, twiItem1)
-                        twiItem2 = MTableWidgetItem(u" ")
+                        twiItem2 = MTableWidgetItem(" ")
                         twiItem2.setCheckState(Mt.Unchecked)
                         self.setItem(self.rowCount()-1, 5, twiItem2)
                         self.isShowChanges = True
@@ -1463,9 +1463,9 @@ class MySettings(MWidget):
         self.toolTips = []
         self.typesOfValues = []
         self.valuesOfOptions = []
-        lblBackUp = MLabel(u"<b>" + translate("Options/MySettings", "Backup Settings") + u"</b>")
-        lblRestore = MLabel(u"<b>" + translate("Options/MySettings", "Restore Settings") + u"</b>")
-        reFillSettings = MLabel(u"<b>" + translate("Options/MySettings", "Reset Settings") + u"</b>")
+        lblBackUp = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Backup Settings") + "</b>".decode("utf-8"))
+        lblRestore = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Restore Settings") + "</b>".decode("utf-8"))
+        reFillSettings = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Reset Settings") + "</b>".decode("utf-8"))
         lblBackUp.setAlignment(Mt.AlignHCenter)
         lblRestore.setAlignment(Mt.AlignHCenter)
         reFillSettings.setAlignment(Mt.AlignHCenter)
@@ -1768,7 +1768,7 @@ class QuickOptions(MMenu):
                     self.values[x].setCurrentIndex(1)
                 MObject.connect(self.values[x], SIGNAL("currentIndexChanged(int)"), self.valueChanged)
             self.values[x].setToolTip(self.toolTips[x])
-            lblLabel = MLabel(self.labels[x]+u" : ")
+            lblLabel = MLabel(self.labels[x]+" : ".decode("utf-8"))
             lblLabel.setToolTip(self.toolTips[x])
             wactLabel = MWidgetAction(self)
             wactLabel.setDefaultWidget(lblLabel)

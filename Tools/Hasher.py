@@ -26,7 +26,7 @@ class Hasher(MyDialog):
         lblHashOutput = MLabel(translate("Hasher", "Hash Output : "))
         lblHashDigestFile = MLabel(translate("Hasher", "Hash Digest File : "))
         lblHashDigest = MLabel(translate("Hasher", "Hash Digest : "))
-        self.teHashDigest = MTextEdit(u"")
+        self.teHashDigest = MTextEdit("")
         self.cbHash = MComboBox()
         self.cbHash.addItems(Variables.getHashTypes())
         self.cbHashOutput = MComboBox()
@@ -98,7 +98,7 @@ class Hasher(MyDialog):
     
     def pathOfPackageChanged(self, _value):
         try:
-            self.teHashDigest.setText(u"")
+            self.teHashDigest.setText("")
             packageExtension =  "." + str(self.cbHash.currentText()).lower()
             self.leHashDigestFile.setText(self.lePathOfPackage.text() + packageExtension)  
         except:
@@ -137,7 +137,7 @@ class Hasher(MyDialog):
         
     def selectPackagePath(self):
         try:
-            self.teHashDigest.setText(u"")
+            self.teHashDigest.setText("")
             PathOfPackage = MFileDialog.getOpenFileName(self,
                         translate("Hasher", "Please Select The Pack To Be Created"), self.lePathOfPackage.text(),
                         translate("Hasher", "All Files (*.*)"))

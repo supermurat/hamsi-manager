@@ -316,8 +316,8 @@ class FileManager():
             return self.dirModel.fileInfo(_index)
     
     def leNavigatorPressed(self):
-        self.goTo(str(self.currentDirectory + u"/" + self.leNavigator.text()))
-        self.leNavigator.setText(u"")
+        self.goTo(str(self.currentDirectory + "/" + self.leNavigator.text()))
+        self.leNavigator.setText("")
     
     def urlNavigatorUrlChanged(self, _murl):
         if self.isGoToFromUrlNavigator:

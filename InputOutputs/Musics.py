@@ -15,9 +15,9 @@ class Musics:
         currentFilesAndFoldersValues[file no][value no]
     """
     global readMusics,writeMusics,correctForMusicTagType,writeMusicFile,currentFilesAndFoldersValues, types,types_nos,getSelectedMusicTagType, correctValuesForMusicTagType, musicTagType, getValuesForMusicTagType, changedValueNumber, correctValuesForMusicGenre
-    types = [u"Other (Default)",u"Icon",u"Other Icon",u"Front Cover",u"Back Cover",u"Leaflet",u"Media",
-            u"Lead Artist",u"Artist",u"Leader",u"Band",u"Composer",u"Lyrics By",u"Recorded At",
-            u"Recording",u"Performing",u"Video",u"Made Famous",u"Example",u"Band Logo",u"Publisher Logo"]
+    types = ["Other (Default)","Icon","Other Icon","Front Cover","Back Cover","Leaflet","Media",
+            "Lead Artist","Artist","Leader","Band","Composer","Lyrics By","Recorded At",
+            "Recording","Performing","Video","Made Famous","Example","Band Logo","Publisher Logo"]
     types_nos = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","10","11","12","13","14"] 
     currentFilesAndFoldersValues = []
     changedValueNumber = 0

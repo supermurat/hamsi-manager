@@ -139,7 +139,7 @@ class Bars():
             elif actionName==translate("MenuBar", "Save State"):
                 import Settings
                 import os
-                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + u" (*.desktop)")
+                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + " (*.desktop)")
                 if f!="":
                     Settings.saveStateOfSettings(unicode(f, "utf-8"))
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
@@ -381,19 +381,19 @@ class TableToolsBar(MToolBar):
         _parent.addToolBar(Mt.TopToolBarArea,self)
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
-        self.isShowOldValues = MAction(MIcon(u"Images:showOldValues.png"),
+        self.isShowOldValues = MAction(MIcon("Images:showOldValues.png"),
                         translate("Tables", "Show Also Previous Information"),self)
         self.isShowOldValues.setObjectName(translate("Tables", "Show Also Previous Information"))
         self.isShowOldValues.setToolTip(translate("Tables", "Show Also Previous Information"))
         self.isShowOldValues.setCheckable(True)
         self.isShowOldValues.setChecked(Universals.isShowOldValues)
-        self.isChangeAll = MAction(MIcon(u"Images:changeAll.png"),
+        self.isChangeAll = MAction(MIcon("Images:changeAll.png"),
                         translate("Tables", "Ignore Selection"),self)
         self.isChangeAll.setObjectName(translate("Tables", "Ignore Selection"))
         self.isChangeAll.setToolTip(translate("Tables", "Ignore Selection"))
         self.isChangeAll.setCheckable(True)
         self.isChangeAll.setChecked(Universals.isChangeAll)
-        self.isChangeSelected = MAction(MIcon(u"Images:changeSelected.png"),
+        self.isChangeSelected = MAction(MIcon("Images:changeSelected.png"),
                         translate("Tables", "Change Selected"),self)
         self.isChangeSelected.setObjectName(translate("Tables", "Change Selected"))
         self.isChangeSelected.setToolTip(translate("Tables", "Change Selected"))
@@ -403,7 +403,7 @@ class TableToolsBar(MToolBar):
             self.isChangeSelected.setEnabled(False)
         actgActionGroupTableTypes = MActionGroup(self)
         for x, name in enumerate(Universals.tableTypesNames):
-            a = actgActionGroupTableTypes.addAction(MIcon(u"Images:"+Variables.tableTypeIcons[x]),
+            a = actgActionGroupTableTypes.addAction(MIcon("Images:"+Variables.tableTypeIcons[x]),
                                         name)
             a.setCheckable(True)
             a.setObjectName(name)
@@ -419,7 +419,7 @@ class TableToolsBar(MToolBar):
         actgActionGroupReNamerTypes = MActionGroup(self)
         actsFileReNamerTypes = []
         for x, name in enumerate(self.fileReNamerTypeNames):
-            actsFileReNamerTypes.append(MAction(MIcon(u"Images:"+buttonIcons[x].decode("utf-8")),name.decode("utf-8"),self))
+            actsFileReNamerTypes.append(MAction(MIcon("Images:"+buttonIcons[x]),name.decode("utf-8"),self))
             actsFileReNamerTypes[-1].setObjectName(name.decode("utf-8"))
             actsFileReNamerTypes[x].setToolTip(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name.decode("utf-8")))
             actsFileReNamerTypes[x].setCheckable(True)
@@ -606,7 +606,7 @@ class MusicOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbMusicTagTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setDefaultWidget(MLabel(translate("MusicOptionsBar", "ID3 Version") + u" : "))
+        wactLabel.setDefaultWidget(MLabel(translate("MusicOptionsBar", "ID3 Version") + " : ".decode("utf-8")))
         wact = MWidgetAction(_menu)
         wact.setDefaultWidget(self.cbMusicTagTypeForMenu)
         _menu.addAction(wactLabel)
@@ -620,7 +620,7 @@ class SubDirectoryOptionsBar(MToolBar):
         self.setWindowTitle(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         self.setObjectName(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         lblDetails = translate("SubDirectoryOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(translate("SubDirectoryOptionsBar", "Deep") + u" : ")
+        lblSubDirectoryDeep = MLabel(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8"))
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
@@ -663,10 +663,10 @@ class SubDirectoryOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setObjectName(translate("SubDirectoryOptionsBar", "Label Deep") + u" : ")
-        wactLabel.setDefaultWidget(MLabel(translate("SubDirectoryOptionsBar", "Deep") + u" : "))
+        wactLabel.setObjectName(translate("SubDirectoryOptionsBar", "Label Deep") + " : ".decode("utf-8"))
+        wactLabel.setDefaultWidget(MLabel(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8")))
         wact = MWidgetAction(_menu)
-        wact.setObjectName(translate("SubDirectoryOptionsBar", "Deep") + u" : ")
+        wact.setObjectName(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8"))
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)
@@ -679,7 +679,7 @@ class CoverOptionsBar(MToolBar):
         self.setWindowTitle(translate("CoverOptionsBar", "Cover Options"))
         self.setObjectName(translate("CoverOptionsBar", "Cover Options"))
         lblDetails = translate("CoverOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(translate("CoverOptionsBar", "Deep") + u" : ")
+        lblSubDirectoryDeep = MLabel(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8"))
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) if x!=0 ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
@@ -723,10 +723,10 @@ class CoverOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.coverDeepChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setObjectName(translate("CoverOptionsBar", "Label Deep") + u" : ")
-        wactLabel.setDefaultWidget(MLabel(translate("CoverOptionsBar", "Deep") + u" : "))
+        wactLabel.setObjectName(translate("CoverOptionsBar", "Label Deep") + " : ".decode("utf-8"))
+        wactLabel.setDefaultWidget(MLabel(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8")))
         wact = MWidgetAction(_menu)
-        wact.setObjectName(translate("CoverOptionsBar", "Deep") + u" : ")
+        wact.setObjectName(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8"))
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)
@@ -737,13 +737,13 @@ class StatusBar(MStatusBar):
         MStatusBar.__init__(self, _parent)
         import Execute
         if Execute.isRunningAsRoot():
-            lblInfo = MLabel(u"<span style=\"color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+u"</span>")
+            lblInfo = MLabel("<span style=\"color: #FF0000\">".decode("utf-8") + translate("StatusBar", "Hamsi Manager running as root")+"</span>".decode("utf-8"))
             self.addWidget(lblInfo)
         if Universals.isDebugMode:
             lblInfo = MLabel(translate("StatusBar", "Debug Mode"))
             self.addWidget(lblInfo)
         self.isLockedMainForm = False
-        self.lblInfo = MLabel(u"")
+        self.lblInfo = MLabel("")
         self.hideInfo()
         self.addWidget(self.lblInfo)
         self.prgbState = MProgressBar()
@@ -754,7 +754,7 @@ class StatusBar(MStatusBar):
         self.addWidget(self.prgbState)
         self.addWidget(self.pbtnCancel)
         self.addWidget(MLabel(""), 100)
-        self.lblImportantInfo = MLabel(u"")
+        self.lblImportantInfo = MLabel("")
         self.addWidget(self.lblImportantInfo)
         MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
         self.fillSelectionInfo()
@@ -763,13 +763,13 @@ class StatusBar(MStatusBar):
         self.lblInfo.setText(_info)
     
     def hideInfo(self):
-        self.lblInfo.setText(u"")
+        self.lblInfo.setText("")
     
     def clearImportantInfo(self):
-        self.lblImportantInfo.setText(u"")
+        self.lblImportantInfo.setText("")
     
     def setImportantInfo(self, _info):
-        self.lblImportantInfo.setText(u"<span style=\"color: #FF0000\">" + _info + u"</span>")
+        self.lblImportantInfo.setText("<span style=\"color: #FF0000\">".decode("utf-8") + _info + "</span>".decode("utf-8"))
             
     def fillSelectionInfo(self):
         if Universals.isChangeAll:

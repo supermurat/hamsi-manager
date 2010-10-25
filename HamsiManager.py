@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-reload(sys)
-sys.setdefaultencoding("utf-8")
+if float(sys.version[:3])<3.0:
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
 if sys.path[0]=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Core")
@@ -32,11 +33,11 @@ if RoutineChecks.checkQt4Exist():
             programName = ki18n ("Hamsi Manager")
             version     = Variables.version
             license     = MAboutData.License_GPL_V3
-            copyright   = ki18n (u"Murat Demir (mopened@gmail.com)")
+            copyright   = ki18n ("Murat Demir (mopened@gmail.com)".decode("utf-8"))
             kde4LangKode = str(KLocale(Variables.Catalog).language())+"_"+str(KLocale(Variables.Catalog).country()).upper()
-            text        = ki18n ("")
-            homePage    = "hamsiapps.com"
-            bugEmail    = u"Murat Demir (mopened@gmail.com)"
+            text        = ki18n ("".decode("utf-8"))
+            homePage    = "hamsiapps.com".decode("utf-8")
+            bugEmail    = "Murat Demir (mopened@gmail.com)".decode("utf-8")
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode):
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode)
             else:
@@ -44,11 +45,11 @@ if RoutineChecks.checkQt4Exist():
             description = ki18n (aboutFileContent.decode("utf-8"))
             aboutOfHamsiManager = MAboutData (appName, Variables.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
-            aboutOfHamsiManager.addAuthor (ki18n(u"Murat Demir"), ki18n(u"Project Manager and Project Developer<br>Proje Sorumlusu ve Proje Geliştiricisi"), 
+            aboutOfHamsiManager.addAuthor (ki18n("Murat Demir".decode("utf-8")), ki18n("Project Manager and Project Developer<br>Proje Sorumlusu ve Proje Geliştiricisi".decode("utf-8")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.addCredit(ki18n(u"Tolga Balcı"), ki18n(u"Translate to English. (Voluntary)<br>İngilizce Çevirisi. (Gönüllü) (V0.7.x)"), 
+            aboutOfHamsiManager.addCredit(ki18n("Tolga Balcı".decode("utf-8")), ki18n("Translate to English. (Voluntary)<br>İngilizce Çevirisi. (Gönüllü) (V0.7.x)".decode("utf-8")), 
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
-            aboutOfHamsiManager.addCredit(ki18n(u"Márcio Moraes"), ki18n(u"Translate to Brazilian Portuguese. (Voluntary)<br>Brezilya Portekizcesi diline çeviri. (Gönüllü) (V0.8.7 - ~)"), 
+            aboutOfHamsiManager.addCredit(ki18n("Márcio Moraes".decode("utf-8")), ki18n("Translate to Brazilian Portuguese. (Voluntary)<br>Brezilya Portekizcesi diline çeviri. (Gönüllü) (V0.8.7 - ~)".decode("utf-8")), 
                                             "", "")
             aboutOfHamsiManager.setProgramIconName(Universals.themePath + "/Images/HamsiManager-128x128.png") 
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode):
@@ -249,7 +250,7 @@ if RoutineChecks.checkQt4Exist():
                     Universals.printForDevelopers("Before Main")
                     MainWindow=Main()
                     Universals.printForDevelopers("After Main")
-                    MainWindow.setWindowTitle(u"Hamsi Manager "+ MApplication.applicationVersion())
+                    MainWindow.setWindowTitle("Hamsi Manager "+ MApplication.applicationVersion())
                     if Universals.isActivePyKDE4==True:
                         Universals.printForDevelopers("Before MGlobal.config")
                         kconf = MGlobal.config()

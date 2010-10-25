@@ -60,7 +60,7 @@ class MusicDetails(MDialog):
                 MObject.connect(self.pbtnSaveAsImage, SIGNAL("clicked()"), self.saveAsImage)
                 MObject.connect(self.pbtnCancelAddImage, SIGNAL("clicked()"), self.cancelAddImage)
                 MObject.connect(self.pbtnSelectImage, SIGNAL("clicked()"), self.selectImage)
-                self.leImagePath = MLineEdit(u"")
+                self.leImagePath = MLineEdit("")
                 self.lblImagePath = MLabel(translate("MusicDetails", "Image Path: "))
                 self.cbImageType = MComboBox()
                 self.cbImageType.addItems(Musics.types)
