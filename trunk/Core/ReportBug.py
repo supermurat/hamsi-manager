@@ -327,7 +327,7 @@ class ReportBug(MDialog):
         isClose=True
         try:
             self.close()
-            if self.isOnlyReport==False:
+            if self.isOnlyReport==False and Universals.isDeveloperMode==False and Universals.isDebugMode==False:
                 iSClosingInErrorReporting = True
                 self.parent().close()
         except:pass

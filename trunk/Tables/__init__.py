@@ -331,7 +331,7 @@ class Tables(MTableWidget):
             for x in range(len(table.tableColumns)):
                 table.setColumnWidth(x,columnWidth)
         import MyThread
-        myProcs = MyThread.MyThread(table.refreshSubTable, table.continueRefreshTable, (table, _path))
+        myProcs = MyThread.MyThread(table.refreshSubTable, table.continueRefreshTable, [table, _path])
         myProcs.run()
 
     def continueRefreshTable(self, _returned=None):
@@ -364,7 +364,7 @@ class Tables(MTableWidget):
                     Universals.MainWindow.FileManager.makeRefresh(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))
                     return True
             import MyThread
-            myProcs = MyThread.MyThread(self.saveSubTable, self.continueSaveTable, (self))
+            myProcs = MyThread.MyThread(self.saveSubTable, self.continueSaveTable, [self])
             myProcs.run()
         except:
             error = ReportBug.ReportBug()
