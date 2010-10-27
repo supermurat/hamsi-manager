@@ -38,7 +38,7 @@ class SearchEngines(MMenu):
                 else:
                     engine = self.searchEnginesNames[int(_action.objectName())]
                 exec ("from " + engine + " import Search")
-                Search.Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
+                Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
             else:
                 Dialogs.show(translate("SearchEngines", "Table Is Empty"), 
                             translate("SearchEngines", "Nothing to be done because the table is empty."))

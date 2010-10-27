@@ -11,11 +11,12 @@ pluginName = "MusicBrainz"
 
 class Search(MDialog):
 
-    def __init__(self, _parent, _isCheckSingleFile=False, _SearchDepth=3):
+    def __init__(self, _parent, _isCheckSingleFile=False, _searchDepth=3):
         MDialog.__init__(self, _parent)
         if Universals.isActivePyKDE4==True:
             self.setButtons(MDialog.None)
-        MApplication.processEvents()
+        self.isCheckSingleFile = _isCheckSingleFile
+        self.searchDepth = _searchDepth
         self.nullSongs, self.falseSongs, self.trueSongs, self.songsOfArtist, self.songsOfAlbum, self.cbTags, self.leTags, self.incorrectSongs = [], [], [], [], [], [], [], []
         self.searchedArtists, self.searchedTitles, self.searchedAlbums = [[], []], [[], []], [[], []]
         self.searchedAlbumsOfArtist, self.searchedSongsOfAlbum, self.searchedDetailsOfArtist, self.searchedDetailsOfAlbum = [[], []], [[], []], [[], []], [[], []]
@@ -31,10 +32,15 @@ class Search(MDialog):
         self.prgbAllStateLabel = MLabel(translate("SearchEngines", "General"))
         self.pbtnApply = MPushButton(translate("SearchEngines", "Apply"))
         self.pbtnApply.setMaximumWidth(120)
-        pbtnCancel = MPushButton(translate("SearchEngines", "Cancel"))
-        pbtnCancel.setMaximumWidth(120)
+        self.pbtnApply.setVisible(False)
+        self.pbtnCancel = MPushButton(translate("SearchEngines", "Cancel"))
+        self.pbtnCancel.setMaximumWidth(120)
+        self.pbtnClose = MPushButton(translate("SearchEngines", "Close"))
+        self.pbtnClose.setMaximumWidth(120)
+        self.pbtnClose.setVisible(False)
         MObject.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
-        MObject.connect(pbtnCancel,SIGNAL("clicked()"),self.close)
+        MObject.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
+        MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
         pnlMain = MWidget(self)
         self.saPanel = MScrollArea(pnlMain)
         self.vblPanel = MVBoxLayout()
@@ -55,7 +61,8 @@ class Search(MDialog):
         vblBox.addWidget(self.saPanel)
         hblBox = MHBoxLayout()
         hblBox.addStretch(2)
-        hblBox.addWidget(pbtnCancel)
+        hblBox.addWidget(self.pbtnCancel)
+        hblBox.addWidget(self.pbtnClose)
         hblBox.addWidget(self.pbtnApply)
         vblBox.addLayout(hblBox)
         if Universals.isActivePyKDE4==True:
@@ -66,76 +73,96 @@ class Search(MDialog):
         self.setFixedSize(670,160)
         self.setAttribute(Mt.WA_DeleteOnClose)
         self.show()
-        self.pbtnApply.setEnabled(False)
-        if _isCheckSingleFile:
+        self.connect(self, SIGNAL("changedProgressBarValue"), self.changeProgressBarValue)
+        import MyThread
+        myProcs = MyThread.MyThread(self.startSearch, self.finishSearch)
+        myProcs.start()
+        
+    def closeEvent(self, _event):
+        if Universals.isContinueThreadAction():
+            Universals.cancelThreadAction()
+            _event.ignore()
+        
+    def changeProgressBarValue(self, _progressBarName, _value):
+        if _progressBarName=="AllState":
+            self.prgbAllState.setValue(_value)
+            self.prgbAllState.repaint()
+        elif _progressBarName=="State":
+            self.prgbState.setValue(_value)
+            self.prgbState.repaint()
+        
+    def startSearch(self):
+        if self.isCheckSingleFile:
             if Universals.isShowOldValues==True:
-                if float(_parent.currentRow())/float(2)==_parent.currentRow()/2:
-                    _parent.setCurrentCell(_parent.currentRow()+1, _parent.currentColumn())
+                if float(Universals.MainWindow.Table.currentRow())/float(2)==Universals.MainWindow.Table.currentRow()/2:
+                    Universals.MainWindow.Table.setCurrentCell(Universals.MainWindow.Table.currentRow()+1, Universals.MainWindow.Table.currentColumn())
             self.prgbAllState.setRange(0,1)
-            self.rows = range(_parent.currentRow(), _parent.currentRow()+1)
-            heightValue = 150
+            self.rows = range(Universals.MainWindow.Table.currentRow(), Universals.MainWindow.Table.currentRow()+1)
+            self.heightValue = 150
         else:
-            self.prgbAllState.setRange(0,_parent.rowCount())
+            self.prgbAllState.setRange(0,Universals.MainWindow.Table.rowCount())
             if Universals.isShowOldValues==True:
-                self.rows = range(1,_parent.rowCount(),2)
+                self.rows = range(1,Universals.MainWindow.Table.rowCount(),2)
             else:
-                self.rows = range(0,_parent.rowCount(),1)
-            if _parent.rowCount()<7:
-                heightValue = 300
+                self.rows = range(0,Universals.MainWindow.Table.rowCount(),1)
+            if Universals.MainWindow.Table.rowCount()<7:
+                self.heightValue = 300
             else:
-                heightValue = 500
+                self.heightValue = 500
         tagsOfSongs = []
         for rowNo in self.rows:
-            MApplication.processEvents()
-            tagsOfSongs.append([unicode(_parent.item(rowNo,2).text()).encode("utf-8"),
-                               unicode(_parent.item(rowNo,3).text()).encode("utf-8"),
-                               unicode(_parent.item(rowNo,4).text()).encode("utf-8"), rowNo])
+            tagsOfSongs.append([unicode(Universals.MainWindow.Table.item(rowNo,2).text()).encode("utf-8"),
+                               unicode(Universals.MainWindow.Table.item(rowNo,3).text()).encode("utf-8"),
+                               unicode(Universals.MainWindow.Table.item(rowNo,4).text()).encode("utf-8"), rowNo])
+        Universals.startThreadAction()
         for tagsOfSong in tagsOfSongs:
-            MApplication.processEvents()
-            try:
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
                 try:
-                    webservice.isActiveSecondServer = True
-                    self.checkIt(tagsOfSong, _SearchDepth)
-                except:
-                    webservice.isActiveSecondServer = False
-                    self.checkIt(tagsOfSong, _SearchDepth)
-            except webservice.WebServiceError as errorDetails:
-                Dialogs.showError(translate("SearchEngines", "An Error Occured"),
-                            str(translate("SearchEngines", "Please retry the process.<br>If you receive the same error, please try the other search engines.<br><b>Error details:</b><br>%s")) % (str(errorDetails)))
-            except ValueError as errorDetails:
-                Dialogs.showError(translate("SearchEngines", "An Error Occured"),
-                            str(translate("SearchEngines", "Fetching information for the music file that caused the error is canceled.<br>If you receive the same error, please try the other search engines.<br><b>Error details:</b><br>%s")) % (str(errorDetails)))
-                self.incorrectSongs.append([_parent.item(tagsOfSong[3],1).text(), tagsOfSong[0], tagsOfSong[1], tagsOfSong[2], tagsOfSong[3]])
-            self.prgbAllState.setValue(tagsOfSong[3]+1)
-        self.prgbState.setVisible(False)
-        self.prgbAllState.setVisible(False)
-        self.prgbStateLabel.setVisible(False)
-        self.prgbAllStateLabel.setVisible(False)
-        self.showInList()
-        self.pbtnApply.setEnabled(True)
-        self.setMinimumSize(670,heightValue+50)
-        self.saPanel.setFixedSize(645,heightValue)
+                    self.checkIt(tagsOfSong, self.searchDepth)
+                except webservice.WebServiceError as errorDetails:
+                    Dialogs.showError(translate("SearchEngines", "An Error Occured"),
+                                str(translate("SearchEngines", "Please retry the process.<br>If you receive the same error, please try the other search engines.<br><b>Error details:</b><br>%s")) % (str(errorDetails)))
+                except ValueError as errorDetails:
+                    Dialogs.showError(translate("SearchEngines", "An Error Occured"),
+                                str(translate("SearchEngines", "Fetching information for the music file that caused the error is canceled.<br>If you receive the same error, please try the other search engines.<br><b>Error details:</b><br>%s")) % (str(errorDetails)))
+                    self.incorrectSongs.append([[Universals.MainWindow.Table.item(tagsOfSong[3],1).text()], [tagsOfSong[0]], [tagsOfSong[1]], [tagsOfSong[2]], tagsOfSong[3]])
+                self.emit(SIGNAL("changedProgressBarValue"), "AllState", tagsOfSong[3]+1)
+        Universals.finishThreadAction()
+        return True
+            
+    def finishSearch(self, _isContinue):
+        if _isContinue:
+            self.prgbState.setVisible(False)
+            self.prgbAllState.setVisible(False)
+            self.prgbStateLabel.setVisible(False)
+            self.prgbAllStateLabel.setVisible(False)
+            self.showInList()
+            self.pbtnCancel.setVisible(False)
+            self.pbtnClose.setVisible(True)
+            self.pbtnApply.setVisible(True)
+            self.setMinimumSize(670,self.heightValue+50)
+            self.saPanel.setFixedSize(645,self.heightValue)
         
-    def checkIt(self, _tagsOfSong, _SearchDepth):
-        MApplication.processEvents()
+    def checkIt(self, _tagsOfSong, _searchDepth):
         self.prgbState.setRange(0,100)
         if _tagsOfSong[1].strip()!="":
             searchType = "Title"
-            self.prgbState.setValue(2)
+            self.emit(SIGNAL("changedProgressBarValue"), "State", 2)
         elif _tagsOfSong[2].strip()!="":
             searchType = "Album"
-            self.prgbState.setValue(10)
+            self.emit(SIGNAL("changedProgressBarValue"), "State", 10)
         elif _tagsOfSong[0].strip()!="":
             searchType = "Artist"
-            self.prgbState.setValue(20)
+            self.emit(SIGNAL("changedProgressBarValue"), "State", 20)
         else:
-            self.prgbState.setValue(100)
-            self.nullSongs.append([self.parent().item(_tagsOfSong[3],1).text(), _tagsOfSong[0], _tagsOfSong[1], _tagsOfSong[2], _tagsOfSong[3]])
+            self.emit(SIGNAL("changedProgressBarValue"), "State", 100)
+            self.nullSongs.append([[self.parent().item(_tagsOfSong[3],1).text()], [_tagsOfSong[0]], [_tagsOfSong[1]], [_tagsOfSong[2]], _tagsOfSong[3]])
             return
         if searchType=="Title":
             titles = self.getSongsFromTitle(_tagsOfSong[1].strip())
             if len(titles)!=0:
-                self.prgbState.setValue(90)
+                self.emit(SIGNAL("changedProgressBarValue"), "State", 90)
                 for title in titles:
                     if title[2].decode("utf-8").lower()==_tagsOfSong[1].decode("utf-8").lower():
                         if title[5].decode("utf-8").lower()==_tagsOfSong[2].decode("utf-8").lower():
@@ -156,7 +183,7 @@ class Search(MDialog):
         if searchType=="Album":
             albums = self.getAlbumsFromAlbum(_tagsOfSong[2].strip())
             if len(albums)!=0:
-                self.prgbState.setValue(60)
+                self.emit(SIGNAL("changedProgressBarValue"), "State", 60)
                 artistNames, albumNames, titleNames=[], [], []
                 for album in albums:
                     if artistNames.count(album[7])==0:
@@ -169,7 +196,7 @@ class Search(MDialog):
                     albumNames[artistNo].append(album[2])
                     titleNames[artistNo].append([])
                     titles = self.getSongsOfAlbum(album[1])
-                    self.prgbState.setValue(90)
+                    self.emit(SIGNAL("changedProgressBarValue"), "State", 90)
                     if len(titles)!=0:
                         for title in titles:
                             titleNames[artistNo][-1].append(title[1])
@@ -179,26 +206,26 @@ class Search(MDialog):
         if searchType=="Artist":
             artists = self.getArtistsFromArtist(_tagsOfSong[0].strip())
             if len(artists)!=0:
-                self.prgbState.setValue(40)
+                self.emit(SIGNAL("changedProgressBarValue"), "State", 40)
                 artistNames, albumNames, titleNames=[], [], []
                 for artist in artists:
                     artistNames.append(artist[2])
                     albumNames.append([])
                     titleNames.append([])
-                    albums = self.getAlbumsOfArtist(artist[1], _SearchDepth)
+                    albums = self.getAlbumsOfArtist(artist[1], _searchDepth)
                     if len(albums)!=0:
-                        self.prgbState.setValue(65)
+                        self.emit(SIGNAL("changedProgressBarValue"), "State", 65)
                         for album in albums:
                             albumNames[-1].append(album[1])
                             titleNames[-1].append([])
                             titles = self.getSongsOfAlbum(album[0])
                             if len(titles)!=0:
-                                self.prgbState.setValue(90)
+                                self.emit(SIGNAL("changedProgressBarValue"), "State", 90)
                                 for title in titles:
                                     titleNames[-1][-1].append(title[1])
                 self.songsOfArtist.append([artistNames,titleNames,albumNames, _tagsOfSong[3],_tagsOfSong[0], _tagsOfSong[1],_tagsOfSong[2]])
             else:
-                self.nullSongs.append([self.parent().item(_tagsOfSong[3],1).text(), _tagsOfSong[0], _tagsOfSong[1], _tagsOfSong[2], _tagsOfSong[3]])
+                self.nullSongs.append([[self.parent().item(_tagsOfSong[3],1).text()], [_tagsOfSong[0]], [_tagsOfSong[1]], [_tagsOfSong[2]], _tagsOfSong[3]])
 
     def getArtistsFromArtist(self, _artistName):
         """Returns artists that are similar to the one selected.
@@ -303,7 +330,7 @@ class Search(MDialog):
         self.searchedDetailsOfArtist[1].append(values)
         return values
 
-    def getAlbumsOfArtist(self, _artistId, _SearchDepth):
+    def getAlbumsOfArtist(self, _artistId, _searchDepth):
         """Returns all albums for the selected artist ID.
         Returned[x][0]:Id               Returned[x][1]:Title
         Returned[x][2]:Asin             Returned[x][3]:Text
@@ -320,9 +347,9 @@ class Search(MDialog):
         albumStates = [model.Release.TYPE_OFFICIAL, model.Release.TYPE_PROMOTION, 
                           model.Release.TYPE_BOOTLEG, model.Release.TYPE_PSEUDO_RELEASE]
         for albumStateNo, albumState in enumerate(albumStates):
-            if albumStateNo==0 or (albumStateNo==1 and _SearchDepth>4) or (albumStateNo==2 and _SearchDepth>7) or (albumStateNo==3 and _SearchDepth>10):
+            if albumStateNo==0 or (albumStateNo==1 and _searchDepth>4) or (albumStateNo==2 and _searchDepth>7) or (albumStateNo==3 and _searchDepth>10):
                 for albumTypeNo, albumType in enumerate(albumTypes):
-                    if albumTypeNo<=_SearchDepth:
+                    if albumTypeNo<=_searchDepth:
                         controlValue = 1
                         while controlValue>0 and controlValue<4:
                             try:
@@ -469,36 +496,30 @@ class Search(MDialog):
                 for song in self.trueSongs:
                     HBoxs.append(MHBoxLayout())
                     for no in range(len(tagNames)):
-                        self.leTags.append(MLineEdit(song[no].decode("utf-8")))
-                        self.leTags[-1].setMaximumWidth(200)
-                        self.leTags[-1].setMinimumWidth(200)
-                        self.leTags[-1].setToolTip(song[no+4].decode("utf-8"))
-                        self.leTags[-1].setObjectName(tagNamesKeys[no]+str(song[3]))
-                        HBoxs[-1].addWidget(self.leTags[-1])
+                        self.cbTags.append(MComboBox())
+                        self.cbTags[-1].setObjectName(tagNamesKeys[no]+str(song[3]))
+                        self.cbTags[-1].setEditable(True)
+                        self.cbTags[-1].setMaximumWidth(200)
+                        self.cbTags[-1].setMinimumWidth(200)
+                        self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
+                        for tag in song[no]:
+                            self.cbTags[-1].addItem(tag.decode("utf-8"))
+                        HBoxs[-1].addWidget(self.cbTags[-1])
             if len(self.falseSongs)>0:
                 HBoxs.append(MHBoxLayout())
                 HBoxs[-1].addWidget(MLabel(translate("SearchEngines", "Songs identified correctly but with errors:")))
                 for song in self.falseSongs:
                     HBoxs.append(MHBoxLayout())
                     for no in range(len(tagNames)):
-                        if len(song[no])>1:
-                            self.cbTags.append(MComboBox())
-                            self.cbTags[-1].setObjectName(tagNamesKeys[no]+str(song[3]))
-                            self.cbTags[-1].setEditable(True)
-                            self.cbTags[-1].setMaximumWidth(200)
-                            self.cbTags[-1].setMinimumWidth(200)
-                            self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
-                            for tag in song[no]:
-                                self.cbTags[-1].addItem(tag.decode("utf-8"))
-                            HBoxs[-1].addWidget(self.cbTags[-1])
-                        else:
-                            try: self.leTags.append(MLineEdit(song[no][0].decode("utf-8")))
-                            except: self.leTags.append(MLineEdit(""))
-                            self.leTags[-1].setObjectName(tagNamesKeys[no]+str(song[3]))
-                            self.leTags[-1].setMaximumWidth(200)
-                            self.leTags[-1].setMinimumWidth(200)
-                            self.leTags[-1].setToolTip(song[no+4].decode("utf-8"))
-                            HBoxs[-1].addWidget(self.leTags[-1])
+                        self.cbTags.append(MComboBox())
+                        self.cbTags[-1].setObjectName(tagNamesKeys[no]+str(song[3]))
+                        self.cbTags[-1].setEditable(True)
+                        self.cbTags[-1].setMaximumWidth(200)
+                        self.cbTags[-1].setMinimumWidth(200)
+                        self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
+                        for tag in song[no]:
+                            self.cbTags[-1].addItem(tag.decode("utf-8"))
+                        HBoxs[-1].addWidget(self.cbTags[-1])
             if len(self.songsOfAlbum)>0:
                 HBoxs.append(MHBoxLayout())
                 HBoxs[-1].addWidget(MLabel(translate("SearchEngines", "Songs searched with album name:")))
@@ -579,11 +600,14 @@ class Search(MDialog):
             for song in self.nullSongs:
                 HBoxs.append(MHBoxLayout())
                 for no in range(len(tagNames)):
-                    self.leTags.append(MLineEdit(str(song[no]).decode("utf-8")))
-                    self.leTags[-1].setMaximumWidth(150)
-                    self.leTags[-1].setMinimumWidth(150)
-                    self.leTags[-1].setObjectName(tagNamesKeys[no]+str(song[4]))
-                    HBoxs[-1].addWidget(self.leTags[-1])
+                    self.cbTags.append(MComboBox())
+                    self.cbTags[-1].setObjectName(tagNamesKeys[no]+str(song[4]))
+                    self.cbTags[-1].setEditable(True)
+                    self.cbTags[-1].setMaximumWidth(150)
+                    self.cbTags[-1].setMinimumWidth(150)
+                    for tag in song[no]:
+                        self.cbTags[-1].addItem(tag.decode("utf-8"))
+                    HBoxs[-1].addWidget(self.cbTags[-1])
         if len(self.incorrectSongs)>0:
             tagNames= [tagNames[0], tagNames[1], tagNames[2], translate("MusicTable", "File Name")]
             HBoxs.append(MHBoxLayout())
@@ -596,11 +620,15 @@ class Search(MDialog):
             for song in self.incorrectSongs:
                 HBoxs.append(MHBoxLayout())
                 for no in range(len(tagNames)):
-                    self.leTags.append(MLineEdit(str(song[no]).decode("utf-8")))
-                    self.leTags[-1].setMaximumWidth(150)
-                    self.leTags[-1].setMinimumWidth(150)
-                    self.leTags[-1].setObjectName(tagNamesKeys[no]+str(song[4]))
-                    HBoxs[-1].addWidget(self.leTags[-1])
+                    self.cbTags.append(MComboBox())
+                    self.cbTags[-1].setObjectName(tagNamesKeys[no]+str(song[4]))
+                    self.cbTags[-1].setEditable(True)
+                    self.cbTags[-1].setMaximumWidth(150)
+                    self.cbTags[-1].setMinimumWidth(150)
+                    self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
+                    for tag in song[no]:
+                        self.cbTags[-1].addItem(tag.decode("utf-8"))
+                    HBoxs[-1].addWidget(self.cbTags[-1])
         for box in HBoxs:
             self.vblPanel.addLayout(box)
         self.pnlPanel.setFixedSize(620,len(HBoxs)*30)
@@ -617,22 +645,17 @@ class Search(MDialog):
         for rowNo in self.rows:
             if len(self.rows)-1!=self.rows[-1]:
                 rowNo=rowNo/2
-            else:
-                rowNo = rowNo
-            self.findChild(MComboBox, "Album"+str(rowNo)).setCurrentIndex(self.findChild(MComboBox, "album0").currentIndex())
+            self.findChild(MComboBox, "Album"+str(rowNo)).setCurrentIndex(self.findChild(MComboBox, "Album0").currentIndex())
     
     def sortBySelectedAlbum(self):
         for rowNo in self.rows:
             if len(self.rows)-1!=self.rows[-1]:
                 rowNo=rowNo/2
-            else:
-                rowNo = rowNo
             self.findChild(MComboBox, "Title"+str(rowNo)).setCurrentIndex(rowNo)
 
     def showSuggest(self, _isHidden=False):
-        #self.pbtnSuggest = MPushButton(MIcon("Images:suggest.gif"),"", self)
         self.lblSuggest = MLabel(self)
-        self.pbtnSuggest = MPushButton("s", self)
+        self.pbtnSuggest = MPushButton("", self)
         self.pbtnSuggest.setFlat(True)
         self.movie = MMovie("Images:suggest.gif")
         self.lblSuggest.setMovie(self.movie)
@@ -641,13 +664,14 @@ class Search(MDialog):
             self.pbtnSuggest.setVisible(False)
             self.lblSuggest.setVisible(False)
         else:
-            self.lblSuggest.setGeometry(600, 75, 30, 30)
-            self.pbtnSuggest.setGeometry(600, 80, 20, 20)
+            self.lblSuggest.setGeometry(600, 25, 30, 30)
+            self.pbtnSuggest.setGeometry(600, 30, 20, 20)
             self.mSuggest = MMenu(self)
             self.mSuggest.clear()
             self.labelsOfSuggests = [translate("SearchEngines", "Sort Titles By Album")]
             for label in self.labelsOfSuggests:
                 action = MAction(label, self.mSuggest)
+                action.setObjectName(label)
                 self.mSuggest.addAction(action)
             MObject.connect(self.mSuggest,SIGNAL("triggered(QAction *)"),self.applySuggest)
             self.mSuggest.setGeometry(self.pbtnSuggest.x()+10,self.pbtnSuggest.y()+10,
@@ -657,9 +681,9 @@ class Search(MDialog):
             self.pbtnSuggest.setVisible(True)
             
     def applySuggest(self, _action):
-        if str(_action.text()) == str(self.labelsOfSuggests[0]):
+        if str(_action.objectName()) == str(self.labelsOfSuggests[0]):
             isPracticable = True
-            id= self.getAlbumIdFromAlbum(self.findChild(MComboBox, "album0").currentText())
+            id= self.getAlbumIdFromAlbum(self.findChild(MComboBox, "Album0").currentText())
             if len(self.rows)!=len(self.getSongsOfAlbum(id)):
                 isPracticable = False
                 answer = Dialogs.ask(translate("SearchEngines", "Number Of Songs Are Different"), 
@@ -674,17 +698,14 @@ class Search(MDialog):
         self.parent().createHistoryPoint()
         songs=[]
         for tag in self.trueSongs:
-            artist = unicode(self.findChild(MLineEdit, ("Artist"+str(tag[3])).decode("utf-8")).text()).encode("utf-8")
-            title = unicode(self.findChild(MLineEdit, ("Title"+str(tag[3])).decode("utf-8")).text()).encode("utf-8")
-            album = unicode(self.findChild(MLineEdit, ("Album"+str(tag[3])).decode("utf-8")).text()).encode("utf-8")
+            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
+            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
+            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
             songs.append([artist,title,album,tag[3]])   
         for tag in self.falseSongs:
-            try:artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            except:artist = unicode(self.findChild(MLineEdit, ("Artist"+str(tag[3])).decode("utf-8")).text()).encode("utf-8")
-            try:title = unicode(self.findChild(MComboBox, ("Title"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            except:title = unicode(self.findChild(MLineEdit, ("Title"+str(tag[3])).decode("utf-8")).text()).encode("utf-8")
-            try:album = unicode(self.findChild(MComboBox, ("Album"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            except:album = unicode(self.findChild(MLineEdit, ("Album"+str(tag[3])).decode("utf-8")).text()).encode("utf-8")
+            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
+            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
+            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
             songs.append([artist,title,album,tag[3]])
         for tag in self.songsOfAlbum:
             artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
@@ -697,16 +718,16 @@ class Search(MDialog):
             album = unicode(self.findChild(MComboBox, ("Album"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
             songs.append([artist,title,album,tag[3]])
         for tag in self.nullSongs:
-            dosya = unicode(self.findChild(MLineEdit, ("File Name"+str(tag[4])).decode("utf-8")).text()).encode("utf-8")
-            artist = unicode(self.findChild(MLineEdit, ("Artist"+str(tag[4])).decode("utf-8")).text()).encode("utf-8")
-            title = unicode(self.findChild(MLineEdit, ("Title"+str(tag[4])).decode("utf-8")).text()).encode("utf-8")
-            album = unicode(self.findChild(MLineEdit, ("Album"+str(tag[4])).decode("utf-8")).text()).encode("utf-8")
+            dosya = unicode(self.findChild(MComboBox, ("File Name"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
+            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
+            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
+            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
             songs.append([dosya,artist,title,album,tag[4]])
         for tag in self.incorrectSongs:
-            dosya = unicode(self.findChild(MLineEdit, ("File Name"+str(tag[4])).decode("utf-8")).text()).encode("utf-8")
-            artist = unicode(self.findChild(MLineEdit, ("Artist"+str(tag[4])).decode("utf-8")).text()).encode("utf-8")
-            title = unicode(self.findChild(MLineEdit, ("Title"+str(tag[4])).decode("utf-8")).text()).encode("utf-8")
-            album = unicode(self.findChild(MLineEdit, ("Album"+str(tag[4])).decode("utf-8")).text()).encode("utf-8")
+            dosya = unicode(self.findChild(MComboBox, ("File Name"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
+            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
+            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
+            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
             songs.append([dosya,artist,title,album,tag[4]])
         for song in songs:
             if len(song)==4:
