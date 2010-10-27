@@ -1755,39 +1755,40 @@ class QuickOptions(MMenu):
         
     def createActions(self):
         for x, keyValue in enumerate(self.keysOfSettings):
+            actionLabelList, selectedIndex = [], 0
             if self.typesOfValues[x][0]=="options":
-                self.values.append(MComboBox())
-                for info in self.valuesOfOptions[self.typesOfValues[x][1]]:
-                    self.values[x].addItem(info)
-                self.values[x].setCurrentIndex(self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(Universals.MySettings[keyValue]))
-                MObject.connect(self.values[x], SIGNAL("currentIndexChanged(int)"), self.valueChanged)
+                actionLabelList = self.valuesOfOptions[self.typesOfValues[x][1]]
+                selectedIndex = self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(Universals.MySettings[keyValue])
             elif self.typesOfValues[x]=="Yes/No":
-                self.values.append(MComboBox())
-                self.values[x].addItems([translate("QuickOptions", "No"),translate("QuickOptions", "Yes")])
+                actionLabelList = [translate("QuickOptions", "No"), translate("QuickOptions", "Yes")]
                 if Universals.getBoolValue(keyValue):
-                    self.values[x].setCurrentIndex(1)
-                MObject.connect(self.values[x], SIGNAL("currentIndexChanged(int)"), self.valueChanged)
+                    selectedIndex = 1
+            self.values.append(MMenu(self.labels[x], self))
+            actgActionGroupTableTypes = MActionGroup(self.values[x])
+            for y, actionLabel in enumerate(actionLabelList):
+                actAction = actgActionGroupTableTypes.addAction(actionLabel)
+                actAction.setCheckable(True)
+                actAction.setObjectName(actionLabel+";".decode("utf-8")+str(y))
+                if selectedIndex==y:
+                    actAction.setChecked(True)
+            self.values[x].addActions(actgActionGroupTableTypes.actions())
+            self.addAction(self.values[x].menuAction())
             self.values[x].setToolTip(self.toolTips[x])
-            lblLabel = MLabel(self.labels[x]+" : ".decode("utf-8"))
-            lblLabel.setToolTip(self.toolTips[x])
-            wactLabel = MWidgetAction(self)
-            wactLabel.setDefaultWidget(lblLabel)
-            wact = MWidgetAction(self)
-            wact.setDefaultWidget(self.values[x])
-            self.addAction(wactLabel)
-            self.addAction(wact)
+            MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
         
-    def valueChanged(self, _value):
+    def valueChanged(self, _action=None):
         try:
-            indexNo = self.values.index(self.sender())
+            senderAction = self.sender()
+            indexNo = self.values.index(senderAction.parent())
             selectedValue = None
+            valueIndex = int(_action.objectName().split(";")[1])
             if self.typesOfValues[indexNo] =="Yes/No":
-                if self.values[indexNo].currentIndex()==0:
+                if valueIndex==0:
                     selectedValue = False
                 else:
                     selectedValue = True
             elif self.typesOfValues[indexNo][0] =="options":
-                selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][self.values[indexNo].currentIndex()]
+                selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][valueIndex]
             Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
         except:
             error = ReportBug.ReportBug()
