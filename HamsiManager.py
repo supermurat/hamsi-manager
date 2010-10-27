@@ -185,6 +185,10 @@ if RoutineChecks.checkQt4Exist():
                             
                         def closeEvent(self, _event):
                             try:
+                                if Universals.isRaisedAnError==False:
+                                    if Universals.isContinueThreadAction():
+                                        Universals.cancelThreadAction()
+                                        _event.ignore()
                                 Universals.isStartedCloseProcces = True
                                 Universals.printForDevelopers("Started closeEvent")
                                 MApplication.setQuitOnLastWindowClosed(True)

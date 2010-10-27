@@ -32,6 +32,7 @@ class ReportBug(MDialog):
         self.isLoading=True
         errorDetails = "<b>" + str(translate("ReportBug", "Please check your personal information from this table."))+"</b><br>"
         if _isOnlyReport==False:
+            Universals.isRaisedAnError = True
             realErrorDetails = str(self.formatExceptionInfo())
             realErrorDetails += "<hr>"
             self.isOnlyReport=False
