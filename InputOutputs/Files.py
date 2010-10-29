@@ -17,7 +17,7 @@ class Files:
     changedValueNumber = 0
     
     def readFiles(_directoryPath):
-        global currentFilesAndFoldersValues,types,types_nos, changedValueNumber
+        global currentFilesAndFoldersValues, changedValueNumber
         changedValueNumber = 0
         currentFilesAndFoldersValues=[]
         fileNames = InputOutputs.IA.readDirectory(_directoryPath, "file")

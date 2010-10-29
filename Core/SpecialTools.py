@@ -583,11 +583,7 @@ class SpecialActions(MWidget):
             self.cbBookmarks.clear()
             self.cbBookmarks.addItem(translate("SpecialTools", "Please Select An Action!"))
             for fav in Databases.BookmarksOfSpecialTools.fetchAllByType():
-                if Universals.MySettings["musicTagType"]=="ID3 V2":
-                    self.cbBookmarks.addItem(fav[1].decode("utf-8"))
-                else:
-                    if fav[1].find("Lyrics")==-1:
-                        self.cbBookmarks.addItem(fav[1].decode("utf-8"))
+                self.cbBookmarks.addItem(fav[1].decode("utf-8"))
         except:
             error = ReportBug.ReportBug()
             error.show()

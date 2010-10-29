@@ -1,128 +1,64 @@
 # -*- coding: utf-8 -*-
 
+isAvailable = False
 import InputOutputs
 from MyObjects import *
 from time import gmtime
 from os import *
 import Dialogs
-import eyeD3
 import Organizer
 import Records
 import Universals
+import Taggers
 
 class Musics:
     """All information about the music files will be arranged in this class
         currentFilesAndFoldersValues[file no][value no]
     """
-    global readMusics,writeMusics,correctForMusicTagType,writeMusicFile,currentFilesAndFoldersValues, types,types_nos,getSelectedMusicTagType, correctValuesForMusicTagType, musicTagType, getValuesForMusicTagType, changedValueNumber, correctValuesForMusicGenre
-    types = ["Other (Default)","Icon","Other Icon","Front Cover","Back Cover","Leaflet","Media",
-            "Lead Artist","Artist","Leader","Band","Composer","Lyrics By","Recorded At",
-            "Recording","Performing","Video","Made Famous","Example","Band Logo","Publisher Logo"]
-    types_nos = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","10","11","12","13","14"] 
+    global readMusics, writeMusics, writeMusicFile, currentFilesAndFoldersValues, changedValueNumber, correctValuesForMusicGenre
     currentFilesAndFoldersValues = []
     changedValueNumber = 0
     
     def readMusics(_directoryPath=None,_filePath=None):
-        global currentFilesAndFoldersValues,types,types_nos, musicTagType, changedValueNumber
+        global currentFilesAndFoldersValues, changedValueNumber
         changedValueNumber = 0
-        musicTagType = getSelectedMusicTagType()
         if _filePath!=None:
-            _directoryPath = InputOutputs.IA.getDirName(_filePath)
-            musicFileNames = [InputOutputs.IA.getBaseName(_filePath)]
+            _directoryPath = InputOutputs.getDirName(_filePath)
+            musicFileNames = [InputOutputs.getBaseName(_filePath)]
         else:
             currentFilesAndFoldersValues = []
-            musicFileNames = InputOutputs.IA.readDirectory(_directoryPath, "music")
+            musicFileNames = InputOutputs.readDirectory(_directoryPath, "music")
         isCanNoncompatible = False
         allItemNumber = len(musicFileNames)
         Universals.startThreadAction()
         for musicNo,musicName in enumerate(musicFileNames):
+            tagger = Taggers.getTagger()
+            tagger.loadFile(_directoryPath+"/"+musicName)
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if eyeD3.isMp3File(_directoryPath+"/"+musicName) == False:
+                if tagger.isAvailableFile() == False:
                     isCanNoncompatible=True
                 musicTagsValues=[]
                 if _filePath!=None:
                     musicTagsValues.append(_directoryPath)
                 else:
-                    musicTagsValues.append(InputOutputs.IA.getBaseName(_directoryPath))
+                    musicTagsValues.append(InputOutputs.getBaseName(_directoryPath))
                 musicTagsValues.append(musicName)
-                try:
-                    tag = eyeD3.Tag()
-                    try:
-                        tag.link((_directoryPath+"/"+musicName).encode(InputOutputs.IA.fileSystemEncoding), musicTagType)
-                    except:
-                        tag = eyeD3.Tag()
-                        tag.link(_directoryPath+"/"+musicName, musicTagType)
-                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getArtist())))
-                    except: musicTagsValues.append("None")
-                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getTitle())))
-                    except: musicTagsValues.append("None")
-                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getAlbum())))
-                    except: musicTagsValues.append("None")
-                    try:
-                        if musicTagType==eyeD3.ID3_V2:
-                            musicTagsValues.append(str(str(tag.getTrackNum()[0])+"/"+str(tag.getTrackNum()[1])))
-                        else:
-                            musicTagsValues.append(str(tag.getTrackNum()[0]))
-                    except: musicTagsValues.append("None")
-                    try:    musicTagsValues.append(str(tag.getYear()))
-                    except: musicTagsValues.append("None")
-                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getGenre())))
-                    except: musicTagsValues.append("None")
-                    try:    musicTagsValues.append(getValuesForMusicTagType(str(tag.getComment())))
-                    except: musicTagsValues.append("None")
-                    try:
-                        if len(tag.getLyrics())!=0:
-                            musicTagsValues.append(getValuesForMusicTagType(str(tag.getLyrics()[0].lyrics)))
-                        else:
-                            musicTagsValues.append("None")
-                    except:
-                        musicTagsValues.append("None")
-                    if _filePath!=None:
-                        try:
-                            try:
-                                musicFileDetail = eyeD3.Mp3AudioFile((_directoryPath+"/"+musicName).encode(InputOutputs.IA.fileSystemEncoding))
-                            except:
-                                musicFileDetail = eyeD3.Mp3AudioFile(_directoryPath+"/"+musicName)
-                            musicTagsValues.append(str(musicFileDetail.getSize()))
-                            musicTagsValues.append(str(musicFileDetail.getPlayTimeString()))
-                            musicTagsValues.append(str(musicFileDetail.getSampleFreq()))
-                            musicTagsValues.append(str(musicFileDetail.getBitRateString()))
-                        except:
-                            musicTagsValues.append("")
-                            musicTagsValues.append("")
-                            musicTagsValues.append("")
-                            musicTagsValues.append("")
-                        musicTagsValues.append([])
-                        try:
-                            for image_no,image in enumerate(tag.getImages()):
-                                musicTagsValues[-1].append([])
-                                for no,type in enumerate(types):
-                                    if str(image.pictureType)==types_nos[no]:
-                                        musicTagsValues[-1][image_no].append(no)
-                                        musicTagsValues[-1][image_no].append(type)
-                                        break
-                                musicTagsValues[-1][image_no].append(image.mimeType)
-                                musicTagsValues[-1][image_no].append(image.imageData)
-                        except:
-                            pass
-                        return musicTagsValues
-                except:
-                    musicTagsValues.append("")
-                    musicTagsValues.append("")
-                    musicTagsValues.append("")
-                    musicTagsValues.append("")
-                    musicTagsValues.append("")
-                    musicTagsValues.append("")
-                    musicTagsValues.append("")
-                    musicTagsValues.append("")
-                    if _filePath!=None:
-                        musicTagsValues.append("")
-                        musicTagsValues.append("")
-                        musicTagsValues.append("")
-                        musicTagsValues.append("")
-                        musicTagsValues.append([])
-                        return musicTagsValues
+                musicTagsValues.append(tagger.getArtist())
+                musicTagsValues.append(tagger.getTitle())
+                musicTagsValues.append(tagger.getAlbum())
+                musicTagsValues.append(tagger.getTrackNum())
+                musicTagsValues.append(tagger.getYear())
+                musicTagsValues.append(tagger.getGenre())
+                musicTagsValues.append(tagger.getFirstComment())
+                musicTagsValues.append(tagger.getFirstLyrics())
+                if _filePath!=None:
+                    musicTagsValues.append(tagger.getSize())
+                    musicTagsValues.append(tagger.getPlayTimeString())
+                    musicTagsValues.append(tagger.getSampleFreq())
+                    musicTagsValues.append(tagger.getBitRateString())
+                    musicTagsValues.append(tagger.getImages())
+                    return musicTagsValues
                 currentFilesAndFoldersValues.append(musicTagsValues)
             else:
                 allItemNumber = musicNo+1
@@ -135,9 +71,8 @@ class Musics:
                 translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
     
     def writeMusics(_table):
-        global musicTagType, changedValueNumber
+        global changedValueNumber
         changedValueNumber = 0
-        musicTagType = getSelectedMusicTagType()
         changingFileDirectories=[]
         if Universals.isShowOldValues==True:
             startRowNo,rowStep=1,2
@@ -157,91 +92,71 @@ class Musics:
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
                         continue
-                    tag = eyeD3.Tag()
-                    try:
-                        tag.link((InputOutputs.IA.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1]).encode(InputOutputs.IA.fileSystemEncoding), musicTagType)
-                    except:
-                        tag = eyeD3.Tag()
-                        tag.link(InputOutputs.IA.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1], musicTagType)
-                    correctForMusicTagType(tag)
+                    tagger = Taggers.getTagger()
+                    tagger.loadFileForWrite(InputOutputs.IA.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1])
                     if _table.isColumnHidden(2)!=True and (_table.item(rowNo,2).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,2).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][2]) and (str(currentFilesAndFoldersValues[realRowNo][2])!="None" or value!=""):
-                            tag.setArtist(correctValuesForMusicTagType(value))
+                            tagger.setArtist(value)
                             Records.add(str(translate("MusicTable", "Artist")), str(currentFilesAndFoldersValues[realRowNo][2]), value)
                             changedValueNumber += 1
                     if _table.isColumnHidden(3)!=True and (_table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,3).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][3]) and (str(currentFilesAndFoldersValues[realRowNo][3])!="None" or value!=""):
-                            tag.setTitle(correctValuesForMusicTagType(value))
+                            tagger.setTitle(value)
                             Records.add(str(translate("MusicTable", "Title")), str(currentFilesAndFoldersValues[realRowNo][3]), value)
                             changedValueNumber += 1
                     if _table.isColumnHidden(4)!=True and (_table.item(rowNo,4).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,4).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][4]) and (str(currentFilesAndFoldersValues[realRowNo][4])!="None" or value!=""):
-                            tag.setAlbum(correctValuesForMusicTagType(value))
+                            tagger.setAlbum(value)
                             Records.add(str(translate("MusicTable", "Album")), str(currentFilesAndFoldersValues[realRowNo][4]), value)
                             changedValueNumber += 1
                     if _table.isColumnHidden(5)!=True and (_table.item(rowNo,5).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,5).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][5]) and (str(currentFilesAndFoldersValues[realRowNo][5])!="None" or value!=""):
                             track = []
-                            if musicTagType==eyeD3.ID3_V2:
-                                if value.find("/")!=-1:
-                                    track_temp = value.split("/")
-                                    try:    track.append(int(track_temp[0]))
-                                    except: track.append(None)
-                                    try:    track.append(int(track_temp[1]))
-                                    except: track.append(len(currentFilesAndFoldersValues))
-                                elif value=="":
-                                    track.append(None)
-                                    track.append(None)
-                                else:
-                                    try:    track.append(int(value))
-                                    except: track.append(None)    
-                                    track.append(len(currentFilesAndFoldersValues))
+                            if value.find("/")!=-1:
+                                track_temp = value.split("/")
+                                try:    track.append(int(track_temp[0]))
+                                except: track.append(None)
+                                try:    track.append(int(track_temp[1]))
+                                except: track.append(len(currentFilesAndFoldersValues))
+                            elif value=="":
+                                track.append(None)
+                                track.append(None)
                             else:
-                                try:    track = int(value)
-                                except: track = None 
-                            tag.setTrackNum(track)
+                                try:    track.append(int(value))
+                                except: track.append(None)    
+                                track.append(len(currentFilesAndFoldersValues))
+                            tagger.setTrackNum(track)
                             Records.add(str(translate("MusicTable", "Track No")), str(currentFilesAndFoldersValues[realRowNo][5]), track)
                             changedValueNumber += 1
                     if _table.isColumnHidden(6)!=True and (_table.item(rowNo,6).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,6).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][6]) and (str(currentFilesAndFoldersValues[realRowNo][6])!="None" or value!=""):
-                            if len(value)==4:
-                                tag.setDate(value)
-                                Records.add(str(translate("MusicTable", "Year")), str(currentFilesAndFoldersValues[realRowNo][6]), value)
-                                changedValueNumber += 1
-                            elif value=="":
-                                tag.setDate(None)
-                                Records.add(str(translate("MusicTable", "Year")), str(currentFilesAndFoldersValues[realRowNo][6]), None)
-                                changedValueNumber += 1
-                            else:
-                                tag.setDate(gmtime()[0])
-                                Records.add(str(translate("MusicTable", "Year")), str(currentFilesAndFoldersValues[realRowNo][6]), gmtime()[0])
-                                changedValueNumber += 1
+                            tagger.setDate(value)
+                            Records.add(str(translate("MusicTable", "Year")), str(currentFilesAndFoldersValues[realRowNo][6]), value)
+                            changedValueNumber += 1
                     if _table.isColumnHidden(7)!=True and (_table.item(rowNo,7).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,7).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][7]) and (str(currentFilesAndFoldersValues[realRowNo][7])!="None" or value!=""):
-                            tag.setGenre(correctValuesForMusicGenre(correctValuesForMusicTagType(value)))
+                            tagger.setGenre(value)
                             Records.add(str(translate("MusicTable", "Genre")), str(currentFilesAndFoldersValues[realRowNo][7]), value)
                             changedValueNumber += 1
                     if _table.isColumnHidden(8)!=True and (_table.item(rowNo,8).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,8).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][8]) and (str(currentFilesAndFoldersValues[realRowNo][8])!="None" or value!=""):
-                            tag.removeComments()
-                            tag.addComment(correctValuesForMusicTagType(value))
+                            tagger.setFirstComment(value)
                             Records.add(str(translate("MusicTable", "Comment")), str(currentFilesAndFoldersValues[realRowNo][8]), value)
                             changedValueNumber += 1
-                    if musicTagType==eyeD3.ID3_V2 and _table.isColumnHidden(9)!=True and (_table.item(rowNo,9).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                    if len(_table.tableColumns)>9 and _table.isColumnHidden(9)!=True and (_table.item(rowNo,9).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,9).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][9]) and (str(currentFilesAndFoldersValues[realRowNo][9])!="None" or value!=""):
-                            tag.removeLyrics()
-                            tag.addLyrics(correctValuesForMusicTagType(value))
+                            tagger.setFirstLyrics(value)
                             Records.add(str(translate("MusicTable", "Lyrics")), str(currentFilesAndFoldersValues[realRowNo][9]), value)
                             changedValueNumber += 1
-                    tag.update()
+                    tagger.update()
                     newFileName=str(currentFilesAndFoldersValues[realRowNo][1])
                     if _table.isColumnHidden(1)!=True and (_table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         if str(currentFilesAndFoldersValues[realRowNo][1])!=unicode(_table.item(rowNo,1).text()).encode("utf-8"):
@@ -363,36 +278,5 @@ class Musics:
                 return None
         return _oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]
 
-    def correctForMusicTagType(_tag):
-        _tag.setVersion(musicTagType)
-        if musicTagType==eyeD3.ID3_V2:
-            _tag.setTextEncoding(eyeD3.frames.UTF_8_ENCODING)
-            
-    def correctValuesForMusicTagType(_value):
-        if musicTagType==eyeD3.ID3_V1:
-            return unicode(str(_value), "latin1")
-        else:
-            return unicode(str(_value))
-        
-    def getValuesForMusicTagType(_value):
-        if musicTagType==eyeD3.ID3_V1:
-            return unicode(_value).encode("latin1")
-        else:
-            return _value
-        
-    def getSelectedMusicTagType():
-        t = Universals.MySettings["musicTagType"]
-        if t=="ID3 V2":v=eyeD3.ID3_V2
-        elif t=="ID3 V1":v=eyeD3.ID3_V1
-        else:v = eyeD3.ID3_CURRENT_VERSION
-        return v
-        
-    def correctValuesForMusicGenre(_genre):
-        import re
-        regex = re.compile("^[A-Z 0-9+/\-\|!&'\.]+\00*$", re.IGNORECASE)
-        genreStrAmended = ""
-        for x in [y for x, y in enumerate(_genre) if regex.match(y)]:
-            genreStrAmended+=x
-        return str(genreStrAmended)
-        
+    
         
