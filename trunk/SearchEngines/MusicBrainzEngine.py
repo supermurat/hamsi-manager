@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+isAvailable = False
+try:
+    from musicbrainz2 import webservice, model, utils
+    from musicbrainz2.webservice import Query, ArtistFilter, WebServiceError, ReleaseFilter, TrackFilter
+    isAvailable = True
+except:pass
 from MyObjects import *
 import Dialogs
-from musicbrainz2 import webservice, model, utils
-from musicbrainz2.webservice import Query, ArtistFilter, WebServiceError, ReleaseFilter, TrackFilter
 import time
 import Universals
 pluginName = "MusicBrainz"

@@ -563,6 +563,7 @@ class PlayerBar(MToolBar):
         self.addWidget(self.MusicPlayer)
         
 class MusicOptionsBar(MToolBar):
+
     def __init__(self, _parent):
         MToolBar.__init__(self, _parent)
         self.isActiveChanging = True
@@ -570,7 +571,8 @@ class MusicOptionsBar(MToolBar):
         self.setWindowTitle(translate("MusicOptionsBar", "Music options"))
         self.setObjectName(translate("MusicOptionsBar", "Music options"))
         lblDetails = translate("MusicOptionsBar", "You can select the ID3 tag you want to see and edit.<br><font color=blue>ID3 V2 is recommended.</font>")
-        self.MusicTagTypes = ["ID3 V1", "ID3 V2"]
+        from Taggers import getTaggerTypesName
+        self.MusicTagTypes = getTaggerTypesName()
         self.cbMusicTagType = MComboBox(self)
         self.cbMusicTagType.addItems(self.MusicTagTypes)
         self.isActiveChanging = False

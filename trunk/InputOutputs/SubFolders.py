@@ -17,7 +17,7 @@ class SubFolders:
     changedValueNumber = 0
     
     def readSubFolders(_directoryPath):
-        global currentFilesAndFoldersValues,types,types_nos, changedValueNumber
+        global currentFilesAndFoldersValues, changedValueNumber
         changedValueNumber = 0
         currentFilesAndFoldersValues=[]
         allFilesAndDirectories = InputOutputs.IA.readDirectoryWithSubDirectories(_directoryPath, 

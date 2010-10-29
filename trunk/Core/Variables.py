@@ -3,7 +3,7 @@
 import os, sys
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
@@ -469,6 +469,19 @@ class Variables():
                         engines.append(moduleName)
             except:pass
         return engines
+    
+    def getTaggersNames():
+        import InputOutputs
+        taggers = []
+        for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Taggers"):
+            try:
+                moduleName = name.split(".")[0]
+                moduleNameExt = name.split(".")[1]
+                if taggers.count(moduleName)==0:
+                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(HamsiManagerDirectory+"/Taggers/"+name):
+                        taggers.append(moduleName)
+            except:pass
+        return taggers
         
     def getMyPluginsNames():
         import InputOutputs

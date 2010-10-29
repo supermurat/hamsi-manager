@@ -8,6 +8,7 @@ from MyObjects import *
 from Details import MusicDetails
 import Universals
 import Dialogs
+import Taggers
                 
 class MusicTable():
     global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable
@@ -76,21 +77,8 @@ class MusicTable():
                         ) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath+"/"+Musics.currentFilesAndFoldersValues[_row][1]))
        
     def _refreshSubTableColumns(self):
-        self.tableColumns=[translate("MusicTable", "Directory"), 
-                            translate("MusicTable", "File Name"), 
-                            translate("MusicTable", "Artist"), 
-                            translate("MusicTable", "Title"), 
-                            translate("MusicTable", "Album"), 
-                            translate("MusicTable", "Track No"), 
-                            translate("MusicTable", "Year"), 
-                            translate("MusicTable", "Genre"), 
-                            translate("MusicTable", "Comment"), 
-                            translate("MusicTable", "Lyrics")]
-        self.tableColumnsKey=["Directory", "File Name", "Artist", "Title", "Album", 
-                              "Track No", "Year", "Genre", "Comment", "Lyrics"]
-        if Universals.MySettings["musicTagType"]!="ID3 V2":
-            t = self.tableColumns.pop()
-            t = self.tableColumnsKey.pop()
+        self.tableColumns = Taggers.getAvailableLabelsForTable()
+        self.tableColumnsKey = Taggers.getAvailableKeysForTable()
         
     def _saveSubTable(self):
         MusicDetails.closeAllMusicDialogs()
@@ -135,8 +123,7 @@ class MusicTable():
                     if newString_temp[0]=="None":
                         newString_temp[0]=str(realFileNo+1)
                     newString = newString_temp[0]
-                    if Universals.MySettings["musicTagType"]=="ID3 V2":
-                        newString += "/"+str(len(Musics.currentFilesAndFoldersValues))
+                    newString += "/"+str(len(Musics.currentFilesAndFoldersValues))
                 else:
                     newString = Organizer.emend(Musics.currentFilesAndFoldersValues[realFileNo][itemNo])
                 if newString=="None":

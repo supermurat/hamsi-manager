@@ -11,13 +11,14 @@ from Viewers import MusicPlayer
 from ImageDetails import ImageDetails, closeAllImageDialogs
 import Universals
 import ReportBug
+import Taggers
+from Taggers import EyeD3Tagger
 
 class MusicDetails(MDialog):
     global musicDialogs, closeAllMusicDialogs
     musicDialogs =[]
     def __init__(self,_filePath,_isOpenDetailsOnNewWindow=True,_isPlayNow=True,_FocusedInfoNo=None):
-        global musicDialogs, musicTagType
-        musicTagType = Universals.MySettings["musicTagType"]
+        global musicDialogs
         if InputOutputs.IA.isFile(_filePath):
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
@@ -63,7 +64,7 @@ class MusicDetails(MDialog):
                 self.leImagePath = MLineEdit("")
                 self.lblImagePath = MLabel(translate("MusicDetails", "Image Path: "))
                 self.cbImageType = MComboBox()
-                self.cbImageType.addItems(Musics.types)
+                self.cbImageType.addItems(EyeD3Tagger.getImageTypes())
                 self.lblImageType = MLabel(translate("MusicDetails", "Image Type: "))
                 self.labels = [translate("MusicDetails", "Directory: "),
                                 translate("MusicDetails", "File Name: "),
@@ -160,7 +161,7 @@ class MusicDetails(MDialog):
             MainWindow.FileManager.makeRefresh()
     
     def checkMusicTagType(self):
-        if musicTagType=="ID3 V2":
+        if Taggers.getSelectedTaggerTypeName()=="ID3 V2":
             self.tabwTabs.setTabEnabled(1, True)
             self.tabwTabs.setTabEnabled(2, True)
         else:
