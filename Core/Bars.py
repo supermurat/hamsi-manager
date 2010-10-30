@@ -12,6 +12,7 @@ import Execute
 import Records
 import InputOutputs
 import Options
+from Taggers import getTaggerTypesName, getSelectedTaggerTypeName, setSelectedTaggerTypeName
 
 class MenuBar(MMenuBar):
     def __init__(self, _parent):
@@ -571,12 +572,11 @@ class MusicOptionsBar(MToolBar):
         self.setWindowTitle(translate("MusicOptionsBar", "Music options"))
         self.setObjectName(translate("MusicOptionsBar", "Music options"))
         lblDetails = translate("MusicOptionsBar", "You can select the ID3 tag you want to see and edit.<br><font color=blue>ID3 V2 is recommended.</font>")
-        from Taggers import getTaggerTypesName
         self.MusicTagTypes = getTaggerTypesName()
         self.cbMusicTagType = MComboBox(self)
         self.cbMusicTagType.addItems(self.MusicTagTypes)
         self.isActiveChanging = False
-        self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(Universals.MySettings["musicTagType"]))
+        self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(getSelectedTaggerTypeName()))
         self.isActiveChanging = True
         self.cbMusicTagType.setToolTip(lblDetails)
         self.addWidget(self.cbMusicTagType)
@@ -588,14 +588,14 @@ class MusicOptionsBar(MToolBar):
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
                 if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
-                    Universals.setMySetting("musicTagType", selectedType)
+                    setSelectedTaggerTypeName(selectedType)
                     Tables.refreshForTableColumns()
                     Universals.MainWindow.SpecialTools.refreshForTableColumns()
                     Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
                 self.isActiveChanging = False
-                self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(Universals.MySettings["musicTagType"]))
+                self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(getSelectedTaggerTypeName()))
                 if self.cbMusicTagTypeForMenu != None:
-                    self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(Universals.MySettings["musicTagType"]))
+                    self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(getSelectedTaggerTypeName()))
                 self.isActiveChanging = True
         except:
             error = ReportBug.ReportBug()
@@ -605,7 +605,7 @@ class MusicOptionsBar(MToolBar):
         self.cbMusicTagTypeForMenu = MComboBox(self)
         self.cbMusicTagTypeForMenu.addItems(self.MusicTagTypes)
         self.isActiveChanging = False
-        self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(Universals.MySettings["musicTagType"]))
+        self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(getSelectedTaggerTypeName()))
         self.isActiveChanging = True
         MObject.connect(self.cbMusicTagTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
         wactLabel = MWidgetAction(_menu)
