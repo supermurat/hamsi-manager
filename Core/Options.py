@@ -110,7 +110,7 @@ class Options(MDialog):
                             MySettings(self, _showType, [])]
         elif _showType=="pack":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
-                            ClearGeneral(self, _showType, ["isDeleteEmptyDirectories", 
+                            ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories", 
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
@@ -122,19 +122,19 @@ class Options(MDialog):
                             Correct(self, _showType)]
         elif _showType=="clearEmptyDirectories":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
-                            ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
+                            ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions"])]
         elif _showType=="clearUnneededs":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
-                            ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
+                            ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions"])]
         elif _showType=="clearIgnoreds":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
-                            ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
+                            ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions"])]
         elif _showType=="emendFile":
@@ -147,7 +147,7 @@ class Options(MDialog):
                             Correct(self, _showType),  
                             Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenMoveOrChange"]), 
-                            ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
+                            ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
@@ -159,7 +159,7 @@ class Options(MDialog):
                             Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenMoveOrChange", 
                                 "isAutoMakeIconToDirectoryWhenFileMove"]), 
-                            ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
+                            ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
@@ -171,7 +171,7 @@ class Options(MDialog):
             self.categories = [General(self, _showType, ["isSaveActions"])]
         elif _showType=="clear":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
-                            ClearGeneral(self, _showType, ["isDeleteEmptyDirectories",
+                            ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
@@ -1044,14 +1044,14 @@ class ClearGeneral(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["isDeleteEmptyDirectories", "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
+        self.keysOfSettings = ["isActiveClearGeneral", "isDeleteEmptyDirectories", "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                             "unneededFiles", "unneededFileExtensions", 
                             "ignoredDirectories", "ignoredFiles", "ignoredFileExtensions", 
                             "isClearEmptyDirectoriesWhenSave", "isClearEmptyDirectoriesWhenMoveOrChange", 
                             "isClearEmptyDirectoriesWhenCopyOrChange", "isClearEmptyDirectoriesWhenFileMove", 
                             "isAutoCleanSubFolderWhenSave", "isAutoCleanSubFolderWhenMoveOrChange", 
                             "isAutoCleanSubFolderWhenCopyOrChange", "isAutoCleanSubFolderWhenFileMove"]
-        self.tabsOfSettings = [0, 0, 0, 
+        self.tabsOfSettings = [None, 0, 0, 0, 
                                 0, 0, 
                                 0, 0, 0, 
                                 1, 1, 
@@ -1066,7 +1066,8 @@ class ClearGeneral(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options/ClearGeneral", "Delete Empty Directories"), 
+        self.labels = [translate("Options/ClearGeneral", "Activate General Cleaner"), 
+                    translate("Options/ClearGeneral", "Delete Empty Directories"), 
                     translate("Options/ClearGeneral", "Unnecessary Directories (If Is Empty)"), 
                     translate("Options/ClearGeneral", "Unnecessary Directories"), 
                     translate("Options/ClearGeneral", "Unnecessary Files"), 
@@ -1082,7 +1083,8 @@ class ClearGeneral(MWidget):
                     translate("Options/ClearGeneral", "Clean Subfolders (Moved Or Changed)"), 
                     translate("Options/ClearGeneral", "Clean Subfolders (Copied Or Changed)"), 
                     translate("Options/ClearGeneral", "Clean Subfolders (Moved File)")]
-        self.toolTips = [translate("Options/ClearGeneral", "Are you want to delete empty directories?"), 
+        self.toolTips = [translate("Options/ClearGeneral", "Are you want to activate General Cleaner?"), 
+                    translate("Options/ClearGeneral", "Are you want to delete empty directories?"), 
                     translate("Options/ClearGeneral", "<font color=red>The directories (empty) you selected will be deleted permanently from your system!</font><br><font color=blue>Example: directory1;directory2;...</font>"), 
                     translate("Options/ClearGeneral", "<font color=red>The directories you selected will be deleted permanently from your system!</font><br><font color=blue>Example: directory1;directory2;...</font>"), 
                     translate("Options/ClearGeneral", "<font color=red>The files you selected will be deleted permanently from your system!</font><br><font color=blue>Example: file1.abc; file2.def;...</font>"), 
@@ -1098,13 +1100,22 @@ class ClearGeneral(MWidget):
                     translate("Options/ClearGeneral", "Do you want to clear the subfolders when directory moved or changed?"), 
                     translate("Options/ClearGeneral", "Do you want to clear the subfolders when directory copied or changed?"), 
                     translate("Options/ClearGeneral", "Do you want to clear the subfolders when file moved?")]
-        self.typesOfValues = ["Yes/No", "list", "list", "list", "list", "list", "list", "list", 
+        self.typesOfValues = ["Yes/No", "Yes/No", "list", "list", "list", "list", "list", "list", "list", 
                               "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         createOptions(self) 
+        if self.visibleKeys.count("isActiveClearGeneral")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("isActiveClearGeneral")], SIGNAL("currentIndexChanged(int)"), self.activeClearGeneralChanged)
+            self.activeClearGeneralChanged()
         if self.visibleKeys.count("isDeleteEmptyDirectories")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isDeleteEmptyDirectories")], SIGNAL("currentIndexChanged(int)"), self.deleteEmptyDirectoriesChanged)
             self.deleteEmptyDirectoriesChanged()
+            
+    def activeClearGeneralChanged(self):
+        if self.values[self.keysOfSettings.index("isActiveClearGeneral")].currentIndex()==1:
+            self.tabwTabs.setEnabled(True)
+        else:
+            self.tabwTabs.setEnabled(False)
             
     def deleteEmptyDirectoriesChanged(self):
         if self.values[self.keysOfSettings.index("isDeleteEmptyDirectories")].currentIndex()==1:
@@ -1720,26 +1731,28 @@ class QuickOptions(MMenu):
         self.setTitle(translate("MenuBar", "Quick Options"))
         self.setObjectName(translate("MenuBar", "Quick Options"))
         self.values = []
-        self.keysOfSettings = ["validSentenceStructure", "validSentenceStructureForFile", 
+        self.keysOfSettings = ["isActiveClearGeneral", "validSentenceStructure", "validSentenceStructureForFile", 
                                 "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
                                 "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
-        self.labels = [translate("QuickOptions", "Valid Sentence Structure"), 
-                    translate("QuickOptions", "Valid Sentence Structure For Files"),
-                    translate("QuickOptions", "Valid Sentence Structure For File Extensions"), 
-                    translate("QuickOptions", "Which Part Is The File Extension"), 
-                    translate("QuickOptions", "Emend Incorrect Chars"),  
-                    translate("QuickOptions", "Correct File Name By Search Table"), 
-                    translate("QuickOptions", "Clear First And Last Space Chars"), 
-                    translate("QuickOptions", "Correct Double Space Chars")]
-        self.toolTips = [translate("QuickOptions", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
-                    translate("QuickOptions", "File and directory names will be changed automatically to the format you selected."),
-                    translate("QuickOptions", "File extensions will be changed automatically to the format you selected."), 
-                    translate("QuickOptions", "Which part of the filename is the file extension?"), 
-                    translate("QuickOptions", "Are you want to emend incorrect chars?"), 
-                    translate("QuickOptions", "Are you want to correct file and directory names by search and replace table?"), 
-                    translate("QuickOptions", "Are you want to clear first and last space chars?"), 
-                    translate("QuickOptions", "Are you want to correct double space chars?")]
-        self.typesOfValues = [["options", 0], ["options", 0], ["options", 0], 
+        self.labels = [translate("QuickOptions", "Activate General Cleaner"), 
+            translate("QuickOptions", "Valid Sentence Structure"), 
+            translate("QuickOptions", "Valid Sentence Structure For Files"),
+            translate("QuickOptions", "Valid Sentence Structure For File Extensions"), 
+            translate("QuickOptions", "Which Part Is The File Extension"), 
+            translate("QuickOptions", "Emend Incorrect Chars"),  
+            translate("QuickOptions", "Correct File Name By Search Table"), 
+            translate("QuickOptions", "Clear First And Last Space Chars"), 
+            translate("QuickOptions", "Correct Double Space Chars")]
+        self.toolTips = [translate("QuickOptions", "Are you want to activate General Cleaner?"), 
+            translate("QuickOptions", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
+            translate("QuickOptions", "File and directory names will be changed automatically to the format you selected."),
+            translate("QuickOptions", "File extensions will be changed automatically to the format you selected."), 
+            translate("QuickOptions", "Which part of the filename is the file extension?"), 
+            translate("QuickOptions", "Are you want to emend incorrect chars?"), 
+            translate("QuickOptions", "Are you want to correct file and directory names by search and replace table?"), 
+            translate("QuickOptions", "Are you want to clear first and last space chars?"), 
+            translate("QuickOptions", "Are you want to correct double space chars?")]
+        self.typesOfValues = ["Yes/No", ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("QuickOptions", "Title"), 

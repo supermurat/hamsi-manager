@@ -10,9 +10,9 @@ class Variables():
     installedLanguagesCodes, installedLanguagesNames = None, None
     osName = os.name
     Catalog = "HamsiManager" 
-    version = "0.9.07"
-    intversion = 907
-    settingVersion = "907"
+    version = "0.9.08"
+    intversion = 908
+    settingVersion = "908"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])
@@ -71,7 +71,7 @@ class Variables():
                   "amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
                   "iconNameFormat", "iconFileType", "pathOfMysqldSafe", 
-                  "isActiveCompleter", "isShowAllForCompleter"
+                  "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral"
                   ]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
@@ -256,7 +256,8 @@ class Variables():
                 "iconFileType": "png", 
                 "pathOfMysqldSafe": "mysqld_safe", 
                 "isActiveCompleter": "True", 
-                "isShowAllForCompleter": "True"
+                "isShowAllForCompleter": "True", 
+                "isActiveClearGeneral": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -371,7 +372,8 @@ class Variables():
                 "iconFileType": ["options", ["png", "jpg"]], 
                 "pathOfMysqldSafe": "str", 
                 "isActiveCompleter": "bool", 
-                "isShowAllForCompleter": "bool"
+                "isShowAllForCompleter": "bool", 
+                "isActiveClearGeneral": "bool"
                 }
 
     def getAvailablePlayers():
