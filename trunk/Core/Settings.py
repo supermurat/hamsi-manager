@@ -315,5 +315,7 @@ class Settings():
             sets.setValue("fileSystemEncoding", Variables.MQtCore.QVariant(sets.value("systemsCharSet").toString()))
         if oldVersion<907:
             newSettingsKeys = newSettingsKeys + ["isActiveCompleter", "isShowAllForCompleter"]
+        if oldVersion<908:
+            newSettingsKeys = newSettingsKeys + ["isActiveClearGeneral"]
         return newSettingsKeys, changedDefaultValuesKeys
         

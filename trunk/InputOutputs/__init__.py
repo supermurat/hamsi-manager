@@ -426,42 +426,43 @@ class InputOutputs:
     def clearEmptyDirectories(_path, _isAutoCleanSubFolder=True):
         #If directory deleted : returned True
         #If directory cleaned : returned False
-        clearUnneededs(_path)
-        dontRemovingFilesCount = 0
-        filesAndDirectories = readDirectoryAll(_path)
-        for nameNo, name in enumerate(filesAndDirectories):
-            if isFile(_path+"/"+name):
-                dontRemovingFilesCount+=1
-                if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                    for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
-                        try:
-                            if str(f)==name:
-                                dontRemovingFilesCount-=1
-                                break
-                        except:pass
-                    for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
-                        try:
-                            if checkExtension(name, ext):
-                                dontRemovingFilesCount-=1
-                                break
-                        except:pass
-            if isDir(_path+"/"+name):
-                dontRemovingFilesCount+=1
-                if _isAutoCleanSubFolder==False:
-                    break
-                if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                    for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
-                        try:
-                            if str(f)==name:
-                                dontRemovingFilesCount-=1
-                                break
-                        except:pass
-                if clearEmptyDirectories(_path+"/"+name):
-                    dontRemovingFilesCount-=1
-        if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
-            clearIgnoreds(_path)
-            removeDir(_path)
-            return True
+        if Universals.getBoolValue("isActiveClearGeneral"):
+            clearUnneededs(_path)
+            dontRemovingFilesCount = 0
+            filesAndDirectories = readDirectoryAll(_path)
+            for nameNo, name in enumerate(filesAndDirectories):
+                if isFile(_path+"/"+name):
+                    dontRemovingFilesCount+=1
+                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                        for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
+                            try:
+                                if str(f)==name:
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                        for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
+                            try:
+                                if checkExtension(name, ext):
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                if isDir(_path+"/"+name):
+                    dontRemovingFilesCount+=1
+                    if _isAutoCleanSubFolder==False:
+                        break
+                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                        for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
+                            try:
+                                if str(f)==name:
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                    if clearEmptyDirectories(_path+"/"+name):
+                        dontRemovingFilesCount-=1
+            if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
+                clearIgnoreds(_path)
+                removeDir(_path)
+                return True
         return False
         
     def clearUnneededs(_path):
