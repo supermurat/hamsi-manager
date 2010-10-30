@@ -115,22 +115,8 @@ class Musics:
                     if _table.isColumnHidden(5)!=True and (_table.item(rowNo,5).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,5).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][5]) and (str(currentFilesAndFoldersValues[realRowNo][5])!="None" or value!=""):
-                            track = []
-                            if value.find("/")!=-1:
-                                track_temp = value.split("/")
-                                try:    track.append(int(track_temp[0]))
-                                except: track.append(None)
-                                try:    track.append(int(track_temp[1]))
-                                except: track.append(len(currentFilesAndFoldersValues))
-                            elif value=="":
-                                track.append(None)
-                                track.append(None)
-                            else:
-                                try:    track.append(int(value))
-                                except: track.append(None)    
-                                track.append(len(currentFilesAndFoldersValues))
-                            tagger.setTrackNum(track)
-                            Records.add(str(translate("MusicTable", "Track No")), str(currentFilesAndFoldersValues[realRowNo][5]), track)
+                            tagger.setTrackNum(value, len(currentFilesAndFoldersValues))
+                            Records.add(str(translate("MusicTable", "Track No")), str(currentFilesAndFoldersValues[realRowNo][5]), value)
                             changedValueNumber += 1
                     if _table.isColumnHidden(6)!=True and (_table.item(rowNo,6).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,6).text(), "utf-8")
@@ -195,57 +181,27 @@ class Musics:
         return InputOutputs.IA.changeDirectories(changingFileDirectories)
         
     def writeMusicFile(_oldMusicTagsValues,_newMusicTagsValues,_isImageAction=False,_ImageType=False,_ImagePath=False):
-        global musicTagType
         if InputOutputs.IA.isWritableFileOrDir(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]):
-            musicTagType = getSelectedMusicTagType()
-            tag = eyeD3.Tag()
-            try:
-                tag.link((_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]).encode(InputOutputs.IA.fileSystemEncoding), musicTagType)
-            except:
-                tag = eyeD3.Tag()
-                tag.link(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1], musicTagType)
-            correctForMusicTagType(tag)
+            tagger = Taggers.getTagger()
+            tagger.loadFileForWrite(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1])
             if _isImageAction==False:
                 if _newMusicTagsValues[2]!=_oldMusicTagsValues[2]:
-                    tag.setArtist(correctValuesForMusicTagType(unicode(_newMusicTagsValues[2])))
+                    tagger.setArtist(str(_newMusicTagsValues[2]))
                 if _newMusicTagsValues[3]!=_oldMusicTagsValues[3]:
-                    tag.setTitle(correctValuesForMusicTagType(unicode(_newMusicTagsValues[3])))
+                    tagger.setTitle(str(_newMusicTagsValues[3]))
                 if _newMusicTagsValues[4]!=_oldMusicTagsValues[4]:
-                    tag.setAlbum(correctValuesForMusicTagType(unicode(_newMusicTagsValues[4])))
+                    tagger.setAlbum(str(_newMusicTagsValues[4]))
                 if _newMusicTagsValues[5]!=_oldMusicTagsValues[5]:
-                    track = []
-                    track_temp=_newMusicTagsValues[5]
-                    if track_temp.find("/")!=-1:
-                        track_temp2 = track_temp.split("/")
-                        try:    track.append(int(track_temp2[0]))
-                        except: track.append(None)
-                        try:    track.append(int(track_temp2[1]))
-                        except: track.append(len(currentFilesAndFoldersValues))
-                    elif track_temp=="":
-                        track.append(None)
-                        track.append(None)
-                    else:
-                        try:    track.append(int(track_temp))
-                        except: track.append(None)    
-                        track.append(len(currentFilesAndFoldersValues))
-                    tag.setTrackNum(track)
+                    tagger.setTrackNum(str(_newMusicTagsValues[5]), len(currentFilesAndFoldersValues))
                 if _newMusicTagsValues[6]!=_oldMusicTagsValues[6]:
-                    if len(_newMusicTagsValues[6])==4:
-                        tag.setDate(unicode(_newMusicTagsValues[6]))
-                    elif _newMusicTagsValues[6]=="":
-                        tag.setDate(None)
-                    else:
-                        tag.setDate(gmtime()[0])
+                    tagger.setDate(str(_newMusicTagsValues[6]))
                 if _newMusicTagsValues[7]!=_oldMusicTagsValues[7]:
-                    tag.setGenre(correctValuesForMusicGenre(correctValuesForMusicTagType(str(unicode(_newMusicTagsValues[7])))))
+                    tagger.setGenre(str(_newMusicTagsValues[7]))
                 if _newMusicTagsValues[8]!=_oldMusicTagsValues[8]:
-                    tag.removeComments()
-                    tag.addComment(correctValuesForMusicTagType(unicode(_newMusicTagsValues[8])))
-                if musicTagType==eyeD3.ID3_V2 and _newMusicTagsValues[9]!=_oldMusicTagsValues[9]:
-                    tag.removeLyrics()
-                    tag.addLyrics(correctValuesForMusicTagType(unicode(_newMusicTagsValues[9])))
-                        
-                tag.update()
+                    tagger.setFirstComment(str(_newMusicTagsValues[8]))
+                if len(_newMusicTagsValues)>9 and _newMusicTagsValues[9]!=_oldMusicTagsValues[9]:
+                    tagger.setFirstLyrics(str(_newMusicTagsValues[9]))
+                tagger.update()
                 newFileName=_oldMusicTagsValues[1]
                 if _oldMusicTagsValues[1]!=_newMusicTagsValues[1]:
                     if _newMusicTagsValues[1].strip()!="":
@@ -272,9 +228,8 @@ class Musics:
             
             #Making changes on image files
             else:
-                if musicTagType==eyeD3.ID3_V2:
-                    tag.addImage(_ImageType,_ImagePath)
-                    tag.update()
+                tagger.addImage(_ImageType,_ImagePath)
+                tagger.update()
                 return None
         return _oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]
 
