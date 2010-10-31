@@ -132,7 +132,7 @@ the Free Software Foundation; either version 2 of the License, or
     parser.set_defaults(loggingLevel=logging.WARNING, 
                     checkAndGetOldAppNameInSystem=False, runAsRoot=False, qm=False)
     options, args = parser.parse_args()
-    if args and sys.argv[1][0]=="-":
+    if args and (len(sys.argv)>1 and sys.argv[1][0]=="-"):
         parser.error('Superfluous Arguments : Please check your arguments and try again.')
     else:
         if options.loggingLevel:
@@ -223,7 +223,7 @@ the Free Software Foundation; either version 2 of the License, or
             isDontRun = True
         if options.directory:
             Universals.setMySetting("lastDirectory", options.directory)
-        elif sys.argv[1][0]!="-":
+        elif len(sys.argv)>1 and sys.argv[1][0]=="-":
             Universals.setMySetting("lastDirectory", sys.argv[1])
         sys.argv = []
     if isDontRun:
