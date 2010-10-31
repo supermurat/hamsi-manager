@@ -22,9 +22,7 @@ import os
 import shutil
 import Variables
 import Universals
-import Settings
 import Records
-from Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
@@ -886,6 +884,7 @@ class InputOutputs:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
                     
     def getFileTree(_path, _subDirectoryDeep=-1, _formatType="html", _extInfo="no"):
+        from Universals import translate
         _path = str(_path)
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True)
         info = ""
