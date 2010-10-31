@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+## This file is part of HamsiManager.
+## 
+## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
+##
+## Hamsi Manager is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+## 
+## Hamsi Manager is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with HamsiManager; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 
 import sys
 from os import path
@@ -6,13 +24,12 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, isDebugMode, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, isDeveloperMode, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
     MySettings = {}
-    isDebugMode = False
-    isDeveloperMode = False
+    loggingLevel = False
     isShowVerifySettings = False
     changedDefaultValuesKeys = []
     newSettingsKeys = []
@@ -196,7 +213,8 @@ class Universals():
         return threadActionState
     
     def printForDevelopers(_message):
-        if isDebugMode or isDeveloperMode:
+        import logging
+        if loggingLevel==logging.DEBUG:
             print (str(_message))
         
     def checkMysqldSafe(_isAskIfNotFound=True):

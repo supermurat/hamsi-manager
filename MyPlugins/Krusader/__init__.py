@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+## This file is part of HamsiManager.
+## 
+## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
+##
+## Hamsi Manager is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+## 
+## Hamsi Manager is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with HamsiManager; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 import Variables
 import InputOutputs
 import Execute
@@ -20,7 +38,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "You can continue to edit the folder you select with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --directory %aCurrent%</command>\n"+
                     "  <defaultshortcut>Ctrl+O</defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_emendDirectory\" >\n"+
@@ -29,7 +47,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm emendDirectory %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --emendDirectory %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"),  
                     (" <action name=\"hamsimanager_emendDirectoryWithContents\" >\n"+
@@ -38,7 +56,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager (With Contents)")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm emendDirectoryWithContents %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --emendDirectoryWithContents %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_emendFile\" >\n"+
@@ -47,7 +65,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm emendFile %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --emendFile %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_pack\" >\n"+
@@ -56,7 +74,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Pack it with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm pack %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --pack %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_checkIcon\" >\n"+
@@ -65,7 +83,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Check directory icon with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm checkIcon %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --checkIcon %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_clearEmptyDirectories\" >\n"+
@@ -74,7 +92,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Clear empty directories with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm clearEmptyDirectories %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --clearEmptyDirectories %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_clearUnneededs\" >\n"+
@@ -83,7 +101,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Clear unneededs with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm clearUnneededs %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --clearUnneededs %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_clearIgnoreds\" >\n"+
@@ -92,7 +110,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Clear ignoreds with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm clearIgnoreds %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --clearIgnoreds %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_copyPath\" >\n"+
@@ -101,7 +119,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Copy path to clipboard with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm copyPath %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --copyPath %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_fileTree\" >\n"+
@@ -110,7 +128,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Build file tree with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm fileTree %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --fileTree %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_removeOnlySubFiles\" >\n"+
@@ -119,7 +137,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Remove sub files with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm removeOnlySubFiles %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --removeOnlySubFiles %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_pack\" >\n"+
@@ -128,7 +146,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Clear it with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm clear %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --clear %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n"), 
                     (" <action name=\"hamsimanager_hash\" >\n"+
@@ -137,7 +155,7 @@ def installThisPlugin():
                     "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Get hash digest with Hamsi Manager")) + ".</description>\n"+
-                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py -qm hash %aCurrent%</command>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --hash %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n")]
         if Execute.isRunningAsRoot():

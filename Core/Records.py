@@ -1,9 +1,28 @@
 # -*- coding: utf-8 -*-
+## This file is part of HamsiManager.
+## 
+## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
+##
+## Hamsi Manager is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+## 
+## Hamsi Manager is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with HamsiManager; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 
 import time
 import Universals
 import InputOutputs
 import Settings
+import logging
 from Universals import translate
 
 class Records():
@@ -22,16 +41,16 @@ class Records():
         global isSetedTitle, recordContents
         if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
             recordContents += str(_title) + "\n"
-        if Universals.isDebugMode:
+        if Universals.loggingLevel==logging.DEBUG:
             print (_title)
         isSetedTitle = True
     
     def add(_action, _previous="", _now=""):
         global recordContents
         if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
-            if recordType==0 or (recordType==1 and Universals.isDebugMode):
+            if recordType==0 or (recordType==1 and Universals.loggingLevel==logging.DEBUG):
                 recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
-        if Universals.isDebugMode:
+        if Universals.loggingLevel==logging.DEBUG:
             print (_title)
         
     def setRecordType(_recordType):

@@ -1,123 +1,233 @@
 # -*- coding: utf-8 -*-
+## This file is part of HamsiManager.
+## 
+## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
+##
+## Hamsi Manager is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+## 
+## Hamsi Manager is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with HamsiManager; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 import sys
 import os
+from optparse import OptionParser, OptionGroup
 import Variables
+import Universals
+import logging
 
 myArgvs = []
 isQuickMake = False
 QuickMakeParameters = []
-    
+parser =None
+
 def checkParameters():
-    global isQuickMake, QuickMakeParameters, myArgvs
+    global isQuickMake, QuickMakeParameters, myArgvs, parser
     myArgvs = sys.argv
-    if len(sys.argv)>1:
-        argvs = sys.argv[1:]
-        isMyArgs = False
-        isDontRun = False
-        for argvNo, argv in enumerate(argvs):
-            if argv.find("-debug")!=-1:
-                import Universals
-                Universals.isDebugMode = True
-                if len(argv)!=6:
-                    argv = argv.replace("-debug", "")
-                    argvs[argvNo] = argv
-                else:
-                    isMyArgs = True
-            if argv.find("-develop")!=-1:
-                import Universals
-                Universals.isDeveloperMode = True
-                if len(argv)!=8:
-                    argv = argv.replace("-develop", "")
-                    argvs[argvNo] = argv
-                else:
-                    isMyArgs = True
-            try:
-                tempT = argvs[argvNo+1]
-            except:
-                if argv=="-s" or argv=="-sDirectoryPath" or argv=="-t" or argv=="-f" or argv=="-PyKDE4" or argv=="-qmw" or argv=="-qm":
-                    isMyArgs = True
-                    argvs.remove(argv)
-                    print ("Incorrect Command : Your action unable to process.Please try again.")
-                    break
+    isDontRun = False
+    parser = OptionParser(
+    usage="HamsiManager [options] arg1 arg2", version="HamsiManager " + Variables.version,
+    epilog="""\
+Copyright (c) 2010 Murat Demir <mopened@gmail.com> ,
+HamsiManager is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.""")
+    parser.add_option('-d', '--debug', help='Enable debugging output. '
+                      'Chatty', action='store_const', const=logging.DEBUG,
+                      dest='loggingLevel')
+    parser.add_option('-v', '--verbose', help='Enable informative output',
+                      action='store_const', const=logging.INFO,
+                      dest='loggingLevel')
+    parser.add_option('--directory',
+                      help='The current directory path. '
+                      'Example : /home/yourname/someDirectory ')
+    parser.add_option('-s', '--sFileName',
+                      help='The setting file name(or path). '
+                      '"The settings directory path" + "SettingFiles/" + "YourEnteredName" '
+                      'Example : enteredName.ini ')
+    parser.add_option('--sDirectoryPath',
+                      help='The settings directory path. '
+                      'Example : /home/yourname/.HamsiApps/HamsiManager ')
+    parser.add_option('-t', '--tableType',
+                      help='Table Type Name. '
+                      'Example : "0" for Folder Table '
+                      'Example : "1" for File Table '
+                      'Example : "2" for Music Table '
+                      'Example : "3" for Subfolder Table '
+                      'Example : "4" for Cover Table ')
+    parser.add_option('-f', '--fileReNamerType',
+                      help='File Renamer Type. '
+                      'Example : "Personal Computer" '
+                      'Example : "Web Server" '
+                      'Example : "Removable Media" ')
+    parser.add_option('--PyKDE4',
+                      help='Are you want to activate PyKDE4. '
+                      'Example : "1" or "True" for Yes '
+                      'Example : "0" or "False" for No ')
+    qmgroup = OptionGroup(parser, "Quick Make Options",
+                    "You can make quickly what are you want.")
+    qmgroup.add_option('--qmw',
+                      help='Are you want to show Quick Make Window. '
+                      'Example : "1" or "True" for Yes '
+                      'Example : "0" or "False" for No ')
+    qmgroup.add_option('--qm', help='Are you want to run Quick Make by some parametres?', 
+                      action='store_const', const=True)
+    qmgroup.add_option('--pack',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--hash',
+                      help='The file path. '
+                      'Example : /home/yourname/someFile')
+    qmgroup.add_option('--checkIcon',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--clearEmptyDirectories',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--clearUnneededs',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--clearIgnoreds',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--emendFile',
+                      help='The file path. '
+                      'Example : /home/yourname/someFile')
+    qmgroup.add_option('--emendDirectory',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--emendDirectoryWithContents',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--copyPath',
+                      help='The file/directory path. '
+                      'Example : /home/yourname/somePath')
+    qmgroup.add_option('--fileTree',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--removeOnlySubFiles',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--clear',
+                      help='The directory path. '
+                      'Example : /home/yourname/someDirectory')
+    dgroup = OptionGroup(parser, "Dangerous Options",
+                    "Caution: use these options at your own risk.  "
+                    "It is believed that some of them bite.")
+    dgroup.add_option('--checkAndGetOldAppNameInSystem', help='Are you want to check and get old app name in system?', 
+                      action='store_const', const=True)
+    dgroup.add_option('--runAsRoot', help='Are you want to run as root?', 
+                      action='store_const', const=True)
+    parser.add_option_group(qmgroup)
+    parser.add_option_group(dgroup)
+    parser.set_defaults(loggingLevel=logging.WARNING, 
+                    checkAndGetOldAppNameInSystem=False, runAsRoot=False, qm=False)
+    options, args = parser.parse_args()
+    if args and sys.argv[1][0]=="-":
+        parser.error('Superfluous Arguments : Please check your arguments and try again.')
+    else:
+        if options.loggingLevel:
+            Universals.loggingLevel = options.loggingLevel
+        if options.sFileName:
+            Universals.fileOfSettings = options.sFileName
+        if options.sDirectoryPath:
+            Universals.setPathOfSettingsDirectory(options.sDirectoryPath)
+        if options.tableType:
+            Universals.setMySetting("tableType", Universals.getThisTableType(options.tableType))
+        if options.fileReNamerType:
+            Universals.setMySetting("fileReNamerType", options.fileReNamerType)
+        if options.PyKDE4:
+            if options.PyKDE4.lower()=="false" or options.PyKDE4=="0":
+                Universals.setMySetting("isActivePyKDE4", False)
             else:
-                if argv=="-s" or argv=="-sDirectoryPath" or argv=="-t" or argv=="-f" or argv=="-PyKDE4" or argv=="-qmw" or argv=="-qm":
-                    isMyArgs = True
-                    if argvs[argvNo+1][0]=="-":
-                        argvs.remove(argv)
-                        print ("Incorrect Command : Your action unable to process.Please try again.")
-                        break
-                if argv=="-s":
-                    import Universals
-                    Universals.fileOfSettings = "SettingFiles/" + argvs[argvNo+1]
-                    continue
-                elif argv=="-sDirectoryPath":
-                    import Universals
-                    Universals.setPathOfSettingsDirectory(argvs[argvNo+1])
-                    continue
-                elif argv=="-t":
-                    import Universals
-                    Universals.setMySetting("tableType", Universals.getThisTableType(argvs[argvNo+1]))
-                    continue
-                elif argv=="-f":
-                    import Universals
-                    Universals.setMySetting("fileReNamerType", argvs[argvNo+1])
-                    continue
-                elif argv=="-PyKDE4":
-                    import Universals
-                    if argvs[argvNo+1].lower()=="false" or argvs[argvNo+1]=="0":
-                        Universals.setMySetting("isActivePyKDE4", False)
-                    else:
-                        Universals.setMySetting("isActivePyKDE4", True)
-                    continue
-                elif argv=="-qmw":
-                    import Universals
-                    if argvs[argvNo+1].lower()=="false" or argvs[argvNo+1]=="0":
-                        Universals.setMySetting("isShowQuickMakeWindow", False)
-                    else:
-                        Universals.setMySetting("isShowQuickMakeWindow", True)
-                    continue
-                elif argv=="-qm":
-                    isQuickMake = True
-                    QuickMakeParameters.append(argvs[argvNo+1])
-                    pars = argvs[argvNo+2:]
-                    for parNo, par in enumerate(pars):
-                        if par[0]!="-" and pars[parNo-1][0]!="-":
-                            QuickMakeParameters.append(par)
-                    continue
-            try:
-                tempT = argvs[argvNo-1]
-            except:
-                pass
-            else:
-                if (argvs[argvNo-1]=="-s" or  argvs[argvNo-1]=="-sDirectoryPath" or  argvs[argvNo-1]=="-t" or 
-                        argvs[argvNo-1]=="-f" or argvs[argvNo-1]=="-PyKDE4" or 
-                        argvs[argvNo-1]=="-qmw" or argvs[argvNo-1]=="-qm"):
-                    isMyArgs = True
-                    continue
-            if argv=="-runAsRoot":
-                import Execute
-                if Execute.isRunningAsRoot()==False:
-                    strArgvs = ""
-                    for tempArg in argvs:
-                        if tempArg.find("-runAsRoot")==-1:
-                            strArgvs += tempArg + " "
-                    if Execute.executeHamsiManagerAsRoot(strArgvs):
-                        isDontRun = True
-                isMyArgs = True
-            elif argv=="-checkAndGetOldAppNameInSystem":
-                import OldAppName
-                import Universals
-                OldAppName.checkAndGetOldAppNameInSystem()
-                isDontRun = True
-                isMyArgs = True
-            elif argv[0]!="-":
-                import Universals, InputOutputs
-                Universals.setMySetting("lastDirectory", InputOutputs.getRealDirName(argv))
-                isMyArgs = True
-        if isDontRun:
-            return False
-        if isMyArgs:
-            sys.argv = sys.argv[:1]
+                Universals.setMySetting("isActivePyKDE4", True)
+        if options.qm:
+            if options.qmw:
+                if options.qmw.lower()=="false" or options.qmw=="0":
+                    Universals.setMySetting("isActivePyKDE4", False)
+                else:
+                    Universals.setMySetting("isActivePyKDE4", True)
+            if options.pack:
+                QuickMakeParameters.append("pack")
+                QuickMakeParameters.append(options.pack)
+                isQuickMake = True
+            elif options.hash:
+                QuickMakeParameters.append("hash")
+                QuickMakeParameters.append(options.hash)
+                isQuickMake = True
+            elif options.checkIcon:
+                QuickMakeParameters.append("checkIcon")
+                QuickMakeParameters.append(options.checkIcon)
+                isQuickMake = True
+            elif options.clearEmptyDirectories:
+                QuickMakeParameters.append("clearEmptyDirectories")
+                QuickMakeParameters.append(options.clearEmptyDirectories)
+                isQuickMake = True
+            elif options.clearUnneededs:
+                QuickMakeParameters.append("clearUnneededs")
+                QuickMakeParameters.append(options.clearUnneededs)
+                isQuickMake = True
+            elif options.clearIgnoreds:
+                QuickMakeParameters.append("clearIgnoreds")
+                QuickMakeParameters.append(options.clearIgnoreds)
+                isQuickMake = True
+            elif options.emendFile:
+                QuickMakeParameters.append("emendFile")
+                QuickMakeParameters.append(options.emendFile)
+                isQuickMake = True
+            elif options.emendDirectory:
+                QuickMakeParameters.append("emendDirectory")
+                QuickMakeParameters.append(options.emendDirectory)
+                isQuickMake = True
+            elif options.emendDirectoryWithContents:
+                QuickMakeParameters.append("emendDirectoryWithContents")
+                QuickMakeParameters.append(options.emendDirectoryWithContents)
+                isQuickMake = True
+            elif options.copyPath:
+                QuickMakeParameters.append("copyPath")
+                QuickMakeParameters.append(options.copyPath)
+                isQuickMake = True
+            elif options.fileTree:
+                QuickMakeParameters.append("fileTree")
+                QuickMakeParameters.append(options.fileTree)
+                isQuickMake = True
+            elif options.removeOnlySubFiles:
+                QuickMakeParameters.append("removeOnlySubFiles")
+                QuickMakeParameters.append(options.removeOnlySubFiles)
+                isQuickMake = True
+            elif options.clear:
+                QuickMakeParameters.append("clear")
+                QuickMakeParameters.append(options.clear)
+                isQuickMake = True
+        if options.runAsRoot:
+            import Execute
+            if Execute.isRunningAsRoot()==False:
+                strArgvs = ""
+                for tempArg in sys.argv:
+                    if tempArg.find("-runAsRoot")==-1:
+                        strArgvs += tempArg + " "
+                if Execute.executeHamsiManagerAsRoot(strArgvs):
+                    isDontRun = True
+        if options.checkAndGetOldAppNameInSystem:
+            import OldAppName
+            OldAppName.checkAndGetOldAppNameInSystem()
+            isDontRun = True
+        if options.directory:
+            Universals.setMySetting("lastDirectory", options.directory)
+        elif sys.argv[1][0]!="-":
+            Universals.setMySetting("lastDirectory", sys.argv[1])
+        sys.argv = []
+    if isDontRun:
+        return False
     return True
 
 def checkAfterRunProccess():

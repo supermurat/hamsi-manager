@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+## This file is part of HamsiManager.
+## 
+## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
+##
+## Hamsi Manager is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+## 
+## Hamsi Manager is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with HamsiManager; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 
 import sys,os
 
@@ -8,6 +26,7 @@ import Universals
 import Settings
 import InputOutputs, Records
 import traceback
+import logging
 from RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
 iSClosingInErrorReporting = False
 
@@ -222,7 +241,7 @@ class ReportBug(MDialog):
         self.wvWeb.setMinimumHeight(272)
         self.show()
         self.setMaximumSize(10000, 10000)
-        if isShowFixMe == True and isQuickMake==False and _hideFixMe==False and Universals.isDeveloperMode==False:
+        if isShowFixMe == True and isQuickMake==False and _hideFixMe==False and Universals.loggingLevel!=logging.DEBUG:
             try:
                 import Dialogs
                 answer = Dialogs.askSpecial(translate("ReportBug", "I Have A Suggestion!"),
@@ -328,7 +347,7 @@ class ReportBug(MDialog):
         isClose=True
         try:
             self.close()
-            if self.isOnlyReport==False and Universals.isDeveloperMode==False and Universals.isDebugMode==False:
+            if self.isOnlyReport==False and Universals.loggingLevel!=logging.DEBUG:
                 iSClosingInErrorReporting = True
                 self.parent().close()
         except:pass

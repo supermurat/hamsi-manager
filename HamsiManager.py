@@ -1,5 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+## This file is part of HamsiManager.
+## 
+## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
+##
+## Hamsi Manager is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+## 
+## Hamsi Manager is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with HamsiManager; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 import sys
 import os
 if float(sys.version[:3])<3.0:
@@ -11,13 +29,13 @@ sys.path.insert(1,sys.path[0]+"/Core")
 
 import Variables
 Variables.checkStartupVariables()
+import Universals
 import RoutineChecks
 if RoutineChecks.checkQt4Exist():
     myUniversals = ""
     if RoutineChecks.checkParameters():
         import Settings
         Settings.checkSettings()
-        import Universals
         Universals.fillMySettings()
         Universals.printForDevelopers("Before MyObjects")
         from MyObjects import *
@@ -56,6 +74,10 @@ if RoutineChecks.checkQt4Exist():
             else:
                 aboutOfHamsiManager.addLicenseTextFile(Variables.HamsiManagerDirectory+"/Languages/License_en_GB")
             MCmdLineArgs.init (sys.argv, aboutOfHamsiManager)
+#            options = MCmdLineOptions()
+#            for x in RoutineChecks.parser.option_list:
+#                options.add(str(x), ki18n(""))
+#            MCmdLineArgs.addCmdLineOptions(options)
             HamsiManagerApp = MApplication()
             kde4LangKode = str(MGlobal.locale().language())
             if len(kde4LangKode)!=5: kde4LangKode += "_"+str(MGlobal.locale().country()).upper()
