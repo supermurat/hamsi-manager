@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+## This file is part of HamsiManager.
+## 
+## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
+##
+## Hamsi Manager is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+## 
+## Hamsi Manager is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with HamsiManager; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 
 def checkOldAppNameAndSettings():
     import Variables, InputOutputs, Universals
@@ -135,5 +153,5 @@ def checkAndGetOldAppNameInSystem():
         answer = Dialogs.ask(translate("HamsiManager", "The Old Version Was Detected"),
                     str(translate("HamsiManager", "Executable OrganizasyonizM file was detected in your system.Are you want to delete \"%s\" and creat new Executable Hamsi Manager(\"%s\")?")) % (Organizer.getLink("/usr/bin/OrganizasyonizM") , Organizer.getLink("/usr/bin/hamsimanager")), False, "Executable OrganizasyonizM Was Detected")
         if answer==Dialogs.Yes:
-            Execute.executeHamsiManagerAsRoot("-checkAndGetOldAppNameInSystem")
+            Execute.executeHamsiManagerAsRoot("--checkAndGetOldAppNameInSystem")
     

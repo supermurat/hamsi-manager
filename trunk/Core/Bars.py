@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+## This file is part of HamsiManager.
+## 
+## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
+##
+## Hamsi Manager is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+## 
+## Hamsi Manager is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with HamsiManager; if not, write to the Free Software
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 
 import Variables
 import Tables
@@ -147,7 +165,7 @@ class Bars():
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
                 import Execute, Settings
-                if Execute.executeHamsiManagerAsRoot("-sDirectoryPath \"" + Universals.pathOfSettingsDirectory + "\""):
+                if Execute.executeHamsiManagerAsRoot("--sDirectoryPath \"" + Universals.pathOfSettingsDirectory + "\""):
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
@@ -741,9 +759,6 @@ class StatusBar(MStatusBar):
         import Execute
         if Execute.isRunningAsRoot():
             lblInfo = MLabel("<span style=\"color: #FF0000\">".decode("utf-8") + translate("StatusBar", "Hamsi Manager running as root")+"</span>".decode("utf-8"))
-            self.addWidget(lblInfo)
-        if Universals.isDebugMode:
-            lblInfo = MLabel(translate("StatusBar", "Debug Mode"))
             self.addWidget(lblInfo)
         self.isLockedMainForm = False
         self.lblInfo = MLabel("")
