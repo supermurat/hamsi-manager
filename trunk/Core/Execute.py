@@ -19,13 +19,16 @@
 
 
 import os, sys
+import subprocess
 from threading import Thread
 import time
 import Variables
 import Universals
+import InputOutputs
 
 class Execute:
-    global execute, executeAsThread, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReconfigure, executeReconfigureAsRoot, open
+    global execute, executeAsThread, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, correctForConsole, executeReconfigure, executeReconfigureAsRoot, open, getCommandResult
+    
     
     def correctForConsole(_string):
         strString = "\"" + _string + "\""
@@ -34,7 +37,15 @@ class Execute:
             if _string.find("'")!=-1:
                 strString = "'" + _string.replace("'", "\'") + "'"
         return strString
-    
+        
+    def getCommandResult(_command):
+        if os.name=="nt":
+            _command = ["start "] + _command
+        myPopen = subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
+        po, pi = myPopen.stdin, myPopen.stdout
+        po.close()
+        return pi.read()
+        
     def execute(_command, _rwa = "w"):
         if os.name=="nt":
             _command = "start " + _command
@@ -68,8 +79,9 @@ class Execute:
         
     def isRunableAsRoot():
         try:
-            from PyKDE4 import pykdeconfig
-            if isRunningAsRoot()==False:
+            if InputOutputs.isFile(Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu"):
+                if isRunningAsRoot():
+                    return False
                 return True
             return False
         except:
@@ -83,14 +95,12 @@ class Execute:
         
     def executeAsRoot(_command):
         if isRunableAsRoot():
-            from PyKDE4 import pykdeconfig
-            return execute(pykdeconfig._pkg_config["kdelibdir"] + "/kde4/libexec/kdesu" + " '" + _command + "'")
+            return execute(Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu" + " '" + _command + "'")
         return False
     
     def executeWithPythonAsRoot(_command):
         if isRunableAsRoot():
-            from PyKDE4 import pykdeconfig
-            return execute(pykdeconfig._pkg_config["kdelibdir"] + "/kde4/libexec/kdesu" + " '\"" + sys.executable + "\" " + _command + "'")
+            return execute(Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu" + " '\"" + sys.executable + "\" " + _command + "'")
         return False
         
     def executeHamsiManagerAsRoot(_command=""):

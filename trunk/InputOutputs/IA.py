@@ -222,13 +222,13 @@ class IA:
         return InputOutputs.readFromBinaryFile(_path)
         
     def writeToFile(_path, _contents=""):
-        return InputOutputs.writeToFile(_path)
+        return InputOutputs.writeToFile(_path, _contents)
         
     def writeToBinaryFile(_path, _contents=""):
-        return InputOutputs.writeToBinaryFile(_path)
+        return InputOutputs.writeToBinaryFile(_path, _contents)
     
     def addToFile(_path, _contents=""):
-        return InputOutputs.addToFile(_path)
+        return InputOutputs.addToFile(_path, _contents)
     
     def readTextFile(_path):
         return InputOutputs.readTextFile(_path)

@@ -23,9 +23,9 @@ import os, sys
 class Variables():
     global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
-    global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames
+    global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
-    installedLanguagesCodes, installedLanguagesNames = None, None
+    installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     Catalog = "HamsiManager" 
     version = "0.9.08"
@@ -140,7 +140,7 @@ class Variables():
                    
     def isAvailableKDE4():
         import InputOutputs
-        if InputOutputs.isFile("/usr/bin/kded4"):
+        if InputOutputs.isFile("/usr/bin/kde4"):
             return True
         else:
             return False
@@ -449,6 +449,9 @@ class Variables():
         if isAvailablePyKDE4():
             from PyKDE4.kdeui import KGlobalSettings
             desktopPath = str(KGlobalSettings.desktopPath())
+        elif isAvailableKDE4():
+            import Execute
+            desktopPath = Execute.getCommandResult(["kde4-config", "--userpath", "desktop"])[:-2]
         else:
             desktopNames = [str(MQtGui.QApplication.translate("Variables", "Desktop")), "Desktop"]
             for dirName in desktopNames:
@@ -462,10 +465,14 @@ class Variables():
     def getKDE4HomePath():
         if isAvailableKDE4():
             try:
-                from PyKDE4.kdecore import KStandardDirs
-                kdedirPath = str(KStandardDirs().localkdedir())
-                if kdedirPath[-1]=="/":
-                    kdedirPath = kdedirPath[:-1]
+                if isAvailablePyKDE4():
+                    from PyKDE4.kdecore import KStandardDirs
+                    kdedirPath = str(KStandardDirs().localkdedir())
+                    if kdedirPath[-1]=="/":
+                        kdedirPath = kdedirPath[:-1]
+                else:
+                    import Execute
+                    kdedirPath = Execute.getCommandResult(["kde4-config", "--localprefix"])[:-2]
                 return kdedirPath
             except:
                 import InputOutputs
@@ -474,6 +481,24 @@ class Variables():
                 else:
                     return userDirectoryPath + "/.kde"
         return None
+        
+    def getLibraryDirectoryPath():
+        global libPath
+        if libPath==None:
+            if isAvailablePyKDE4():
+                from PyKDE4 import pykdeconfig
+                libPath = pykdeconfig._pkg_config["kdelibdir"]
+            else:
+                try:
+                    import Execute
+                    libPath = Execute.getCommandResult(["kde4-config", "--path", "lib"]).split(":")[1][:-2]
+                except:
+                    import InputOutputs
+                    if InputOutputs.isDir("/usr/lib64"):
+                        libPath = "/usr/lib64"
+                    else: 
+                        libPath = "/usr/lib"
+        return libPath
                 
     def getSearchEnginesNames():
         import InputOutputs

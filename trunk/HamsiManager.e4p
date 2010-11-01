@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-10-31, 15:26:44 -->
+<!-- Saved: 2010-11-01, 00:26:23 -->
 <!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
 <Project version="4.6">
   <Language>tr</Language>
@@ -95,6 +95,7 @@
     <Source>Taggers/__init__.py</Source>
     <Source>Taggers/EyeD3Tagger.py</Source>
     <Source>test2.py</Source>
+    <Source>setup.py</Source>
   </Sources>
   <Forms>
   </Forms>

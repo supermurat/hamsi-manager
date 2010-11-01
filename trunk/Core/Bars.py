@@ -150,14 +150,13 @@ class Bars():
         try:
             actionName = _action.objectName()
             if actionName==translate("MenuBar", "Open State"):
-                import os, Settings
+                import Settings
                 f = MFileDialog.getOpenFileName(Universals.activeWindow(),translate("MenuBar", "Open State"),
                                     Variables.userDirectoryPath,str(translate("MenuBar", "Application Runner") + " (*.desktop)").decode("utf-8"))
                 if f!="":
                     Settings.openStateOfSettings(unicode(f, "utf-8"))
             elif actionName==translate("MenuBar", "Save State"):
                 import Settings
-                import os
                 f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + " (*.desktop)")
                 if f!="":
                     Settings.saveStateOfSettings(unicode(f, "utf-8"))
@@ -303,8 +302,8 @@ class Bars():
                         Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
                             str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath))
                 elif actionName==translate("ToolsBar", "Amarok Embedded Database Configurator"):
+                    import Amarok
                     if Amarok.checkAmarok():
-                        import Amarok
                         Amarok.AmarokEmbeddedDBConfigurator()
             Records.saveAllRecords()
         except:
