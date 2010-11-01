@@ -51,7 +51,7 @@ class Records():
             if recordType==0 or (recordType==1 and Universals.loggingLevel==logging.DEBUG):
                 recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
         if Universals.loggingLevel==logging.DEBUG:
-            print (_title)
+            print (str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
         
     def setRecordType(_recordType):
         global lastRecordType, recordType
