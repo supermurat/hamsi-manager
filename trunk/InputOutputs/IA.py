@@ -94,10 +94,10 @@ class IA:
         return False
         
     def removeDir(_oldPath):
-        return InputOutputs.removeDir(_newPath)
+        return InputOutputs.removeDir(_oldPath)
         
     def removeFile(_oldPath):
-        return InputOutputs.removeFile(_newPath)
+        return InputOutputs.removeFile(_oldPath)
     
     def isReadableFileOrDir(_newPath, _isOnlyCheck=False): 
         realPath = _newPath
@@ -683,7 +683,7 @@ class IA:
         return InputOutputs.getHashDigest(_filePath, _hashType)
         
     def createHashDigestFile(_filePath, _digestFilePath=None, _hashType="MD5", _isAddFileExtension=True, _digestContent=None):
-        return InputOutputs.getFileTree(_filePath, _digestFilePath, _hashType, _isAddFileExtension, _digestContent)
+        return InputOutputs.createHashDigestFile(_filePath, _digestFilePath, _hashType, _isAddFileExtension, _digestContent)
         
         
         
