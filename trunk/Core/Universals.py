@@ -65,7 +65,8 @@ class Universals():
         pathOfSettingsDirectory = _path
     
     def translate(_p, _s):
-        try:return Variables.MQtGui.MApplication.translate(_p, _s)
+        try:
+            return Variables.MQtGui.QApplication.translate(_p, _s)
         except:
             try:return _s.decode("utf-8")
             except: return _s

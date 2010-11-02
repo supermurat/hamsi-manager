@@ -474,13 +474,12 @@ class Variables():
                     import Execute
                     kdedirPath = Execute.getCommandResult(["kde4-config", "--localprefix"])[:-2]
                 return kdedirPath
-            except:
-                import InputOutputs
-                if InputOutputs.isDir(userDirectoryPath + "/.kde4/share/config"):
-                    return userDirectoryPath + "/.kde4"
-                else:
-                    return userDirectoryPath + "/.kde"
-        return None
+            except:pass
+        import InputOutputs
+        if InputOutputs.isDir(userDirectoryPath + "/.kde4/share/config"):
+            return userDirectoryPath + "/.kde4"
+        else:
+            return userDirectoryPath + "/.kde"
         
     def getLibraryDirectoryPath():
         global libPath

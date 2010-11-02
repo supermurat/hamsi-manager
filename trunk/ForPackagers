@@ -1,0 +1,30 @@
+
+Hi,
+
+Firstly thank you very much for your interest.
+
+
+
+
+Please use these paths for Hamsi Manager :
+------------------------------------------
+Source Path 				:	/usr/share/hamsimanager (or /usr/share/hamsimanager-%Version%)
+				Example :		cp -r /home/yourname/files/hamsimanager-%Version%/* /usr/share/hamsimanager
+
+Executable File Path 		:	/usr/bin/hamsi
+				Example :		ln -s /usr/share/hamsimanager/HamsiManager.py /usr/bin/hamsi
+				Example 2 :		echo -e '#!/bin/bash\n\ncd "/usr/share/hamsi"\n./HamsiManager.py $@\nexit $?\n' > /usr/bin/hamsi
+
+Icon Path					:	/usr/share/icons/hamsi.png
+				Example :		cp -f /usr/share/hamsimanager/Themes/Default/Images/HamsiManager-128x128.png /usr/share/icons/hamsi.png
+
+Icon Path 2					:	/usr/share/pixmaps/hamsi.png
+				Example :		cp -f /usr/share/hamsimanager/Themes/Default/Images/HamsiManager-128x128.png /usr/share/pixmaps/hamsi.png
+------------------------------------------
+
+
+
+You can remove these files :
+----------------------------
+/usr/share/hamsimanager/install.py
+----------------------------
