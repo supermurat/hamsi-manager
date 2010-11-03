@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-11-01, 00:26:23 -->
-<!-- Copyright (C) 2010 MXD mixdigitall (Murat DEMİR),  -->
+<!-- Saved: 2010-11-03, 23:39:36 -->
+<!-- Copyright (C) 2010 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
-  <Language>tr</Language>
+  <Language>tr_TR</Language>
   <ProgLanguage mixed="1">Python</ProgLanguage>
   <ProjectType>Qt4</ProjectType>
   <Description>Hamsi Manager</Description>
-  <Author>MXD mixdigitall (Murat DEMİR)</Author>
-  <EmaIl></EmaIl>
+  <Version>0.9.08</Version>
+  <Author>Murat Demir</Author>
+  <Email>mopened@gmail.com</Email>
   <TranslationPattern>Languages/HamsiManager_%language%.ts</TranslationPattern>
   <TranslationsBinPath>Languages</TranslationsBinPath>
   <Sources>
@@ -239,8 +240,10 @@
     <FiletypeAssociation pattern="*.ui" type="FORMS" />
     <FiletypeAssociation pattern="*.idl" type="INTERFACES" />
     <FiletypeAssociation pattern="*.qm" type="TRANSLATIONS" />
+    <FiletypeAssociation pattern="*.spec" type="SOURCES" />
     <FiletypeAssociation pattern="*.desktop" type="SOURCES" />
     <FiletypeAssociation pattern="*.ptl" type="SOURCES" />
+    <FiletypeAssociation pattern="*.js" type="SOURCES" />
     <FiletypeAssociation pattern="*.ui.h" type="FORMS" />
     <FiletypeAssociation pattern="*.ts" type="TRANSLATIONS" />
     <FiletypeAssociation pattern="*.py" type="SOURCES" />
