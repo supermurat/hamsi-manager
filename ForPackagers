@@ -15,6 +15,9 @@ Executable File Path 		:	/usr/bin/hamsi
 				Example :		ln -s /usr/share/hamsimanager/HamsiManager.py /usr/bin/hamsi
 				Example 2 :		echo -e '#!/bin/bash\n\ncd "/usr/share/hamsi"\n./HamsiManager.py $@\nexit $?\n' > /usr/bin/hamsi
 
+Desktop File Path			:	/usr/share/applications/HamsiManager.desktop
+				Example : 		rm -f /usr/share/applications/HamsiManager.desktop;cat /usr/share/hamsimanager/HamsiManager.desktop |while read line; do newname=$(echo ${line}|sed 's/~InstallationDirectory~/\/usr\/share\/hamsimanager/'); echo ${newname} >> /usr/share/applications/HamsiManager.desktop; done
+
 Icon Path					:	/usr/share/icons/hamsi.png
 				Example :		cp -f /usr/share/hamsimanager/Themes/Default/Images/HamsiManager-128x128.png /usr/share/icons/hamsi.png
 
