@@ -103,13 +103,17 @@ class Databases:
             cur.execute("SELECT * FROM dbProperties")
             tableCreateQueries, sqlCommands, tableInsertImportantQueries = [], [], []
             for database in getAllDatabases():
-                cur = con.cursor()
-                cur.execute("SELECT * FROM dbProperties where keyName='" + database.tableName + "_Version'")
-                tableVersion = int(cur.fetchall()[0][1])
+                try:
+                    cur = con.cursor()
+                    cur.execute("SELECT * FROM dbProperties where keyName='" + database.tableName + "_Version'")
+                    tableVersion = int(cur.fetchall()[0][1])
+                except:
+                    tableVersion = 0
                 if tableVersion<database.tableVersion:
                     tableCreateQueries.append(database.getTableCreateQuery())
                     sqlCommands += database.getDefaultsQueries()
                     tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
+                    
             for sqlCommand in tableCreateQueries:
                 cur = con.cursor()
                 cur.execute(str(sqlCommand))
