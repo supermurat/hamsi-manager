@@ -34,7 +34,8 @@ def checkParameters():
     myArgvs = sys.argv
     isDontRun = False
     parser = OptionParser(
-    usage="HamsiManager [options] arg1 arg2", version="HamsiManager " + Variables.version,
+    usage="%prog [options] [<arg1>...]", version="HamsiManager " + Variables.version, 
+
     epilog="""\
 Copyright (c) 2010 Murat Demir <mopened@gmail.com> ,
 HamsiManager is free software; you can redistribute it and/or modify
@@ -131,101 +132,98 @@ the Free Software Foundation; either version 2 of the License, or
     parser.add_option_group(dgroup)
     parser.set_defaults(loggingLevel=logging.WARNING, 
                     checkAndGetOldAppNameInSystem=False, runAsRoot=False, qm=False)
-    options, args = parser.parse_args()
-    if args and (len(sys.argv)>1 and sys.argv[1][0]=="-"):
-        parser.error('Superfluous Arguments : Please check your arguments and try again.')
-    else:
-        if options.loggingLevel:
-            Universals.loggingLevel = options.loggingLevel
-        if options.sFileName:
-            Universals.fileOfSettings = options.sFileName
-        if options.sDirectoryPath:
-            Universals.setPathOfSettingsDirectory(options.sDirectoryPath)
-        if options.tableType:
-            Universals.setMySetting("tableType", Universals.getThisTableType(options.tableType))
-        if options.fileReNamerType:
-            Universals.setMySetting("fileReNamerType", options.fileReNamerType)
-        if options.PyKDE4:
-            if options.PyKDE4.lower()=="false" or options.PyKDE4=="0":
+    options, remainder = parser.parse_args()
+    if len(remainder)==1:
+        Universals.setMySetting("lastDirectory", remainder[0])
+    if options.directory:
+        Universals.setMySetting("lastDirectory", options.directory)
+    if options.loggingLevel:
+        Universals.loggingLevel = options.loggingLevel
+    if options.sFileName:
+        Universals.fileOfSettings = options.sFileName
+    if options.sDirectoryPath:
+        Universals.setPathOfSettingsDirectory(options.sDirectoryPath)
+    if options.tableType:
+        Universals.setMySetting("tableType", Universals.getThisTableType(options.tableType))
+    if options.fileReNamerType:
+        Universals.setMySetting("fileReNamerType", options.fileReNamerType)
+    if options.PyKDE4:
+        if options.PyKDE4.lower()=="false" or options.PyKDE4=="0":
+            Universals.setMySetting("isActivePyKDE4", False)
+        else:
+            Universals.setMySetting("isActivePyKDE4", True)
+    if options.qm:
+        if options.qmw:
+            if options.qmw.lower()=="false" or options.qmw=="0":
                 Universals.setMySetting("isActivePyKDE4", False)
             else:
                 Universals.setMySetting("isActivePyKDE4", True)
-        if options.qm:
-            if options.qmw:
-                if options.qmw.lower()=="false" or options.qmw=="0":
-                    Universals.setMySetting("isActivePyKDE4", False)
-                else:
-                    Universals.setMySetting("isActivePyKDE4", True)
-            if options.pack:
-                QuickMakeParameters.append("pack")
-                QuickMakeParameters.append(options.pack)
-                isQuickMake = True
-            elif options.hash:
-                QuickMakeParameters.append("hash")
-                QuickMakeParameters.append(options.hash)
-                isQuickMake = True
-            elif options.checkIcon:
-                QuickMakeParameters.append("checkIcon")
-                QuickMakeParameters.append(options.checkIcon)
-                isQuickMake = True
-            elif options.clearEmptyDirectories:
-                QuickMakeParameters.append("clearEmptyDirectories")
-                QuickMakeParameters.append(options.clearEmptyDirectories)
-                isQuickMake = True
-            elif options.clearUnneededs:
-                QuickMakeParameters.append("clearUnneededs")
-                QuickMakeParameters.append(options.clearUnneededs)
-                isQuickMake = True
-            elif options.clearIgnoreds:
-                QuickMakeParameters.append("clearIgnoreds")
-                QuickMakeParameters.append(options.clearIgnoreds)
-                isQuickMake = True
-            elif options.emendFile:
-                QuickMakeParameters.append("emendFile")
-                QuickMakeParameters.append(options.emendFile)
-                isQuickMake = True
-            elif options.emendDirectory:
-                QuickMakeParameters.append("emendDirectory")
-                QuickMakeParameters.append(options.emendDirectory)
-                isQuickMake = True
-            elif options.emendDirectoryWithContents:
-                QuickMakeParameters.append("emendDirectoryWithContents")
-                QuickMakeParameters.append(options.emendDirectoryWithContents)
-                isQuickMake = True
-            elif options.copyPath:
-                QuickMakeParameters.append("copyPath")
-                QuickMakeParameters.append(options.copyPath)
-                isQuickMake = True
-            elif options.fileTree:
-                QuickMakeParameters.append("fileTree")
-                QuickMakeParameters.append(options.fileTree)
-                isQuickMake = True
-            elif options.removeOnlySubFiles:
-                QuickMakeParameters.append("removeOnlySubFiles")
-                QuickMakeParameters.append(options.removeOnlySubFiles)
-                isQuickMake = True
-            elif options.clear:
-                QuickMakeParameters.append("clear")
-                QuickMakeParameters.append(options.clear)
-                isQuickMake = True
-        if options.runAsRoot:
-            import Execute
-            if Execute.isRunningAsRoot()==False:
-                strArgvs = ""
-                for tempArg in sys.argv:
-                    if tempArg.find("-runAsRoot")==-1:
-                        strArgvs += tempArg + " "
-                if Execute.executeHamsiManagerAsRoot(strArgvs):
-                    isDontRun = True
-        if options.checkAndGetOldAppNameInSystem:
-            import OldAppName
-            OldAppName.checkAndGetOldAppNameInSystem()
-            isDontRun = True
-        if options.directory:
-            Universals.setMySetting("lastDirectory", options.directory)
-        elif len(sys.argv)>1 and sys.argv[1][0]=="-":
-            Universals.setMySetting("lastDirectory", sys.argv[1])
-        sys.argv = []
+        if options.pack:
+            QuickMakeParameters.append("pack")
+            QuickMakeParameters.append(options.pack)
+            isQuickMake = True
+        elif options.hash:
+            QuickMakeParameters.append("hash")
+            QuickMakeParameters.append(options.hash)
+            isQuickMake = True
+        elif options.checkIcon:
+            QuickMakeParameters.append("checkIcon")
+            QuickMakeParameters.append(options.checkIcon)
+            isQuickMake = True
+        elif options.clearEmptyDirectories:
+            QuickMakeParameters.append("clearEmptyDirectories")
+            QuickMakeParameters.append(options.clearEmptyDirectories)
+            isQuickMake = True
+        elif options.clearUnneededs:
+            QuickMakeParameters.append("clearUnneededs")
+            QuickMakeParameters.append(options.clearUnneededs)
+            isQuickMake = True
+        elif options.clearIgnoreds:
+            QuickMakeParameters.append("clearIgnoreds")
+            QuickMakeParameters.append(options.clearIgnoreds)
+            isQuickMake = True
+        elif options.emendFile:
+            QuickMakeParameters.append("emendFile")
+            QuickMakeParameters.append(options.emendFile)
+            isQuickMake = True
+        elif options.emendDirectory:
+            QuickMakeParameters.append("emendDirectory")
+            QuickMakeParameters.append(options.emendDirectory)
+            isQuickMake = True
+        elif options.emendDirectoryWithContents:
+            QuickMakeParameters.append("emendDirectoryWithContents")
+            QuickMakeParameters.append(options.emendDirectoryWithContents)
+            isQuickMake = True
+        elif options.copyPath:
+            QuickMakeParameters.append("copyPath")
+            QuickMakeParameters.append(options.copyPath)
+            isQuickMake = True
+        elif options.fileTree:
+            QuickMakeParameters.append("fileTree")
+            QuickMakeParameters.append(options.fileTree)
+            isQuickMake = True
+        elif options.removeOnlySubFiles:
+            QuickMakeParameters.append("removeOnlySubFiles")
+            QuickMakeParameters.append(options.removeOnlySubFiles)
+            isQuickMake = True
+        elif options.clear:
+            QuickMakeParameters.append("clear")
+            QuickMakeParameters.append(options.clear)
+            isQuickMake = True
+    if options.runAsRoot:
+        import Execute
+        if Execute.isRunningAsRoot()==False:
+            strArgvs = ""
+            for tempArg in sys.argv:
+                if tempArg.find("-runAsRoot")==-1:
+                    strArgvs += tempArg + " "
+            if Execute.executeHamsiManagerAsRoot(strArgvs):
+                isDontRun = True
+    if options.checkAndGetOldAppNameInSystem:
+        import OldAppName
+        OldAppName.checkAndGetOldAppNameInSystem()
+        isDontRun = True
+    sys.argv = []
     if isDontRun:
         return False
     return True
