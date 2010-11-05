@@ -106,12 +106,12 @@ class Musics:
                 realRowNo=rowNo
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
+                if InputOutputs.IA.isWritableFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1])):
                     if _table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
+                        InputOutputs.IA.removeFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]))
                         continue
                     tagger = Taggers.getTagger()
-                    tagger.loadFileForWrite(InputOutputs.IA.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1])
+                    tagger.loadFileForWrite(InputOutputs.currentDirectoryPath+"/"+currentFilesAndFoldersValues[realRowNo][1])
                     if _table.isColumnHidden(2)!=True and (_table.item(rowNo,2).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
                         value = unicode(_table.item(rowNo,2).text(), "utf-8")
                         if value!=str(currentFilesAndFoldersValues[realRowNo][2]) and (str(currentFilesAndFoldersValues[realRowNo][2])!="None" or value!=""):
@@ -172,7 +172,7 @@ class Musics:
                                     extState = unicode(_table.item(rowNo,1).text()).encode("utf-8").decode("utf-8").lower().find(orgExt)
                                     if extState!=-1:
                                         _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")[:extState] + "." + orgExt).decode("utf-8")))
-                                newFileName = InputOutputs.IA.moveOrChange(InputOutputs.IA.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]), InputOutputs.IA.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                                newFileName = InputOutputs.IA.moveOrChange(InputOutputs.currentDirectoryPath+"/"+str(currentFilesAndFoldersValues[realRowNo][1]), InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
                                 changedValueNumber += 1
                     if newFileName==False:
                         continue
@@ -185,7 +185,7 @@ class Musics:
                             if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
                                 newDirectoryName=str(currentFilesAndFoldersValues[realRowNo][0])
                         if str(currentFilesAndFoldersValues[realRowNo][0])!=newDirectoryName:
-                            newPath=InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath)
+                            newPath=InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath)
                             changingFileDirectories.append([])
                             changingFileDirectories[-1].append(newPath+"/"+str(currentFilesAndFoldersValues[realRowNo][0])+"/"+newFileName)
                             changingFileDirectories[-1].append(newPath+"/"+newDirectoryName+"/"+newFileName)

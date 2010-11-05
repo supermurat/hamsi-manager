@@ -310,7 +310,7 @@ if RoutineChecks.checkQt4Exist():
     if Execute.isRunningAsRoot()==False and Execute.isRunableAsRoot():
         answer = Dialogs.askSpecial(MApplication.translate("Install", "Are You Want To Run As Root?"), MApplication.translate("Install", "Hamsi Manager Installer is running with user privileges.<br>Do you want to run Hamsi Manager installer with root rights?<br><b>Note: </b>The other users on your system has to inherit these permissions and install the program to a location other than their /home directories."), MApplication.translate("Install", "Yes"), MApplication.translate("Install", "No (Continue as is)"), None)
         if answer==MApplication.translate("Install", "Yes"):
-            NewApp = Execute.executeWithPythonAsRoot("\""+Variables.HamsiManagerDirectory+"/install.py\"")
+            NewApp = Execute.executeWithPythonAsRoot([Variables.HamsiManagerDirectory+"/install.py"])
             sys.exit()
     MainWidget=Main()
     MainWidget.setWindowTitle(MApplication.translate("Install", "Hamsi Manager Installer") + " " + MApplication.applicationVersion())

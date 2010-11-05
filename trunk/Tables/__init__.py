@@ -155,7 +155,7 @@ class Tables(MTableWidget):
                     rowNo = self.currentRow()/2
                 else:
                     rowNo = self.currentRow()
-                filePath = InputOutputs.IA.currentDirectoryPath+"/"+self.fileDetails[rowNo][1]
+                filePath = InputOutputs.currentDirectoryPath+"/"+self.fileDetails[rowNo][1]
                 isOpenedDetails = False
                 if InputOutputs.IA.isExist(filePath):
                     isImage = False
@@ -264,13 +264,13 @@ class Tables(MTableWidget):
                                 self.hideRow(rowNo)
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         import Execute
-                        Execute.open(InputOutputs.IA.getRealDirName(InputOutputs.IA.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1]))
+                        Execute.open([InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1])])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         import Execute
-                        Execute.open(InputOutputs.IA.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1])
+                        Execute.open([InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1]])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         import Execute
-                        Execute.execute("konsole --workdir " + Execute.correctForConsole(InputOutputs.IA.getRealDirName(InputOutputs.IA.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1])))
+                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1])])
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -339,7 +339,7 @@ class Tables(MTableWidget):
         global isShowChanges, isAskShowHiddenColumn
         isAskShowHiddenColumn = True
         if InputOutputs.IA.isDir(_path)==False:
-            _path = InputOutputs.IA.currentDirectoryPath
+            _path = InputOutputs.currentDirectoryPath
         isShowChanges=False
         table.clear()
         table.setColumnCount(len(table.tableColumns))
@@ -378,8 +378,8 @@ class Tables(MTableWidget):
             if Universals.tableType!=4:
                 InputOutputs.IA.activateSmartCheckIcon()
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                if InputOutputs.IA.clearEmptyDirectories(InputOutputs.IA.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
-                    Universals.MainWindow.FileManager.makeRefresh(InputOutputs.IA.getDirName(InputOutputs.IA.currentDirectoryPath))
+                if InputOutputs.IA.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                    Universals.MainWindow.FileManager.makeRefresh(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))
                     return True
             import MyThread
             myProcs = MyThread.MyThread(self.saveSubTable, self.continueSaveTable, [self])
@@ -393,7 +393,7 @@ class Tables(MTableWidget):
         newCurrentDirectoryPath = _returned
         if Universals.tableType!=4:
             if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                InputOutputs.IA.checkIcon(InputOutputs.IA.currentDirectoryPath)
+                InputOutputs.IA.checkIcon(InputOutputs.currentDirectoryPath)
         InputOutputs.IA.complateSmartCheckIcon()
         Records.saveAllRecords()
         if self.changedValueNumber==0:
@@ -403,7 +403,7 @@ class Tables(MTableWidget):
             if Universals.getBoolValue("isShowTransactionDetails"):
                 Dialogs.show(translate("Tables", "Transaction Details"), 
                              str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-        if newCurrentDirectoryPath!=None and newCurrentDirectoryPath!=InputOutputs.IA.currentDirectoryPath:
+        if newCurrentDirectoryPath!=None and newCurrentDirectoryPath!=InputOutputs.currentDirectoryPath:
             Universals.MainWindow.FileManager.makeRefresh(newCurrentDirectoryPath)
         else:
             Universals.MainWindow.FileManager.makeRefresh("", False)

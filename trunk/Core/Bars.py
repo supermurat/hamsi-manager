@@ -164,13 +164,13 @@ class Bars():
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
                 import Execute, Settings
-                if Execute.executeHamsiManagerAsRoot("--sDirectoryPath \"" + Universals.pathOfSettingsDirectory + "\""):
+                if Execute.executeHamsiManagerAsRoot(["--sDirectoryPath", Universals.pathOfSettingsDirectory]):
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
             elif actionName==translate("MenuBar", "With Root Profile (Own Settings)"):
                 import Execute
-                if Execute.executeHamsiManagerAsRoot(""):
+                if Execute.executeHamsiManagerAsRoot():
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
@@ -219,10 +219,10 @@ class Bars():
                 MyPlugins.MyPlugins(Universals.MainWindow)
             elif actionName==translate("MenuBar", "Reconfigure"):
                 import Execute
-                Execute.executeReconfigure("-configurePage")
+                Execute.executeReconfigure(["--configurePage"])
             elif actionName==translate("MenuBar", "My Plug-ins (System)"):
                 import Execute
-                Execute.executeReconfigure("-pluginPage -onlyRoot")
+                Execute.executeReconfigure(["--pluginPage", "--onlyRoot"])
             elif actionName==translate("MenuBar", "Update"):
                 import UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
@@ -241,7 +241,7 @@ class Bars():
                     if Universals.tableType!=4:
                         if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
                             Universals.isShowOldValues = _action.isChecked()
-                            Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
+                            Tables.refreshTable(InputOutputs.currentDirectoryPath)
                         else:
                             _action.setChecked(Universals.isShowOldValues)
                     else:
@@ -258,7 +258,7 @@ class Bars():
                     Universals.MainWindow.StatusBar.fillSelectionInfo()
                 elif actionName==translate("ToolsBar", "Check Icon"):
                     Universals.MainWindow.setEnabled(False)
-                    InputOutputs.IA.checkIcon(InputOutputs.IA.currentDirectoryPath)
+                    InputOutputs.IA.checkIcon(InputOutputs.currentDirectoryPath)
                     Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
                             translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
                     Universals.MainWindow.setEnabled(True)
@@ -267,40 +267,40 @@ class Bars():
                         _action.setChecked(False)
                         return False
                     answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
-                            str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath))
+                            str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
                     if answer==Dialogs.Yes:
                         import FileManager
                         Universals.MainWindow.setEnabled(False)
-                        InputOutputs.IA.clearEmptyDirectories(InputOutputs.IA.currentDirectoryPath, True, True)
+                        InputOutputs.IA.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True)
                         Universals.MainWindow.setEnabled(True)
                         Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
                             translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))
                         Universals.MainWindow.FileManager.makeRefresh()
                 elif actionName==translate("ToolsBar", "Pack"):
                     from Tools import Packager
-                    Packager.Packager(InputOutputs.IA.currentDirectoryPath)
+                    Packager.Packager(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Hash"):
                     from Tools import Hasher
-                    Hasher.Hasher(InputOutputs.IA.currentDirectoryPath)
+                    Hasher.Hasher(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Clear"):
                     from Tools import Cleaner
-                    Cleaner.Cleaner(InputOutputs.IA.currentDirectoryPath)
+                    Cleaner.Cleaner(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "File Tree"):
                     from Tools import FileTreeBuilder
-                    FileTreeBuilder.FileTreeBuilder(InputOutputs.IA.currentDirectoryPath)
+                    FileTreeBuilder.FileTreeBuilder(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Run Command"):
                     from Tools import RunCommand
                     if RunCommand.checkRunCommand():
                         RunCommand.RunCommand(Universals.MainWindow)
                 elif actionName==translate("ToolsBar", "Remove Sub Files"):
                     answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
-                            str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath))
+                            str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
                     if answer==Dialogs.Yes:
                         Universals.MainWindow.setEnabled(False)
-                        InputOutputs.IA.removeOnlySubFiles(InputOutputs.IA.currentDirectoryPath)
+                        InputOutputs.IA.removeOnlySubFiles(InputOutputs.currentDirectoryPath)
                         Universals.MainWindow.setEnabled(True)
                         Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
-                            str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.IA.currentDirectoryPath))
+                            str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
                 elif actionName==translate("ToolsBar", "Amarok Embedded Database Configurator"):
                     import Amarok
                     if Amarok.checkAmarok():
@@ -608,7 +608,7 @@ class MusicOptionsBar(MToolBar):
                     setSelectedTaggerTypeName(selectedType)
                     Tables.refreshForTableColumns()
                     Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(getSelectedTaggerTypeName()))
                 if self.cbMusicTagTypeForMenu != None:
@@ -665,7 +665,7 @@ class SubDirectoryOptionsBar(MToolBar):
                     Universals.setMySetting("subDirectoryDeep", int(selectedDeep))
                     Tables.refreshForTableColumns()
                     Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["subDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
@@ -724,7 +724,7 @@ class CoverOptionsBar(MToolBar):
                     Universals.setMySetting("CoversSubDirectoryDeep", int(selectedDeep))
                     Tables.refreshForTableColumns()
                     Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["CoversSubDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:

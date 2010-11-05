@@ -155,7 +155,7 @@ class AmarokEmbeddedDBCore():
         global isStarted
         if Universals.checkMysqldSafe():
             import Execute
-            Execute.executeAsThread(Universals.MySettings["pathOfMysqldSafe"] + " --defaults-file=\"" + Universals.pathOfSettingsDirectory+"/Amarok/my.cnf" + "\"")
+            Execute.executeAsThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Universals.pathOfSettingsDirectory+"/Amarok/my.cnf"])
             Dialogs.sleep(translate("AmarokEmbeddedDBCore", "Starting Embedded Server..."), 3)
             if _isNoAlertIfSuccesfully==False:
                 Dialogs.show(translate("AmarokEmbeddedDBCore", "Started Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server started."))
@@ -170,7 +170,7 @@ class AmarokEmbeddedDBCore():
         mysqldPID = getPID()
         if mysqldPID!=None:
             import Execute
-            Execute.execute("kill -TERM " + mysqldPID)
+            Execute.execute(["kill", "-TERM", str(mysqldPID)])
             Dialogs.sleep(translate("AmarokEmbeddedDBCore", "Stopping Embedded Server..."), 3)
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("AmarokEmbeddedDBCore", "Stopped Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server stopped."))
@@ -178,9 +178,9 @@ class AmarokEmbeddedDBCore():
         
     def getPID():
         global isStarted
-        if InputOutputs.IA.isFile(Universals.pathOfSettingsDirectory+"/Amarok/mysqld.pid"):
+        if InputOutputs.isFile(Universals.pathOfSettingsDirectory+"/Amarok/mysqld.pid"):
             isStarted = True
-            return InputOutputs.IA.readFromFile(Universals.pathOfSettingsDirectory+"/Amarok/mysqld.pid")
+            return InputOutputs.readFromFile(Universals.pathOfSettingsDirectory+"/Amarok/mysqld.pid").split("\n")[0]
         isStarted = False
         return None
         

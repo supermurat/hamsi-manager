@@ -57,12 +57,12 @@ if RoutineChecks.checkQt4Exist():
     activePageNo = 0
     isOnlyRoot = False
     if len(sys.argv)>1:
-        if sys.argv[1]=="-configurePage":
+        if sys.argv[1]=="--configurePage":
             activePageNo = 2
-        if sys.argv[1]=="-pluginPage":
+        if sys.argv[1]=="--pluginPage":
             activePageNo = 3
         for argv in sys.argv:
-            if argv=="-onlyRoot":
+            if argv=="--onlyRoot":
                 isOnlyRoot = True
     import MyConfigure
     class Main(MWidget):
@@ -248,10 +248,10 @@ if RoutineChecks.checkQt4Exist():
         else:
             answer = Dialogs.askSpecial(MApplication.translate("Reconfigure", "Are You Want To Run As Root?"), MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool is running with user privileges.<br>Do you want to run Hamsi Manager Configure Tool with root rights?<br>"), MApplication.translate("Reconfigure", "Yes"), MApplication.translate("Reconfigure", "No (Continue as is)"), None)
         if answer==MApplication.translate("Reconfigure", "Yes"):
-            myParametres = ""
+            myParametres = []
             if len(sys.argv)>1:
                 for x in sys.argv[1:]:
-                    myParametres += x + " "
+                    myParametres.append(x)
             NewApp = Execute.executeReconfigureAsRoot(myParametres)
             sys.exit()
         elif isOnlyRoot:
