@@ -213,10 +213,10 @@ the Free Software Foundation; either version 2 of the License, or
     if options.runAsRoot:
         import Execute
         if Execute.isRunningAsRoot()==False:
-            strArgvs = ""
+            strArgvs = []
             for tempArg in sys.argv:
                 if tempArg.find("-runAsRoot")==-1:
-                    strArgvs += tempArg + " "
+                    strArgvs.append(tempArg)
             if Execute.executeHamsiManagerAsRoot(strArgvs):
                 isDontRun = True
     if options.checkAndGetOldAppNameInSystem:

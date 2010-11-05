@@ -364,8 +364,8 @@ class FileManager():
     
     def showInTable(self):
         try:
-            InputOutputs.IA.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
-            Tables.refreshTable(InputOutputs.IA.currentDirectoryPath)
+            InputOutputs.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
+            Tables.refreshTable(InputOutputs.currentDirectoryPath)
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -461,8 +461,8 @@ class Bookmarks(MDialog):
             
     def addBookmark(self):
         try:
-            isim=str(InputOutputs.IA.currentDirectoryPath).split("/")
-            Databases.BookmarksOfDirectories.insert(isim[len(isim)-1], InputOutputs.IA.currentDirectoryPath)
+            isim=str(InputOutputs.currentDirectoryPath).split("/")
+            Databases.BookmarksOfDirectories.insert(isim[len(isim)-1], InputOutputs.currentDirectoryPath)
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:

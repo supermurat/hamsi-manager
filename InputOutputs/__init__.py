@@ -205,8 +205,8 @@ class InputOutputs:
     def moveToTrash(_oldPath):
         if Variables.isAvailableKDE4():
             import Execute
-            try:Execute.execute("kioclient move '" + _oldPath.encode(fileSystemEncoding) + "' trash:/")
-            except:Execute.execute("kioclient move '" + _oldPath + "' trash:/")
+            try:Execute.execute(["kioclient", "move", _oldPath.encode(fileSystemEncoding), "trash:/"])
+            except:Execute.execute(["kioclient", "move", _oldPath, "trash:/"])
     
     def trSort(_info):
         import locale

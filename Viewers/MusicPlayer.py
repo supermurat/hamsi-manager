@@ -151,7 +151,7 @@ class MusicPlayer(MWidget):
                     self.Player = M_MPlayer()
             self.stop()
             if _filePath=="":
-                _filePath = InputOutputs.IA.currentDirectoryPath + "/" + Universals.MainWindow.Table.fileDetails[Universals.MainWindow.Table.currentRow()][1]
+                _filePath = InputOutputs.currentDirectoryPath + "/" + Universals.MainWindow.Table.fileDetails[Universals.MainWindow.Table.currentRow()][1]
             if _filePath=="" and self.file!="":
                 _filePath = self.file
             else:
@@ -361,15 +361,15 @@ class M_MPlayer():
             writeToPopen(self.popen, _command)
         
     def play(self, _filePath):
-        from Execute import execute
+        import Execute
         if self.popen!=False:
             self.runCommand("quit")
-        command = str("\"" + Universals.MySettings["mplayerPath"]+"\" "+
-                    Universals.MySettings["mplayerArgs"]+" "+
-                    Universals.MySettings["mplayerAudioDevicePointer"]+" "+
-                    Universals.MySettings["mplayerAudioDevice"])
-        command += " '" + _filePath + "'"
-        self.popen = execute(command)
+        command = [Universals.MySettings["mplayerPath"]] 
+        command += Universals.MySettings["mplayerArgs"].split(" ")
+        command += [Universals.MySettings["mplayerAudioDevicePointer"], 
+                   Universals.MySettings["mplayerAudioDevice"], 
+                   str(_filePath)]
+        self.popen = Execute.execute(command)
         return True
         
     def pause(self):

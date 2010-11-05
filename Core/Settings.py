@@ -216,7 +216,7 @@ class Settings():
         import Execute
         for rowNo, row in enumerate(InputOutputs.readLinesFromFile(_file)):
             if row [:5]=="Exec=":
-                t = Execute.execute(row[5:])
+                t = Execute.executeStringCommand(row[5:])
                 Universals.HamsiManagerApp.closeAllWindows()
                 break
         

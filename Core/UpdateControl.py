@@ -265,7 +265,7 @@ class UpdateControl(MDialog):
         if InputOutputs.IA.isFile(Variables.HamsiManagerDirectory+"/Update.py")==False:
             if InputOutputs.IA.isFile(Variables.HamsiManagerDirectory+"/ConfigureUpdate.py"):
                 InputOutputs.IA.moveFileOrDir(Variables.HamsiManagerDirectory+"/ConfigureUpdate.py", Variables.HamsiManagerDirectory+"/Update.py")
-        executeWithPython(Variables.HamsiManagerDirectory+"/Update.py "+str(_fileName))
+        executeWithPython([Variables.HamsiManagerDirectory+"/Update.py", str(_fileName)])
         self.close()
         self.parent().close()
         
