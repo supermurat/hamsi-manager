@@ -130,7 +130,7 @@ if RoutineChecks.checkQt4Exist():
                 VBox.addStretch(10)
                 self.isCreateDesktopShortcut = None
                 self.isCreateExecutableLink = None
-                if Execute.isRunningAsRoot():
+                if Variables.isRunningAsRoot():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Reconfigure", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(MApplication.translate("Reconfigure", "Executable Link Path : "))
@@ -227,7 +227,7 @@ if RoutineChecks.checkQt4Exist():
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
-            if Execute.isRunningAsRoot()==False:
+            if Variables.isRunningAsRoot()==False:
                 if InputOutputs.isDir(Variables.userDirectoryPath + "/.local/applications/")==False:
                     InputOutputs.makeDirs(Variables.userDirectoryPath + "/.local/applications/")
                 fileContent = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
@@ -242,7 +242,7 @@ if RoutineChecks.checkQt4Exist():
                 if answer!=Dialogs.Yes:
                     _event.ignore()
             
-    if Execute.isRunningAsRoot()==False and Execute.isRunableAsRoot():
+    if Variables.isRunningAsRoot()==False and Variables.isRunableAsRoot():
         if isOnlyRoot:
             answer = Dialogs.askSpecial(MApplication.translate("Reconfigure", "Are You Want To Run As Root?"), MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool is running with user privileges.<br>Do you want to run Hamsi Manager Configure Tool with root rights?<br>"), MApplication.translate("Reconfigure", "Yes"), MApplication.translate("Reconfigure", "No (Close)"), None)
         else:

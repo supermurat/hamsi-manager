@@ -158,7 +158,7 @@ def installThisPlugin():
                     "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --hash %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n")]
-        if Execute.isRunningAsRoot():
+        if Variables.isRunningAsRoot():
             destinationPath = "/usr/share/apps/krusader/"
         else:
             destinationPath = Variables.getKDE4HomePath() +"/share/apps/krusader/"

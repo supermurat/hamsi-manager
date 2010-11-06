@@ -84,7 +84,7 @@ class MenuBar(MMenuBar):
         mExport.addMenu(mCopyToClipBoard)
         self.mFile.addAction(translate("MenuBar", "Open State")).setObjectName(translate("MenuBar", "Open State"))
         self.mFile.addAction(translate("MenuBar", "Save State")).setObjectName(translate("MenuBar", "Save State"))
-        if Execute.isRunableAsRoot():
+        if Variables.isRunableAsRoot():
             mRunAsRoot = MMenu(translate("MenuBar", "Run As Root"), self.mFile)
             mRunAsRoot.addAction(translate("MenuBar", "With This Profile (My Settings)")).setObjectName(translate("MenuBar", "With This Profile (My Settings)")) 
             mRunAsRoot.addAction(translate("MenuBar", "With Root Profile (Own Settings)")).setObjectName(translate("MenuBar", "With Root Profile (Own Settings)")) 
@@ -756,7 +756,7 @@ class StatusBar(MStatusBar):
     def __init__(self, _parent):
         MStatusBar.__init__(self, _parent)
         import Execute
-        if Execute.isRunningAsRoot():
+        if Variables.isRunningAsRoot():
             lblInfo = MLabel("<span style=\"color: #FF0000\">".decode("utf-8") + translate("StatusBar", "Hamsi Manager running as root")+"</span>".decode("utf-8"))
             self.addWidget(lblInfo)
         self.isLockedMainForm = False

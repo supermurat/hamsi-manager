@@ -142,7 +142,7 @@ if RoutineChecks.checkQt4Exist():
                 VBox.addWidget(self.lblFinished)
                 self.isCreateDesktopShortcut = None
                 self.isCreateExecutableLink = None
-                if Execute.isRunningAsRoot():
+                if Variables.isRunningAsRoot():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(MApplication.translate("Install", "Executable Link Path : "))
@@ -299,7 +299,7 @@ if RoutineChecks.checkQt4Exist():
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
-            if Execute.isRunningAsRoot()==False:
+            if Variables.isRunningAsRoot()==False:
                 if InputOutputs.isDir(Variables.userDirectoryPath + "/.local/applications/")==False:
                     InputOutputs.makeDirs(Variables.userDirectoryPath + "/.local/applications/")
                 fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
@@ -307,7 +307,7 @@ if RoutineChecks.checkQt4Exist():
             self.isInstallFinised = True
             self.close()
             
-    if Execute.isRunningAsRoot()==False and Execute.isRunableAsRoot():
+    if Variables.isRunningAsRoot()==False and Variables.isRunableAsRoot():
         answer = Dialogs.askSpecial(MApplication.translate("Install", "Are You Want To Run As Root?"), MApplication.translate("Install", "Hamsi Manager Installer is running with user privileges.<br>Do you want to run Hamsi Manager installer with root rights?<br><b>Note: </b>The other users on your system has to inherit these permissions and install the program to a location other than their /home directories."), MApplication.translate("Install", "Yes"), MApplication.translate("Install", "No (Continue as is)"), None)
         if answer==MApplication.translate("Install", "Yes"):
             NewApp = Execute.executeWithPythonAsRoot([Variables.HamsiManagerDirectory+"/install.py"])

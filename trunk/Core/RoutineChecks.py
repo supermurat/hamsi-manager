@@ -212,7 +212,7 @@ the Free Software Foundation; either version 2 of the License, or
             isQuickMake = True
     if options.runAsRoot:
         import Execute
-        if Execute.isRunningAsRoot()==False:
+        if Variables.isRunningAsRoot()==False:
             strArgvs = []
             for tempArg in sys.argv:
                 if tempArg.find("-runAsRoot")==-1:

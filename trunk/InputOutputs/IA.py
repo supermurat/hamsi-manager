@@ -30,12 +30,8 @@ from Universals import translate
 
 class IA:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType
-    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
-    appendingDirectories = []
-    fileSystemEncoding = Variables.defaultFileSystemEncoding
-    willCheckIconDirectories = []
-    isSmartCheckIcon = False
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, readDirectory, moveOrChange, moveDir, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType
+    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, clearTempFiles, getFileTree, removeOnlySubFiles, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
     
     def isFile(_oldPath):
         return InputOutputs.isFile(_oldPath)
@@ -146,7 +142,6 @@ class IA:
         return _oldPath
         
     def checkDestination(_oldPath, _newPath, _isQuiet=False):
-        global appendingDirectories
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
                 if _oldPath.lower()!=_newPath.lower() or Variables.osName=="posix": 
@@ -172,20 +167,20 @@ class IA:
                                 return False
                         else:
                             isAllowed=False
-                            for tDir in appendingDirectories:
+                            for tDir in InputOutputs.appendingDirectories:
                                 if _newPath==tDir:
                                     isAllowed=True
                                     return _newPath
                             if isAllowed==False: 
                                 if _isQuiet:
-                                    appendingDirectories.append(_newPath)
+                                    InputOutputs.appendingDirectories.append(_newPath)
                                     return _newPath
                                 else:
                                     import Dialogs
                                     answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"), 
                                             str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>Add your files to the current folder?")) % Organizer.getLink(_newPath))
                                     if answer==Dialogs.Yes:
-                                        appendingDirectories.append(_newPath)
+                                        InputOutputs.appendingDirectories.append(_newPath)
                                         return _newPath
                                     else:
                                         return False
@@ -360,7 +355,7 @@ class IA:
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                         return False
-            for tDir in appendingDirectories:
+            for tDir in InputOutputs.appendingDirectories:
                 if _newPath==tDir:
                     for name in readDirectoryAll(_oldPath):
                         name = str(name)
@@ -399,7 +394,7 @@ class IA:
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
                     if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
                         return False
-            for tDir in appendingDirectories:
+            for tDir in InputOutputs.appendingDirectories:
                 if _newPath==tDir:
                     for name in readDirectoryAll(_oldPath):
                         if isDir(_oldPath+"/"+name):
@@ -434,22 +429,19 @@ class IA:
         return InputOutputs.currentDirectoryPath
         
     def activateSmartCheckIcon():
-        global isSmartCheckIcon, willCheckIconDirectories
-        isSmartCheckIcon = True
-        willCheckIconDirectories = []
+        InputOutputs.isSmartCheckIcon = True
+        InputOutputs.willCheckIconDirectories = []
     
     def complateSmartCheckIcon():
-        global isSmartCheckIcon, willCheckIconDirectories
-        isSmartCheckIcon = False
-        for iconDir in willCheckIconDirectories:
+        InputOutputs.isSmartCheckIcon = False
+        for iconDir in InputOutputs.willCheckIconDirectories:
             checkIcon(iconDir)
-        willCheckIconDirectories = []
+        InputOutputs.willCheckIconDirectories = []
     
     def checkIcon(_path, _isClear=False):
-        global isSmartCheckIcon, willCheckIconDirectories
-        if isSmartCheckIcon and _isClear==False:
-            if willCheckIconDirectories.count(_path)==0:
-                willCheckIconDirectories.append(_path)
+        if InputOutputs.isSmartCheckIcon and _isClear==False:
+            if InputOutputs.willCheckIconDirectories.count(_path)==0:
+                InputOutputs.willCheckIconDirectories.append(_path)
         else:
             if _isClear==False:
                 return setIconToDirectory(_path, getFirstImageInDirectory(_path))

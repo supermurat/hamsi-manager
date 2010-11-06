@@ -25,7 +25,7 @@ pluginVersion = "0.4"
 pluginFiles = []
 pluginDirectory = "HamsiManagerInTheAmarok"
 installThisPlugin = None
-if Execute.isRunningAsRoot():
+if Variables.isRunningAsRoot():
     setupDirectory = "/usr/share/apps/amarok/scripts"
 else:
     setupDirectory = Variables.getKDE4HomePath() + "/share/apps/amarok/scripts"
