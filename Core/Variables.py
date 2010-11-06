@@ -21,7 +21,7 @@
 import os, sys
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
@@ -151,6 +151,21 @@ class Variables():
             return True
         except:
             return False
+        
+    def isRunableAsRoot():
+        try:
+            if InputOutputs.isFile(Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu"):
+                if isRunningAsRoot():
+                    return False
+                return True
+            return False
+        except:
+            return False
+        
+    def isRunningAsRoot():
+        if Variables.userDirectoryPath=="/root":
+            return True
+        return False
 
     def getDefaultValues():
         from datetime import datetime

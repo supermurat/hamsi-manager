@@ -144,7 +144,7 @@ def checkAndGetOldAppNameInSystem():
     import Variables, InputOutputs, Dialogs, Execute, Organizer, Universals
     from MyObjects import translate
     #Clear OrganizasyonizM in system(/usr/bin/OrganizasyonizM) by root
-    if Execute.isRunningAsRoot():
+    if Variables.isRunningAsRoot():
         if InputOutputs.isFile("/usr/bin/OrganizasyonizM"):
             InputOutputs.removeFile("/usr/bin/OrganizasyonizM")
         if InputOutputs.isFile("/usr/bin/hamsimanager")==False:

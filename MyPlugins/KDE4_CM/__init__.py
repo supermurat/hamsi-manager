@@ -27,7 +27,7 @@ pluginFiles = ["HamsiManager_KDE4_CM.desktop",
                "HamsiManager_KDE4_CM_File.desktop"]
 pluginDirectory = ""
 installThisPlugin = None
-if Execute.isRunningAsRoot():
+if Variables.isRunningAsRoot():
     setupDirectory = "/usr/share/kde4/services/ServiceMenus"
 else:
     setupDirectory = Variables.getKDE4HomePath() + "/share/kde4/services/ServiceMenus"

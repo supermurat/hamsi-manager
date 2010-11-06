@@ -26,7 +26,7 @@ import Variables
 import InputOutputs
 
 class Execute:
-    global execute, executeAsThread, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, isRunableAsRoot, isRunningAsRoot, executeHamsiManager, executeReconfigure, executeReconfigureAsRoot, open, getCommandResult, executeStringCommand
+    global execute, executeAsThread, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, executeHamsiManager, executeReconfigure, executeReconfigureAsRoot, open, getCommandResult, executeStringCommand
         
     def getCommandResult(_command):
         if os.name=="nt":
@@ -44,7 +44,6 @@ class Execute:
     def execute(_command):
         if os.name=="nt":
             _command = ["start"] + _command
-        print _command
         return subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
     
     def executeAsThread(_command):
@@ -69,23 +68,8 @@ class Execute:
     def executeReconfigure(_command=[]):
         return execute([sys.executable, str(Variables.HamsiManagerDirectory+"/Reconfigure.py")] + _command)
         
-    def isRunableAsRoot():
-        try:
-            if InputOutputs.isFile(Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu"):
-                if isRunningAsRoot():
-                    return False
-                return True
-            return False
-        except:
-            return False
-        
-    def isRunningAsRoot():
-        if Variables.userDirectoryPath=="/root":
-            return True
-        return False
-        
     def executeAsRoot(_command):
-        if isRunableAsRoot():
+        if Variables.isRunableAsRoot():
             stringCommand = ""
             for myCommand in _command:
                 if myCommand[:2]=="--":
@@ -96,12 +80,12 @@ class Execute:
         return False
     
     def executeWithPythonAsRoot(_command):
-        if isRunableAsRoot():
+        if Variables.isRunableAsRoot():
             return executeAsRoot([sys.executable] + _command)
         return False
         
     def executeHamsiManagerAsRoot(_command=[]):
-        if isRunableAsRoot():
+        if Variables.isRunableAsRoot():
             roar = RunHamsiManagerAsRoot(_command)
             roar.start()
             time.sleep(1)
@@ -109,7 +93,7 @@ class Execute:
         return False
         
     def executeReconfigureAsRoot(_command=[]):
-        if isRunableAsRoot():
+        if Variables.isRunableAsRoot():
             roar = RunReconfigureAsRoot(_command)
             roar.start()
             time.sleep(1)

@@ -45,7 +45,7 @@ class MyConfigure:
             if _KDELocalateDir==None:
                 _KDELocalateDir = Variables.getKDE4HomePath() +"/share/locale/~langCode~/LC_MESSAGES/"
             import Execute
-            if Execute.isRunningAsRoot():
+            if Variables.isRunningAsRoot():
                 _KDELocalateDir = "/usr/share/locale/~langCode~/LC_MESSAGES/"
             _KDELocalateDir = str(_KDELocalateDir)
             _KDELocalateDir = _KDELocalateDir.replace("~langCode~", str(_language[:2]))
