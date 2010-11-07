@@ -1,81 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="tr_TR">
+<!DOCTYPE TS>
+<TS version="2.0" language="tr_TR">
 <context>
     <name>Amarok</name>
     <message>
         <location filename="Amarok/__init__.py" line="66"/>
         <source>Amarok Database Must Be Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok Veritabanı Yapılandırılmalı</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="66"/>
         <source>Amarok database must be configure for Hamsi Manager. Are you want to configure Amarok database?</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok veritabanı Hamsi Manager için yapılandırılmalı. Amarok veritabanını yapılandırmak ister misiniz?</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="95"/>
         <source>Connected To Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Veritabanına Bağlanıldı</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="95"/>
         <source>Connected succesfully to &quot;%s&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%s&quot; veritabanına başarıyla bağlanıldı</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="99"/>
         <source>Amarok Database Is Not Usable</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok Veritabanı Kullanılabilir Değil</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="99"/>
         <source>Amarok database is not accessible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok veritabanına erişilemiyor.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="110"/>
         <source>Not Connected To Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Veritabanına Bağlanılamadı</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="104"/>
         <source>Unknown MySQL server host &quot;%s&quot; &lt;br&gt;&lt;b&gt;Details&lt;/b&gt; : %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen MySQL sunucusu &quot;%s&quot; &lt;br&gt;&lt;b&gt;Detaylar&lt;/b&gt; : %s</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="106"/>
         <source>Access denied for user &quot;%s&quot; &lt;br&gt;&lt;b&gt;Details&lt;/b&gt; : %s</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%s&quot; kullanıcısı için erişim engellendi. &lt;br&gt;&lt;b&gt;Detaylar&lt;/b&gt; : %s</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="108"/>
         <source>Unknown database &quot;%s&quot; &lt;br&gt;&lt;b&gt;Details&lt;/b&gt; : %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilinmeyen veritabanı &quot;%s&quot; &lt;br&gt;&lt;b&gt;Detaylar&lt;/b&gt; : %s</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="110"/>
         <source>Can&apos;t connect to local MySQL server through socket &quot;%s&quot; &lt;br&gt;&lt;b&gt;Details&lt;/b&gt; : %s</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%s&quot; soketi üzerinden yerel MySQL sunucusuna bağlanılamıyor.&lt;br&gt;&lt;b&gt;Detaylar&lt;/b&gt; : %s</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="121"/>
         <source>Amarok Module Is Not Usable</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok Modülü Kullanılabilir Değil</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="117"/>
         <source>&quot;python-mysql&quot; (MySQLdb / _mysql) named module is not installed on your system. Please install this module and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;python-mysql&quot; (MySQLdb / _mysql) isimli modül sisteminizde kurulu değil. Lütfen bu modülü kurup tekrar deneyiniz.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="119"/>
         <source>Please open user session with KDE4 once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen bir kez kullanıcı oturumunu KDE4 ile açınız.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="121"/>
         <source>Please run Amarok once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen bir kez Amarok`u çalıştırınız.</translation>
     </message>
 </context>
 <context>
@@ -83,115 +84,115 @@
     <message>
         <location filename="Amarok/__init__.py" line="206"/>
         <source>Create Embedded Database Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Veritabanı Dosyalarını Oluştur</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="207"/>
         <source>Generate Embedded Database From Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Veritabanı Dosyalarını Amarok`tan Türet</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="208"/>
         <source>Start Embedded Database Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Veritabanı Sunucusunu Başlat</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="209"/>
         <source>Stop Embedded Database Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Veritabanı Sunucusunu Durdur</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="210"/>
-        <source>Is Running</source>
-        <translation type="unfinished"></translation>
+        <source>Is Running?</source>
+        <translation>Çalışıyor Mu?</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="232"/>
         <source>Amarok Embedded Database Configurator</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok Gömülü Veritabanı Yapılandırıcısı</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="284"/>
         <source>Running Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Veritabanı Çalışıyor</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="284"/>
         <source>Embedded Amarok database server is running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Amarok veritabanı sunucusu çalışıyor.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="288"/>
         <source>Not Running Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Veritabanı Çalışmıyor</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="288"/>
         <source>Embedded Amarok database server is not running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Amarok veritabanı sunucusu çalışmıyor.</translation>
     </message>
 </context>
 <context>
     <name>AmarokEmbeddedDBCore</name>
     <message>
-        <location filename="Core/Universals.py" line="225"/>
+        <location filename="Core/Universals.py" line="226"/>
         <source>&quot;mysqld_safe&quot; Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;mysqld_safe&quot; Bulunamadı</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="225"/>
+        <location filename="Core/Universals.py" line="226"/>
         <source>Executable &quot;mysqld_safe&quot; file is not found. Are you want to set path of this file?&lt;br&gt;&lt;b&gt;Note :&lt;/b&gt; &quot;mysql-common&quot; must be installed on your system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalıştırılabilir &quot;mysqld_safe&quot; dosyası bulunamadı. Bu dosyanın yolunu belirtmek ister misiniz?&lt;br&gt;&lt;b&gt;Not : &lt;/b&gt; &quot;mysql-common&quot; sisteminizde kurulu olmalıdır.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="143"/>
         <source>Created Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Sunucu Oluşturuldu</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="143"/>
         <source>Embedded Amarok database server created and generated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Amarok veritabanı sunucusu oluşturuldu ve türetildi.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="151"/>
         <source>Generated Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Sunucu Türetildi</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="151"/>
         <source>Embedded Amarok database server generated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Amarok veritabanı sunucusu türetildi.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="159"/>
         <source>Starting Embedded Server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Sunucu Başlatılıyor...</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="161"/>
         <source>Started Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Sunucu Başlatıldı</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="161"/>
         <source>Embedded Amarok database server started.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Amarok veritabanı sunucusu başlatıldı.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="174"/>
         <source>Stopping Embedded Server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Sunucu Durduruluyor...</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="176"/>
         <source>Stopped Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Sunucu Durduruldu</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="176"/>
         <source>Embedded Amarok database server stopped.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gömülü Amarok veritabanı sunucusu durduruldu.</translation>
     </message>
 </context>
 <context>
@@ -366,22 +367,22 @@
     <message>
         <location filename="Tables/CoverTable.py" line="55"/>
         <source>Get From Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok`tan Getir</translation>
     </message>
     <message>
         <location filename="Tables/CoverTable.py" line="135"/>
         <source>Checking For Amarok...</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok Kontrol Ediliyor...</translation>
     </message>
     <message>
         <location filename="Tables/CoverTable.py" line="137"/>
         <source>Getting Values From Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Değerler Amarok`tan Getiriliyor</translation>
     </message>
     <message>
         <location filename="Tables/CoverTable.py" line="141"/>
         <source>Values Are Being Processed</source>
-        <translation type="unfinished"></translation>
+        <translation>Değerler İşleniyor</translation>
     </message>
 </context>
 <context>
@@ -510,7 +511,7 @@
     <message>
         <location filename="Core/FileManager.py" line="188"/>
         <source>Location Bar (KDE4)</source>
-        <translation type="unfinished"></translation>
+        <translation>Konum Çubuğu (KDE4)</translation>
     </message>
 </context>
 <context>
@@ -660,27 +661,27 @@
 <context>
     <name>HamsiManager</name>
     <message>
-        <location filename="Core/RoutineChecks.py" line="237"/>
+        <location filename="Core/RoutineChecks.py" line="235"/>
         <source>Your System&apos;s &quot;File System Encoding&quot; Type Different</source>
         <translation>Sisteminizin &quot;Dosya Sistemi Kodlaması&quot; Tipi Farklı</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="237"/>
+        <location filename="Core/RoutineChecks.py" line="235"/>
         <source>Your system&apos;s &quot;File System Encoding&quot; type different from the settings you select. Are you sure you want to continue?If you are not sure press the &quot;No&quot;.</source>
         <translation>Sisteminizin &quot;Dosya Sistemi Kodlaması&quot; tipi seçtiğiniz tipten farklı. Devam etmek istediğinizden emin misiniz? Eğer emin değilseniz &quot;Hayır&quot; butonuna basınız.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="249"/>
+        <location filename="Core/RoutineChecks.py" line="247"/>
         <source>Added New Options And New Features</source>
         <translation>Yeni Seçenekler Ve Özellikler Eklendi</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="243"/>
+        <location filename="Core/RoutineChecks.py" line="241"/>
         <source>New options and new features added to Hamsi Manager. Are you want to change or verify new options?</source>
         <translation>Hamsi Manager&apos;e yeni seçenekler ve yeni özellikler eklendi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="249"/>
+        <location filename="Core/RoutineChecks.py" line="247"/>
         <source>New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?</source>
         <translation>Hamsi Manager&apos;e yeni seçenekler ve yeni özellikler eklendi. Bazı ayarların varsayılan değerleri değiştirildi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
     </message>
@@ -700,12 +701,12 @@
         <translation>Çalıştırılabilir bir OrganizasyonizM dosyası sisteminizde tespit edildi.&quot;%s&quot; dosyasını silip yeni bir çalıştırılabilir Hamsi Manager dosyası(&quot;%s&quot;) oluşturmak ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="281"/>
+        <location filename="Core/RoutineChecks.py" line="279"/>
         <source>We Have A Suggestion</source>
         <translation>Bir Önerimiz Var</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="281"/>
+        <location filename="Core/RoutineChecks.py" line="279"/>
         <source>Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?</source>
         <translation>Ekran boyutunuz çok küçük.Hamsi Manager`ın arayüzünü ekran boyutunuza göre yeniden düzenlememizi ister misiniz?</translation>
     </message>
@@ -810,27 +811,27 @@
     <message>
         <location filename="Tools/Hasher.py" line="42"/>
         <source>Path Of The File : </source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya Yolu : </translation>
     </message>
     <message>
         <location filename="Tools/Hasher.py" line="43"/>
         <source>Hash Type : </source>
-        <translation type="unfinished"></translation>
+        <translation>Doğrulama Tipi : </translation>
     </message>
     <message>
         <location filename="Tools/Hasher.py" line="44"/>
         <source>Hash Output : </source>
-        <translation type="unfinished"></translation>
+        <translation>Doğrulama Çıktısı : </translation>
     </message>
     <message>
         <location filename="Tools/Hasher.py" line="45"/>
         <source>Hash Digest File : </source>
-        <translation type="unfinished"></translation>
+        <translation>Doğrulama Özeti Dosyası : </translation>
     </message>
     <message>
         <location filename="Tools/Hasher.py" line="46"/>
         <source>Hash Digest : </source>
-        <translation type="unfinished"></translation>
+        <translation>Doğrulama Özeti : </translation>
     </message>
 </context>
 <context>
@@ -894,97 +895,97 @@
 <context>
     <name>InputOutputs</name>
     <message>
-        <location filename="InputOutputs/IA.py" line="128"/>
+        <location filename="InputOutputs/IA.py" line="123"/>
         <source>Access Denied</source>
         <translation>Erişim Engellendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="588"/>
+        <location filename="InputOutputs/IA.py" line="579"/>
         <source>Empty Directories Deleted</source>
         <translation>Boş Dizinler Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="159"/>
+        <location filename="InputOutputs/IA.py" line="153"/>
         <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the current one?</source>
         <translation>&quot;%s&quot; isimli bir dosya zaten var.&lt;br&gt;Mevcut dosya ile değiştirilsin mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="168"/>
+        <location filename="InputOutputs/IA.py" line="162"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;&quot;%s&quot; Add this file to the current folder?</source>
         <translation>&quot;%s&quot; : isimli bir dizin mevcut.&lt;br&gt;&quot;%s&quot; Dosyası mevcut dizine eklensin mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="136"/>
+        <location filename="InputOutputs/IA.py" line="131"/>
         <source>Cannot Find File</source>
         <translation>Dosya Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="140"/>
+        <location filename="InputOutputs/IA.py" line="135"/>
         <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; isimli bir dizin bulunamadı.&lt;br&gt;Lütfen dizinin varlığını kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="136"/>
+        <location filename="InputOutputs/IA.py" line="131"/>
         <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; isimli bir dosya bulunamadı.&lt;br&gt;Lütfen dosyanın varlığını kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="159"/>
+        <location filename="InputOutputs/IA.py" line="153"/>
         <source>Current File Name</source>
         <translation>Mevcut Dosya Adı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="186"/>
+        <location filename="InputOutputs/IA.py" line="180"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Add your files to the current folder?</source>
         <translation>&quot;%s&quot; isimli bir dizin zaten var.&lt;br&gt;Dosyalarınız mevcut dizine eklensin mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="427"/>
+        <location filename="InputOutputs/IA.py" line="421"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation>Dosyaların Dizini Değiştiriliyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="564"/>
+        <location filename="InputOutputs/IA.py" line="555"/>
         <source>Checking Empty Directories</source>
         <translation>Boş Dizinler Kontrol Ediliyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="585"/>
+        <location filename="InputOutputs/IA.py" line="576"/>
         <source>Deleting Empty Directories</source>
         <translation>Boş Dizinler Siliniyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="600"/>
+        <location filename="InputOutputs/IA.py" line="591"/>
         <source>Current Directory Name</source>
         <translation>Mevcut Dizin Adı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="140"/>
+        <location filename="InputOutputs/IA.py" line="135"/>
         <source>Cannot Find Directory</source>
         <translation>Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="600"/>
+        <location filename="InputOutputs/IA.py" line="591"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation>&quot;%s&quot; isimli bir dosya var.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="124"/>
+        <location filename="InputOutputs/IA.py" line="119"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dizini değiştirmeye yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="128"/>
+        <location filename="InputOutputs/IA.py" line="123"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dosyayı değiştirmeye yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="144"/>
+        <location filename="InputOutputs/IA.py" line="139"/>
         <source>Cannot Find File Or Directory</source>
         <translation>Dosya Yada Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="144"/>
+        <location filename="InputOutputs/IA.py" line="139"/>
         <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Lütfen böyle bir dosya yada dizinin varlığından emin olup tekrar deneyiniz.</translation>
     </message>
@@ -1004,54 +1005,54 @@
         <translation>&quot;%s&quot; : böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="283"/>
+        <location filename="InputOutputs/IA.py" line="277"/>
         <source>Directory Deleted</source>
         <translation>Dizin Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="589"/>
+        <location filename="InputOutputs/IA.py" line="580"/>
         <source>Project Directory Deleted</source>
         <translation>Proje Dizini Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="591"/>
+        <location filename="InputOutputs/IA.py" line="582"/>
         <source>Project Directory Cleaned</source>
         <translation>Proje Dizini Temizlendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="109"/>
+        <location filename="InputOutputs/IA.py" line="104"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dizini okumaya yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="113"/>
+        <location filename="InputOutputs/IA.py" line="108"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dosyayı okumaya yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="283"/>
+        <location filename="InputOutputs/IA.py" line="277"/>
         <source>&quot;%s&quot; deleted.Because this directory is empty.</source>
         <translation>&quot;%s&quot; silindi.Çünkü bu dizin boştu.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="480"/>
+        <location filename="InputOutputs/IA.py" line="471"/>
         <source>Select A Cover</source>
         <translation>Bir Kapak Seçiniz</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="480"/>
+        <location filename="InputOutputs/IA.py" line="471"/>
         <source>Please select a cover for &quot;%s&quot;.</source>
         <translation>Lütfen &quot;%s&quot; dizini için bir kapak seçiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="278"/>
+        <location filename="InputOutputs/IA.py" line="272"/>
         <source>Cleaning Empty Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Boş Dizinler Temizleniyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="285"/>
+        <location filename="InputOutputs/IA.py" line="279"/>
         <source>Directories Cleaned</source>
-        <translation type="unfinished"></translation>
+        <translation>Dizinler Temizlendi</translation>
     </message>
 </context>
 <context>
@@ -2213,97 +2214,97 @@
     <message>
         <location filename="Core/Options.py" line="1383"/>
         <source>Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1384"/>
         <source>You can change the Amarok settings in this section.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu bölümden Amarok ayarları yapabilirsiniz.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1397"/>
         <source>Using MySQL Server</source>
-        <translation type="unfinished"></translation>
+        <translation>MySQL Sunucusu Kullanılıyor</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1398"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1399"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1400"/>
         <source>User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı Adı</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1401"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Şifre</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1402"/>
         <source>Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Veritabanı Adı</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1403"/>
         <source>Path Of Executable &quot;mysqld_safe&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalıştırılabilir &quot;mysqld_safe&quot; Yolu</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1404"/>
         <source>Are you use MySQL server in the Amarok?</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok`ta MySQL sunucusu mu kullanıyorsunuz?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1405"/>
         <source>Please enter host name of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen Amarok veritabanının sunucu adını giriniz.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1406"/>
         <source>Please enter port number of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen Amarok veritabanının portunu giriniz.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1407"/>
         <source>Please enter user name of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen Amarok veritabanının kullanıcı adını giriniz.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1408"/>
         <source>Please enter user password of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen Amarok veritabanının şifresini giriniz.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1409"/>
         <source>Please enter database name of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen Amarok veritabanının adını giriniz.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1410"/>
         <source>Where is executable &quot;mysqld_safe&quot; file?</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalıştırılabilir &quot;mysqld_safe&quot; dosyası nerede?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1415"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test Et</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1454"/>
         <source>Are You Want To Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydetmek İster Misiniz</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1454"/>
         <source>Are you want to save this Amarok settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu Amarok Ayarlarını kaydetmek istiyor musunuz?</translation>
     </message>
 </context>
 <context>
@@ -2559,12 +2560,12 @@
     <message>
         <location filename="Core/Options.py" line="1087"/>
         <source>Activate General Cleaner</source>
-        <translation type="unfinished"></translation>
+        <translation>Genel Temizliği Aktifleştir</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1104"/>
         <source>Are you want to activate General Cleaner?</source>
-        <translation type="unfinished"></translation>
+        <translation>Genel temizliği aktifleştirmek ister misiniz?</translation>
     </message>
 </context>
 <context>
@@ -2697,22 +2698,22 @@
     <message>
         <location filename="Core/Options.py" line="855"/>
         <source>Use Completer</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamamlayıcı Kullan</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="856"/>
         <source>Show All</source>
-        <translation type="unfinished"></translation>
+        <translation>Hepsini Göster</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="865"/>
         <source>Are you want to activate completer for auto complete some input controls?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bazı giriş kontrollerini otomatik tamamlamak için tamamlayıcıyı aktifleştirmek ister misiniz?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="866"/>
         <source>Are you want to show all words in all input controls?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bütün kelimeleri bütün giriş kontrollerinde görmek ister misiniz?</translation>
     </message>
 </context>
 <context>
@@ -2735,7 +2736,7 @@
     <message>
         <location filename="Core/Options.py" line="1165"/>
         <source>For Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok İçin</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1171"/>
@@ -2775,12 +2776,12 @@
     <message>
         <location filename="Core/Options.py" line="1178"/>
         <source>Icon Name Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Simge Adı Formatı</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1179"/>
         <source>Icon Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Simge Tipi</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1180"/>
@@ -2820,12 +2821,12 @@
     <message>
         <location filename="Core/Options.py" line="1187"/>
         <source>You can set icon name format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Simge adı formatını belirtebilirsiniz.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1188"/>
         <source>You can select file type of icon.</source>
-        <translation type="unfinished"></translation>
+        <translation>Simgenin dosya tipini seçebilirsiniz.</translation>
     </message>
 </context>
 <context>
@@ -3546,32 +3547,32 @@
     <message>
         <location filename="Tools/Packager.py" line="42"/>
         <source>Path Of The Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Dizin Yolu</translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="43"/>
         <source>Path Of The Pack</source>
-        <translation type="unfinished"></translation>
+        <translation>Paket Yolu</translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="44"/>
         <source>Package Compression Type : </source>
-        <translation type="unfinished"></translation>
+        <translation>Paket Sıkıştırma Tipi : </translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="45"/>
         <source>Hash : </source>
-        <translation type="unfinished"></translation>
+        <translation>Doğrulama : </translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="46"/>
         <source>Hash Output : </source>
-        <translation type="unfinished"></translation>
+        <translation>Doğrulama Çıktısı : </translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="47"/>
         <source>Hash Digest File : </source>
-        <translation type="unfinished"></translation>
+        <translation>Doğrulama Özeti Dosyası : </translation>
     </message>
 </context>
 <context>
@@ -3968,12 +3969,12 @@
     <message>
         <location filename="Core/Options.py" line="1755"/>
         <source>Activate General Cleaner</source>
-        <translation type="unfinished"></translation>
+        <translation>Genel Temizliği Aktifleştir</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1764"/>
         <source>Are you want to activate General Cleaner?</source>
-        <translation type="unfinished"></translation>
+        <translation>Genel temizliği aktifleştirmek ister misiniz?</translation>
     </message>
 </context>
 <context>
@@ -4215,32 +4216,32 @@
         <translation>Tablo İçeriği : </translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="323"/>
+        <location filename="Core/RoutineChecks.py" line="321"/>
         <source>Missing Module</source>
         <translation>Eksik Modül</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="327"/>
+        <location filename="Core/RoutineChecks.py" line="325"/>
         <source>Error In Module</source>
         <translation>Modülde Hata Var</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="329"/>
+        <location filename="Core/RoutineChecks.py" line="327"/>
         <source>&quot;%s&quot; is not in this module.Please download and install Hamsi Manager again.</source>
         <translation>&quot;%s&quot; modülde mevcut değil.Lütfen Hamsi Manager`i tekrar indirip kurunuz.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="331"/>
+        <location filename="Core/RoutineChecks.py" line="329"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="338"/>
+        <location filename="Core/RoutineChecks.py" line="336"/>
         <source>Critical Error!</source>
         <translation>Kritik Hata!</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="325"/>
+        <location filename="Core/RoutineChecks.py" line="323"/>
         <source>Application will not work without the module &quot;%s&quot;.</source>
         <translation>&quot;%s&quot; modülü olmadan uygulama çalışmayacaktır.</translation>
     </message>
@@ -4327,7 +4328,7 @@
     <message>
         <location filename="Core/ReportBug.py" line="217"/>
         <source>I cannot send the error details due to some character errors.&lt;br&gt;To see the details, please click on the &quot;Show details file&quot; button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bazı karakter hatalarından ötürü hata detaylarını gönderemiyorum.&lt;br&gt;Detayları görmek için, lütfen &quot;Detay Dosyasını Göster&quot; butonuna tıklayınız.</translation>
     </message>
 </context>
 <context>
@@ -4536,17 +4537,17 @@
     <message>
         <location filename="SearchEngines/__init__.py" line="58"/>
         <source>You Have Not Any Search Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiç Bir Arama Motorunuz Yok</translation>
     </message>
     <message>
         <location filename="SearchEngines/__init__.py" line="58"/>
         <source>Not found any search engine in your system. Please install a search engine module. Now supporting only musicbrainz module (python-musicbrainz2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisteminizde hiç bir arama motoru bulunamadı. Lütfen bir arama motoru modülü kurunuz. Şuanda sadece musicbrainz modülü (python-musicbrainz2) desteklenmektedir.</translation>
     </message>
     <message>
         <location filename="SearchEngines/MusicBrainzEngine.py" line="60"/>
         <source>Close</source>
-        <translation type="unfinished">Kapat</translation>
+        <translation>Kapat</translation>
     </message>
 </context>
 <context>
@@ -4940,22 +4941,22 @@
         <translation>Seçilenleri Değiştir</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="175"/>
+        <location filename="Core/Universals.py" line="176"/>
         <source>Folder Table</source>
         <translation>Dizin Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="176"/>
+        <location filename="Core/Universals.py" line="177"/>
         <source>File Table</source>
         <translation>Dosya Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="177"/>
+        <location filename="Core/Universals.py" line="178"/>
         <source>Music Table</source>
         <translation>Müzik Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="178"/>
+        <location filename="Core/Universals.py" line="179"/>
         <source>Subfolder Table</source>
         <translation>Altdizin Tablosu</translation>
     </message>
@@ -5075,7 +5076,7 @@
         <translation>Tablo İçeriği</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="638"/>
+        <location filename="InputOutputs/IA.py" line="629"/>
         <source>Save As</source>
         <translation>Farklı Kaydet</translation>
     </message>
@@ -5085,7 +5086,7 @@
         <translation>Tablo Aktarıldı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="664"/>
+        <location filename="InputOutputs/IA.py" line="655"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
@@ -5095,27 +5096,27 @@
         <translation>Tablo içeriği: &quot;%s&quot; dosyasına aktarıldı.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="633"/>
+        <location filename="InputOutputs/IA.py" line="624"/>
         <source>HTML</source>
         <translation>HTML</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="636"/>
+        <location filename="InputOutputs/IA.py" line="627"/>
         <source>Plain Text</source>
         <translation>Düz Metin</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="654"/>
+        <location filename="InputOutputs/IA.py" line="645"/>
         <source>File Tree</source>
         <translation>Dosya Ağacı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="647"/>
+        <location filename="InputOutputs/IA.py" line="638"/>
         <source>File Tree Created</source>
         <translation>Dosya Ağacı Oluşturuldu</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="647"/>
+        <location filename="InputOutputs/IA.py" line="638"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation>Dosya ağacı &quot;%s&quot; dosyasında oluşturuldu.</translation>
     </message>
@@ -5185,7 +5186,7 @@
         <translation>Konsol</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="179"/>
+        <location filename="Core/Universals.py" line="180"/>
         <source>Cover Table</source>
         <translation>Kapak Tablosu</translation>
     </message>
@@ -5195,12 +5196,12 @@
     <message>
         <location filename="Taggers/__init__.py" line="48"/>
         <source>You Have Not Any Tagger</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiç Bir Etiketleyiciniz Yok</translation>
     </message>
     <message>
         <location filename="Taggers/__init__.py" line="48"/>
         <source>Not found any tagger in your system. Please install a tagger module. Now supporting only eyeD3 module (python-eyed3).</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisteminizde hiç bir etiketleyici bulunamadı. Lütfen bir etiketleyici modülü kurunuz. Şuanda sadece eyeD3 modülü (python-eyed3) desteklenmektedir.</translation>
     </message>
 </context>
 <context>
@@ -5406,45 +5407,45 @@
     <message>
         <location filename="Core/Bars.py" line="534"/>
         <source>Amarok Embedded Database Configurator</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok Gömülü Veritabanı Yapılandırıcısı</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="54"/>
         <source>Amarok Module Is Not Usable</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok Modülü Kullanılabilir Değil</translation>
     </message>
 </context>
 <context>
     <name>Universals</name>
     <message>
-        <location filename="Core/Universals.py" line="203"/>
+        <location filename="Core/Universals.py" line="204"/>
         <source>Are You Sure?</source>
         <translation>Emin Misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="203"/>
+        <location filename="Core/Universals.py" line="204"/>
         <source>Are you want to cancel these transactions?</source>
         <translation>Bu işlemleri iptal etmek ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="180"/>
-        <source>%Artist%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="Core/Universals.py" line="181"/>
-        <source>%Album%</source>
-        <translation type="unfinished"></translation>
+        <source>%Artist%</source>
+        <translation>%Sanatçı%</translation>
     </message>
     <message>
         <location filename="Core/Universals.py" line="182"/>
-        <source>%Year%</source>
-        <translation type="unfinished"></translation>
+        <source>%Album%</source>
+        <translation>%Albüm%</translation>
     </message>
     <message>
         <location filename="Core/Universals.py" line="183"/>
+        <source>%Year%</source>
+        <translation>%Yıl%</translation>
+    </message>
+    <message>
+        <location filename="Core/Universals.py" line="184"/>
         <source>%Genre%</source>
-        <translation type="unfinished"></translation>
+        <translation>%Tarz%</translation>
     </message>
 </context>
 <context>
@@ -5582,18 +5583,18 @@
     <message>
         <location filename="Core/UpdateControl.py" line="202"/>
         <source>Access Denied</source>
-        <translation type="unfinished">Erişim Engellendi</translation>
+        <translation>Erişim Engellendi</translation>
     </message>
     <message>
         <location filename="Core/UpdateControl.py" line="202"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br /&gt;Please check your access controls and retry. &lt;br /&gt;Note: You can run Hamsi Manager as root and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%s&quot; : bu dizini değiştirmeye yetkiniz yok.&lt;br /&gt;Lütfen izinlerinizi kontrol edip tekrar deneyiniz.&lt;br /&gt;Not : Hamsi Manager`ı root olarak çalıştırıp tekrar deneyebilirsiniz.</translation>
     </message>
 </context>
 <context>
     <name>Variables</name>
     <message>
-        <location filename="Core/Variables.py" line="456"/>
+        <location filename="Core/Variables.py" line="471"/>
         <source>Desktop</source>
         <translation>Masaüstü</translation>
     </message>
