@@ -5,77 +5,77 @@
     <message>
         <location filename="Amarok/__init__.py" line="66"/>
         <source>Amarok Database Must Be Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>A Base De Dados Do Amarok Deve Ser Configurada</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="66"/>
         <source>Amarok database must be configure for Hamsi Manager. Are you want to configure Amarok database?</source>
-        <translation type="unfinished"></translation>
+        <translation>A base de dados do Amarok deve ser configurada para o Hamsi Manager. Você deseja configurar a base de dados do Amarok?</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="95"/>
         <source>Connected To Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Conectado A Base De Dados</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="95"/>
         <source>Connected succesfully to &quot;%s&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Conectado com êxito em &quot;%s&quot;</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="99"/>
         <source>Amarok Database Is Not Usable</source>
-        <translation type="unfinished"></translation>
+        <translation>A Base De Dados Do Amarok Não É Utilizável</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="99"/>
         <source>Amarok database is not accessible.</source>
-        <translation type="unfinished"></translation>
+        <translation>A base de dados do Amarok não está acessível.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="110"/>
         <source>Not Connected To Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Não Conectado A Base De Dados</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="104"/>
         <source>Unknown MySQL server host &quot;%s&quot; &lt;br&gt;&lt;b&gt;Details&lt;/b&gt; : %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor MySQL &quot;%s&quot; desconhecido  &lt;br&gt;&lt;b&gt;Detalhes&lt;/b&gt; : %s</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="106"/>
         <source>Access denied for user &quot;%s&quot; &lt;br&gt;&lt;b&gt;Details&lt;/b&gt; : %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Acesso negado para o usuário &quot;%s&quot; &lt;br&gt;&lt;b&gt;Detalhes&lt;/b&gt; : %s</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="108"/>
         <source>Unknown database &quot;%s&quot; &lt;br&gt;&lt;b&gt;Details&lt;/b&gt; : %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Base de dados &quot;%s&quot; desconhecida &lt;br&gt;&lt;b&gt;Detalhes&lt;/b&gt; : %s</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="110"/>
         <source>Can&apos;t connect to local MySQL server through socket &quot;%s&quot; &lt;br&gt;&lt;b&gt;Details&lt;/b&gt; : %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível conectar no servidor MySQL local através do socket &quot;%s&quot; &lt;br&gt;&lt;b&gt;Detalhes&lt;/b&gt; : %s</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="121"/>
         <source>Amarok Module Is Not Usable</source>
-        <translation type="unfinished"></translation>
+        <translation>O Módulo Amarok Não É Utilizável</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="117"/>
         <source>&quot;python-mysql&quot; (MySQLdb / _mysql) named module is not installed on your system. Please install this module and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>O módulo chamado &quot;python-mysql&quot; (MySQLdb / _mysql) não está instalado no seu sistema. Por favor, instale este módulo e tente novamente.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="119"/>
         <source>Please open user session with KDE4 once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, abra a sessão do usuário com o KDE4 uma vez.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="121"/>
         <source>Please run Amarok once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, execute Amarok uma vez.</translation>
     </message>
 </context>
 <context>
@@ -83,115 +83,115 @@
     <message>
         <location filename="Amarok/__init__.py" line="206"/>
         <source>Create Embedded Database Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Criar Os Arquivos Da Base De Dados Embarcada</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="207"/>
         <source>Generate Embedded Database From Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerar A Base De Dados Embarcada Do Amarok</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="208"/>
         <source>Start Embedded Database Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar O Servidor Da Base De Dados Embarcada</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="209"/>
         <source>Stop Embedded Database Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Parar O Servidor Da Base De Dados Embarcada</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="210"/>
-        <source>Is Running</source>
-        <translation type="unfinished"></translation>
+        <source>Is Running?</source>
+        <translation>Está Em Execução?</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="232"/>
         <source>Amarok Embedded Database Configurator</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurador Da Base De Dados Embacada Do Amarok</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="284"/>
         <source>Running Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>O Servidor Embarcado Está Em Execução</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="284"/>
         <source>Embedded Amarok database server is running.</source>
-        <translation type="unfinished"></translation>
+        <translation>O servidor da base de dados embarcada do Amarok está em execução.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="288"/>
         <source>Not Running Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>O Servidor Embarcado Não Está Em Execução</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="288"/>
         <source>Embedded Amarok database server is not running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor da base de dados embarcada do Amarok não está em execução.</translation>
     </message>
 </context>
 <context>
     <name>AmarokEmbeddedDBCore</name>
     <message>
-        <location filename="Core/Universals.py" line="225"/>
+        <location filename="Core/Universals.py" line="226"/>
         <source>&quot;mysqld_safe&quot; Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;mysqld_safe&quot; Não Encontrado</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="225"/>
+        <location filename="Core/Universals.py" line="226"/>
         <source>Executable &quot;mysqld_safe&quot; file is not found. Are you want to set path of this file?&lt;br&gt;&lt;b&gt;Note :&lt;/b&gt; &quot;mysql-common&quot; must be installed on your system.</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo executável &quot;mysqld_safe&quot; não foi encontrado. Vocẽ deseja definir o caminho deste arquivo?&lt;br&gt;&lt;b&gt;Nota :&lt;/b&gt; &quot;mysql-common&quot; deve estar instalado no seu sistema.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="143"/>
         <source>Created Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor Embarcado Criado</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="143"/>
         <source>Embedded Amarok database server created and generated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor da base de dados embarcada do Amarok criado e gerado.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="151"/>
         <source>Generated Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor Embarcado Gerado</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="151"/>
         <source>Embedded Amarok database server generated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor da base de dados embarcada do Amarok gerado.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="159"/>
         <source>Starting Embedded Server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando Servidor Embarcado...</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="161"/>
         <source>Started Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor Embarcado Parado</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="161"/>
         <source>Embedded Amarok database server started.</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor da base de dados embarcada do Amarok iniciado.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="174"/>
         <source>Stopping Embedded Server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Parando Servidor Embarcado...</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="176"/>
         <source>Stopped Embedded Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor Embarcado Parado</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="176"/>
         <source>Embedded Amarok database server stopped.</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor da base de dados embarcada do Amarok parado.</translation>
     </message>
 </context>
 <context>
@@ -366,22 +366,22 @@
     <message>
         <location filename="Tables/CoverTable.py" line="55"/>
         <source>Get From Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Obter Do Amarok</translation>
     </message>
     <message>
         <location filename="Tables/CoverTable.py" line="135"/>
         <source>Checking For Amarok...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificando Pelo Amarok...</translation>
     </message>
     <message>
         <location filename="Tables/CoverTable.py" line="137"/>
         <source>Getting Values From Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Obtendo Valores Do Amarok</translation>
     </message>
     <message>
         <location filename="Tables/CoverTable.py" line="141"/>
         <source>Values Are Being Processed</source>
-        <translation type="unfinished"></translation>
+        <translation>Os valores Estão Sendo Processados</translation>
     </message>
 </context>
 <context>
@@ -510,7 +510,7 @@
     <message>
         <location filename="Core/FileManager.py" line="188"/>
         <source>Location Bar (KDE4)</source>
-        <translation type="unfinished"></translation>
+        <translation>Barra De Localização (KDE4)</translation>
     </message>
 </context>
 <context>
@@ -660,27 +660,27 @@
 <context>
     <name>HamsiManager</name>
     <message>
-        <location filename="Core/RoutineChecks.py" line="237"/>
+        <location filename="Core/RoutineChecks.py" line="235"/>
         <source>Your System&apos;s &quot;File System Encoding&quot; Type Different</source>
         <translation>Seu diferente tipo de sistema de codificação do sistema de arquivo</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="237"/>
+        <location filename="Core/RoutineChecks.py" line="235"/>
         <source>Your system&apos;s &quot;File System Encoding&quot; type different from the settings you select. Are you sure you want to continue?If you are not sure press the &quot;No&quot;.</source>
         <translation>Seu diferente tipo de sistema de codificação do sistema de arquivo da definições que você seleciou. Você tem certeza que deseja continuar? Se você não tem certeza, pressione &quot;Não&quot;.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="249"/>
+        <location filename="Core/RoutineChecks.py" line="247"/>
         <source>Added New Options And New Features</source>
         <translation>Adicionados novas opções e novos recursos</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="243"/>
+        <location filename="Core/RoutineChecks.py" line="241"/>
         <source>New options and new features added to Hamsi Manager. Are you want to change or verify new options?</source>
         <translation>Novas opções e novos recursos adicionados ao Hamsi Manager. Você deseja alterar ou verificar as novas opções?</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="249"/>
+        <location filename="Core/RoutineChecks.py" line="247"/>
         <source>New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?</source>
         <translation>Novas opções e novos recursos adicionados ao Hamsi Manager. Alterado os valores padrão de algumas configurações. Você deseja alterar ou verificar as novas opções?</translation>
     </message>
@@ -700,12 +700,12 @@
         <translation>O arquivo executável de OrganizasyonizM foi detectado no seu sistema. Você deseja excluir &quot;%s&quot; e criar um novo executável (&quot;%s&quot;) para Hamsi Manager?</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="281"/>
+        <location filename="Core/RoutineChecks.py" line="279"/>
         <source>We Have A Suggestion</source>
         <translation>Nós Temos Uma Sugestão</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="281"/>
+        <location filename="Core/RoutineChecks.py" line="279"/>
         <source>Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?</source>
         <translation>Seu tamanho de tela é muito pequeno. Você deseja reorganizar a interface do Hamsi Manager para o tamanho da tela?</translation>
     </message>
@@ -810,27 +810,27 @@
     <message>
         <location filename="Tools/Hasher.py" line="42"/>
         <source>Path Of The File : </source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho Do Arquivo : </translation>
     </message>
     <message>
         <location filename="Tools/Hasher.py" line="43"/>
         <source>Hash Type : </source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo Do Hash : </translation>
     </message>
     <message>
         <location filename="Tools/Hasher.py" line="44"/>
         <source>Hash Output : </source>
-        <translation type="unfinished"></translation>
+        <translation>Saída Do Hash : </translation>
     </message>
     <message>
         <location filename="Tools/Hasher.py" line="45"/>
         <source>Hash Digest File : </source>
-        <translation type="unfinished"></translation>
+        <translation>Resumo Do Hash Do Arquivo : </translation>
     </message>
     <message>
         <location filename="Tools/Hasher.py" line="46"/>
         <source>Hash Digest : </source>
-        <translation type="unfinished"></translation>
+        <translation>Resumo Do Hash :</translation>
     </message>
 </context>
 <context>
@@ -894,47 +894,47 @@
 <context>
     <name>InputOutputs</name>
     <message>
-        <location filename="InputOutputs/IA.py" line="564"/>
+        <location filename="InputOutputs/IA.py" line="555"/>
         <source>Checking Empty Directories</source>
         <translation>Verificando diretórios vazios</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="585"/>
+        <location filename="InputOutputs/IA.py" line="576"/>
         <source>Deleting Empty Directories</source>
         <translation>Excluindo diretórios vazios</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="588"/>
+        <location filename="InputOutputs/IA.py" line="579"/>
         <source>Empty Directories Deleted</source>
         <translation>Diretórios vazios excluídos</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="159"/>
+        <location filename="InputOutputs/IA.py" line="153"/>
         <source>Current File Name</source>
         <translation>Nome do arquivo atual</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="600"/>
+        <location filename="InputOutputs/IA.py" line="591"/>
         <source>Current Directory Name</source>
         <translation>Nome do diretório atual</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="136"/>
+        <location filename="InputOutputs/IA.py" line="131"/>
         <source>Cannot Find File</source>
         <translation>Não foi possível localizar arquivo</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="140"/>
+        <location filename="InputOutputs/IA.py" line="135"/>
         <source>Cannot Find Directory</source>
         <translation>Não foi possível localizar diretório</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="128"/>
+        <location filename="InputOutputs/IA.py" line="123"/>
         <source>Access Denied</source>
         <translation>Acesso negado</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="427"/>
+        <location filename="InputOutputs/IA.py" line="421"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation>Alterando a pasta (dos arquivos)</translation>
     </message>
@@ -954,104 +954,104 @@
         <translation>&quot;%s&quot; : não foi possível localizar um arquivo ou diretório com esse nome.&lt;br&gt;Você deseja organizar o diretório acima com Hamsi Manager?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="124"/>
+        <location filename="InputOutputs/IA.py" line="119"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; você não tem as permissões necessárias para alterar esse diretório.&lt;br&gt;Por favor, verifique seus controles de acesso e tente novamente.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="128"/>
+        <location filename="InputOutputs/IA.py" line="123"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; você não tem as permissões necessárias para alterar esse arquivo.&lt;br&gt;Por favor, verifique seus controles de acesso e tente novamente.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="136"/>
+        <location filename="InputOutputs/IA.py" line="131"/>
         <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; : não foi possível localizar um arquivo com esse nome.&lt;br&gt;Por favor, certifique-se que ele exista e tente novamente.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="140"/>
+        <location filename="InputOutputs/IA.py" line="135"/>
         <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; : não foi possível localizar uma pasta com esse nome.&lt;br&gt;Por favor, certifique-se que ela exista e tente novamente.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="144"/>
+        <location filename="InputOutputs/IA.py" line="139"/>
         <source>Cannot Find File Or Directory</source>
         <translation>Não foi possível localizar arquivo ou diretório</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="144"/>
+        <location filename="InputOutputs/IA.py" line="139"/>
         <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; : não foi possível localizar um arquivo ou diretório com esse nome.&lt;br&gt;Por favor, certifique-se que eles existam e tente novamente.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="159"/>
+        <location filename="InputOutputs/IA.py" line="153"/>
         <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the current one?</source>
         <translation>&quot;%s&quot; : já existe um arquivo com o mesmo nome.&lt;br&gt;Substituí-lo com o atual?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="168"/>
+        <location filename="InputOutputs/IA.py" line="162"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;&quot;%s&quot; Add this file to the current folder?</source>
         <translation>&quot;%s&quot; : já existe uma pasta com o mesmo nome.&lt;br&gt;Adicionar esse arquivo na pasta atual?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="186"/>
+        <location filename="InputOutputs/IA.py" line="180"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Add your files to the current folder?</source>
         <translation>&quot;%s&quot; : já existe uma pasta com o mesmo nome.&lt;br&gt;Adicionar seus arquivos na pasta atual?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="600"/>
+        <location filename="InputOutputs/IA.py" line="591"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation>&quot;%s&quot; : já existe uma pasta com o mesmo nome.&lt;br&gt;Por favor, escolha outro nome para o arquivo!</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="283"/>
+        <location filename="InputOutputs/IA.py" line="277"/>
         <source>Directory Deleted</source>
         <translation>Diretório excluído</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="589"/>
+        <location filename="InputOutputs/IA.py" line="580"/>
         <source>Project Directory Deleted</source>
         <translation>Diretório do projeto excluído</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="591"/>
+        <location filename="InputOutputs/IA.py" line="582"/>
         <source>Project Directory Cleaned</source>
         <translation>Diretório do projeto limpo</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="109"/>
+        <location filename="InputOutputs/IA.py" line="104"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : você não tem as permissões necessárias para ler esse diretório.&lt;br&gt;Por favor, verifique seus controles de acesso e tente novamente.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="113"/>
+        <location filename="InputOutputs/IA.py" line="108"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : você não tem as permissões necessárias para ler esse arquivo.&lt;br&gt;Por favor, verifique seus controles de acesso e tente novamente.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="283"/>
+        <location filename="InputOutputs/IA.py" line="277"/>
         <source>&quot;%s&quot; deleted.Because this directory is empty.</source>
         <translation>&quot;%s&quot; excluído. Porque este diretório está vazio.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="480"/>
+        <location filename="InputOutputs/IA.py" line="471"/>
         <source>Select A Cover</source>
         <translation>Selecione Uma Capa</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="480"/>
+        <location filename="InputOutputs/IA.py" line="471"/>
         <source>Please select a cover for &quot;%s&quot;.</source>
         <translation>Por favor, selecione uma capa para &quot;%s&quot;.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="278"/>
+        <location filename="InputOutputs/IA.py" line="272"/>
         <source>Cleaning Empty Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpando Diretórios Vazios</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="285"/>
+        <location filename="InputOutputs/IA.py" line="279"/>
         <source>Directories Cleaned</source>
-        <translation type="unfinished"></translation>
+        <translation>Diretórios Limpos</translation>
     </message>
 </context>
 <context>
@@ -2213,97 +2213,97 @@
     <message>
         <location filename="Core/Options.py" line="1383"/>
         <source>Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Amarok</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1384"/>
         <source>You can change the Amarok settings in this section.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode alterar as configurações do Amarok nesta seção.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1397"/>
         <source>Using MySQL Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Usando Servidor MySQL</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1398"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1399"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Porta</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1400"/>
         <source>User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome De Usuário</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1401"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Senha</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1402"/>
         <source>Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Base De Dados</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1403"/>
         <source>Path Of Executable &quot;mysqld_safe&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho Do Executável &quot;mysqld_safe&quot;</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1404"/>
         <source>Are you use MySQL server in the Amarok?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você usa o servidor MySQL no Amarok?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1405"/>
         <source>Please enter host name of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, digite o nome do servidor da base de dados do Amarok.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1406"/>
         <source>Please enter port number of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, digite o número da porta da base de dados do Amarok.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1407"/>
         <source>Please enter user name of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, digite o nome de usuário da base de dados do Amarok.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1408"/>
         <source>Please enter user password of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, digite a senha do usuário da base de dados do Amarok.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1409"/>
         <source>Please enter database name of Amarok database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, digite o nome da base de dados do Amarok.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1410"/>
         <source>Where is executable &quot;mysqld_safe&quot; file?</source>
-        <translation type="unfinished"></translation>
+        <translation>Onde está o arquivo executável &quot;mysqld_safe&quot;?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1415"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Teste</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1454"/>
         <source>Are You Want To Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Você Deseja Salvar</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1454"/>
         <source>Are you want to save this Amarok settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja salvar estas configurações do Amarok?</translation>
     </message>
 </context>
 <context>
@@ -2559,12 +2559,12 @@
     <message>
         <location filename="Core/Options.py" line="1087"/>
         <source>Activate General Cleaner</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar Limpeza Geral</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1104"/>
         <source>Are you want to activate General Cleaner?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja ativar a Limpeza Geral?</translation>
     </message>
 </context>
 <context>
@@ -2697,22 +2697,22 @@
     <message>
         <location filename="Core/Options.py" line="855"/>
         <source>Use Completer</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar Completar</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="856"/>
         <source>Show All</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Todas</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="865"/>
         <source>Are you want to activate completer for auto complete some input controls?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja ativar completar para automaticamente completar alguns controles de entrada?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="866"/>
         <source>Are you want to show all words in all input controls?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja mostrar todas as palavras em todos os controles de entrada?</translation>
     </message>
 </context>
 <context>
@@ -2735,7 +2735,7 @@
     <message>
         <location filename="Core/Options.py" line="1165"/>
         <source>For Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Para O Amarok</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1171"/>
@@ -2775,12 +2775,12 @@
     <message>
         <location filename="Core/Options.py" line="1178"/>
         <source>Icon Name Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato Do Nome Do Ícone</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1179"/>
         <source>Icon Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo Do Ícone</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1180"/>
@@ -2820,12 +2820,12 @@
     <message>
         <location filename="Core/Options.py" line="1187"/>
         <source>You can set icon name format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode definir o formato do nome do ícone.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1188"/>
         <source>You can select file type of icon.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode selecionar o tipo de arquivo do ícone.</translation>
     </message>
 </context>
 <context>
@@ -3546,32 +3546,32 @@
     <message>
         <location filename="Tools/Packager.py" line="42"/>
         <source>Path Of The Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho Do Diretório</translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="43"/>
         <source>Path Of The Pack</source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho Do Pacote</translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="44"/>
         <source>Package Compression Type : </source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo De Compressão Do Pacote : </translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="45"/>
         <source>Hash : </source>
-        <translation type="unfinished"></translation>
+        <translation>Hash : </translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="46"/>
         <source>Hash Output : </source>
-        <translation type="unfinished"></translation>
+        <translation>Saída Do Hash: </translation>
     </message>
     <message>
         <location filename="Tools/Packager.py" line="47"/>
         <source>Hash Digest File : </source>
-        <translation type="unfinished"></translation>
+        <translation>Resumo Do Hash Do Arquivo : </translation>
     </message>
 </context>
 <context>
@@ -3968,12 +3968,12 @@
     <message>
         <location filename="Core/Options.py" line="1755"/>
         <source>Activate General Cleaner</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar Limpeza Geral</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1764"/>
         <source>Are you want to activate General Cleaner?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja ativar a Limpeza Geral?</translation>
     </message>
 </context>
 <context>
@@ -4120,22 +4120,22 @@
         <translation>Agradecemos antecipadamente pelo seu interesse.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="323"/>
+        <location filename="Core/RoutineChecks.py" line="321"/>
         <source>Missing Module</source>
         <translation>Módulo faltando</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="327"/>
+        <location filename="Core/RoutineChecks.py" line="325"/>
         <source>Error In Module</source>
         <translation>Erro no módulo</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="331"/>
+        <location filename="Core/RoutineChecks.py" line="329"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="338"/>
+        <location filename="Core/RoutineChecks.py" line="336"/>
         <source>Critical Error!</source>
         <translation>Erro crítico!</translation>
     </message>
@@ -4265,12 +4265,12 @@
         <translation>Um erro crítico ocorreu. Se você deseja olhar em detalhes &quot;%s&quot;, você pode ver o arquivo Se possível, pedimos que nos envie os detalhes do erro.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="325"/>
+        <location filename="Core/RoutineChecks.py" line="323"/>
         <source>Application will not work without the module &quot;%s&quot;.</source>
         <translation>O programa não funciona sem o módulo &quot;%s&quot;.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="329"/>
+        <location filename="Core/RoutineChecks.py" line="327"/>
         <source>&quot;%s&quot; is not in this module.Please download and install Hamsi Manager again.</source>
         <translation>&quot;%s&quot; não está neste módulo. Por favor, baixe e instale Hamsi Manager novamente.</translation>
     </message>
@@ -4327,7 +4327,7 @@
     <message>
         <location filename="Core/ReportBug.py" line="217"/>
         <source>I cannot send the error details due to some character errors.&lt;br&gt;To see the details, please click on the &quot;Show details file&quot; button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Não consigo enviar os detalhes do erro devido a alguns erros de caracteres.&lt;br&gt;Para ver os detalhes, por favor clique sobre o botão &quot;Mostrar detalhes do arquivo&quot;.</translation>
     </message>
 </context>
 <context>
@@ -4536,17 +4536,17 @@
     <message>
         <location filename="SearchEngines/__init__.py" line="58"/>
         <source>You Have Not Any Search Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Você Não Tem Nenhum Mecanismo De Busca</translation>
     </message>
     <message>
         <location filename="SearchEngines/__init__.py" line="58"/>
         <source>Not found any search engine in your system. Please install a search engine module. Now supporting only musicbrainz module (python-musicbrainz2).</source>
-        <translation type="unfinished"></translation>
+        <translation>Não foi encontrado nenhum mecanismo de busca em seu sistema. Por favor, instale um módulo mecanismo e busca. Agora com suporte a apenas ao módulo musicbrainz (python-musicbrainz2).</translation>
     </message>
     <message>
         <location filename="SearchEngines/MusicBrainzEngine.py" line="60"/>
         <source>Close</source>
-        <translation type="unfinished">Fechar</translation>
+        <translation>Fechar</translation>
     </message>
 </context>
 <context>
@@ -4935,22 +4935,22 @@
         <translation>Ignorar seleção</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="175"/>
+        <location filename="Core/Universals.py" line="176"/>
         <source>Folder Table</source>
         <translation>Tabela de pasta</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="176"/>
+        <location filename="Core/Universals.py" line="177"/>
         <source>File Table</source>
         <translation>Tabela de arquivo</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="177"/>
+        <location filename="Core/Universals.py" line="178"/>
         <source>Music Table</source>
         <translation>Tabela de música</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="178"/>
+        <location filename="Core/Universals.py" line="179"/>
         <source>Subfolder Table</source>
         <translation>Tabela de subpasta</translation>
     </message>
@@ -5070,7 +5070,7 @@
         <translation>Conteúdos da tabela</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="638"/>
+        <location filename="InputOutputs/IA.py" line="629"/>
         <source>Save As</source>
         <translation>Salvar como</translation>
     </message>
@@ -5080,17 +5080,17 @@
         <translation>Tabela exportada</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="664"/>
+        <location filename="InputOutputs/IA.py" line="655"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="633"/>
+        <location filename="InputOutputs/IA.py" line="624"/>
         <source>HTML</source>
         <translation>HTML</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="636"/>
+        <location filename="InputOutputs/IA.py" line="627"/>
         <source>Plain Text</source>
         <translation>Texto</translation>
     </message>
@@ -5105,17 +5105,17 @@
         <translation>Os conteúdos da tabela serão exportados para o arquivo: &quot;%s&quot;.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="654"/>
+        <location filename="InputOutputs/IA.py" line="645"/>
         <source>File Tree</source>
         <translation>Árvore de aquivos</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="647"/>
+        <location filename="InputOutputs/IA.py" line="638"/>
         <source>File Tree Created</source>
         <translation>Árvore de aquivos criada</translation>
     </message>
     <message>
-        <location filename="InputOutputs/IA.py" line="647"/>
+        <location filename="InputOutputs/IA.py" line="638"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation>Árvore de aquivos criada no arquivo: &quot;%s&quot;.</translation>
     </message>
@@ -5185,7 +5185,7 @@
         <translation>Konsole</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="179"/>
+        <location filename="Core/Universals.py" line="180"/>
         <source>Cover Table</source>
         <translation>Tabela Das Capas</translation>
     </message>
@@ -5195,12 +5195,12 @@
     <message>
         <location filename="Taggers/__init__.py" line="48"/>
         <source>You Have Not Any Tagger</source>
-        <translation type="unfinished"></translation>
+        <translation>Você Não Tem Nenhum Pegador</translation>
     </message>
     <message>
         <location filename="Taggers/__init__.py" line="48"/>
         <source>Not found any tagger in your system. Please install a tagger module. Now supporting only eyeD3 module (python-eyed3).</source>
-        <translation type="unfinished"></translation>
+        <translation>Não encontrei nenhum tagger em seu sistema. Por favor, instale o módulo tagger. Agora com suporte apenas ao módulo eyed3 (python-eyed3).</translation>
     </message>
 </context>
 <context>
@@ -5406,45 +5406,45 @@
     <message>
         <location filename="Core/Bars.py" line="534"/>
         <source>Amarok Embedded Database Configurator</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurador Da Base De Dados Embarcada Do Amarok</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="54"/>
         <source>Amarok Module Is Not Usable</source>
-        <translation type="unfinished"></translation>
+        <translation>O Módulo Do Amarok Não É Utilizável</translation>
     </message>
 </context>
 <context>
     <name>Universals</name>
     <message>
-        <location filename="Core/Universals.py" line="203"/>
+        <location filename="Core/Universals.py" line="204"/>
         <source>Are You Sure?</source>
         <translation>Tem Certeza?</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="203"/>
+        <location filename="Core/Universals.py" line="204"/>
         <source>Are you want to cancel these transactions?</source>
         <translation>Você deseja cancelar estas transações?</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="180"/>
-        <source>%Artist%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="Core/Universals.py" line="181"/>
-        <source>%Album%</source>
-        <translation type="unfinished"></translation>
+        <source>%Artist%</source>
+        <translation>%Artista%</translation>
     </message>
     <message>
         <location filename="Core/Universals.py" line="182"/>
-        <source>%Year%</source>
-        <translation type="unfinished"></translation>
+        <source>%Album%</source>
+        <translation>%Álbum%</translation>
     </message>
     <message>
         <location filename="Core/Universals.py" line="183"/>
+        <source>%Year%</source>
+        <translation>%Ano%</translation>
+    </message>
+    <message>
+        <location filename="Core/Universals.py" line="184"/>
         <source>%Genre%</source>
-        <translation type="unfinished"></translation>
+        <translation>%Gênero%</translation>
     </message>
 </context>
 <context>
@@ -5582,18 +5582,18 @@
     <message>
         <location filename="Core/UpdateControl.py" line="202"/>
         <source>Access Denied</source>
-        <translation type="unfinished">Acesso negado</translation>
+        <translation>Acesso Negado</translation>
     </message>
     <message>
         <location filename="Core/UpdateControl.py" line="202"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br /&gt;Please check your access controls and retry. &lt;br /&gt;Note: You can run Hamsi Manager as root and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%s&quot; : você não tem as permissões necessárias para alterar este diretório.&lt;br/&gt;Por favor, verifique seus controles de acesso e tente novamente. &lt;br/&gt;Nota: Você pode executar Hamsi Manager como root e tentar novamente.</translation>
     </message>
 </context>
 <context>
     <name>Variables</name>
     <message>
-        <location filename="Core/Variables.py" line="456"/>
+        <location filename="Core/Variables.py" line="471"/>
         <source>Desktop</source>
         <translation>Desktop</translation>
     </message>

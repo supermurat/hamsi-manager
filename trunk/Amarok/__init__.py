@@ -207,7 +207,7 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
         self.pbtnGenerateEmbeddedDB = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Generate Embedded Database From Amarok"))
         self.pbtnStartEmbeddedDB = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Start Embedded Database Server"))
         self.pbtnStopEmbeddedDB = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Stop Embedded Database Server"))
-        self.pbtnIsRunning = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Is Running"))
+        self.pbtnIsRunning = MPushButton(translate("AmarokEmbeddedDBConfigurator", "Is Running?"))
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
         vblMain.addWidget(self.pbtnCreateEmbeddedDB)
