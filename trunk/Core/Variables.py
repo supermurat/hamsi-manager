@@ -154,7 +154,8 @@ class Variables():
         
     def isRunableAsRoot():
         try:
-            if InputOutputs.isFile(Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu"):
+            import InputOutputs
+            if InputOutputs.isFile(getLibraryDirectoryPath() + "/kde4/libexec/kdesu"):
                 if isRunningAsRoot():
                     return False
                 return True
@@ -163,7 +164,7 @@ class Variables():
             return False
         
     def isRunningAsRoot():
-        if Variables.userDirectoryPath=="/root":
+        if userDirectoryPath=="/root":
             return True
         return False
 
