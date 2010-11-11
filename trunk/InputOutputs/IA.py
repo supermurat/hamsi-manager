@@ -453,42 +453,43 @@ class IA:
         _path = str(_path)
         cover = None
         imageFiles = []
-        for fileName in readDirectoryAll(_path):
-            if isFile(_path + "/" + fileName):
-                if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
-                    cover = fileName
-                if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).lower()) != 0:
-                    imageFiles.append(fileName)
-                    if cover == None:
-                        for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
-                            if str(fileName.split(".")[0]).lower()==str(coverName).lower():
-                                cover = fileName
-                                break
-        if _isAsk and eval(Universals.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title())==True and len(imageFiles)>1:
-            selectedIndex = 0
-            if cover!=None:
-                selectedIndex = imageFiles.index(cover)
-            cover = Dialogs.select(translate("InputOutputs", "Select A Cover"), str(translate("InputOutputs", "Please select a cover for \"%s\".")) % (Organizer.getLink(_path)), imageFiles, selectedIndex)
-            if cover!=None:
-                cover = str(cover)
-        else:
-            if cover == None and len(imageFiles)>0:
-                for imgFile in imageFiles:
-                    cover = imgFile
-                    break
-        if _isCheckDelete and cover!=None:
-            if isWritableFileOrDir(_path):
-                if eval(Universals.MySettings["isDeleteOtherImages"].title())==True: 
+        if isReadableFileOrDir(_path, True):
+            for fileName in readDirectoryAll(_path):
+                if isFile(_path + "/" + fileName):
+                    if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
+                        cover = fileName
+                    if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).lower()) != 0:
+                        imageFiles.append(fileName)
+                        if cover == None:
+                            for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
+                                if str(fileName.split(".")[0]).lower()==str(coverName).lower():
+                                    cover = fileName
+                                    break
+            if _isAsk and eval(Universals.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title())==True and len(imageFiles)>1:
+                selectedIndex = 0
+                if cover!=None:
+                    selectedIndex = imageFiles.index(cover)
+                cover = Dialogs.select(translate("InputOutputs", "Select A Cover"), str(translate("InputOutputs", "Please select a cover for \"%s\".")) % (Organizer.getLink(_path)), imageFiles, selectedIndex)
+                if cover!=None:
+                    cover = str(cover)
+            else:
+                if cover == None and len(imageFiles)>0:
                     for imgFile in imageFiles:
-                        if cover != imgFile:
-                            removeFile(_path + "/" + imgFile)
+                        cover = imgFile
+                        break
+            if _isCheckDelete and cover!=None:
+                if isWritableFileOrDir(_path):
+                    if eval(Universals.MySettings["isDeleteOtherImages"].title())==True: 
+                        for imgFile in imageFiles:
+                            if cover != imgFile:
+                                removeFile(_path + "/" + imgFile)
         return cover
         
     def setIconToDirectory(_path, _iconName=""):
         return InputOutputs.setIconToDirectory(_path, _iconName)
         
     def getIconFromDirectory(_path):
-        return InputOutputs.setIconToDirectory(_path)
+        return InputOutputs.getIconFromDirectory(_path)
 
     def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
         import Dialogs

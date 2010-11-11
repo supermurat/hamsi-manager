@@ -44,10 +44,11 @@ class Folders:
         for dirNo,dirName in enumerate(fileAndDirectoryNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                dInfo=[]
-                dInfo.append(InputOutputs.IA.getBaseName(_directoryPath))
-                dInfo.append(dirName)
-                currentFilesAndFoldersValues.append(dInfo)
+                if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+dirName):
+                    dInfo=[]
+                    dInfo.append(InputOutputs.IA.getBaseName(_directoryPath))
+                    dInfo.append(dirName)
+                    currentFilesAndFoldersValues.append(dInfo)
             else:
                 allItemNumber = dirNo+1
             Dialogs.showState(translate("InputOutputs/Folders", "Reading Directory Informations"),dirNo+1,allItemNumber, True) 

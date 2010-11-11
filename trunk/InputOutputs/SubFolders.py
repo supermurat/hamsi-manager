@@ -45,11 +45,12 @@ class SubFolders:
         for fileNo,fileName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                fileValues=[]
-                fileValues.append(str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
-                                str(InputOutputs.IA.getDirName(fileName)).replace(_directoryPath,"")))
-                fileValues.append(InputOutputs.IA.getBaseName(fileName))
-                currentFilesAndFoldersValues.append(fileValues)
+                if InputOutputs.IA.isReadableFileOrDir(fileName):
+                    fileValues=[]
+                    fileValues.append(str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
+                                    str(InputOutputs.IA.getDirName(fileName)).replace(_directoryPath,"")))
+                    fileValues.append(InputOutputs.IA.getBaseName(fileName))
+                    currentFilesAndFoldersValues.append(fileValues)
             else:
                 allItemNumber = fileNo+1
             Dialogs.showState(translate("InputOutputs/SubFolders", "Reading File Informations"),

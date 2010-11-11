@@ -42,8 +42,6 @@ class Execute:
         return os.popen(_command)
         
     def execute(_command):
-        if os.name=="nt":
-            _command = ["start"] + _command
         return subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
     
     def executeAsThread(_command):
@@ -54,10 +52,10 @@ class Execute:
     
     def open(_command):
         if os.name=="nt":
-            _command = ["start"] + _command
+            return os.startfile(_command[0])
         else:
             _command = ["xdg-open"] + _command
-        return subprocess.Popen(_command)
+            return subprocess.Popen(_command)
         
     def executeWithPython(_command):
         return execute([sys.executable] + _command)
