@@ -50,34 +50,35 @@ class Musics:
         allItemNumber = len(musicFileNames)
         Universals.startThreadAction()
         for musicNo,musicName in enumerate(musicFileNames):
-            tagger = Taggers.getTagger()
-            tagger.loadFile(_directoryPath+"/"+musicName)
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if tagger.isAvailableFile() == False:
-                    isCanNoncompatible=True
-                musicTagsValues=[]
-                if _filePath!=None:
-                    musicTagsValues.append(_directoryPath)
-                else:
-                    musicTagsValues.append(InputOutputs.getBaseName(_directoryPath))
-                musicTagsValues.append(musicName)
-                musicTagsValues.append(tagger.getArtist())
-                musicTagsValues.append(tagger.getTitle())
-                musicTagsValues.append(tagger.getAlbum())
-                musicTagsValues.append(tagger.getTrackNum())
-                musicTagsValues.append(tagger.getYear())
-                musicTagsValues.append(tagger.getGenre())
-                musicTagsValues.append(tagger.getFirstComment())
-                musicTagsValues.append(tagger.getFirstLyrics())
-                if _filePath!=None:
-                    musicTagsValues.append(tagger.getSize())
-                    musicTagsValues.append(tagger.getPlayTimeString())
-                    musicTagsValues.append(tagger.getSampleFreq())
-                    musicTagsValues.append(tagger.getBitRateString())
-                    musicTagsValues.append(tagger.getImages())
-                    return musicTagsValues
-                currentFilesAndFoldersValues.append(musicTagsValues)
+                if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+musicName):
+                    tagger = Taggers.getTagger()
+                    tagger.loadFile(_directoryPath+"/"+musicName)
+                    if tagger.isAvailableFile() == False:
+                        isCanNoncompatible=True
+                    musicTagsValues=[]
+                    if _filePath!=None:
+                        musicTagsValues.append(_directoryPath)
+                    else:
+                        musicTagsValues.append(InputOutputs.getBaseName(_directoryPath))
+                    musicTagsValues.append(musicName)
+                    musicTagsValues.append(tagger.getArtist())
+                    musicTagsValues.append(tagger.getTitle())
+                    musicTagsValues.append(tagger.getAlbum())
+                    musicTagsValues.append(tagger.getTrackNum())
+                    musicTagsValues.append(tagger.getYear())
+                    musicTagsValues.append(tagger.getGenre())
+                    musicTagsValues.append(tagger.getFirstComment())
+                    musicTagsValues.append(tagger.getFirstLyrics())
+                    if _filePath!=None:
+                        musicTagsValues.append(tagger.getSize())
+                        musicTagsValues.append(tagger.getPlayTimeString())
+                        musicTagsValues.append(tagger.getSampleFreq())
+                        musicTagsValues.append(tagger.getBitRateString())
+                        musicTagsValues.append(tagger.getImages())
+                        return musicTagsValues
+                    currentFilesAndFoldersValues.append(musicTagsValues)
             else:
                 allItemNumber = musicNo+1
             Dialogs.showState(translate("InputOutputs/Musics", "Reading Music Tags"),musicNo+1,allItemNumber, True)

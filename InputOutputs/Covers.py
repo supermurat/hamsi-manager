@@ -45,26 +45,27 @@ class Covers:
         for dirNo,dirName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                fileValues=[]
-                fileValues.append(str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
-                                str(InputOutputs.IA.getDirName(dirName)).replace(_directoryPath,"")))
-                fileValues.append(InputOutputs.IA.getBaseName(dirName))
-                iconPath, isCorrectedFileContent = InputOutputs.IA.getIconFromDirectory(dirName)
-                selectedName = None
-                if isCorrectedFileContent and iconPath!=None:
-                    selectedName = InputOutputs.IA.getBaseName(iconPath)
-                sourceCover = InputOutputs.IA.getFirstImageInDirectory(dirName, selectedName, False, False)
-                if iconPath==None:
-                    iconPath = ""
-                if sourceCover==None:
-                    sourceCover = ""
-                else:
-                    sourceCover = dirName + "/" + sourceCover
-                fileValues.append(iconPath)
-                fileValues.append(sourceCover)
-                fileValues.append(sourceCover)
-                fileValues.append(isCorrectedFileContent)
-                currentFilesAndFoldersValues.append(fileValues)
+                if InputOutputs.IA.isReadableFileOrDir(dirName):
+                    fileValues=[]
+                    fileValues.append(str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
+                                    str(InputOutputs.IA.getDirName(dirName)).replace(_directoryPath,"")))
+                    fileValues.append(InputOutputs.IA.getBaseName(dirName))
+                    iconPath, isCorrectedFileContent = InputOutputs.IA.getIconFromDirectory(dirName)
+                    selectedName = None
+                    if isCorrectedFileContent and iconPath!=None:
+                        selectedName = InputOutputs.IA.getBaseName(iconPath)
+                    sourceCover = InputOutputs.IA.getFirstImageInDirectory(dirName, selectedName, False, False)
+                    if iconPath==None:
+                        iconPath = ""
+                    if sourceCover==None:
+                        sourceCover = ""
+                    else:
+                        sourceCover = dirName + "/" + sourceCover
+                    fileValues.append(iconPath)
+                    fileValues.append(sourceCover)
+                    fileValues.append(sourceCover)
+                    fileValues.append(isCorrectedFileContent)
+                    currentFilesAndFoldersValues.append(fileValues)
             else:
                 allItemNumber = dirNo+1
             Dialogs.showState(translate("InputOutputs/Covers", "Reading Cover Informations"),
