@@ -247,7 +247,6 @@ class FileManager():
                             if Universals.tableType==2 and Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
                                 Universals.MainWindow.PlayerBar.Player.play(str(_path))
                             else:
-                                from Tables import MusicTable
                                 from Details import MusicDetails
                                 MusicDetails.MusicDetails(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
                             isOpened = True
