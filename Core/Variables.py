@@ -29,8 +29,8 @@ class Variables():
     osName = os.name
     Catalog = "HamsiManager" 
     version = "0.9.50"
-    intversion = 908
-    settingVersion = "908"
+    intversion = 950
+    settingVersion = "950"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])
