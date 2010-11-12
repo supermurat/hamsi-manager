@@ -100,7 +100,12 @@ class Tables(MTableWidget):
         elif Universals.tableType==1:
             FileTable.FileTable(self)
         elif Universals.tableType==2:
-            MusicTable.MusicTable(self)
+            import Taggers
+            if Taggers.getTagger(True)!=None:
+                MusicTable.MusicTable(self)
+            else:
+                Universals.tableType = 1
+                FileTable.FileTable(self)
         elif Universals.tableType==3:
             SubFolderTable.SubFolderTable(self)
         elif Universals.tableType==4:
