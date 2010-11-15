@@ -28,9 +28,9 @@ class Variables():
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     Catalog = "HamsiManager" 
-    version = "0.9.51"
-    intversion = 951
-    settingVersion = "950"
+    version = "0.9.60"
+    intversion = 960
+    settingVersion = "960"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])

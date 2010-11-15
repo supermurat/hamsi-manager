@@ -42,7 +42,7 @@ class BookmarksOfSpecialTools:
     def fetchAllByType(_type=None):
         global allForFetchByType
         if _type==None:
-            _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
+            _type = Universals.MainWindow.Table.SubTable.specialTollsBookmarkPointer
         if _type not in allForFetchByType or allForFetchByType[_type]==None:
             import Organizer
             con = getDefaultConnection()
@@ -76,7 +76,7 @@ class BookmarksOfSpecialTools:
     def insert(_bookmark, _value, _type=None):
         global allForFetch, allForFetchByType
         if _type==None:
-            _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
+            _type = Universals.MainWindow.Table.SubTable.specialTollsBookmarkPointer
         if checkValues(_bookmark, _value, _type):
             allForFetch, allForFetchByType[_type] = None, None
             con = getDefaultConnection()
@@ -92,7 +92,7 @@ class BookmarksOfSpecialTools:
     def update(_id, _bookmark, _value, _type=None):
         global allForFetch, allForFetchByType
         if _type==None:
-            _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
+            _type = Universals.MainWindow.Table.SubTable.specialTollsBookmarkPointer
         if checkValues(_bookmark, _value, _type):
             allForFetch, allForFetchByType[_type] = None, None
             con = getDefaultConnection()
@@ -102,7 +102,7 @@ class BookmarksOfSpecialTools:
     
     def delete(_id, _type=None):
         if _type==None:
-            _type = Universals.MainWindow.Table.specialTollsBookmarkPointer
+            _type = Universals.MainWindow.Table.SubTable.specialTollsBookmarkPointer
         global allForFetch, allForFetchByType
         allForFetch, allForFetchByType[_type] = None, None
         con = getDefaultConnection()

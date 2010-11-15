@@ -364,7 +364,7 @@ class FileManager():
     def showInTable(self):
         try:
             InputOutputs.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
-            Tables.refreshTable(InputOutputs.currentDirectoryPath)
+            Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
         except:
             error = ReportBug.ReportBug()
             error.show()

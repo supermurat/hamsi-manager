@@ -26,61 +26,41 @@ from Details import TextDetails
 import Dialogs
                 
 class FolderTable():
-    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable
-    def __init__(self,_table):
-        _table.specialTollsBookmarkPointer = "directory"
-        _table.hiddenTableColumnsSettingKey = "hiddenFolderTableColumns"
-        _table.refreshSubTable = _refreshSubTable
-        _table.refreshSubTableColumns = _refreshSubTableColumns
-        _table.saveSubTable = _saveSubTable
-        _table.subTableCellClicked = _subTableCellClicked
-        _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
-        _table.subShowDetails = _subShowDetails
-        _table.correctSubTable = _correctSubTable
-        _table.fileDetails = Folders.currentFilesAndFoldersValues
-        self=_table
-        _refreshSubTableColumns(self)
-        hbox1 = MHBoxLayout()
-        hbox1.addWidget(self.actRefresh)
-        hbox1.addWidget(self.tbGoBack)
-        hbox1.addWidget(self.tbCreateHistoryPoint)
-        hbox1.addWidget(self.tbGoForward)
-        hbox1.addWidget(self.tbIsRunOnDoubleClick)
-        hbox1.addWidget(self.isOpenDetailsOnNewWindow)
-        hbox1.addWidget(self.tbCorrect)
-        hbox1.addWidget(self.pbtnShowDetails, 1)
-        hbox1.addWidget(self.pbtnSave, 2)
-        self.hblBox.addLayout(hbox1)
+    def __init__(self, _table):
+        self.Table = _table
+        self.specialTollsBookmarkPointer = "directory"
+        self.hiddenTableColumnsSettingKey = "hiddenFolderTableColumns"
+        self.refreshColumns()
         
-    def _subShowDetails(self, _fileNo, _infoNo):
-        TextDetails.TextDetails(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_fileNo][1],self.isOpenDetailsOnNewWindow.isChecked())
+    def showDetails(self, _fileNo, _infoNo):
+        TextDetails.TextDetails(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_fileNo][1],self.Table.isOpenDetailsOnNewWindow.isChecked())
     
-    def _subTableCellClicked(self,_row,_column):
-        for row_no in range(self.rowCount()):
-            self.setRowHeight(row_no,30)
-        if len(self.currentItem().text())*8>self.columnWidth(_column):
-            self.setColumnWidth(_column,len(self.currentItem().text())*8)
+    def cellClicked(self,_row,_column):
+        for row_no in range(self.Table.rowCount()):
+            self.Table.setRowHeight(row_no,30)
+        if len(self.Table.currentItem().text())*8>self.Table.columnWidth(_column):
+            self.Table.setColumnWidth(_column,len(self.Table.currentItem().text())*8)
         
-    def _subTableCellDoubleClicked(self,_row,_column):
+    def cellDoubleClicked(self,_row,_column):
         try:
-            if self.tbIsRunOnDoubleClick.isChecked()==True:
-                _subShowDetails(self, _row, _column)
+            if self.Table.tbIsRunOnDoubleClick.isChecked()==True:
+                self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("FolderTable", "Cannot Open File"), 
                         str(translate("FolderTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
                         ) % Organizer.getLink(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[_row][1]))
        
-    def _refreshSubTableColumns(self):
-        self.tableColumns=[translate("FolderTable", "Directory"), 
+    def refreshColumns(self):
+        self.Table.tableColumns=[translate("FolderTable", "Directory"), 
                             translate("FolderTable", "File/Directory Name")]
-        self.tableColumnsKey=["Directory", "File/Directory Name"]
+        self.Table.tableColumnsKey=["Directory", "File/Directory Name"]
         
-    def _saveSubTable(self):
-        returnValue = Folders.writeFolders(self)
-        self.changedValueNumber = Folders.changedValueNumber
+    def save(self):
+        returnValue = Folders.writeFolders(self.Table)
+        self.Table.changedValueNumber = Folders.changedValueNumber
         return returnValue
     
-    def _refreshSubTable(self, _path):
+    def refresh(self, _path):
         Folders.readFolders(_path)
         self.fileDetails = Folders.currentFilesAndFoldersValues
         if Universals.isShowOldValues==True:
@@ -89,18 +69,18 @@ class FolderTable():
             for row in range(0,len(Folders.currentFilesAndFoldersValues)*2):
                 tableRows.append(str(int(n/2)))
                 n+=1
-            self.setRowCount(len(Folders.currentFilesAndFoldersValues)*2)
-            self.setVerticalHeaderLabels(tableRows)
+            self.Table.setRowCount(len(Folders.currentFilesAndFoldersValues)*2)
+            self.Table.setVerticalHeaderLabels(tableRows)
             startRowNo, rowStep = 1, 2
             for fileNo in range(0,len(Folders.currentFilesAndFoldersValues)*2,2):
                 for itemNo in range(0,2):
                     item = MTableWidgetItem(Organizer.showWithIncorrectChars(Folders.currentFilesAndFoldersValues[fileNo/2][itemNo]).decode("utf-8"))
                     item.setStatusTip(item.text())
-                    self.setItem(fileNo,itemNo,item)      
+                    self.Table.setItem(fileNo,itemNo,item)      
         else:
-            self.setRowCount(len(Folders.currentFilesAndFoldersValues))
+            self.Table.setRowCount(len(Folders.currentFilesAndFoldersValues))
             startRowNo, rowStep = 0, 1
-        for fileNo in range(startRowNo,self.rowCount(),rowStep):
+        for fileNo in range(startRowNo,self.Table.rowCount(),rowStep):
             if Universals.isShowOldValues==True:
                 realFileNo=fileNo/2
             else:
@@ -112,25 +92,25 @@ class FolderTable():
                     newString = Organizer.emend(Folders.currentFilesAndFoldersValues[realFileNo][itemNo], InputOutputs.IA.getObjectType(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[realFileNo][1]))
                 item = MTableWidgetItem(newString.decode("utf-8"))
                 item.setStatusTip(item.text())
-                self.setItem(fileNo,itemNo,item)
+                self.Table.setItem(fileNo,itemNo,item)
                 if str(Folders.currentFilesAndFoldersValues[realFileNo][itemNo])!=str(newString) and str(Folders.currentFilesAndFoldersValues[realFileNo][itemNo])!="None":
-                    self.item(fileNo,itemNo).setBackground(MBrush(MColor(142,199,255)))
-                    self.item(fileNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(Folders.currentFilesAndFoldersValues[realFileNo][itemNo]).decode("utf-8"))
+                    self.Table.item(fileNo,itemNo).setBackground(MBrush(MColor(142,199,255)))
+                    self.Table.item(fileNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(Folders.currentFilesAndFoldersValues[realFileNo][itemNo]).decode("utf-8"))
                     
-    def _correctSubTable(self):
+    def correctTable(self):
         if Universals.isShowOldValues==True:
             startRowNo, rowStep = 1, 2
         else:
             startRowNo, rowStep = 0, 1
-        for rowNo in range(startRowNo,self.rowCount(),rowStep):
+        for rowNo in range(startRowNo,self.Table.rowCount(),rowStep):
             if Universals.isShowOldValues==True:
                 realRowNo=rowNo/2
             else:
                 realRowNo=rowNo
-            for itemNo in range(self.columnCount()):
+            for itemNo in range(self.Table.columnCount()):
                 if itemNo==0:
-                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "directory")
+                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), "directory")
                 else:
-                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), InputOutputs.IA.getObjectType(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[realRowNo][1]))
-                self.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
+                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), InputOutputs.IA.getObjectType(InputOutputs.currentDirectoryPath+"/"+Folders.currentFilesAndFoldersValues[realRowNo][1]))
+                self.Table.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
           

@@ -124,7 +124,7 @@ class SpecialTools(MWidget):
         self.cbInformationSectionY.setEnabled(False)
         self.cbInformationSection.setFixedWidth(175)
         MObject.connect(self.cbInformationSection, SIGNAL("currentIndexChanged(int)"), self.InformationSectionChanged)
-        self.refreshForTableColumns()
+        self.refreshForColumns()
         self.reFillCompleters()
         
     def InformationSectionChanged(self):
@@ -137,7 +137,7 @@ class SpecialTools(MWidget):
         else:
             self.cbInformationSectionY.setEnabled(False)
         
-    def refreshForTableColumns(self):
+    def refreshForColumns(self):
         self.searchAndReplace.columns.clear()
         self.fill.columns.clear()
         self.clear.columns.clear()

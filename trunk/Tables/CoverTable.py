@@ -24,82 +24,59 @@ from InputOutputs import Covers
 from MyObjects import *
 from Details import CoverDetails
 import Dialogs
-import Tables
-import ReportBug
                 
 class CoverTable():
-    global _refreshSubTable, _refreshSubTableColumns, _saveSubTable, _subTableCellClicked, _subTableCellDoubleClicked, _subShowDetails, _correctSubTable, _getFromAmarok
-    def __init__(self,_table):
-        _table.specialTollsBookmarkPointer = "cover"
-        _table.hiddenTableColumnsSettingKey = "hiddenCoverTableColumns"
-        _table.refreshSubTable = _refreshSubTable
-        _table.refreshSubTableColumns = _refreshSubTableColumns
-        _table.saveSubTable = _saveSubTable
-        _table.subTableCellClicked = _subTableCellClicked
-        _table.subTableCellDoubleClicked = _subTableCellDoubleClicked
-        _table.subShowDetails = _subShowDetails
-        _table.correctSubTable = _correctSubTable
-        _table.fileDetails = Covers.currentFilesAndFoldersValues
-        _table.getFromAmarok = _getFromAmarok
-        self=_table
-        _refreshSubTableColumns(self)
-        hbox1 = MHBoxLayout()
-        hbox1.addWidget(self.actRefresh)
-        hbox1.addWidget(self.tbGoBack)
-        hbox1.addWidget(self.tbCreateHistoryPoint)
-        hbox1.addWidget(self.tbGoForward)
-        hbox1.addWidget(self.tbIsRunOnDoubleClick)
-        hbox1.addWidget(self.isOpenDetailsOnNewWindow)
-        hbox1.addWidget(self.tbCorrect)
-        hbox1.addWidget(self.pbtnShowDetails, 1)
+    def __init__(self, _table):
+        self.Table = _table
+        self.specialTollsBookmarkPointer = "cover"
+        self.hiddenTableColumnsSettingKey = "hiddenCoverTableColumns"
+        self.refreshColumns()
         pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
         MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
-        hbox1.addWidget(pbtnGetFromAmarok, 1)
-        hbox1.addWidget(self.pbtnSave, 2)
-        self.hblBox.addLayout(hbox1)
+        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnGetFromAmarok)
         
-    def _subShowDetails(self, _fileNo, _infoNo):
+    def showDetails(self, _fileNo, _infoNo):
         directoryPathOfCover = InputOutputs.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_fileNo][1]
         coverValues = [directoryPathOfCover, 
-                       InputOutputs.IA.getRealPath(str(self.item(_fileNo, 2).text()), directoryPathOfCover), 
-                       InputOutputs.IA.getRealPath(str(self.item(_fileNo, 3).text()), directoryPathOfCover), 
-                       InputOutputs.IA.getRealPath(str(self.item(_fileNo, 4).text()), directoryPathOfCover)]
-        CoverDetails.CoverDetails(coverValues, self.isOpenDetailsOnNewWindow.isChecked(), _infoNo)
+                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover), 
+                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover), 
+                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 4).text()), directoryPathOfCover)]
+        CoverDetails.CoverDetails(coverValues, self.Table.isOpenDetailsOnNewWindow.isChecked(), _infoNo)
         
-    def _subTableCellClicked(self,_row,_column):
-        for row_no in range(self.rowCount()):
-            self.setRowHeight(row_no,30)
-        if len(self.currentItem().text())*8>self.columnWidth(_column):
-            self.setColumnWidth(_column,len(self.currentItem().text())*8)
+    def cellClicked(self,_row,_column):
+        for row_no in range(self.Table.rowCount()):
+            self.Table.setRowHeight(row_no,30)
+        if len(self.Table.currentItem().text())*8>self.Table.columnWidth(_column):
+            self.Table.setColumnWidth(_column,len(self.Table.currentItem().text())*8)
     
-    def _subTableCellDoubleClicked(self,_row,_column):
+    def cellDoubleClicked(self,_row,_column):
         try:
-            if self.tbIsRunOnDoubleClick.isChecked()==True:
-                _subShowDetails(self, _row, _column)
+            if self.Table.tbIsRunOnDoubleClick.isChecked()==True:
+                self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("CoverTable", "Cannot Open File"), 
                         str(translate("CoverTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
                         ) % Organizer.getLink(InputOutputs.currentDirectoryPath + "/" + Covers.currentFilesAndFoldersValues[_row][1]))
        
-    def _refreshSubTableColumns(self):
-        self.tableColumns=[translate("CoverTable", "Directory"), 
+    def refreshColumns(self):
+        self.Table.tableColumns=[translate("CoverTable", "Directory"), 
                             translate("CoverTable", "Directory Name"), 
                             translate("CoverTable", "Current Cover"), 
                             translate("CoverTable", "Source Cover"), 
                             translate("CoverTable", "Destination Cover")]
-        self.tableColumnsKey=["Directory", "Directory Name", "Current Cover", "Source Cover", "Destination Cover"]
+        self.Table.tableColumnsKey=["Directory", "Directory Name", "Current Cover", "Source Cover", "Destination Cover"]
         
-    def _saveSubTable(self):
-        returnValue = Covers.writeCovers(self)
-        self.changedValueNumber = Covers.changedValueNumber
+    def save(self):
+        returnValue = Covers.writeCovers(self.Table)
+        self.Table.changedValueNumber = Covers.changedValueNumber
         return returnValue
         
-    def _refreshSubTable(self, _path):
+    def refresh(self, _path):
         Covers.readCovers(_path)
         self.fileDetails = Covers.currentFilesAndFoldersValues
-        self.setRowCount(len(Covers.currentFilesAndFoldersValues))
+        self.Table.setRowCount(len(Covers.currentFilesAndFoldersValues))
         startRowNo, rowStep = 0, 1
-        for dirNo in range(startRowNo, self.rowCount(), rowStep):
+        for dirNo in range(startRowNo, self.Table.rowCount(), rowStep):
             for itemNo in range(0,5):
                 if itemNo==0 or itemNo==1:
                     newString = Organizer.emend(Covers.currentFilesAndFoldersValues[dirNo][itemNo], "directory")
@@ -111,48 +88,48 @@ class CoverTable():
                     newString = newString.replace(_path + "/" + Covers.currentFilesAndFoldersValues[dirNo][1], ".")
                 item = MTableWidgetItem(newString.decode("utf-8"))
                 item.setStatusTip(item.text())
-                self.setItem(dirNo,itemNo,item)
+                self.Table.setItem(dirNo,itemNo,item)
                 if itemNo!=2 and itemNo!=3 and str(Covers.currentFilesAndFoldersValues[dirNo][itemNo])!=str(newString) and str(Covers.currentFilesAndFoldersValues[dirNo][itemNo])!=str(_path + "/" + Covers.currentFilesAndFoldersValues[dirNo][1] + newString[1:]) and str(Covers.currentFilesAndFoldersValues[dirNo][itemNo])!="None":
-                    self.item(dirNo,itemNo).setBackground(MBrush(MColor(142,199,255)))
-                    self.item(dirNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(Covers.currentFilesAndFoldersValues[dirNo][itemNo]).decode("utf-8"))
+                    self.Table.item(dirNo,itemNo).setBackground(MBrush(MColor(142,199,255)))
+                    self.Table.item(dirNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(Covers.currentFilesAndFoldersValues[dirNo][itemNo]).decode("utf-8"))
             if Covers.currentFilesAndFoldersValues[dirNo][5]==False:
-                self.item(dirNo,2).setBackground(MBrush(MColor(255,163,163)))
+                self.Table.item(dirNo,2).setBackground(MBrush(MColor(255,163,163)))
                     
-    def _correctSubTable(self):
-        for rowNo in range(self.rowCount()):
-            for itemNo in range(self.columnCount()):
+    def correctTable(self):
+        for rowNo in range(self.Table.rowCount()):
+            for itemNo in range(self.Table.columnCount()):
                 if itemNo==0 or itemNo==1:
-                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "directory")
+                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), "directory")
                 elif itemNo==2 or itemNo==3:
-                    newString = Organizer.showWithIncorrectChars(unicode(self.item(rowNo,itemNo).text(),"utf-8"))
+                    newString = Organizer.showWithIncorrectChars(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"))
                 else:
-                    newString = Organizer.emend(unicode(self.item(rowNo,itemNo).text(),"utf-8"), "file")
-                self.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
+                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), "file")
+                self.Table.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
         
-    def _getFromAmarok():
+    def getFromAmarok(self):
         try:
             import Amarok
             Dialogs.showState(translate("CoverTable", "Checking For Amarok..."), 0, 2)
             if Amarok.checkAmarok():
                 Dialogs.showState(translate("CoverTable", "Getting Values From Amarok"), 1, 2)
-                table = Universals.MainWindow.Table
                 from Amarok import Commands
                 directoriesAndValues = Commands.getDirectoriesAndValues()
                 Dialogs.showState(translate("CoverTable", "Values Are Being Processed"), 2, 2)
                 if directoriesAndValues!=None:
-                    for rowNo in range(table.rowCount()):
-                        if Tables.checkHiddenColumn(3) and Tables.checkHiddenColumn(4):
-                            if table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-                                directoryPath = str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(table.item(rowNo,1).text()).encode("utf-8")
+                    for rowNo in range(self.Table.rowCount()):
+                        if self.Table.checkHiddenColumn(3) and self.Table.checkHiddenColumn(4):
+                            if self.Table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+                                directoryPath = str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(self.Table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(self.Table.item(rowNo,1).text()).encode("utf-8")
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]
-                                    table.item(rowNo,3).setText(directoryAndValues["coverPath"][0].replace(directoryPath, "."))
-                                    table.item(rowNo,4).setText("./" + Organizer.getIconName(
+                                    self.Table.item(rowNo,3).setText(directoryAndValues["coverPath"][0].replace(directoryPath, "."))
+                                    self.Table.item(rowNo,4).setText("./" + Organizer.getIconName(
                                                             directoryAndValues["Artist"][0], 
                                                             directoryAndValues["Album"][0], 
                                                             directoryAndValues["Genre"][0], 
                                                             directoryAndValues["Year"][0]))
         except:
+            import ReportBug
             error = ReportBug.ReportBug()
             error.show()
         
