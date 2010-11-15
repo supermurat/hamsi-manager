@@ -33,10 +33,10 @@ from MyObjects import *
 import ReportBug
 
 class Tables(MTableWidget):
-    global refreshTable, refreshShowedAndHiddenColumns, clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, refreshForTableColumns, exportTableValues, askHiddenColumn
+    global clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, exportValues, askHiddenColumn
     isAskShowHiddenColumn = True
     def __init__(self, _parent):
-        global refreshTable,layouts,widgets, table
+        global layouts,widgets, table
         MTableWidget.__init__(self, _parent)
         table=self
         self.changedValueNumber = 0
@@ -46,9 +46,9 @@ class Tables(MTableWidget):
         self.setWordWrap(False)
         self.setVerticalScrollMode(self.ScrollPerPixel)
         self.setHorizontalScrollMode(self.ScrollPerPixel)
-        MObject.connect(self,SIGNAL("cellClicked(int,int)"),self.tableCellClicked)
-        MObject.connect(self,SIGNAL("itemChanged(QTableWidgetItem *)"),self.tableItemChanged)
-        MObject.connect(self,SIGNAL("cellDoubleClicked(int,int)"),self.tableCellDoubleClicked)
+        MObject.connect(self,SIGNAL("cellClicked(int,int)"),self.cellClicked)
+        MObject.connect(self,SIGNAL("itemChanged(QTableWidgetItem *)"),self.itemChanged)
+        MObject.connect(self,SIGNAL("cellDoubleClicked(int,int)"),self.cellDoubleClicked)
         self.pbtnSave = MPushButton(translate("Tables", "Save"))
         self.pbtnSave.setObjectName("pbtnSave")
         self.pbtnSave.setIcon(MIcon("Images:save.png"))
@@ -74,7 +74,7 @@ class Tables(MTableWidget):
         self.actRefresh.setToolTip(translate("Tables", "Refresh"))
         self.actRefresh.setIcon(MIcon("Images:refresh.png"))
         self.actRefresh.setAutoRaise(True)
-        MObject.connect(self.actRefresh, SIGNAL("clicked()"), refreshTable)
+        MObject.connect(self.actRefresh, SIGNAL("clicked()"), self.refresh)
         self.tbGoBack = MToolButton()
         self.tbGoForward = MToolButton()
         self.tbCreateHistoryPoint = MToolButton()
@@ -87,7 +87,7 @@ class Tables(MTableWidget):
         self.tbGoBack.setAutoRaise(True)
         self.tbGoForward.setAutoRaise(True)
         self.tbCreateHistoryPoint.setAutoRaise(True)
-        MObject.connect(self.pbtnSave, SIGNAL("clicked()"), self.saveTable)
+        MObject.connect(self.pbtnSave, SIGNAL("clicked()"), self.save)
         MObject.connect(self.tbGoBack, SIGNAL("clicked()"), self.goBack)
         MObject.connect(self.tbGoForward, SIGNAL("clicked()"), self.goForward)
         MObject.connect(self.tbCreateHistoryPoint, SIGNAL("clicked()"), self.createHistoryPoint)
@@ -95,30 +95,39 @@ class Tables(MTableWidget):
         _parent.MainLayout.addWidget(self, 10)
         self.mContextMenu = MMenu(self)
         self.hblBox = MHBoxLayout()
+        self.hblBox.addWidget(self.actRefresh)
+        self.hblBox.addWidget(self.tbGoBack)
+        self.hblBox.addWidget(self.tbCreateHistoryPoint)
+        self.hblBox.addWidget(self.tbGoForward)
+        self.hblBox.addWidget(self.tbIsRunOnDoubleClick)
+        self.hblBox.addWidget(self.isOpenDetailsOnNewWindow)
+        self.hblBox.addWidget(self.tbCorrect)
+        self.hblBox.addWidget(self.pbtnShowDetails, 1)
+        self.hblBox.addWidget(self.pbtnSave, 2)
         if Universals.tableType==0:
-            FolderTable.FolderTable(self)
+            self.SubTable = FolderTable.FolderTable(self)
         elif Universals.tableType==1:
-            FileTable.FileTable(self)
+            self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==2:
             import Taggers
             if Taggers.getTagger(True)!=None:
-                MusicTable.MusicTable(self)
+                self.SubTable = MusicTable.MusicTable(self)
             else:
                 Universals.tableType = 1
-                FileTable.FileTable(self)
+                self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==3:
-            SubFolderTable.SubFolderTable(self)
+            self.SubTable = SubFolderTable.SubFolderTable(self)
         elif Universals.tableType==4:
-            CoverTable.CoverTable(self)
+            self.SubTable = CoverTable.CoverTable(self)
             Universals.isShowOldValues = False
-        self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.hiddenTableColumnsSettingKey])
+        self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.SubTable.hiddenTableColumnsSettingKey])
         _parent.MainLayout.addLayout(self.hblBox)
         self.mContextMenuColumns = MMenu()
         self.mContextMenuColumns.setTitle(translate("Tables", "Show Fields"))
         self.mContextMenuOpenWith = MMenu()
         self.mContextMenuOpenWith.setTitle(translate("Tables", "Open With"))
         self.clickedContextMenuColumns = []
-        refreshForTableColumns()
+        self.refreshForColumns()
         self.mContextMenuActionNames = [translate("Tables", "Cut"),
                             translate("Tables", "Copy"),
                             translate("Tables", "Paste"),
@@ -160,7 +169,7 @@ class Tables(MTableWidget):
                     rowNo = self.currentRow()/2
                 else:
                     rowNo = self.currentRow()
-                filePath = InputOutputs.currentDirectoryPath+"/"+self.fileDetails[rowNo][1]
+                filePath = InputOutputs.currentDirectoryPath+"/"+self.SubTable.fileDetails[rowNo][1]
                 isOpenedDetails = False
                 if InputOutputs.IA.isExist(filePath):
                     isImage = False
@@ -183,14 +192,14 @@ class Tables(MTableWidget):
                         MusicDetails.MusicDetails(filePath)
                         isOpenedDetails = True
                 if isOpenedDetails==False:
-                    self.subShowDetails(self, rowNo, self.currentColumn())
+                    self.SubTable.showDetails(rowNo, self.currentColumn())
         except:
             error = ReportBug.ReportBug()
             error.show()
     
     def correct(self):
         try:
-            self.correctSubTable(self)
+            self.SubTable.correctTable()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -269,13 +278,13 @@ class Tables(MTableWidget):
                                 self.hideRow(rowNo)
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         import Execute
-                        Execute.open([InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1])])
+                        Execute.open([InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.SubTable.fileDetails[self.currentItem().row()][1])])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         import Execute
-                        Execute.open([InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1]])
+                        Execute.open([InputOutputs.currentDirectoryPath + "/" + self.SubTable.fileDetails[self.currentItem().row()][1]])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         import Execute
-                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + table.fileDetails[self.currentItem().row()][1])])
+                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.SubTable.fileDetails[self.currentItem().row()][1])])
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -296,76 +305,76 @@ class Tables(MTableWidget):
     
     def clickedContextMenuColumns(_value):
         try:
-            refreshShowedAndHiddenColumns()
+            self.refreshShowedAndHiddenColumns()
         except:
             error = ReportBug.ReportBug()
             error.show()
     
-    def refreshShowedAndHiddenColumns():
-        table.hiddenTableColumns = []
-        for x, act in enumerate(table.mContextMenuColumnsActions):
+    def refreshShowedAndHiddenColumns(self):
+        self.hiddenTableColumns = []
+        for x, act in enumerate(self.mContextMenuColumnsActions):
             if act.isChecked()==False:
-                table.hiddenTableColumns.append(str(x))
-        for c in range(len(table.tableColumns)):
-            if table.hiddenTableColumns.count(str(c))>0:
-                table.hideColumn(c)
+                self.hiddenTableColumns.append(str(x))
+        for c in range(len(self.tableColumns)):
+            if self.hiddenTableColumns.count(str(c))>0:
+                self.hideColumn(c)
             else:
-                table.showColumn(c)
+                self.showColumn(c)
     
-    def tableCellClicked(self,_row,_column):
+    def cellClicked(self,_row,_column):
         try:
-            self.subTableCellClicked(self, _row, _column)
+            self.SubTable.cellClicked(_row, _column)
         except:
             error = ReportBug.ReportBug()
             error.show()
     
-    def tableCellDoubleClicked(self,_row,_column):
+    def cellDoubleClicked(self,_row,_column):
         try:
-            self.subTableCellDoubleClicked(self, _row, _column)
+            self.SubTable.cellDoubleClicked(_row, _column)
         except:
             error = ReportBug.ReportBug()
             error.show()
     
-    def refreshForTableColumns():
-        table.mContextMenuColumns.clear()
-        table.refreshSubTableColumns(table)
-        table.mContextMenuColumnsActions = []
-        for columnName in table.tableColumns:
-            table.mContextMenuColumnsActions.append(MAction(columnName,table.mContextMenuColumns))
-        for key,act in enumerate(table.mContextMenuColumnsActions):
+    def refreshForColumns(self):
+        self.mContextMenuColumns.clear()
+        self.SubTable.refreshColumns()
+        self.mContextMenuColumnsActions = []
+        for columnName in self.tableColumns:
+            self.mContextMenuColumnsActions.append(MAction(columnName,self.mContextMenuColumns))
+        for key,act in enumerate(self.mContextMenuColumnsActions):
             act.setCheckable(True)
-            if table.hiddenTableColumns.count(str(key))==0:
+            if self.hiddenTableColumns.count(str(key))==0:
                 act.setChecked(True)
-            table.mContextMenuColumns.addAction(act)
+            self.mContextMenuColumns.addAction(act)
             MObject.connect(act,SIGNAL("triggered(bool)"), clickedContextMenuColumns)
-        refreshShowedAndHiddenColumns()
+        self.refreshShowedAndHiddenColumns()
         
-    def refreshTable(_path = ""):
+    def refresh(self, _path = ""):
         global isShowChanges, isAskShowHiddenColumn
         isAskShowHiddenColumn = True
         if InputOutputs.IA.isDir(_path)==False:
             _path = InputOutputs.currentDirectoryPath
         isShowChanges=False
-        table.clear()
-        table.setColumnCount(len(table.tableColumns))
-        table.setHorizontalHeaderLabels(table.tableColumns)
-        columnWidth = (Universals.MainWindow.CentralWidget.width()-90)/len(table.tableColumns)
+        self.clear()
+        self.setColumnCount(len(self.tableColumns))
+        self.setHorizontalHeaderLabels(self.tableColumns)
+        columnWidth = (Universals.MainWindow.CentralWidget.width()-90)/len(self.tableColumns)
         if columnWidth>110:
-            for x in range(len(table.tableColumns)):
-                table.setColumnWidth(x,columnWidth)
+            for x in range(len(self.tableColumns)):
+                self.setColumnWidth(x,columnWidth)
         import MyThread
-        myProcs = MyThread.MyThread(table.refreshSubTable, table.continueRefreshTable, [table, _path])
+        myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [_path])
         myProcs.run()
 
-    def continueRefreshTable(self, _returned=None):
+    def continueRefresh(self, _returned=None):
         global isShowChanges
         isShowChanges=True
         for rowNo in range(table.rowCount()):
             if table.isRowHidden(rowNo):
                 table.showRow(rowNo)
-        refreshShowedAndHiddenColumns()
+        self.refreshShowedAndHiddenColumns()
         
-    def tableItemChanged(self, _item):
+    def itemChanged(self, _item):
         global isShowChanges
         if isShowChanges==True:
             isShowChanges = False
@@ -376,7 +385,7 @@ class Tables(MTableWidget):
             isShowChanges = True
             
                 
-    def saveTable(self):
+    def save(self):
         try:
             import Records
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
@@ -387,13 +396,13 @@ class Tables(MTableWidget):
                     Universals.MainWindow.FileManager.makeRefresh(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))
                     return True
             import MyThread
-            myProcs = MyThread.MyThread(self.saveSubTable, self.continueSaveTable, [self])
+            myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
         except:
             error = ReportBug.ReportBug()
             error.show()      
         
-    def continueSaveTable(self, _returned=None):
+    def continueSave(self, _returned=None):
         import Records
         newCurrentDirectoryPath = _returned
         if Universals.tableType!=4:
@@ -413,7 +422,7 @@ class Tables(MTableWidget):
         else:
             Universals.MainWindow.FileManager.makeRefresh("", False)
         
-    def checkUnSavedTableValues(self):
+    def checkUnSavedValues(self):
         isClose=True
         for rowNo in range(self.rowCount()):
             if isClose==False:
@@ -433,7 +442,7 @@ class Tables(MTableWidget):
                         translate("Tables", "Do you want to save these information?"),
                         True, "There Are Unsaved Information")
             if answer==Dialogs.Yes:
-                self.saveTable()
+                self.save()
             elif answer==Dialogs.Cancel:
                 return False
         return True
@@ -460,7 +469,7 @@ class Tables(MTableWidget):
             elif answer==translate("Tables", "Yes To All"):
                 isAskShowHiddenColumn=False
         table.mContextMenuColumnsActions[_columnNo].setChecked(True)
-        refreshShowedAndHiddenColumns()
+        self.refreshShowedAndHiddenColumns()
         return True
     
     def checkHiddenColumn(_columnNo, _isYesToAll=True):
@@ -468,7 +477,7 @@ class Tables(MTableWidget):
             return askHiddenColumn(_columnNo, _isYesToAll)
         return True
         
-    def exportTableValues(_actionType="return",_formatType="html", _extInfo="no"):
+    def exportValues(_actionType="return",_formatType="html", _extInfo="no"):
         import os
         info = ""
         if _formatType=="html":

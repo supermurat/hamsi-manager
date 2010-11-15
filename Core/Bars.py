@@ -178,18 +178,18 @@ class Bars():
                 Universals.MainWindow.close()
             elif actionName==translate("MenuBar", "HTML Format"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    Tables.exportTableValues("file", "html", "title")
+                    Tables.exportValues("file", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    Tables.exportTableValues("dialog", "html", "title")
+                    Tables.exportValues("dialog", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    Tables.exportTableValues("clipboard", "html", "title")
+                    Tables.exportValues("clipboard", "html", "title")
             elif actionName==translate("MenuBar", "Text Format"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    Tables.exportTableValues("file", "plainText", "title")
+                    Tables.exportValues("file", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    Tables.exportTableValues("dialog", "plainText", "title")
+                    Tables.exportValues("dialog", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    Tables.exportTableValues("clipboard", "plainText", "title")
+                    Tables.exportValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
                     InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "title")
@@ -239,9 +239,9 @@ class Bars():
             elif _isFromMenu==False:
                 if actionName==translate("Tables", "Show Also Previous Information"):
                     if Universals.tableType!=4:
-                        if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                        if Universals.MainWindow.Table.checkUnSavedValues()==True:
                             Universals.isShowOldValues = _action.isChecked()
-                            Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                            Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
                         else:
                             _action.setChecked(Universals.isShowOldValues)
                     else:
@@ -263,7 +263,7 @@ class Bars():
                             translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
                     Universals.MainWindow.setEnabled(True)
                 elif actionName==translate("ToolsBar", "Clear Empty Directories"):
-                    if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
+                    if Universals.MainWindow.Table.checkUnSavedValues()==False:
                         _action.setChecked(False)
                         return False
                     answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
@@ -340,10 +340,10 @@ class Bars():
         try:
             selectedType = Universals.getThisTableType(_action.objectName())
             if _action.isChecked() and Universals.tableType != selectedType:
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
+                if Universals.MainWindow.Table.checkUnSavedValues()==False:
                     _action.setChecked(False)
                     return False
-                Universals.setMySetting(Universals.MainWindow.Table.hiddenTableColumnsSettingKey,Universals.MainWindow.Table.hiddenTableColumns)
+                Universals.setMySetting(Universals.MainWindow.Table.SubTable.hiddenTableColumnsSettingKey,Universals.MainWindow.Table.hiddenTableColumns)
                 if Universals.tableType==2:
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.PlayerBar)
                     Universals.MainWindow.PlayerBar.deleteLater()
@@ -476,7 +476,7 @@ class TableToolsBar(MToolBar):
         
     def changeReNamerType(_action, _isFromMenu=False):
         try:
-            if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
+            if Universals.MainWindow.Table.checkUnSavedValues()==False:
                 _action.setChecked(False)
                 for x, typeName in enumerate(Variables.fileReNamerTypeNamesKeys):
                     if typeName == Universals.MySettings["fileReNamerType"]:
@@ -604,11 +604,11 @@ class MusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                if Universals.MainWindow.Table.checkUnSavedValues()==True:
                     setSelectedTaggerTypeName(selectedType)
-                    Tables.refreshForTableColumns()
-                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                    Universals.MainWindow.Table.refreshForColumns()
+                    Universals.MainWindow.SpecialTools.refreshForColumns()
+                    Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(getSelectedTaggerTypeName()))
                 if self.cbMusicTagTypeForMenu != None:
@@ -661,11 +661,11 @@ class SubDirectoryOptionsBar(MToolBar):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                if Universals.MainWindow.Table.checkUnSavedValues()==True:
                     Universals.setMySetting("subDirectoryDeep", int(selectedDeep))
-                    Tables.refreshForTableColumns()
-                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                    Universals.MainWindow.Table.refreshForColumns()
+                    Universals.MainWindow.SpecialTools.refreshForColumns()
+                    Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["subDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
@@ -720,11 +720,11 @@ class CoverOptionsBar(MToolBar):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                if Universals.MainWindow.Table.checkUnSavedValues()==True:
                     Universals.setMySetting("CoversSubDirectoryDeep", int(selectedDeep))
-                    Tables.refreshForTableColumns()
-                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
-                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                    Universals.MainWindow.Table.refreshForColumns()
+                    Universals.MainWindow.SpecialTools.refreshForColumns()
+                    Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["CoversSubDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:

@@ -222,7 +222,7 @@ if RoutineChecks.checkQt4Exist():
                                 TextDetails.closeAllTextDialogs()
                                 CoverDetails.closeAllCoverDialogs()
                                 Universals.printForDevelopers("Closed Dialogs")
-                                if self.Table.checkUnSavedTableValues()==False:
+                                if self.Table.checkUnSavedValues()==False:
                                     Universals.isStartedCloseProcces=False
                                     Universals.printForDevelopers("Close ignored")
                                     _event.ignore() 
@@ -234,7 +234,7 @@ if RoutineChecks.checkQt4Exist():
                                     self.FileManager.actCollection.writeSettings(kconfGroup)
                                     Universals.printForDevelopers("After Save KDE Configs")
                                 Universals.printForDevelopers("Before Save Configs")
-                                Universals.setMySetting(self.Table.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
+                                Universals.setMySetting(self.Table.SubTable.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
                                 if ReportBug.iSClosingInErrorReporting == False:
                                     Records.setRecordType(1)
@@ -251,7 +251,7 @@ if RoutineChecks.checkQt4Exist():
                                 if Universals.tableType==2:
                                     Universals.setMySetting("isRunOnDoubleClick",self.Table.tbIsRunOnDoubleClick.isChecked())
                                     Universals.setMySetting("isOpenDetailsInNewWindow",self.Table.isOpenDetailsOnNewWindow.isChecked())
-                                    Universals.setMySetting("isPlayNow",self.Table.isPlayNow.isChecked())
+                                    Universals.setMySetting("isPlayNow",self.Table.SubTable.isPlayNow.isChecked())
                                 Universals.setMySetting("isShowOldValues",Universals.isShowOldValues)
                                 Universals.setMySetting("isChangeSelected",Universals.isChangeSelected)
                                 Universals.setMySetting("isChangeAll",Universals.isChangeAll)
