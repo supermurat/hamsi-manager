@@ -126,6 +126,13 @@ if RoutineChecks.checkQt4Exist():
         MTextCodec.setCodecForTr(MTextCodec.codecForName("UTF-8"))
         HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
         MApplication.setStyle(Universals.MySettings["applicationStyle"])
+        if Universals.isActivePyKDE4:
+            if InputOutputs.isFile(Universals.MySettings["colorSchemes"]):
+                config = MSharedConfig.openConfig(Universals.MySettings["colorSchemes"])
+                plt = MGlobalSettings.createApplicationPalette(config)
+            else:
+                plt = MApplication.desktop().palette()
+            MApplication.setPalette(plt)
         Universals.printForDevelopers("Before RoutineChecks.checkMyModules")
         if RoutineChecks.checkMyModules(HamsiManagerApp):
             if RoutineChecks.isQuickMake:

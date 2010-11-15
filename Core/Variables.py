@@ -21,7 +21,7 @@
 import os, sys
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
@@ -89,8 +89,8 @@ class Variables():
                   "amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
                   "iconNameFormat", "iconFileType", "pathOfMysqldSafe", 
-                  "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral"
-                  ]
+                  "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral", 
+                  "colorSchemes"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -291,7 +291,8 @@ class Variables():
                 "pathOfMysqldSafe": "mysqld_safe", 
                 "isActiveCompleter": "True", 
                 "isShowAllForCompleter": "True", 
-                "isActiveClearGeneral": "False"
+                "isActiveClearGeneral": "False", 
+                "colorSchemes": ""
                 }
                 
     def getValueTypesAndValues():
@@ -407,7 +408,8 @@ class Variables():
                 "pathOfMysqldSafe": "str", 
                 "isActiveCompleter": "bool", 
                 "isShowAllForCompleter": "bool", 
-                "isActiveClearGeneral": "bool"
+                "isActiveClearGeneral": "bool", 
+                "colorSchemes": "Default"
                 }
 
     def getAvailablePlayers():
@@ -440,6 +442,20 @@ class Variables():
         for stil in MQtGui.QStyleFactory.keys(): 
             styles.append(str(stil))
         return styles
+        
+    def getColorSchemesAndPath():
+        import Settings,  InputOutputs
+        colorSchemes, colorSchemePaths = [], []
+        colorSchemes.append("Default")
+        colorSchemePaths.append("")
+        if isAvailablePyKDE4():
+            from PyKDE4.kdecore import KStandardDirs, KGlobal
+            schemeFiles = KGlobal.dirs().findAllResources("data", "color-schemes/*.colors", KStandardDirs.NoDuplicates)
+            for scheme in schemeFiles:
+                sets = Settings.getSettings(scheme)
+                colorSchemes.append(str(sets.value("Name", InputOutputs.getBaseName(scheme)).toString()))
+                colorSchemePaths.append(scheme)
+        return colorSchemes, colorSchemePaths
         
     def getScreenSize():
         import Universals
