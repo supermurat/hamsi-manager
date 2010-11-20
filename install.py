@@ -55,10 +55,11 @@ if RoutineChecks.checkQt4Exist():
     HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
     HamsiManagerApp.setOrganizationName("Hamsi Apps")
     import MyConfigure
-    class Main(MWidget):
+    class Main(MMainWindow):
         def __init__(self, parent=None):
-            MWidget.__init__(self, parent)
-            Universals.MainWindow = self
+            MMainWindow.__init__(self, parent)
+            myUniversals = Universals.Universals(HamsiManagerApp, self)
+            Universals.fillUIUniversals()
             self.isInstallFinised = False
             self.pageNo, self.pageSize = 0, 5
             self.vblMain = MVBoxLayout()
@@ -99,7 +100,9 @@ if RoutineChecks.checkQt4Exist():
             self.connect(self.pbtnFinish,SIGNAL("clicked()"),self.finish)
             self.pbtnFinish.setVisible(False)
             self.vblMain.addLayout(self.hblButtons)
-            self.setLayout(self.vblMain)
+            self.CentralWidget = MWidget()
+            self.CentralWidget.setLayout(self.vblMain)
+            self.setCentralWidget(self.CentralWidget)
         
         def checkUpdate(self):
             import UpdateControl

@@ -65,10 +65,11 @@ if RoutineChecks.checkQt4Exist():
             if argv=="--onlyRoot":
                 isOnlyRoot = True
     import MyConfigure
-    class Main(MWidget):
+    class Main(MMainWindow):
         def __init__(self, parent=None):
-            MWidget.__init__(self, parent)
-            Universals.MainWindow = self
+            MMainWindow.__init__(self, parent)
+            myUniversals = Universals.Universals(HamsiManagerApp, self)
+            Universals.fillUIUniversals()
             self.isInstallFinised = False
             self.pageNo, self.pageSize = activePageNo, 4
             self.vblMain = MVBoxLayout()
@@ -106,7 +107,9 @@ if RoutineChecks.checkQt4Exist():
             self.connect(self.pbtnCancel,SIGNAL("clicked()"),self.close)
             self.connect(self.pbtnFinish,SIGNAL("clicked()"),self.close)
             self.vblMain.addLayout(self.hblButtons)
-            self.setLayout(self.vblMain)
+            self.CentralWidget = MWidget()
+            self.CentralWidget.setLayout(self.vblMain)
+            self.setCentralWidget(self.CentralWidget)
             self.pageChanged(True)
         
         def createPage(self, _pageNo):
