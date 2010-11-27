@@ -188,7 +188,7 @@ class MusicDetails(MDialog):
     
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
-        self.musicValues = Musics.readMusics(None,self.musicFile)
+        self.musicValues = Musics.readMusicFile(self.musicFile)
         self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.IA.getBaseName(self.musicFile)).decode("utf-8"))  
         self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)              
         for infoNo, label in enumerate(self.labels):

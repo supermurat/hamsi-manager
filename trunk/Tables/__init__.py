@@ -19,11 +19,6 @@
 
 
 import Variables
-import MusicTable
-import FileTable
-import FolderTable
-import SubFolderTable
-import CoverTable
 import FileManager
 import Dialogs
 import Universals
@@ -38,7 +33,8 @@ class Tables(MTableWidget):
     def __init__(self, _parent):
         global layouts,widgets, table
         MTableWidget.__init__(self, _parent)
-        table=self
+        table = self
+        self.currentTableContentValues = []
         self.changedValueNumber = 0
         self.history = []
         self.future = []
@@ -105,19 +101,25 @@ class Tables(MTableWidget):
         self.hblBox.addWidget(self.pbtnShowDetails, 1)
         self.hblBox.addWidget(self.pbtnSave, 2)
         if Universals.tableType==0:
+            import FolderTable
             self.SubTable = FolderTable.FolderTable(self)
         elif Universals.tableType==1:
+            import FileTable
             self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==2:
             import Taggers
             if Taggers.getTagger(True)!=None:
+                import MusicTable
                 self.SubTable = MusicTable.MusicTable(self)
             else:
                 Universals.tableType = 1
+                import FileTable
                 self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==3:
+            import SubFolderTable
             self.SubTable = SubFolderTable.SubFolderTable(self)
         elif Universals.tableType==4:
+            import CoverTable
             self.SubTable = CoverTable.CoverTable(self)
             Universals.isShowOldValues = False
         self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.SubTable.hiddenTableColumnsSettingKey])
@@ -169,7 +171,7 @@ class Tables(MTableWidget):
                     rowNo = self.currentRow()/2
                 else:
                     rowNo = self.currentRow()
-                filePath = InputOutputs.currentDirectoryPath+"/"+self.SubTable.fileDetails[rowNo][1]
+                filePath = InputOutputs.currentDirectoryPath+"/"+self.currentTableContentValues[rowNo][1]
                 isOpenedDetails = False
                 if InputOutputs.IA.isExist(filePath):
                     isImage = False
@@ -278,13 +280,13 @@ class Tables(MTableWidget):
                                 self.hideRow(rowNo)
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         import Execute
-                        Execute.open([InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.SubTable.fileDetails[self.currentItem().row()][1])])
+                        Execute.open([InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.currentTableContentValues[self.currentItem().row()][1])])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         import Execute
-                        Execute.open([InputOutputs.currentDirectoryPath + "/" + self.SubTable.fileDetails[self.currentItem().row()][1]])
+                        Execute.open([InputOutputs.currentDirectoryPath + "/" + self.currentTableContentValues[self.currentItem().row()][1]])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         import Execute
-                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.SubTable.fileDetails[self.currentItem().row()][1])])
+                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.currentTableContentValues[self.currentItem().row()][1])])
         except:
             error = ReportBug.ReportBug()
             error.show()
