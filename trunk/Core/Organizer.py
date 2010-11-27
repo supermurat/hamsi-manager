@@ -175,12 +175,8 @@ class Organizer:
         if len(changerColumns)==0:
             return False
         if Tables.isChangeHiddenColumn==True:
-            if Universals.isShowOldValues==True:
-                startedRowNo,rowStep=1,2
-            else:
-                startedRowNo,rowStep=0,1
             if _whereIsSplitPointer=="right":
-                for rowNo in range(startedRowNo,Universals.MainWindow.Table.rowCount(),rowStep):
+                for rowNo in range(Universals.MainWindow.Table.rowCount()):
                     if Universals.MainWindow.Table.item(rowNo,changingColumns[0]).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                         newString=""
                         for changerColumnNo in changerColumns:
@@ -199,7 +195,7 @@ class Organizer:
                                 newString = unicode(Universals.MainWindow.Table.item(rowNo,changingColumns[0]).text()).encode("utf-8") + newString
                             Universals.MainWindow.Table.item(rowNo,changingColumns[0]).setText(newString.strip().decode("utf-8"))
             else:
-                for rowNo in range(startedRowNo,Universals.MainWindow.Table.rowCount(),rowStep):
+                for rowNo in range(Universals.MainWindow.Table.rowCount()):
                     newString = unicode(Universals.MainWindow.Table.item(rowNo,changerColumns[0]).text()).encode("utf-8")
                     if newString!="-----":
                         for uzanti in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
@@ -295,10 +291,6 @@ class Organizer:
                 replaceStrings[filterNo] = searchStrings[filterNo] + replaceStrings[filterNo]
         while len(replaceStrings)!=len(searchStrings):
             replaceStrings.append("")
-        if Universals.isShowOldValues==True:
-            startedRowNo,rowStep=1,2
-        else:
-            startedRowNo,rowStep=0,1
         if _SpecialTools.searchAndReplace.columns.currentIndex()==0:
             columns = range(0,Universals.MainWindow.Table.columnCount())
         else:
@@ -306,7 +298,7 @@ class Organizer:
         for columnNo in columns:
             if Universals.MainWindow.Table.isColumnHidden(columnNo)==True:
                 continue
-            for rowNo in range(startedRowNo,Universals.MainWindow.Table.rowCount(),rowStep):
+            for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.item(rowNo,columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     if unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text()).encode("utf-8")!="":
                         newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text()).encode("utf-8")
@@ -381,11 +373,7 @@ class Organizer:
         if Tables.isChangeHiddenColumn==True:
             if _SpecialTools.fill.cbFillType.currentIndex()==1:
                 _newString = int(_SpecialTools.fill.spStartDigit.value())-1
-            if Universals.isShowOldValues==True:
-                startedRowNo,rowStep=1,2
-            else:
-                startedRowNo,rowStep=0,1
-            for rowNo in range(startedRowNo,Universals.MainWindow.Table.rowCount(),rowStep):
+            for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.item(rowNo,columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     if _SpecialTools.fill.cbFillType.currentIndex()==1:
                         if _SpecialTools.fill.cbSort.currentIndex()==0:
@@ -420,14 +408,10 @@ class Organizer:
             columns = range(0,Universals.MainWindow.Table.columnCount())
         else:
             columns = [_SpecialTools.clear.columns.currentIndex()-1]
-        if Universals.isShowOldValues==True:
-            startedRowNo,rowStep=1,2
-        else:
-            startedRowNo,rowStep=0,1
         for columnNo in columns:
             if Tables.checkHiddenColumn(columnNo,False)==False:
                 continue
-            for rowNo in range(startedRowNo,Universals.MainWindow.Table.rowCount(),rowStep):
+            for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.item(rowNo,columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(), "utf-8")
                     newString = newString.decode("utf-8")
@@ -542,14 +526,10 @@ class Organizer:
             columns = range(0,Universals.MainWindow.Table.columnCount())
         else:
             columns = [_SpecialTools.characterState.columns.currentIndex()-1]
-        if Universals.isShowOldValues==True:
-            startedRowNo,rowStep=1,2
-        else:
-            startedRowNo,rowStep=0,1
         for columnNo in columns:
             if Tables.checkHiddenColumn(columnNo,False)==False:
                 continue
-            for rowNo in range(startedRowNo,Universals.MainWindow.Table.rowCount(),rowStep):
+            for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.item(rowNo,columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
                     newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(), "utf-8")
                     myString = ""

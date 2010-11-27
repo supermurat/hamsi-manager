@@ -237,16 +237,7 @@ class Bars():
                 if Universals.isActivePyKDE4==False:
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Variables.aboutOfHamsiManager)
             elif _isFromMenu==False:
-                if actionName==translate("Tables", "Show Also Previous Information"):
-                    if Universals.tableType!=4:
-                        if Universals.MainWindow.Table.checkUnSavedValues()==True:
-                            Universals.isShowOldValues = _action.isChecked()
-                            Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
-                        else:
-                            _action.setChecked(Universals.isShowOldValues)
-                    else:
-                        _action.setChecked(False)
-                elif actionName==translate("Tables", "Ignore Selection"):
+                if actionName==translate("Tables", "Ignore Selection"):
                     Universals.isChangeAll = _action.isChecked()
                     if _action.isChecked():
                         Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(False)
@@ -400,12 +391,6 @@ class TableToolsBar(MToolBar):
         _parent.addToolBar(Mt.TopToolBarArea,self)
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
-        self.isShowOldValues = MAction(MIcon("Images:showOldValues.png"),
-                        translate("Tables", "Show Also Previous Information"),self)
-        self.isShowOldValues.setObjectName(translate("Tables", "Show Also Previous Information"))
-        self.isShowOldValues.setToolTip(translate("Tables", "Show Also Previous Information"))
-        self.isShowOldValues.setCheckable(True)
-        self.isShowOldValues.setChecked(Universals.isShowOldValues)
         self.isChangeAll = MAction(MIcon("Images:changeAll.png"),
                         translate("Tables", "Ignore Selection"),self)
         self.isChangeAll.setObjectName(translate("Tables", "Ignore Selection"))
@@ -450,7 +435,6 @@ class TableToolsBar(MToolBar):
         self.addActions(actgActionGroupReNamerTypes.actions())
         MObject.connect(actgActionGroupReNamerTypes, SIGNAL("selected(QAction *)"), changeReNamerType)
         self.addSeparator()
-        self.addAction(self.isShowOldValues)
         self.addAction(self.isChangeAll)
         self.addAction(self.isChangeSelected)
         if Universals.windowMode==Variables.windowModeKeys[1]:
@@ -467,7 +451,6 @@ class TableToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTableTools.addSeparator()
         Universals.MainWindow.Menu.mTableTools.addActions(actgActionGroupReNamerTypes.actions())
         Universals.MainWindow.Menu.mTableTools.addSeparator()
-        Universals.MainWindow.Menu.mTableTools.addAction(self.isShowOldValues)
         Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeAll)
         Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeSelected)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mTools.menuAction(), Universals.MainWindow.Menu.mTableTools)

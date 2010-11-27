@@ -259,7 +259,6 @@ if RoutineChecks.checkQt4Exist():
                                     Universals.setMySetting("isRunOnDoubleClick",self.Table.tbIsRunOnDoubleClick.isChecked())
                                     Universals.setMySetting("isOpenDetailsInNewWindow",self.Table.isOpenDetailsOnNewWindow.isChecked())
                                     Universals.setMySetting("isPlayNow",self.Table.SubTable.isPlayNow.isChecked())
-                                Universals.setMySetting("isShowOldValues",Universals.isShowOldValues)
                                 Universals.setMySetting("isChangeSelected",Universals.isChangeSelected)
                                 Universals.setMySetting("isChangeAll",Universals.isChangeAll)
                                 Universals.setMySetting("tableType", Universals.tableType)

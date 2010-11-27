@@ -182,7 +182,7 @@ class CoverTable():
         self.Table.tableColumnsKey=["Directory", "Directory Name", "Current Cover", "Source Cover", "Destination Cover"]
         
     def save(self):
-        returnValue = writeCovers(self.Table)
+        returnValue = writeContents(self.Table)
         return returnValue
         
     def refresh(self, _path):
