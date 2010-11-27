@@ -120,7 +120,6 @@ class Tables(MTableWidget):
         elif Universals.tableType==4:
             import CoverTable
             self.SubTable = CoverTable.CoverTable(self)
-            Universals.isShowOldValues = False
         self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.SubTable.hiddenTableColumnsSettingKey])
         _parent.MainLayout.addLayout(self.hblBox)
         self.mContextMenuColumns = MMenu()
@@ -165,11 +164,8 @@ class Tables(MTableWidget):
                         
     def showDetails(self):
         try:
-            if self.currentRow()!=-1:
-                if Universals.isShowOldValues==True:
-                    rowNo = self.currentRow()/2
-                else:
-                    rowNo = self.currentRow()
+            rowNo = self.currentRow()
+            if rowNo!=-1:
                 filePath = InputOutputs.currentDirectoryPath+"/"+self.currentTableContentValues[rowNo][1]
                 isOpenedDetails = False
                 if InputOutputs.IA.isExist(filePath):
@@ -268,15 +264,7 @@ class Tables(MTableWidget):
                     elif selectedItem.objectName()==self.mContextMenuActionNames[4]:
                         self.createHistoryPoint()
                         for rowNo in self.getSelectedRows():
-                            if Universals.isShowOldValues==True:
-                                if float(rowNo)/float(2)==rowNo/2:
-                                    self.hideRow(rowNo)
-                                    self.hideRow(rowNo+1)
-                                else:
-                                    self.hideRow(rowNo-1)
-                                    self.hideRow(rowNo)
-                            else:
-                                self.hideRow(rowNo)
+                            self.hideRow(rowNo)
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         import Execute
                         Execute.open([InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.currentTableContentValues[self.currentItem().row()][1])])
@@ -409,7 +397,7 @@ class Tables(MTableWidget):
         if Universals.tableType!=4:
             if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                 InputOutputs.IA.checkIcon(InputOutputs.currentDirectoryPath)
-        InputOutputs.IA.complateSmartCheckIcon()
+        InputOutputs.IA.completeSmartCheckIcon()
         Records.saveAllRecords()
         if self.changedValueNumber==0:
             Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
@@ -422,6 +410,21 @@ class Tables(MTableWidget):
             Universals.MainWindow.FileManager.makeRefresh(newCurrentDirectoryPath)
         else:
             Universals.MainWindow.FileManager.makeRefresh("", False)
+        
+    def isChangableItem(self, _rowNo, _columnNo, isCheckLike=True, isCanBeEmpty=True):
+        if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+            if isCheckLike:
+                if str(self.currentTableContentValues[_rowNo][1])!=str(self.item(_rowNo, _columnNo).text()):
+                    if isCanBeEmpty==False:
+                        if str(self.item(_rowNo, _columnNo).text()).strip()!="":
+                            return True
+                        return False
+                    else:
+                        return True
+                return False
+            else:
+                return True
+        return False
         
     def checkUnSavedValues(self):
         isClose=True
@@ -477,7 +480,7 @@ class Tables(MTableWidget):
         if Universals.MainWindow.Table.isColumnHidden(_columnNo)==True:
             return askHiddenColumn(_columnNo, _isYesToAll)
         return True
-        
+     
     def exportValues(_actionType="return",_formatType="html", _extInfo="no"):
         import os
         info = ""

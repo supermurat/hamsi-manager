@@ -45,7 +45,7 @@ class Variables():
     tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "cover.png"]
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
-                  "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
+                  "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
                   "hiddenFileTableColumns", "hiddenMusicTableColumns", "hiddenSubFolderTableColumns", 
                   "hiddenCoverTableColumns", 
@@ -183,7 +183,6 @@ class Variables():
                 "lastDirectory": str(userDirectoryPath), 
                 "isMainWindowMaximized": "False", 
                 "isShowAdvancedSelections": "False", 
-                "isShowOldValues": "False", 
                 "isRunOnDoubleClick": "False", 
                 "isChangeSelected": "False", 
                 "isChangeAll": "True", 
@@ -300,7 +299,6 @@ class Variables():
                 "lastDirectory": "str", 
                 "isMainWindowMaximized": "bool", 
                 "isShowAdvancedSelections": "bool", 
-                "isShowOldValues": "bool", 
                 "isRunOnDoubleClick": "bool", 
                 "isChangeSelected": "bool", 
                 "isChangeAll": "bool", 
