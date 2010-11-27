@@ -91,21 +91,21 @@ class ReportBug(MDialog):
         try:
             from Tables import table
             errorDetails +="</p><hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
-            for rowNo in range(len(table.SubTable.fileDetails)):
+            for rowNo in range(len(table.currentTableContentValues)):
                 errorDetails +="<tr><td>" 
-                filePath = InputOutputs.currentDirectoryPath + "/" + table.SubTable.fileDetails[rowNo][1]
+                filePath = InputOutputs.currentDirectoryPath + "/" + table.currentTableContentValues[rowNo][1]
                 try:errorDetails += str(unicode(filePath, InputOutputs.fileSystemEncoding))
                 except:
                     try:errorDetails += str(filePath) 
                     except:errorDetails += filePath
                 errorDetails +="</td></tr>"
             errorDetails +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3><table border=1>"
-            for rowNo in range(len(table.SubTable.fileDetails)):
+            for rowNo in range(len(table.currentTableContentValues)):
                 errorDetails +="<tr>"
-                for columnNo in range(len(table.SubTable.fileDetails[rowNo])):
+                for columnNo in range(len(table.currentTableContentValues[rowNo])):
                     errorDetails +="<td>"
-                    try:errorDetails +=str(table.SubTable.fileDetails[rowNo][columnNo])
-                    except:errorDetails +=table.SubTable.fileDetails[rowNo][columnNo]
+                    try:errorDetails +=str(table.currentTableContentValues[rowNo][columnNo])
+                    except:errorDetails +=table.currentTableContentValues[rowNo][columnNo]
                     errorDetails +="</td>"
                 errorDetails +="</tr>"
             errorDetails+="</table></p>"
