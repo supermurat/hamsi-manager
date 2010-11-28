@@ -91,7 +91,7 @@ class ReportBug(MDialog):
         try:
             errorDetails +="</p><hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
             for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
-                filePath = InputOutputs.currentDirectoryPath + "/" + Universals.MainWindow.Table.currentTableContentValues[rowNo][1]
+                filePath = Universals.MainWindow.Table.currentTableContentValues[rowNo]["path"]
                 errorDetails +="<tr><td>" 
                 try:errorDetails += str(unicode(filePath, InputOutputs.fileSystemEncoding))
                 except:
@@ -101,10 +101,10 @@ class ReportBug(MDialog):
             errorDetails +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3><table border=1>"
             for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
                 errorDetails +="<tr>"
-                for columnNo in range(len(Universals.MainWindow.Table.currentTableContentValues[rowNo])):
+                for key, value in Universals.MainWindow.Table.currentTableContentValues[rowNo]:
                     errorDetails +="<td>"
-                    try:errorDetails +=str(Universals.MainWindow.Table.currentTableContentValues[rowNo][columnNo])
-                    except:errorDetails +=Universals.MainWindow.Table.currentTableContentValues[rowNo][columnNo]
+                    try:errorDetails +=str(value)
+                    except:errorDetails +=value
                     errorDetails +="</td>"
                 errorDetails +="</tr>"
             errorDetails+="</table></p>"

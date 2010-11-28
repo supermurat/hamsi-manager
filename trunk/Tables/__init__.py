@@ -166,7 +166,7 @@ class Tables(MTableWidget):
         try:
             rowNo = self.currentRow()
             if rowNo!=-1:
-                filePath = InputOutputs.currentDirectoryPath+"/"+self.currentTableContentValues[rowNo][1]
+                filePath = self.currentTableContentValues[rowNo]["path"]
                 isOpenedDetails = False
                 if InputOutputs.IA.isExist(filePath):
                     isImage = False
@@ -267,13 +267,13 @@ class Tables(MTableWidget):
                             self.hideRow(rowNo)
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         import Execute
-                        Execute.open([InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.currentTableContentValues[self.currentItem().row()][1])])
+                        Execute.open([InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         import Execute
-                        Execute.open([InputOutputs.currentDirectoryPath + "/" + self.currentTableContentValues[self.currentItem().row()][1]])
+                        Execute.open([self.currentTableContentValues[self.currentItem().row()]["path"]])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         import Execute
-                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(InputOutputs.currentDirectoryPath + "/" + self.currentTableContentValues[self.currentItem().row()][1])])
+                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -411,10 +411,10 @@ class Tables(MTableWidget):
         else:
             Universals.MainWindow.FileManager.makeRefresh("", False)
         
-    def isChangableItem(self, _rowNo, _columnNo, isCheckLike=True, isCanBeEmpty=True):
+    def isChangableItem(self, _rowNo, _columnNo, isCheckLike=None, isCanBeEmpty=True):
         if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-            if isCheckLike:
-                if str(self.currentTableContentValues[_rowNo][1])!=str(self.item(_rowNo, _columnNo).text()):
+            if isCheckLike!=None:
+                if str(isCheckLike)!=str(self.item(_rowNo, _columnNo).text()):
                     if isCanBeEmpty==False:
                         if str(self.item(_rowNo, _columnNo).text()).strip()!="":
                             return True
@@ -430,6 +430,14 @@ class Tables(MTableWidget):
                 else:
                     return True
         return False
+        
+    def createTableWidgetItem(self, _value, _currentValue):
+        item = MTableWidgetItem(_value.decode("utf-8"))
+        item.setStatusTip(_value.decode("utf-8"))
+        if str(_value)!=str(_currentValue):
+            item.setBackground(MBrush(MColor(142,199,255)))
+            item.setToolTip(Organizer.showWithIncorrectChars(_currentValue).decode("utf-8"))
+        return item
         
     def checkUnSavedValues(self):
         isClose=True

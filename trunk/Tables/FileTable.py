@@ -34,14 +34,16 @@ class Content():
         fileNames = InputOutputs.IA.readDirectory(_directoryPath, "file")
         allItemNumber = len(fileNames)
         Universals.startThreadAction()
+        baseNameOfDirectory = InputOutputs.getBaseName(_directoryPath)
         for fileNo,fileName in enumerate(fileNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+fileName):
-                    fInfo=[]
-                    fInfo.append(InputOutputs.IA.getBaseName(_directoryPath))
-                    fInfo.append(fileName)
-                    currentTableContentValues.append(fInfo)
+                if InputOutputs.IA.isReadableFileOrDir(_directoryPath + "/" + fileName):
+                    content = {}
+                    content["path"] = _directoryPath + "/" + fileName
+                    content["baseNameOfDirectory"] = baseNameOfDirectory
+                    content["baseName"] = fileName
+                    currentTableContentValues.append(content)
             else:
                 allItemNumber = fileNo+1
             Dialogs.showState(translate("InputOutputs/Files", "Reading File Informations"),fileNo+1,allItemNumber, True) 
@@ -59,29 +61,29 @@ class Content():
         for rowNo in range(_table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(_table.currentTableContentValues[rowNo][1])):
+                if InputOutputs.IA.isWritableFileOrDir(str(_table.currentTableContentValues[rowNo]["path"])):
                     if _table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(_table.currentTableContentValues[rowNo][1]))
+                        InputOutputs.IA.removeFileOrDir(str(_table.currentTableContentValues[rowNo]["path"]))
                         continue
-                    newFileName=str(_table.currentTableContentValues[rowNo][1])
-                    if _table.isChangableItem(rowNo, 1, True, False):
+                    newFileName=str(_table.currentTableContentValues[rowNo]["baseName"])
+                    if _table.isChangableItem(rowNo, 1, _table.currentTableContentValues[rowNo]["baseName"], False):
                         _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
-                        newFileName = InputOutputs.IA.moveOrChange(InputOutputs.currentDirectoryPath+"/"+str(_table.currentTableContentValues[rowNo][1]),InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                        newFileName = InputOutputs.IA.moveOrChange(str(_table.currentTableContentValues[rowNo]["path"]),InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
                         _table.changedValueNumber += 1
                     if newFileName==False:
                         continue
-                    if _table.isChangableItem(rowNo, 0, False):
+                    if _table.isChangableItem(rowNo, 0):
                         newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                         try:
                             newDirectoryName=int(newDirectoryName)
                             newDirectoryName=str(newDirectoryName)
                         except:
                             if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
-                                newDirectoryName=str(_table.currentTableContentValues[rowNo][0])
-                        if str(_table.currentTableContentValues[rowNo][0])!=newDirectoryName:
+                                newDirectoryName=str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                        if str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])!=newDirectoryName:
                             newPath=InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath)
                             changingFileDirectories.append([])
-                            changingFileDirectories[-1].append(newPath+"/"+str(_table.currentTableContentValues[rowNo][0])+"/"+newFileName)
+                            changingFileDirectories[-1].append(newPath+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+newFileName)
                             changingFileDirectories[-1].append(newPath+"/"+newDirectoryName+"/"+newFileName)
                             _table.changedValueNumber += 1
             else:
@@ -102,7 +104,7 @@ class FileTable():
         self.refreshColumns()
         
     def showDetails(self, _fileNo, _infoNo):
-        TextDetails.TextDetails(InputOutputs.currentDirectoryPath+"/"+self.Table.currentTableContentValues[_fileNo][1],self.Table.isOpenDetailsOnNewWindow.isChecked())
+        TextDetails.TextDetails(self.Table.currentTableContentValues[_fileNo]["path"],self.Table.isOpenDetailsOnNewWindow.isChecked())
     
     def cellClicked(self,_row,_column):
         for row_no in range(self.Table.rowCount()):
@@ -117,7 +119,7 @@ class FileTable():
         except:
             Dialogs.showError(translate("FileTable", "Cannot Open File"), 
                         str(translate("FileTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                        ) % Organizer.getLink(InputOutputs.currentDirectoryPath+"/"+self.Table.currentTableContentValues[_row][1]))
+                        ) % Organizer.getLink(self.Table.currentTableContentValues[_row]["path"]))
        
     def refreshColumns(self):
         self.Table.tableColumns=[translate("FileTable", "Directory"), 
@@ -132,17 +134,16 @@ class FileTable():
         self.Table.currentTableContentValues = readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
         for rowNo in range(self.Table.rowCount()):
-            for itemNo in range(0,2):
+            for itemNo in range(2):
+                item = None
                 if itemNo==0:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo][itemNo], "directory")
-                else:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo][itemNo], "file")
-                item = MTableWidgetItem(newString.decode("utf-8"))
-                item.setStatusTip(item.text())
-                self.Table.setItem(rowNo,itemNo,item)
-                if str(self.Table.currentTableContentValues[rowNo][itemNo])!=str(newString) and str(self.Table.currentTableContentValues[rowNo][itemNo])!="None":
-                    self.Table.item(rowNo,itemNo).setBackground(MBrush(MColor(142,199,255)))
-                    self.Table.item(rowNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[rowNo][itemNo]).decode("utf-8"))
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"], "directory")
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                elif itemNo==1:
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseName"], "file")
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseName"])
+                if item!=None:
+                    self.Table.setItem(rowNo, itemNo, item)
                     
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
