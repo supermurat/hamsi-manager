@@ -84,51 +84,43 @@ class Content():
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
-                    newFileName=str(_table.currentTableContentValues[rowNo]["baseName"])
-                    if _table.isChangableItem(rowNo, 1, _table.currentTableContentValues[rowNo]["baseName"], False):
-                        _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
-                        newFileName = InputOutputs.IA.moveOrChange(_table.currentTableContentValues[rowNo]["path"], str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"), InputOutputs.IA.getObjectType(_table.currentTableContentValues[rowNo]["path"]))
-                        _table.changedValueNumber += 1
-                    if newFileName==False:
-                        continue
-                    #Cover Proccess
+                    baseNameOfDirectory = _table.currentTableContentValues[rowNo]["baseNameOfDirectory"]
+                    baseName = _table.currentTableContentValues[rowNo]["baseName"]
                     if _table.isChangableItem(rowNo, 3) or _table.isChangableItem(rowNo, 4):
                         sourcePath = _table.currentTableContentValues[rowNo]["sourceCover"]
                         destinationPath = _table.currentTableContentValues[rowNo]["destinationCover"]
                         if _table.isChangableItem(rowNo, 3):
-                            sourcePath = unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()
+                            sourcePath = str(_table.item(rowNo,3).text()).strip()
                         if _table.isChangableItem(rowNo, 4):
-                            destinationPath = unicode(_table.item(rowNo,4).text()).encode("utf-8").strip()
-                        if (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath or sourcePath!=destinationPath or unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath) or (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=_table.currentTableContentValues[rowNo]["currentCover"] and(unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath and unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath)):
-                            if unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()!="":
-                                sourcePath = InputOutputs.IA.getRealPath(sourcePath, str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+newFileName)
+                            destinationPath = str(_table.item(rowNo,4).text()).strip()
+                        if (str(_table.item(rowNo,2).text())!=sourcePath or sourcePath!=destinationPath or str(_table.item(rowNo,2).text())!=destinationPath) or (str(_table.item(rowNo,2).text())!=_table.currentTableContentValues[rowNo]["currentCover"] and (str(_table.item(rowNo,2).text())!=sourcePath and str(_table.item(rowNo,2).text())!=destinationPath)):
+                            if str(_table.item(rowNo,3).text()).strip()!="":
+                                sourcePath = InputOutputs.IA.getRealPath(sourcePath, _table.currentTableContentValues[rowNo]["path"])
                                 if InputOutputs.IA.checkSource(sourcePath, "file"):
                                     if destinationPath!="":
-                                        destinationPath = InputOutputs.IA.getRealPath(destinationPath, str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+newFileName)
+                                        destinationPath = InputOutputs.IA.getRealPath(destinationPath, _table.currentTableContentValues[rowNo]["path"])
                                         if sourcePath!=destinationPath:
                                             destinationPath = InputOutputs.IA.moveOrChange(sourcePath, destinationPath)
                                     else:
                                         destinationPath = sourcePath
                                     if destinationPath!=False:
-                                        InputOutputs.IA.setIconToDirectory(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"]) + "/" + newFileName, destinationPath)
+                                        InputOutputs.IA.setIconToDirectory(_table.currentTableContentValues[rowNo]["path"], destinationPath)
                                         _table.changedValueNumber += 1
                             else:
-                                InputOutputs.IA.setIconToDirectory(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+newFileName, "")
+                                InputOutputs.IA.setIconToDirectory(_table.currentTableContentValues[rowNo]["path"], "")
                                 _table.changedValueNumber += 1
-                    if _table.isChangableItem(rowNo, 0):
-                        newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
-                        try:
-                            newDirectoryName=int(newDirectoryName)
-                            newDirectoryName=str(newDirectoryName)
-                        except:
-                            if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
-                                newDirectoryName=str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                        if str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])!=newDirectoryName:
-                            newPath=InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath)
-                            changingFileDirectories.append([])
-                            changingFileDirectories[-1].append(str(newPath)+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+str(newFileName))
-                            changingFileDirectories[-1].append(str(newPath)+"/"+str(newDirectoryName)+"/"+str(newFileName))
-                            _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                        baseNameOfDirectory = str(_table.item(rowNo,0).text())
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 1, baseName, False):
+                        baseName = str(_table.item(rowNo,1).text())
+                        _table.changedValueNumber += 1
+                    newFilePath = InputOutputs.getDirName(InputOutputs.currentDirectoryPath) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = newFilePath.replace("//", "/")
+                    if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
+                        changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
+                                                        newFilePath
+                                                        ])
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),rowNo+1,allItemNumber, True)

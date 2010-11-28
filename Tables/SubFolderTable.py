@@ -67,27 +67,20 @@ class Content():
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
-                    newFileName=str(_table.currentTableContentValues[rowNo]["baseName"])
-                    if _table.isChangableItem(rowNo, 1, _table.currentTableContentValues[rowNo]["baseName"], False):
-                        _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
-                        newFileName = InputOutputs.IA.moveOrChange(_table.currentTableContentValues[rowNo]["path"], str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                    baseNameOfDirectory = _table.currentTableContentValues[rowNo]["baseNameOfDirectory"]
+                    baseName = _table.currentTableContentValues[rowNo]["baseName"]
+                    if _table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                        baseNameOfDirectory = str(_table.item(rowNo,0).text())
                         _table.changedValueNumber += 1
-                    if newFileName==False:
-                        continue
-                    if _table.isChangableItem(rowNo, 0):
-                        newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
-                        try:
-                            newDirectoryName=int(newDirectoryName)
-                            newDirectoryName=str(newDirectoryName)
-                        except:
-                            if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
-                                newDirectoryName=str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                        if str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])!=newDirectoryName:
-                            newPath=InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath)
-                            changingFileDirectories.append([])
-                            changingFileDirectories[-1].append(str(newPath)+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+str(newFileName))
-                            changingFileDirectories[-1].append(str(newPath)+"/"+str(newDirectoryName)+"/"+str(newFileName))
-                            _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 1, baseName, False):
+                        baseName = str(_table.item(rowNo,1).text())
+                        _table.changedValueNumber += 1
+                    newFilePath = InputOutputs.getDirName(InputOutputs.currentDirectoryPath) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = newFilePath.replace("//", "/")
+                    if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
+                        changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
+                                                        newFilePath
+                                                        ])
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/SubFolders", "Writing File Informations"),rowNo+1,allItemNumber, True)

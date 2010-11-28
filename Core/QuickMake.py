@@ -272,7 +272,7 @@ class QuickMakeWindow(MyDialog):
                 if newFileName!=False:
                     Dialogs.show(translate("QuickMake", "File Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This file is \"%s\" now.")) % 
-                            (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newFileName)))
+                            (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newFileName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -286,9 +286,8 @@ class QuickMakeWindow(MyDialog):
                 else:
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
                 import Organizer
-                newName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
-                if newName!=False:
-                    newDirName = InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newName
+                newDirName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
+                if newDirName!=False:
                     Dialogs.show(translate("QuickMake", "Directory Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
                             (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newDirName)))
@@ -306,9 +305,8 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
                 import Organizer
                 InputOutputs.IA.activateSmartCheckIcon()
-                newName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
-                if newName!=False:
-                    newDirName = InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newName
+                newDirName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
+                if newDirName!=False:
                     fileAndDirectoryNames = InputOutputs.IA.readDirectory(newDirName, "fileAndDirectory")
                     for fileAndDirs in fileAndDirectoryNames:
                         objectType = InputOutputs.IA.getObjectType(newDirName + "/" + fileAndDirs)
