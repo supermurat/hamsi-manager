@@ -154,7 +154,7 @@ class Tagger():
             return []
         
     def setArtist(self, _value):
-        self.tag.getArtist(self.correctValuesForMusicTagType(_value))
+        self.tag.setArtist(self.correctValuesForMusicTagType(_value))
         
     def setTitle(self, _value):
         self.tag.setTitle(self.correctValuesForMusicTagType(_value))
