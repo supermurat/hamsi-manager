@@ -444,7 +444,8 @@ class IA:
                 InputOutputs.willCheckIconDirectories.append(_path)
         else:
             if _isClear==False:
-                return setIconToDirectory(_path, getFirstImageInDirectory(_path))
+                coverPath = _path + "/" + getFirstImageInDirectory(_path)
+                return setIconToDirectory(_path, coverPath)
             elif _isClear:
                 return setIconToDirectory(_path)
     
