@@ -215,8 +215,7 @@ class MusicTable():
         
     def save(self):
         MusicDetails.closeAllMusicDialogs()
-        returnValue = writeContents(self.Table)
-        return returnValue
+        return writeContents(self.Table)
         
     def refresh(self, _path):
         self.Table.setColumnWidth(5,70)
