@@ -177,7 +177,7 @@ class Organizer:
         if Tables.isChangeHiddenColumn==True:
             if _whereIsSplitPointer=="right":
                 for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                    if Universals.MainWindow.Table.isChangableItem(rowNo, changingColumns[0], False):
+                    if Universals.MainWindow.Table.isChangableItem(rowNo, changingColumns[0]):
                         newString=""
                         for changerColumnNo in changerColumns:
                             if unicode(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text()).encode("utf-8") != "-----":
@@ -207,7 +207,7 @@ class Organizer:
                             newStrings[stringNo] = newString[stringNo]
                         stringNo=0
                         for changingColumnNo in changingColumns:
-                            if Universals.MainWindow.Table.isChangableItem(rowNo, changingColumnNo, False):
+                            if Universals.MainWindow.Table.isChangableItem(rowNo, changingColumnNo):
                                 if _SpecialTools.btChange.isChecked()==True:
                                     pass
                                 elif _SpecialTools.tbAddToBefore.isChecked()==True:
@@ -299,7 +299,7 @@ class Organizer:
             if Universals.MainWindow.Table.isColumnHidden(columnNo)==True:
                 continue
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo, False, True):
+                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo, None, True):
                     newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text()).encode("utf-8")
                     newString = newString.decode("utf-8")
                     myString = ""
@@ -373,7 +373,7 @@ class Organizer:
             if _SpecialTools.fill.cbFillType.currentIndex()==1:
                 _newString = int(_SpecialTools.fill.spStartDigit.value())-1
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo, False):
+                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
                     if _SpecialTools.fill.cbFillType.currentIndex()==1:
                         if _SpecialTools.fill.cbSort.currentIndex()==0:
                             _newString+=1
@@ -411,7 +411,7 @@ class Organizer:
             if Tables.checkHiddenColumn(columnNo,False)==False:
                 continue
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo, False):
+                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
                     newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(), "utf-8")
                     newString = newString.decode("utf-8")
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
@@ -529,7 +529,7 @@ class Organizer:
             if Tables.checkHiddenColumn(columnNo,False)==False:
                 continue
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo, False):
+                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
                     newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(), "utf-8")
                     myString = ""
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()

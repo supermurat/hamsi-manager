@@ -39,26 +39,28 @@ class Content():
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 if InputOutputs.IA.isReadableFileOrDir(dirName):
-                    fileValues=[]
-                    fileValues.append(str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
-                                    str(InputOutputs.IA.getDirName(dirName)).replace(_directoryPath,"")))
-                    fileValues.append(InputOutputs.IA.getBaseName(dirName))
-                    iconPath, isCorrectedFileContent = InputOutputs.IA.getIconFromDirectory(dirName)
+                    content = {}
+                    content["path"] = dirName
+                    content["baseNameOfDirectory"] = str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
+                                    str(InputOutputs.IA.getDirName(dirName)).replace(_directoryPath,""))
+                    content["baseName"] = InputOutputs.IA.getBaseName(dirName)
+
+                    currentCover, isCorrectedFileContent = InputOutputs.IA.getIconFromDirectory(dirName)
                     selectedName = None
-                    if isCorrectedFileContent and iconPath!=None:
-                        selectedName = InputOutputs.IA.getBaseName(iconPath)
+                    if isCorrectedFileContent and currentCover!=None:
+                        selectedName = InputOutputs.IA.getBaseName(currentCover)
                     sourceCover = InputOutputs.IA.getFirstImageInDirectory(dirName, selectedName, False, False)
-                    if iconPath==None:
-                        iconPath = ""
+                    if currentCover==None:
+                        currentCover = ""
                     if sourceCover==None:
                         sourceCover = ""
                     else:
                         sourceCover = dirName + "/" + sourceCover
-                    fileValues.append(iconPath)
-                    fileValues.append(sourceCover)
-                    fileValues.append(sourceCover)
-                    fileValues.append(isCorrectedFileContent)
-                    currentTableContentValues.append(fileValues)
+                    content["currentCover"] = (currentCover)
+                    content["sourceCover"] = (sourceCover)
+                    content["destinationCover"] = (sourceCover)
+                    content["isCorrectedFileContent"] = (isCorrectedFileContent)
+                    currentTableContentValues.append(content)
             else:
                 allItemNumber = dirNo+1
             Dialogs.showState(translate("InputOutputs/Covers", "Reading Cover Informations"),
@@ -76,61 +78,60 @@ class Content():
         allItemNumber = len(_table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),0,allItemNumber, True)
         for rowNo in range(startRowNo,_table.rowCount(),rowStep):
-            realRowNo=rowNo
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1])):
+                if InputOutputs.IA.isWritableFileOrDir(_table.currentTableContentValues[rowNo]["path"]):
                     if _table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1]))
+                        InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
-                    newFileName=str(_table.currentTableContentValues[realRowNo][1])
-                    if _table.isChangableItem(rowNo, 1, True, False):
+                    newFileName=str(_table.currentTableContentValues[rowNo]["baseName"])
+                    if _table.isChangableItem(rowNo, 1, _table.currentTableContentValues[rowNo]["baseName"], False):
                         _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
-                        newFileName = InputOutputs.IA.moveOrChange(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1]), str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"), InputOutputs.IA.getObjectType(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1])))
+                        newFileName = InputOutputs.IA.moveOrChange(_table.currentTableContentValues[rowNo]["path"], str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"), InputOutputs.IA.getObjectType(_table.currentTableContentValues[rowNo]["path"]))
                         _table.changedValueNumber += 1
                     if newFileName==False:
                         continue
                     #Cover Proccess
-                    if _table.isChangableItem(rowNo, 3, False) or _table.isChangableItem(rowNo, 4, False):
-                        sourcePath = _table.currentTableContentValues[realRowNo][3]
-                        destinationPath = _table.currentTableContentValues[realRowNo][4]
-                        if _table.isChangableItem(rowNo, 3, False):
+                    if _table.isChangableItem(rowNo, 3) or _table.isChangableItem(rowNo, 4):
+                        sourcePath = _table.currentTableContentValues[rowNo]["sourceCover"]
+                        destinationPath = _table.currentTableContentValues[rowNo]["destinationCover"]
+                        if _table.isChangableItem(rowNo, 3):
                             sourcePath = unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()
-                        if _table.isChangableItem(rowNo, 4, False):
+                        if _table.isChangableItem(rowNo, 4):
                             destinationPath = unicode(_table.item(rowNo,4).text()).encode("utf-8").strip()
-                        if (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath or sourcePath!=destinationPath or unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath) or (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=_table.currentTableContentValues[realRowNo][2] and(unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath and unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath)):
+                        if (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath or sourcePath!=destinationPath or unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath) or (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=_table.currentTableContentValues[rowNo]["currentCover"] and(unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath and unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath)):
                             if unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()!="":
-                                sourcePath = InputOutputs.IA.getRealPath(sourcePath, str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+newFileName)
+                                sourcePath = InputOutputs.IA.getRealPath(sourcePath, str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+newFileName)
                                 if InputOutputs.IA.checkSource(sourcePath, "file"):
                                     if destinationPath!="":
-                                        destinationPath = InputOutputs.IA.getRealPath(destinationPath, str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+newFileName)
+                                        destinationPath = InputOutputs.IA.getRealPath(destinationPath, str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+newFileName)
                                         if sourcePath!=destinationPath:
                                             destinationPath = InputOutputs.IA.moveOrChange(sourcePath, destinationPath)
                                     else:
                                         destinationPath = sourcePath
                                     if destinationPath!=False:
-                                        InputOutputs.IA.setIconToDirectory(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0]) + "/" + newFileName, destinationPath)
+                                        InputOutputs.IA.setIconToDirectory(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"]) + "/" + newFileName, destinationPath)
                                         _table.changedValueNumber += 1
                             else:
-                                InputOutputs.IA.setIconToDirectory(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+newFileName, "")
+                                InputOutputs.IA.setIconToDirectory(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+newFileName, "")
                                 _table.changedValueNumber += 1
-                    if _table.isChangableItem(rowNo, 0, False):
+                    if _table.isChangableItem(rowNo, 0):
                         newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                         try:
                             newDirectoryName=int(newDirectoryName)
                             newDirectoryName=str(newDirectoryName)
                         except:
                             if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
-                                newDirectoryName=str(_table.currentTableContentValues[realRowNo][0])
-                        if str(_table.currentTableContentValues[realRowNo][0])!=newDirectoryName:
+                                newDirectoryName=str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                        if str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])!=newDirectoryName:
                             newPath=InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath)
                             changingFileDirectories.append([])
-                            changingFileDirectories[-1].append(str(newPath)+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(newFileName))
+                            changingFileDirectories[-1].append(str(newPath)+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+str(newFileName))
                             changingFileDirectories[-1].append(str(newPath)+"/"+str(newDirectoryName)+"/"+str(newFileName))
                             _table.changedValueNumber += 1
             else:
-                allItemNumber = realRowNo+1
-            Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),realRowNo+1,allItemNumber, True)
+                allItemNumber = rowNo+1
+            Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
@@ -149,7 +150,7 @@ class CoverTable():
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnGetFromAmarok)
         
     def showDetails(self, _fileNo, _infoNo):
-        directoryPathOfCover = InputOutputs.currentDirectoryPath + "/" + self.Table.currentTableContentValues[_fileNo][1]
+        directoryPathOfCover = self.Table.currentTableContentValues[_fileNo]["path"]
         coverValues = [directoryPathOfCover, 
                        InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover), 
                        InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover), 
@@ -169,7 +170,7 @@ class CoverTable():
         except:
             Dialogs.showError(translate("CoverTable", "Cannot Open File"), 
                         str(translate("CoverTable", "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                        ) % Organizer.getLink(InputOutputs.currentDirectoryPath + "/" + self.Table.currentTableContentValues[_row][1]))
+                        ) % Organizer.getLink(self.Table.currentTableContentValues[_row]["path"]))
        
     def refreshColumns(self):
         self.Table.tableColumns=[translate("CoverTable", "Directory"), 
@@ -186,25 +187,33 @@ class CoverTable():
     def refresh(self, _path):
         self.Table.currentTableContentValues = readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
-        startRowNo, rowStep = 0, 1
-        for dirNo in range(startRowNo, self.Table.rowCount(), rowStep):
-            for itemNo in range(0,5):
-                if itemNo==0 or itemNo==1:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[dirNo][itemNo], "directory")
-                elif itemNo==2 or itemNo==3:
-                    newString = Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[dirNo][itemNo])
-                else:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[dirNo][itemNo], "file")
-                if 1<itemNo and itemNo<5:
-                    newString = newString.replace(_path + "/" + self.Table.currentTableContentValues[dirNo][1], ".")
-                item = MTableWidgetItem(newString.decode("utf-8"))
-                item.setStatusTip(item.text())
-                self.Table.setItem(dirNo,itemNo,item)
-                if itemNo!=2 and itemNo!=3 and str(self.Table.currentTableContentValues[dirNo][itemNo])!=str(newString) and str(self.Table.currentTableContentValues[dirNo][itemNo])!=str(_path + "/" + self.Table.currentTableContentValues[dirNo][1] + newString[1:]) and str(self.Table.currentTableContentValues[dirNo][itemNo])!="None":
-                    self.Table.item(dirNo,itemNo).setBackground(MBrush(MColor(142,199,255)))
-                    self.Table.item(dirNo,itemNo).setToolTip(Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[dirNo][itemNo]).decode("utf-8"))
-            if self.Table.currentTableContentValues[dirNo][5]==False:
-                self.Table.item(dirNo,2).setBackground(MBrush(MColor(255,163,163)))
+        for rowNo in range(self.Table.rowCount()):
+            for itemNo in range(5):
+                item = None
+                if itemNo==0:
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"], "directory")
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                elif itemNo==1:
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseName"], "directory")
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseName"])
+                elif itemNo==2:
+                    newString = Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[rowNo]["currentCover"])
+                    newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["currentCover"])
+                elif itemNo==3:
+                    newString = Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[rowNo]["sourceCover"])
+                    newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["sourceCover"])
+                elif itemNo==4:
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["destinationCover"], "file")
+                    newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["destinationCover"])
+                if item!=None:
+                    self.Table.setItem(rowNo, itemNo, item)
+            if self.Table.currentTableContentValues[rowNo]["isCorrectedFileContent"]==False:
+                item = self.Table.item(rowNo, 2)
+                if item!=None:
+                    item.setBackground(MBrush(MColor(255,163,163)))
                     
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
@@ -229,7 +238,7 @@ class CoverTable():
                 if directoriesAndValues!=None:
                     for rowNo in range(self.Table.rowCount()):
                         if self.Table.checkHiddenColumn(3) and self.Table.checkHiddenColumn(4):
-                            if _table.isChangableItem(rowNo, 3, False):
+                            if _table.isChangableItem(rowNo, 3):
                                 directoryPath = str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(self.Table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(self.Table.item(rowNo,1).text()).encode("utf-8")
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]

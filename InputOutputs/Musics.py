@@ -31,7 +31,6 @@ class Musics:
     global readMusicFile, writeMusicFile
     
     def readMusicFile(_filePath):
-        currentTableContentValues = []
         _directoryPath = InputOutputs.getDirName(_filePath)
         isCanNoncompatible = False
         if InputOutputs.IA.isReadableFileOrDir(_filePath):
@@ -58,11 +57,10 @@ class Musics:
             musicTagsValues.append(tagger.getSampleFreq())
             musicTagsValues.append(tagger.getBitRateString())
             musicTagsValues.append(tagger.getImages())
+            if isCanNoncompatible == True:
+                Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
+                    translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
             return musicTagsValues
-        if isCanNoncompatible == True:
-            Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
-                translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
-        return currentTableContentValues
     
     def writeMusicFile(_oldMusicTagsValues,_newMusicTagsValues,_isImageAction=False,_ImageType=False,_ImagePath=False):
         if InputOutputs.IA.isWritableFileOrDir(_oldMusicTagsValues[0]+"/"+_oldMusicTagsValues[1]):
@@ -76,7 +74,7 @@ class Musics:
                 if _newMusicTagsValues[4]!=_oldMusicTagsValues[4]:
                     tagger.setAlbum(str(_newMusicTagsValues[4]))
                 if _newMusicTagsValues[5]!=_oldMusicTagsValues[5]:
-                    tagger.setTrackNum(str(_newMusicTagsValues[5]), len(_table.currentTableContentValues))
+                    tagger.setTrackNum(int(_newMusicTagsValues[5]))
                 if _newMusicTagsValues[6]!=_oldMusicTagsValues[6]:
                     tagger.setDate(str(_newMusicTagsValues[6]))
                 if _newMusicTagsValues[7]!=_oldMusicTagsValues[7]:
