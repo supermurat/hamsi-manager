@@ -83,71 +83,61 @@ class Content():
                         continue
                     tagger = Taggers.getTagger()
                     tagger.loadFileForWrite(InputOutputs.currentDirectoryPath+"/"+_table.currentTableContentValues[rowNo][1])
-                    if _table.isColumnHidden(2)!=True and (_table.item(rowNo,2).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                    if _table.isChangableItem(rowNo, 2, True):
                         value = unicode(_table.item(rowNo,2).text(), "utf-8")
-                        if value!=str(_table.currentTableContentValues[rowNo][2]) and (str(_table.currentTableContentValues[rowNo][2])!="None" or value!=""):
-                            tagger.setArtist(value)
-                            Records.add(str(translate("MusicTable", "Artist")), str(_table.currentTableContentValues[rowNo][2]), value)
-                            _table.changedValueNumber += 1
-                    if _table.isColumnHidden(3)!=True and (_table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                        tagger.setArtist(value)
+                        Records.add(str(translate("MusicTable", "Artist")), str(_table.currentTableContentValues[rowNo][2]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 3, True):
                         value = unicode(_table.item(rowNo,3).text(), "utf-8")
-                        if value!=str(_table.currentTableContentValues[rowNo][3]) and (str(_table.currentTableContentValues[rowNo][3])!="None" or value!=""):
-                            tagger.setTitle(value)
-                            Records.add(str(translate("MusicTable", "Title")), str(_table.currentTableContentValues[rowNo][3]), value)
-                            _table.changedValueNumber += 1
-                    if _table.isColumnHidden(4)!=True and (_table.item(rowNo,4).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                        tagger.setTitle(value)
+                        Records.add(str(translate("MusicTable", "Title")), str(_table.currentTableContentValues[rowNo][3]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 4, True):
                         value = unicode(_table.item(rowNo,4).text(), "utf-8")
-                        if value!=str(_table.currentTableContentValues[rowNo][4]) and (str(_table.currentTableContentValues[rowNo][4])!="None" or value!=""):
-                            tagger.setAlbum(value)
-                            Records.add(str(translate("MusicTable", "Album")), str(_table.currentTableContentValues[rowNo][4]), value)
-                            _table.changedValueNumber += 1
-                    if _table.isColumnHidden(5)!=True and (_table.item(rowNo,5).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                        tagger.setAlbum(value)
+                        Records.add(str(translate("MusicTable", "Album")), str(_table.currentTableContentValues[rowNo][4]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 5, True):
                         value = unicode(_table.item(rowNo,5).text(), "utf-8")
-                        if value!=str(_table.currentTableContentValues[rowNo][5]) and (str(_table.currentTableContentValues[rowNo][5])!="None" or value!=""):
-                            tagger.setTrackNum(value, len(_table.currentTableContentValues))
-                            Records.add(str(translate("MusicTable", "Track No")), str(_table.currentTableContentValues[rowNo][5]), value)
-                            _table.changedValueNumber += 1
-                    if _table.isColumnHidden(6)!=True and (_table.item(rowNo,6).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                        tagger.setTrackNum(value, len(_table.currentTableContentValues))
+                        Records.add(str(translate("MusicTable", "Track No")), str(_table.currentTableContentValues[rowNo][5]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 6, True):
                         value = unicode(_table.item(rowNo,6).text(), "utf-8")
-                        if value!=str(_table.currentTableContentValues[rowNo][6]) and (str(_table.currentTableContentValues[rowNo][6])!="None" or value!=""):
-                            tagger.setDate(value)
-                            Records.add(str(translate("MusicTable", "Year")), str(_table.currentTableContentValues[rowNo][6]), value)
-                            _table.changedValueNumber += 1
-                    if _table.isColumnHidden(7)!=True and (_table.item(rowNo,7).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                        tagger.setDate(value)
+                        Records.add(str(translate("MusicTable", "Year")), str(_table.currentTableContentValues[rowNo][6]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 7, True):
                         value = unicode(_table.item(rowNo,7).text(), "utf-8")
-                        if value!=str(_table.currentTableContentValues[rowNo][7]) and (str(_table.currentTableContentValues[rowNo][7])!="None" or value!=""):
-                            tagger.setGenre(value)
-                            Records.add(str(translate("MusicTable", "Genre")), str(_table.currentTableContentValues[rowNo][7]), value)
-                            _table.changedValueNumber += 1
-                    if _table.isColumnHidden(8)!=True and (_table.item(rowNo,8).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                        tagger.setGenre(value)
+                        Records.add(str(translate("MusicTable", "Genre")), str(_table.currentTableContentValues[rowNo][7]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 8, True):
                         value = unicode(_table.item(rowNo,8).text(), "utf-8")
-                        if value!=str(_table.currentTableContentValues[rowNo][8]) and (str(_table.currentTableContentValues[rowNo][8])!="None" or value!=""):
-                            tagger.setFirstComment(value)
-                            Records.add(str(translate("MusicTable", "Comment")), str(_table.currentTableContentValues[rowNo][8]), value)
-                            _table.changedValueNumber += 1
-                    if len(_table.tableColumns)>9 and _table.isColumnHidden(9)!=True and (_table.item(rowNo,9).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                        tagger.setFirstComment(value)
+                        Records.add(str(translate("MusicTable", "Comment")), str(_table.currentTableContentValues[rowNo][8]), value)
+                        _table.changedValueNumber += 1
+                    if len(_table.tableColumns)>9 and _table.isChangableItem(rowNo, 9, True):
                         value = unicode(_table.item(rowNo,9).text(), "utf-8")
-                        if value!=str(_table.currentTableContentValues[rowNo][9]) and (str(_table.currentTableContentValues[rowNo][9])!="None" or value!=""):
-                            tagger.setFirstLyrics(value)
-                            Records.add(str(translate("MusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo][9]), value)
-                            _table.changedValueNumber += 1
+                        tagger.setFirstLyrics(value)
+                        Records.add(str(translate("MusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo][9]), value)
+                        _table.changedValueNumber += 1
                     tagger.update()
                     newFileName=str(_table.currentTableContentValues[rowNo][1])
-                    if _table.isColumnHidden(1)!=True and (_table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
-                        if str(_table.currentTableContentValues[rowNo][1])!=unicode(_table.item(rowNo,1).text()).encode("utf-8"):
-                            if unicode(_table.item(rowNo,1).text()).encode("utf-8").strip()!="":
-                                orgExt = str(_table.currentTableContentValues[rowNo][1]).split(".")[-1].decode("utf-8").lower()
-                                if unicode(_table.item(rowNo,1).text()).encode("utf-8").split(".")[-1].decode("utf-8").lower() != orgExt:
-                                    _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8") + "." + orgExt).decode("utf-8")))
-                                if unicode(_table.item(rowNo,1).text()).encode("utf-8").split(".")[-1] != orgExt:
-                                    extState = unicode(_table.item(rowNo,1).text()).encode("utf-8").decode("utf-8").lower().find(orgExt)
-                                    if extState!=-1:
-                                        _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")[:extState] + "." + orgExt).decode("utf-8")))
-                                newFileName = InputOutputs.IA.moveOrChange(InputOutputs.currentDirectoryPath+"/"+str(_table.currentTableContentValues[rowNo][1]), InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
-                                _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 1, True, False):
+                        orgExt = str(_table.currentTableContentValues[rowNo][1]).split(".")[-1].decode("utf-8").lower()
+                        if unicode(_table.item(rowNo,1).text()).encode("utf-8").split(".")[-1].decode("utf-8").lower() != orgExt:
+                            _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8") + "." + orgExt).decode("utf-8")))
+                        if unicode(_table.item(rowNo,1).text()).encode("utf-8").split(".")[-1] != orgExt:
+                            extState = unicode(_table.item(rowNo,1).text()).encode("utf-8").decode("utf-8").lower().find(orgExt)
+                            if extState!=-1:
+                                _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")[:extState] + "." + orgExt).decode("utf-8")))
+                        newFileName = InputOutputs.IA.moveOrChange(InputOutputs.currentDirectoryPath+"/"+str(_table.currentTableContentValues[rowNo][1]), InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                        _table.changedValueNumber += 1
                     if newFileName==False:
                         continue
-                    if _table.isColumnHidden(0)!=True and (_table.item(rowNo,0).isSelected()==Universals.isChangeSelected or Universals.isChangeAll)==True:
+                    if _table.isChangableItem(rowNo, 0, False):
                         newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                         try:
                             newDirectoryName=int(newDirectoryName)

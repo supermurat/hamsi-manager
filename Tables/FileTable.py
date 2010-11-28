@@ -64,15 +64,13 @@ class Content():
                         InputOutputs.IA.removeFileOrDir(InputOutputs.currentDirectoryPath+"/"+str(_table.currentTableContentValues[rowNo][1]))
                         continue
                     newFileName=str(_table.currentTableContentValues[rowNo][1])
-                    if _table.isColumnHidden(1)!=True and _table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-                        if str(_table.currentTableContentValues[rowNo][1])!=unicode(_table.item(rowNo,1).text()).encode("utf-8"):
-                            if unicode(_table.item(rowNo,1).text()).encode("utf-8").strip()!="":
-                                _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
-                                newFileName = InputOutputs.IA.moveOrChange(InputOutputs.currentDirectoryPath+"/"+str(_table.currentTableContentValues[rowNo][1]),InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
-                                _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 1, True, False):
+                        _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
+                        newFileName = InputOutputs.IA.moveOrChange(InputOutputs.currentDirectoryPath+"/"+str(_table.currentTableContentValues[rowNo][1]),InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                        _table.changedValueNumber += 1
                     if newFileName==False:
                         continue
-                    if _table.isColumnHidden(0)!=True and _table.item(rowNo,0).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+                    if _table.isChangableItem(rowNo, 0, False):
                         newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                         try:
                             newDirectoryName=int(newDirectoryName)

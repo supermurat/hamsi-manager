@@ -84,21 +84,19 @@ class Content():
                         InputOutputs.IA.removeFileOrDir(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1]))
                         continue
                     newFileName=str(_table.currentTableContentValues[realRowNo][1])
-                    if _table.isColumnHidden(1)!=True and _table.item(rowNo,1).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-                        if str(_table.currentTableContentValues[realRowNo][1])!=unicode(_table.item(rowNo,1).text()).encode("utf-8"):
-                            if unicode(_table.item(rowNo,1).text()).encode("utf-8").strip()!="":
-                                _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
-                                newFileName = InputOutputs.IA.moveOrChange(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1]), str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"), InputOutputs.IA.getObjectType(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1])))
-                                _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 1, True, False):
+                        _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")).decode("utf-8")))
+                        newFileName = InputOutputs.IA.moveOrChange(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1]), str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"), InputOutputs.IA.getObjectType(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+str(_table.currentTableContentValues[realRowNo][1])))
+                        _table.changedValueNumber += 1
                     if newFileName==False:
                         continue
                     #Cover Proccess
-                    if (_table.isColumnHidden(3)!=True and (_table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True)) or (_table.isColumnHidden(4)!=True and (_table.item(rowNo,4).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True)):
+                    if _table.isChangableItem(rowNo, 3, False) or _table.isChangableItem(rowNo, 4, False):
                         sourcePath = _table.currentTableContentValues[realRowNo][3]
                         destinationPath = _table.currentTableContentValues[realRowNo][4]
-                        if (_table.isColumnHidden(3)!=True and (_table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True)):
+                        if _table.isChangableItem(rowNo, 3, False):
                             sourcePath = unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()
-                        if (_table.isColumnHidden(4)!=True and (_table.item(rowNo,4).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True)):
+                        if _table.isChangableItem(rowNo, 4, False):
                             destinationPath = unicode(_table.item(rowNo,4).text()).encode("utf-8").strip()
                         if (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath or sourcePath!=destinationPath or unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath) or (unicode(_table.item(rowNo,2).text()).encode("utf-8")!=_table.currentTableContentValues[realRowNo][2] and(unicode(_table.item(rowNo,2).text()).encode("utf-8")!=sourcePath and unicode(_table.item(rowNo,2).text()).encode("utf-8")!=destinationPath)):
                             if unicode(_table.item(rowNo,3).text()).encode("utf-8").strip()!="":
@@ -116,7 +114,7 @@ class Content():
                             else:
                                 InputOutputs.IA.setIconToDirectory(str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(_table.currentTableContentValues[realRowNo][0])+"/"+newFileName, "")
                                 _table.changedValueNumber += 1
-                    if _table.isColumnHidden(0)!=True and _table.item(rowNo,0).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+                    if _table.isChangableItem(rowNo, 0, False):
                         newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
                         try:
                             newDirectoryName=int(newDirectoryName)
@@ -231,7 +229,7 @@ class CoverTable():
                 if directoriesAndValues!=None:
                     for rowNo in range(self.Table.rowCount()):
                         if self.Table.checkHiddenColumn(3) and self.Table.checkHiddenColumn(4):
-                            if self.Table.item(rowNo,3).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+                            if _table.isChangableItem(rowNo, 3, False):
                                 directoryPath = str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(self.Table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(self.Table.item(rowNo,1).text()).encode("utf-8")
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]
