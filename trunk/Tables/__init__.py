@@ -423,7 +423,12 @@ class Tables(MTableWidget):
                         return True
                 return False
             else:
-                return True
+                if isCanBeEmpty==False:
+                    if str(self.item(_rowNo, _columnNo).text()).strip()!="":
+                        return True
+                    return False
+                else:
+                    return True
         return False
         
     def checkUnSavedValues(self):
