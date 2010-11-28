@@ -393,7 +393,6 @@ class Tables(MTableWidget):
         
     def continueSave(self, _returned=None):
         import Records
-        newCurrentDirectoryPath = _returned
         if Universals.tableType!=4:
             if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                 InputOutputs.IA.checkIcon(InputOutputs.currentDirectoryPath)
@@ -406,10 +405,7 @@ class Tables(MTableWidget):
             if Universals.getBoolValue("isShowTransactionDetails"):
                 Dialogs.show(translate("Tables", "Transaction Details"), 
                              str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-        if newCurrentDirectoryPath!=None and newCurrentDirectoryPath!=InputOutputs.currentDirectoryPath:
-            Universals.MainWindow.FileManager.makeRefresh(newCurrentDirectoryPath)
-        else:
-            Universals.MainWindow.FileManager.makeRefresh("", False)
+        Universals.MainWindow.FileManager.makeRefresh("", False)
         
     def isChangableItem(self, _rowNo, _columnNo, isCheckLike=None, isCanBeEmpty=True):
         if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
@@ -431,12 +427,13 @@ class Tables(MTableWidget):
                     return True
         return False
         
-    def createTableWidgetItem(self, _value, _currentValue):
+    def createTableWidgetItem(self, _value, _currentValue=None):
         item = MTableWidgetItem(_value.decode("utf-8"))
         item.setStatusTip(_value.decode("utf-8"))
-        if str(_value)!=str(_currentValue):
-            item.setBackground(MBrush(MColor(142,199,255)))
-            item.setToolTip(Organizer.showWithIncorrectChars(_currentValue).decode("utf-8"))
+        if _currentValue!=None:
+            if str(_value)!=str(_currentValue):
+                item.setBackground(MBrush(MColor(142,199,255)))
+                item.setToolTip(Organizer.showWithIncorrectChars(_currentValue).decode("utf-8"))
         return item
         
     def checkUnSavedValues(self):

@@ -306,9 +306,12 @@ class FileManager():
             if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
                 self.goTo(_newDirectoryPath, False)
             else:
-                self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
-                if _isOnlyBrowser==False:
-                    self.showInTable()
+                if InputOutputs.IA.checkSource(str(self.currentDirectory), "directory")!=False:
+                    self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
+                    if _isOnlyBrowser==False:
+                        self.showInTable()
+                else:
+                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False)
         except:
             error = ReportBug.ReportBug()
             error.show()

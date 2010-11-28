@@ -181,8 +181,7 @@ class CoverTable():
         self.Table.tableColumnsKey=["Directory", "Directory Name", "Current Cover", "Source Cover", "Destination Cover"]
         
     def save(self):
-        returnValue = writeContents(self.Table)
-        return returnValue
+        return writeContents(self.Table)
         
     def refresh(self, _path):
         self.Table.currentTableContentValues = readContents(_path)
@@ -199,15 +198,19 @@ class CoverTable():
                 elif itemNo==2:
                     newString = Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[rowNo]["currentCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["currentCover"])
+                    item = self.Table.createTableWidgetItem(newString)
                 elif itemNo==3:
                     newString = Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[rowNo]["sourceCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["sourceCover"])
+                    oldString = self.Table.currentTableContentValues[rowNo]["currentCover"]
+                    oldString = oldString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
+                    item = self.Table.createTableWidgetItem(newString, oldString)
                 elif itemNo==4:
                     newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["destinationCover"], "file")
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["destinationCover"])
+                    oldString = self.Table.currentTableContentValues[rowNo]["currentCover"]
+                    oldString = oldString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
+                    item = self.Table.createTableWidgetItem(newString, oldString)
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
             if self.Table.currentTableContentValues[rowNo]["isCorrectedFileContent"]==False:

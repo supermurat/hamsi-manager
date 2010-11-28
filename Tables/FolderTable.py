@@ -127,8 +127,7 @@ class FolderTable():
         self.Table.tableColumnsKey=["Directory", "File/Directory Name"]
         
     def save(self):
-        returnValue = writeContents(self.Table)
-        return returnValue
+        return writeContents(self.Table)
     
     def refresh(self, _path):
         self.Table.currentTableContentValues = readContents(_path)
