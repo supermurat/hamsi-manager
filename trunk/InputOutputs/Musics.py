@@ -85,6 +85,7 @@ class Musics:
                     tagger.setFirstLyrics(str(_newMusicTagsValues[9]))
                 tagger.update()
                 newFileName=_oldMusicTagsValues[1]
+                #FIXME: change this action like new moveorchange
                 if _oldMusicTagsValues[1]!=_newMusicTagsValues[1]:
                     if _newMusicTagsValues[1].strip()!="":
                         orgExt = _oldMusicTagsValues[1].split(".")[-1].decode("utf-8").lower()

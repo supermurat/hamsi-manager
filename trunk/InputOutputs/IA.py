@@ -369,7 +369,7 @@ class IA:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
-                        return getBaseName(_newPath)
+                        return _newPath
             if isDir(_newPath)==True and _actionType=="auto":
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                     checkIcon(_newPath)
@@ -379,7 +379,7 @@ class IA:
                         checkIcon(getDirName(_oldPath))
                     if isDir(getDirName(_newPath)):
                         checkIcon(getDirName(_newPath))
-            return getBaseName(_newPath)
+            return _newPath
         else:
             return False
             
@@ -407,7 +407,7 @@ class IA:
             if isDir(_newPath)==True and _actionType=="auto":
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                     checkIcon(_newPath)
-            return getBaseName(_newPath)
+            return _newPath
         else:
             return False
     
@@ -444,7 +444,8 @@ class IA:
                 InputOutputs.willCheckIconDirectories.append(_path)
         else:
             if _isClear==False:
-                return setIconToDirectory(_path, getFirstImageInDirectory(_path))
+                coverPath = _path + "/" + getFirstImageInDirectory(_path)
+                return setIconToDirectory(_path, coverPath)
             elif _isClear:
                 return setIconToDirectory(_path)
     

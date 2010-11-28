@@ -83,6 +83,8 @@ class Content():
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(str(_table.currentTableContentValues[rowNo]["path"]))
                         continue
+                    baseNameOfDirectory = _table.currentTableContentValues[rowNo]["baseNameOfDirectory"]
+                    baseName = _table.currentTableContentValues[rowNo]["baseName"]
                     tagger = Taggers.getTagger()
                     tagger.loadFileForWrite(_table.currentTableContentValues[rowNo]["path"])
                     if _table.isChangableItem(rowNo, 2, _table.currentTableContentValues[rowNo]["Artist"]):
@@ -126,33 +128,18 @@ class Content():
                         Records.add(str(translate("MusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo]["FirstLyrics"]), value)
                         _table.changedValueNumber += 1
                     tagger.update()
-                    newFileName=str(_table.currentTableContentValues[rowNo]["baseName"])
-                    if _table.isChangableItem(rowNo, 1, _table.currentTableContentValues[rowNo]["baseName"], False):
-                        orgExt = str(_table.currentTableContentValues[rowNo]["baseName"]).split(".")[-1].decode("utf-8").lower()
-                        if unicode(_table.item(rowNo,1).text()).encode("utf-8").split(".")[-1].decode("utf-8").lower() != orgExt:
-                            _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8") + "." + orgExt).decode("utf-8")))
-                        if unicode(_table.item(rowNo,1).text()).encode("utf-8").split(".")[-1] != orgExt:
-                            extState = unicode(_table.item(rowNo,1).text()).encode("utf-8").decode("utf-8").lower().find(orgExt)
-                            if extState!=-1:
-                                _table.setItem(rowNo,1,MTableWidgetItem(str(unicode(_table.item(rowNo,1).text()).encode("utf-8")[:extState] + "." + orgExt).decode("utf-8")))
-                        newFileName = InputOutputs.IA.moveOrChange(str(_table.currentTableContentValues[rowNo]["path"]), InputOutputs.currentDirectoryPath+"/"+unicode(_table.item(rowNo,1).text()).encode("utf-8"))
+                    if _table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                        baseNameOfDirectory = str(_table.item(rowNo,0).text())
                         _table.changedValueNumber += 1
-                    if newFileName==False:
-                        continue
-                    if _table.isChangableItem(rowNo, 0):
-                        newDirectoryName=unicode(_table.item(rowNo,0).text()).encode("utf-8")
-                        try:
-                            newDirectoryName=int(newDirectoryName)
-                            newDirectoryName=str(newDirectoryName)
-                        except:
-                            if newDirectoryName.decode("utf-8").lower()==newDirectoryName.upper():
-                                newDirectoryName=str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                        if str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])!=newDirectoryName:
-                            newPath=InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath)
-                            changingFileDirectories.append([])
-                            changingFileDirectories[-1].append(newPath+"/"+str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])+"/"+newFileName)
-                            changingFileDirectories[-1].append(newPath+"/"+newDirectoryName+"/"+newFileName)
-                            _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 1, baseName, False):
+                        baseName = str(_table.item(rowNo,1).text())
+                        _table.changedValueNumber += 1
+                    newFilePath = InputOutputs.getDirName(InputOutputs.currentDirectoryPath) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = newFilePath.replace("//", "/")
+                    if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
+                        changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
+                                                        newFilePath
+                                                        ])
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
