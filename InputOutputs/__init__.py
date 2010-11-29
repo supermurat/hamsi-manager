@@ -27,7 +27,7 @@ import Records
 class InputOutputs:
     """Read and writes are arranged in this class"""
     global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath
-    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
+    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
     appendingDirectories = []
     currentDirectoryPath = ""
     fileSystemEncoding = Variables.defaultFileSystemEncoding
@@ -571,7 +571,7 @@ class InputOutputs:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
-                        return _newPath
+                        return getBaseName(_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                     checkIcon(_newPath)
@@ -581,7 +581,7 @@ class InputOutputs:
                         checkIcon(getDirName(_oldPath))
                     if isDir(getDirName(_newPath)):
                         checkIcon(getDirName(_newPath))
-            return _newPath
+            return getBaseName(_newPath)
         else:
             return False
             
@@ -609,7 +609,7 @@ class InputOutputs:
             if isDir(_newPath)==True and _actionType=="auto":
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                     checkIcon(_newPath)
-            return _newPath
+            return getBaseName(_newPath)
         else:
             return False
     
@@ -632,7 +632,7 @@ class InputOutputs:
         isSmartCheckIcon = True
         willCheckIconDirectories = []
     
-    def completeSmartCheckIcon():
+    def complateSmartCheckIcon():
         global isSmartCheckIcon, willCheckIconDirectories
         isSmartCheckIcon = False
         for iconDir in willCheckIconDirectories:

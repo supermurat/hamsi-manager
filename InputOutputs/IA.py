@@ -31,7 +31,7 @@ from Universals import translate
 class IA:
     """Read and writes are arranged in this class"""
     global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, readDirectory, moveOrChange, moveDir, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType
-    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, clearTempFiles, getFileTree, removeOnlySubFiles, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
+    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, clearTempFiles, getFileTree, removeOnlySubFiles, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
     
     def isFile(_oldPath):
         return InputOutputs.isFile(_oldPath)
@@ -369,7 +369,7 @@ class IA:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
-                        return _newPath
+                        return getBaseName(_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                     checkIcon(_newPath)
@@ -379,7 +379,7 @@ class IA:
                         checkIcon(getDirName(_oldPath))
                     if isDir(getDirName(_newPath)):
                         checkIcon(getDirName(_newPath))
-            return _newPath
+            return getBaseName(_newPath)
         else:
             return False
             
@@ -407,7 +407,7 @@ class IA:
             if isDir(_newPath)==True and _actionType=="auto":
                 if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                     checkIcon(_newPath)
-            return _newPath
+            return getBaseName(_newPath)
         else:
             return False
     
@@ -432,7 +432,7 @@ class IA:
         InputOutputs.isSmartCheckIcon = True
         InputOutputs.willCheckIconDirectories = []
     
-    def completeSmartCheckIcon():
+    def complateSmartCheckIcon():
         InputOutputs.isSmartCheckIcon = False
         for iconDir in InputOutputs.willCheckIconDirectories:
             checkIcon(iconDir)
