@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=KonqPopupMenu/Plugin,all/allfiles
+ExcludeServiceTypes=kdedevice/*
+Encoding=UTF-8
+Actions=emend;hash
+X-KDE-Submenu=&Hamsi Manager
+X-KDE-Submenu[tr]=&Hamsi Manager
+X-KDE-Submenu[pt_BR]=&Hamsi Manager
+
+[Desktop Action emend]
+Exec=python '~InstallationDirectory~/HamsiManager.py' --qm --emendFile %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Auto Emend
+Name[tr]=Otomatik Olarak Düzelt
+Name[pt_BR]=Corrigir automaticamente
+
+[Desktop Action hash]
+Exec=python '~InstallationDirectory~/HamsiManager.py' --qm --hash %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Hash Digest
+Name[tr]=Doğrulama Özeti
+Name[pt_BR]=Resumo Do Hash
