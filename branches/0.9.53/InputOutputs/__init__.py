@@ -646,7 +646,10 @@ class InputOutputs:
                 willCheckIconDirectories.append(_path)
         else:
             if _isClear==False:
-                coverPath = _path + "/" + getFirstImageInDirectory(_path)
+                coverPath = ""
+                coverName = getFirstImageInDirectory(_path)
+                if coverName!=None:
+                    coverPath = _path + "/" + coverName
                 return setIconToDirectory(_path, coverPath)
             elif _isClear:
                 return setIconToDirectory(_path)
