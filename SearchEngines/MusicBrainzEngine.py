@@ -115,12 +115,18 @@ class Search(MDialog):
         
     def startSearch(self):
         if self.isCheckSingleFile:
+            if Universals.isShowOldValues==True:
+                if float(Universals.MainWindow.Table.currentRow())/float(2)==Universals.MainWindow.Table.currentRow()/2:
+                    Universals.MainWindow.Table.setCurrentCell(Universals.MainWindow.Table.currentRow()+1, Universals.MainWindow.Table.currentColumn())
             self.prgbAllState.setRange(0,1)
             self.rows = range(Universals.MainWindow.Table.currentRow(), Universals.MainWindow.Table.currentRow()+1)
             self.heightValue = 150
         else:
             self.prgbAllState.setRange(0,Universals.MainWindow.Table.rowCount())
-            self.rows = range(Universals.MainWindow.Table.rowCount())
+            if Universals.isShowOldValues==True:
+                self.rows = range(1,Universals.MainWindow.Table.rowCount(),2)
+            else:
+                self.rows = range(0,Universals.MainWindow.Table.rowCount(),1)
             if Universals.MainWindow.Table.rowCount()<7:
                 self.heightValue = 300
             else:

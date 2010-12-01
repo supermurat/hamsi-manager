@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-11-28, 02:06:32 -->
+<!-- Saved: 2010-11-03, 23:39:36 -->
 <!-- Copyright (C) 2010 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -20,6 +20,9 @@
     <Source>HamsiManager.desktop</Source>
     <Source>SearchEngines/__init__.py</Source>
     <Source>InputOutputs/Musics.py</Source>
+    <Source>InputOutputs/SubFolders.py</Source>
+    <Source>InputOutputs/Folders.py</Source>
+    <Source>InputOutputs/Files.py</Source>
     <Source>InputOutputs/__init__.py</Source>
     <Source>Tables/SubFolderTable.py</Source>
     <Source>Tables/MusicTable.py</Source>
@@ -64,6 +67,7 @@
     <Source>Reconfigure.py</Source>
     <Source>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/main.js</Source>
     <Source>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/script.spec</Source>
+    <Source>InputOutputs/Covers.py</Source>
     <Source>Tables/CoverTable.py</Source>
     <Source>Core/MyThread.py</Source>
     <Source>Details/CoverDetails.py</Source>
