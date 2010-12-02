@@ -25,17 +25,14 @@ from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBProper
 from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
     
 class Settings():
-    global getSettings, setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting
+    global setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting
     
-    def getSettings(_settingsFilePath):
-        return Variables.MQtCore.QSettings(str(_settingsFilePath).decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
-        
     def setting():
-        return getSettings(Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings)
+        return Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings).decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
     
     def universalSetting():
-        return getSettings(Variables.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini")
-        
+        return Variables.MQtCore.QSettings((Variables.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini").decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
+          
     def checkSettings():
         if InputOutputs.isDir(Universals.pathOfSettingsDirectory)==False:
             InputOutputs.makeDirs(Universals.pathOfSettingsDirectory)
