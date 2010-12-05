@@ -306,12 +306,9 @@ class FileManager():
             if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
                 self.goTo(_newDirectoryPath, False)
             else:
-                if InputOutputs.IA.checkSource(str(self.currentDirectory), "directory")!=False:
-                    self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
-                    if _isOnlyBrowser==False:
-                        self.showInTable()
-                else:
-                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False)
+                self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
+                if _isOnlyBrowser==False:
+                    self.showInTable()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -367,7 +364,7 @@ class FileManager():
     def showInTable(self):
         try:
             InputOutputs.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
-            Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
+            Tables.refreshTable(InputOutputs.currentDirectoryPath)
         except:
             error = ReportBug.ReportBug()
             error.show()

@@ -230,7 +230,7 @@ class QuickMakeWindow(MyDialog):
                 InputOutputs.IA.activateSmartCheckIcon()
                 InputOutputs.IA.clearEmptyDirectories(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), True, True)
                 if InputOutputs.IA.isDir(InputOutputs.IA.getRealPath(QuickMakeParameters[1])):
-                    InputOutputs.IA.completeSmartCheckIcon()
+                    InputOutputs.IA.complateSmartCheckIcon()
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
                         str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
             self.close()
@@ -272,7 +272,7 @@ class QuickMakeWindow(MyDialog):
                 if newFileName!=False:
                     Dialogs.show(translate("QuickMake", "File Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This file is \"%s\" now.")) % 
-                            (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newFileName)))
+                            (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newFileName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -286,8 +286,9 @@ class QuickMakeWindow(MyDialog):
                 else:
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
                 import Organizer
-                newDirName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
-                if newDirName!=False:
+                newName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
+                if newName!=False:
+                    newDirName = InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newName
                     Dialogs.show(translate("QuickMake", "Directory Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
                             (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newDirName)))
@@ -305,8 +306,9 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
                 import Organizer
                 InputOutputs.IA.activateSmartCheckIcon()
-                newDirName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
-                if newDirName!=False:
+                newName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
+                if newName!=False:
+                    newDirName = InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newName
                     fileAndDirectoryNames = InputOutputs.IA.readDirectory(newDirName, "fileAndDirectory")
                     for fileAndDirs in fileAndDirectoryNames:
                         objectType = InputOutputs.IA.getObjectType(newDirName + "/" + fileAndDirs)
@@ -315,7 +317,7 @@ class QuickMakeWindow(MyDialog):
                     if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                         InputOutputs.IA.checkIcon(newDirName)
                     if InputOutputs.IA.isDir(newDirName):
-                        InputOutputs.IA.completeSmartCheckIcon()
+                        InputOutputs.IA.complateSmartCheckIcon()
                     Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
                             (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newDirName)))

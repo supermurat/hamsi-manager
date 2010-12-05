@@ -762,10 +762,10 @@ class General(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["applicationStyle", "themeName", "colorSchemes", "isSaveActions", "maxRecordFileSize", 
+        self.keysOfSettings = ["applicationStyle", "themeName", "isSaveActions", "maxRecordFileSize", 
                                 "isMinimumWindowMode", "updateInterval", "isShowQuickMakeWindow", 
                                 "isShowTransactionDetails", "windowMode", "language"]
-        self.tabsOfSettings = [None, None, None, None, None, 
+        self.tabsOfSettings = [None, None, None, None, 
                                 None, None, None, 
                                 None, None, None]
         self.tabNames = []
@@ -777,7 +777,6 @@ class General(MWidget):
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/General", "Application Style"),
                     translate("Options/General", "Application Theme"), 
-                    translate("Options/General", "Color Schemes"), 
                     translate("Options/General", "Save Actions"), 
                     translate("Options/General", "Record File Size"), 
                     translate("Options/General", "Activate Minimal Window Mode"), 
@@ -786,9 +785,8 @@ class General(MWidget):
                     translate("Options/General", "Show Transaction Details"), 
                     translate("Options/General", "Window Mode"),  
                     translate("Options/General", "Application Language")]
-        self.toolTips = [translate("Options/General", "You can select style for Hamsi Manager."),
-                    translate("Options/General", "You can select theme for Hamsi Manager."),
-                    translate("Options/General", "You can select color schemes for Hamsi Manager."),
+        self.toolTips = [translate("Options/General", "You can select Hamsi Manager`s style."),
+                    translate("Options/General", "You can select Hamsi Manager`s theme."),
                     translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
                     translate("Options/General", "You can select record file size.(Kilobytes)"), 
                     translate("Options/General", "You have to activate this if you want to work as little number of windows as possible."), 
@@ -797,31 +795,22 @@ class General(MWidget):
                     translate("Options/General", "Are you want to show transaction details after save table?"), 
                     translate("Options/General", "You can select window mode.You can select \"Mini\" section for netbook or small screen."),
                     translate("Options/General", "You can select Hamsi Manager`s language.")]
-        self.typesOfValues = [["options", 1], ["options", 4], ["options", 6], "Yes/No", ["number", 3], 
+        self.typesOfValues = [["options", 1], ["options", 4], "Yes/No", ["number", 3], 
                                 "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 5], ["options", 0]]
         styles = Variables.getStyles()
         themes = Variables.getInstalledThemes()
-        schemes, schemePaths  = Variables.getColorSchemesAndPath()
-        if Universals.isActivePyKDE4==False:
-            keyNo = self.keysOfSettings.index("colorSchemes")
-            del self.keysOfSettings[keyNo]
-            del self.labels[keyNo]
-            del self.toolTips[keyNo]
-            del self.typesOfValues[keyNo]
         self.valuesOfOptions = [Variables.getInstalledLanguagesNames(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
                                 [translate("Options/General", "Normal"), 
-                                    translate("Options/General", "Mini")], schemes]
+                                    translate("Options/General", "Mini")]]
         self.valuesOfOptionsKeys = [Variables.getInstalledLanguagesCodes(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
-                                Variables.windowModeKeys, schemePaths]
+                                Variables.windowModeKeys]
         createOptions(self)
         if Universals.isActivePyKDE4==True:
             setVisibleFormItems(self, "language", False)
         if self.visibleKeys.count("applicationStyle")>0:
             MObject.connect(self.values[self.keysOfSettings.index("applicationStyle")], SIGNAL("currentIndexChanged(int)"), self.styleChanged)
-        if self.visibleKeys.count("colorSchemes")>0:
-            MObject.connect(self.values[self.keysOfSettings.index("colorSchemes")], SIGNAL("currentIndexChanged(int)"), self.schemeChanged)
         if self.visibleKeys.count("windowMode")>0:
             MObject.connect(self.values[self.keysOfSettings.index("windowMode")], SIGNAL("currentIndexChanged(int)"), self.windowModeChanged)
         if self.visibleKeys.count("isSaveActions")>0:
@@ -836,16 +825,7 @@ class General(MWidget):
     
     def styleChanged(self, _value):
         MApplication.setStyle(self.values[self.keysOfSettings.index("applicationStyle")].currentText())
-    
-    def schemeChanged(self, _value):
-        x = self.keysOfSettings.index("colorSchemes")
-        schemePath = self.valuesOfOptionsKeys[self.typesOfValues[x][1]][self.values[x].currentIndex()]
-        if InputOutputs.isFile(schemePath):
-            config = MSharedConfig.openConfig(schemePath)
-            plt = MGlobalSettings.createApplicationPalette(config)
-        else:
-            plt = MApplication.desktop().palette()
-        MApplication.setPalette(plt)
+        
         
     def windowModeChanged(self, _value):
         Universals.setMySetting("isShowWindowModeSuggestion", True)
