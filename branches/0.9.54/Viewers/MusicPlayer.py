@@ -151,7 +151,10 @@ class MusicPlayer(MWidget):
                     self.Player = M_MPlayer()
             self.stop()
             if _filePath=="":
-                _filePath = InputOutputs.currentDirectoryPath + "/" + Universals.MainWindow.Table.fileDetails[Universals.MainWindow.Table.currentRow()][1]
+                rowNo = Universals.MainWindow.Table.currentRow()
+                if Universals.isShowOldValues==True:
+                    rowNo = rowNo/2
+                _filePath = InputOutputs.currentDirectoryPath + "/" + Universals.MainWindow.Table.fileDetails[rowNo][1]
             if _filePath=="" and self.file!="":
                 _filePath = self.file
             else:

@@ -145,7 +145,8 @@ class AmarokEmbeddedDBCore():
         
     def generateEmbeddedDB(_isNoAlertIfSuccesfully=True):
         stopEmbeddedDB()
-        InputOutputs.IA.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok", True)
+        if InputOutputs.isExist(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok"):
+            InputOutputs.IA.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok", True)
         InputOutputs.IA.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("AmarokEmbeddedDBCore", "Generated Embedded Server"), translate("AmarokEmbeddedDBCore", "Embedded Amarok database server generated."))
