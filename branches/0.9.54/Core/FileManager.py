@@ -221,7 +221,7 @@ class FileManager():
                         self.future = []
                         self.history.append(self.currentDirectory)
                     if _path[-1]=="/": _path = _path[:-1]
-                    self.currentDirectory = _path
+                    self.currentDirectory = _path.decode("utf-8")
                     if Universals.isActivePyKDE4==True:
                         self.dirLister.openUrl(MUrl(self.currentDirectory))
                         self.isGoToFromUrlNavigator = False
