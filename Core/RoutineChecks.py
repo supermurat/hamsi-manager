@@ -237,6 +237,16 @@ def checkAfterRunProccess():
         if answer==Dialogs.No: 
             import Options
             Options.Options(Universals.MainWindow, _focusTo="fileSystemEncoding")
+    checkWindowMode()
+    if Universals.getBoolValue("isMakeAutoDesign"):
+        if Universals.isActivePyKDE4==True:
+            Universals.MainWindow.Browser.setVisible(False)
+            Universals.MainWindow.TreeBrowser.setVisible(False)
+            Universals.MainWindow.FileManager.urlNavigator.setMinimumWidth(150)
+            try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
+            except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
+        try:Universals.MainWindow.PlayerBar.setVisible(False)
+        except:pass
     if Universals.isShowVerifySettings and Universals.changedDefaultValuesKeys==[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
@@ -250,21 +260,11 @@ def checkAfterRunProccess():
             import Options
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
             Options.Options(Universals.MainWindow, "Normal", None, newOrChangedKeys)
-    if UpdateControl.isMakeUpdateControl():
-        UpdateControl.UpdateControl(Universals.MainWindow)
-    checkWindowMode()
-    if Universals.getBoolValue("isMakeAutoDesign"):
-        if Universals.isActivePyKDE4==True:
-            Universals.MainWindow.Browser.setVisible(False)
-            Universals.MainWindow.TreeBrowser.setVisible(False)
-            Universals.MainWindow.FileManager.urlNavigator.setMinimumWidth(150)
-            try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
-            except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
-        try:Universals.MainWindow.PlayerBar.setVisible(False)
-        except:pass
-    if Universals.getBoolValue("isShowReconfigureWizard"):
+    elif Universals.getBoolValue("isShowReconfigureWizard"):
         import Execute
         Execute.executeReconfigure()
+    elif UpdateControl.isMakeUpdateControl():
+        UpdateControl.UpdateControl(Universals.MainWindow)
     
 def checkWindowMode(_isCheck=False):
     import Dialogs, Universals, Settings 
