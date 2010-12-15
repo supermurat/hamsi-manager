@@ -62,11 +62,11 @@ if RoutineChecks.checkQt4Exist():
             description = ki18n (aboutFileContent.decode("utf-8"))
             aboutOfHamsiManager = MAboutData (appName, Variables.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
-            aboutOfHamsiManager.addAuthor (ki18n("Murat Demir".decode("utf-8")), ki18n("Project Manager and Project Developer<br>Proje Sorumlusu ve Proje Geliştiricisi".decode("utf-8")), 
+            aboutOfHamsiManager.addAuthor (ki18n("Murat Demir".decode("utf-8")), ki18n("Project Manager and Developer".decode("utf-8")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.addCredit(ki18n("Tolga Balcı".decode("utf-8")), ki18n("Translate to English. (Voluntary)<br>İngilizce Çevirisi. (Gönüllü) (V0.7.x)".decode("utf-8")), 
+            aboutOfHamsiManager.addCredit(ki18n("Tolga Balcı".decode("utf-8")), ki18n("Translate to English. (Voluntary) (V0.7.x)".decode("utf-8")), 
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
-            aboutOfHamsiManager.addCredit(ki18n("Márcio Moraes".decode("utf-8")), ki18n("Translate to Brazilian Portuguese. (Voluntary)<br>Brezilya Portekizcesi diline çeviri. (Gönüllü) (V0.8.7 - ~)".decode("utf-8")), 
+            aboutOfHamsiManager.addCredit(ki18n("Márcio Moraes".decode("utf-8")), ki18n("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)".decode("utf-8")), 
                                             "", "")
             aboutOfHamsiManager.setProgramIconName(Universals.themePath + "/Images/HamsiManager-128x128.png") 
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode):
