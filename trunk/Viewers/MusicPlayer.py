@@ -158,7 +158,7 @@ class MusicPlayer(MWidget):
                 self.file = _filePath
             if InputOutputs.IA.isFile(_filePath):
                 self.musicTags = Musics.readMusicFile(_filePath)
-                self.setInfoText((("%s - %s (%s)") % (self.musicTags[2] , self.musicTags[3], self.musicTags[4])).decode("utf-8"))
+                self.setInfoText((("%s - %s (%s)") % (self.musicTags["Artist"] , self.musicTags["Title"], self.musicTags["Album"])).decode("utf-8"))
                 if _isPlayNow==True:
                     if self.Player.play(_filePath):
                         self.tbPause.setEnabled(True)
