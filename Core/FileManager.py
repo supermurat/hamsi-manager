@@ -221,7 +221,7 @@ class FileManager():
                         self.future = []
                         self.history.append(self.currentDirectory)
                     if _path[-1]=="/": _path = _path[:-1]
-                    self.currentDirectory = _path
+                    self.currentDirectory = _path.decode("utf-8")
                     if Universals.isActivePyKDE4==True:
                         self.dirLister.openUrl(MUrl(self.currentDirectory))
                         self.isGoToFromUrlNavigator = False
@@ -243,7 +243,7 @@ class FileManager():
                 elif InputOutputs.IA.isFile(_path):
                     isOpened = False
                     for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                        if str(_path).split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
+                        if str(_path).split(".")[-1].lower() == str(ext).lower():
                             if Universals.tableType==2 and Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
                                 Universals.MainWindow.PlayerBar.Player.play(str(_path))
                             else:
