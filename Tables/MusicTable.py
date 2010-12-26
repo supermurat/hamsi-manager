@@ -170,8 +170,7 @@ class MusicTable():
         
     def showDetails(self, _fileNo, _infoNo):
         MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"],
-                                      self.Table.isOpenDetailsOnNewWindow.isChecked(),self.isPlayNow.isChecked(),
-                                      _infoNo)
+                                      self.Table.isOpenDetailsOnNewWindow.isChecked(), self.isPlayNow.isChecked())
     
     def cellClicked(self,_row,_column):
         for row_no in range(self.Table.rowCount()):
