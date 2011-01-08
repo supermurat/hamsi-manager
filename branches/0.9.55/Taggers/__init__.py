@@ -84,7 +84,7 @@ class Taggers():
         for x, v in enumerate(getTaggerTypesName()):
             if _typeName==v:
                 type = getLoaddedTagger().getTaggerTypes()[x]
-        Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerType", _type)
+        Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerType", type)
         if _isSetTypeName:
             setSelectedTaggerType(type, False)
         
