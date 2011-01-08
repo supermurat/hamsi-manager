@@ -21,16 +21,16 @@
 import os, sys
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     Catalog = "HamsiManager" 
-    version = "0.9.60"
-    intversion = 960
-    settingVersion = "960"
+    version = "0.9.54"
+    intversion = 954
+    settingVersion = "950"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])
@@ -45,7 +45,7 @@ class Variables():
     tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "cover.png"]
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
-                  "isRunOnDoubleClick", "isChangeSelected", 
+                  "isShowOldValues", "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
                   "hiddenFileTableColumns", "hiddenMusicTableColumns", "hiddenSubFolderTableColumns", 
                   "hiddenCoverTableColumns", 
@@ -89,8 +89,8 @@ class Variables():
                   "amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
                   "iconNameFormat", "iconFileType", "pathOfMysqldSafe", 
-                  "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral", 
-                  "colorSchemes"]
+                  "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral"
+                  ]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -183,6 +183,7 @@ class Variables():
                 "lastDirectory": str(userDirectoryPath), 
                 "isMainWindowMaximized": "False", 
                 "isShowAdvancedSelections": "False", 
+                "isShowOldValues": "False", 
                 "isRunOnDoubleClick": "False", 
                 "isChangeSelected": "False", 
                 "isChangeAll": "True", 
@@ -290,8 +291,7 @@ class Variables():
                 "pathOfMysqldSafe": "mysqld_safe", 
                 "isActiveCompleter": "True", 
                 "isShowAllForCompleter": "True", 
-                "isActiveClearGeneral": "False", 
-                "colorSchemes": ""
+                "isActiveClearGeneral": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -299,6 +299,7 @@ class Variables():
                 "lastDirectory": "str", 
                 "isMainWindowMaximized": "bool", 
                 "isShowAdvancedSelections": "bool", 
+                "isShowOldValues": "bool", 
                 "isRunOnDoubleClick": "bool", 
                 "isChangeSelected": "bool", 
                 "isChangeAll": "bool", 
@@ -406,8 +407,7 @@ class Variables():
                 "pathOfMysqldSafe": "str", 
                 "isActiveCompleter": "bool", 
                 "isShowAllForCompleter": "bool", 
-                "isActiveClearGeneral": "bool", 
-                "colorSchemes": "Default"
+                "isActiveClearGeneral": "bool"
                 }
 
     def getAvailablePlayers():
@@ -440,20 +440,6 @@ class Variables():
         for stil in MQtGui.QStyleFactory.keys(): 
             styles.append(str(stil))
         return styles
-        
-    def getColorSchemesAndPath():
-        import Settings,  InputOutputs
-        colorSchemes, colorSchemePaths = [], []
-        colorSchemes.append("Default")
-        colorSchemePaths.append("")
-        if isAvailablePyKDE4():
-            from PyKDE4.kdecore import KStandardDirs, KGlobal
-            schemeFiles = KGlobal.dirs().findAllResources("data", "color-schemes/*.colors", KStandardDirs.NoDuplicates)
-            for scheme in schemeFiles:
-                sets = Settings.getSettings(scheme)
-                colorSchemes.append(str(sets.value("Name", InputOutputs.getBaseName(scheme)).toString()))
-                colorSchemePaths.append(scheme)
-        return colorSchemes, colorSchemePaths
         
     def getScreenSize():
         import Universals

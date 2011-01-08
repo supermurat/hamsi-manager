@@ -86,25 +86,26 @@ class ReportBug(MDialog):
             except:pass
             errorDetails +="<hr><p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
             import Tables
-            errorDetails += Tables.exportValues("return", "html", "no")
+            errorDetails += Tables.exportTableValues("return", "html", "no")
         except:pass
         try:
+            from Tables import table
             errorDetails +="</p><hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
-            for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
-                filePath = Universals.MainWindow.Table.currentTableContentValues[rowNo]["path"]
+            for rowNo in range(len(table.fileDetails)):
                 errorDetails +="<tr><td>" 
+                filePath = InputOutputs.currentDirectoryPath + "/" + table.fileDetails[rowNo][1]
                 try:errorDetails += str(unicode(filePath, InputOutputs.fileSystemEncoding))
                 except:
                     try:errorDetails += str(filePath) 
                     except:errorDetails += filePath
                 errorDetails +="</td></tr>"
             errorDetails +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3><table border=1>"
-            for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
+            for rowNo in range(len(table.fileDetails)):
                 errorDetails +="<tr>"
-                for key, value in Universals.MainWindow.Table.currentTableContentValues[rowNo]:
+                for columnNo in range(len(table.fileDetails[rowNo])):
                     errorDetails +="<td>"
-                    try:errorDetails +=str(value)
-                    except:errorDetails +=value
+                    try:errorDetails +=str(table.fileDetails[rowNo][columnNo])
+                    except:errorDetails +=table.fileDetails[rowNo][columnNo]
                     errorDetails +="</td>"
                 errorDetails +="</tr>"
             errorDetails+="</table></p>"

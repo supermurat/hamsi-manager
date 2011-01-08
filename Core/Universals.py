@@ -24,7 +24,7 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -38,6 +38,7 @@ class Universals():
     isActivePyKDE4 = False
     isLoadedMyObjects = False
     windowMode = "Normal"
+    isShowOldValues = None
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
@@ -71,7 +72,7 @@ class Universals():
             except: return _s
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActiveKDE4=None):
-        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isChangeAll, isChangeSelected
+        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isShowOldValues, isChangeAll, isChangeSelected
         import Settings, InputOutputs
         sets = Settings.setting()
         settingVersion = str(sets.value("settingsVersion").toString())
@@ -102,7 +103,8 @@ class Universals():
             tableType = int(MySettings["tableType"])
             if tableType<0 or tableType>=len(tableTypesNames) or tableType==3:
                 tableType = 1
-        if isChangeAll == None:
+        if isShowOldValues == None:
+            isShowOldValues = getBoolValue("isShowOldValues")
             isChangeAll = getBoolValue("isChangeAll")
             isChangeSelected = getBoolValue("isChangeSelected")
         if getBoolValue("isInstalledKDE4Language")==False:

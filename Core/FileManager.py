@@ -243,7 +243,7 @@ class FileManager():
                 elif InputOutputs.IA.isFile(_path):
                     isOpened = False
                     for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                        if str(_path).split(".")[-1].lower() == str(ext).lower():
+                        if str(_path).split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
                             if Universals.tableType==2 and Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
                                 Universals.MainWindow.PlayerBar.Player.play(str(_path))
                             else:
@@ -306,12 +306,9 @@ class FileManager():
             if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
                 self.goTo(_newDirectoryPath, False)
             else:
-                if InputOutputs.IA.checkSource(str(self.currentDirectory), "directory")!=False:
-                    self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
-                    if _isOnlyBrowser==False:
-                        self.showInTable()
-                else:
-                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False)
+                self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
+                if _isOnlyBrowser==False:
+                    self.showInTable()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -367,7 +364,7 @@ class FileManager():
     def showInTable(self):
         try:
             InputOutputs.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
-            Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
+            Tables.refreshTable(InputOutputs.currentDirectoryPath)
         except:
             error = ReportBug.ReportBug()
             error.show()
