@@ -35,7 +35,7 @@ from Taggers import EyeD3Tagger
 class MusicDetails(MDialog):
     global musicDialogs, closeAllMusicDialogs
     musicDialogs =[]
-    def __init__(self, _filePath, _isOpenDetailsOnNewWindow=True, _isPlayNow=False):
+    def __init__(self,_filePath,_isOpenDetailsOnNewWindow=True,_isPlayNow=True,_FocusedInfoNo=None):
         global musicDialogs
         if InputOutputs.IA.isFile(_filePath):
             if _isOpenDetailsOnNewWindow==False:
@@ -49,6 +49,8 @@ class MusicDetails(MDialog):
                         self.activateWindow()
                         self.raise_()
                         self.player.play(_filePath, _isPlayNow)
+                        if _FocusedInfoNo!=None:
+                            self.infoValues[_FocusedInfoNo].setFocus()
                         break
                 if isHasOpenedDialog==False:
                     _isOpenDetailsOnNewWindow=True
@@ -58,9 +60,9 @@ class MusicDetails(MDialog):
                 if Universals.isActivePyKDE4==True:
                     self.setButtons(MDialog.None)
                 self.isActiveAddImage = False
-                self.infoLabels = {}
-                self.infoValues = {}
-                self.musicValues = {}
+                self.infoLabels = []
+                self.infoValues = []
+                self.musicValues = []
                 self.isOpenImageDetailsOnNewWindow = MCheckBox(translate("MusicDetails", "Show Images In New Window"))
                 self.pbtnClose = MPushButton(translate("MusicDetails", "Close"))
                 self.pbtnSave = MPushButton(translate("MusicDetails", "Save Changes"))
@@ -89,7 +91,9 @@ class MusicDetails(MDialog):
                                 translate("MusicDetails", "Album: "),
                                 translate("MusicDetails", "Track: "),
                                 translate("MusicDetails", "Year: "),
-                                translate("MusicDetails", "Genre: ")]
+                                translate("MusicDetails", "Genre: "),
+                                translate("MusicDetails", "Comments: "),
+                                translate("MusicDetails", "Lyrics: ")]
                 self.lstwImages = MListWidget()
                 self.lstwImages.setGridSize(MSize(250,100))
                 self.lstwImages.setIconSize(MSize(98,98))
@@ -102,28 +106,17 @@ class MusicDetails(MDialog):
                 self.cbImageType.hide()
                 self.pbtnCancelAddImage.hide()
                 HBOXs = []
+                for infoNo in range(5):
+                    HBOXs.append(MHBoxLayout())
+                    HBOXs[infoNo].addWidget(self.infoLabels[infoNo])
+                    HBOXs[infoNo].addWidget(self.infoValues[infoNo])
                 HBOXs.append(MHBoxLayout())
-                HBOXs[-1].addWidget(self.infoLabels["baseNameOfDirectory"])
-                HBOXs[-1].addWidget(self.infoValues["baseNameOfDirectory"])
-                HBOXs.append(MHBoxLayout())
-                HBOXs[-1].addWidget(self.infoLabels["baseName"])
-                HBOXs[-1].addWidget(self.infoValues["baseName"])
-                HBOXs.append(MHBoxLayout())
-                HBOXs[-1].addWidget(self.infoLabels["Artist"])
-                HBOXs[-1].addWidget(self.infoValues["Artist"])
-                HBOXs.append(MHBoxLayout())
-                HBOXs[-1].addWidget(self.infoLabels["Title"])
-                HBOXs[-1].addWidget(self.infoValues["Title"])
-                HBOXs.append(MHBoxLayout())
-                HBOXs[-1].addWidget(self.infoLabels["Album"])
-                HBOXs[-1].addWidget(self.infoValues["Album"])
-                HBOXs.append(MHBoxLayout())
-                HBOXs[5].addWidget(self.infoLabels["TrackNum"])
-                HBOXs[5].addWidget(self.infoValues["TrackNum"])
-                HBOXs[5].addWidget(self.infoLabels["Year"])
-                HBOXs[5].addWidget(self.infoValues["Year"])
-                HBOXs[5].addWidget(self.infoLabels["Genre"])
-                HBOXs[5].addWidget(self.infoValues["Genre"])
+                HBOXs[5].addWidget(self.infoLabels[5])
+                HBOXs[5].addWidget(self.infoValues[5])
+                HBOXs[5].addWidget(self.infoLabels[6])
+                HBOXs[5].addWidget(self.infoValues[6])
+                HBOXs[5].addWidget(self.infoLabels[7])
+                HBOXs[5].addWidget(self.infoValues[7])
                 vblInfos = MVBoxLayout()
                 for hbox in HBOXs:
                     vblInfos.addLayout(hbox)
@@ -147,9 +140,9 @@ class MusicDetails(MDialog):
                 vblImages.addLayout(imageBoxs[1])
                 vblImages.addLayout(imageBoxs[2])
                 vblComments = MVBoxLayout()
-                vblComments.addWidget(self.infoValues["FirstComment"])
+                vblComments.addWidget(self.infoValues[8])
                 vblLyrics = MVBoxLayout()
-                vblLyrics.addWidget(self.infoValues["FirstLyrics"])
+                vblLyrics.addWidget(self.infoValues[9])
                 self.pnlMain = MWidget()
                 self.tabwTabs = MTabWidget(self.pnlMain)
                 self.pnlComments = MWidget(self.tabwTabs)
@@ -158,8 +151,8 @@ class MusicDetails(MDialog):
                 self.pnlImages.setLayout(vblImages)
                 self.pnlComments.setLayout(vblComments)
                 self.pnlLyrics.setLayout(vblLyrics)
-                self.tabwTabs.addTab(self.pnlComments, translate("MusicDetails", "Comments"))
-                self.tabwTabs.addTab(self.pnlLyrics, translate("MusicDetails", "Lyrics"))
+                self.tabwTabs.addTab(self.pnlComments, self.labels[8][:-2])
+                self.tabwTabs.addTab(self.pnlLyrics, self.labels[9][:-2])
                 self.tabwTabs.addTab(self.pnlImages, translate("MusicDetails", "Images"))
                 vblMain = MVBoxLayout(self.pnlMain)
                 buttonHBOXs=MHBoxLayout()
@@ -176,6 +169,8 @@ class MusicDetails(MDialog):
                 self.checkMusicTagType()
                 self.show()
                 self.player.play(_filePath, _isPlayNow)
+                if _FocusedInfoNo!=None:
+                    self.infoValues[_FocusedInfoNo].setFocus()
         else:
             Dialogs.showError(translate("MusicDetails", "File Does Not Exist"), 
                     str(translate("MusicDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
@@ -193,31 +188,62 @@ class MusicDetails(MDialog):
     
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
-        self.musicValues = Musics.readMusicFile(self.musicFile)
-        self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.getBaseName(self.musicFile)).decode("utf-8"))  
-        self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)     
-        self.infoLabels["baseNameOfDirectory"] = MLabel(self.labels[0]) 
-        self.infoLabels["baseName"] = MLabel(self.labels[1]) 
-        self.infoLabels["Artist"] = MLabel(self.labels[2]) 
-        self.infoLabels["Title"] = MLabel(self.labels[3]) 
-        self.infoLabels["Album"] = MLabel(self.labels[4]) 
-        self.infoLabels["TrackNum"] = MLabel(self.labels[5]) 
-        self.infoLabels["Year"] = MLabel(self.labels[6]) 
-        self.infoLabels["Genre"] = MLabel(self.labels[7]) 
-        self.infoValues["baseNameOfDirectory"] = MLineEdit(Organizer.emend(self.musicValues["baseNameOfDirectory"], "directory", False).decode("utf-8"))
-        self.infoValues["baseName"] = MLineEdit(Organizer.emend(self.musicValues["baseName"], "file").decode("utf-8"))
-        self.infoValues["Artist"] = MLineEdit(Organizer.emend(self.musicValues["Artist"]).decode("utf-8"))
-        self.infoValues["Title"] = MLineEdit(Organizer.emend(self.musicValues["Title"]).decode("utf-8"))
-        self.infoValues["Album"] = MLineEdit(Organizer.emend(self.musicValues["Album"]).decode("utf-8"))
-        self.infoValues["TrackNum"] = MLineEdit(Organizer.emend(self.musicValues["TrackNum"]).decode("utf-8"))
-        self.infoValues["Year"] = MLineEdit(Organizer.emend(self.musicValues["Year"]).decode("utf-8"))
-        self.infoValues["Genre"] = MLineEdit(Organizer.emend(self.musicValues["Genre"]).decode("utf-8"))
-        self.infoValues["FirstComment"] = MPlainTextEdit(Organizer.emend(self.musicValues["FirstComment"]).decode("utf-8"))
-        self.infoValues["FirstLyrics"] = MPlainTextEdit(Organizer.emend(self.musicValues["FirstLyrics"]).decode("utf-8"))
-        self.infoValues["FirstComment"].setLineWrapMode(MPlainTextEdit.NoWrap)
-        self.infoValues["FirstLyrics"].setLineWrapMode(MPlainTextEdit.NoWrap)
+        self.musicValues = Musics.readMusics(None,self.musicFile)
+        self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.IA.getBaseName(self.musicFile)).decode("utf-8"))  
+        self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)              
+        for infoNo, label in enumerate(self.labels):
+            if self.musicValues[infoNo]=="None" or self.musicValues[infoNo]=="None/None":
+                self.musicValues[infoNo] = ""
+            if _isNew==True and infoNo!=8 and infoNo!=9:
+                self.infoLabels.append(MLabel(label))
+                if infoNo==5 or infoNo==6 or infoNo==7:
+                    self.infoLabels[infoNo].setMaximumWidth(len(label)*6)
+                    self.infoLabels[infoNo].setMinimumWidth(len(label)*6)
+                else:
+                    self.infoLabels[infoNo].setMaximumWidth(105)
+                    self.infoLabels[infoNo].setMinimumWidth(105)
+            if infoNo==8 or infoNo==9:
+                if _isNew==True:
+                    self.infoValues.append(MPlainTextEdit(Organizer.emend(self.musicValues[infoNo]).decode("utf-8")))
+                    self.infoValues[infoNo].setLineWrapMode(MPlainTextEdit.NoWrap)
+                else:
+                    self.infoValues[infoNo].setPlainText(Organizer.emend(self.musicValues[infoNo]).decode("utf-8"))
+            elif infoNo==0:
+                if _isNew==True:
+                    self.infoValues.append(MLineEdit(Organizer.emend(self.musicValues[infoNo], "directory", False).decode("utf-8")))
+                else:
+                    self.infoValues[infoNo].setText(Organizer.emend(self.musicValues[infoNo], "directory", False).decode("utf-8"))
+            elif infoNo==1:
+                newInfo = Organizer.emend(self.musicValues[infoNo], "file")
+                if newInfo.find(".")!=-1:
+                    tempInfo=""
+                    newInfos = newInfo.split(".")
+                    for key,i in enumerate(newInfos):
+                        if key!=len(newInfos)-1:
+                            tempInfo+=i+"."
+                        else:
+                            tempInfo+=self.musicValues[infoNo].split(".")[-1].decode("utf-8").lower()
+                            newInfo = tempInfo
+                if _isNew==True:
+                    self.infoValues.append(MLineEdit(newInfo.decode("utf-8")))
+                else:
+                    self.infoValues[infoNo].setText(newInfo.decode("utf-8"))
+            else:
+                if _isNew==True:
+                    self.infoValues.append(MLineEdit(Organizer.emend(self.musicValues[infoNo]).decode("utf-8")))
+                else:
+                    self.infoValues[infoNo].setText(Organizer.emend(self.musicValues[infoNo]).decode("utf-8"))
+            if infoNo<5:
+                self.infoValues[infoNo].setMinimumWidth(290)
+                self.infoValues[infoNo].setMaximumWidth(290)
+            elif infoNo==5 or infoNo==6:
+                self.infoValues[infoNo].setMaximumWidth(60)
+                self.infoValues[infoNo].setMinimumWidth(60)
+            elif infoNo==7:
+                self.infoValues[infoNo].setMaximumWidth(100)
+                self.infoValues[infoNo].setMinimumWidth(100)
         self.lstwImages.clear()
-        for image in self.musicValues["Images"]:
+        for image in self.musicValues[-1]:
             pixmImage = MPixmap()
             pixmImage.loadFromData(image[3])
             icnImage = QIcon(pixmImage)
@@ -247,19 +273,21 @@ class MusicDetails(MDialog):
             import Records
             Records.setTitle(translate("MusicDetails", "Music File"))
             closeAllImageDialogs()
-            newMusicValues={}
-            newMusicValues["baseNameOfDirectory"] = str(self.infoValues["baseNameOfDirectory"].text())
-            newMusicValues["baseName"] = str(self.infoValues["baseName"].text())
-            newMusicValues["Artist"] = str(self.infoValues["Artist"].text())
-            newMusicValues["Title"] = str(self.infoValues["Title"].text())
-            newMusicValues["Album"] = str(self.infoValues["Album"].text())
-            newMusicValues["TrackNum"] = str(self.infoValues["TrackNum"].text())
-            newMusicValues["Year"] = str(self.infoValues["Year"].text())
-            newMusicValues["Genre"] = str(self.infoValues["Genre"].text())
-            newMusicValues["FirstComment"] = str(self.infoValues["FirstComment"].toPlainText())
-            newMusicValues["FirstLyrics"] = str(self.infoValues["FirstLyrics"].toPlainText())
-            newPath = Musics.writeMusicFile(self.musicValues, newMusicValues)
-            if newPath!=self.musicValues["path"]:
+            newMusicValues=[]
+            for infoNo,info in enumerate(self.infoValues):
+                if infoNo==0:
+                    if str(unicode(info.text()).encode("utf-8")).find(InputOutputs.IA.getDirName(self.musicValues[0]))!=-1:
+                        newMusicValues.append(unicode(info.text()).encode("utf-8"))
+                    else:
+                        newMusicValues.append(InputOutputs.IA.getDirName(self.musicValues[0])+unicode(info.text()).encode("utf-8"))
+                elif infoNo==8 or infoNo==9:
+                    newMusicValues.append(unicode(info.toPlainText()).encode("utf-8"))
+                elif infoNo>9:
+                    pass
+                else:
+                    newMusicValues.append(unicode(info.text()).encode("utf-8"))
+            newPath = Musics.writeMusicFile(self.musicValues,newMusicValues)
+            if newPath!=self.musicValues[0]+"/"+self.musicValues[1]:
                 self.changeFile(newPath)
             from Universals import MainWindow
             MainWindow.FileManager.makeRefresh()
@@ -270,7 +298,7 @@ class MusicDetails(MDialog):
         
     def openImageDetails(self, _index):
         try:
-            ImageDetails(self.musicValues["Images"][_index.row()][3], "data", self.isOpenImageDetailsOnNewWindow.isChecked())
+            ImageDetails(self.musicValues[-1][_index.row()][3], "data", self.isOpenImageDetailsOnNewWindow.isChecked())
         except:
             error = ReportBug.ReportBug()
             error.show()  
@@ -301,18 +329,18 @@ class MusicDetails(MDialog):
     def deleteImage(self):
         if self.lstwImages.currentRow()!=-1:
             closeAllImageDialogs()
-            Musics.writeMusicFile(self.musicValues,False,True,self.musicValues["Images"][self.lstwImages.currentRow()][0],False)
+            Musics.writeMusicFile(self.musicValues,False,True,self.musicValues[-1][self.lstwImages.currentRow()][0],False)
             self.changeFile(self.musicFile)
     
     def saveAsImage(self):
         try:
             if self.lstwImages.currentRow()!=-1:
                 imagePath = MFileDialog.getSaveFileName(self,translate("MusicDetails", "Save As"),
-                                    InputOutputs.getDirName(self.musicValues["path"]), str(translate("MusicDetails", "Images (*.%s)")
-                                        ) %(str(self.musicValues["Images"][self.lstwImages.currentRow()][2]).split("/")[1].decode("utf-8")))
+                                    self.musicValues[0],str(translate("MusicDetails", "Images (*.%s)")
+                                        ) %(str(self.musicValues[-1][self.lstwImages.currentRow()][2]).split("/")[1].decode("utf-8")))
                 if imagePath!="":
-                    sourceFile = os.getenv("TMP")+"/HamsiManager-image-file."+self.musicValues["Images"][self.lstwImages.currentRow()][2].split("/")[1]
-                    InputOutputs.IA.writeToBinaryFile(sourceFile, self.musicValues["Images"][self.lstwImages.currentRow()][3])
+                    sourceFile = os.getenv("TMP")+"/HamsiManager-image-file."+self.musicValues[-1][self.lstwImages.currentRow()][2].split("/")[1]
+                    InputOutputs.IA.writeToBinaryFile(sourceFile, self.musicValues[-1][self.lstwImages.currentRow()][3])
                     InputOutputs.IA.moveOrChange(sourceFile,unicode(imagePath, "utf-8"))
         except:
             error = ReportBug.ReportBug()
@@ -333,7 +361,7 @@ class MusicDetails(MDialog):
     def selectImage(self):
         try:
             imagePath = MFileDialog.getOpenFileName(self,translate("MusicDetails", "Choose Image"),
-                InputOutputs.getDirName(self.musicValues["path"]),(str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
+                self.musicValues[0],(str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
             if imagePath!="":
                 self.leImagePath.setText(imagePath)
         except:
