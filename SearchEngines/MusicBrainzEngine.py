@@ -127,9 +127,9 @@ class Search(MDialog):
                 self.heightValue = 500
         tagsOfSongs = []
         for rowNo in self.rows:
-            tagsOfSongs.append([unicode(Universals.MainWindow.Table.item(rowNo,2).text()).encode("utf-8"),
-                               unicode(Universals.MainWindow.Table.item(rowNo,3).text()).encode("utf-8"),
-                               unicode(Universals.MainWindow.Table.item(rowNo,4).text()).encode("utf-8"), rowNo])
+            tagsOfSongs.append([str(Universals.MainWindow.Table.item(rowNo,2).text()),
+                               str(Universals.MainWindow.Table.item(rowNo,3).text()),
+                               str(Universals.MainWindow.Table.item(rowNo,4).text()), rowNo])
         Universals.startThreadAction()
         for tagsOfSong in tagsOfSongs:
             isContinueThreadAction = Universals.isContinueThreadAction()
@@ -180,9 +180,9 @@ class Search(MDialog):
             if len(titles)!=0:
                 self.emit(SIGNAL("changedProgressBarValue"), "State", 90)
                 for title in titles:
-                    if title[2].decode("utf-8").lower()==_tagsOfSong[1].decode("utf-8").lower():
-                        if title[5].decode("utf-8").lower()==_tagsOfSong[2].decode("utf-8").lower():
-                            if title[7].decode("utf-8").lower()==_tagsOfSong[0].decode("utf-8").lower():
+                    if str(title[2]).lower()==str(_tagsOfSong[1]).lower():
+                        if str(title[5]).lower()==str(_tagsOfSong[2]).lower():
+                            if str(title[7]).lower()==str(_tagsOfSong[0]).lower():
                                 self.trueSongs.append([_tagsOfSong[0], _tagsOfSong[1], _tagsOfSong[2], _tagsOfSong[3], _tagsOfSong[0], _tagsOfSong[1], _tagsOfSong[2]])
                                 return
                 artistNames, albumNames, titleNames=[], [], []
@@ -517,9 +517,9 @@ class Search(MDialog):
                         self.cbTags[-1].setEditable(True)
                         self.cbTags[-1].setMaximumWidth(200)
                         self.cbTags[-1].setMinimumWidth(200)
-                        self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
+                        self.cbTags[-1].setToolTip(trForUI(song[no+4]))
                         for tag in song[no]:
-                            self.cbTags[-1].addItem(tag.decode("utf-8"))
+                            self.cbTags[-1].addItem(trForUI(tag))
                         HBoxs[-1].addWidget(self.cbTags[-1])
             if len(self.falseSongs)>0:
                 HBoxs.append(MHBoxLayout())
@@ -532,9 +532,9 @@ class Search(MDialog):
                         self.cbTags[-1].setEditable(True)
                         self.cbTags[-1].setMaximumWidth(200)
                         self.cbTags[-1].setMinimumWidth(200)
-                        self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
+                        self.cbTags[-1].setToolTip(trForUI(song[no+4]))
                         for tag in song[no]:
-                            self.cbTags[-1].addItem(tag.decode("utf-8"))
+                            self.cbTags[-1].addItem(trForUI(tag))
                         HBoxs[-1].addWidget(self.cbTags[-1])
             if len(self.songsOfAlbum)>0:
                 HBoxs.append(MHBoxLayout())
@@ -547,25 +547,25 @@ class Search(MDialog):
                         self.cbTags[-1].setEditable(True)
                         self.cbTags[-1].setMaximumWidth(200)
                         self.cbTags[-1].setMinimumWidth(200)
-                        self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
+                        self.cbTags[-1].setToolTip(trForUI(song[no+4]))
                         HBoxs[-1].addWidget(self.cbTags[-1])
                         if no==0:
                             for tag in song[no]:
-                                if self.cbTags[-1].findText(tag.decode("utf-8"))==-1:
-                                    self.cbTags[-1].addItem(tag.decode("utf-8"))
+                                if self.cbTags[-1].findText(trForUI(tag))==-1:
+                                    self.cbTags[-1].addItem(trForUI(tag))
                             self.cbTags[-1].addItem(translate("SearchEngines", "All Artists"))
                             MObject.connect(self.cbTags[-1],SIGNAL("currentIndexChanged(int)"),self.artistChanged)
                         elif no==1:
                             for tag in song[no]:
                                 for t in tag:
                                     for bil in t:
-                                        if self.cbTags[-1].findText(bil.decode("utf-8"))==-1:
-                                            self.cbTags[-1].addItem(bil.decode("utf-8"))
+                                        if self.cbTags[-1].findText(trForUI(bil))==-1:
+                                            self.cbTags[-1].addItem(trForUI(bil))
                         elif no==2:
                             for tag in song[no]:
                                 for t in tag:
-                                    if self.cbTags[-1].findText(t.decode("utf-8"))==-1:
-                                        self.cbTags[-1].addItem(t.decode("utf-8"))
+                                    if self.cbTags[-1].findText(trForUI(t))==-1:
+                                        self.cbTags[-1].addItem(trForUI(t))
                             self.cbTags[-1].addItem(translate("SearchEngines", "All Albums"))   
                             MObject.connect(self.cbTags[-1],SIGNAL("currentIndexChanged(int)"),self.albumChanged)
             if len(self.songsOfArtist)>0:
@@ -579,25 +579,25 @@ class Search(MDialog):
                         self.cbTags[-1].setEditable(True)
                         self.cbTags[-1].setMaximumWidth(200)
                         self.cbTags[-1].setMinimumWidth(200)
-                        self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
+                        self.cbTags[-1].setToolTip(trForUI(song[no+4]))
                         HBoxs[-1].addWidget(self.cbTags[-1])
                         if no==0:
                             for tag in song[no]:
-                                if self.cbTags[-1].findText(tag.decode("utf-8"))==-1:
-                                    self.cbTags[-1].addItem(tag.decode("utf-8"))
+                                if self.cbTags[-1].findText(trForUI(tag))==-1:
+                                    self.cbTags[-1].addItem(trForUI(tag))
                             self.cbTags[-1].addItem(translate("SearchEngines", "All Artists"))
                             MObject.connect(self.cbTags[-1],SIGNAL("currentIndexChanged(int)"),self.artistChanged)
                         elif no==1:
                             for tag in song[no]:
                                 for t in tag:
                                     for s in t:
-                                        if self.cbTags[-1].findText(s.decode("utf-8"))==-1:
-                                            self.cbTags[-1].addItem(s.decode("utf-8"))
+                                        if self.cbTags[-1].findText(trForUI(s))==-1:
+                                            self.cbTags[-1].addItem(trForUI(s))
                         elif no==2:
                             for tag in song[no]:
                                 for t in tag:
-                                    if self.cbTags[-1].findText(t.decode("utf-8"))==-1:
-                                        self.cbTags[-1].addItem(t.decode("utf-8"))
+                                    if self.cbTags[-1].findText(trForUI(t))==-1:
+                                        self.cbTags[-1].addItem(trForUI(t))
                             self.cbTags[-1].addItem(translate("SearchEngines", "All Albums"))    
                             MObject.connect(self.cbTags[-1],SIGNAL("currentIndexChanged(int)"),self.albumChanged)
         if len(self.nullSongs)>0:
@@ -622,7 +622,7 @@ class Search(MDialog):
                     self.cbTags[-1].setMaximumWidth(150)
                     self.cbTags[-1].setMinimumWidth(150)
                     for tag in song[no]:
-                        self.cbTags[-1].addItem(tag.decode("utf-8"))
+                        self.cbTags[-1].addItem(trForUI(tag))
                     HBoxs[-1].addWidget(self.cbTags[-1])
         if len(self.incorrectSongs)>0:
             tagNames= [tagNames[0], tagNames[1], tagNames[2], translate("MusicTable", "File Name")]
@@ -641,9 +641,9 @@ class Search(MDialog):
                     self.cbTags[-1].setEditable(True)
                     self.cbTags[-1].setMaximumWidth(150)
                     self.cbTags[-1].setMinimumWidth(150)
-                    self.cbTags[-1].setToolTip(song[no+4].decode("utf-8"))
+                    self.cbTags[-1].setToolTip(trForUI(song[no+4]))
                     for tag in song[no]:
-                        self.cbTags[-1].addItem(tag.decode("utf-8"))
+                        self.cbTags[-1].addItem(trForUI(tag))
                     HBoxs[-1].addWidget(self.cbTags[-1])
         for box in HBoxs:
             self.vblPanel.addLayout(box)
@@ -714,54 +714,54 @@ class Search(MDialog):
         self.parent().createHistoryPoint()
         songs=[]
         for tag in self.trueSongs:
-            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
+            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[3]))).currentText())
+            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[3]))).currentText())
+            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[3]))).currentText())
             songs.append([artist,title,album,tag[3]])   
         for tag in self.falseSongs:
-            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
+            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[3]))).currentText())
+            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[3]))).currentText())
+            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[3]))).currentText())
             songs.append([artist,title,album,tag[3]])
         for tag in self.songsOfAlbum:
-            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
+            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[3]))).currentText())
+            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[3]))).currentText())
+            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[3]))).currentText())
             songs.append([artist,title,album,tag[3]])
         for tag in self.songsOfArtist:
-            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
-            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[3])).decode("utf-8")).currentText()).encode("utf-8")
+            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[3]))).currentText())
+            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[3]))).currentText())
+            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[3]))).currentText())
             songs.append([artist,title,album,tag[3]])
         for tag in self.nullSongs:
-            dosya = unicode(self.findChild(MComboBox, ("File Name"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
-            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
-            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
-            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
+            dosya = str(self.findChild(MComboBox, trForUI("File Name"+str(tag[4]))).currentText())
+            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[4]))).currentText())
+            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[4]))).currentText())
+            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[4]))).currentText())
             songs.append([dosya,artist,title,album,tag[4]])
         for tag in self.incorrectSongs:
-            dosya = unicode(self.findChild(MComboBox, ("File Name"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
-            artist = unicode(self.findChild(MComboBox, ("Artist"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
-            title = unicode(self.findChild(MComboBox, ("Title"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
-            album = unicode(self.findChild(MComboBox, ("Album"+str(tag[4])).decode("utf-8")).currentText()).encode("utf-8")
+            dosya = str(self.findChild(MComboBox, trForUI("File Name"+str(tag[4]))).currentText())
+            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[4]))).currentText())
+            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[4]))).currentText())
+            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[4]))).currentText())
             songs.append([dosya,artist,title,album,tag[4]])
         for song in songs:
             if len(song)==4:
-                if unicode(self.parent().item(song[3],2).text()).encode("utf-8")!=song[0]:
-                    self.parent().setItem(song[3],2,MTableWidgetItem(song[0].decode("utf-8")))
-                if unicode(self.parent().item(song[3],3).text()).encode("utf-8")!=song[1]:
-                    self.parent().setItem(song[3],3,MTableWidgetItem(song[1].decode("utf-8")))
-                if unicode(self.parent().item(song[3],4).text()).encode("utf-8")!=song[2]:
-                    self.parent().setItem(song[3],4,MTableWidgetItem(song[2].decode("utf-8")))
+                if str(self.parent().item(song[3],2).text())!=song[0]:
+                    self.parent().setItem(song[3],2,MTableWidgetItem(trForUI(song[0])))
+                if str(self.parent().item(song[3],3).text())!=song[1]:
+                    self.parent().setItem(song[3],3,MTableWidgetItem(trForUI(song[1])))
+                if str(self.parent().item(song[3],4).text())!=song[2]:
+                    self.parent().setItem(song[3],4,MTableWidgetItem(trForUI(song[2])))
             else:
-                if unicode(self.parent().item(song[4],1).text()).encode("utf-8")!=song[0]:
-                    self.parent().setItem(song[4],2,MTableWidgetItem(song[0].decode("utf-8")))
-                if unicode(self.parent().item(song[4],2).text()).encode("utf-8")!=song[1]:
-                    self.parent().setItem(song[4],2,MTableWidgetItem(song[1].decode("utf-8")))
-                if unicode(self.parent().item(song[4],3).text()).encode("utf-8")!=song[2]:
-                    self.parent().setItem(song[4],3,MTableWidgetItem(song[2].decode("utf-8")))
-                if unicode(self.parent().item(song[4],4).text()).encode("utf-8")!=song[3]:
-                    self.parent().setItem(song[4],4,MTableWidgetItem(song[3].decode("utf-8")))
+                if str(self.parent().item(song[4],1).text())!=song[0]:
+                    self.parent().setItem(song[4],2,MTableWidgetItem(trForUI(song[0])))
+                if str(self.parent().item(song[4],2).text())!=song[1]:
+                    self.parent().setItem(song[4],2,MTableWidgetItem(trForUI(song[1])))
+                if str(self.parent().item(song[4],3).text())!=song[2]:
+                    self.parent().setItem(song[4],3,MTableWidgetItem(trForUI(song[2])))
+                if str(self.parent().item(song[4],4).text())!=song[3]:
+                    self.parent().setItem(song[4],4,MTableWidgetItem(trForUI(song[3])))
         self.close()
 
     def artistChanged(self, _index):
@@ -771,70 +771,70 @@ class Search(MDialog):
             else:
                 self.isArtistImportant = True
             self.isArtistChanged = True
-            rowNo=int(unicode(self.sender().objectName()).encode("utf-8").replace("Artist",""))
+            rowNo=int(str(self.sender().objectName()).replace("Artist",""))
             self.isAlterAlbum=True
             cbTag = self.sender()
             for object in self.cbTags:
-                if unicode(object.objectName()).encode("utf-8")=="Title"+str(rowNo):
+                if str(object.objectName())=="Title"+str(rowNo):
                     object.clear()
                     for song in self.songsOfArtist:
                         if song[3]==rowNo:
                             for x,tag in enumerate(song[1]):
                                 if _index!=self.sender().count()-1:
-                                    if song[0][x]==unicode(cbTag.currentText()).encode("utf-8"):
+                                    if song[0][x]==str(cbTag.currentText()):
                                         for t in tag:
                                             for s in t:
-                                                if object.findText(s.decode("utf-8"))==-1:
-                                                    object.addItem(s.decode("utf-8"))
+                                                if object.findText(trForUI(s))==-1:
+                                                    object.addItem(trForUI(s))
                                 else:
                                     for t in tag:
                                         for s in t:
-                                            if object.findText(s.decode("utf-8"))==-1:
-                                                object.addItem(s.decode("utf-8"))
+                                            if object.findText(trForUI(s))==-1:
+                                                object.addItem(trForUI(s))
                             break
                     for song in self.songsOfAlbum:
                         if song[3]==rowNo:
                             for x,tag in enumerate(song[1]):
                                 if _index!=self.sender().count()-1:
-                                    if song[0][x]==unicode(cbTag.currentText()).encode("utf-8"):
+                                    if song[0][x]==str(cbTag.currentText()):
                                         for t in tag:
                                             for s in t:
-                                                if object.findText(s.decode("utf-8"))==-1:
-                                                    object.addItem(s.decode("utf-8"))
+                                                if object.findText(trForUI(s))==-1:
+                                                    object.addItem(trForUI(s))
                                 else:
                                     for t in tag:
                                         for s in t:
-                                            if object.findText(s.decode("utf-8"))==-1:
-                                                object.addItem(s.decode("utf-8"))
+                                            if object.findText(trForUI(s))==-1:
+                                                object.addItem(trForUI(s))
                             break
-                if unicode(object.objectName()).encode("utf-8")=="Album"+str(rowNo):
+                if str(object.objectName())=="Album"+str(rowNo):
                     object.clear()
                     for song in self.songsOfArtist:
                         if song[3]==rowNo:
                             for x,tag in enumerate(song[2]):
                                 if _index!=cbTag.count()-1:
-                                    if song[0][x]==unicode(cbTag.currentText()).encode("utf-8"):
+                                    if song[0][x]==str(cbTag.currentText()):
                                         for t in tag:
-                                            if object.findText(t.decode("utf-8"))==-1:
-                                                object.addItem(t.decode("utf-8"))
+                                            if object.findText(trForUI(t))==-1:
+                                                object.addItem(trForUI(t))
                                 else:
                                     for t in tag:
-                                        if object.findText(t.decode("utf-8"))==-1:
-                                            object.addItem(t.decode("utf-8"))
+                                        if object.findText(trForUI(t))==-1:
+                                            object.addItem(trForUI(t))
                             object.addItem(translate("SearchEngines", "All Albums"))
                             break
                     for song in self.songsOfAlbum:
                         if song[3]==rowNo:
                             for x,tag in enumerate(song[2]):
                                 if _index!=cbTag.count()-1:
-                                    if song[0][x]==unicode(cbTag.currentText()).encode("utf-8"):
+                                    if song[0][x]==str(cbTag.currentText()):
                                         for t in tag:
-                                            if object.findText(t.decode("utf-8"))==-1:
-                                                object.addItem(t.decode("utf-8"))
+                                            if object.findText(trForUI(t))==-1:
+                                                object.addItem(trForUI(t))
                                 else:
                                     for t in tag:
-                                        if object.findText(t.decode("utf-8"))==-1:
-                                            object.addItem(t.decode("utf-8"))
+                                        if object.findText(trForUI(t))==-1:
+                                            object.addItem(trForUI(t))
                             object.addItem(translate("SearchEngines", "All Albums"))
                             break
             self.isAlterAlbum=False
@@ -847,13 +847,13 @@ class Search(MDialog):
             self.isArtistImportant = True
         if self.isAlterAlbum==False:
             cbTag = self.sender()
-            rowNo=int(unicode(cbTag.objectName()).encode("utf-8").replace("Album",""))
+            rowNo=int(str(cbTag.objectName()).replace("Album",""))
             for object in self.cbTags:
-                if unicode(object.objectName()).encode("utf-8")=="Artist"+str(rowNo):
+                if str(object.objectName())=="Artist"+str(rowNo):
                     artistObject=object
                     break
             for object in self.cbTags:
-                if unicode(object.objectName()).encode("utf-8")=="Title"+str(rowNo):
+                if str(object.objectName())=="Title"+str(rowNo):
                     object.clear()
                     for song in self.songsOfArtist:
                         if song[3]==rowNo:
@@ -861,27 +861,27 @@ class Search(MDialog):
                                 if artistObject.currentIndex() != artistObject.count()-1:
                                     if _index!=cbTag.count()-1:
                                         for t in song[1][artistObject.currentIndex()][cbTag.currentIndex()]:
-                                            if object.findText(t.decode("utf-8"))==-1:
-                                                object.addItem(t.decode("utf-8"))
+                                            if object.findText(trForUI(t))==-1:
+                                                object.addItem(trForUI(t))
                                     else:
                                         for y, tag in enumerate(song[2][artistObject.currentIndex()]):
                                             for t in song[1][artistObject.currentIndex()][y]:
-                                                if object.findText(t.decode("utf-8"))==-1:
-                                                    object.addItem(t.decode("utf-8"))
+                                                if object.findText(trForUI(t))==-1:
+                                                    object.addItem(trForUI(t))
                                 else:
                                     if _index!=cbTag.count()-1:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]): 
                                                 if song[2][x][y]==cbTag.currentText():
                                                     for t in song[1][x][y]:
-                                                        if object.findText(t.decode("utf-8"))==-1:
-                                                            object.addItem(t.decode("utf-8"))
+                                                        if object.findText(trForUI(t))==-1:
+                                                            object.addItem(trForUI(t))
                                     else:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]):
                                                 for t in song[1][x][y]:
-                                                    if object.findText(t.decode("utf-8"))==-1:
-                                                        object.addItem(t.decode("utf-8"))
+                                                    if object.findText(trForUI(t))==-1:
+                                                        object.addItem(trForUI(t))
                             else:
                                 for x, tag in enumerate(song[1]):
                                     for y, tagm in enumerate(tag):
@@ -890,35 +890,35 @@ class Search(MDialog):
                                             artistObject.setCurrentIndex(x)
                                             self.isAlterArtist = True
                                             for t in song[1][x][y]:
-                                                if object.findText(t.decode("utf-8"))==-1:
-                                                    object.addItem(t.decode("utf-8"))
+                                                if object.findText(trForUI(t))==-1:
+                                                    object.addItem(trForUI(t))
                     for song in self.songsOfAlbum:
                         if song[3]==rowNo:
                             if self.isArtistImportant==True and self.isArtistChanged==True:
                                 if artistObject.currentIndex() != artistObject.count()-1:
                                     if _index!=cbTag.count()-1:
                                         for t in song[1][artistObject.currentIndex()][cbTag.currentIndex()]:
-                                            if object.findText(t.decode("utf-8"))==-1:
-                                                object.addItem(t.decode("utf-8"))
+                                            if object.findText(trForUI(t))==-1:
+                                                object.addItem(trForUI(t))
                                     else:
                                         for y, tag in enumerate(song[2][artistObject.currentIndex()]):
                                             for t in song[1][artistObject.currentIndex()][y]:
-                                                if object.findText(t.decode("utf-8"))==-1:
-                                                    object.addItem(t.decode("utf-8"))
+                                                if object.findText(trForUI(t))==-1:
+                                                    object.addItem(trForUI(t))
                                 else:
                                     if _index!=cbTag.count()-1:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]): 
                                                 if song[2][x][y]==cbTag.currentText():
                                                     for t in song[1][x][y]:
-                                                        if object.findText(t.decode("utf-8"))==-1:
-                                                            object.addItem(t.decode("utf-8"))
+                                                        if object.findText(trForUI(t))==-1:
+                                                            object.addItem(trForUI(t))
                                     else:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]):
                                                 for t in song[1][x][y]:
-                                                    if object.findText(t.decode("utf-8"))==-1:
-                                                        object.addItem(t.decode("utf-8"))
+                                                    if object.findText(trForUI(t))==-1:
+                                                        object.addItem(trForUI(t))
                             else:
                                 for x, tag in enumerate(song[1]):
                                     for y, tagm in enumerate(tag):
@@ -927,8 +927,8 @@ class Search(MDialog):
                                             artistObject.setCurrentIndex(x)
                                             self.isAlterArtist = True
                                             for t in song[1][x][y]:
-                                                if object.findText(t.decode("utf-8"))==-1:
-                                                    object.addItem(t.decode("utf-8"))
+                                                if object.findText(trForUI(t))==-1:
+                                                    object.addItem(trForUI(t))
                     break
         if _index == self.sender().count()-1:
             self.isArtistChanged = self.isArtistChangedTemp

@@ -119,7 +119,7 @@ class FileTreeBuilder(MyDialog):
                 outputType = "clipboard"
             if self.cbContentType.currentIndex()==1:
                 contentType = "plainText"
-            InputOutputs.IA.getFileTree(unicode(self.lePath.text(), "utf-8"), 
+            InputOutputs.IA.getFileTree(str(self.lePath.text()), 
                                 self.cbSubDirectoryDeep.currentText(), 
                                 outputType, contentType, "title")
             if self.cbOutputType.currentIndex()==2:

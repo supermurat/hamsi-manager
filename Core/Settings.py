@@ -53,12 +53,12 @@ class Settings():
         keysOfUniversalSettings = ["HamsiManagerPath"]
         values = [Variables.executableHamsiManagerPath]
         for x, keyValue in enumerate(keysOfUniversalSettings):
-            if unicode(mySetting.value(keyValue).toString(), "utf-8") != values[x]:
+            if str(mySetting.value(keyValue).toString()) != values[x]:
                 mySetting.setValue(keyValue,Variables.MQtCore.QVariant(values[x].decode("utf-8")))
                 
     def getUniversalSetting(_key, _defaultValue):
         mySetting = universalSetting()
-        value = unicode(mySetting.value(_key).toString(), "utf-8")
+        value = str(mySetting.value(_key).toString())
         if value == "":
             value = _defaultValue
         return value

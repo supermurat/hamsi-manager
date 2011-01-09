@@ -89,12 +89,12 @@ class Records():
             return False
             
     def clearRecords():
-        InputOutputs.writeToFile(Universals.recordFilePath, unicode(translate("Records", "Hamsi Manager Log File - Time Clear : "), "utf-8") + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+        InputOutputs.writeToFile(Universals.recordFilePath, str(translate("Records", "Hamsi Manager Log File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
         try:dialog.close()
         except:pass
         
     def showInWindow():
-        from MyObjects import MDialog, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject
+        from MyObjects import MDialog, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject, trForUI
         import Organizer
         global dialog
         recordString = read()
@@ -106,7 +106,7 @@ class Records():
             pnlMain = MWidget(dialog)
             vblMain = MVBoxLayout(pnlMain)
             info = MTextEdit()
-            info.setPlainText(Organizer.showWithIncorrectChars(recordString).decode("utf-8"))
+            info.setPlainText(trForUI(recordString))
             info.setWordWrapMode(MTextOption.ManualWrap)
             pbtnClose = MPushButton(translate("Records", "OK"))
             pbtnClear = MPushButton(translate("Records", "Clear"))

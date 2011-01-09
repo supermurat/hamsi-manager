@@ -88,42 +88,42 @@ class Content():
                     tagger = Taggers.getTagger()
                     tagger.loadFileForWrite(_table.currentTableContentValues[rowNo]["path"])
                     if _table.isChangableItem(rowNo, 2, _table.currentTableContentValues[rowNo]["Artist"]):
-                        value = unicode(_table.item(rowNo,2).text(), "utf-8")
+                        value = str(_table.item(rowNo,2).text())
                         tagger.setArtist(value)
                         Records.add(str(translate("MusicTable", "Artist")), str(_table.currentTableContentValues[rowNo]["Artist"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 3, _table.currentTableContentValues[rowNo]["Title"]):
-                        value = unicode(_table.item(rowNo,3).text(), "utf-8")
+                        value = str(_table.item(rowNo,3).text())
                         tagger.setTitle(value)
                         Records.add(str(translate("MusicTable", "Title")), str(_table.currentTableContentValues[rowNo]["Title"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 4, _table.currentTableContentValues[rowNo]["Album"]):
-                        value = unicode(_table.item(rowNo,4).text(), "utf-8")
+                        value = str(_table.item(rowNo,4).text())
                         tagger.setAlbum(value)
                         Records.add(str(translate("MusicTable", "Album")), str(_table.currentTableContentValues[rowNo]["Album"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 5, _table.currentTableContentValues[rowNo]["TrackNum"]):
-                        value = unicode(_table.item(rowNo,5).text(), "utf-8")
+                        value = str(_table.item(rowNo,5).text())
                         tagger.setTrackNum(value, len(_table.currentTableContentValues))
                         Records.add(str(translate("MusicTable", "Track No")), str(_table.currentTableContentValues[rowNo]["TrackNum"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 6, _table.currentTableContentValues[rowNo]["Year"]):
-                        value = unicode(_table.item(rowNo,6).text(), "utf-8")
+                        value = str(_table.item(rowNo,6).text())
                         tagger.setDate(value)
                         Records.add(str(translate("MusicTable", "Year")), str(_table.currentTableContentValues[rowNo]["Year"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 7, _table.currentTableContentValues[rowNo]["Genre"]):
-                        value = unicode(_table.item(rowNo,7).text(), "utf-8")
+                        value = str(_table.item(rowNo,7).text())
                         tagger.setGenre(value)
                         Records.add(str(translate("MusicTable", "Genre")), str(_table.currentTableContentValues[rowNo]["Genre"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 8, _table.currentTableContentValues[rowNo]["FirstComment"]):
-                        value = unicode(_table.item(rowNo,8).text(), "utf-8")
+                        value = str(_table.item(rowNo,8).text())
                         tagger.setFirstComment(value)
                         Records.add(str(translate("MusicTable", "Comment")), str(_table.currentTableContentValues[rowNo]["FirstComment"]), value)
                         _table.changedValueNumber += 1
                     if len(_table.tableColumns)>9 and _table.isChangableItem(rowNo, 9, _table.currentTableContentValues[rowNo]["FirstLyrics"]):
-                        value = unicode(_table.item(rowNo,9).text(), "utf-8")
+                        value = str(_table.item(rowNo,9).text())
                         tagger.setFirstLyrics(value)
                         Records.add(str(translate("MusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo]["FirstLyrics"]), value)
                         _table.changedValueNumber += 1
@@ -252,10 +252,10 @@ class MusicTable():
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
                 if itemNo==0:
-                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), "directory")
+                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                 elif itemNo==1:
-                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), "file")
+                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
                 else:
-                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"))
-                self.Table.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
+                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()))
+                self.Table.item(rowNo,itemNo).setText(trForUI(newString))
                 

@@ -131,7 +131,7 @@ class Hasher(MyDialog):
             self.leHashDigestFile.setEnabled(False)
     
     def hash(self):
-        sourceFile = unicode(self.lePathOfPackage.text(), "utf-8")
+        sourceFile = str(self.lePathOfPackage.text())
         if InputOutputs.IA.checkSource(sourceFile, "file"):
             hashType = str(self.cbHash.currentText())
             if hashType!=None:
@@ -139,9 +139,9 @@ class Hasher(MyDialog):
                 if hashDigestContent!=False:
                     self.teHashDigest.setText(hashDigestContent.decode("utf-8"))
                     if self.cbHashOutput.currentIndex()==1:
-                        if InputOutputs.IA.createHashDigestFile(sourceFile, unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False, hashDigestContent):
+                        if InputOutputs.IA.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
-                                        str(translate("Hasher", "Hash digest writed into %s")) % unicode(self.leHashDigestFile.text(), "utf-8"))
+                                        str(translate("Hasher", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
                         else:
                             Dialogs.showError(translate("Hasher", "Hash Digest File Is Not Created"),
                                         translate("Hasher", "Hash digest file not cteated."))

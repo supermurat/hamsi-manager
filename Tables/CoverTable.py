@@ -188,11 +188,11 @@ class CoverTable():
                     newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseName"], "directory")
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseName"])
                 elif itemNo==2:
-                    newString = Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[rowNo]["currentCover"])
+                    newString = trForUI(self.Table.currentTableContentValues[rowNo]["currentCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
                     item = self.Table.createTableWidgetItem(newString)
                 elif itemNo==3:
-                    newString = Organizer.showWithIncorrectChars(self.Table.currentTableContentValues[rowNo]["sourceCover"])
+                    newString = trForUI(self.Table.currentTableContentValues[rowNo]["sourceCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
                     oldString = self.Table.currentTableContentValues[rowNo]["currentCover"]
                     oldString = oldString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
@@ -214,12 +214,12 @@ class CoverTable():
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
                 if itemNo==0 or itemNo==1:
-                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), "directory")
+                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                 elif itemNo==2 or itemNo==3:
-                    newString = Organizer.showWithIncorrectChars(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"))
+                    newString = trForUI(str(self.Table.item(rowNo,itemNo).text()))
                 else:
-                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), "file")
-                self.Table.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
+                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
+                self.Table.item(rowNo,itemNo).setText(trForUI(newString))
         
     def getFromAmarok(self):
         try:
@@ -234,7 +234,7 @@ class CoverTable():
                     for rowNo in range(self.Table.rowCount()):
                         if self.Table.checkHiddenColumn(3) and self.Table.checkHiddenColumn(4):
                             if _table.isChangableItem(rowNo, 3):
-                                directoryPath = str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+unicode(self.Table.item(rowNo,0).text()).encode("utf-8")+"/"+unicode(self.Table.item(rowNo,1).text()).encode("utf-8")
+                                directoryPath = str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(self.Table.item(rowNo,0).text())+"/"+str(self.Table.item(rowNo,1).text())
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]
                                     self.Table.item(rowNo,3).setText(directoryAndValues["coverPath"][0].replace(directoryPath, "."))

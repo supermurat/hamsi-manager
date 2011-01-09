@@ -152,14 +152,14 @@ class Bars():
             if actionName==translate("MenuBar", "Open State"):
                 import Settings
                 f = MFileDialog.getOpenFileName(Universals.activeWindow(),translate("MenuBar", "Open State"),
-                                    Variables.userDirectoryPath,str(translate("MenuBar", "Application Runner") + " (*.desktop)").decode("utf-8"))
+                                    Variables.userDirectoryPath,trForUI(translate("MenuBar", "Application Runner") + " (*.desktop)"))
                 if f!="":
-                    Settings.openStateOfSettings(unicode(f, "utf-8"))
+                    Settings.openStateOfSettings(str(f))
             elif actionName==translate("MenuBar", "Save State"):
                 import Settings
-                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + " (*.desktop)")
+                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",trForUI(translate("MenuBar", "Application Runner") + " (*.desktop)"))
                 if f!="":
-                    Settings.saveStateOfSettings(unicode(f, "utf-8"))
+                    Settings.saveStateOfSettings(str(f))
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
@@ -423,9 +423,9 @@ class TableToolsBar(MToolBar):
         actgActionGroupReNamerTypes = MActionGroup(self)
         actsFileReNamerTypes = []
         for x, name in enumerate(self.fileReNamerTypeNames):
-            actsFileReNamerTypes.append(MAction(MIcon("Images:"+buttonIcons[x]),name.decode("utf-8"),self))
-            actsFileReNamerTypes[-1].setObjectName(name.decode("utf-8"))
-            actsFileReNamerTypes[x].setToolTip(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name.decode("utf-8")))
+            actsFileReNamerTypes.append(MAction(MIcon("Images:"+buttonIcons[x]),trForUI(name),self))
+            actsFileReNamerTypes[-1].setObjectName(trForUI(name))
+            actsFileReNamerTypes[x].setToolTip(trForUI(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name)))
             actsFileReNamerTypes[x].setCheckable(True)
             actgActionGroupReNamerTypes.addAction(actsFileReNamerTypes[x])
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[x]:
@@ -609,7 +609,7 @@ class MusicOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbMusicTagTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setDefaultWidget(MLabel(translate("MusicOptionsBar", "ID3 Version") + " : ".decode("utf-8")))
+        wactLabel.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "ID3 Version") + " : ")))
         wact = MWidgetAction(_menu)
         wact.setDefaultWidget(self.cbMusicTagTypeForMenu)
         _menu.addAction(wactLabel)
@@ -623,7 +623,7 @@ class SubDirectoryOptionsBar(MToolBar):
         self.setWindowTitle(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         self.setObjectName(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         lblDetails = translate("SubDirectoryOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8"))
+        lblSubDirectoryDeep = MLabel(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : "))
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
@@ -666,10 +666,10 @@ class SubDirectoryOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setObjectName(translate("SubDirectoryOptionsBar", "Label Deep") + " : ".decode("utf-8"))
-        wactLabel.setDefaultWidget(MLabel(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8")))
+        wactLabel.setObjectName(trForUI(translate("SubDirectoryOptionsBar", "Label Deep") + " : "))
+        wactLabel.setDefaultWidget(MLabel(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : ")))
         wact = MWidgetAction(_menu)
-        wact.setObjectName(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8"))
+        wact.setObjectName(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : "))
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)
@@ -682,7 +682,7 @@ class CoverOptionsBar(MToolBar):
         self.setWindowTitle(translate("CoverOptionsBar", "Cover Options"))
         self.setObjectName(translate("CoverOptionsBar", "Cover Options"))
         lblDetails = translate("CoverOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8"))
+        lblSubDirectoryDeep = MLabel(trForUI(translate("CoverOptionsBar", "Deep") + " : "))
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) if x!=0 ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
@@ -726,10 +726,10 @@ class CoverOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.coverDeepChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setObjectName(translate("CoverOptionsBar", "Label Deep") + " : ".decode("utf-8"))
-        wactLabel.setDefaultWidget(MLabel(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8")))
+        wactLabel.setObjectName(trForUI(translate("CoverOptionsBar", "Label Deep") + " : "))
+        wactLabel.setDefaultWidget(MLabel(trForUI(translate("CoverOptionsBar", "Deep") + " : ")))
         wact = MWidgetAction(_menu)
-        wact.setObjectName(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8"))
+        wact.setObjectName(trForUI(translate("CoverOptionsBar", "Deep") + " : "))
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)
@@ -740,7 +740,7 @@ class StatusBar(MStatusBar):
         MStatusBar.__init__(self, _parent)
         import Execute
         if Variables.isRunningAsRoot():
-            lblInfo = MLabel("<span style=\"color: #FF0000\">".decode("utf-8") + translate("StatusBar", "Hamsi Manager running as root")+"</span>".decode("utf-8"))
+            lblInfo = MLabel(trForUI("<span style=\"color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+"</span>"))
             self.addWidget(lblInfo)
         self.isLockedMainForm = False
         self.lblInfo = MLabel("")
@@ -769,7 +769,7 @@ class StatusBar(MStatusBar):
         self.lblImportantInfo.setText("")
     
     def setImportantInfo(self, _info):
-        self.lblImportantInfo.setText("<span style=\"color: #FF0000\">".decode("utf-8") + _info + "</span>".decode("utf-8"))
+        self.lblImportantInfo.setText(trForUI("<span style=\"color: #FF0000\">" + _info + "</span>"))
             
     def fillSelectionInfo(self):
         if Universals.isChangeAll:

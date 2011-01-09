@@ -115,18 +115,18 @@ if RoutineChecks.checkQt4Exist():
             if _pageNo==0:
                 try:f = open(Variables.HamsiManagerDirectory+"/Languages/About_"+defaultLangCode)
                 except:f = open(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
-                lblAbout = MLabel(f.read().decode("utf-8"))
+                lblAbout = MLabel(trForUI(f.read()))
                 lblAbout.setWordWrap(True)
                 HBox.addWidget(lblAbout)
             elif _pageNo==1:
                 try:f = open(Variables.HamsiManagerDirectory+"/Languages/License_"+defaultLangCode)
                 except:f = open(Variables.HamsiManagerDirectory+"/Languages/License_en_GB")
                 teCopying = MTextEdit()
-                teCopying.setPlainText(f.read().decode("utf-8"))
+                teCopying.setPlainText(trForUI(f.read()))
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                self.leInstallationDirectory = MLineEdit(Settings.getUniversalSetting("pathOfInstallationDirectory", (InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/HamsiManager").decode("utf-8")))
+                self.leInstallationDirectory = MLineEdit(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/HamsiManager")).decode("utf-8"))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
                 HBox.addWidget(self.leInstallationDirectory)

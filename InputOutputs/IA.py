@@ -283,18 +283,18 @@ class IA:
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["unneededFiles"]):
                 try:
-                    if isFile(_path+"/"+str(unicode(f,"utf-8"))):
-                        removeFile(_path+"/"+str(unicode(f,"utf-8")))
+                    if isFile(_path+"/"+str(f)):
+                        removeFile(_path+"/"+str(f))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectoriesIfIsEmpty"]):
                 try:
-                    if isDirEmpty(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
-                        removeDir(_path+"/"+str(unicode(f,"utf-8")))
+                    if isDirEmpty(_path+"/"+str(f)) and f.strip()!="":
+                        removeDir(_path+"/"+str(f))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectories"]):
                 try:
-                    if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
-                        removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
+                    if isDir(_path+"/"+str(f)) and f.strip()!="":
+                        removeFileOrDir(_path+"/"+str(f), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
@@ -308,13 +308,13 @@ class IA:
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
                 try:
-                    if isFile(_path+"/"+str(unicode(f,"utf-8"))):
-                        removeFile(_path+"/"+str(unicode(f,"utf-8")))
+                    if isFile(_path+"/"+str(f)):
+                        removeFile(_path+"/"+str(f))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
                 try:
-                    if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
-                        removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
+                    if isDir(_path+"/"+str(f)) and f.strip()!="":
+                        removeFileOrDir(_path+"/"+str(f), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
@@ -611,8 +611,9 @@ class IA:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
                     
     def getFileTree(_path, _subDirectoryDeep=-1, _actionType="return", _formatType="html", _extInfo="no"):
+        from MyObjects import trForUI
         info = InputOutputs.getFileTree(_path, _subDirectoryDeep, _formatType, _extInfo)
-        info = Organizer.showWithIncorrectChars(info)
+        info = trForUI(info)
         if _actionType=="return":
             return info
         elif _actionType=="file":
@@ -632,9 +633,9 @@ class IA:
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
-                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+(" (*."+fileExt).decode("utf-8")+")")
+                                    Variables.userDirectoryPath.decode("utf-8"),trForUI(formatTypeName+" (*."+fileExt+")"))
             if filePath!="":
-                filePath = unicode(filePath, "utf-8")
+                filePath = str(filePath)
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
                 elif _formatType=="plainText" and filePath[-4:]!=".txt":
@@ -653,10 +654,10 @@ class IA:
             if _formatType=="html":
                 QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
-                wvWeb.setHtml(info.decode("utf-8"))
+                wvWeb.setHtml(trForUI(info))
             elif _formatType=="plainText":
                 wvWeb = MTextEdit()
-                wvWeb.setPlainText(info.decode("utf-8"))
+                wvWeb.setPlainText(trForUI(info))
             pbtnClose = MPushButton(translate("Tables", "OK"))
             MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
             vblMain.addWidget(wvWeb)
@@ -670,7 +671,7 @@ class IA:
             dDialog.show()
         elif _actionType=="clipboard":
             from MyObjects import MApplication
-            MApplication.clipboard().setText(info.decode("utf-8"))
+            MApplication.clipboard().setText(trForUI(info))
             
     def fixToSize(_path, _size, _clearFrom="head"):
         return InputOutputs.fixToSize(_path, _size, _clearFrom)

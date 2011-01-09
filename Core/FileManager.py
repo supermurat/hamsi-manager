@@ -353,7 +353,7 @@ class FileManager():
     def setMyCurrentIndex(self, _index):
         try:
             while 1==1:
-                selected = unicode(self.getPathOfIndex(_index), "utf-8")
+                selected = str(self.getPathOfIndex(_index))
                 if InputOutputs.IA.isDir(selected)==True or InputOutputs.IA.isFile(selected)==True:
                     self.makeRefreshOnlyFileList(_index)
                     break
@@ -386,7 +386,7 @@ class BookmarksMenu(MMenu):
         try:
             self.clear()
             for fav in Databases.BookmarksOfDirectories.fetchAll():
-                self.addAction(fav[1].decode("utf-8")).setObjectName(fav[1].decode("utf-8"))
+                self.addAction(trForUI(fav[1])).setObjectName(trForUI(fav[1]))
             self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(translate("BookmarksMenu", "Edit Bookmarks"))
         except:
             error = ReportBug.ReportBug()
@@ -456,7 +456,7 @@ class Bookmarks(MDialog):
         
     def bookmarksChanged(self, _index):
         try:
-            self.pathOfBookmark.setText(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2].decode("utf-8"))
+            self.pathOfBookmark.setText(trForUI(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -496,7 +496,7 @@ class Bookmarks(MDialog):
         try:
             self.cbBookmarks.clear()
             for fav in Databases.BookmarksOfDirectories.fetchAll():
-                self.cbBookmarks.addItem(fav[1].decode("utf-8")) 
+                self.cbBookmarks.addItem(trForUI(fav[1])) 
         except:
             error = ReportBug.ReportBug()
             error.show()

@@ -120,7 +120,7 @@ class UpdateControl(MDialog):
                     self.prgbState.setVisible(False)
                     self.pbtnShowDetails.setEnabled(True)
                     self.lblInfo.setVisible(True)
-                    self.updateInformations=unicode(self.wvWeb.page().mainFrame().toPlainText(), "utf-8").split("\n")
+                    self.updateInformations=str(self.wvWeb.page().mainFrame().toPlainText()).split("\n")
                     if len(self.updateInformations)!=0:
                         if self.updateInformations[0][0]=="V":
                             Universals.setMySetting("remindMeLaterForUpdate", "-1")
@@ -142,17 +142,15 @@ class UpdateControl(MDialog):
                                 self.details.setText(str(translate("UpdateControl", "Version %s is available. Please download and install the new release.<br>"+
                                                       "%s For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a><br>You can download from <a href='%s' target='_blank'>Hamsi Manager %s</a>")) % (self.updateInformations[0] + self.updateInformations[3], details, self.updateInformations[2], self.updateInformations[1], self.updateInformations[0]))
                             elif lastVersion < Variables.intversion:
-                                self.lblInfo.setText(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>"+
-                                                    "For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[0], self.updateInformations[2]))
+                                self.lblInfo.setText(trForUI(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[0], self.updateInformations[2])))
                                 self.pbtnDownloadAndInstall.setVisible(True)
-                                self.pbtnDownloadAndInstall.setText(self.pbtnDownloadAndInstall.text() + " (!)".decode("utf-8"))
+                                self.pbtnDownloadAndInstall.setText(trForUI(self.pbtnDownloadAndInstall.text() + " (!)"))
                                 self.pbtnRemindMeLater.setVisible(True)
                                 self.cbRemindMeLater.setVisible(True)
                                 details = ""
                                 for detail in self.updateInformations[4:]:
                                     details += detail+"<br>"
-                                self.details.setText(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>If you want a more accurate version, please download and install this version.<br>"+
-                                                      "%s For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a><br>You can download from <a href='%s' target='_blank'>Hamsi Manager %s</a>")) % (self.updateInformations[0] + self.updateInformations[3], details, self.updateInformations[2], self.updateInformations[1], self.updateInformations[0]))
+                                self.details.setText(trForUI(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>If you want a more accurate version, please download and install this version.<br>%s For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a><br>You can download from <a href='%s' target='_blank'>Hamsi Manager %s</a>")) % (self.updateInformations[0] + self.updateInformations[3], details, self.updateInformations[2], self.updateInformations[1], self.updateInformations[0])))
                             else:
                                 self.details.setText(str(translate("UpdateControl", "For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a>"))%(self.updateInformations[2])) 
                                 self.lblInfo.setText(translate("UpdateControl", "You are already using the latest release."))
