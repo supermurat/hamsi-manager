@@ -105,6 +105,10 @@ def trForUI(_s):
     except:
         return _s.decode("utf-8", "ignore")
     
+def trForM(_s):
+    _s = str(_s)
+    return _s.decode("utf-8")
+    
 def getMyObject(_objectName):
     if Variables.MyObjectName=="PySide":
         exec ("from PySide import " + _objectName + " as MyObject")

@@ -394,6 +394,7 @@ class Organizer:
                     Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(unicode(myString).title()))
                     
     def clearTable(_SpecialTools):
+        from MyObjects import trForUI
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
         if _SpecialTools.clear.columns.currentIndex()==0:
@@ -443,7 +444,7 @@ class Organizer:
                         myString += newString[informationSectionX:informationSectionY]
                         myString += clear(cbClearType, newString[informationSectionY:], 
                                                 oldString, isCaseSensitive, isRegExp)
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(myString.decode("utf-8"))
+                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
     
     def clear(_cbClearType, _oldString="", _searchString="", _isCaseSensitive=True, _isRegExp=False):
         from MyObjects import translate
@@ -511,6 +512,7 @@ class Organizer:
         return newString
         
     def correctCaseSensitiveTable(_SpecialTools):
+        from MyObjects import trForUI
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
         searchStrings = str(_SpecialTools.characterState.leSearch.text()).split(";")
@@ -553,7 +555,7 @@ class Organizer:
                         myString = correctCaseSensitive(newString[:informationSectionX], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
                         myString += newString[informationSectionX:informationSectionY]
                         myString += correctCaseSensitive(newString[informationSectionY:], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(myString.decode("utf-8"))
+                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
             
             
             

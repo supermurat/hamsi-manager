@@ -28,7 +28,7 @@ class Settings():
     global getSettings, setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting
     
     def getSettings(_settingsFilePath):
-        return Variables.MQtCore.QSettings(str(_settingsFilePath).decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
+        return Variables.MQtCore.QSettings(Universals.trForM(_settingsFilePath) ,Variables.MQtCore.QSettings.IniFormat)
         
     def setting():
         return getSettings(Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings)
@@ -54,7 +54,7 @@ class Settings():
         values = [Variables.executableHamsiManagerPath]
         for x, keyValue in enumerate(keysOfUniversalSettings):
             if str(mySetting.value(keyValue).toString()) != values[x]:
-                mySetting.setValue(keyValue,Variables.MQtCore.QVariant(values[x].decode("utf-8")))
+                mySetting.setValue(keyValue,Variables.MQtCore.QVariant(Universals.trForM(values[x])))
                 
     def getUniversalSetting(_key, _defaultValue):
         mySetting = universalSetting()
@@ -65,15 +65,15 @@ class Settings():
     
     def setUniversalSetting(_key, _value):
         mySetting = universalSetting()
-        mySetting.setValue(_key, Variables.MQtCore.QVariant(_value.decode("utf-8")))
+        mySetting.setValue(_key, Variables.MQtCore.QVariant(Universals.trForM(_value)))
 
     def reFillSettings(_makeBackUp=False):
         if _makeBackUp==True:
             makeBackUp("Settings")
-        mySetting = Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings).decode("utf-8"), Variables.MQtCore.QSettings.IniFormat)
+        mySetting = Variables.MQtCore.QSettings(Universals.trForM(Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings), Variables.MQtCore.QSettings.IniFormat)
         defaultValues = Variables.getDefaultValues()
         for keyValue in Variables.keysOfSettings:
-            mySetting.setValue(keyValue,Variables.MQtCore.QVariant(defaultValues[keyValue].decode("utf-8")))
+            mySetting.setValue(keyValue,Variables.MQtCore.QVariant(Universals.trForM(defaultValues[keyValue])))
     
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
         if _valueTypesAndValue==None:

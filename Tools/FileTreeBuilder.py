@@ -57,7 +57,7 @@ class FileTreeBuilder(MyDialog):
         self.cbOutputType.setCurrentIndex(1)
         pbtnBuild = MPushButton(translate("FileTreeBuilder", "Build"))
         pbtnClose = MPushButton(translate("FileTreeBuilder", "Close"))
-        self.lePath = MLineEdit(_directory.decode("utf-8"))
+        self.lePath = MLineEdit(trForM(_directory))
         pbtnSelectPath = MPushButton(translate("FileTreeBuilder", "Browse"))
         self.connect(pbtnSelectPath,SIGNAL("clicked()"),self.selectPath)
         self.connect(pbtnBuild,SIGNAL("clicked()"), self.build)

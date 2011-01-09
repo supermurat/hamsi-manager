@@ -49,10 +49,10 @@ class Hasher(MyDialog):
         self.cbHash.addItems(Variables.getHashTypes())
         self.cbHashOutput = MComboBox()
         self.cbHashOutput.addItems([translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")])
-        self.leHashDigestFile = MLineEdit(_file.decode("utf-8"))
+        self.leHashDigestFile = MLineEdit(trForM(_file))
         self.pbtnHash = MPushButton(translate("Hasher", "Hash"))
         self.pbtnClose = MPushButton(translate("Hasher", "Close"))
-        self.lePathOfPackage = MLineEdit(_file.decode("utf-8"))
+        self.lePathOfPackage = MLineEdit(trForM(_file))
         self.pbtnHash.setToolTip(translate("Hasher", "Hash the selected file"))
         self.pbtnSelectProjectPath = MPushButton(translate("Hasher", "Browse"))
         self.pbtnSelectPackagePath = MPushButton(translate("Hasher", "Browse"))
@@ -137,7 +137,7 @@ class Hasher(MyDialog):
             if hashType!=None:
                 hashDigestContent = InputOutputs.IA.getHashDigest(sourceFile, hashType)
                 if hashDigestContent!=False:
-                    self.teHashDigest.setText(hashDigestContent.decode("utf-8"))
+                    self.teHashDigest.setText(trForM(hashDigestContent))
                     if self.cbHashOutput.currentIndex()==1:
                         if InputOutputs.IA.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
@@ -146,7 +146,7 @@ class Hasher(MyDialog):
                             Dialogs.showError(translate("Hasher", "Hash Digest File Is Not Created"),
                                         translate("Hasher", "Hash digest file not cteated."))
                     elif self.cbHashOutput.currentIndex()==2:
-                            MApplication.clipboard().setText(hashDigestContent.decode("utf-8"))
+                            MApplication.clipboard().setText(trForM(hashDigestContent))
                             Dialogs.show(translate("Hasher", "Hash Digest Copied To Clipboard"),
                                         str(translate("Hasher", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:

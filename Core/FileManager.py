@@ -62,7 +62,7 @@ class FileManager():
         self.lstvFileManager = MListView()
         self.trvFileManager.setModel(self.dirModel)
         self.lstvFileManager.setModel(self.dirModel)
-        self.currentDirectory = InputOutputs.IA.getRealDirName(Universals.MySettings["lastDirectory"]).decode("utf-8")
+        self.currentDirectory = trForM(InputOutputs.IA.getRealDirName(Universals.MySettings["lastDirectory"]))
         if InputOutputs.IA.isDir(str(self.currentDirectory))==False:
             self.currentDirectory = MDir.homePath()
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndex)
@@ -221,7 +221,7 @@ class FileManager():
                         self.future = []
                         self.history.append(self.currentDirectory)
                     if _path[-1]=="/": _path = _path[:-1]
-                    self.currentDirectory = _path.decode("utf-8")
+                    self.currentDirectory = trForM(_path)
                     if Universals.isActivePyKDE4==True:
                         self.dirLister.openUrl(MUrl(self.currentDirectory))
                         self.isGoToFromUrlNavigator = False
@@ -289,7 +289,7 @@ class FileManager():
 
     def goUp(self):
         try:
-            self.goTo(InputOutputs.IA.getDirName(self.currentDirectory).decode("utf-8"))
+            self.goTo(trForM(InputOutputs.IA.getDirName(self.currentDirectory)))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -401,7 +401,7 @@ class BookmarksMenu(MMenu):
             for info in Databases.BookmarksOfDirectories.fetchAll():
                 if info[1]==str(_action.objectName()):
                     if InputOutputs.IA.isDir(str(info[2]))==True:
-                        Universals.MainWindow.FileManager.goTo(info[2].decode("utf-8"))
+                        Universals.MainWindow.FileManager.goTo(trForM(info[2]))
                         return
                     else:
                         answer = Dialogs.ask(translate("BookmarksMenu", "Cannot Find Folder"), 

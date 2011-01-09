@@ -298,12 +298,7 @@ def checkWindowMode(_isCheck=False):
             Universals.setMySetting("isShowWindowModeSuggestion", False)
      
 def checkAfterCloseProccess():
-    import OldAppName, Records
-    if OldAppName.checkOldAppNameAndSettings():
-        OldAppName.checkAndGetPlugins()
-        OldAppName.clearOldAppNameAndSettings()
-    if OldAppName.checkOldAppNameInSystem():
-        OldAppName.checkAndGetOldAppNameInSystem()
+    import Records
     Records.saveAllRecords()
     Records.checkSize()
     
@@ -347,7 +342,7 @@ def checkQt4Exist():
             HamsiManagerApp=qt.QApplication(sys.argv)
             panel = qt.QWidget()
             panel.vblMain = qt.QVBoxLayout(panel)
-            lblInfo = qt.QLabel("<br><b>PyQt4 or PySide is not installed:</b><br>You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager.".decode("utf-8"),panel)
+            lblInfo = qt.QLabel(trForM("<br><b>PyQt4 or PySide is not installed:</b><br>You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager."),panel)
             pbtnClose = qt.QPushButton("OK",panel)
             panel.connect(pbtnClose,SIGNAL("clicked()"),HamsiManagerApp.quit)
             hbox0 = qt.QHBoxLayout()

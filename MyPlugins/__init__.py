@@ -62,7 +62,7 @@ class MyPlugins(MDialog):
         for plugin in self.myPluginsNames:
             exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
             if isInstallable():
-                installedVersion = Settings.getUniversalSetting(pluginName.decode("utf-8"), "")
+                installedVersion = Settings.getUniversalSetting(trForM(pluginName), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
                 elif installedVersion != pluginVersion:
@@ -100,7 +100,7 @@ class MyPlugins(MDialog):
         else:
             isInstalled = installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(pluginName.decode("utf-8"), str(pluginVersion))
+            Settings.setUniversalSetting(trForM(pluginName), str(pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginName))
@@ -144,7 +144,7 @@ class MyPluginsForSystem(MWidget):
         for plugin in self.myPluginsNames:
             exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
             if isInstallable():
-                installedVersion = Settings.getUniversalSetting(pluginName.decode("utf-8"), "")
+                installedVersion = Settings.getUniversalSetting(trForM(pluginName), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
                 elif installedVersion != pluginVersion:
@@ -182,7 +182,7 @@ class MyPluginsForSystem(MWidget):
         else:
             isInstalled = installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(pluginName.decode("utf-8"), str(pluginVersion))
+            Settings.setUniversalSetting(trForM(pluginName), str(pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginName))
