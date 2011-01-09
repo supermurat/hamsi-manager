@@ -254,7 +254,7 @@ class ReportBug(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
-                    Settings.setting().setValue("lastDirectory", MVariant(Variables.userDirectoryPath.decode("utf-8")))
+                    Settings.setting().setValue("lastDirectory", MVariant(trForM(Variables.userDirectoryPath)))
                 elif answer==translate("ReportBug", "Settings"):
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):
@@ -329,7 +329,7 @@ class ReportBug(MDialog):
         try:self.wvWeb.setHtml(trForUI(htmlString))
         except:
             self.teErrorDetails.setVisible(False)   
-            self.wvWeb.setUrl(MUrl(self.pathOfReportFile.decode("utf-8")))
+            self.wvWeb.setUrl(MUrl(trForM(self.pathOfReportFile)))
         self.isLoading=True
     
     def errorDetailsChanged(self):
@@ -359,7 +359,7 @@ class ReportBug(MDialog):
     
     def showDetailsPage(self):
         self.teErrorDetails.setVisible(False)   
-        self.wvWeb.setUrl(MUrl(self.pathOfReportFile.decode("utf-8")))
+        self.wvWeb.setUrl(MUrl(trForM(self.pathOfReportFile)))
         
     def checkUpdate(self):
         import UpdateControl

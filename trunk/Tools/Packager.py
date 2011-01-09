@@ -53,13 +53,13 @@ class Packager(MyDialog):
         self.cbHash.addItems([translate("Packager", "No Hash")] + Variables.getHashTypes())
         self.cbHashOutput = MComboBox()
         self.cbHashOutput.addItems([translate("Packager", "File"), translate("Packager", "Clipboard")])
-        self.leHashDigestFile = MLineEdit(_directory.decode("utf-8"))
+        self.leHashDigestFile = MLineEdit(trForM(_directory))
         self.pbtnClearAndPack = MPushButton(translate("Packager", "Clear And Pack"))
         self.pbtnClear = MPushButton(translate("Packager", "Clear"))
         self.pbtnPack = MPushButton(translate("Packager", "Pack"))
         self.pbtnClose = MPushButton(translate("Packager", "Close"))
-        self.lePathOfProject = MLineEdit(_directory.decode("utf-8"))
-        self.lePathOfPackage = MLineEdit(_directory.decode("utf-8"))
+        self.lePathOfProject = MLineEdit(trForM(_directory))
+        self.lePathOfPackage = MLineEdit(trForM(_directory))
         self.pbtnClearAndPack.setToolTip(translate("Packager", "Do not will cleared directory you selected but unnecessary files and directories package will not."))
         self.pbtnClear.setToolTip(translate("Packager", "Directory you selected will is cleared"))
         self.pbtnPack.setToolTip(translate("Packager", "Directory you selected will is packed. (Do not will Cleared)"))
@@ -189,7 +189,7 @@ class Packager(MyDialog):
             else:
                 hashDigestContent = InputOutputs.IA.getHashDigest(str(self.lePathOfPackage.text()), hashType)
                 if hashDigestContent!=False:
-                    MApplication.clipboard().setText(hashDigestContent.decode("utf-8"))
+                    MApplication.clipboard().setText(trForM(hashDigestContent))
                     Dialogs.show(translate("Packager", "Hash Digest Copied To Clipboard"),
                                 str(translate("Packager", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:

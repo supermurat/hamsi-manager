@@ -41,9 +41,6 @@ if RoutineChecks.checkQt4Exist():
         from MyObjects import *
         Universals.printForDevelopers("Before InputOutputs")
         import InputOutputs
-        import OldAppName
-        if OldAppName.checkOldAppNameAndSettings():
-            OldAppName.getSettingsFromOldNameAndSettings()
         if Universals.isActivePyKDE4==True:
             Universals.printForDevelopers("ActivePyKDE4")
             appName     = "HamsiManager"

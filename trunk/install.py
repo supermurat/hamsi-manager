@@ -40,14 +40,14 @@ if RoutineChecks.checkQt4Exist():
     import Execute
     defaultLangCode = str(MLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList((Variables.HamsiManagerDirectory+"/Themes/Default/Images/").decode("utf-8")))
+    MDir.setSearchPaths("Images", MStringList(trForM(Variables.HamsiManagerDirectory+"/Themes/Default/Images/")))
     StyleFile = open(Variables.HamsiManagerDirectory+"/Themes/Default/Style.qss") 
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
-    if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/" + str("HamsiManagerWithQt_"+defaultLangCode+".qm")):
-            languageFile.load((Variables.HamsiManagerDirectory+"/Languages/" + str("HamsiManagerWithQt_"+defaultLangCode+".qm")).decode("utf-8"))
-    elif InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/" + str("HamsiManager_"+defaultLangCode+".qm")):
-            languageFile.load((Variables.HamsiManagerDirectory+"/Languages/" + str("HamsiManager_"+defaultLangCode+".qm")).decode("utf-8"))
+    if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+defaultLangCode+".qm"):
+            languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+defaultLangCode+".qm"))
+    elif InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+defaultLangCode+".qm"):
+            languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+defaultLangCode+".qm"))
     HamsiManagerApp.installTranslator(languageFile)
     HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
     HamsiManagerApp.setApplicationName("InstallHamsiManager")
@@ -126,7 +126,7 @@ if RoutineChecks.checkQt4Exist():
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                self.leInstallationDirectory = MLineEdit(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/HamsiManager")).decode("utf-8"))
+                self.leInstallationDirectory = MLineEdit(trForM(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/HamsiManager"))))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
                 HBox.addWidget(self.leInstallationDirectory)
@@ -149,7 +149,7 @@ if RoutineChecks.checkQt4Exist():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(MApplication.translate("Install", "Executable Link Path : "))
-                    self.leExecutableLink = MLineEdit(Settings.getUniversalSetting("pathOfExecutableHamsi", "/usr/bin/hamsi").decode("utf-8"))
+                    self.leExecutableLink = MLineEdit(trForM(Settings.getUniversalSetting("pathOfExecutableHamsi", "/usr/bin/hamsi")))
                     self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
                     HBox1 = MHBoxLayout()
