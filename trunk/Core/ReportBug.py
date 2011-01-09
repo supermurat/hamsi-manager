@@ -211,7 +211,7 @@ class ReportBug(MDialog):
         self.createErrorPage(errorDetails)
         self.connect(self.wvWeb,SIGNAL("loadProgress(int)"),self.loading)
         try:
-            self.teErrorDetails.setHtml(errorDetails.replace("<hr>", "").decode("utf-8"))
+            self.teErrorDetails.setHtml(trForUI(errorDetails.replace("<hr>", "")))
         except:
             self.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>To see the details, please click on the \"Show details file\" button."))
             self.teErrorDetails.setEnabled(False)
@@ -326,14 +326,14 @@ class ReportBug(MDialog):
                     if encodedType=="":
                         errorDetails = ""
         htmlString = htmlString.replace("~ERRORDETAILS~", errorDetails).replace("~ADDITIONALDETAILS~", str(translate("ReportBug", "<b>(Is Encoded With %s.)</b>")) % (encodedType))
-        try:self.wvWeb.setHtml(htmlString.decode("utf-8"))
+        try:self.wvWeb.setHtml(trForUI(htmlString))
         except:
             self.teErrorDetails.setVisible(False)   
             self.wvWeb.setUrl(MUrl(self.pathOfReportFile.decode("utf-8")))
         self.isLoading=True
     
     def errorDetailsChanged(self):
-        self.createErrorPage(unicode(self.teErrorDetails.toHtml(), "utf-8"))
+        self.createErrorPage(str(self.teErrorDetails.toHtml()))
         pass
     
     def loading(self, _value):

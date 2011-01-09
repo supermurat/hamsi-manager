@@ -179,7 +179,7 @@ class MusicDetails(MDialog):
         else:
             Dialogs.showError(translate("MusicDetails", "File Does Not Exist"), 
                     str(translate("MusicDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
-                        ) % Organizer.getLink(Organizer.showWithIncorrectChars(_filePath)))
+                        ) % Organizer.getLink(trForUI(_filePath)))
             from Universals import MainWindow
             MainWindow.FileManager.makeRefresh()
     
@@ -194,7 +194,7 @@ class MusicDetails(MDialog):
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
         self.musicValues = Musics.readMusicFile(self.musicFile)
-        self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.getBaseName(self.musicFile)).decode("utf-8"))  
+        self.setWindowTitle(trForUI(InputOutputs.getBaseName(self.musicFile)))  
         self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)     
         self.infoLabels["baseNameOfDirectory"] = MLabel(self.labels[0]) 
         self.infoLabels["baseName"] = MLabel(self.labels[1]) 
@@ -204,16 +204,16 @@ class MusicDetails(MDialog):
         self.infoLabels["TrackNum"] = MLabel(self.labels[5]) 
         self.infoLabels["Year"] = MLabel(self.labels[6]) 
         self.infoLabels["Genre"] = MLabel(self.labels[7]) 
-        self.infoValues["baseNameOfDirectory"] = MLineEdit(Organizer.emend(self.musicValues["baseNameOfDirectory"], "directory", False).decode("utf-8"))
-        self.infoValues["baseName"] = MLineEdit(Organizer.emend(self.musicValues["baseName"], "file").decode("utf-8"))
-        self.infoValues["Artist"] = MLineEdit(Organizer.emend(self.musicValues["Artist"]).decode("utf-8"))
-        self.infoValues["Title"] = MLineEdit(Organizer.emend(self.musicValues["Title"]).decode("utf-8"))
-        self.infoValues["Album"] = MLineEdit(Organizer.emend(self.musicValues["Album"]).decode("utf-8"))
-        self.infoValues["TrackNum"] = MLineEdit(Organizer.emend(self.musicValues["TrackNum"]).decode("utf-8"))
-        self.infoValues["Year"] = MLineEdit(Organizer.emend(self.musicValues["Year"]).decode("utf-8"))
-        self.infoValues["Genre"] = MLineEdit(Organizer.emend(self.musicValues["Genre"]).decode("utf-8"))
-        self.infoValues["FirstComment"] = MPlainTextEdit(Organizer.emend(self.musicValues["FirstComment"]).decode("utf-8"))
-        self.infoValues["FirstLyrics"] = MPlainTextEdit(Organizer.emend(self.musicValues["FirstLyrics"]).decode("utf-8"))
+        self.infoValues["baseNameOfDirectory"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["baseNameOfDirectory"], "directory", False)))
+        self.infoValues["baseName"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["baseName"], "file")))
+        self.infoValues["Artist"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["Artist"])))
+        self.infoValues["Title"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["Title"])))
+        self.infoValues["Album"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["Album"])))
+        self.infoValues["TrackNum"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["TrackNum"])))
+        self.infoValues["Year"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["Year"])))
+        self.infoValues["Genre"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["Genre"])))
+        self.infoValues["FirstComment"] = MPlainTextEdit(trForUI(Organizer.emend(self.musicValues["FirstComment"])))
+        self.infoValues["FirstLyrics"] = MPlainTextEdit(trForUI(Organizer.emend(self.musicValues["FirstLyrics"])))
         self.infoValues["FirstComment"].setLineWrapMode(MPlainTextEdit.NoWrap)
         self.infoValues["FirstLyrics"].setLineWrapMode(MPlainTextEdit.NoWrap)
         self.lstwImages.clear()
@@ -290,13 +290,13 @@ class MusicDetails(MDialog):
         else:
             if InputOutputs.IA.isFile(self.leImagePath.text())==True:
                 closeAllImageDialogs()
-                Musics.writeMusicFile(self.musicValues,False,True,self.cbImageType.currentIndex(),str(unicode(self.leImagePath.text()).encode("utf-8")))
+                Musics.writeMusicFile(self.musicValues,False,True,self.cbImageType.currentIndex(),str(str(self.leImagePath.text())))
                 self.changeFile(self.musicFile)
                 self.cancelAddImage()
             else:
                 Dialogs.showError(translate("MusicDetails", "Image Does Not Exist"),
                     str(translate("MusicDetails", "\"%s\" does not exist.")
-                        ) % Organizer.getLink(Organizer.showWithIncorrectChars(str(unicode(self.leImagePath.text()).encode("utf-8")))))
+                        ) % Organizer.getLink(trForUI(self.leImagePath.text())))
     
     def deleteImage(self):
         if self.lstwImages.currentRow()!=-1:
@@ -308,12 +308,11 @@ class MusicDetails(MDialog):
         try:
             if self.lstwImages.currentRow()!=-1:
                 imagePath = MFileDialog.getSaveFileName(self,translate("MusicDetails", "Save As"),
-                                    InputOutputs.getDirName(self.musicValues["path"]), str(translate("MusicDetails", "Images (*.%s)")
-                                        ) %(str(self.musicValues["Images"][self.lstwImages.currentRow()][2]).split("/")[1].decode("utf-8")))
+                                    InputOutputs.getDirName(self.musicValues["path"]), trForUI(str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["Images"][self.lstwImages.currentRow()][2]).split("/")[1])))
                 if imagePath!="":
                     sourceFile = os.getenv("TMP")+"/HamsiManager-image-file."+self.musicValues["Images"][self.lstwImages.currentRow()][2].split("/")[1]
                     InputOutputs.IA.writeToBinaryFile(sourceFile, self.musicValues["Images"][self.lstwImages.currentRow()][3])
-                    InputOutputs.IA.moveOrChange(sourceFile,unicode(imagePath, "utf-8"))
+                    InputOutputs.IA.moveOrChange(sourceFile, str(imagePath))
         except:
             error = ReportBug.ReportBug()
             error.show()  
@@ -333,7 +332,7 @@ class MusicDetails(MDialog):
     def selectImage(self):
         try:
             imagePath = MFileDialog.getOpenFileName(self,translate("MusicDetails", "Choose Image"),
-                InputOutputs.getDirName(self.musicValues["path"]),(str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
+                InputOutputs.getDirName(self.musicValues["path"]),trForUI(str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG))
             if imagePath!="":
                 self.leImagePath.setText(imagePath)
         except:

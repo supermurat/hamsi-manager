@@ -69,7 +69,7 @@ class MyPlugins(MDialog):
                     details = translate("MyPlugins", "Have A New Version")
                 else:
                     details = translate("MyPlugins", "Installed")
-                self.lstwPluginList.addItem(pluginName.decode("utf-8") + "\n\t" + details)
+                self.lstwPluginList.addItem(trForUI(pluginName) + "\n\t" + details)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
             self.pbtnInstall.setEnabled(False)
@@ -120,7 +120,7 @@ class MyPluginsForSystem(MWidget):
     
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        lblHeader = MLabel("<b>".decode("utf-8") + translate("MyPlugins", "My Plug-ins") + "</b>".decode("utf-8"))
+        lblHeader = MLabel(trForUI("<b>" + translate("MyPlugins", "My Plug-ins") + "</b>"))
         lblNote = MLabel(translate("MyPlugins", "You can manage plugins in your system"))
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))
@@ -151,7 +151,7 @@ class MyPluginsForSystem(MWidget):
                     details = translate("MyPlugins", "Have A New Version")
                 else:
                     details = translate("MyPlugins", "Installed")
-                self.lstwPluginList.addItem(pluginName.decode("utf-8") + "\n\t" + details)
+                self.lstwPluginList.addItem(trForUI(pluginName) + "\n\t" + details)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
             self.pbtnInstall.setEnabled(False)

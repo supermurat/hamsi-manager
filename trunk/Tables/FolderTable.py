@@ -141,8 +141,8 @@ class FolderTable():
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
                 if itemNo==0:
-                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), "directory")
+                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                 else:
-                    newString = Organizer.emend(unicode(self.Table.item(rowNo,itemNo).text(),"utf-8"), InputOutputs.IA.getObjectType(self.Table.currentTableContentValues[rowNo]["path"]))
-                self.Table.item(rowNo,itemNo).setText(str(newString).decode("utf-8"))
+                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), InputOutputs.IA.getObjectType(self.Table.currentTableContentValues[rowNo]["path"]))
+                self.Table.item(rowNo,itemNo).setText(trForUI(newString))
           

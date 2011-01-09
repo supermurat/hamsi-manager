@@ -257,17 +257,17 @@ class SpecialTools(MWidget):
             self.reFillCompleters()
             Universals.MainWindow.Table.createHistoryPoint()
             if self.tabwTabs.currentIndex()==0:
-                if Organizer.whatDoesSpecialCommandDo(unicode(self.specialActions.leSplitPointer.text()).encode("utf-8"),
+                if Organizer.whatDoesSpecialCommandDo(str(self.specialActions.leSplitPointer.text()),
                                             self.specialActions.whereIsSplitPointer,
                                             self.specialActions.actionCommand, 
                                             True)==True:
-                    Organizer.applySpecialCommand(unicode(self.specialActions.leSplitPointer.text()).encode("utf-8"),
+                    Organizer.applySpecialCommand(str(self.specialActions.leSplitPointer.text()),
                                 self.specialActions.whereIsSplitPointer,
                                 self.specialActions.actionCommand, self)
             elif self.tabwTabs.currentIndex()==1:
-                Organizer.searchAndReplaceTable(unicode(self.searchAndReplace.leSearch.text()).encode("utf-8"),unicode(self.searchAndReplace.leReplace.text()).encode("utf-8"), self)
+                Organizer.searchAndReplaceTable(str(self.searchAndReplace.leSearch.text()),unicode(self.searchAndReplace.leReplace.text()).encode("utf-8"), self)
             elif self.tabwTabs.currentIndex()==2:
-                Organizer.fillTable(self.fill.columns.currentText(), self, unicode(self.fill.leFill.text()).encode("utf-8"))
+                Organizer.fillTable(self.fill.columns.currentText(), self, str(self.fill.leFill.text()))
             elif self.tabwTabs.currentIndex()==3:
                 Organizer.clearTable(self)
             elif self.tabwTabs.currentIndex()==4:
@@ -419,8 +419,8 @@ class SpecialActions(MWidget):
                 self.tbGoForward.setEnabled(False)
                 self.numberOfActionCommand+=1
                 self.isPressedAddObjects=True
-                self.leActionString.setText((str(self.leActionString.text()) + 
-                            str(self.sender().objectName())+" ").decode("utf-8"))
+                self.leActionString.setText(trForUI(str(self.leActionString.text()) + 
+                            str(self.sender().objectName())+" "))
                 self.actionCommand += Universals.MainWindow.Table.getColumnKeyFromName(self.sender().text())
         except:
             error = ReportBug.ReportBug()
@@ -432,7 +432,7 @@ class SpecialActions(MWidget):
                 self.history.append(self.leActionString.text())
                 self.future=[]
                 self.tbGoForward.setEnabled(False)
-                self.leActionString.setText(self.leActionString.text() + ", ".decode("utf-8"))
+                self.leActionString.setText(trForUI(self.leActionString.text() + ", "))
                 self.actionCommand += ", "
                 self.tbAddComma.setEnabled(False)
                 self.numberOfActionCommand+=100
@@ -447,12 +447,12 @@ class SpecialActions(MWidget):
             if self.numberOfActionCommand>0 and (self.commaAndSplitControl==0 or self.commaAndSplitControl<self.numberOfActionCommand) and (self.whereIsSplitPointer=="right" or self.numberOfActionCommand<100) :
                 if self.numberOfActionCommand<100:
                     self.whereIsSplitPointer="left"
-                if unicode(self.leSplitPointer.text()).encode("utf-8").upper()!=unicode(self.leSplitPointer.text()).encode("utf-8").decode("utf-8").lower() or unicode(self.leSplitPointer.text()).encode("utf-8").strip()=="":
+                if str(self.leSplitPointer.text()).strip()=="":
                     self.leSplitPointer.setText("-")
                 self.history.append(self.leActionString.text())
                 self.future=[]
                 self.tbGoForward.setEnabled(False)
-                self.leActionString.setText(self.leActionString.text() + (str(self.leSplitPointer.text()).strip() + " ").decode("utf-8"))
+                self.leActionString.setText(trForUI(str(self.leActionString.text()) + str(self.leSplitPointer.text()).strip() + " "))
                 self.actionCommand += str(self.leSplitPointer.text()).strip() + " "
                 self.numberOfActionCommand+=10
                 self.commaAndSplitControl = self.numberOfActionCommand
@@ -479,7 +479,7 @@ class SpecialActions(MWidget):
     
     def whatDoesThisCommandDo(self):
         try:
-            Organizer.whatDoesSpecialCommandDo(unicode(self.leSplitPointer.text()).encode("utf-8"),self.whereIsSplitPointer,self.actionCommand)
+            Organizer.whatDoesSpecialCommandDo(str(self.leSplitPointer.text()),self.whereIsSplitPointer,self.actionCommand)
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -502,7 +502,7 @@ class SpecialActions(MWidget):
                 self.future.append(self.leActionString.text())
                 h = self.history.pop()
                 self.leActionString.setText(h)
-                self.actionCommand = unicode(h, "utf-8")
+                self.actionCommand = str(h)
                 self.tbGoForward.setEnabled(True)
             else:
                 self.tbGoBack.setEnabled(False)
@@ -528,7 +528,7 @@ class SpecialActions(MWidget):
                     self.isPressedAddObjects=True
                 self.history.append(self.leActionString.text())
                 self.leActionString.setText(future_temp)
-                self.actionCommand = unicode(future_temp, "utf-8")
+                self.actionCommand = str(future_temp)
                 self.tbGoBack.setEnabled(True)
             else:
                 self.tbGoForward.setEnabled(False)
@@ -550,7 +550,7 @@ class SpecialActions(MWidget):
                         tempT = tempT.replace(colName, str(Universals.MainWindow.Table.tableColumns[colNo]))
                 self.history.append(self.leActionString.text())
                 self.future=[]
-                self.leActionString.setText(tempT.decode("utf-8"))
+                self.leActionString.setText(trForUI(tempT))
                 self.actionCommand = tempA
                 self.whereIsSplitPointer = tempString[-2]
                 self.numberOfActionCommand = int(tempString[-1])
@@ -560,10 +560,10 @@ class SpecialActions(MWidget):
                 self.tbGoBack.setEnabled(True)
                 self.tbGoForward.setEnabled(False)
                 self.tbAddComma.setEnabled(False)
-                self.details.setText(str(Organizer.whatDoesSpecialCommandDo(unicode(self.leSplitPointer.text()).encode("utf-8"),
+                self.details.setText(trForUI(Organizer.whatDoesSpecialCommandDo(str(self.leSplitPointer.text()),
                                     self.whereIsSplitPointer,
                                     self.actionCommand, 
-                                    _isReturnDetails=True)).decode("utf-8"))
+                                    _isReturnDetails=True)))
             else:
                 self.whereIsSplitPointer, self.numberOfActionCommand, self.commaAndSplitControl, self.isPressedAddObjects="right",0,0, False
                 self.leActionString.setText("")
@@ -578,7 +578,7 @@ class SpecialActions(MWidget):
     def addBookmark(self):
         try:
             tempString = self.actionCommand
-            if Organizer.whatDoesSpecialCommandDo(unicode(self.leSplitPointer.text()).encode("utf-8"),self.whereIsSplitPointer,unicode(self.leActionString.text()).encode("utf-8"),True)==True:
+            if Organizer.whatDoesSpecialCommandDo(str(self.leSplitPointer.text()),self.whereIsSplitPointer,str(self.leActionString.text()),True)==True:
                 addition = " ;"+self.whereIsSplitPointer +";"+ str(self.numberOfActionCommand)
                 Databases.BookmarksOfSpecialTools.insert("", tempString+addition)
                 self.refreshBookmarks()
@@ -601,7 +601,7 @@ class SpecialActions(MWidget):
             self.cbBookmarks.clear()
             self.cbBookmarks.addItem(translate("SpecialTools", "Please Select An Action!"))
             for fav in Databases.BookmarksOfSpecialTools.fetchAllByType():
-                self.cbBookmarks.addItem(fav[1].decode("utf-8"))
+                self.cbBookmarks.addItem(trForUI(fav[1]))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -629,17 +629,17 @@ class SearchAndReplace(MWidget):
         self.cckbCaseSensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
         self.cckbCaseSensitive.setChecked(True)
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
-        self.leSearch.setToolTip(srExamples+sExample+"</table>".decode("utf-8"))
-        self.leReplace.setToolTip(srExamples+rExample+"</table>".decode("utf-8"))
+        self.leSearch.setToolTip(trForUI(srExamples+sExample+"</table>"))
+        self.leReplace.setToolTip(trForUI(srExamples+rExample+"</table>"))
         self.columns = MComboBox()
         self.columns.addItem(translate("SpecialTools", "All"))
         self.pbtnEditValueForSearch = MPushButton(translate("Options", "*"))
-        self.pbtnEditValueForSearch.setObjectName(translate("Options", "Edit Values With Advanced Value Editor") + "For Search".decode("utf-8"))
+        self.pbtnEditValueForSearch.setObjectName(trForUI(translate("Options", "Edit Values With Advanced Value Editor") + "For Search"))
         self.pbtnEditValueForSearch.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForSearch.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForSearch, SIGNAL("clicked()"), self.pbtnEditValueClicked)
         self.pbtnEditValueForReplace = MPushButton(translate("Options", "*"))
-        self.pbtnEditValueForReplace.setObjectName(translate("Options", "Edit Values With Advanced Value Editor") + "For Replace".decode("utf-8"))
+        self.pbtnEditValueForReplace.setObjectName(trForUI(translate("Options", "Edit Values With Advanced Value Editor") + "For Replace"))
         self.pbtnEditValueForReplace.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForReplace.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForReplace, SIGNAL("clicked()"), self.pbtnEditValueClicked)
@@ -761,7 +761,7 @@ class Fill(MWidget):
         
     def columnsChanged(self,_index):
         try:
-            if unicode(self.columns.currentText()).encode("utf-8")=="Track No":
+            if str(self.columns.currentText())=="Track No":
                 self.cbFillType.setCurrentIndex(1)
                 self.cbFillType.setEnabled(False)
                 self.leFill.setEnabled(False)
@@ -936,14 +936,14 @@ class SearchAndReplaceListEditDialog(MDialog):
         currentValueForReplace = str(self.parent().leReplace.text())
         if Universals.isActivePyKDE4==True:
             self.EditorWidgetForSearch = MEditListBox(self)
-            self.EditorWidgetForSearch.setItems([x.decode("utf-8") for x in currentValueForSearch.split(";")])
+            self.EditorWidgetForSearch.setItems([trForUI(x) for x in currentValueForSearch.split(";")])
             self.EditorWidgetForReplace = MEditListBox(self)
-            self.EditorWidgetForReplace.setItems([x.decode("utf-8") for x in currentValueForReplace.split(";")])
+            self.EditorWidgetForReplace.setItems([trForUI(x) for x in currentValueForReplace.split(";")])
         else:
             self.EditorWidgetForSearch = MTextEdit(self)
-            self.EditorWidgetForSearch.setText(currentValueForSearch.replace(";", "\n").decode("utf-8"))
+            self.EditorWidgetForSearch.setText(trForUI(currentValueForSearch.replace(";", "\n")))
             self.EditorWidgetForReplace = MTextEdit(self)
-            self.EditorWidgetForReplace.setText(currentValueForReplace.replace(";", "\n").decode("utf-8"))
+            self.EditorWidgetForReplace.setText(trForUI(currentValueForReplace.replace(";", "\n")))
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
         pbtnCancel = MPushButton(translate("SearchAndReplaceListEditDialog", "Cancel"))
@@ -972,16 +972,16 @@ class SearchAndReplaceListEditDialog(MDialog):
             for y, info in enumerate(self.EditorWidgetForSearch.items()):
                 if y!=0:
                     valueForSearch += ";"
-                valueForSearch += unicode(info, "utf-8")
+                valueForSearch += str(info)
             for y, info in enumerate(self.EditorWidgetForReplace.items()):
                 if y!=0:
                     valueForReplace += ";"
-                valueForReplace += unicode(info, "utf-8")
+                valueForReplace += str(info)
         else:
-            valueForSearch = unicode(self.EditorWidgetForSearch.toPlainText(), "utf-8").replace("\n", ";")
-            valueForReplace = unicode(self.EditorWidgetForReplace.toPlainText(), "utf-8").replace("\n", ";")
-        self.parent().leSearch.setText(valueForSearch.decode("utf-8"))
-        self.parent().leReplace.setText(valueForReplace.decode("utf-8"))
+            valueForSearch = str(self.EditorWidgetForSearch.toPlainText()).replace("\n", ";")
+            valueForReplace = str(self.EditorWidgetForReplace.toPlainText()).replace("\n", ";")
+        self.parent().leSearch.setText(trForUI(valueForSearch))
+        self.parent().leReplace.setText(trForUI(valueForReplace))
         self.close()
         
         

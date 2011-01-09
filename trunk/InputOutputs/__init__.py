@@ -301,7 +301,7 @@ class InputOutputs:
                 fileNames.append(name)
                 for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
                     try:
-                        if name.split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8").lower():
+                        if name.split(".")[-1].lower() == str(ext).lower():
                             musicFileNames.append(name)
                     except:
                         pass
@@ -485,18 +485,18 @@ class InputOutputs:
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["unneededFiles"]):
                 try:
-                    if isFile(_path+"/"+str(unicode(f,"utf-8"))):
-                        removeFile(_path+"/"+str(unicode(f,"utf-8")))
+                    if isFile(_path+"/"+str(f)):
+                        removeFile(_path+"/"+str(f))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectoriesIfIsEmpty"]):
                 try:
-                    if isDirEmpty(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
-                        removeDir(_path+"/"+str(unicode(f,"utf-8")))
+                    if isDirEmpty(_path+"/"+str(f)) and f.strip()!="":
+                        removeDir(_path+"/"+str(f))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectories"]):
                 try:
-                    if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
-                        removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
+                    if isDir(_path+"/"+str(f)) and f.strip()!="":
+                        removeFileOrDir(_path+"/"+str(f), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
@@ -510,13 +510,13 @@ class InputOutputs:
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
                 try:
-                    if isFile(_path+"/"+str(unicode(f,"utf-8"))):
-                        removeFile(_path+"/"+str(unicode(f,"utf-8")))
+                    if isFile(_path+"/"+str(f)):
+                        removeFile(_path+"/"+str(f))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
                 try:
-                    if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
-                        removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
+                    if isDir(_path+"/"+str(f)) and f.strip()!="":
+                        removeFileOrDir(_path+"/"+str(f), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):

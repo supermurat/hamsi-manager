@@ -325,7 +325,7 @@ def checkMyModules(_HamsiManagerApp):
             title = str(Variables.MQtGui.QApplication.translate("ReportBug", "Error In Module"))
             startNumber=19
             details = str(Variables.MQtGui.QApplication.translate("ReportBug", "\"%s\" is not in this module.Please download and install Hamsi Manager again."))
-        lblDetails = Variables.MQtGui.QLabel(("<b>"+title+":</b><br>"+ (details % (str(error)[startNumber:]))).decode("utf-8"))
+        lblDetails = Variables.MQtGui.QLabel(trForUI("<b>"+title+":</b><br>"+ (details % (str(error)[startNumber:]))))
         pbtnOk = Variables.MQtGui.QPushButton(Variables.MQtGui.QApplication.translate("ReportBug", "OK"))
         errorForm.connect(pbtnOk,Variables.MQtCore.SIGNAL("clicked()"), _HamsiManagerApp.quit)
         hbox0 = Variables.MQtGui.QHBoxLayout()

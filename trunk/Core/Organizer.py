@@ -26,7 +26,7 @@ import Universals
 class Organizer:
     """Music tags, filenames, Turkish characters etc. will be arranged through this class
     """
-    global applySpecialCommand, showWithIncorrectChars, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName
+    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName
     
     def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
         _inputString = str(_inputString)
@@ -55,7 +55,7 @@ class Organizer:
             _inputString = unquote(_inputString)
             for x in range(0,len(oldChars)):
                 _inputString = _inputString.replace(oldChars[x],newChars[x])
-        _inputString = showWithIncorrectChars(_inputString)
+        _inputString = str(_inputString.decode("utf-8", "ignore"))
         if len(_inputString)==0: return ""
         preString, extString, ext2String = "", "", ""
         if _type=="file" or _type=="directory":
@@ -115,15 +115,6 @@ class Organizer:
         else :
             return str(unicode(_inputString))
     
-    def showWithIncorrectChars(_inputString):
-        try:
-            _inputString = str(_inputString)
-            _inputString = _inputString.decode("utf-8", "replace")
-            return str(_inputString)
-        except:
-            _inputString = _inputString.decode("utf-8", "ignore")
-            return str(_inputString)
-    
     def getLink(_stringPath):
         _stringPath = str(_stringPath)
         return "<a href=\"file://%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
@@ -180,26 +171,26 @@ class Organizer:
                     if Universals.MainWindow.Table.isChangableItem(rowNo, changingColumns[0]):
                         newString=""
                         for changerColumnNo in changerColumns:
-                            if unicode(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text()).encode("utf-8") != "-----":
-                                newString+=" "+_splitPointer+" "+unicode(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text()).encode("utf-8")
+                            if str(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text()) != "-----":
+                                newString+=" "+_splitPointer+" "+str(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text())
                         newString = emend(newString[2:])
                         if newString!="":
                             for uzanti in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                                if newString.split(".")[-1].decode("utf-8").lower() == unicode(uzanti,"utf-8") :
+                                if newString.split(".")[-1].lower() == str(uzanti) :
                                     newString = newString[:-len(newString.split(".")[-1])-1]
                             if _SpecialTools.btChange.isChecked()==True:
                                 pass
                             elif _SpecialTools.tbAddToBefore.isChecked()==True:
-                                newString += unicode(Universals.MainWindow.Table.item(rowNo,changingColumns[0]).text()).encode("utf-8")
+                                newString += str(Universals.MainWindow.Table.item(rowNo,changingColumns[0]).text())
                             elif _SpecialTools.tbAddToAfter.isChecked()==True:
-                                newString = unicode(Universals.MainWindow.Table.item(rowNo,changingColumns[0]).text()).encode("utf-8") + newString
-                            Universals.MainWindow.Table.item(rowNo,changingColumns[0]).setText(newString.strip().decode("utf-8"))
+                                newString = str(Universals.MainWindow.Table.item(rowNo,changingColumns[0]).text()) + newString
+                            Universals.MainWindow.Table.item(rowNo,changingColumns[0]).setText(trForUI(newString.strip()))
             else:
                 for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                    newString = unicode(Universals.MainWindow.Table.item(rowNo,changerColumns[0]).text()).encode("utf-8")
+                    newString = str(Universals.MainWindow.Table.item(rowNo,changerColumns[0]).text())
                     if newString!="-----":
                         for uzanti in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                            if newString.split(".")[-1].decode("utf-8").lower() == unicode(uzanti,"utf-8") :
+                            if newString.split(".")[-1].lower() == str(uzanti) :
                                 newString = newString[:-len(newString.split(".")[-1])-1]
                         newStrings = ["","","","","","","",""]
                         newString = newString.split(_splitPointer)
@@ -211,10 +202,10 @@ class Organizer:
                                 if _SpecialTools.btChange.isChecked()==True:
                                     pass
                                 elif _SpecialTools.tbAddToBefore.isChecked()==True:
-                                    newStrings[stringNo] += unicode(Universals.MainWindow.Table.item(rowNo,changingColumnNo).text()).encode("utf-8")
+                                    newStrings[stringNo] += str(Universals.MainWindow.Table.item(rowNo,changingColumnNo).text())
                                 elif _SpecialTools.tbAddToAfter.isChecked()==True:
-                                    newStrings[stringNo] = unicode(Universals.MainWindow.Table.item(rowNo,changingColumnNo).text()).encode("utf-8") + newStrings[stringNo]
-                                Universals.MainWindow.Table.item(rowNo,changingColumnNo).setText(newStrings[stringNo].strip().decode("utf-8"))
+                                    newStrings[stringNo] = str(Universals.MainWindow.Table.item(rowNo,changingColumnNo).text()) + newStrings[stringNo]
+                                Universals.MainWindow.Table.item(rowNo,changingColumnNo).setText(trForUI(newStrings[stringNo].strip()))
                             stringNo+=1
         
     def whatDoesSpecialCommandDo(_splitPointer, _whereIsSplitPointer, _command, _isCorrect=False, _isReturnDetails=False):
@@ -244,7 +235,7 @@ class Organizer:
                     return True
                 if _isReturnDetails==True:
                     return details
-                Dialogs.show(translate("Organizer", "What Does This Command Do?"),details.decode("utf-8"))
+                Dialogs.show(translate("Organizer", "What Does This Command Do?"),trForUI(details))
                 
             else:
                 details = ""
@@ -264,7 +255,7 @@ class Organizer:
                     return True
                 if _isReturnDetails==True:
                     return details
-                Dialogs.show(translate("Organizer", "What Does This Command Do?"),details.decode("utf-8"))
+                Dialogs.show(translate("Organizer", "What Does This Command Do?"),details)
         else:
             if _command.find(",")==-1:
                 if _isReturnDetails==True:
@@ -280,6 +271,7 @@ class Organizer:
                 return False
     
     def searchAndReplaceTable(_searchStrings,_replaceStrings, _SpecialTools):
+        from MyObjects import trForUI
         searchStrings=_searchStrings.split(";")
         replaceStrings=_replaceStrings.split(";")
         for filterNo in range(0,len(searchStrings)):
@@ -300,8 +292,8 @@ class Organizer:
                 continue
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo, None, True):
-                    newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text()).encode("utf-8")
-                    newString = newString.decode("utf-8")
+                    newString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                    newString = trForUI(newString)
                     myString = ""
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
                     informationSectionY = _SpecialTools.cbInformationSectionY.value()
@@ -337,7 +329,7 @@ class Organizer:
                         myString += newString[informationSectionX:informationSectionY]
                         myString += searchAndReplace(newString[informationSectionY:], searchStrings, 
                                                 replaceStrings, isCaseSensitive, isRegExp)
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(myString.decode("utf-8"))
+                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
     
     def searchAndReplace(_oldString, _searchStrings, _replaceStrings, _isCaseSensitive=True, _isRegExp=False):
         newString = _oldString
@@ -361,6 +353,7 @@ class Organizer:
         return newString
     
     def fillTable(_columnName, _SpecialTools,_newString=""):
+        from MyObjects import trForUI
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
         for No, columnName in enumerate(Universals.MainWindow.Table.tableColumns):
@@ -395,10 +388,10 @@ class Organizer:
                     if _SpecialTools.btChange.isChecked()==True:
                         pass
                     elif _SpecialTools.tbAddToBefore.isChecked()==True:
-                        myString += unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text()).encode("utf-8")
+                        myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
                     elif _SpecialTools.tbAddToAfter.isChecked()==True:
-                        myString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text()).encode("utf-8") + myString
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(unicode(myString).title().decode("utf-8"))
+                        myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
+                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(unicode(myString).title()))
                     
     def clearTable(_SpecialTools):
         import Tables
@@ -412,12 +405,12 @@ class Organizer:
                 continue
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
-                    newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(), "utf-8")
+                    newString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
                     newString = newString.decode("utf-8")
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
                     informationSectionY = _SpecialTools.cbInformationSectionY.value()
                     isCaseSensitive = _SpecialTools.clear.cckbCaseSensitive.isChecked()
-                    oldString = unicode(_SpecialTools.clear.leClear.text(), "utf-8")
+                    oldString = str(_SpecialTools.clear.leClear.text())
                     cbClearType = _SpecialTools.clear.cbClearType.currentText()
                     isRegExp = _SpecialTools.clear.cckbRegExp.isChecked()
                     if _SpecialTools.cbInformationSection.currentIndex()==0:
@@ -520,7 +513,7 @@ class Organizer:
     def correctCaseSensitiveTable(_SpecialTools):
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
-        searchStrings = unicode(_SpecialTools.characterState.leSearch.text(), "utf-8").split(";")
+        searchStrings = str(_SpecialTools.characterState.leSearch.text()).split(";")
         if _SpecialTools.characterState.columns.currentIndex()==0:
             columns = range(0,Universals.MainWindow.Table.columnCount())
         else:
@@ -530,7 +523,7 @@ class Organizer:
                 continue
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
-                    newString = unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(), "utf-8")
+                    newString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
                     myString = ""
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
                     informationSectionY = _SpecialTools.cbInformationSectionY.value()

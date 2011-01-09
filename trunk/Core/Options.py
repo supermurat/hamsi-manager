@@ -282,13 +282,13 @@ class Options(MDialog):
             if requestInfos[1]=="image":
                 directory = InputOutputs.IA.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Image"),
-                                            directory,(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
+                                            directory,trForUI(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG))
                 if filePath!="":
                     leValue.setText(filePath)   
             if requestInfos[1]=="executable":
                 directory = InputOutputs.IA.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
-                                            directory,translate("Options", "Executable Files") + " (*)".decode("utf-8"))
+                                            directory, trForUI(translate("Options", "Executable Files") + " (*)"))
                 if filePath!="":
                     leValue.setText(filePath)     
             
@@ -300,21 +300,21 @@ class Options(MDialog):
         keyNo = int(requestInfos[2])
         leValue = self.categories[categoryNo].values[keyNo]
         if typeOfValue=="string":
-            self.categories[categoryNo].values[keyNo].setText(self.defaultValues[keyValue].decode("utf-8"))
+            self.categories[categoryNo].values[keyNo].setText(trForUI(self.defaultValues[keyValue]))
         elif typeOfValue=="richtext":
-            self.categories[categoryNo].values[keyNo].setPlainText(self.defaultValues[keyValue].decode("utf-8"))
+            self.categories[categoryNo].values[keyNo].setPlainText(trForUI(self.defaultValues[keyValue]))
         elif typeOfValue=="list":
             value = ""
             for y, info in enumerate(Universals.getListFromStrint(self.defaultValues[keyValue])):
                 if y!=0:
                     value += ";"
-                value += unicode(info, "utf-8")
-            self.categories[categoryNo].values[keyNo].setText(value.decode("utf-8"))
+                value += str(info)
+            self.categories[categoryNo].values[keyNo].setText(trForUI(value))
         elif typeOfValue=="trString":
             value = self.defaultValues[keyValue]
             for y, info in enumerate(self.categories[categoryNo].stringSearchList[self.categories[categoryNo].typesOfValues[keyNo][1]]):
                 value = value.replace(str(info), str(self.categories[categoryNo].stringReplaceList[self.categories[categoryNo].typesOfValues[keyNo][1]][y]))
-            self.categories[categoryNo].values[keyNo].setText(value.decode("utf-8"))
+            self.categories[categoryNo].values[keyNo].setText(trForUI(value))
         elif typeOfValue=="options":
             self.categories[categoryNo].values[keyNo].setCurrentIndex(self.categories[categoryNo].valuesOfOptionsKeys[self.categories[categoryNo].typesOfValues[keyNo][1]].index(self.defaultValues[keyValue]))
         elif typeOfValue=="number":
@@ -356,7 +356,7 @@ class Options(MDialog):
                 toolTips += str(translate("Options", "No"))
         elif _typeOfValue=="file":
             toolTips += self.defaultValues[_keyValue]
-        pbtnDefaultValue.setToolTip(toolTips.decode("utf-8"))
+        pbtnDefaultValue.setToolTip(trForUI(toolTips))
         pbtnDefaultValue.setFixedWidth(25)
         MObject.connect(pbtnDefaultValue, SIGNAL("clicked()"), _category.parent().pbtnDefaultValueClicked)
         return pbtnDefaultValue
@@ -383,18 +383,18 @@ class Options(MDialog):
                 for x, keyValue in enumerate(category.keysOfSettings):
                     if category.visibleKeys.count(keyValue)>0:
                         if category.typesOfValues[x]=="string":
-                            value = unicode(category.values[x].text(),"utf-8")
+                            value = str(category.values[x].text())
                         elif category.typesOfValues[x]=="richtext":
-                            value = unicode(category.values[x].toPlainText(),"utf-8")
+                            value = str(category.values[x].toPlainText())
                         elif category.typesOfValues[x]=="list":
                             value = "['"
-                            for y, bilgi in enumerate(unicode(category.values[x].text(),"utf-8").split(";")):
+                            for y, bilgi in enumerate(str(category.values[x].text()).split(";")):
                                 if y!=0:
                                     value += "','"
                                 value += bilgi
                             value+="']"
                         elif category.typesOfValues[x][0]=="trString":
-                            value = unicode(category.values[x].text(),"utf-8")
+                            value = str(category.values[x].text())
                             for y, info in enumerate(category.stringReplaceList[category.typesOfValues[x][1]]):
                                 value = value.replace(str(info), str(category.stringSearchList[category.typesOfValues[x][1]][y]))
                         elif category.typesOfValues[x][0]=="options":
@@ -407,9 +407,9 @@ class Options(MDialog):
                             else:
                                 value = "True"
                         elif category.typesOfValues[x][0]=="file":
-                            value = unicode(category.values[x].text(),"utf-8")
+                            value = str(category.values[x].text())
                         elif category.typesOfValues[x]=="password":
-                            value = unicode(category.values[x].text(),"utf-8")
+                            value = str(category.values[x].text())
                         category.values[x].setStyleSheet("")
                         if Universals.MySettings[keyValue]!=value:
                             emendedValue = Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue])
@@ -419,14 +419,14 @@ class Options(MDialog):
                                 if answer==Dialogs.Yes:
                                     Universals.setMySetting(keyValue, emendedValue)
                                     if category.typesOfValues[x]=="string":
-                                        category.values[x].setText(emendedValue.decode("utf-8"))
+                                        category.values[x].setText(trForUI(emendedValue))
                                     elif category.typesOfValues[x]=="list":
                                         value = ""
                                         for y, info in enumerate(Universals.getListFromStrint(emendedValue)):
                                             if y!=0:
                                                 value += ";"
-                                            value += unicode(info, "utf-8")
-                                        category.values[x].setText(value.decode("utf-8"))
+                                            value += str(info)
+                                        category.values[x].setText(trForUI(value))
                                 else:
                                     if self.showType=="Normal":
                                         self.tboxCategories.setCurrentIndex(categoryNo)
@@ -460,18 +460,18 @@ class Options(MDialog):
             x = _category.keysOfSettings.index(_keyValue)
             if _category.visibleKeys.count(_keyValue)>0:
                 if _category.typesOfValues[x]=="string":
-                    value = unicode(_category.values[x].text(),"utf-8")
+                    value = str(_category.values[x].text())
                 elif _category.typesOfValues[x]=="richtext":
-                    value = unicode(_category.values[x].toPlainText(),"utf-8")
+                    value = str(_category.values[x].toPlainText())
                 elif _category.typesOfValues[x]=="list":
                     value = "['"
-                    for y, bilgi in enumerate(unicode(_category.values[x].text(),"utf-8").split(";")):
+                    for y, bilgi in enumerate(str(_category.values[x].text()).split(";")):
                         if y!=0:
                             value += "','"
                         value += bilgi
                     value+="']"
                 elif _category.typesOfValues[x][0]=="trString":
-                    value = unicode(_category.values[x].text(),"utf-8")
+                    value = str(_category.values[x].text())
                     for y, info in enumerate(_category.stringReplaceList[_category.typesOfValues[x][1]]):
                         value = value.replace(str(info), str(_category.stringSearchList[_category.typesOfValues[x][1]][y]))
                 elif _category.typesOfValues[x][0]=="options":
@@ -484,9 +484,9 @@ class Options(MDialog):
                     else:
                         value = "True"
                 elif _category.typesOfValues[x][0]=="file":
-                    value = unicode(_category.values[x].text(),"utf-8")
+                    value = str(_category.values[x].text())
                 elif _category.typesOfValues[x]=="password":
-                    value = unicode(_category.values[x].text(),"utf-8")
+                    value = str(_category.values[x].text())
                 _category.values[x].setStyleSheet("")
                 if Universals.MySettings[_keyValue]!=value:
                     emendedValue = Settings.emendValue(_keyValue, value, defaultValues[_keyValue], valueTypesAndValues[_keyValue])
@@ -496,14 +496,14 @@ class Options(MDialog):
                         if answer==Dialogs.Yes:
                             Universals.setMySetting(_keyValue, emendedValue)
                             if _category.typesOfValues[x]=="string":
-                                _category.values[x].setText(emendedValue.decode("utf-8"))
+                                _category.values[x].setText(trForUI(emendedValue))
                             elif _category.typesOfValues[x]=="list":
                                 value = ""
                                 for y, info in enumerate(Universals.getListFromStrint(emendedValue)):
                                     if y!=0:
                                         value += ";"
-                                    value += unicode(info, "utf-8")
-                                _category.values[x].setText(value.decode("utf-8"))
+                                    value += str(info)
+                                _category.values[x].setText(trForUI(value))
                         else:
                             if self.showType=="Normal":
                                 self.tboxCategories.setCurrentIndex(_category.categoryNo)
@@ -537,11 +537,11 @@ class Options(MDialog):
                     isNeededRestart = True
                 if _category.typesOfValues[x]=="string":
                     _category.values.append(MLineEdit())
-                    _category.values[x].setText(Universals.MySettings[keyValue].decode("utf-8"))
+                    _category.values[x].setText(trForUI(Universals.MySettings[keyValue]))
                 elif _category.typesOfValues[x]=="richtext":
                     typeOfValue = "richtext"
                     _category.values.append(MTextEdit())
-                    _category.values[x].setPlainText(Universals.MySettings[keyValue].decode("utf-8"))
+                    _category.values[x].setPlainText(trForUI(Universals.MySettings[keyValue]))
                 elif _category.typesOfValues[x]=="list":
                     typeOfValue = "list"
                     _category.values.append(MLineEdit())
@@ -549,15 +549,15 @@ class Options(MDialog):
                     for y, info in enumerate(Universals.getListFromStrint(Universals.MySettings[keyValue])):
                         if y!=0:
                             value += ";"
-                        value += unicode(info, "utf-8")
-                    _category.values[x].setText(value.decode("utf-8"))
+                        value += str(info)
+                    _category.values[x].setText(trForUI(value))
                 elif _category.typesOfValues[x][0]=="trString":
                     typeOfValue = "trString"
                     _category.values.append(MLineEdit())
                     value = Universals.MySettings[keyValue]
                     for y, info in enumerate(_category.stringSearchList[_category.typesOfValues[x][1]]):
                         value = value.replace(str(info), str(_category.stringReplaceList[_category.typesOfValues[x][1]][y]))
-                    _category.values[x].setText(value.decode("utf-8"))
+                    _category.values[x].setText(trForUI(value))
                 elif _category.typesOfValues[x][0]=="options":
                     typeOfValue = "options"
                     _category.values.append(MComboBox())
@@ -588,7 +588,7 @@ class Options(MDialog):
                     valueLayout.addWidget(pbtnFile)
                 if _category.typesOfValues[x]=="password":
                     _category.values.append(MLineEdit())
-                    _category.values[x].setText(Universals.MySettings[keyValue].decode("utf-8"))
+                    _category.values[x].setText(trForUI(Universals.MySettings[keyValue]))
                     _category.values[x].setEchoMode(MLineEdit.Password)
                 if typeOfValue=="list":
                     pbtnEditValue = _category.parent().createEditValueButton(_category, typeOfValue, keyValue, x)
@@ -597,7 +597,7 @@ class Options(MDialog):
                 valueLayout.addWidget(pbtnDefaultValue)
                 valueLayout.insertWidget(0, _category.values[x])
                 _category.values[x].setToolTip(_category.toolTips[x])
-                lblLabel = MLabel(_category.labels[x]+" : ".decode("utf-8"))
+                lblLabel = MLabel(trForUI(_category.labels[x]+" : "))
                 lblLabel.setToolTip(_category.toolTips[x])
                 _category.lblLabels.append(lblLabel)
                 if _category.tabsOfSettings[x]==None:
@@ -661,21 +661,21 @@ class EditDialog(MDialog):
             #This Is Not Used (For only next)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
             self.EditorWidget = MTextEdit(self)
-            self.EditorWidget.setText(currentValue.decode("utf-8"))
+            self.EditorWidget.setText(trForUI(currentValue))
         elif self.typeOfValue=="richtext":
             #This Is Not Used (For only next)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].plainText())
             self.EditorWidget = MTextEdit(self)
             self.EditorWidget.setAcceptRichText(True)
-            self.EditorWidget.setPlainText(currentValue.decode("utf-8"))
+            self.EditorWidget.setPlainText(trForUI(currentValue))
         elif self.typeOfValue=="list":
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
             if Universals.isActivePyKDE4==True:
                 self.EditorWidget = MEditListBox(self)
-                self.EditorWidget.setItems([x.decode("utf-8") for x in currentValue.split(";")])
+                self.EditorWidget.setItems([trForUI(x) for x in currentValue.split(";")])
             else:
                 self.EditorWidget = MTextEdit(self)
-                self.EditorWidget.setText(currentValue.replace(";", "\n").decode("utf-8"))
+                self.EditorWidget.setText(trForUI(currentValue.replace(";", "\n")))
         elif self.typeOfValue=="options":
             #This Is Not Used (For only next)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].currentIndex())
@@ -713,21 +713,21 @@ class EditDialog(MDialog):
         if self.typeOfValue=="string":
             #This Is Not Used (For only next)
             newValue = "" #NotUsed
-            self.parent().categories[self.categoryNo].values[self.keyNo].setText(newValue.decode("utf-8"))
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(trForUI(newValue))
         elif self.typeOfValue=="richtext":
             #This Is Not Used (For only next)
             newValue = "" #NotUsed
-            self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(newValue.decode("utf-8"))
+            self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(trForUI(newValue))
         elif self.typeOfValue=="list":
             value = ""
             if Universals.isActivePyKDE4==True:
                 for y, info in enumerate(self.EditorWidget.items()):
                     if y!=0:
                         value += ";"
-                    value += unicode(info, "utf-8")
+                    value += str(info)
             else:
-                value = unicode(self.EditorWidget.toPlainText(), "utf-8").replace("\n", ";")
-            self.parent().categories[self.categoryNo].values[self.keyNo].setText(value.decode("utf-8"))
+                value = str(self.EditorWidget.toPlainText()).replace("\n", ";")
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(trForUI(value))
         elif self.typeOfValue=="options":
             #This Is Not Used (For only next)
             newValue = "" #NotUsed
@@ -976,7 +976,7 @@ class SearchAndReplace(MWidget):
                         twiItem.setCheckState(checkState)
                         self.setItem(rowNo, columnNo, twiItem)
                     else:
-                        self.setItem(rowNo, columnNo, MTableWidgetItem(str(info[columnNo]).decode("utf-8")))
+                        self.setItem(rowNo, columnNo, MTableWidgetItem(trForUI(info[columnNo])))
             self.setItem(len(self.searchAndReplaceTableValues), 1, MTableWidgetItem(""))
             self.setItem(len(self.searchAndReplaceTableValues), 2, MTableWidgetItem(""))
             twiItem = MTableWidgetItem(" ")
@@ -1238,7 +1238,7 @@ class Advanced(MWidget):
                     translate("Options/Advanced", "Music Files` Extensions"), 
                     translate("Options/Advanced", "Please Select The Object Set You Want To Use"), 
                     translate("Options/Advanced", "Do You Want To Use PyKDE4?")]
-        self.toolTips = [(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Variables.defaultFileSystemEncoding)).decode("utf-8"), 
+        self.toolTips = [trForUI(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Variables.defaultFileSystemEncoding)), 
                     translate("Options/Advanced", "Would you like to move files to the trash files to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"), 
@@ -1512,9 +1512,9 @@ class MySettings(MWidget):
         self.toolTips = []
         self.typesOfValues = []
         self.valuesOfOptions = []
-        lblBackUp = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Backup Settings") + "</b>".decode("utf-8"))
-        lblRestore = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Restore Settings") + "</b>".decode("utf-8"))
-        reFillSettings = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Reset Settings") + "</b>".decode("utf-8"))
+        lblBackUp = MLabel(trForUI("<b>" + translate("Options/MySettings", "Backup Settings") + "</b>"))
+        lblRestore = MLabel(trForUI("<b>" + translate("Options/MySettings", "Restore Settings") + "</b>"))
+        reFillSettings = MLabel(trForUI("<b>" + translate("Options/MySettings", "Reset Settings") + "</b>"))
         lblBackUp.setAlignment(Mt.AlignHCenter)
         lblRestore.setAlignment(Mt.AlignHCenter)
         reFillSettings.setAlignment(Mt.AlignHCenter)
@@ -1819,7 +1819,7 @@ class QuickOptions(MMenu):
             for y, actionLabel in enumerate(actionLabelList):
                 actAction = actgActionGroupTableTypes.addAction(actionLabel)
                 actAction.setCheckable(True)
-                actAction.setObjectName(actionLabel+";".decode("utf-8")+str(y))
+                actAction.setObjectName(trForUI(actionLabel+";"+str(y)))
                 if selectedIndex==y:
                     actAction.setChecked(True)
             self.values[x].addActions(actgActionGroupTableTypes.actions())

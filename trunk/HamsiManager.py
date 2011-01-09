@@ -50,23 +50,23 @@ if RoutineChecks.checkQt4Exist():
             programName = ki18n ("Hamsi Manager")
             version     = Variables.version
             license     = MAboutData.License_GPL_V3
-            copyright   = ki18n ("Murat Demir (mopened@gmail.com)".decode("utf-8"))
+            copyright   = ki18n (trForUI("Murat Demir (mopened@gmail.com)"))
             kde4LangKode = str(KLocale(Variables.Catalog).language())+"_"+str(KLocale(Variables.Catalog).country()).upper()
-            text        = ki18n ("".decode("utf-8"))
-            homePage    = "hamsiapps.com".decode("utf-8")
-            bugEmail    = "Murat Demir (mopened@gmail.com)".decode("utf-8")
+            text        = ki18n (trForUI(""))
+            homePage    = trForUI("hamsiapps.com")
+            bugEmail    = trForUI("Murat Demir (mopened@gmail.com)")
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode):
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode)
             else:
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
-            description = ki18n (aboutFileContent.decode("utf-8"))
+            description = ki18n (trForUI(aboutFileContent))
             aboutOfHamsiManager = MAboutData (appName, Variables.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
-            aboutOfHamsiManager.addAuthor (ki18n("Murat Demir".decode("utf-8")), ki18n("Project Manager and Developer".decode("utf-8")), 
+            aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.addCredit(ki18n("Tolga Balcı".decode("utf-8")), ki18n("Translate to English. (Voluntary) (V0.7.x)".decode("utf-8")), 
+            aboutOfHamsiManager.addCredit(ki18n(trForUI("Tolga Balcı")), ki18n(trForUI("Translate to English. (Voluntary) (V0.7.x)")), 
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
-            aboutOfHamsiManager.addCredit(ki18n("Márcio Moraes".decode("utf-8")), ki18n("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)".decode("utf-8")), 
+            aboutOfHamsiManager.addCredit(ki18n(trForUI("Márcio Moraes")), ki18n(trForUI("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)")), 
                                             "", "")
             aboutOfHamsiManager.setProgramIconName(Universals.themePath + "/Images/HamsiManager-128x128.png") 
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode):
@@ -101,7 +101,7 @@ if RoutineChecks.checkQt4Exist():
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ str(Universals.MySettings["language"]))
             else:
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
-            Variables.aboutOfHamsiManager = aboutFileContent.decode("utf-8")
+            Variables.aboutOfHamsiManager = trForUI(aboutFileContent)
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+
                             str(Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()

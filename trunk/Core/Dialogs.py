@@ -34,9 +34,9 @@ class Dialogs():
             _title = "Hamsi Manager"
         import Organizer
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
-            MMessageBox.information(Universals.activeWindow(), Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"), Organizer.showWithIncorrectChars(str(_title)+"!..").decode("utf-8"))
+            MMessageBox.information(Universals.activeWindow(), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), trForUI(str(_title)+"!.."))
         else:
-            MMessageBox.information(Universals.activeWindow(),Organizer.showWithIncorrectChars(str(_title)+"!..").decode("utf-8"),Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"),_btnString)
+            MMessageBox.information(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),_btnString)
         return True
         
     def showError(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
@@ -46,9 +46,9 @@ class Dialogs():
             _title = "Hamsi Manager"
         import Organizer
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
-            MMessageBox.error(Universals.activeWindow(), Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"), Organizer.showWithIncorrectChars(str(_title)+"!..").decode("utf-8"))
+            MMessageBox.error(Universals.activeWindow(), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), trForUI(str(_title)+"!.."))
         else:
-            MMessageBox.critical(Universals.activeWindow(),Organizer.showWithIncorrectChars(str(_title)+"!..").decode("utf-8"),Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"),_btnString)
+            MMessageBox.critical(Universals.activeWindow(),trForUI(str(_title)+"!.."),trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),_btnString)
         return True
      
     def ask(_title="Hamsi Manager", _detail="", _isShowCancel=False, _showAgainKeyName=""):
@@ -62,45 +62,45 @@ class Dialogs():
                 if _showAgainKeyName!="":
                     return MMessageBox.messageBox(Universals.activeWindow(), 
                             MMessageBox.QuestionYesNoCancel, 
-                            Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"), 
-                            Organizer.showWithIncorrectChars(_title).decode("utf-8"), 
+                            trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), 
+                            trForUI(_title), 
                             MStandardGuiItem.yes(), MStandardGuiItem.no(), MStandardGuiItem.cancel(), 
-                            Organizer.showWithIncorrectChars(_showAgainKeyName).decode("utf-8"), 
+                            trForUI(_showAgainKeyName), 
                             MMessageBox.AllowLink )
                 else:
                     return MMessageBox.questionYesNoCancel(Universals.activeWindow(), 
-                            Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"), 
-                            Organizer.showWithIncorrectChars(_title).decode("utf-8"), 
+                            trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), 
+                            trForUI(_title), 
                             MStandardGuiItem.yes(), MStandardGuiItem.no(), MStandardGuiItem.cancel(), "", 
                             MMessageBox.AllowLink )
             else:
                 if _showAgainKeyName!="":
                     return MMessageBox.messageBox(Universals.activeWindow(), 
                             MMessageBox.QuestionYesNo, 
-                            Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"), 
-                            Organizer.showWithIncorrectChars(_title).decode("utf-8"), 
+                            trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), 
+                            trForUI(_title), 
                             MStandardGuiItem.yes(), MStandardGuiItem.no(), MStandardGuiItem.cancel(), 
-                            Organizer.showWithIncorrectChars(_showAgainKeyName).decode("utf-8"), 
+                            trForUI(_showAgainKeyName), 
                             MMessageBox.AllowLink )
                 else:
                     return MMessageBox.questionYesNo(Universals.activeWindow(), 
-                            Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"), 
-                            Organizer.showWithIncorrectChars(_title).decode("utf-8"), 
+                            trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), 
+                            trForUI(_title), 
                             MStandardGuiItem.yes(), MStandardGuiItem.no(), "", 
                             MMessageBox.AllowLink )
         else:
             if _isShowCancel:
                 try:mboxDialog = MMessageBox(Universals.activeWindow())
                 except:mboxDialog = MMessageBox(None)
-                mboxDialog.setWindowTitle(Organizer.showWithIncorrectChars(_title).decode("utf-8"))
-                mboxDialog.setText(Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"))
+                mboxDialog.setWindowTitle(trForUI(_title))
+                mboxDialog.setText(trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)))
                 mboxDialog.setStandardButtons(MMessageBox.Yes | MMessageBox.No | MMessageBox.Cancel)
                 pressedButtonNo = mboxDialog.exec_()
             else:
                 try:mboxDialog = MMessageBox(Universals.activeWindow())
                 except:mboxDialog = MMessageBox(None)
-                mboxDialog.setWindowTitle(Organizer.showWithIncorrectChars(_title).decode("utf-8"))
-                mboxDialog.setText(Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"))
+                mboxDialog.setWindowTitle(trForUI(_title))
+                mboxDialog.setText(trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)))
                 mboxDialog.setStandardButtons(MMessageBox.Yes | MMessageBox.No)
                 pressedButtonNo = mboxDialog.exec_()
             if pressedButtonNo==16384 : return Yes
@@ -117,8 +117,8 @@ class Dialogs():
             MyMessageBox = QMessageBox
         try:mboxDialog = MyMessageBox(Universals.activeWindow())
         except:mboxDialog = MyMessageBox(None)
-        mboxDialog.setWindowTitle(Organizer.showWithIncorrectChars(_title).decode("utf-8"))
-        mboxDialog.setText(Organizer.showWithIncorrectChars("<b>" + str(_title) + " : </b><br>" + str(_detail)).decode("utf-8"))
+        mboxDialog.setWindowTitle(trForUI(_title))
+        mboxDialog.setText(trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)))
         btn = mboxDialog.addButton(_btnString, MyMessageBox.ActionRole)
         if _btnString2!=None:
             btn2 = mboxDialog.addButton(_btnString2, MyMessageBox.ActionRole)
@@ -226,9 +226,9 @@ class Dialogs():
             _title = "Hamsi Cover"
         import Organizer
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
-            selectedValue, isSelected = MInputDialog.getItem(Organizer.showWithIncorrectChars(str(_title)+"!..").decode("utf-8"), Organizer.showWithIncorrectChars(str(_detail)).decode("utf-8"), [Organizer.showWithIncorrectChars(str(x)).decode("utf-8") for x in _itemList], _currentItem, False)
+            selectedValue, isSelected = MInputDialog.getItem(trForUI(str(_title)+"!.."), trForUI(str(_detail)), [trForUI(str(x)) for x in _itemList], _currentItem, False)
         else:
-            selectedValue, isSelected = MInputDialog.getItem(Universals.activeWindow(), Organizer.showWithIncorrectChars(str(_title)+"!..").decode("utf-8"), Organizer.showWithIncorrectChars(str(_detail)).decode("utf-8"), [Organizer.showWithIncorrectChars(str(x)).decode("utf-8") for x in _itemList], _currentItem, False)
+            selectedValue, isSelected = MInputDialog.getItem(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI(str(_detail)), [trForUI(str(x)) for x in _itemList], _currentItem, False)
         if isSelected==False:
             return None
         return selectedValue

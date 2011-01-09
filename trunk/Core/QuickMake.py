@@ -130,16 +130,16 @@ class QuickMakeWindow(MyDialog):
         if _isShowEmendWidgets:
             lblOldValue = MLabel(translate("QuickMake", "Old Value : "))
             lblNewValue = MLabel(translate("QuickMake", "New Value : "))
-            leOldValue = MLineEdit(Organizer.showWithIncorrectChars(InputOutputs.IA.getRealPath(QuickMakeParameters[1])).decode("utf-8"))
+            leOldValue = MLineEdit(trForUI(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
             leOldValue.setEnabled(False)
-            self.leNewValue = MLineEdit(Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])).decode("utf-8")))
+            self.leNewValue = MLineEdit(trForUI(Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))))
             vblInfo.addWidget(lblOldValue)
             vblInfo.addWidget(leOldValue)
             vblInfo.addWidget(lblNewValue)
             vblInfo.addWidget(self.leNewValue)
         else:
             lblValue = MLabel(translate("QuickMake", "Value : "))
-            leValue = MLineEdit(Organizer.showWithIncorrectChars(InputOutputs.IA.getRealPath(QuickMakeParameters[1])).decode("utf-8"))
+            leValue = MLineEdit(trForUI(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
             leValue.setEnabled(False)
             vblInfo.addWidget(lblValue)
             vblInfo.addWidget(leValue)
@@ -327,7 +327,7 @@ class QuickMakeWindow(MyDialog):
     def copyPath(self):
         try:
             if self.checkSource(InputOutputs.IA.getRealPath(QuickMakeParameters[1])):
-                MApplication.clipboard().setText(InputOutputs.IA.getRealPath(QuickMakeParameters[1]).decode("utf-8"))
+                MApplication.clipboard().setText(trForUI(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
                 Dialogs.show(translate("QuickMake", "Copied To Clipboard"),
                         str(translate("QuickMake", "\"%s\" copied to clipboard.")) % Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
             self.close()

@@ -192,7 +192,7 @@ class Update():
     def selectSourceFile(_parent):
         f = QFileDialog.getOpenFileName(_parent, "Please Choose the Hamsi Manager Installation File.",getDirName(sys.path[1]).decode("utf-8"),"Hamsi Manager Installation File (*HamsiManager*.tar.gz)")
         if f!="":
-            return unicode(str(f), "utf-8")
+            return str(f)
         return ""
 
 try:

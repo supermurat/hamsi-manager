@@ -429,12 +429,12 @@ class Tables(MTableWidget):
         return False
         
     def createTableWidgetItem(self, _value, _currentValue=None):
-        item = MTableWidgetItem(_value.decode("utf-8"))
-        item.setStatusTip(_value.decode("utf-8"))
+        item = MTableWidgetItem(trForUI(_value))
+        item.setStatusTip(trForUI(_value))
         if _currentValue!=None:
             if str(_value)!=str(_currentValue):
                 item.setBackground(MBrush(MColor(142,199,255)))
-                item.setToolTip(Organizer.showWithIncorrectChars(_currentValue).decode("utf-8"))
+                item.setToolTip(trForUI(_currentValue))
         return item
         
     def checkUnSavedValues(self):
@@ -513,7 +513,7 @@ class Tables(MTableWidget):
                     for columnNo in range(Universals.MainWindow.Table.columnCount()):
                         if Universals.MainWindow.Table.isColumnHidden(columnNo)==False:
                             info +="<td>"
-                            info +=str(unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(),"utf-8"))
+                            info +=str(str(Universals.MainWindow.Table.item(rowNo,columnNo).text()))
                             info +="</td> \n"
                     info +="</tr> \n"
             info+="</table> \n"
@@ -533,7 +533,7 @@ class Tables(MTableWidget):
                 if Universals.MainWindow.Table.isRowHidden(rowNo)==False:
                     for columnNo in range(Universals.MainWindow.Table.columnCount()):
                         if Universals.MainWindow.Table.isColumnHidden(columnNo)==False:
-                            info +=str(unicode(Universals.MainWindow.Table.item(rowNo,columnNo).text(),"utf-8"))
+                            info +=str(str(Universals.MainWindow.Table.item(rowNo,columnNo).text()))
                             info +="\t"
                     info +="\n"
         if _actionType=="return":
@@ -553,9 +553,9 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(Universals.MainWindow.Table.parent(),translate("Tables", "Save As"),
-                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+(" (*."+fileExt).decode("utf-8")+")")
+                                    Variables.userDirectoryPath.decode("utf-8"),trForUI(formatTypeName+" (*."+fileExt+")"))
             if filePath!="":
-                filePath = unicode(filePath, "utf-8")
+                filePath = str(filePath)
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
                 elif _formatType=="plainText" and filePath[-4:]!=".txt":
@@ -573,10 +573,10 @@ class Tables(MTableWidget):
             if _formatType=="html":
                 QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
-                wvWeb.setHtml(info.decode("utf-8"))
+                wvWeb.setHtml(trForUI(info))
             elif _formatType=="plainText":
                 wvWeb = MTextEdit()
-                wvWeb.setPlainText(info.decode("utf-8"))
+                wvWeb.setPlainText(trForUI(info))
             pbtnClose = MPushButton(translate("Tables", "OK"))
             MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
             vblMain.addWidget(wvWeb)
@@ -589,5 +589,5 @@ class Tables(MTableWidget):
             dDialog.setMinimumHeight(400)
             dDialog.show()
         elif _actionType=="clipboard":
-            MApplication.clipboard().setText(info.decode("utf-8"))
+            MApplication.clipboard().setText(trForUI(info))
             
