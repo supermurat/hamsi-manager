@@ -1870,7 +1870,7 @@ class QuickOptions(MMenu):
                 else:
                     selectedValue = False
             elif self.typesOfValues[indexNo][0] =="options":
-                valueIndex = int(senderAction.objectName().split(";")[1])
+                valueIndex = int(_action.objectName().split(";")[1])
                 selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][valueIndex]
             Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
         except:
