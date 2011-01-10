@@ -90,7 +90,7 @@ class Variables():
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
                   "iconNameFormat", "iconFileType", "pathOfMysqldSafe", 
                   "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral", 
-                  "colorSchemes"]
+                  "colorSchemes", "isActiveAutoMakeIconToDirectory"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -291,7 +291,8 @@ class Variables():
                 "isActiveCompleter": "True", 
                 "isShowAllForCompleter": "True", 
                 "isActiveClearGeneral": "False", 
-                "colorSchemes": ""
+                "colorSchemes": "", 
+                "isActiveAutoMakeIconToDirectory": "True"
                 }
                 
     def getValueTypesAndValues():
@@ -407,7 +408,8 @@ class Variables():
                 "isActiveCompleter": "bool", 
                 "isShowAllForCompleter": "bool", 
                 "isActiveClearGeneral": "bool", 
-                "colorSchemes": "Default"
+                "colorSchemes": "Default", 
+                "isActiveAutoMakeIconToDirectory": "bool"
                 }
 
     def getAvailablePlayers():

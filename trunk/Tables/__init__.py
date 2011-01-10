@@ -395,7 +395,7 @@ class Tables(MTableWidget):
     def continueSave(self, _returned=None):
         import Records
         if Universals.tableType!=4:
-            if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+            if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                 InputOutputs.IA.checkIcon(InputOutputs.currentDirectoryPath)
         InputOutputs.IA.completeSmartCheckIcon()
         Records.saveAllRecords()
