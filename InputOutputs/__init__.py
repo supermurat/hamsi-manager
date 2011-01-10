@@ -573,10 +573,10 @@ class InputOutputs:
                     if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                         return _newPath
             if isDir(_newPath)==True and _actionType=="auto":
-                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
+                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                     checkIcon(_newPath)
             elif _actionType=="auto":
-                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                     if isDir(getDirName(_oldPath)):
                         checkIcon(getDirName(_oldPath))
                     if isDir(getDirName(_newPath)):
@@ -607,7 +607,7 @@ class InputOutputs:
             if isChange==True:
                 copyFileOrDir(_oldPath,_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
-                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
+                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                     checkIcon(_newPath)
             return _newPath
         else:
@@ -622,7 +622,7 @@ class InputOutputs:
                 if isDir(currentDirectoryPath):
                     if clearEmptyDirectories(currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
                         return getDirName(currentDirectoryPath)
-            if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+            if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                 if isDir(currentDirectoryPath):
                     checkIcon(currentDirectoryPath)
         return currentDirectoryPath

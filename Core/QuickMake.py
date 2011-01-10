@@ -312,7 +312,7 @@ class QuickMakeWindow(MyDialog):
                         objectType = InputOutputs.IA.getObjectType(newDirName + "/" + fileAndDirs)
                         InputOutputs.IA.moveOrChange(newDirName + "/" + fileAndDirs, 
                                   newDirName + "/" + Organizer.emend(fileAndDirs, objectType), objectType)
-                    if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                    if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                         InputOutputs.IA.checkIcon(newDirName)
                     if InputOutputs.IA.isDir(newDirName):
                         InputOutputs.IA.completeSmartCheckIcon()

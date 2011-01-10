@@ -444,6 +444,7 @@ class Options(MDialog):
             Universals.saveSettings()
             if isSaveSearchAndReplaceTable:
                 self.categories[searchAndReplaceCategoryNo].searchAndReplaceTable.save()
+            Universals.MainWindow.ToolsBar.refreshQuickOptions()
             Records.checkSize()
             if isDontClose:return False
             if isNeededRestart==True:
@@ -1176,10 +1177,11 @@ class Cover(MWidget):
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["priorityIconNames", "isChangeExistIcon", "isAskIfHasManyImagesInAlbumDirectory", 
+                            "isActiveAutoMakeIconToDirectory", 
                             "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", 
                             "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove", 
                             "iconNameFormat", "iconFileType"]
-        self.tabsOfSettings = [0, 0, 0, 0, 0, 0, 0, 
+        self.tabsOfSettings = [0, 0, 0, 0, 0, 0, 0, 0, 
                                1, 1]
         self.tabNames = [translate("Options/Cover", "General"), 
                          translate("Options/Cover", "For Amarok")]
@@ -1191,6 +1193,7 @@ class Cover(MWidget):
         self.labels = [translate("Options/Cover", "Priority Icon Names"), 
                     translate("Options/Cover", "Change Directory Icon If Is Already Exist"), 
                     translate("Options/Cover", "Ask Me If Has Many Images"), 
+                    translate("Options/Cover", "Auto Change Directory Icon"), 
                     translate("Options/Cover", "Change Directory Icon (Table Saved)"), 
                     translate("Options/Cover", "Change Directory Icon (Moved Or Changed)"), 
                     translate("Options/Cover", "Change Directory Icon (Copied Or Changed)"), 
@@ -1200,19 +1203,36 @@ class Cover(MWidget):
         self.toolTips = [translate("Options/Cover", "The file names you selected will be folder icons first.<br>If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.<br><font color=blue>Example: cover; icon...</font>"), 
                     translate("Options/Cover", "Are you want to change directory icon if is already exist?"), 
                     translate("Options/Cover", "Ask me if has many images in the directory.<br>Note: If you select \"No\" the first image will be chosen."), 
+                    translate("Options/Cover", "Are you want to change directory icon automatically?"), 
                     translate("Options/Cover", "Do you want to change directory icon when table saved?"), 
                     translate("Options/Cover", "Do you want to change directory icon when directory moved or changed?"), 
                     translate("Options/Cover", "Do you want to change directory icon when directory copied or changed?"), 
                     translate("Options/Cover", "Do you want to change directory icon when file moved?"), 
                     translate("Options/Cover", "You can set icon name format."), 
                     translate("Options/Cover", "You can select file type of icon.")]
-        self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
-                            ["trString", 0], ["options", 0]]
+        self.typesOfValues = ["list", "Yes/No", "Yes/No", 
+                    "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
+                    ["trString", 0], ["options", 0]]
         self.valuesOfOptions = [["png", "jpg"]]
         self.valuesOfOptionsKeys = [["png", "jpg"]]
         self.stringSearchList = [Variables.iconNameFormatKeys]
         self.stringReplaceList = [Universals.iconNameFormatLabels]
         createOptions(self) 
+        if self.visibleKeys.count("isActiveAutoMakeIconToDirectory")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")], SIGNAL("currentIndexChanged(int)"), self.activeAutoMakeIconToDirectory)
+            self.activeAutoMakeIconToDirectory()
+            
+    def activeAutoMakeIconToDirectory(self):
+        if self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")].currentIndex()==1:
+            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenSave", True)
+            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenMoveOrChange", True)
+            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenCopyOrChange", True)
+            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenFileMove", True)
+        else:
+            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenSave", False)
+            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenMoveOrChange", False)
+            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenCopyOrChange", False)
+            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenFileMove", False)
  
 
 class Advanced(MWidget):
@@ -1769,10 +1789,13 @@ class QuickOptions(MMenu):
         self.setTitle(translate("MenuBar", "Quick Options"))
         self.setObjectName(translate("MenuBar", "Quick Options"))
         self.values = []
-        self.keysOfSettings = ["isActiveClearGeneral", "validSentenceStructure", "validSentenceStructureForFile", 
-                                "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
-                                "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
+        self.keysOfSettings = ["isActiveClearGeneral", "isActiveAutoMakeIconToDirectory", 
+                                "validSentenceStructure", "validSentenceStructureForFile", 
+                                "validSentenceStructureForFileExtension", "fileExtesionIs", 
+                                "isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", 
+                                "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
         self.labels = [translate("QuickOptions", "Activate General Cleaner"), 
+            translate("QuickOptions", "Auto Change Directory Icon"), 
             translate("QuickOptions", "Valid Sentence Structure"), 
             translate("QuickOptions", "Valid Sentence Structure For Files"),
             translate("QuickOptions", "Valid Sentence Structure For File Extensions"), 
@@ -1782,6 +1805,7 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Clear First And Last Space Chars"), 
             translate("QuickOptions", "Correct Double Space Chars")]
         self.toolTips = [translate("QuickOptions", "Are you want to activate General Cleaner?"), 
+            translate("QuickOptions", "Are you want to change directory icon automatically?"), 
             translate("QuickOptions", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
             translate("QuickOptions", "File and directory names will be changed automatically to the format you selected."),
             translate("QuickOptions", "File extensions will be changed automatically to the format you selected."), 
@@ -1790,7 +1814,7 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Are you want to correct file and directory names by search and replace table?"), 
             translate("QuickOptions", "Are you want to clear first and last space chars?"), 
             translate("QuickOptions", "Are you want to correct double space chars?")]
-        self.typesOfValues = ["Yes/No", ["options", 0], ["options", 0], ["options", 0], 
+        self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("QuickOptions", "Title"), 
@@ -1806,39 +1830,47 @@ class QuickOptions(MMenu):
         
     def createActions(self):
         for x, keyValue in enumerate(self.keysOfSettings):
-            actionLabelList, selectedIndex = [], 0
             if self.typesOfValues[x][0]=="options":
+                actionLabelList, selectedIndex = [], 0
                 actionLabelList = self.valuesOfOptions[self.typesOfValues[x][1]]
                 selectedIndex = self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(Universals.MySettings[keyValue])
+                self.values.append(MMenu(self.labels[x], self))
+                actgActionGroupTableTypes = MActionGroup(self.values[x])
+                for y, actionLabel in enumerate(actionLabelList):
+                    actAction = actgActionGroupTableTypes.addAction(actionLabel)
+                    actAction.setCheckable(True)
+                    actAction.setObjectName(trForUI(actionLabel+";"+str(y)))
+                    if selectedIndex==y:
+                        actAction.setChecked(True)
+                self.values[x].addActions(actgActionGroupTableTypes.actions())
+                self.addAction(self.values[x].menuAction())
+                MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
             elif self.typesOfValues[x]=="Yes/No":
-                actionLabelList = [translate("QuickOptions", "No"), translate("QuickOptions", "Yes")]
+                self.values.append(MAction(self.labels[x],self))
+                self.values[x].setObjectName(self.labels[x])
+                self.values[x].setToolTip(self.toolTips[x])
+                self.values[x].setCheckable(True)
                 if Universals.getBoolValue(keyValue):
-                    selectedIndex = 1
-            self.values.append(MMenu(self.labels[x], self))
-            actgActionGroupTableTypes = MActionGroup(self.values[x])
-            for y, actionLabel in enumerate(actionLabelList):
-                actAction = actgActionGroupTableTypes.addAction(actionLabel)
-                actAction.setCheckable(True)
-                actAction.setObjectName(trForUI(actionLabel+";"+str(y)))
-                if selectedIndex==y:
-                    actAction.setChecked(True)
-            self.values[x].addActions(actgActionGroupTableTypes.actions())
-            self.addAction(self.values[x].menuAction())
+                    self.values[x].setChecked(Universals.isChangeAll)
+                self.addAction(self.values[x])
+                MObject.connect(self.values[x], SIGNAL("changed()"), self.valueChanged)
             self.values[x].setToolTip(self.toolTips[x])
-            MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
         
     def valueChanged(self, _action=None):
         try:
             senderAction = self.sender()
-            indexNo = self.values.index(senderAction.parent())
+            if senderAction.parent() in self.values:
+                indexNo = self.values.index(senderAction.parent())
+            else:
+                indexNo = self.values.index(senderAction)
             selectedValue = None
-            valueIndex = int(_action.objectName().split(";")[1])
             if self.typesOfValues[indexNo] =="Yes/No":
-                if valueIndex==0:
-                    selectedValue = False
-                else:
+                if senderAction.isChecked():
                     selectedValue = True
+                else:
+                    selectedValue = False
             elif self.typesOfValues[indexNo][0] =="options":
+                valueIndex = int(senderAction.objectName().split(";")[1])
                 selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][valueIndex]
             Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
         except:

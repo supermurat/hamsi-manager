@@ -371,10 +371,10 @@ class IA:
                     if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                         return _newPath
             if isDir(_newPath)==True and _actionType=="auto":
-                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
+                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                     checkIcon(_newPath)
             elif _actionType=="auto":
-                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                     if isDir(getDirName(_oldPath)):
                         checkIcon(getDirName(_oldPath))
                     if isDir(getDirName(_newPath)):
@@ -405,7 +405,7 @@ class IA:
             if isChange==True:
                 copyFileOrDir(_oldPath,_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
-                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
+                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                     checkIcon(_newPath)
             return _newPath
         else:
@@ -423,7 +423,7 @@ class IA:
                 if isDir(InputOutputs.currentDirectoryPath):
                     if clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
                         return getDirName(InputOutputs.currentDirectoryPath)
-            if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+            if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                 if isDir(InputOutputs.currentDirectoryPath):
                     checkIcon(InputOutputs.currentDirectoryPath)
         return InputOutputs.currentDirectoryPath
