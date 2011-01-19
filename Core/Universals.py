@@ -41,7 +41,7 @@ class Universals():
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
-    tableTypesNames = ["", "", "", "", ""]
+    tableTypesNames = []
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
     pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
@@ -174,13 +174,15 @@ class Universals():
         return tt
         
     def fillUIUniversals():
-        global tableTypesNames, tableType, iconNameFormatLabels
+        global tableTypesNames, iconNameFormatLabels
         from MyObjects import translate
         tableTypesNames = [translate("Tables", "Folder Table"), 
                             translate("Tables", "File Table"), 
                             translate("Tables", "Music Table"), 
                             translate("Tables", "Subfolder Table"), 
-                            translate("Tables", "Cover Table")]
+                            translate("Tables", "Cover Table"), 
+                            translate("Tables", "Amarok Music Table"), 
+                            translate("Tables", "Amarok Cover Table")]
         iconNameFormatLabels = [translate("Universals", "%Artist%"), 
                             translate("Universals", "%Album%"), 
                             translate("Universals", "%Year%"), 

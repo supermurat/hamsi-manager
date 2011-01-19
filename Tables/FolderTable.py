@@ -73,12 +73,11 @@ class Content():
                     if _table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(_table.item(rowNo,1).text())
                         _table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.currentDirectoryPath) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(_table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
                     newFilePath = newFilePath.replace("//", "/")
                     if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
                         changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
-                                                        newFilePath
-                                                        ])
+                                                        newFilePath])
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),rowNo+1,allItemNumber, True)

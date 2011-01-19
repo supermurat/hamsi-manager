@@ -366,11 +366,13 @@ class FileManager():
     
     def showInTable(self):
         try:
-            InputOutputs.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
-            Universals.MainWindow.Table.refresh(InputOutputs.currentDirectoryPath)
+            Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
         except:
             error = ReportBug.ReportBug()
             error.show()
+            
+    def getCurrentDirectoryPath(self):
+        return str(self.currentDirectory).replace("file://", "")
           
           
 class BookmarksMenu(MMenu):
@@ -463,8 +465,8 @@ class Bookmarks(MDialog):
             
     def addBookmark(self):
         try:
-            isim=str(InputOutputs.currentDirectoryPath).split("/")
-            Databases.BookmarksOfDirectories.insert(isim[len(isim)-1], InputOutputs.currentDirectoryPath)
+            currentPath = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+            Databases.BookmarksOfDirectories.insert(currentPath.split("/")[-1], currentPath)
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:
