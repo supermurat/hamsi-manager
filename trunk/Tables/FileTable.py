@@ -61,9 +61,9 @@ class Content():
         for rowNo in range(_table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(str(_table.currentTableContentValues[rowNo]["path"])):
+                if InputOutputs.IA.isWritableFileOrDir(_table.currentTableContentValues[rowNo]["path"]):
                     if _table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(str(_table.currentTableContentValues[rowNo]["path"]))
+                        InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
                     baseNameOfDirectory = _table.currentTableContentValues[rowNo]["baseNameOfDirectory"]
                     baseName = _table.currentTableContentValues[rowNo]["baseName"]
@@ -73,12 +73,11 @@ class Content():
                     if _table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(_table.item(rowNo,1).text())
                         _table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.currentDirectoryPath) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(_table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
                     newFilePath = newFilePath.replace("//", "/")
                     if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
                         changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
-                                                        newFilePath
-                                                        ])
+                                                        newFilePath])
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Files", "Writing File Informations"),rowNo+1,allItemNumber, True)

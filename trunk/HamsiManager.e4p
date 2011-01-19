@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2010-11-28, 02:06:32 -->
-<!-- Copyright (C) 2010 Murat Demir, mopened@gmail.com -->
+<!-- Saved: 2011-01-14, 00:09:56 -->
+<!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
   <ProgLanguage mixed="1">Python</ProgLanguage>
@@ -93,6 +93,8 @@
     <Source>Taggers/EyeD3Tagger.py</Source>
     <Source>test2.py</Source>
     <Source>setup.py</Source>
+    <Source>Tables/AmarokCoverTable.py</Source>
+    <Source>Tables/AmarokMusicTable.py</Source>
   </Sources>
   <Forms>
   </Forms>

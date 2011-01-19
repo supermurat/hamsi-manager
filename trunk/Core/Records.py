@@ -35,7 +35,7 @@ class Records():
     
     def create():
         global recordContents
-        recordContents += str(translate("Records", "Hamsi Manager Log File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+        recordContents += str(translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
     
     def setTitle(_title):
         global isSetedTitle, recordContents
@@ -84,12 +84,12 @@ class Records():
         else:
             if _isShowErrorDialog:
                 import Dialogs
-                Dialogs.showError(translate("Records", "Cannot Find The Log File"), 
-                            translate("Records", "No log files found."))
+                Dialogs.showError(translate("Records", "Cannot Find The Record File"), 
+                            translate("Records", "Record file not found."))
             return False
             
     def clearRecords():
-        InputOutputs.writeToFile(Universals.recordFilePath, str(translate("Records", "Hamsi Manager Log File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+        InputOutputs.writeToFile(Universals.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
         try:dialog.close()
         except:pass
         
@@ -102,7 +102,7 @@ class Records():
             dialog = MDialog(Universals.MainWindow)
             if Universals.isActivePyKDE4==True:
                 dialog.setButtons(MDialog.None)
-            dialog.setWindowTitle(translate("Records", "Last Action Logs"))
+            dialog.setWindowTitle(translate("Records", "Last Records"))
             pnlMain = MWidget(dialog)
             vblMain = MVBoxLayout(pnlMain)
             info = MTextEdit()

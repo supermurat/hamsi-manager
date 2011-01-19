@@ -154,6 +154,8 @@ class AmarokEmbeddedDBCore():
         
     def startEmbeddedDB(_isNoAlertIfSuccesfully=True):
         global isStarted
+        if isStarted: 
+            return True
         if Universals.checkMysqldSafe():
             import Execute
             Execute.executeAsThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Universals.pathOfSettingsDirectory+"/Amarok/my.cnf"])
@@ -167,6 +169,8 @@ class AmarokEmbeddedDBCore():
         
     def stopEmbeddedDB(_isNoAlertIfSuccesfully=True):
         global isStarted
+        if isStarted==False: 
+            return True
         isStarted = False
         mysqldPID = getPID()
         if mysqldPID!=None:
@@ -239,9 +243,13 @@ class AmarokEmbeddedDBConfigurator(MyDialog):
         
     def checkRunState(self):
         if isRunning():
+            self.pbtnCreateEmbeddedDB.setEnabled(False)
+            self.pbtnGenerateEmbeddedDB.setEnabled(False)
             self.pbtnStartEmbeddedDB.setEnabled(False)
             self.pbtnStopEmbeddedDB.setEnabled(True)
         else:
+            self.pbtnCreateEmbeddedDB.setEnabled(True)
+            self.pbtnGenerateEmbeddedDB.setEnabled(True)
             self.pbtnStartEmbeddedDB.setEnabled(True)
             self.pbtnStopEmbeddedDB.setEnabled(False)
         

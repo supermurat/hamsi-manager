@@ -419,13 +419,14 @@ class IA:
             for no in range(0,len(_values)):
                 moveOrChange(_values[no][0], _values[no][1], getObjectType(_values[no][0]))
                 Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
-            if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                if isDir(InputOutputs.currentDirectoryPath):
-                    if clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
-                        return getDirName(InputOutputs.currentDirectoryPath)
-            if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                if isDir(InputOutputs.currentDirectoryPath):
-                    checkIcon(InputOutputs.currentDirectoryPath)
+            if InputOutputs.currentDirectoryPath!=None:
+                if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                    if isDir(InputOutputs.currentDirectoryPath):
+                        if clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
+                            return getDirName(InputOutputs.currentDirectoryPath)
+                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                    if isDir(InputOutputs.currentDirectoryPath):
+                        checkIcon(InputOutputs.currentDirectoryPath)
         return InputOutputs.currentDirectoryPath
         
     def activateSmartCheckIcon():

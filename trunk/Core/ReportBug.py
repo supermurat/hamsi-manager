@@ -82,7 +82,7 @@ class ReportBug(MDialog):
         except:pass
         try:
             try:
-                errorDetails+="<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + InputOutputs.currentDirectoryPath+"</p>"
+                errorDetails+="<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + Universals.MainWindow.FileManager.getCurrentDirectoryPath() + "</p>"
             except:pass
             errorDetails +="<hr><p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
             import Tables

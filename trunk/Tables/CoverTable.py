@@ -115,12 +115,11 @@ class Content():
                     if _table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(_table.item(rowNo,1).text())
                         _table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.currentDirectoryPath) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(_table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
                     newFilePath = newFilePath.replace("//", "/")
                     if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
                         changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
-                                                        newFilePath
-                                                        ])
+                                                        newFilePath])
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),rowNo+1,allItemNumber, True)
@@ -234,7 +233,7 @@ class CoverTable():
                     for rowNo in range(self.Table.rowCount()):
                         if self.Table.checkHiddenColumn(3) and self.Table.checkHiddenColumn(4):
                             if _table.isChangableItem(rowNo, 3):
-                                directoryPath = str(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))+"/"+str(self.Table.item(rowNo,0).text())+"/"+str(self.Table.item(rowNo,1).text())
+                                directoryPath = InputOutputs.getDirName(InputOutputs.getDirName(_table.currentTableContentValues[rowNo]["path"]))+"/"+str(self.Table.item(rowNo,0).text())+"/"+str(self.Table.item(rowNo,1).text())
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]
                                     self.Table.item(rowNo,3).setText(directoryAndValues["coverPath"][0].replace(directoryPath, "."))

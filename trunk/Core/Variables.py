@@ -42,13 +42,13 @@ class Variables():
     mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
     imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
     windowModeKeys = ["Normal", "Mini"]
-    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "cover.png"]
+    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokMusicTable.png", "amarokCoverTable.png"]
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
                   "hiddenFileTableColumns", "hiddenMusicTableColumns", "hiddenSubFolderTableColumns", 
-                  "hiddenCoverTableColumns", 
+                  "hiddenCoverTableColumns", "hiddenAmarokMusicTableColumns", "hiddenAmarokCoverTableColumns", 
                   "isPlayNow", "MainWindowGeometries", "tableType", 
                   "activeTabNoOfSpecialTools", "unneededFiles", "ignoredFiles", 
                   "imageExtensions", "musicExtensions", "priorityIconNames", 
@@ -192,6 +192,8 @@ class Variables():
                 "hiddenMusicTableColumns": str([]), 
                 "hiddenSubFolderTableColumns": str([]), 
                 "hiddenCoverTableColumns": str([]),
+                "hiddenAmarokMusicTableColumns": str([]),
+                "hiddenAmarokCoverTableColumns": str([]),
                 "isPlayNow": "False", 
                 "MainWindowGeometries": str([50, 50, 850, 533]), 
                 "tableType": "2", 
@@ -309,6 +311,8 @@ class Variables():
                 "hiddenMusicTableColumns": ["intList", range(0, 10)], 
                 "hiddenSubFolderTableColumns": ["intList", range(0, 2)], 
                 "hiddenCoverTableColumns": ["intList", range(0, 2)], 
+                "hiddenAmarokMusicTableColumns": ["intList", range(0, 10)], 
+                "hiddenAmarokCoverTableColumns": ["intList", range(0, 2)], 
                 "isPlayNow": "bool", 
                 "MainWindowGeometries": ["intStaticListLen", 4], 
                 "tableType": ["int", range(0, 5)], 

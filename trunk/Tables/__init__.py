@@ -99,27 +99,7 @@ class Tables(MTableWidget):
         self.hblBox.addWidget(self.tbCorrect)
         self.hblBox.addWidget(self.pbtnShowDetails, 1)
         self.hblBox.addWidget(self.pbtnSave, 2)
-        if Universals.tableType==0:
-            import FolderTable
-            self.SubTable = FolderTable.FolderTable(self)
-        elif Universals.tableType==1:
-            import FileTable
-            self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==2:
-            import Taggers
-            if Taggers.getTagger(True)!=None:
-                import MusicTable
-                self.SubTable = MusicTable.MusicTable(self)
-            else:
-                Universals.tableType = 1
-                import FileTable
-                self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==3:
-            import SubFolderTable
-            self.SubTable = SubFolderTable.SubFolderTable(self)
-        elif Universals.tableType==4:
-            import CoverTable
-            self.SubTable = CoverTable.CoverTable(self)
+        self.setSubTable()
         self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.SubTable.hiddenTableColumnsSettingKey])
         _parent.MainLayout.addLayout(self.hblBox)
         self.mContextMenuColumns = MMenu()
@@ -143,6 +123,51 @@ class Tables(MTableWidget):
         self.mContextMenu.addMenu(self.mContextMenuColumns)
         self.mContextMenu.addMenu(self.mContextMenuOpenWith)
         self.checkActionsStates()
+    
+    def setSubTable(self):
+        if Universals.tableType==0:
+            import FolderTable
+            self.SubTable = FolderTable.FolderTable(self)
+        elif Universals.tableType==1:
+            import FileTable
+            self.SubTable = FileTable.FileTable(self)
+        elif Universals.tableType==2:
+            import Taggers
+            if Taggers.getTagger(True)!=None:
+                import MusicTable
+                self.SubTable = MusicTable.MusicTable(self)
+            else:
+                Universals.tableType = 1
+                import FileTable
+                self.SubTable = FileTable.FileTable(self)
+        elif Universals.tableType==3:
+            import SubFolderTable
+            self.SubTable = SubFolderTable.SubFolderTable(self)
+        elif Universals.tableType==4:
+            import CoverTable
+            self.SubTable = CoverTable.CoverTable(self)
+        elif Universals.tableType==5:
+#            import Taggers, Amarok
+#            if Taggers.getTagger(True)!=None and Amarok.checkAmarok():
+#                import AmarokMusicTable
+#                self.SubTable = AmarokMusicTable.AmarokMusicTable(self)
+#            else:
+                Dialogs.show("This feature not completed/tested. Please wait for this feature. We will open file table now.")
+                #FIXME: Complate this feature
+                Universals.tableType = 1
+                import FileTable
+                self.SubTable = FileTable.FileTable(self)
+        elif Universals.tableType==6:
+#            import Amarok
+#            if Amarok.checkAmarok():
+#                import AmarokCoverTable
+#                self.SubTable = AmarokCoverTable.AmarokCoverTable(self)
+#            else:
+                Dialogs.show("This feature not completed/tested. Please wait for this feature. We will open file table now.")
+                #FIXME: Complate this feature
+                Universals.tableType = 1
+                import FileTable
+                self.SubTable = FileTable.FileTable(self)
     
     def getColumnKeyFromName(self, _nameWithMark):
         for x, name in enumerate(self.tableColumns):
@@ -342,8 +367,10 @@ class Tables(MTableWidget):
     def refresh(self, _path = ""):
         global isShowChanges, isAskShowHiddenColumn
         isAskShowHiddenColumn = True
-        if InputOutputs.IA.isDir(_path)==False:
-            _path = InputOutputs.currentDirectoryPath
+        if Universals.tableType not in [5, 6]:
+            InputOutputs.currentDirectoryPath = InputOutputs.getRealDirName(_path)
+        else:
+            InputOutputs.currentDirectoryPath = None
         isShowChanges=False
         self.clear()
         self.setColumnCount(len(self.tableColumns))
@@ -353,7 +380,7 @@ class Tables(MTableWidget):
             for x in range(len(self.tableColumns)):
                 self.setColumnWidth(x,columnWidth)
         import MyThread
-        myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [_path])
+        myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [InputOutputs.currentDirectoryPath])
         myProcs.run()
 
     def continueRefresh(self, _returned=None):
@@ -381,10 +408,11 @@ class Tables(MTableWidget):
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
             if Universals.tableType!=4:
                 InputOutputs.IA.activateSmartCheckIcon()
-            if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                if InputOutputs.IA.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
-                    Universals.MainWindow.FileManager.makeRefresh(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))
-                    return True
+            if Universals.tableType not in [5, 6]:
+                if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
+                    if InputOutputs.IA.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                        Universals.MainWindow.FileManager.makeRefresh(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))
+                        return True
             import MyThread
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
@@ -394,7 +422,7 @@ class Tables(MTableWidget):
         
     def continueSave(self, _returned=None):
         import Records
-        if Universals.tableType!=4:
+        if Universals.tableType not in [4, 5, 6]:
             if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                 InputOutputs.IA.checkIcon(InputOutputs.currentDirectoryPath)
         InputOutputs.IA.completeSmartCheckIcon()
