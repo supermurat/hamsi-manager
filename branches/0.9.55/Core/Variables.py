@@ -28,8 +28,8 @@ class Variables():
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     Catalog = "HamsiManager" 
-    version = "0.9.54"
-    intversion = 954
+    version = "0.9.55"
+    intversion = 955
     settingVersion = "950"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
