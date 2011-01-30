@@ -338,5 +338,8 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["isActiveCompleter", "isShowAllForCompleter"]
         if oldVersion<908:
             newSettingsKeys = newSettingsKeys + ["isActiveClearGeneral"]
+        if oldVersion<961:
+            newSettingsKeys = newSettingsKeys + ["colorSchemes", "isActiveAutoMakeIconToDirectory", 
+                  "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]
         return newSettingsKeys, changedDefaultValuesKeys
         

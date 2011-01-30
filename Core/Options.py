@@ -290,8 +290,19 @@ class Options(MDialog):
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
                                             directory, trForUI(translate("Options", "Executable Files") + " (*)"))
                 if filePath!="":
-                    leValue.setText(filePath)     
-            
+                    leValue.setText(filePath)  
+                    
+    def pbtnDirectoryClicked(self):
+        requestInfos = str(self.sender().objectName()).split("_")
+        leValue = self.categories[self.tboxCategories.currentIndex()].values[int(requestInfos[2])]
+        if requestInfos[0]=="directory":  
+            if requestInfos[1]=="exist":
+                directory = InputOutputs.IA.getRealPath(leValue.text())
+                dirPath = MFileDialog.getExistingDirectory(self,translate("Options", "Choose Image"),
+                                                directory)
+                if dirPath!="":
+                    leValue.setText(dirPath)
+                
     def pbtnDefaultValueClicked(self):
         requestInfos = str(self.sender().objectName()).split("_")
         categoryNo = self.tboxCategories.currentIndex()
@@ -326,6 +337,8 @@ class Options(MDialog):
                 self.categories[categoryNo].values[keyNo].setCurrentIndex(0)
         elif typeOfValue=="file":
             self.categories[categoryNo].values[keyNo].setText(self.defaultValues[keyValue])
+        elif typeOfValue=="directory":
+            self.categories[categoryNo].values[keyNo].setText(self.defaultValues[keyValue])
     
     def createDefaultValueButton(self, _category, _typeOfValue, _keyValue, x):
         pbtnDefaultValue = MPushButton(translate("Options", "?"))
@@ -355,6 +368,8 @@ class Options(MDialog):
             else:
                 toolTips += str(translate("Options", "No"))
         elif _typeOfValue=="file":
+            toolTips += self.defaultValues[_keyValue]
+        elif _typeOfValue=="directory":
             toolTips += self.defaultValues[_keyValue]
         pbtnDefaultValue.setToolTip(trForUI(toolTips))
         pbtnDefaultValue.setFixedWidth(25)
@@ -407,6 +422,8 @@ class Options(MDialog):
                             else:
                                 value = "True"
                         elif category.typesOfValues[x][0]=="file":
+                            value = str(category.values[x].text())
+                        elif category.typesOfValues[x][0]=="directory":
                             value = str(category.values[x].text())
                         elif category.typesOfValues[x]=="password":
                             value = str(category.values[x].text())
@@ -485,6 +502,8 @@ class Options(MDialog):
                     else:
                         value = "True"
                 elif _category.typesOfValues[x][0]=="file":
+                    value = str(_category.values[x].text())
+                elif _category.typesOfValues[x][0]=="directory":
                     value = str(_category.values[x].text())
                 elif _category.typesOfValues[x]=="password":
                     value = str(_category.values[x].text())
@@ -587,6 +606,15 @@ class Options(MDialog):
                     pbtnFile.setToolTip(_category.toolTips[x])
                     MObject.connect(pbtnFile, SIGNAL("clicked()"), _category.parent().pbtnFileClicked)
                     valueLayout.addWidget(pbtnFile)
+                elif _category.typesOfValues[x][0]=="directory":
+                    typeOfValue = "directory"
+                    _category.values.append(MLineEdit())
+                    _category.values[x].setText(Universals.MySettings[keyValue])
+                    pbtnDirectory = MPushButton(translate("Options", "...."))
+                    pbtnDirectory.setObjectName("directory_"+_category.typesOfValues[x][1]+"_"+str(x))
+                    pbtnDirectory.setToolTip(_category.toolTips[x])
+                    MObject.connect(pbtnDirectory, SIGNAL("clicked()"), _category.parent().pbtnDirectoryClicked)
+                    valueLayout.addWidget(pbtnDirectory)
                 if _category.typesOfValues[x]=="password":
                     _category.values.append(MLineEdit())
                     _category.values[x].setText(trForUI(Universals.MySettings[keyValue]))
@@ -1243,8 +1271,8 @@ class Advanced(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["fileSystemEncoding", "isMoveToTrash", "imageExtensions", "musicExtensions", "NeededObjectsName", "isActivePyKDE4"]
-        self.tabsOfSettings = [None, None, None, None, None, None]
+        self.keysOfSettings = ["fileSystemEncoding", "imageExtensions", "musicExtensions", "NeededObjectsName", "isActivePyKDE4", "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]
+        self.tabsOfSettings = [None, None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -1253,18 +1281,20 @@ class Advanced(MWidget):
         self.neededRestartSettingKeys = ["fileSystemEncoding", "NeededObjectsName", "isActivePyKDE4"]
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/Advanced", "File System Character Set"), 
-                    translate("Options/Advanced", "Move To Trash"),  
                     translate("Options/Advanced", "Graphics Files` Extensions"), 
                     translate("Options/Advanced", "Music Files` Extensions"), 
                     translate("Options/Advanced", "Please Select The Object Set You Want To Use"), 
-                    translate("Options/Advanced", "Do You Want To Use PyKDE4?")]
+                    translate("Options/Advanced", "Do You Want To Use PyKDE4?"), 
+                    translate("Options/Advanced", "Never Delete Files And Directories"), 
+                    translate("Options/Advanced", "Path Of Deleted Files And Directories")]
         self.toolTips = [trForUI(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Variables.defaultFileSystemEncoding)), 
-                    translate("Options/Advanced", "Would you like to move files to the trash files to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"), 
                     translate("Options/Advanced", "KPlease select the object set you want to use (the object types installed on your system will be presented in the Options dialog.)"), 
-                    translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>")]
-        self.typesOfValues = [["options", 0], "Yes/No", "list", "list", ["options", 1], "Yes/No"]
+                    translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>"), 
+                    translate("Options/Advanced", "Would you like to move files to specific directory to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
+                    translate("Options/Advanced", "")]
+        self.typesOfValues = [["options", 0], "list", "list", ["options", 1], "Yes/No", "Yes/No", ["directory", "exist"]]
         charSets = Variables.getCharSets()
         objectsNames = Variables.getMyObjectsNames()
         if Variables.isAvailablePyKDE4()==False:
@@ -1273,24 +1303,18 @@ class Advanced(MWidget):
             del self.labels[keyNo]
             del self.toolTips[keyNo]
             del self.typesOfValues[keyNo]
-        if Variables.isAvailableKDE4()==False:
-            keyNo = self.keysOfSettings.index("isMoveToTrash")
-            del self.keysOfSettings[keyNo]
-            del self.labels[keyNo]
-            del self.toolTips[keyNo]
-            del self.typesOfValues[keyNo]
         self.valuesOfOptions = [charSets, objectsNames]
         self.valuesOfOptionsKeys = [charSets, objectsNames]
         createOptions(self) 
-        if self.visibleKeys.count("isActivePyKDE4")>0:
-            MObject.connect(self.values[self.keysOfSettings.index("isActivePyKDE4")], SIGNAL("currentIndexChanged(int)"), self.activePyKDE4Changed)
-            self.activePyKDE4Changed()
+        if self.visibleKeys.count("isDontDeleteFileAndDirectory")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("isDontDeleteFileAndDirectory")], SIGNAL("currentIndexChanged(int)"), self.dontDeleteFileAndDirectoryChanged)
+            self.dontDeleteFileAndDirectoryChanged()
     
-    def activePyKDE4Changed(self):
-        if self.values[self.keysOfSettings.index("isActivePyKDE4")].currentIndex()==1:
-            setVisibleFormItems(self, "isMoveToTrash", True)
+    def dontDeleteFileAndDirectoryChanged(self):
+        if self.values[self.keysOfSettings.index("isDontDeleteFileAndDirectory")].currentIndex()==1:
+            setVisibleFormItems(self, "pathOfDeletedFilesAndDirectories", True)
         else:
-            setVisibleFormItems(self, "isMoveToTrash", False)
+            setVisibleFormItems(self, "pathOfDeletedFilesAndDirectories", False)
         
 class Player(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
@@ -1425,14 +1449,14 @@ class Amarok(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["amarokIsUseHost", "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB", "pathOfMysqldSafe"]
-        self.tabsOfSettings = [None, None, None, None, None, None, None]
+        self.keysOfSettings = ["amarokIsUseHost", "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB", "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "pathOfMysqldSafe"]
+        self.tabsOfSettings = [None, None, None, None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
-        self.neededRestartSettingKeys = []
+        self.neededRestartSettingKeys = ["amarokIsUseHost", "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost"]
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/Amarok", "Using MySQL Server"), 
                     translate("Options/Amarok", "Host"), 
@@ -1440,6 +1464,8 @@ class Amarok(MWidget):
                     translate("Options/Amarok", "User Name"), 
                     translate("Options/Amarok", "Password"), 
                     translate("Options/Amarok", "Database"), 
+                    translate("Options/Amarok", "Read Only Connection"), 
+                    translate("Options/Amarok", "Read Only Connection"), 
                     translate("Options/Amarok", "Path Of Executable \"mysqld_safe\"")]
         self.toolTips = [translate("Options/Amarok", "Are you use MySQL server in the Amarok?"), 
                     translate("Options/Amarok", "Please enter host name of Amarok database."), 
@@ -1447,8 +1473,10 @@ class Amarok(MWidget):
                     translate("Options/Amarok", "Please enter user name of Amarok database."), 
                     translate("Options/Amarok", "Please enter user password of Amarok database."), 
                     translate("Options/Amarok", "Please enter database name of Amarok database."), 
+                    translate("Options/Amarok", "Are you want to read only connection to database?<br>If you select \"Yes\" : amarok database files will be copied to %s. Any changes will not be written to the database so some things will not be run.<br>If you select \"No\" : Some Hamsi Manager default database files will be copied to %s. All existing files will be backup and after will be replaced. Some changes will be written to the database."), 
+                    translate("Options/Amarok", "Are you want to read only connection to database?<br>If you select \"No\" : Some changes will be written to the database. <br>If you select \"Yes\" : Any changes will not be written to the database so some things will not be run."), 
                     translate("Options/Amarok", "Where is executable \"mysqld_safe\" file?")]
-        self.typesOfValues = ["Yes/No", "string", "string", "string", "password", "string", ["file", "executable"]]
+        self.typesOfValues = ["Yes/No", "string", "string", "string", "password", "string", "Yes/No", "Yes/No", ["file", "executable"]]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
         createOptions(self)
@@ -1469,6 +1497,8 @@ class Amarok(MWidget):
             setVisibleFormItems(self, "amarokDBPass", False)
             setVisibleFormItems(self, "amarokDBDB", False)
             setVisibleFormItems(self, "pathOfMysqldSafe", True)
+            setVisibleFormItems(self, "isReadOnlyAmarokDB", True)
+            setVisibleFormItems(self, "isReadOnlyAmarokDBHost", False)
         else:
             setVisibleFormItems(self, "amarokDBHost", True)
             setVisibleFormItems(self, "amarokDBPort", True)
@@ -1476,6 +1506,8 @@ class Amarok(MWidget):
             setVisibleFormItems(self, "amarokDBPass", True)
             setVisibleFormItems(self, "amarokDBDB", True)
             setVisibleFormItems(self, "pathOfMysqldSafe", False)
+            setVisibleFormItems(self, "isReadOnlyAmarokDB", False)
+            setVisibleFormItems(self, "isReadOnlyAmarokDBHost", True)
     
     def saveSettingsForTest(self):
         applySetting(self, "amarokIsUseHost")

@@ -57,7 +57,7 @@ LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
 LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
 LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
 LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
-WHERE `images`.`path` is not null
+WHERE `images`.`path` IS NOT NULL and `images`.`id` NOT IN (SELECT `id` FROM `images` WHERE path not like '/%') 
 order by 'realPath'
 """)
             directoriesValues = {}

@@ -45,11 +45,6 @@ class MenuBar(MMenuBar):
         self.mEdit.setObjectName(translate("MenuBar", "Edit"))
         self.mView = self.addMenu(translate("MenuBar", "View"))
         self.mView.setObjectName(translate("MenuBar", "View"))
-
-        if Universals.getBoolValue("isSaveActions"):
-            self.mActions = self.addMenu(translate("MenuBar", "Actions"))
-            self.mActions.setObjectName(translate("MenuBar", "Actions"))
-            self.mActions.addAction(translate("MenuBar", "Show Last Action")).setObjectName(translate("MenuBar", "Show Last Action"))
         self.mSettings = self.addMenu(translate("MenuBar", "Settings"))
         self.mSettings.setObjectName(translate("MenuBar", "Settings"))
         if Universals.isActivePyKDE4==True:
@@ -204,8 +199,6 @@ class Bars():
                     InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
                     InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "title")
-            elif actionName==translate("MenuBar", "Show Last Action"):
-                Records.showInWindow()
             elif actionName==translate("MenuBar", "About QT"):
                 if Universals.isActivePyKDE4==True:
                     QMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
@@ -283,6 +276,8 @@ class Bars():
                     from Tools import RunCommand
                     if RunCommand.checkRunCommand():
                         RunCommand.RunCommand(Universals.MainWindow)
+                elif actionName==translate("ToolsBar", "Show Last Actions"):
+                    Records.showInWindow()
                 elif actionName==translate("ToolsBar", "Remove Sub Files"):
                     answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
                             str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
@@ -295,7 +290,7 @@ class Bars():
                 elif actionName==translate("ToolsBar", "Amarok Embedded Database Configurator"):
                     import Amarok
                     if Amarok.checkAmarok():
-                        Amarok.AmarokEmbeddedDBConfigurator()
+                        Amarok.openEmbeddedDBConfigurator()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
@@ -510,6 +505,12 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Run Command"),self)
         self.actRunCommand.setObjectName(translate("ToolsBar", "Run Command"))
         self.actRunCommand.setToolTip(translate("ToolsBar", "You can coding some things."))
+        if Universals.getBoolValue("isSaveActions"):
+            self.actLastActions = MAction(MIcon("Images:lastActions.png"),
+                                                    translate("ToolsBar", "Show Last Actions"),self)
+            self.actLastActions.setObjectName(translate("ToolsBar", "Show Last Actions"))
+            self.actLastActions.setToolTip(translate("ToolsBar", "You can see last actions."))
+            
         if Universals.getBoolValue("amarokIsUseHost")==False:
             self.actAmarokEmbeddedDBConfigurator = MAction(MIcon("Images:amarokEmbeddedDBConfigurator.png"),
                                                     translate("ToolsBar", "Amarok Embedded Database Configurator"),self)
@@ -520,6 +521,8 @@ class ToolsBar(MToolBar):
         self.addAction(self.actFileTree)
         self.addAction(self.actClear)
         self.addAction(self.actRunCommand)
+        if Universals.getBoolValue("isSaveActions"):
+            self.addAction(self.actLastActions)
         if Universals.getBoolValue("amarokIsUseHost")==False:
             self.addAction(self.actAmarokEmbeddedDBConfigurator)
         self.addSeparator()
@@ -537,6 +540,8 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actFileTree)
         Universals.MainWindow.Menu.mTools.addAction(self.actClear)
         Universals.MainWindow.Menu.mTools.addAction(self.actRunCommand)
+        if Universals.getBoolValue("isSaveActions"):
+            Universals.MainWindow.Menu.mTools.addAction(self.actLastActions)
         if Universals.getBoolValue("amarokIsUseHost")==False:
             Universals.MainWindow.Menu.mTools.addAction(self.actAmarokEmbeddedDBConfigurator)
         Universals.MainWindow.Menu.mTools.addSeparator()

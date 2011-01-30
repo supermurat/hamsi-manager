@@ -29,7 +29,7 @@ class MyConfigure:
     global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent
     
     def reConfigureFile(_filePath, _installationDirectory=Variables.HamsiManagerDirectory):
-        fileContent = InputOutputs.readFromFile(_filePath).replace("~InstallationDirectory~", _installationDirectory).replace("~SettingsDirectory~", Universals.pathOfSettingsDirectory)
+        fileContent = InputOutputs.readFromFile(_filePath).replace("~InstallationDirectory~", _installationDirectory).replace("~SettingsDirectory~", Universals.pathOfSettingsDirectory).replace("~KDE4HomeDirectory~", Variables.getKDE4HomePath())
         InputOutputs.writeToFile(_filePath, fileContent)
             
     def installKDE4Languages():
@@ -83,7 +83,7 @@ class MyConfigure:
             "X-KDE-Username=\n")
         
     def getConfiguredDesktopFileContent(_installationDirectory=Variables.HamsiManagerDirectory):
-        return getDesktopFileContent().replace("~InstallationDirectory~", _installationDirectory).replace("~SettingsDirectory~", Universals.pathOfSettingsDirectory)
+        return getDesktopFileContent().replace("~InstallationDirectory~", _installationDirectory).replace("~SettingsDirectory~", Universals.pathOfSettingsDirectory).replace("~KDE4HomeDirectory~", Variables.getKDE4HomePath())
 
         
         

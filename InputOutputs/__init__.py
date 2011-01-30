@@ -27,11 +27,10 @@ import Records
 class InputOutputs:
     """Read and writes are arranged in this class"""
     global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath
-    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath
+    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent
     appendingDirectories = []
     currentDirectoryPath = ""
     fileSystemEncoding = Variables.defaultFileSystemEncoding
-    isMoveToTrash = False
     willCheckIconDirectories = []
     isSmartCheckIcon = False
     
@@ -158,6 +157,16 @@ class InputOutputs:
         try:shutil.copytree(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
         except:shutil.copytree(_oldPath,_newPath)
         Records.add("Copied", _oldPath, _newPath)
+        
+    def copyDirContent(_oldPath, _newPath):
+        _oldPath, _newPath = str(_oldPath), str(_newPath)
+        if isDir(_newPath)==False:
+            makeDirs(_newPath)
+        for contentPath in listDir(_oldPath):
+            if isDir(_oldPath+"/"+contentPath):
+                copyDirContent(_oldPath+"/"+contentPath, _newPath+"/"+contentPath)
+            else:
+                copyFileOrDir(_oldPath+"/"+contentPath, _newPath+"/"+contentPath)
     
     def createSymLink(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
@@ -191,8 +200,8 @@ class InputOutputs:
         return False
         
     def removeDir(_oldPath):
-        if isMoveToTrash:
-            moveToTrash(_oldPath)
+        if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
+            moveToPathOfDeleted(_oldPath)
         else:
             try:os.rmdir(_oldPath.encode(fileSystemEncoding))
             except:os.rmdir(_oldPath)
@@ -200,19 +209,18 @@ class InputOutputs:
         return True
         
     def removeFile(_oldPath):
-        if isMoveToTrash:
-            moveToTrash(_oldPath)
+        if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
+            moveToPathOfDeleted(_oldPath)
         else:
             try:os.remove(_oldPath.encode(fileSystemEncoding))
             except:os.remove(_oldPath)
         Records.add("Removed", _oldPath)
         return True
     
-    def moveToTrash(_oldPath):
-        if Variables.isAvailableKDE4():
-            import Execute
-            try:Execute.execute(["kioclient", "move", _oldPath.encode(fileSystemEncoding), "trash:/"])
-            except:Execute.execute(["kioclient", "move", _oldPath, "trash:/"])
+    def moveToPathOfDeleted(_oldPath):
+        from time import strftime
+        import random
+        moveFileOrDir(_oldPath, Universals.MySettings["pathOfDeletedFilesAndDirectories"] + "/" + strftime("%Y%m%d_%H%M%S") + "_" + str(random.randrange(0, 9999999)) + "_" + getBaseName(_oldPath))
     
     def trSort(_info):
         import locale

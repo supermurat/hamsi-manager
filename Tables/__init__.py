@@ -147,21 +147,21 @@ class Tables(MTableWidget):
             import CoverTable
             self.SubTable = CoverTable.CoverTable(self)
         elif Universals.tableType==5:
-#            import Taggers, Amarok
-#            if Taggers.getTagger(True)!=None and Amarok.checkAmarok():
-#                import AmarokMusicTable
-#                self.SubTable = AmarokMusicTable.AmarokMusicTable(self)
-#            else:
-                Dialogs.show("This feature not completed/tested. Please wait for this feature. We will open file table now.")
+            import Amarok
+            if Amarok.checkAmarok(True,  False):
+                Universals.tableType = 5
+                import AmarokCoverTable
+                self.SubTable = AmarokCoverTable.AmarokCoverTable(self)
+            else:
                 #FIXME: Complate this feature
                 Universals.tableType = 1
                 import FileTable
                 self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==6:
-#            import Amarok
-#            if Amarok.checkAmarok():
-#                import AmarokCoverTable
-#                self.SubTable = AmarokCoverTable.AmarokCoverTable(self)
+#            import Taggers, Amarok
+#            if Taggers.getTagger(True)!=None and Amarok.checkAmarok():
+#                import AmarokMusicTable
+#                self.SubTable = AmarokMusicTable.AmarokMusicTable(self)
 #            else:
                 Dialogs.show("This feature not completed/tested. Please wait for this feature. We will open file table now.")
                 #FIXME: Complate this feature

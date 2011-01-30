@@ -28,9 +28,9 @@ class Variables():
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     Catalog = "HamsiManager" 
-    version = "0.9.60"
-    intversion = 960
-    settingVersion = "960"
+    version = "0.9.61"
+    intversion = 961
+    settingVersion = "961"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])
@@ -42,7 +42,8 @@ class Variables():
     mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
     imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
     windowModeKeys = ["Normal", "Mini"]
-    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokMusicTable.png", "amarokCoverTable.png"]
+    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png"#, "amarokMusicTable.png"
+                      ]
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isRunOnDoubleClick", "isChangeSelected", 
@@ -67,7 +68,7 @@ class Variables():
                   "isClearFirstAndLastSpaceChars", "isEmendIncorrectChars", "validSentenceStructureForFile", 
                   "validSentenceStructureForFileExtension", "isCorrectFileNameWithSearchAndReplaceTable", 
                   "isCorrectDoubleSpaceChars", "fileExtesionIs", "settingsVersion", "subDirectoryDeep", 
-                  "isMoveToTrash", "maxRecordFileSize", "themeName", 
+                  "maxRecordFileSize", "themeName", 
                   "unneededDirectories", "ignoredDirectories", 
                   "unneededDirectoriesIfIsEmpty",  
                   "isClearEmptyDirectoriesWhenPath", "isAutoCleanSubFolderWhenPath", 
@@ -90,7 +91,9 @@ class Variables():
                   "amarokDBPass", "amarokDBDB", "amarokIsUseHost", 
                   "iconNameFormat", "iconFileType", "pathOfMysqldSafe", 
                   "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral", 
-                  "colorSchemes", "isActiveAutoMakeIconToDirectory"]
+                  "colorSchemes", "isActiveAutoMakeIconToDirectory", 
+                  "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", 
+                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -242,7 +245,6 @@ class Variables():
                 "fileExtesionIs": "After The Last Point", 
                 "settingsVersion": settingVersion,
                 "subDirectoryDeep": "-1", 
-                "isMoveToTrash": "False", 
                 "maxRecordFileSize": "256", 
                 "themeName": "Default", 
                 "unneededDirectories": str([]),
@@ -294,7 +296,11 @@ class Variables():
                 "isShowAllForCompleter": "True", 
                 "isActiveClearGeneral": "False", 
                 "colorSchemes": "", 
-                "isActiveAutoMakeIconToDirectory": "True"
+                "isActiveAutoMakeIconToDirectory": "True", 
+                "isDontDeleteFileAndDirectory": "False", 
+                "pathOfDeletedFilesAndDirectories": userDirectoryPath + "/.HamsiApps/HamsiManager/Deleted", 
+                "isReadOnlyAmarokDB": "False", 
+                "isReadOnlyAmarokDBHost": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -361,7 +367,6 @@ class Variables():
                 "fileExtesionIs": ["options", fileExtesionIsKeys], 
                 "settingsVersion": ["options", [settingVersion]],
                 "subDirectoryDeep": ["int", range(-1, 10)], 
-                "isMoveToTrash": "bool", 
                 "maxRecordFileSize": "int", 
                 "themeName": ["options", getInstalledThemes()], 
                 "unneededDirectories": "list", 
@@ -413,7 +418,11 @@ class Variables():
                 "isShowAllForCompleter": "bool", 
                 "isActiveClearGeneral": "bool", 
                 "colorSchemes": "Default", 
-                "isActiveAutoMakeIconToDirectory": "bool"
+                "isActiveAutoMakeIconToDirectory": "bool", 
+                "isDontDeleteFileAndDirectory": "bool", 
+                "pathOfDeletedFilesAndDirectories": "str", 
+                "isReadOnlyAmarokDB": "bool", 
+                "isReadOnlyAmarokDBHost": "bool"
                 }
 
     def getAvailablePlayers():
