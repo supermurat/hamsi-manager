@@ -151,6 +151,7 @@ class UpdateControl(MDialog):
                                 for detail in self.updateInformations[4:]:
                                     details += detail+"<br>"
                                 self.details.setText(trForUI(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>If you want a more accurate version, please download and install this version.<br>%s For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a><br>You can download from <a href='%s' target='_blank'>Hamsi Manager %s</a>")) % (self.updateInformations[0] + self.updateInformations[3], details, self.updateInformations[2], self.updateInformations[1], self.updateInformations[0])))
+                                self.pbtnCancel.setText(translate("UpdateControl", "Ok"))
                             else:
                                 self.details.setText(str(translate("UpdateControl", "For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a>"))%(self.updateInformations[2])) 
                                 self.lblInfo.setText(translate("UpdateControl", "You are already using the latest release."))

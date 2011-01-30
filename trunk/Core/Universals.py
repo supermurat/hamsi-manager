@@ -99,7 +99,6 @@ class Universals():
                             isActivePyKDE4 = True
                     else:
                         MySettings["isActivePyKDE4"] = "False"
-                InputOutputs.isMoveToTrash = getBoolValue("isMoveToTrash")
         windowMode = MySettings["windowMode"]
         themePath = Variables.HamsiManagerDirectory + "/Themes/" + MySettings["themeName"]
         if tableType == None:
@@ -181,8 +180,8 @@ class Universals():
                             translate("Tables", "Music Table"), 
                             translate("Tables", "Subfolder Table"), 
                             translate("Tables", "Cover Table"), 
-                            translate("Tables", "Amarok Music Table"), 
-                            translate("Tables", "Amarok Cover Table")]
+                            translate("Tables", "Amarok Cover Table")#, translate("Tables", "Amarok Music Table")
+                            ]
         iconNameFormatLabels = [translate("Universals", "%Artist%"), 
                             translate("Universals", "%Album%"), 
                             translate("Universals", "%Year%"), 
@@ -228,8 +227,8 @@ class Universals():
         from MyObjects import translate
         if InputOutputs.isFile(MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + MySettings["pathOfMysqldSafe"])==False:
             if _isAskIfNotFound:
-                answer = Dialogs.ask(translate("AmarokEmbeddedDBCore", "\"mysqld_safe\" Not Found"),
-                        translate("AmarokEmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
+                answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
+                        translate("EmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
                 if answer==Dialogs.Yes: 
                     import Options
                     Options.Options(MainWindow, _focusTo="pathOfMysqldSafe")
