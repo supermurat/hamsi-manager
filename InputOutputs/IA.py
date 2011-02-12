@@ -354,15 +354,11 @@ class IA:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
-                        return False
+                        return _oldPath
             for tDir in InputOutputs.appendingDirectories:
                 if _newPath==tDir:
                     for name in readDirectoryAll(_oldPath):
-                        name = str(name)
-                        if isDir(_oldPath+"/"+name):
-                            moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, "directory", _actionType, _isQuiet)
-                        else:
-                            moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, "file", _actionType, _isQuiet)
+                        moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, getObjectType(_oldPath+"/"+name), _actionType, _isQuiet)
                     isChange = False
             if isChange==True:
                 moveFileOrDir(_oldPath,_newPath)
@@ -381,7 +377,7 @@ class IA:
                         checkIcon(getDirName(_newPath))
             return _newPath
         else:
-            return False
+            return _oldPath
             
     def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQuiet=False):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
@@ -393,14 +389,11 @@ class IA:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
                     if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
-                        return False
+                        return _oldPath
             for tDir in InputOutputs.appendingDirectories:
                 if _newPath==tDir:
                     for name in readDirectoryAll(_oldPath):
-                        if isDir(_oldPath+"/"+name):
-                            copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, "directory", _actionType, _isQuiet)
-                        else:
-                            copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, "file", _actionType, _isQuiet)
+                        copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, getObjectType(_oldPath+"/"+name), _actionType, _isQuiet)
                     isChange = False
             if isChange==True:
                 copyFileOrDir(_oldPath,_newPath)
@@ -409,25 +402,24 @@ class IA:
                     checkIcon(_newPath)
             return _newPath
         else:
-            return False
+            return _oldPath
     
     def changeDirectories(_values):
-        #will return directory(new) name
+        newFilesPath = []
         import Dialogs
         if len(_values)!=0:
             Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),0,len(_values))
             for no in range(0,len(_values)):
-                moveOrChange(_values[no][0], _values[no][1], getObjectType(_values[no][0]))
-                Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
-            if InputOutputs.currentDirectoryPath!=None:
+                oldPath = _values[no][0]
+                newPath = moveOrChange(oldPath, _values[no][1], getObjectType(_values[no][0]))
+                newFilesPath.append([oldPath, newPath])
+                dirPath = getDirName(newFilesPath[-1])
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                    if isDir(InputOutputs.currentDirectoryPath):
-                        if clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
-                            return getDirName(InputOutputs.currentDirectoryPath)
+                    clearEmptyDirectories(dirPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
                 if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                    if isDir(InputOutputs.currentDirectoryPath):
-                        checkIcon(InputOutputs.currentDirectoryPath)
-        return InputOutputs.currentDirectoryPath
+                    checkIcon(dirPath)
+                Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
+        return newFilesPath
         
     def activateSmartCheckIcon():
         InputOutputs.isSmartCheckIcon = True

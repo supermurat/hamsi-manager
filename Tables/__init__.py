@@ -367,10 +367,6 @@ class Tables(MTableWidget):
     def refresh(self, _path = ""):
         global isShowChanges, isAskShowHiddenColumn
         isAskShowHiddenColumn = True
-        if Universals.tableType not in [5, 6]:
-            InputOutputs.currentDirectoryPath = InputOutputs.getRealDirName(_path)
-        else:
-            InputOutputs.currentDirectoryPath = None
         isShowChanges=False
         self.clear()
         self.setColumnCount(len(self.tableColumns))
@@ -380,7 +376,7 @@ class Tables(MTableWidget):
             for x in range(len(self.tableColumns)):
                 self.setColumnWidth(x,columnWidth)
         import MyThread
-        myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [InputOutputs.currentDirectoryPath])
+        myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [_path])
         myProcs.run()
 
     def continueRefresh(self, _returned=None):
@@ -410,8 +406,8 @@ class Tables(MTableWidget):
                 InputOutputs.IA.activateSmartCheckIcon()
             if Universals.tableType not in [5, 6]:
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                    if InputOutputs.IA.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
-                        Universals.MainWindow.FileManager.makeRefresh(InputOutputs.IA.getDirName(InputOutputs.currentDirectoryPath))
+                    if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                        Universals.MainWindow.FileManager.makeRefresh()
                         return True
             import MyThread
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
@@ -424,7 +420,7 @@ class Tables(MTableWidget):
         import Records
         if Universals.tableType not in [4, 5, 6]:
             if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                InputOutputs.IA.checkIcon(InputOutputs.currentDirectoryPath)
+                InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
         InputOutputs.IA.completeSmartCheckIcon()
         Records.saveAllRecords()
         if self.changedValueNumber==0:

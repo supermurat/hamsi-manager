@@ -109,9 +109,8 @@ class Content():
                                             destinationPath = InputOutputs.IA.moveOrChange(sourcePath, destinationPath)
                                     else:
                                         destinationPath = sourcePath
-                                    if destinationPath!=False:
-                                        InputOutputs.IA.setIconToDirectory(_table.currentTableContentValues[rowNo]["path"], destinationPath)
-                                        _table.changedValueNumber += 1
+                                    InputOutputs.IA.setIconToDirectory(_table.currentTableContentValues[rowNo]["path"], destinationPath)
+                                    _table.changedValueNumber += 1
                             else:
                                 InputOutputs.IA.setIconToDirectory(_table.currentTableContentValues[rowNo]["path"], "")
                                 _table.changedValueNumber += 1
@@ -132,7 +131,8 @@ class Content():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        return InputOutputs.IA.changeDirectories(changingFileDirectories)
+        InputOutputs.IA.changeDirectories(changingFileDirectories)
+        return True
 
 
 

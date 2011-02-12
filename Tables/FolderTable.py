@@ -84,7 +84,8 @@ class Content():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        return InputOutputs.IA.changeDirectories(changingFileDirectories)
+        InputOutputs.IA.changeDirectories(changingFileDirectories)
+        return True
 
 
 

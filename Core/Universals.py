@@ -41,7 +41,7 @@ class Universals():
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
-    tableTypesNames = []
+    tableTypesNames = ["0", "1", "2", "3", "4", "5"]
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
     pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
@@ -188,14 +188,24 @@ class Universals():
                             translate("Universals", "%Genre%")]
         from InputOutputs import IA #For first import
             
-    def clearAllChilds(_object):
-        from MyObjects import MWidget
+    def clearAllChilds(_object, _isClearThis=False):
+        from MyObjects import MWidget, MLayout
         childs = _object.findChildren(MWidget)
         for child in childs:
             clearAllChilds(child)
             try:child.hide()
             except:pass
             child.deleteLater()
+        childs = _object.findChildren(MLayout)
+        for child in childs:
+            clearAllChilds(child)
+            try:child.hide()
+            except:pass
+            child.deleteLater()
+        if _isClearThis:
+            try:_object.hide()
+            except:pass
+            _object.deleteLater()
                             
     def startThreadAction():
         global threadActionState
