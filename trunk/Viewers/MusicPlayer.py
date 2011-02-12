@@ -400,11 +400,13 @@ class InfoScroller(MThread):
         while 1==1:
             if Universals!=None:
                 if Universals.isStartingSuccessfully and Universals.isStartedCloseProcces==False:
-                    self.parent.info.move(x, 0)
-                    time.sleep(0.05)
-                    x-=1
-                    self.parent.info.setMinimumWidth(len(self.parent.info.text())*7)
-                    if x<=-(len(self.parent.info.text())*7):
-                        x=150
+                    try:
+                        self.parent.info.move(x, 0)
+                        time.sleep(0.05)
+                        x-=1
+                        self.parent.info.setMinimumWidth(len(self.parent.info.text())*7)
+                        if x<=-(len(self.parent.info.text())*7):
+                            x=150
+                    except:pass #Passed for cleared objects
                 
     

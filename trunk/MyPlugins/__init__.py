@@ -94,8 +94,9 @@ class MyPlugins(MDialog):
                     MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                newFileName = InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
-                if newFileName!=False:
+                oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory
+                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                if newFilePath!=oldFilePath:
                     isInstalled = True
         else:
             isInstalled = installThisPlugin()
@@ -176,8 +177,9 @@ class MyPluginsForSystem(MWidget):
                     MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                newFileName = InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
-                if newFileName!=False:
+                oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory
+                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                if newFilePath!=oldFilePath:
                     isInstalled = True
         else:
             isInstalled = installThisPlugin()
