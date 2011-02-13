@@ -17,17 +17,15 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
+from urllib import unquote, quote
 import Amarok
 
-
 class Commands:
-    global getDirectoriesAndValues
+    global getDirectoriesAndValues, changePath, getDevices
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
-        if db!=None:
-            db.query("""
+        db.query("""
 SELECT DISTINCT (
 REPLACE(
 CONCAT(
@@ -60,20 +58,46 @@ LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
 WHERE `images`.`path` IS NOT NULL and `images`.`id` NOT IN (SELECT `id` FROM `images` WHERE path not like '/%') 
 order by 'realPath'
 """)
-            directoriesValues = {}
-            r = db.store_result()
-            rows = r.fetch_row(0)
-            for row in rows:
-                if row[0] not in directoriesValues:
-                    directoriesValues[row[0]] = {"coverPath" : [], "Artist" : [], "Album" : [], "Genre" : [], "Year" : []}
-                directoriesValues[row[0]]["coverPath"].append(row[1])
-                directoriesValues[row[0]]["Artist"].append(row[2])
-                directoriesValues[row[0]]["Album"].append(row[3])
-                directoriesValues[row[0]]["Genre"].append(row[4])
-                directoriesValues[row[0]]["Year"].append(row[5])
-            return directoriesValues
-        return None
-            
+        r = db.store_result()
+        return r.fetch_row(0)
+        
+    def getDevices():
+        db = Amarok.checkAndGetDB()
+        db.query("SELECT id,lastmountpoint FROM devices")
+        r = db.store_result()
+        return r.fetch_row(0)
+    
+    def changePath(_oldPath, _newPath):
+        _oldPath, _newPath = str(_oldPath), str(_newPath)
+        _oldPathUrl, _newPathUrl = quote(_oldPath), quote(_newPath)
+        withOutDevicePoints, withOutDevice = [], []
+        for devicePoint in getDevices():
+            if devicePoint[1] + "/" == _oldPath[:len(devicePoint[1])+1]:
+                if devicePoint[1] + "/" == _newPath[:len(devicePoint[1])+1]:
+                    withOutDevicePoints.append({"id":devicePoint[0], 
+                                                "oldPath":  _oldPath[len(devicePoint[1]):], 
+                                                "newPath": _newPath[len(devicePoint[1]):]
+                                                })
+                else:
+                    withOutDevice.append({"id": devicePoint[0], 
+                                        "oldPath":  _oldPath[len(devicePoint[1]):], 
+                                        "newPath": _newPath
+                                                })
+        db = Amarok.checkAndGetDB()
+        db.query("UPDATE directories SET dir=REPLACE(dir, '.%s/', '.%s/')" % (_oldPath, _newPath))
+        db.query("UPDATE urls SET rpath='.%s' WHERE rpath='.%s'" % (_newPath, _oldPath))
+        for withOutDevice in withOutDevice:
+            db.query("UPDATE directories SET dir='.%s/', deviceid = -1 WHERE deviceid = %s and dir = '.%s/' " % (withOutDevice["newPath"], withOutDevice["id"], withOutDevice["oldPath"]))
+            db.query("UPDATE urls SET rpath='.%s/', deviceid = -1 WHERE deviceid = %s and rpath = '.%s/' " % (withOutDevice["newPath"], withOutDevice["id"], withOutDevice["oldPath"]))
+        for withOutDevicePoint in withOutDevicePoints:
+            db.query("UPDATE directories SET dir='.%s/' WHERE deviceid = %s and dir = '.%s/'" % (withOutDevicePoint["newPath"], withOutDevicePoint["id"], withOutDevicePoint["oldPath"]))
+            db.query("UPDATE urls SET rpath='.%s/' WHERE deviceid = %s and rpath = '.%s/'" % (withOutDevicePoint["newPath"], withOutDevicePoint["id"], withOutDevicePoint["oldPath"]))
+        db.query("UPDATE images SET path='%s' WHERE path='%s'" % (_newPath, _oldPath))
+        db.query("UPDATE lyrics SET url='.%s' WHERE url='.%s'" % (_newPath, _oldPath))
+        db.query("UPDATE statistics_permanent SET url='file://%s' WHERE url='file://%s'" % (_newPathUrl, _oldPathUrl))
+        db.commit()
+        return True
+        
             
             
             

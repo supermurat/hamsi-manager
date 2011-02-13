@@ -366,6 +366,8 @@ class Tables(MTableWidget):
         
     def refresh(self, _path = ""):
         global isShowChanges, isAskShowHiddenColumn
+        if _path=="":
+            _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
         isAskShowHiddenColumn = True
         isShowChanges=False
         self.clear()

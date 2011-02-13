@@ -410,9 +410,10 @@ class IA:
         if len(_values)!=0:
             Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),0,len(_values))
             for no in range(0,len(_values)):
-                oldPath = _values[no][0]
-                newPath = moveOrChange(oldPath, _values[no][1], getObjectType(_values[no][0]))
-                newFilesPath.append([oldPath, newPath])
+                values = {}
+                values["oldPath"] = _values[no][0]
+                values["newPath"] = moveOrChange(values["oldPath"], _values[no][1], getObjectType(_values[no][0]))
+                newFilesPath.append(values)
                 dirPath = getDirName(newFilesPath[-1])
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
                     clearEmptyDirectories(dirPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))

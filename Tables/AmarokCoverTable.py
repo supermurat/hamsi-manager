@@ -38,8 +38,8 @@ class Content():
             Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2)
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                from Amarok import Commands
-                directoriesAndValues = Commands.getDirectoriesAndValues()
+                from Amarok import Operations
+                directoriesAndValues = Operations.getDirectoriesAndValues()
                 Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = Universals.isContinueThreadAction()
                 if isContinueThreadAction:
@@ -64,7 +64,11 @@ class Content():
                                                             dirRow["Album"][0], 
                                                             dirRow["Genre"][0], 
                                                             dirRow["Year"][0]))
-                                    content["isCorrectedFileContent"] = (isCorrectedFileContent)
+                                    content["flagColor"] = {}
+                                    if isCorrectedFileContent==False:
+                                        content["flagColor"]["currentCover"] = 255,163,163
+                                    if InputOutputs.isFile(content["sourceCover"])==False:
+                                        content["flagColor"]["sourceCover"] = 255,163,163
                                     currentTableContentValues.append(content)
                             else:
                                 allItemNumber = dirNo+1
@@ -131,7 +135,9 @@ class Content():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        from Amarok import Operations
+        Operations.changePaths(pathValues)
         return True
 
 
@@ -192,18 +198,23 @@ class AmarokCoverTable():
                 elif itemNo==2:
                     newString = InputOutputs.getShortPath(self.Table.currentTableContentValues[rowNo]["currentCover"], self.Table.currentTableContentValues[rowNo]["path"])
                     item = self.Table.createTableWidgetItem(newString)
+                    self.setItemColor(item, rowNo, itemNo, "currentCover")
                 elif itemNo==3:
                     newString = InputOutputs.getShortPath(self.Table.currentTableContentValues[rowNo]["sourceCover"], self.Table.currentTableContentValues[rowNo]["path"])
                     item = self.Table.createTableWidgetItem(newString, InputOutputs.getShortPath(self.Table.currentTableContentValues[rowNo]["currentCover"], self.Table.currentTableContentValues[rowNo]["path"]))
+                    self.setItemColor(item, rowNo, itemNo, "sourceCover")
                 elif itemNo==4:
                     newString = Organizer.emend(InputOutputs.getShortPath(self.Table.currentTableContentValues[rowNo]["destinationCover"], self.Table.currentTableContentValues[rowNo]["path"]), "file")
                     item = self.Table.createTableWidgetItem(newString, InputOutputs.getShortPath(self.Table.currentTableContentValues[rowNo]["currentCover"], self.Table.currentTableContentValues[rowNo]["path"]))
+                    self.setItemColor(item, rowNo, itemNo, "destinationCover")
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
-            if self.Table.currentTableContentValues[rowNo]["isCorrectedFileContent"]==False:
-                item = self.Table.item(rowNo, 2)
-                if item!=None:
-                    item.setBackground(MBrush(MColor(255,163,163)))
+                    
+    def setItemColor(self, _item, _rowNo, _itemNo, _name):
+        if _item!=None:
+            if _name in self.Table.currentTableContentValues[_rowNo]["flagColor"]:
+                r, g, b = self.Table.currentTableContentValues[_rowNo]["flagColor"][_name]
+                _item.setBackground(MBrush(MColor(r, g, b)))
                     
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
