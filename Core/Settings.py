@@ -25,17 +25,14 @@ from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBProper
 from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
     
 class Settings():
-    global getSettings, setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting
+    global setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting
     
-    def getSettings(_settingsFilePath):
-        return Variables.MQtCore.QSettings(Universals.trForM(_settingsFilePath) ,Variables.MQtCore.QSettings.IniFormat)
-        
     def setting():
-        return getSettings(Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings)
+        return Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings).decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
     
     def universalSetting():
-        return getSettings(Variables.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini")
-        
+        return Variables.MQtCore.QSettings((Variables.userDirectoryPath+"/.HamsiApps/" + "universalSettings.ini").decode("utf-8") ,Variables.MQtCore.QSettings.IniFormat)
+          
     def checkSettings():
         if InputOutputs.isDir(Universals.pathOfSettingsDirectory)==False:
             InputOutputs.makeDirs(Universals.pathOfSettingsDirectory)
@@ -53,27 +50,27 @@ class Settings():
         keysOfUniversalSettings = ["HamsiManagerPath"]
         values = [Variables.executableHamsiManagerPath]
         for x, keyValue in enumerate(keysOfUniversalSettings):
-            if str(mySetting.value(keyValue).toString()) != values[x]:
-                mySetting.setValue(keyValue,Variables.MQtCore.QVariant(Universals.trForM(values[x])))
+            if unicode(mySetting.value(keyValue).toString(), "utf-8") != values[x]:
+                mySetting.setValue(keyValue,Variables.MQtCore.QVariant(values[x].decode("utf-8")))
                 
     def getUniversalSetting(_key, _defaultValue):
         mySetting = universalSetting()
-        value = str(mySetting.value(_key).toString())
+        value = unicode(mySetting.value(_key).toString(), "utf-8")
         if value == "":
             value = _defaultValue
         return value
     
     def setUniversalSetting(_key, _value):
         mySetting = universalSetting()
-        mySetting.setValue(_key, Variables.MQtCore.QVariant(Universals.trForM(_value)))
+        mySetting.setValue(_key, Variables.MQtCore.QVariant(_value.decode("utf-8")))
 
     def reFillSettings(_makeBackUp=False):
         if _makeBackUp==True:
             makeBackUp("Settings")
-        mySetting = Variables.MQtCore.QSettings(Universals.trForM(Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings), Variables.MQtCore.QSettings.IniFormat)
+        mySetting = Variables.MQtCore.QSettings((Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings).decode("utf-8"), Variables.MQtCore.QSettings.IniFormat)
         defaultValues = Variables.getDefaultValues()
         for keyValue in Variables.keysOfSettings:
-            mySetting.setValue(keyValue,Variables.MQtCore.QVariant(Universals.trForM(defaultValues[keyValue])))
+            mySetting.setValue(keyValue,Variables.MQtCore.QVariant(defaultValues[keyValue].decode("utf-8")))
     
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
         if _valueTypesAndValue==None:
@@ -338,8 +335,5 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["isActiveCompleter", "isShowAllForCompleter"]
         if oldVersion<908:
             newSettingsKeys = newSettingsKeys + ["isActiveClearGeneral"]
-        if oldVersion<961:
-            newSettingsKeys = newSettingsKeys + ["colorSchemes", "isActiveAutoMakeIconToDirectory", 
-                  "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]
         return newSettingsKeys, changedDefaultValuesKeys
         

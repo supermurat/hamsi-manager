@@ -76,7 +76,7 @@ class SuggestIdea(MDialog):
                     str(translate("SuggestIdea", "<b>E-mail address :</b><br><b>Note:</b>Will be kept strictly confidential. It will be used solely to learn information about of your idea.")), 
                     str(translate("SuggestIdea", "Suggest Idea")), 
                     str(translate("SuggestIdea", "Thank you for sending us your idea. You have contributed a lot to make the next release even better.<br>")))
-        self.wvWeb.setHtml(trForUI(htmlString))
+        self.wvWeb.setHtml(htmlString.decode("utf-8"))
         
         
         

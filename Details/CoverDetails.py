@@ -115,10 +115,10 @@ class CoverDetails(MDialog):
         if _coverValues[1].strip()=="/": _coverValues[1] = _coverValues[0] + "/"
         if _coverValues[2].strip()=="/": _coverValues[2] = _coverValues[0] + "/"
         if _coverValues[3].strip()=="/": _coverValues[3] = _coverValues[0] + "/"
-        self.setWindowTitle(trForUI(str(translate("ImageDetails", "Cover Details ( %s )")) % (_coverValues[0])))
-        self.lePathOfCurrent.setText(trForUI(_coverValues[1]))
-        self.lePathOfSource.setText(trForUI(_coverValues[2]))
-        self.lePathOfDestination.setText(trForUI(_coverValues[3]))
+        self.setWindowTitle((str(translate("ImageDetails", "Cover Details ( %s )")) % Organizer.showWithIncorrectChars(_coverValues[0])).decode("utf-8"))
+        self.lePathOfCurrent.setText(Organizer.showWithIncorrectChars(_coverValues[1]).decode("utf-8"))
+        self.lePathOfSource.setText(Organizer.showWithIncorrectChars(_coverValues[2]).decode("utf-8"))
+        self.lePathOfDestination.setText(Organizer.showWithIncorrectChars(_coverValues[3]).decode("utf-8"))
         self.wCurrent.changeCoverValues(_coverValues[1])
         self.wSource.changeCoverValues(_coverValues[2])
         self.wDestination.changeCoverValues(_coverValues[3])
@@ -131,13 +131,13 @@ class CoverDetails(MDialog):
         
     def sourceClicked(self):
         imagePath = MFileDialog.getOpenFileName(self,translate("ImageDetails", "Choose Image"),
-                                    self.lePathOfSource.text(),trForUI(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStrintFromList(Universals.getListFromStrint(Universals.MySettings["imageExtensions"])).replace(";", " *.")))
+                                    self.lePathOfSource.text(),(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStrintFromList(Universals.getListFromStrint(Universals.MySettings["imageExtensions"])).replace(";", " *.")).decode("utf-8"))
         if imagePath!="":
             self.lePathOfSource.setText(imagePath)
         
     def destinationClicked(self):
         imagePath = MFileDialog.getSaveFileName(self,translate("ImageDetails", "Save As"),
-                                    self.lePathOfDestination.text(),trForUI(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStrintFromList(Universals.getListFromStrint(Universals.MySettings["imageExtensions"])).replace(";", " *.")))
+                                    self.lePathOfDestination.text(),(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStrintFromList(Universals.getListFromStrint(Universals.MySettings["imageExtensions"])).replace(";", " *.")).decode("utf-8"))
         if imagePath!="":
             self.lePathOfDestination.setText(imagePath)
         

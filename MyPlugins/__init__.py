@@ -62,14 +62,14 @@ class MyPlugins(MDialog):
         for plugin in self.myPluginsNames:
             exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
             if isInstallable():
-                installedVersion = Settings.getUniversalSetting(trForM(pluginName), "")
+                installedVersion = Settings.getUniversalSetting(pluginName.decode("utf-8"), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
                 elif installedVersion != pluginVersion:
                     details = translate("MyPlugins", "Have A New Version")
                 else:
                     details = translate("MyPlugins", "Installed")
-                self.lstwPluginList.addItem(trForUI(pluginName) + "\n\t" + details)
+                self.lstwPluginList.addItem(pluginName.decode("utf-8") + "\n\t" + details)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
             self.pbtnInstall.setEnabled(False)
@@ -94,14 +94,13 @@ class MyPlugins(MDialog):
                     MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory
-                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
-                if newFilePath!=oldFilePath:
+                newFileName = InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                if newFileName!=False:
                     isInstalled = True
         else:
             isInstalled = installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(trForM(pluginName), str(pluginVersion))
+            Settings.setUniversalSetting(pluginName.decode("utf-8"), str(pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginName))
@@ -121,7 +120,7 @@ class MyPluginsForSystem(MWidget):
     
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        lblHeader = MLabel(trForUI("<b>" + translate("MyPlugins", "My Plug-ins") + "</b>"))
+        lblHeader = MLabel("<b>".decode("utf-8") + translate("MyPlugins", "My Plug-ins") + "</b>".decode("utf-8"))
         lblNote = MLabel(translate("MyPlugins", "You can manage plugins in your system"))
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))
@@ -145,14 +144,14 @@ class MyPluginsForSystem(MWidget):
         for plugin in self.myPluginsNames:
             exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
             if isInstallable():
-                installedVersion = Settings.getUniversalSetting(trForM(pluginName), "")
+                installedVersion = Settings.getUniversalSetting(pluginName.decode("utf-8"), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
                 elif installedVersion != pluginVersion:
                     details = translate("MyPlugins", "Have A New Version")
                 else:
                     details = translate("MyPlugins", "Installed")
-                self.lstwPluginList.addItem(trForUI(pluginName) + "\n\t" + details)
+                self.lstwPluginList.addItem(pluginName.decode("utf-8") + "\n\t" + details)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
             self.pbtnInstall.setEnabled(False)
@@ -177,14 +176,13 @@ class MyPluginsForSystem(MWidget):
                     MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory
-                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
-                if newFilePath!=oldFilePath:
+                newFileName = InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                if newFileName!=False:
                     isInstalled = True
         else:
             isInstalled = installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(trForM(pluginName), str(pluginVersion))
+            Settings.setUniversalSetting(pluginName.decode("utf-8"), str(pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginName))

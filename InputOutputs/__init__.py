@@ -26,10 +26,12 @@ import Records
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType
-    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, currentDirectoryPath
+    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, isMoveToTrash, moveToTrash, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
     appendingDirectories = []
+    currentDirectoryPath = ""
     fileSystemEncoding = Variables.defaultFileSystemEncoding
+    isMoveToTrash = False
     willCheckIconDirectories = []
     isSmartCheckIcon = False
     
@@ -103,12 +105,6 @@ class InputOutputs:
         return os.path.abspath(_path)
         return _path
     
-    def getShortPath(_path, _parentPath):
-        _path = str(_path)
-        _parentPath = str(_parentPath)
-        _path = _path.replace(_parentPath, ".")
-        return _path
-    
     def getBaseName(_oldPath):
         _oldPath = str(_oldPath)
         try:returnValue = os.path.basename(_oldPath.encode(fileSystemEncoding))
@@ -156,16 +152,6 @@ class InputOutputs:
         try:shutil.copytree(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
         except:shutil.copytree(_oldPath,_newPath)
         Records.add("Copied", _oldPath, _newPath)
-        
-    def copyDirContent(_oldPath, _newPath):
-        _oldPath, _newPath = str(_oldPath), str(_newPath)
-        if isDir(_newPath)==False:
-            makeDirs(_newPath)
-        for contentPath in listDir(_oldPath):
-            if isDir(_oldPath+"/"+contentPath):
-                copyDirContent(_oldPath+"/"+contentPath, _newPath+"/"+contentPath)
-            else:
-                copyFileOrDir(_oldPath+"/"+contentPath, _newPath+"/"+contentPath)
     
     def createSymLink(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
@@ -199,8 +185,8 @@ class InputOutputs:
         return False
         
     def removeDir(_oldPath):
-        if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
-            moveToPathOfDeleted(_oldPath)
+        if isMoveToTrash:
+            moveToTrash(_oldPath)
         else:
             try:os.rmdir(_oldPath.encode(fileSystemEncoding))
             except:os.rmdir(_oldPath)
@@ -208,18 +194,19 @@ class InputOutputs:
         return True
         
     def removeFile(_oldPath):
-        if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
-            moveToPathOfDeleted(_oldPath)
+        if isMoveToTrash:
+            moveToTrash(_oldPath)
         else:
             try:os.remove(_oldPath.encode(fileSystemEncoding))
             except:os.remove(_oldPath)
         Records.add("Removed", _oldPath)
         return True
     
-    def moveToPathOfDeleted(_oldPath):
-        from time import strftime
-        import random
-        moveFileOrDir(_oldPath, Universals.MySettings["pathOfDeletedFilesAndDirectories"] + "/" + strftime("%Y%m%d_%H%M%S") + "_" + str(random.randrange(0, 9999999)) + "_" + getBaseName(_oldPath))
+    def moveToTrash(_oldPath):
+        if Variables.isAvailableKDE4():
+            import Execute
+            try:Execute.execute(["kioclient", "move", _oldPath.encode(fileSystemEncoding), "trash:/"])
+            except:Execute.execute(["kioclient", "move", _oldPath, "trash:/"])
     
     def trSort(_info):
         import locale
@@ -314,7 +301,7 @@ class InputOutputs:
                 fileNames.append(name)
                 for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
                     try:
-                        if name.split(".")[-1].lower() == str(ext).lower():
+                        if name.split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8").lower():
                             musicFileNames.append(name)
                     except:
                         pass
@@ -338,9 +325,7 @@ class InputOutputs:
         tFileAndDirs=[]
         for name in listDir(_path):
             try:tFileAndDirs.append(str(name.decode(fileSystemEncoding)))
-            except:
-                try:tFileAndDirs.append(str(name))
-                except:tFileAndDirs.append(name)
+            except:tFileAndDirs.append(name)
         return tFileAndDirs
   
     def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _currentSubDeep=0):
@@ -424,18 +409,35 @@ class InputOutputs:
         Records.add("Added", _path)
     
     def readTextFile(_path):
-        fileDetails = {}
-        fileDetails["path"] = _path
-        fileDetails["content"] = readFromFile(_path)
-        #return [getDirName(_path), getBaseName(_path), readFromFile(_path)]  
-        return fileDetails
+        return [getDirName(_path), getBaseName(_path), readFromFile(_path)]  
         
     def writeTextFile(_oldFileValues, _newFileValues, _charSet="utf-8"):
-        if _oldFileValues["content"]!=_newFileValues["content"] or _charSet!="utf-8":
-            writeToFile(_oldFileValues["path"], _newFileValues["content"].encode(_charSet))
-        if _oldFileValues["path"]!=_newFileValues["path"]:
-            return moveOrChange(_oldFileValues["path"], _newFileValues["path"])
-        return _oldFileValues["path"]
+        if _oldFileValues[2]!=_newFileValues[2] or _charSet!="utf-8":
+            writeToFile(_oldFileValues[0]+"/"+_oldFileValues[1], _newFileValues[2].encode(_charSet))
+        newFileName=_oldFileValues[1]
+        if _oldFileValues[1]!=_newFileValues[1]:
+            if _newFileValues[1].strip()!="":
+                if _oldFileValues[1].find(".")!=-1:
+                    orgExt = _oldFileValues[1].split(".")[-1].decode("utf-8").lower()
+                    if _newFileValues[1].split(".")[-1].decode("utf-8").lower() != orgExt:
+                        _newFileValues[1] = _newFileValues[1].split(".")[-1] + "." + orgExt
+                    if _newFileValues[1].split(".")[-1] != orgExt:
+                        extState = _newFileValues[1].lower().find(orgExt)
+                        if extState!=-1:
+                            _newFileValues[1] = _newFileValues[1].split(".")[-1][:extState] + "." + orgExt
+                if moveOrChange(_oldFileValues[0]+"/"+_oldFileValues[1],_oldFileValues[0]+"/"+_newFileValues[1])!=False:
+                    newFileName=_newFileValues[1]
+        newDirectory=_newFileValues[0].replace(getDirName(_oldFileValues[0])+"/","")
+        try:
+            newDirectory=str(newDirectory)
+            newDirectory=int(newDirectory)
+        except:
+            if newDirectory.decode("utf-8").lower()==newDirectory.upper():
+                newDirectory=_oldFileValues[0]
+        if getBaseName(_oldFileValues[0])!=newDirectory:
+            if moveOrChange(_oldFileValues[0]+"/"+newFileName,getDirName(_oldFileValues[0])+"/"+newDirectory+"/"+newFileName)!=False:
+                return getDirName(_oldFileValues[0])+"/"+newDirectory+"/"+newFileName
+        return _oldFileValues[0]+"/"+_oldFileValues[1]
                 
     def clearEmptyDirectories(_path, _isAutoCleanSubFolder=True):
         #If directory deleted : returned True
@@ -483,18 +485,18 @@ class InputOutputs:
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["unneededFiles"]):
                 try:
-                    if isFile(_path+"/"+str(f)):
-                        removeFile(_path+"/"+str(f))
+                    if isFile(_path+"/"+str(unicode(f,"utf-8"))):
+                        removeFile(_path+"/"+str(unicode(f,"utf-8")))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectoriesIfIsEmpty"]):
                 try:
-                    if isDirEmpty(_path+"/"+str(f)) and f.strip()!="":
-                        removeDir(_path+"/"+str(f))
+                    if isDirEmpty(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
+                        removeDir(_path+"/"+str(unicode(f,"utf-8")))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectories"]):
                 try:
-                    if isDir(_path+"/"+str(f)) and f.strip()!="":
-                        removeFileOrDir(_path+"/"+str(f), True)
+                    if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
+                        removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
@@ -508,13 +510,13 @@ class InputOutputs:
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
                 try:
-                    if isFile(_path+"/"+str(f)):
-                        removeFile(_path+"/"+str(f))
+                    if isFile(_path+"/"+str(unicode(f,"utf-8"))):
+                        removeFile(_path+"/"+str(unicode(f,"utf-8")))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
                 try:
-                    if isDir(_path+"/"+str(f)) and f.strip()!="":
-                        removeFileOrDir(_path+"/"+str(f), True)
+                    if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
+                        removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
@@ -554,30 +556,34 @@ class InputOutputs:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
-                        return _oldPath
+                        return False
             for tDir in appendingDirectories:
                 if _newPath==tDir:
                     for name in readDirectoryAll(_oldPath):
-                        moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, getObjectType(_oldPath+"/"+name), _actionType, _isQuiet)
+                        name = str(name)
+                        if isDir(_oldPath+"/"+name):
+                            moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, "directory", _actionType, _isQuiet)
+                        else:
+                            moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, "file", _actionType, _isQuiet)
                     isChange = False
             if isChange==True:
                 moveFileOrDir(_oldPath,_newPath)
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
-                        return _newPath
+                        return getBaseName(_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                     checkIcon(_newPath)
             elif _actionType=="auto":
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                     if isDir(getDirName(_oldPath)):
                         checkIcon(getDirName(_oldPath))
                     if isDir(getDirName(_newPath)):
                         checkIcon(getDirName(_newPath))
-            return _newPath
+            return getBaseName(_newPath)
         else:
-            return _oldPath
+            return False
             
     def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQuiet=False):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
@@ -589,42 +595,44 @@ class InputOutputs:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
                     if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
-                        return _oldPath
+                        return False
             for tDir in appendingDirectories:
                 if _newPath==tDir:
                     for name in readDirectoryAll(_oldPath):
-                        copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, getObjectType(_oldPath+"/"+name), _actionType, _isQuiet)
+                        if isDir(_oldPath+"/"+name):
+                            copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, "directory", _actionType, _isQuiet)
+                        else:
+                            copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, "file", _actionType, _isQuiet)
                     isChange = False
             if isChange==True:
                 copyFileOrDir(_oldPath,_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                     checkIcon(_newPath)
-            return _newPath
+            return getBaseName(_newPath)
         else:
-            return _oldPath
+            return False
     
     def changeDirectories(_values):
-        newFilesPath = []
+        #will return directory(new) name
         if len(_values)!=0:
             for no in range(0,len(_values)):
-                values = {}
-                values["oldPath"] = _values[no][0]
-                values["newPath"] = moveOrChange(values["oldPath"], _values[no][1], getObjectType(_values[no][0]))
-                newFilesPath.append(values)
-                dirPath = getDirName(newFilesPath[-1])
-                if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                    clearEmptyDirectories(dirPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                    checkIcon(dirPath)
-        return newFilesPath
+                moveOrChange(_values[no][0], _values[no][1], getObjectType(_values[no][0]))
+            if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                if isDir(currentDirectoryPath):
+                    if clearEmptyDirectories(currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
+                        return getDirName(currentDirectoryPath)
+            if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                if isDir(currentDirectoryPath):
+                    checkIcon(currentDirectoryPath)
+        return currentDirectoryPath
         
     def activateSmartCheckIcon():
         global isSmartCheckIcon, willCheckIconDirectories
         isSmartCheckIcon = True
         willCheckIconDirectories = []
     
-    def completeSmartCheckIcon():
+    def complateSmartCheckIcon():
         global isSmartCheckIcon, willCheckIconDirectories
         isSmartCheckIcon = False
         for iconDir in willCheckIconDirectories:
@@ -680,7 +688,7 @@ class InputOutputs:
                 return False
             _iconName = str(_iconName).strip()
             returnValue, isChanging, isChange, isCorrectFileContent, rows = False, False, True, False, []
-            if isFile(_iconName):
+            if _iconName!="":
                 if str(_path)==str(getDirName(_iconName)):
                     _iconName = "./" + getBaseName(_iconName)
                 try:

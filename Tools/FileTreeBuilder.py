@@ -57,7 +57,7 @@ class FileTreeBuilder(MyDialog):
         self.cbOutputType.setCurrentIndex(1)
         pbtnBuild = MPushButton(translate("FileTreeBuilder", "Build"))
         pbtnClose = MPushButton(translate("FileTreeBuilder", "Close"))
-        self.lePath = MLineEdit(trForM(_directory))
+        self.lePath = MLineEdit(_directory.decode("utf-8"))
         pbtnSelectPath = MPushButton(translate("FileTreeBuilder", "Browse"))
         self.connect(pbtnSelectPath,SIGNAL("clicked()"),self.selectPath)
         self.connect(pbtnBuild,SIGNAL("clicked()"), self.build)
@@ -119,7 +119,7 @@ class FileTreeBuilder(MyDialog):
                 outputType = "clipboard"
             if self.cbContentType.currentIndex()==1:
                 contentType = "plainText"
-            InputOutputs.IA.getFileTree(str(self.lePath.text()), 
+            InputOutputs.IA.getFileTree(unicode(self.lePath.text(), "utf-8"), 
                                 self.cbSubDirectoryDeep.currentText(), 
                                 outputType, contentType, "title")
             if self.cbOutputType.currentIndex()==2:

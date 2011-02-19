@@ -55,66 +55,90 @@ class TextDetails(MDialog):
                 self.charSet = MComboBox()
                 self.charSet.addItems(Variables.getCharSets())
                 self.charSet.setCurrentIndex(self.charSet.findText(Universals.MySettings["fileSystemEncoding"]))
-                self.infoLabels = {}
-                self.infoValues = {}
-                self.fileValues = {}
+                self.infoLabels = []
+                self.infoValues = []
+                self.fileValues = []
                 pbtnClose = MPushButton(translate("TextDetails", "Close"))
                 pbtnSave = MPushButton(translate("TextDetails", "Save Changes"))
                 pbtnSave.setIcon(MIcon("Images:save.png"))
                 MObject.connect(pbtnClose, SIGNAL("clicked()"), self.close)
                 MObject.connect(pbtnSave, SIGNAL("clicked()"), self.save)
-                self.labels = [translate("TextDetails", "File Path : "), 
-                                    translate("TextDetails", "Content : ")]
-                self.pnlMain = MWidget()
-                self.vblMain = MVBoxLayout(self.pnlMain)
-                self.pnlClearable = None
+                self.labelsValues = [translate("TextDetails", "Directory : "), 
+                                    translate("TextDetails", "File Name : "), 
+                                    translate("TextDetails", "Contents : ")]
                 self.changeFile(_filePath, True)
-                HBOXs, VBOXs = [], []
+                HBOXs = []
+                for infoNo in range(3):
+                    HBOXs.append(MHBoxLayout())
+                    HBOXs[infoNo].addWidget(self.infoLabels[infoNo])
+                    HBOXs[infoNo].addWidget(self.infoValues[infoNo])
+                VBOXs = []
                 VBOXs.append(MVBoxLayout())
+                for hbox in HBOXs:
+                    VBOXs[0].addLayout(hbox)
+                self.pnlMain = MWidget()
+                vblMain = MVBoxLayout(self.pnlMain)
                 HBOXs.append(MHBoxLayout())
-                HBOXs[-1].addWidget(self.charSet, 1)
-                HBOXs[-1].addWidget(pbtnSave, 4)
-                VBOXs[0].addLayout(HBOXs[-1])
+                HBOXs[3].addWidget(self.charSet, 1)
+                HBOXs[3].addWidget(pbtnSave, 4)
+                VBOXs[0].addLayout(HBOXs[3])
                 VBOXs[0].addWidget(pbtnClose)
-                self.vblMain.addLayout(VBOXs[0], 1)
+                vblMain.addLayout(VBOXs[0], 1)
                 if Universals.isActivePyKDE4==True:
                     self.setMainWidget(self.pnlMain)
                 else:
-                    self.setLayout(self.vblMain)
+                    self.setLayout(vblMain)
                 self.show()
                 self.setMinimumWidth(700)
                 self.setMinimumHeight(500)
         else:
             Dialogs.showError(translate("TextDetails", "File Does Not Exist"), 
                         str(translate("TextDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
-                            )% Organizer.getLink(trForUI(_filePath)))
+                            )% Organizer.getLink(Organizer.showWithIncorrectChars(_filePath)))
             from Universals import MainWindow
             MainWindow.FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
         self.fileValues = InputOutputs.IA.readTextFile(_filePath)
-        self.setWindowTitle(trForUI(InputOutputs.IA.getBaseName(self.fileValues["path"])))    
-        if self.pnlClearable != None:
-            Universals.clearAllChilds(self.pnlClearable, True)
-        self.pnlClearable = MWidget()
-        self.vblMain.insertWidget(0, self.pnlClearable, 20)
-        vblClearable = MVBoxLayout(self.pnlClearable)
-        self.infoLabels["path"] = MLabel(self.labels[0]) 
-        self.infoLabels["content"] = MLabel(self.labels[1]) 
-        dirPath = InputOutputs.getDirName(self.fileValues["path"])
-        baseName = InputOutputs.getBaseName(self.fileValues["path"])
-        self.infoValues["path"] = MLineEdit(trForUI(dirPath + "/" + Organizer.emend(baseName, "file")))
-        self.infoValues["content"] = MPlainTextEdit(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
-        self.infoValues["content"].setLineWrapMode(MPlainTextEdit.NoWrap)
-        HBOXs = []
-        HBOXs.append(MHBoxLayout())
-        HBOXs[-1].addWidget(self.infoLabels["path"])
-        HBOXs[-1].addWidget(self.infoValues["path"])
-        for hbox in HBOXs:
-            vblClearable.addLayout(hbox)
-        vblClearable.addWidget(self.infoLabels["content"])
-        vblClearable.addWidget(self.infoValues["content"])
-        
+        self.setWindowTitle(Organizer.showWithIncorrectChars(InputOutputs.IA.getBaseName(_filePath)).decode("utf-8"))                
+        for infoNo, label in enumerate(self.labelsValues):
+            if self.fileValues[infoNo]=="None":
+                self.fileValues[infoNo] = ""
+            if _isNew==True:
+                self.infoLabels.append(MLabel(label))
+                self.infoLabels[infoNo].setMaximumWidth(100)
+                self.infoLabels[infoNo].setMinimumWidth(100)
+            if infoNo==2:
+                if _isNew==True:
+                    self.infoValues.append(MPlainTextEdit())
+                    self.infoValues[infoNo].setPlainText(Organizer.emend(self.fileValues[infoNo], "text", False, True).decode("utf-8"))
+                else:
+                    self.infoValues[infoNo].setPlainText(Organizer.emend(self.fileValues[infoNo], "text", False, True).decode("utf-8"))
+            elif infoNo==0:
+                if _isNew==True:
+                    self.infoValues.append(MLineEdit(Organizer.emend(self.fileValues[infoNo], "directory", False).decode("utf-8")))
+                else:
+                    self.infoValues[infoNo].setText(Organizer.emend(self.fileValues[infoNo], "directory", False).decode("utf-8"))
+            elif infoNo==1:
+                lineInfo = Organizer.emend(self.fileValues[infoNo], "file")
+                if lineInfo.find(".")!=-1:
+                    tempInfo=""
+                    tempInfos = lineInfo.split(".")
+                    for key,i in enumerate(tempInfos):
+                        if key!=len(tempInfos)-1:
+                            tempInfo+=i+"."
+                        else:
+                            tempInfo+=self.fileValues[infoNo].split(".")[-1].decode("utf-8").lower()
+                            lineInfo = tempInfo
+                if _isNew==True:
+                    self.infoValues.append(MLineEdit(lineInfo.decode("utf-8")))
+                else:
+                    self.infoValues[infoNo].setText(lineInfo.decode("utf-8"))
+            else:
+                if _isNew==True:
+                    self.infoValues.append(MLineEdit(Organizer.emend(self.fileValues[infoNo]).decode("utf-8")))
+                else:
+                    self.infoValues[infoNo].setText(Organizer.emend(self.fileValues[infoNo]).decode("utf-8"))
     
     def closeAllTextDialogs():
         for dialog in textDialogs:
@@ -128,11 +152,19 @@ class TextDetails(MDialog):
         try:
             import Records
             Records.setTitle(translate("TextDetails", "Text File"))
-            newFileValues = {}
-            newFileValues["path"] = str(self.infoValues["path"].text())
-            newFileValues["content"] = str(self.infoValues["content"].toPlainText())
-            newPath = InputOutputs.IA.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
-            if newPath!=self.fileValues["path"]:
+            newFileValues=[]
+            for infoNo,value in enumerate(self.infoValues):
+                if infoNo==0:
+                    if str(unicode(value.text()).encode("utf-8")).find(InputOutputs.IA.getDirName(self.fileValues[0]))!=-1:
+                        newFileValues.append(unicode(value.text()).encode("utf-8"))
+                    else:
+                        newFileValues.append(InputOutputs.IA.getDirName(self.fileValues[0])+unicode(value.text()).encode("utf-8"))
+                elif infoNo==2:
+                    newFileValues.append(unicode(value.toPlainText()).encode("utf-8"))
+                else:
+                    newFileValues.append(unicode(value.text()).encode("utf-8"))
+            newPath = InputOutputs.IA.writeTextFile(self.fileValues,newFileValues, unicode(self.charSet.currentText()).encode("utf-8"))
+            if newPath!=self.fileValues[0]+"/"+self.fileValues[1]:
                 self.changeFile(newPath)
             from Universals import MainWindow
             MainWindow.FileManager.makeRefresh()

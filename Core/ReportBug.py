@@ -82,29 +82,30 @@ class ReportBug(MDialog):
         except:pass
         try:
             try:
-                errorDetails+="<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + Universals.MainWindow.FileManager.getCurrentDirectoryPath() + "</p>"
+                errorDetails+="<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + InputOutputs.currentDirectoryPath+"</p>"
             except:pass
             errorDetails +="<hr><p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
             import Tables
-            errorDetails += Tables.exportValues("return", "html", "no")
+            errorDetails += Tables.exportTableValues("return", "html", "no")
         except:pass
         try:
+            from Tables import table
             errorDetails +="</p><hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
-            for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
-                filePath = Universals.MainWindow.Table.currentTableContentValues[rowNo]["path"]
+            for rowNo in range(len(table.fileDetails)):
                 errorDetails +="<tr><td>" 
+                filePath = InputOutputs.currentDirectoryPath + "/" + table.fileDetails[rowNo][1]
                 try:errorDetails += str(unicode(filePath, InputOutputs.fileSystemEncoding))
                 except:
                     try:errorDetails += str(filePath) 
                     except:errorDetails += filePath
                 errorDetails +="</td></tr>"
             errorDetails +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3><table border=1>"
-            for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
+            for rowNo in range(len(table.fileDetails)):
                 errorDetails +="<tr>"
-                for key, value in Universals.MainWindow.Table.currentTableContentValues[rowNo]:
+                for columnNo in range(len(table.fileDetails[rowNo])):
                     errorDetails +="<td>"
-                    try:errorDetails +=str(value)
-                    except:errorDetails +=value
+                    try:errorDetails +=str(table.fileDetails[rowNo][columnNo])
+                    except:errorDetails +=table.fileDetails[rowNo][columnNo]
                     errorDetails +="</td>"
                 errorDetails +="</tr>"
             errorDetails+="</table></p>"
@@ -211,7 +212,7 @@ class ReportBug(MDialog):
         self.createErrorPage(errorDetails)
         self.connect(self.wvWeb,SIGNAL("loadProgress(int)"),self.loading)
         try:
-            self.teErrorDetails.setHtml(trForUI(errorDetails.replace("<hr>", "")))
+            self.teErrorDetails.setHtml(errorDetails.replace("<hr>", "").decode("utf-8"))
         except:
             self.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>To see the details, please click on the \"Show details file\" button."))
             self.teErrorDetails.setEnabled(False)
@@ -254,7 +255,7 @@ class ReportBug(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
-                    Settings.setting().setValue("lastDirectory", MVariant(trForM(Variables.userDirectoryPath)))
+                    Settings.setting().setValue("lastDirectory", MVariant(Variables.userDirectoryPath.decode("utf-8")))
                 elif answer==translate("ReportBug", "Settings"):
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):
@@ -326,14 +327,14 @@ class ReportBug(MDialog):
                     if encodedType=="":
                         errorDetails = ""
         htmlString = htmlString.replace("~ERRORDETAILS~", errorDetails).replace("~ADDITIONALDETAILS~", str(translate("ReportBug", "<b>(Is Encoded With %s.)</b>")) % (encodedType))
-        try:self.wvWeb.setHtml(trForUI(htmlString))
+        try:self.wvWeb.setHtml(htmlString.decode("utf-8"))
         except:
             self.teErrorDetails.setVisible(False)   
-            self.wvWeb.setUrl(MUrl(trForM(self.pathOfReportFile)))
+            self.wvWeb.setUrl(MUrl(self.pathOfReportFile.decode("utf-8")))
         self.isLoading=True
     
     def errorDetailsChanged(self):
-        self.createErrorPage(str(self.teErrorDetails.toHtml()))
+        self.createErrorPage(unicode(self.teErrorDetails.toHtml(), "utf-8"))
         pass
     
     def loading(self, _value):
@@ -359,7 +360,7 @@ class ReportBug(MDialog):
     
     def showDetailsPage(self):
         self.teErrorDetails.setVisible(False)   
-        self.wvWeb.setUrl(MUrl(trForM(self.pathOfReportFile)))
+        self.wvWeb.setUrl(MUrl(self.pathOfReportFile.decode("utf-8")))
         
     def checkUpdate(self):
         import UpdateControl

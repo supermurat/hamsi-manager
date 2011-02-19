@@ -24,7 +24,7 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isShowOldValues, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -38,10 +38,11 @@ class Universals():
     isActivePyKDE4 = False
     isLoadedMyObjects = False
     windowMode = "Normal"
+    isShowOldValues = None
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
-    tableTypesNames = ["0", "1", "2", "3", "4", "5"]
+    tableTypesNames = ["", "", "", "", ""]
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
     pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
@@ -69,20 +70,16 @@ class Universals():
         except:
             try:return _s.decode("utf-8")
             except: return _s
-            
-    def trForM(_s):
-        _s = str(_s)
-        return _s.decode("utf-8")
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActiveKDE4=None):
-        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isChangeAll, isChangeSelected
+        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isShowOldValues, isChangeAll, isChangeSelected
         import Settings, InputOutputs
         sets = Settings.setting()
         settingVersion = str(sets.value("settingsVersion").toString())
         defaultValues = Variables.getDefaultValues()
         valueTypesAndValues = Variables.getValueTypesAndValues()
         for keyValue in Variables.keysOfSettings:
-            value = sets.value(keyValue, Variables.MQtCore.QVariant(trForM(defaultValues[keyValue]))).toString()
+            value = sets.value(keyValue, Variables.MQtCore.QVariant(defaultValues[keyValue].decode("utf-8"))).toString()
             if MySettings.keys().count(keyValue)==0 or _setAgain:
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
         newSettingVersion = str(MySettings["settingsVersion"])
@@ -99,13 +96,15 @@ class Universals():
                             isActivePyKDE4 = True
                     else:
                         MySettings["isActivePyKDE4"] = "False"
+                InputOutputs.isMoveToTrash = getBoolValue("isMoveToTrash")
         windowMode = MySettings["windowMode"]
         themePath = Variables.HamsiManagerDirectory + "/Themes/" + MySettings["themeName"]
         if tableType == None:
             tableType = int(MySettings["tableType"])
             if tableType<0 or tableType>=len(tableTypesNames) or tableType==3:
                 tableType = 1
-        if isChangeAll == None:
+        if isShowOldValues == None:
+            isShowOldValues = getBoolValue("isShowOldValues")
             isChangeAll = getBoolValue("isChangeAll")
             isChangeSelected = getBoolValue("isChangeSelected")
         if getBoolValue("isInstalledKDE4Language")==False:
@@ -148,7 +147,7 @@ class Universals():
         else:
             keys = [_key]
         for value in keys:
-            sets.setValue(value,MVariant(trForM(MySettings[value])))
+            sets.setValue(value,MVariant(MySettings[value].decode("utf-8")))
 
     def activeWindow():
         from MyObjects import MApplication
@@ -173,39 +172,26 @@ class Universals():
         return tt
         
     def fillUIUniversals():
-        global tableTypesNames, iconNameFormatLabels
-        from MyObjects import translate
+        global tableTypesNames, tableType, iconNameFormatLabels
         tableTypesNames = [translate("Tables", "Folder Table"), 
                             translate("Tables", "File Table"), 
                             translate("Tables", "Music Table"), 
                             translate("Tables", "Subfolder Table"), 
-                            translate("Tables", "Cover Table"), 
-                            translate("Tables", "Amarok Cover Table")#, translate("Tables", "Amarok Music Table")
-                            ]
+                            translate("Tables", "Cover Table")]
         iconNameFormatLabels = [translate("Universals", "%Artist%"), 
                             translate("Universals", "%Album%"), 
                             translate("Universals", "%Year%"), 
                             translate("Universals", "%Genre%")]
         from InputOutputs import IA #For first import
             
-    def clearAllChilds(_object, _isClearThis=False):
-        from MyObjects import MWidget, MLayout
+    def clearAllChilds(_object):
+        from MyObjects import MWidget
         childs = _object.findChildren(MWidget)
         for child in childs:
             clearAllChilds(child)
             try:child.hide()
             except:pass
             child.deleteLater()
-        childs = _object.findChildren(MLayout)
-        for child in childs:
-            clearAllChilds(child)
-            try:child.hide()
-            except:pass
-            child.deleteLater()
-        if _isClearThis:
-            try:_object.hide()
-            except:pass
-            _object.deleteLater()
                             
     def startThreadAction():
         global threadActionState
@@ -237,8 +223,8 @@ class Universals():
         from MyObjects import translate
         if InputOutputs.isFile(MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + MySettings["pathOfMysqldSafe"])==False:
             if _isAskIfNotFound:
-                answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
-                        translate("EmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
+                answer = Dialogs.ask(translate("AmarokEmbeddedDBCore", "\"mysqld_safe\" Not Found"),
+                        translate("AmarokEmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
                 if answer==Dialogs.Yes: 
                     import Options
                     Options.Options(MainWindow, _focusTo="pathOfMysqldSafe")
