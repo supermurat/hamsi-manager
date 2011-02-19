@@ -98,17 +98,6 @@ else:
 def translate(_p, _s):
     return MApplication.translate(_p, _s)
     
-def trForUI(_s):
-    try:
-        _s = str(_s)
-        return _s.decode("utf-8", "replace")
-    except:
-        return _s.decode("utf-8", "ignore")
-    
-def trForM(_s):
-    _s = str(_s)
-    return _s.decode("utf-8")
-    
 def getMyObject(_objectName):
     if Variables.MyObjectName=="PySide":
         exec ("from PySide import " + _objectName + " as MyObject")

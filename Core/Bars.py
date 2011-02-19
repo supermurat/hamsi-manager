@@ -45,6 +45,11 @@ class MenuBar(MMenuBar):
         self.mEdit.setObjectName(translate("MenuBar", "Edit"))
         self.mView = self.addMenu(translate("MenuBar", "View"))
         self.mView.setObjectName(translate("MenuBar", "View"))
+
+        if Universals.getBoolValue("isSaveActions"):
+            self.mActions = self.addMenu(translate("MenuBar", "Actions"))
+            self.mActions.setObjectName(translate("MenuBar", "Actions"))
+            self.mActions.addAction(translate("MenuBar", "Show Last Action")).setObjectName(translate("MenuBar", "Show Last Action"))
         self.mSettings = self.addMenu(translate("MenuBar", "Settings"))
         self.mSettings.setObjectName(translate("MenuBar", "Settings"))
         if Universals.isActivePyKDE4==True:
@@ -147,14 +152,14 @@ class Bars():
             if actionName==translate("MenuBar", "Open State"):
                 import Settings
                 f = MFileDialog.getOpenFileName(Universals.activeWindow(),translate("MenuBar", "Open State"),
-                                    Variables.userDirectoryPath,trForUI(translate("MenuBar", "Application Runner") + " (*.desktop)"))
+                                    Variables.userDirectoryPath,str(translate("MenuBar", "Application Runner") + " (*.desktop)").decode("utf-8"))
                 if f!="":
-                    Settings.openStateOfSettings(str(f))
+                    Settings.openStateOfSettings(unicode(f, "utf-8"))
             elif actionName==translate("MenuBar", "Save State"):
                 import Settings
-                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",trForUI(translate("MenuBar", "Application Runner") + " (*.desktop)"))
+                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",str(translate("MenuBar", "Application Runner")).decode("utf-8") + " (*.desktop)")
                 if f!="":
-                    Settings.saveStateOfSettings(str(f))
+                    Settings.saveStateOfSettings(unicode(f, "utf-8"))
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
@@ -173,18 +178,18 @@ class Bars():
                 Universals.MainWindow.close()
             elif actionName==translate("MenuBar", "HTML Format"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    Tables.exportValues("file", "html", "title")
+                    Tables.exportTableValues("file", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    Tables.exportValues("dialog", "html", "title")
+                    Tables.exportTableValues("dialog", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    Tables.exportValues("clipboard", "html", "title")
+                    Tables.exportTableValues("clipboard", "html", "title")
             elif actionName==translate("MenuBar", "Text Format"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    Tables.exportValues("file", "plainText", "title")
+                    Tables.exportTableValues("file", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    Tables.exportValues("dialog", "plainText", "title")
+                    Tables.exportTableValues("dialog", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    Tables.exportValues("clipboard", "plainText", "title")
+                    Tables.exportTableValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
                     InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "title")
@@ -199,6 +204,8 @@ class Bars():
                     InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
                     InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "title")
+            elif actionName==translate("MenuBar", "Show Last Action"):
+                Records.showInWindow()
             elif actionName==translate("MenuBar", "About QT"):
                 if Universals.isActivePyKDE4==True:
                     QMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
@@ -230,7 +237,16 @@ class Bars():
                 if Universals.isActivePyKDE4==False:
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Variables.aboutOfHamsiManager)
             elif _isFromMenu==False:
-                if actionName==translate("Tables", "Ignore Selection"):
+                if actionName==translate("Tables", "Show Also Previous Information"):
+                    if Universals.tableType!=4:
+                        if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
+                            Universals.isShowOldValues = _action.isChecked()
+                            Tables.refreshTable(InputOutputs.currentDirectoryPath)
+                        else:
+                            _action.setChecked(Universals.isShowOldValues)
+                    else:
+                        _action.setChecked(False)
+                elif actionName==translate("Tables", "Ignore Selection"):
                     Universals.isChangeAll = _action.isChecked()
                     if _action.isChecked():
                         Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(False)
@@ -242,55 +258,53 @@ class Bars():
                     Universals.MainWindow.StatusBar.fillSelectionInfo()
                 elif actionName==translate("ToolsBar", "Check Icon"):
                     Universals.MainWindow.setEnabled(False)
-                    InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    InputOutputs.IA.checkIcon(InputOutputs.currentDirectoryPath)
                     Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
                             translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
                     Universals.MainWindow.setEnabled(True)
                 elif actionName==translate("ToolsBar", "Clear Empty Directories"):
-                    if Universals.MainWindow.Table.checkUnSavedValues()==False:
+                    if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
                         _action.setChecked(False)
                         return False
                     answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
-                            str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
+                            str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
                     if answer==Dialogs.Yes:
                         import FileManager
                         Universals.MainWindow.setEnabled(False)
-                        InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True)
+                        InputOutputs.IA.clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True)
                         Universals.MainWindow.setEnabled(True)
                         Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
                             translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))
                         Universals.MainWindow.FileManager.makeRefresh()
                 elif actionName==translate("ToolsBar", "Pack"):
                     from Tools import Packager
-                    Packager.Packager(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    Packager.Packager(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Hash"):
                     from Tools import Hasher
-                    Hasher.Hasher(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    Hasher.Hasher(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Clear"):
                     from Tools import Cleaner
-                    Cleaner.Cleaner(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    Cleaner.Cleaner(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "File Tree"):
                     from Tools import FileTreeBuilder
-                    FileTreeBuilder.FileTreeBuilder(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    FileTreeBuilder.FileTreeBuilder(InputOutputs.currentDirectoryPath)
                 elif actionName==translate("ToolsBar", "Run Command"):
                     from Tools import RunCommand
                     if RunCommand.checkRunCommand():
                         RunCommand.RunCommand(Universals.MainWindow)
-                elif actionName==translate("ToolsBar", "Show Last Actions"):
-                    Records.showInWindow()
                 elif actionName==translate("ToolsBar", "Remove Sub Files"):
                     answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
-                            str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
+                            str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
                     if answer==Dialogs.Yes:
                         Universals.MainWindow.setEnabled(False)
-                        InputOutputs.IA.removeOnlySubFiles(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                        InputOutputs.IA.removeOnlySubFiles(InputOutputs.currentDirectoryPath)
                         Universals.MainWindow.setEnabled(True)
                         Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
-                            str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
+                            str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(InputOutputs.currentDirectoryPath))
                 elif actionName==translate("ToolsBar", "Amarok Embedded Database Configurator"):
                     import Amarok
                     if Amarok.checkAmarok():
-                        Amarok.openEmbeddedDBConfigurator()
+                        Amarok.AmarokEmbeddedDBConfigurator()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
@@ -326,10 +340,10 @@ class Bars():
         try:
             selectedType = Universals.getThisTableType(_action.objectName())
             if _action.isChecked() and Universals.tableType != selectedType:
-                if Universals.MainWindow.Table.checkUnSavedValues()==False:
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
                     _action.setChecked(False)
                     return False
-                Universals.setMySetting(Universals.MainWindow.Table.SubTable.hiddenTableColumnsSettingKey,Universals.MainWindow.Table.hiddenTableColumns)
+                Universals.setMySetting(Universals.MainWindow.Table.hiddenTableColumnsSettingKey,Universals.MainWindow.Table.hiddenTableColumns)
                 if Universals.tableType==2:
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.PlayerBar)
                     Universals.MainWindow.PlayerBar.deleteLater()
@@ -386,6 +400,12 @@ class TableToolsBar(MToolBar):
         _parent.addToolBar(Mt.TopToolBarArea,self)
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
+        self.isShowOldValues = MAction(MIcon("Images:showOldValues.png"),
+                        translate("Tables", "Show Also Previous Information"),self)
+        self.isShowOldValues.setObjectName(translate("Tables", "Show Also Previous Information"))
+        self.isShowOldValues.setToolTip(translate("Tables", "Show Also Previous Information"))
+        self.isShowOldValues.setCheckable(True)
+        self.isShowOldValues.setChecked(Universals.isShowOldValues)
         self.isChangeAll = MAction(MIcon("Images:changeAll.png"),
                         translate("Tables", "Ignore Selection"),self)
         self.isChangeAll.setObjectName(translate("Tables", "Ignore Selection"))
@@ -402,7 +422,8 @@ class TableToolsBar(MToolBar):
             self.isChangeSelected.setEnabled(False)
         actgActionGroupTableTypes = MActionGroup(self)
         for x, name in enumerate(Universals.tableTypesNames):
-            a = actgActionGroupTableTypes.addAction(MIcon("Images:"+Variables.tableTypeIcons[x]), name)
+            a = actgActionGroupTableTypes.addAction(MIcon("Images:"+Variables.tableTypeIcons[x]),
+                                        name)
             a.setCheckable(True)
             a.setObjectName(name)
             if Universals.tableType==Universals.getThisTableType(name):
@@ -417,9 +438,9 @@ class TableToolsBar(MToolBar):
         actgActionGroupReNamerTypes = MActionGroup(self)
         actsFileReNamerTypes = []
         for x, name in enumerate(self.fileReNamerTypeNames):
-            actsFileReNamerTypes.append(MAction(MIcon("Images:"+buttonIcons[x]),trForUI(name),self))
-            actsFileReNamerTypes[-1].setObjectName(trForUI(name))
-            actsFileReNamerTypes[x].setToolTip(trForUI(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name)))
+            actsFileReNamerTypes.append(MAction(MIcon("Images:"+buttonIcons[x]),name.decode("utf-8"),self))
+            actsFileReNamerTypes[-1].setObjectName(name.decode("utf-8"))
+            actsFileReNamerTypes[x].setToolTip(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name.decode("utf-8")))
             actsFileReNamerTypes[x].setCheckable(True)
             actgActionGroupReNamerTypes.addAction(actsFileReNamerTypes[x])
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[x]:
@@ -429,6 +450,7 @@ class TableToolsBar(MToolBar):
         self.addActions(actgActionGroupReNamerTypes.actions())
         MObject.connect(actgActionGroupReNamerTypes, SIGNAL("selected(QAction *)"), changeReNamerType)
         self.addSeparator()
+        self.addAction(self.isShowOldValues)
         self.addAction(self.isChangeAll)
         self.addAction(self.isChangeSelected)
         if Universals.windowMode==Variables.windowModeKeys[1]:
@@ -445,6 +467,7 @@ class TableToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTableTools.addSeparator()
         Universals.MainWindow.Menu.mTableTools.addActions(actgActionGroupReNamerTypes.actions())
         Universals.MainWindow.Menu.mTableTools.addSeparator()
+        Universals.MainWindow.Menu.mTableTools.addAction(self.isShowOldValues)
         Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeAll)
         Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeSelected)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mTools.menuAction(), Universals.MainWindow.Menu.mTableTools)
@@ -453,7 +476,7 @@ class TableToolsBar(MToolBar):
         
     def changeReNamerType(_action, _isFromMenu=False):
         try:
-            if Universals.MainWindow.Table.checkUnSavedValues()==False:
+            if Universals.MainWindow.Table.checkUnSavedTableValues()==False:
                 _action.setChecked(False)
                 for x, typeName in enumerate(Variables.fileReNamerTypeNamesKeys):
                     if typeName == Universals.MySettings["fileReNamerType"]:
@@ -505,12 +528,6 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Run Command"),self)
         self.actRunCommand.setObjectName(translate("ToolsBar", "Run Command"))
         self.actRunCommand.setToolTip(translate("ToolsBar", "You can coding some things."))
-        if Universals.getBoolValue("isSaveActions"):
-            self.actLastActions = MAction(MIcon("Images:lastActions.png"),
-                                                    translate("ToolsBar", "Show Last Actions"),self)
-            self.actLastActions.setObjectName(translate("ToolsBar", "Show Last Actions"))
-            self.actLastActions.setToolTip(translate("ToolsBar", "You can see last actions."))
-            
         if Universals.getBoolValue("amarokIsUseHost")==False:
             self.actAmarokEmbeddedDBConfigurator = MAction(MIcon("Images:amarokEmbeddedDBConfigurator.png"),
                                                     translate("ToolsBar", "Amarok Embedded Database Configurator"),self)
@@ -521,8 +538,6 @@ class ToolsBar(MToolBar):
         self.addAction(self.actFileTree)
         self.addAction(self.actClear)
         self.addAction(self.actRunCommand)
-        if Universals.getBoolValue("isSaveActions"):
-            self.addAction(self.actLastActions)
         if Universals.getBoolValue("amarokIsUseHost")==False:
             self.addAction(self.actAmarokEmbeddedDBConfigurator)
         self.addSeparator()
@@ -540,8 +555,6 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actFileTree)
         Universals.MainWindow.Menu.mTools.addAction(self.actClear)
         Universals.MainWindow.Menu.mTools.addAction(self.actRunCommand)
-        if Universals.getBoolValue("isSaveActions"):
-            Universals.MainWindow.Menu.mTools.addAction(self.actLastActions)
         if Universals.getBoolValue("amarokIsUseHost")==False:
             Universals.MainWindow.Menu.mTools.addAction(self.actAmarokEmbeddedDBConfigurator)
         Universals.MainWindow.Menu.mTools.addSeparator()
@@ -591,11 +604,11 @@ class MusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedValues()==True:
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
                     setSelectedTaggerTypeName(selectedType)
-                    Universals.MainWindow.Table.refreshForColumns()
-                    Universals.MainWindow.SpecialTools.refreshForColumns()
-                    Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    Tables.refreshForTableColumns()
+                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(getSelectedTaggerTypeName()))
                 if self.cbMusicTagTypeForMenu != None:
@@ -613,7 +626,7 @@ class MusicOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbMusicTagTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "ID3 Version") + " : ")))
+        wactLabel.setDefaultWidget(MLabel(translate("MusicOptionsBar", "ID3 Version") + " : ".decode("utf-8")))
         wact = MWidgetAction(_menu)
         wact.setDefaultWidget(self.cbMusicTagTypeForMenu)
         _menu.addAction(wactLabel)
@@ -627,7 +640,7 @@ class SubDirectoryOptionsBar(MToolBar):
         self.setWindowTitle(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         self.setObjectName(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         lblDetails = translate("SubDirectoryOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : "))
+        lblSubDirectoryDeep = MLabel(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8"))
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
@@ -648,11 +661,11 @@ class SubDirectoryOptionsBar(MToolBar):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedValues()==True:
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
                     Universals.setMySetting("subDirectoryDeep", int(selectedDeep))
-                    Universals.MainWindow.Table.refreshForColumns()
-                    Universals.MainWindow.SpecialTools.refreshForColumns()
-                    Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    Tables.refreshForTableColumns()
+                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["subDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
@@ -670,10 +683,10 @@ class SubDirectoryOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setObjectName(trForUI(translate("SubDirectoryOptionsBar", "Label Deep") + " : "))
-        wactLabel.setDefaultWidget(MLabel(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : ")))
+        wactLabel.setObjectName(translate("SubDirectoryOptionsBar", "Label Deep") + " : ".decode("utf-8"))
+        wactLabel.setDefaultWidget(MLabel(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8")))
         wact = MWidgetAction(_menu)
-        wact.setObjectName(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : "))
+        wact.setObjectName(translate("SubDirectoryOptionsBar", "Deep") + " : ".decode("utf-8"))
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)
@@ -686,7 +699,7 @@ class CoverOptionsBar(MToolBar):
         self.setWindowTitle(translate("CoverOptionsBar", "Cover Options"))
         self.setObjectName(translate("CoverOptionsBar", "Cover Options"))
         lblDetails = translate("CoverOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(trForUI(translate("CoverOptionsBar", "Deep") + " : "))
+        lblSubDirectoryDeep = MLabel(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8"))
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) if x!=0 ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
@@ -707,11 +720,11 @@ class CoverOptionsBar(MToolBar):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedValues()==True:
+                if Universals.MainWindow.Table.checkUnSavedTableValues()==True:
                     Universals.setMySetting("CoversSubDirectoryDeep", int(selectedDeep))
-                    Universals.MainWindow.Table.refreshForColumns()
-                    Universals.MainWindow.SpecialTools.refreshForColumns()
-                    Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    Tables.refreshForTableColumns()
+                    Universals.MainWindow.SpecialTools.refreshForTableColumns()
+                    Tables.refreshTable(InputOutputs.currentDirectoryPath)
                 self.isActiveChanging = False
                 self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["CoversSubDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
@@ -730,10 +743,10 @@ class CoverOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.coverDeepChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setObjectName(trForUI(translate("CoverOptionsBar", "Label Deep") + " : "))
-        wactLabel.setDefaultWidget(MLabel(trForUI(translate("CoverOptionsBar", "Deep") + " : ")))
+        wactLabel.setObjectName(translate("CoverOptionsBar", "Label Deep") + " : ".decode("utf-8"))
+        wactLabel.setDefaultWidget(MLabel(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8")))
         wact = MWidgetAction(_menu)
-        wact.setObjectName(trForUI(translate("CoverOptionsBar", "Deep") + " : "))
+        wact.setObjectName(translate("CoverOptionsBar", "Deep") + " : ".decode("utf-8"))
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)
@@ -744,7 +757,7 @@ class StatusBar(MStatusBar):
         MStatusBar.__init__(self, _parent)
         import Execute
         if Variables.isRunningAsRoot():
-            lblInfo = MLabel(trForUI("<span style=\"color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+"</span>"))
+            lblInfo = MLabel("<span style=\"color: #FF0000\">".decode("utf-8") + translate("StatusBar", "Hamsi Manager running as root")+"</span>".decode("utf-8"))
             self.addWidget(lblInfo)
         self.isLockedMainForm = False
         self.lblInfo = MLabel("")
@@ -773,7 +786,7 @@ class StatusBar(MStatusBar):
         self.lblImportantInfo.setText("")
     
     def setImportantInfo(self, _info):
-        self.lblImportantInfo.setText(trForUI("<span style=\"color: #FF0000\">" + _info + "</span>"))
+        self.lblImportantInfo.setText("<span style=\"color: #FF0000\">".decode("utf-8") + _info + "</span>".decode("utf-8"))
             
     def fillSelectionInfo(self):
         if Universals.isChangeAll:

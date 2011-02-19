@@ -62,7 +62,7 @@ class FileManager():
         self.lstvFileManager = MListView()
         self.trvFileManager.setModel(self.dirModel)
         self.lstvFileManager.setModel(self.dirModel)
-        self.currentDirectory = trForM(InputOutputs.IA.getRealDirName(Universals.MySettings["lastDirectory"]))
+        self.currentDirectory = InputOutputs.IA.getRealDirName(Universals.MySettings["lastDirectory"]).decode("utf-8")
         if InputOutputs.IA.isDir(str(self.currentDirectory))==False:
             self.currentDirectory = MDir.homePath()
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndex)
@@ -221,7 +221,7 @@ class FileManager():
                         self.future = []
                         self.history.append(self.currentDirectory)
                     if _path[-1]=="/": _path = _path[:-1]
-                    self.currentDirectory = trForM(_path)
+                    self.currentDirectory = _path.decode("utf-8")
                     if Universals.isActivePyKDE4==True:
                         self.dirLister.openUrl(MUrl(self.currentDirectory))
                         self.isGoToFromUrlNavigator = False
@@ -243,7 +243,7 @@ class FileManager():
                 elif InputOutputs.IA.isFile(_path):
                     isOpened = False
                     for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                        if str(_path).split(".")[-1].lower() == str(ext).lower():
+                        if str(_path).split(".")[-1].decode("utf-8").lower() == unicode(ext, "utf-8"):
                             if Universals.tableType==2 and Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
                                 Universals.MainWindow.PlayerBar.Player.play(str(_path))
                             else:
@@ -289,7 +289,7 @@ class FileManager():
 
     def goUp(self):
         try:
-            self.goTo(trForM(InputOutputs.IA.getDirName(self.currentDirectory)))
+            self.goTo(InputOutputs.IA.getDirName(self.currentDirectory).decode("utf-8"))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -306,12 +306,9 @@ class FileManager():
             if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
                 self.goTo(_newDirectoryPath, False)
             else:
-                if InputOutputs.IA.checkSource(str(self.currentDirectory), "directory")!=False:
-                    self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
-                    if _isOnlyBrowser==False:
-                        self.showInTable()
-                else:
-                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False)
+                self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
+                if _isOnlyBrowser==False:
+                    self.showInTable()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -353,7 +350,7 @@ class FileManager():
     def setMyCurrentIndex(self, _index):
         try:
             while 1==1:
-                selected = str(self.getPathOfIndex(_index))
+                selected = unicode(self.getPathOfIndex(_index), "utf-8")
                 if InputOutputs.IA.isDir(selected)==True or InputOutputs.IA.isFile(selected)==True:
                     self.makeRefreshOnlyFileList(_index)
                     break
@@ -366,13 +363,11 @@ class FileManager():
     
     def showInTable(self):
         try:
-            Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
+            InputOutputs.currentDirectoryPath = str(self.currentDirectory).replace("file://", "")
+            Tables.refreshTable(InputOutputs.currentDirectoryPath)
         except:
             error = ReportBug.ReportBug()
             error.show()
-            
-    def getCurrentDirectoryPath(self):
-        return str(self.currentDirectory).replace("file://", "")
           
           
 class BookmarksMenu(MMenu):
@@ -388,7 +383,7 @@ class BookmarksMenu(MMenu):
         try:
             self.clear()
             for fav in Databases.BookmarksOfDirectories.fetchAll():
-                self.addAction(trForUI(fav[1])).setObjectName(trForUI(fav[1]))
+                self.addAction(fav[1].decode("utf-8")).setObjectName(fav[1].decode("utf-8"))
             self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(translate("BookmarksMenu", "Edit Bookmarks"))
         except:
             error = ReportBug.ReportBug()
@@ -403,7 +398,7 @@ class BookmarksMenu(MMenu):
             for info in Databases.BookmarksOfDirectories.fetchAll():
                 if info[1]==str(_action.objectName()):
                     if InputOutputs.IA.isDir(str(info[2]))==True:
-                        Universals.MainWindow.FileManager.goTo(trForM(info[2]))
+                        Universals.MainWindow.FileManager.goTo(info[2].decode("utf-8"))
                         return
                     else:
                         answer = Dialogs.ask(translate("BookmarksMenu", "Cannot Find Folder"), 
@@ -458,15 +453,15 @@ class Bookmarks(MDialog):
         
     def bookmarksChanged(self, _index):
         try:
-            self.pathOfBookmark.setText(trForUI(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
+            self.pathOfBookmark.setText(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2].decode("utf-8"))
         except:
             error = ReportBug.ReportBug()
             error.show()
             
     def addBookmark(self):
         try:
-            currentPath = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
-            Databases.BookmarksOfDirectories.insert(currentPath.split("/")[-1], currentPath)
+            isim=str(InputOutputs.currentDirectoryPath).split("/")
+            Databases.BookmarksOfDirectories.insert(isim[len(isim)-1], InputOutputs.currentDirectoryPath)
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:
@@ -498,7 +493,7 @@ class Bookmarks(MDialog):
         try:
             self.cbBookmarks.clear()
             for fav in Databases.BookmarksOfDirectories.fetchAll():
-                self.cbBookmarks.addItem(trForUI(fav[1])) 
+                self.cbBookmarks.addItem(fav[1].decode("utf-8")) 
         except:
             error = ReportBug.ReportBug()
             error.show()

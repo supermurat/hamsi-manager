@@ -30,16 +30,16 @@ def getSettingsFromOldNameAndSettings():
     import Variables, InputOutputs, Universals
     if InputOutputs.isDir(Variables.userDirectoryPath + "/.OrganizasyonizM"):
         if InputOutputs.isFile(Variables.userDirectoryPath + "/.OrganizasyonizM/universalSettings.ini"):
-            from MyObjects import MSettings, trForM
-            oldSettins = MSettings(trForM(Variables.userDirectoryPath+"/.OrganizasyonizM/universalSettings.ini") ,MSettings.IniFormat)
-            newSettings = MSettings(trForM(Variables.userDirectoryPath+"/.HamsiApps/universalSettings.ini") ,MSettings.IniFormat)
+            from MyObjects import MSettings
+            oldSettins = MSettings((Variables.userDirectoryPath+"/.OrganizasyonizM/universalSettings.ini").decode("utf-8") ,MSettings.IniFormat)
+            newSettings = MSettings((Variables.userDirectoryPath+"/.HamsiApps/universalSettings.ini").decode("utf-8") ,MSettings.IniFormat)
             for oldKey in oldSettins.allKeys():
                 newKey = str(oldKey).replace("OrganizasyonizM", "HamsiManager")
                 newSettings.setValue(newKey, oldSettins.value(oldKey))
         if InputOutputs.isFile(Variables.userDirectoryPath + "/.OrganizasyonizM/mySettings.ini"):
-            from MyObjects import MSettings, trForM
-            oldSettins = MSettings(trForM(Variables.userDirectoryPath+"/.OrganizasyonizM/mySettings.ini") ,MSettings.IniFormat)
-            newSettings = MSettings(trForM(Variables.userDirectoryPath+"/.HamsiApps/HamsiManager/mySettings.ini") ,MSettings.IniFormat)
+            from MyObjects import MSettings
+            oldSettins = MSettings((Variables.userDirectoryPath+"/.OrganizasyonizM/mySettings.ini").decode("utf-8") ,MSettings.IniFormat)
+            newSettings = MSettings((Variables.userDirectoryPath+"/.HamsiApps/HamsiManager/mySettings.ini").decode("utf-8") ,MSettings.IniFormat)
             for oldKey in oldSettins.allKeys():
                 newKey = str(oldKey).replace("OrganizasyonizM", "HamsiManager")
                 newSettings.setValue(newKey, oldSettins.value(oldKey))

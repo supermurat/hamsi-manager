@@ -34,7 +34,7 @@ class RunCommand(MDialog):
             self.setButtons(MDialog.None)
         self.sciCommand = QsciScintilla()
         self.sciCommand.setUtf8(True)
-        self.sciCommand.setText(trForUI(codesOfUser()))
+        self.sciCommand.setText(codesOfUser().decode("utf-8"))
         self.sciCommand.setAutoIndent(True)
         self.sciCommand.setAutoCompletionThreshold(2)
         self.sciCommand.setAutoCompletionSource(QsciScintilla.AcsDocument)
@@ -121,11 +121,11 @@ class RunCommand(MDialog):
             return False
     
     def saveCommand(self):
-        if str(codesOfUser())!=str(str(self.sciCommand.text())):
+        if str(codesOfUser())!=str(unicode(self.sciCommand.text(), "utf-8")):
             answer = Dialogs.ask(translate("RunCommand", "Do You Wish To Save Your Codes?"), 
                             translate("RunCommand", "Do you wish to save your codes so that you can continue later?"), True)
             if answer==Dialogs.Yes:
-                codesOfUser(str(self.sciCommand.text()))
+                codesOfUser(unicode(self.sciCommand.text(), "utf-8"))
             elif answer==Dialog.Cancel:
                 return False
         return True
@@ -135,7 +135,7 @@ class RunCommand(MDialog):
                             translate("RunCommand", "Your codes will be deleted and the default codes will be installed. Do you wish to clear the current codes?"))
         if answer==Dialogs.Yes:
             reFillCodesOfUser()
-            self.sciCommand.setText(trForUI(codesOfUser()))
+            self.sciCommand.setText(codesOfUser().decode("utf-8"))
         
         
         

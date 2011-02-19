@@ -49,10 +49,10 @@ class Hasher(MyDialog):
         self.cbHash.addItems(Variables.getHashTypes())
         self.cbHashOutput = MComboBox()
         self.cbHashOutput.addItems([translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")])
-        self.leHashDigestFile = MLineEdit(trForM(_file))
+        self.leHashDigestFile = MLineEdit(_file.decode("utf-8"))
         self.pbtnHash = MPushButton(translate("Hasher", "Hash"))
         self.pbtnClose = MPushButton(translate("Hasher", "Close"))
-        self.lePathOfPackage = MLineEdit(trForM(_file))
+        self.lePathOfPackage = MLineEdit(_file.decode("utf-8"))
         self.pbtnHash.setToolTip(translate("Hasher", "Hash the selected file"))
         self.pbtnSelectProjectPath = MPushButton(translate("Hasher", "Browse"))
         self.pbtnSelectPackagePath = MPushButton(translate("Hasher", "Browse"))
@@ -131,22 +131,22 @@ class Hasher(MyDialog):
             self.leHashDigestFile.setEnabled(False)
     
     def hash(self):
-        sourceFile = str(self.lePathOfPackage.text())
+        sourceFile = unicode(self.lePathOfPackage.text(), "utf-8")
         if InputOutputs.IA.checkSource(sourceFile, "file"):
             hashType = str(self.cbHash.currentText())
             if hashType!=None:
                 hashDigestContent = InputOutputs.IA.getHashDigest(sourceFile, hashType)
                 if hashDigestContent!=False:
-                    self.teHashDigest.setText(trForM(hashDigestContent))
+                    self.teHashDigest.setText(hashDigestContent.decode("utf-8"))
                     if self.cbHashOutput.currentIndex()==1:
-                        if InputOutputs.IA.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
+                        if InputOutputs.IA.createHashDigestFile(sourceFile, unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False, hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
-                                        str(translate("Hasher", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
+                                        str(translate("Hasher", "Hash digest writed into %s")) % unicode(self.leHashDigestFile.text(), "utf-8"))
                         else:
                             Dialogs.showError(translate("Hasher", "Hash Digest File Is Not Created"),
                                         translate("Hasher", "Hash digest file not cteated."))
                     elif self.cbHashOutput.currentIndex()==2:
-                            MApplication.clipboard().setText(trForM(hashDigestContent))
+                            MApplication.clipboard().setText(hashDigestContent.decode("utf-8"))
                             Dialogs.show(translate("Hasher", "Hash Digest Copied To Clipboard"),
                                         str(translate("Hasher", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:

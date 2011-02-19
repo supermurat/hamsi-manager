@@ -130,16 +130,16 @@ class QuickMakeWindow(MyDialog):
         if _isShowEmendWidgets:
             lblOldValue = MLabel(translate("QuickMake", "Old Value : "))
             lblNewValue = MLabel(translate("QuickMake", "New Value : "))
-            leOldValue = MLineEdit(trForUI(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
+            leOldValue = MLineEdit(Organizer.showWithIncorrectChars(InputOutputs.IA.getRealPath(QuickMakeParameters[1])).decode("utf-8"))
             leOldValue.setEnabled(False)
-            self.leNewValue = MLineEdit(trForUI(Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))))
+            self.leNewValue = MLineEdit(Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])).decode("utf-8")))
             vblInfo.addWidget(lblOldValue)
             vblInfo.addWidget(leOldValue)
             vblInfo.addWidget(lblNewValue)
             vblInfo.addWidget(self.leNewValue)
         else:
             lblValue = MLabel(translate("QuickMake", "Value : "))
-            leValue = MLineEdit(trForUI(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
+            leValue = MLineEdit(Organizer.showWithIncorrectChars(InputOutputs.IA.getRealPath(QuickMakeParameters[1])).decode("utf-8"))
             leValue.setEnabled(False)
             vblInfo.addWidget(lblValue)
             vblInfo.addWidget(leValue)
@@ -230,7 +230,7 @@ class QuickMakeWindow(MyDialog):
                 InputOutputs.IA.activateSmartCheckIcon()
                 InputOutputs.IA.clearEmptyDirectories(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), True, True)
                 if InputOutputs.IA.isDir(InputOutputs.IA.getRealPath(QuickMakeParameters[1])):
-                    InputOutputs.IA.completeSmartCheckIcon()
+                    InputOutputs.IA.complateSmartCheckIcon()
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
                         str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
             self.close()
@@ -268,12 +268,11 @@ class QuickMakeWindow(MyDialog):
                 else:
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
                 import Organizer
-                oldFileName = InputOutputs.IA.getRealPath(QuickMakeParameters[1])
-                newFileName = InputOutputs.IA.moveOrChange(oldFileName, newEmendedName)
-                if newFileName!=oldFileName:
+                newFileName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName)
+                if newFileName!=False:
                     Dialogs.show(translate("QuickMake", "File Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This file is \"%s\" now.")) % 
-                            (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newFileName)))
+                            (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newFileName)))
             self.close()
         except:
             self.error = ReportBug.ReportBug()
@@ -287,9 +286,9 @@ class QuickMakeWindow(MyDialog):
                 else:
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
                 import Organizer
-                oldFileName = InputOutputs.IA.getRealPath(QuickMakeParameters[1])
-                newDirName = InputOutputs.IA.moveOrChange(oldFileName, newEmendedName, "directory")
-                if newDirName!=oldFileName:
+                newName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
+                if newName!=False:
+                    newDirName = InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newName
                     Dialogs.show(translate("QuickMake", "Directory Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
                             (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newDirName)))
@@ -307,18 +306,18 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
                 import Organizer
                 InputOutputs.IA.activateSmartCheckIcon()
-                oldFileName = InputOutputs.IA.getRealPath(QuickMakeParameters[1])
-                newDirName = InputOutputs.IA.moveOrChange(oldFileName, newEmendedName, "directory")
-                if newDirName!=oldFileName:
+                newName = InputOutputs.IA.moveOrChange(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), newEmendedName, "directory")
+                if newName!=False:
+                    newDirName = InputOutputs.IA.getDirName(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))+"/"+newName
                     fileAndDirectoryNames = InputOutputs.IA.readDirectory(newDirName, "fileAndDirectory")
                     for fileAndDirs in fileAndDirectoryNames:
                         objectType = InputOutputs.IA.getObjectType(newDirName + "/" + fileAndDirs)
                         InputOutputs.IA.moveOrChange(newDirName + "/" + fileAndDirs, 
                                   newDirName + "/" + Organizer.emend(fileAndDirs, objectType), objectType)
-                    if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                    if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                         InputOutputs.IA.checkIcon(newDirName)
                     if InputOutputs.IA.isDir(newDirName):
-                        InputOutputs.IA.completeSmartCheckIcon()
+                        InputOutputs.IA.complateSmartCheckIcon()
                     Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
                             (Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])), Organizer.getLink(newDirName)))
@@ -330,7 +329,7 @@ class QuickMakeWindow(MyDialog):
     def copyPath(self):
         try:
             if self.checkSource(InputOutputs.IA.getRealPath(QuickMakeParameters[1])):
-                MApplication.clipboard().setText(trForUI(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
+                MApplication.clipboard().setText(InputOutputs.IA.getRealPath(QuickMakeParameters[1]).decode("utf-8"))
                 Dialogs.show(translate("QuickMake", "Copied To Clipboard"),
                         str(translate("QuickMake", "\"%s\" copied to clipboard.")) % Organizer.getLink(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
             self.close()

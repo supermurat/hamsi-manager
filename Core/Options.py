@@ -282,27 +282,16 @@ class Options(MDialog):
             if requestInfos[1]=="image":
                 directory = InputOutputs.IA.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Image"),
-                                            directory,trForUI(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG))
+                                            directory,(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG).decode("utf-8"))
                 if filePath!="":
                     leValue.setText(filePath)   
             if requestInfos[1]=="executable":
                 directory = InputOutputs.IA.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
-                                            directory, trForUI(translate("Options", "Executable Files") + " (*)"))
+                                            directory,translate("Options", "Executable Files") + " (*)".decode("utf-8"))
                 if filePath!="":
-                    leValue.setText(filePath)  
-                    
-    def pbtnDirectoryClicked(self):
-        requestInfos = str(self.sender().objectName()).split("_")
-        leValue = self.categories[self.tboxCategories.currentIndex()].values[int(requestInfos[2])]
-        if requestInfos[0]=="directory":  
-            if requestInfos[1]=="exist":
-                directory = InputOutputs.IA.getRealPath(leValue.text())
-                dirPath = MFileDialog.getExistingDirectory(self,translate("Options", "Choose Image"),
-                                                directory)
-                if dirPath!="":
-                    leValue.setText(dirPath)
-                
+                    leValue.setText(filePath)     
+            
     def pbtnDefaultValueClicked(self):
         requestInfos = str(self.sender().objectName()).split("_")
         categoryNo = self.tboxCategories.currentIndex()
@@ -311,21 +300,21 @@ class Options(MDialog):
         keyNo = int(requestInfos[2])
         leValue = self.categories[categoryNo].values[keyNo]
         if typeOfValue=="string":
-            self.categories[categoryNo].values[keyNo].setText(trForUI(self.defaultValues[keyValue]))
+            self.categories[categoryNo].values[keyNo].setText(self.defaultValues[keyValue].decode("utf-8"))
         elif typeOfValue=="richtext":
-            self.categories[categoryNo].values[keyNo].setPlainText(trForUI(self.defaultValues[keyValue]))
+            self.categories[categoryNo].values[keyNo].setPlainText(self.defaultValues[keyValue].decode("utf-8"))
         elif typeOfValue=="list":
             value = ""
             for y, info in enumerate(Universals.getListFromStrint(self.defaultValues[keyValue])):
                 if y!=0:
                     value += ";"
-                value += str(info)
-            self.categories[categoryNo].values[keyNo].setText(trForUI(value))
+                value += unicode(info, "utf-8")
+            self.categories[categoryNo].values[keyNo].setText(value.decode("utf-8"))
         elif typeOfValue=="trString":
             value = self.defaultValues[keyValue]
             for y, info in enumerate(self.categories[categoryNo].stringSearchList[self.categories[categoryNo].typesOfValues[keyNo][1]]):
                 value = value.replace(str(info), str(self.categories[categoryNo].stringReplaceList[self.categories[categoryNo].typesOfValues[keyNo][1]][y]))
-            self.categories[categoryNo].values[keyNo].setText(trForUI(value))
+            self.categories[categoryNo].values[keyNo].setText(value.decode("utf-8"))
         elif typeOfValue=="options":
             self.categories[categoryNo].values[keyNo].setCurrentIndex(self.categories[categoryNo].valuesOfOptionsKeys[self.categories[categoryNo].typesOfValues[keyNo][1]].index(self.defaultValues[keyValue]))
         elif typeOfValue=="number":
@@ -336,8 +325,6 @@ class Options(MDialog):
             else:
                 self.categories[categoryNo].values[keyNo].setCurrentIndex(0)
         elif typeOfValue=="file":
-            self.categories[categoryNo].values[keyNo].setText(self.defaultValues[keyValue])
-        elif typeOfValue=="directory":
             self.categories[categoryNo].values[keyNo].setText(self.defaultValues[keyValue])
     
     def createDefaultValueButton(self, _category, _typeOfValue, _keyValue, x):
@@ -369,9 +356,7 @@ class Options(MDialog):
                 toolTips += str(translate("Options", "No"))
         elif _typeOfValue=="file":
             toolTips += self.defaultValues[_keyValue]
-        elif _typeOfValue=="directory":
-            toolTips += self.defaultValues[_keyValue]
-        pbtnDefaultValue.setToolTip(trForUI(toolTips))
+        pbtnDefaultValue.setToolTip(toolTips.decode("utf-8"))
         pbtnDefaultValue.setFixedWidth(25)
         MObject.connect(pbtnDefaultValue, SIGNAL("clicked()"), _category.parent().pbtnDefaultValueClicked)
         return pbtnDefaultValue
@@ -398,18 +383,18 @@ class Options(MDialog):
                 for x, keyValue in enumerate(category.keysOfSettings):
                     if category.visibleKeys.count(keyValue)>0:
                         if category.typesOfValues[x]=="string":
-                            value = str(category.values[x].text())
+                            value = unicode(category.values[x].text(),"utf-8")
                         elif category.typesOfValues[x]=="richtext":
-                            value = str(category.values[x].toPlainText())
+                            value = unicode(category.values[x].toPlainText(),"utf-8")
                         elif category.typesOfValues[x]=="list":
                             value = "['"
-                            for y, bilgi in enumerate(str(category.values[x].text()).split(";")):
+                            for y, bilgi in enumerate(unicode(category.values[x].text(),"utf-8").split(";")):
                                 if y!=0:
                                     value += "','"
                                 value += bilgi
                             value+="']"
                         elif category.typesOfValues[x][0]=="trString":
-                            value = str(category.values[x].text())
+                            value = unicode(category.values[x].text(),"utf-8")
                             for y, info in enumerate(category.stringReplaceList[category.typesOfValues[x][1]]):
                                 value = value.replace(str(info), str(category.stringSearchList[category.typesOfValues[x][1]][y]))
                         elif category.typesOfValues[x][0]=="options":
@@ -422,11 +407,9 @@ class Options(MDialog):
                             else:
                                 value = "True"
                         elif category.typesOfValues[x][0]=="file":
-                            value = str(category.values[x].text())
-                        elif category.typesOfValues[x][0]=="directory":
-                            value = str(category.values[x].text())
+                            value = unicode(category.values[x].text(),"utf-8")
                         elif category.typesOfValues[x]=="password":
-                            value = str(category.values[x].text())
+                            value = unicode(category.values[x].text(),"utf-8")
                         category.values[x].setStyleSheet("")
                         if Universals.MySettings[keyValue]!=value:
                             emendedValue = Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue])
@@ -436,14 +419,14 @@ class Options(MDialog):
                                 if answer==Dialogs.Yes:
                                     Universals.setMySetting(keyValue, emendedValue)
                                     if category.typesOfValues[x]=="string":
-                                        category.values[x].setText(trForUI(emendedValue))
+                                        category.values[x].setText(emendedValue.decode("utf-8"))
                                     elif category.typesOfValues[x]=="list":
                                         value = ""
                                         for y, info in enumerate(Universals.getListFromStrint(emendedValue)):
                                             if y!=0:
                                                 value += ";"
-                                            value += str(info)
-                                        category.values[x].setText(trForUI(value))
+                                            value += unicode(info, "utf-8")
+                                        category.values[x].setText(value.decode("utf-8"))
                                 else:
                                     if self.showType=="Normal":
                                         self.tboxCategories.setCurrentIndex(categoryNo)
@@ -461,7 +444,6 @@ class Options(MDialog):
             Universals.saveSettings()
             if isSaveSearchAndReplaceTable:
                 self.categories[searchAndReplaceCategoryNo].searchAndReplaceTable.save()
-            Universals.MainWindow.ToolsBar.refreshQuickOptions()
             Records.checkSize()
             if isDontClose:return False
             if isNeededRestart==True:
@@ -478,18 +460,18 @@ class Options(MDialog):
             x = _category.keysOfSettings.index(_keyValue)
             if _category.visibleKeys.count(_keyValue)>0:
                 if _category.typesOfValues[x]=="string":
-                    value = str(_category.values[x].text())
+                    value = unicode(_category.values[x].text(),"utf-8")
                 elif _category.typesOfValues[x]=="richtext":
-                    value = str(_category.values[x].toPlainText())
+                    value = unicode(_category.values[x].toPlainText(),"utf-8")
                 elif _category.typesOfValues[x]=="list":
                     value = "['"
-                    for y, bilgi in enumerate(str(_category.values[x].text()).split(";")):
+                    for y, bilgi in enumerate(unicode(_category.values[x].text(),"utf-8").split(";")):
                         if y!=0:
                             value += "','"
                         value += bilgi
                     value+="']"
                 elif _category.typesOfValues[x][0]=="trString":
-                    value = str(_category.values[x].text())
+                    value = unicode(_category.values[x].text(),"utf-8")
                     for y, info in enumerate(_category.stringReplaceList[_category.typesOfValues[x][1]]):
                         value = value.replace(str(info), str(_category.stringSearchList[_category.typesOfValues[x][1]][y]))
                 elif _category.typesOfValues[x][0]=="options":
@@ -502,11 +484,9 @@ class Options(MDialog):
                     else:
                         value = "True"
                 elif _category.typesOfValues[x][0]=="file":
-                    value = str(_category.values[x].text())
-                elif _category.typesOfValues[x][0]=="directory":
-                    value = str(_category.values[x].text())
+                    value = unicode(_category.values[x].text(),"utf-8")
                 elif _category.typesOfValues[x]=="password":
-                    value = str(_category.values[x].text())
+                    value = unicode(_category.values[x].text(),"utf-8")
                 _category.values[x].setStyleSheet("")
                 if Universals.MySettings[_keyValue]!=value:
                     emendedValue = Settings.emendValue(_keyValue, value, defaultValues[_keyValue], valueTypesAndValues[_keyValue])
@@ -516,14 +496,14 @@ class Options(MDialog):
                         if answer==Dialogs.Yes:
                             Universals.setMySetting(_keyValue, emendedValue)
                             if _category.typesOfValues[x]=="string":
-                                _category.values[x].setText(trForUI(emendedValue))
+                                _category.values[x].setText(emendedValue.decode("utf-8"))
                             elif _category.typesOfValues[x]=="list":
                                 value = ""
                                 for y, info in enumerate(Universals.getListFromStrint(emendedValue)):
                                     if y!=0:
                                         value += ";"
-                                    value += str(info)
-                                _category.values[x].setText(trForUI(value))
+                                    value += unicode(info, "utf-8")
+                                _category.values[x].setText(value.decode("utf-8"))
                         else:
                             if self.showType=="Normal":
                                 self.tboxCategories.setCurrentIndex(_category.categoryNo)
@@ -557,11 +537,11 @@ class Options(MDialog):
                     isNeededRestart = True
                 if _category.typesOfValues[x]=="string":
                     _category.values.append(MLineEdit())
-                    _category.values[x].setText(trForUI(Universals.MySettings[keyValue]))
+                    _category.values[x].setText(Universals.MySettings[keyValue].decode("utf-8"))
                 elif _category.typesOfValues[x]=="richtext":
                     typeOfValue = "richtext"
                     _category.values.append(MTextEdit())
-                    _category.values[x].setPlainText(trForUI(Universals.MySettings[keyValue]))
+                    _category.values[x].setPlainText(Universals.MySettings[keyValue].decode("utf-8"))
                 elif _category.typesOfValues[x]=="list":
                     typeOfValue = "list"
                     _category.values.append(MLineEdit())
@@ -569,15 +549,15 @@ class Options(MDialog):
                     for y, info in enumerate(Universals.getListFromStrint(Universals.MySettings[keyValue])):
                         if y!=0:
                             value += ";"
-                        value += str(info)
-                    _category.values[x].setText(trForUI(value))
+                        value += unicode(info, "utf-8")
+                    _category.values[x].setText(value.decode("utf-8"))
                 elif _category.typesOfValues[x][0]=="trString":
                     typeOfValue = "trString"
                     _category.values.append(MLineEdit())
                     value = Universals.MySettings[keyValue]
                     for y, info in enumerate(_category.stringSearchList[_category.typesOfValues[x][1]]):
                         value = value.replace(str(info), str(_category.stringReplaceList[_category.typesOfValues[x][1]][y]))
-                    _category.values[x].setText(trForUI(value))
+                    _category.values[x].setText(value.decode("utf-8"))
                 elif _category.typesOfValues[x][0]=="options":
                     typeOfValue = "options"
                     _category.values.append(MComboBox())
@@ -606,18 +586,9 @@ class Options(MDialog):
                     pbtnFile.setToolTip(_category.toolTips[x])
                     MObject.connect(pbtnFile, SIGNAL("clicked()"), _category.parent().pbtnFileClicked)
                     valueLayout.addWidget(pbtnFile)
-                elif _category.typesOfValues[x][0]=="directory":
-                    typeOfValue = "directory"
-                    _category.values.append(MLineEdit())
-                    _category.values[x].setText(Universals.MySettings[keyValue])
-                    pbtnDirectory = MPushButton(translate("Options", "...."))
-                    pbtnDirectory.setObjectName("directory_"+_category.typesOfValues[x][1]+"_"+str(x))
-                    pbtnDirectory.setToolTip(_category.toolTips[x])
-                    MObject.connect(pbtnDirectory, SIGNAL("clicked()"), _category.parent().pbtnDirectoryClicked)
-                    valueLayout.addWidget(pbtnDirectory)
                 if _category.typesOfValues[x]=="password":
                     _category.values.append(MLineEdit())
-                    _category.values[x].setText(trForUI(Universals.MySettings[keyValue]))
+                    _category.values[x].setText(Universals.MySettings[keyValue].decode("utf-8"))
                     _category.values[x].setEchoMode(MLineEdit.Password)
                 if typeOfValue=="list":
                     pbtnEditValue = _category.parent().createEditValueButton(_category, typeOfValue, keyValue, x)
@@ -626,7 +597,7 @@ class Options(MDialog):
                 valueLayout.addWidget(pbtnDefaultValue)
                 valueLayout.insertWidget(0, _category.values[x])
                 _category.values[x].setToolTip(_category.toolTips[x])
-                lblLabel = MLabel(trForUI(_category.labels[x]+" : "))
+                lblLabel = MLabel(_category.labels[x]+" : ".decode("utf-8"))
                 lblLabel.setToolTip(_category.toolTips[x])
                 _category.lblLabels.append(lblLabel)
                 if _category.tabsOfSettings[x]==None:
@@ -687,38 +658,38 @@ class EditDialog(MDialog):
         self.keyValue = self.requestInfos[1]
         self.keyNo = int(self.requestInfos[2])
         if self.typeOfValue=="string":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
             self.EditorWidget = MTextEdit(self)
-            self.EditorWidget.setText(trForUI(currentValue))
+            self.EditorWidget.setText(currentValue.decode("utf-8"))
         elif self.typeOfValue=="richtext":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].plainText())
             self.EditorWidget = MTextEdit(self)
             self.EditorWidget.setAcceptRichText(True)
-            self.EditorWidget.setPlainText(trForUI(currentValue))
+            self.EditorWidget.setPlainText(currentValue.decode("utf-8"))
         elif self.typeOfValue=="list":
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
             if Universals.isActivePyKDE4==True:
                 self.EditorWidget = MEditListBox(self)
-                self.EditorWidget.setItems([trForUI(x) for x in currentValue.split(";")])
+                self.EditorWidget.setItems([x.decode("utf-8") for x in currentValue.split(";")])
             else:
                 self.EditorWidget = MTextEdit(self)
-                self.EditorWidget.setText(trForUI(currentValue.replace(";", "\n")))
+                self.EditorWidget.setText(currentValue.replace(";", "\n").decode("utf-8"))
         elif self.typeOfValue=="options":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].currentIndex())
         elif self.typeOfValue=="number":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].value())
         elif self.typeOfValue=="Yes/No":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             if self.parent().categories[self.categoryNo].values[self.keyNo].currentIndex()==1:
                 currentValue = True
             else:
                 currentValue = False
         elif self.typeOfValue=="file":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
@@ -740,40 +711,40 @@ class EditDialog(MDialog):
         
     def apply(self):
         if self.typeOfValue=="string":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             newValue = "" #NotUsed
-            self.parent().categories[self.categoryNo].values[self.keyNo].setText(trForUI(newValue))
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(newValue.decode("utf-8"))
         elif self.typeOfValue=="richtext":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             newValue = "" #NotUsed
-            self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(trForUI(newValue))
+            self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(newValue.decode("utf-8"))
         elif self.typeOfValue=="list":
             value = ""
             if Universals.isActivePyKDE4==True:
                 for y, info in enumerate(self.EditorWidget.items()):
                     if y!=0:
                         value += ";"
-                    value += str(info)
+                    value += unicode(info, "utf-8")
             else:
-                value = str(self.EditorWidget.toPlainText()).replace("\n", ";")
-            self.parent().categories[self.categoryNo].values[self.keyNo].setText(trForUI(value))
+                value = unicode(self.EditorWidget.toPlainText(), "utf-8").replace("\n", ";")
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(value.decode("utf-8"))
         elif self.typeOfValue=="options":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             newValue = "" #NotUsed
             self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(self.parent().categories[self.categoryNo].valuesOfOptionsKeys[self.parent().categories[self.categoryNo].typesOfValues[self.keyNo][1]].index(newValue))
         elif self.typeOfValue=="number":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             newValue = "" #NotUsed
             self.parent().categories[self.categoryNo].values[self.keyNo].setValue(int(newValue)) 
         elif self.typeOfValue=="Yes/No":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             newValue = "" #NotUsed
             if eval(newValue.title())==True:
                 self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(1)
             else:
                 self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(0)
         elif self.typeOfValue=="file":
-            #This Is Not Used (For only next)
+            #This İs Not Used (For only next)
             newValue = "" #NotUsed
             self.parent().categories[self.categoryNo].values[self.keyNo].setText(newValue)
         self.close()
@@ -791,10 +762,10 @@ class General(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["applicationStyle", "themeName", "colorSchemes", "isSaveActions", "maxRecordFileSize", 
+        self.keysOfSettings = ["applicationStyle", "themeName", "isSaveActions", "maxRecordFileSize", 
                                 "isMinimumWindowMode", "updateInterval", "isShowQuickMakeWindow", 
                                 "isShowTransactionDetails", "windowMode", "language"]
-        self.tabsOfSettings = [None, None, None, None, None, 
+        self.tabsOfSettings = [None, None, None, None, 
                                 None, None, None, 
                                 None, None, None]
         self.tabNames = []
@@ -806,7 +777,6 @@ class General(MWidget):
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/General", "Application Style"),
                     translate("Options/General", "Application Theme"), 
-                    translate("Options/General", "Color Schemes"), 
                     translate("Options/General", "Save Actions"), 
                     translate("Options/General", "Record File Size"), 
                     translate("Options/General", "Activate Minimal Window Mode"), 
@@ -815,9 +785,8 @@ class General(MWidget):
                     translate("Options/General", "Show Transaction Details"), 
                     translate("Options/General", "Window Mode"),  
                     translate("Options/General", "Application Language")]
-        self.toolTips = [translate("Options/General", "You can select style for Hamsi Manager."),
-                    translate("Options/General", "You can select theme for Hamsi Manager."),
-                    translate("Options/General", "You can select color schemes for Hamsi Manager."),
+        self.toolTips = [translate("Options/General", "You can select Hamsi Manager`s style."),
+                    translate("Options/General", "You can select Hamsi Manager`s theme."),
                     translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
                     translate("Options/General", "You can select record file size.(Kilobytes)"), 
                     translate("Options/General", "You have to activate this if you want to work as little number of windows as possible."), 
@@ -826,31 +795,22 @@ class General(MWidget):
                     translate("Options/General", "Are you want to show transaction details after save table?"), 
                     translate("Options/General", "You can select window mode.You can select \"Mini\" section for netbook or small screen."),
                     translate("Options/General", "You can select Hamsi Manager`s language.")]
-        self.typesOfValues = [["options", 1], ["options", 4], ["options", 6], "Yes/No", ["number", 3], 
+        self.typesOfValues = [["options", 1], ["options", 4], "Yes/No", ["number", 3], 
                                 "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 5], ["options", 0]]
         styles = Variables.getStyles()
         themes = Variables.getInstalledThemes()
-        schemes, schemePaths  = Variables.getColorSchemesAndPath()
-        if Universals.isActivePyKDE4==False:
-            keyNo = self.keysOfSettings.index("colorSchemes")
-            del self.keysOfSettings[keyNo]
-            del self.labels[keyNo]
-            del self.toolTips[keyNo]
-            del self.typesOfValues[keyNo]
         self.valuesOfOptions = [Variables.getInstalledLanguagesNames(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
                                 [translate("Options/General", "Normal"), 
-                                    translate("Options/General", "Mini")], schemes]
+                                    translate("Options/General", "Mini")]]
         self.valuesOfOptionsKeys = [Variables.getInstalledLanguagesCodes(), styles, 
                                 ["1", "30"], ["10", "100000"], themes, 
-                                Variables.windowModeKeys, schemePaths]
+                                Variables.windowModeKeys]
         createOptions(self)
         if Universals.isActivePyKDE4==True:
             setVisibleFormItems(self, "language", False)
         if self.visibleKeys.count("applicationStyle")>0:
             MObject.connect(self.values[self.keysOfSettings.index("applicationStyle")], SIGNAL("currentIndexChanged(int)"), self.styleChanged)
-        if self.visibleKeys.count("colorSchemes")>0:
-            MObject.connect(self.values[self.keysOfSettings.index("colorSchemes")], SIGNAL("currentIndexChanged(int)"), self.schemeChanged)
         if self.visibleKeys.count("windowMode")>0:
             MObject.connect(self.values[self.keysOfSettings.index("windowMode")], SIGNAL("currentIndexChanged(int)"), self.windowModeChanged)
         if self.visibleKeys.count("isSaveActions")>0:
@@ -865,16 +825,7 @@ class General(MWidget):
     
     def styleChanged(self, _value):
         MApplication.setStyle(self.values[self.keysOfSettings.index("applicationStyle")].currentText())
-    
-    def schemeChanged(self, _value):
-        x = self.keysOfSettings.index("colorSchemes")
-        schemePath = self.valuesOfOptionsKeys[self.typesOfValues[x][1]][self.values[x].currentIndex()]
-        if InputOutputs.isFile(schemePath):
-            config = MSharedConfig.openConfig(schemePath)
-            plt = MGlobalSettings.createApplicationPalette(config)
-        else:
-            plt = MApplication.desktop().palette()
-        MApplication.setPalette(plt)
+        
         
     def windowModeChanged(self, _value):
         Universals.setMySetting("isShowWindowModeSuggestion", True)
@@ -1005,7 +956,7 @@ class SearchAndReplace(MWidget):
                         twiItem.setCheckState(checkState)
                         self.setItem(rowNo, columnNo, twiItem)
                     else:
-                        self.setItem(rowNo, columnNo, MTableWidgetItem(trForUI(info[columnNo])))
+                        self.setItem(rowNo, columnNo, MTableWidgetItem(str(info[columnNo]).decode("utf-8")))
             self.setItem(len(self.searchAndReplaceTableValues), 1, MTableWidgetItem(""))
             self.setItem(len(self.searchAndReplaceTableValues), 2, MTableWidgetItem(""))
             twiItem = MTableWidgetItem(" ")
@@ -1205,11 +1156,10 @@ class Cover(MWidget):
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["priorityIconNames", "isChangeExistIcon", "isAskIfHasManyImagesInAlbumDirectory", 
-                            "isActiveAutoMakeIconToDirectory", 
                             "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", 
                             "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove", 
                             "iconNameFormat", "iconFileType"]
-        self.tabsOfSettings = [0, 0, 0, 0, 0, 0, 0, 0, 
+        self.tabsOfSettings = [0, 0, 0, 0, 0, 0, 0, 
                                1, 1]
         self.tabNames = [translate("Options/Cover", "General"), 
                          translate("Options/Cover", "For Amarok")]
@@ -1221,7 +1171,6 @@ class Cover(MWidget):
         self.labels = [translate("Options/Cover", "Priority Icon Names"), 
                     translate("Options/Cover", "Change Directory Icon If Is Already Exist"), 
                     translate("Options/Cover", "Ask Me If Has Many Images"), 
-                    translate("Options/Cover", "Auto Change Directory Icon"), 
                     translate("Options/Cover", "Change Directory Icon (Table Saved)"), 
                     translate("Options/Cover", "Change Directory Icon (Moved Or Changed)"), 
                     translate("Options/Cover", "Change Directory Icon (Copied Or Changed)"), 
@@ -1231,36 +1180,19 @@ class Cover(MWidget):
         self.toolTips = [translate("Options/Cover", "The file names you selected will be folder icons first.<br>If the file name you selected does not exist, the first graphics file in the folder will be set as the folder icon.<br><font color=blue>Example: cover; icon...</font>"), 
                     translate("Options/Cover", "Are you want to change directory icon if is already exist?"), 
                     translate("Options/Cover", "Ask me if has many images in the directory.<br>Note: If you select \"No\" the first image will be chosen."), 
-                    translate("Options/Cover", "Are you want to change directory icon automatically?"), 
                     translate("Options/Cover", "Do you want to change directory icon when table saved?"), 
                     translate("Options/Cover", "Do you want to change directory icon when directory moved or changed?"), 
                     translate("Options/Cover", "Do you want to change directory icon when directory copied or changed?"), 
                     translate("Options/Cover", "Do you want to change directory icon when file moved?"), 
                     translate("Options/Cover", "You can set icon name format."), 
                     translate("Options/Cover", "You can select file type of icon.")]
-        self.typesOfValues = ["list", "Yes/No", "Yes/No", 
-                    "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
-                    ["trString", 0], ["options", 0]]
+        self.typesOfValues = ["list", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
+                            ["trString", 0], ["options", 0]]
         self.valuesOfOptions = [["png", "jpg"]]
         self.valuesOfOptionsKeys = [["png", "jpg"]]
         self.stringSearchList = [Variables.iconNameFormatKeys]
         self.stringReplaceList = [Universals.iconNameFormatLabels]
         createOptions(self) 
-        if self.visibleKeys.count("isActiveAutoMakeIconToDirectory")>0:
-            MObject.connect(self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")], SIGNAL("currentIndexChanged(int)"), self.activeAutoMakeIconToDirectory)
-            self.activeAutoMakeIconToDirectory()
-            
-    def activeAutoMakeIconToDirectory(self):
-        if self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")].currentIndex()==1:
-            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenSave", True)
-            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenMoveOrChange", True)
-            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenCopyOrChange", True)
-            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenFileMove", True)
-        else:
-            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenSave", False)
-            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenMoveOrChange", False)
-            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenCopyOrChange", False)
-            setEnabledFormItems(self, "isAutoMakeIconToDirectoryWhenFileMove", False)
  
 
 class Advanced(MWidget):
@@ -1271,8 +1203,8 @@ class Advanced(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["fileSystemEncoding", "imageExtensions", "musicExtensions", "NeededObjectsName", "isActivePyKDE4", "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]
-        self.tabsOfSettings = [None, None, None, None, None, None, None]
+        self.keysOfSettings = ["fileSystemEncoding", "isMoveToTrash", "imageExtensions", "musicExtensions", "NeededObjectsName", "isActivePyKDE4"]
+        self.tabsOfSettings = [None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -1281,20 +1213,18 @@ class Advanced(MWidget):
         self.neededRestartSettingKeys = ["fileSystemEncoding", "NeededObjectsName", "isActivePyKDE4"]
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/Advanced", "File System Character Set"), 
+                    translate("Options/Advanced", "Move To Trash"),  
                     translate("Options/Advanced", "Graphics Files` Extensions"), 
                     translate("Options/Advanced", "Music Files` Extensions"), 
                     translate("Options/Advanced", "Please Select The Object Set You Want To Use"), 
-                    translate("Options/Advanced", "Do You Want To Use PyKDE4?"), 
-                    translate("Options/Advanced", "Never Delete Files And Directories"), 
-                    translate("Options/Advanced", "Path Of Deleted Files And Directories")]
-        self.toolTips = [trForUI(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Variables.defaultFileSystemEncoding)), 
+                    translate("Options/Advanced", "Do You Want To Use PyKDE4?")]
+        self.toolTips = [(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Variables.defaultFileSystemEncoding)).decode("utf-8"), 
+                    translate("Options/Advanced", "Would you like to move files to the trash files to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"), 
                     translate("Options/Advanced", "KPlease select the object set you want to use (the object types installed on your system will be presented in the Options dialog.)"), 
-                    translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>"), 
-                    translate("Options/Advanced", "Would you like to move files to specific directory to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
-                    translate("Options/Advanced", "")]
-        self.typesOfValues = [["options", 0], "list", "list", ["options", 1], "Yes/No", "Yes/No", ["directory", "exist"]]
+                    translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>")]
+        self.typesOfValues = [["options", 0], "Yes/No", "list", "list", ["options", 1], "Yes/No"]
         charSets = Variables.getCharSets()
         objectsNames = Variables.getMyObjectsNames()
         if Variables.isAvailablePyKDE4()==False:
@@ -1303,18 +1233,24 @@ class Advanced(MWidget):
             del self.labels[keyNo]
             del self.toolTips[keyNo]
             del self.typesOfValues[keyNo]
+        if Variables.isAvailableKDE4()==False:
+            keyNo = self.keysOfSettings.index("isMoveToTrash")
+            del self.keysOfSettings[keyNo]
+            del self.labels[keyNo]
+            del self.toolTips[keyNo]
+            del self.typesOfValues[keyNo]
         self.valuesOfOptions = [charSets, objectsNames]
         self.valuesOfOptionsKeys = [charSets, objectsNames]
         createOptions(self) 
-        if self.visibleKeys.count("isDontDeleteFileAndDirectory")>0:
-            MObject.connect(self.values[self.keysOfSettings.index("isDontDeleteFileAndDirectory")], SIGNAL("currentIndexChanged(int)"), self.dontDeleteFileAndDirectoryChanged)
-            self.dontDeleteFileAndDirectoryChanged()
+        if self.visibleKeys.count("isActivePyKDE4")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("isActivePyKDE4")], SIGNAL("currentIndexChanged(int)"), self.activePyKDE4Changed)
+            self.activePyKDE4Changed()
     
-    def dontDeleteFileAndDirectoryChanged(self):
-        if self.values[self.keysOfSettings.index("isDontDeleteFileAndDirectory")].currentIndex()==1:
-            setVisibleFormItems(self, "pathOfDeletedFilesAndDirectories", True)
+    def activePyKDE4Changed(self):
+        if self.values[self.keysOfSettings.index("isActivePyKDE4")].currentIndex()==1:
+            setVisibleFormItems(self, "isMoveToTrash", True)
         else:
-            setVisibleFormItems(self, "pathOfDeletedFilesAndDirectories", False)
+            setVisibleFormItems(self, "isMoveToTrash", False)
         
 class Player(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
@@ -1449,14 +1385,14 @@ class Amarok(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["amarokIsUseHost", "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB", "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "pathOfMysqldSafe"]
-        self.tabsOfSettings = [None, None, None, None, None, None, None, None, None]
+        self.keysOfSettings = ["amarokIsUseHost", "amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB", "pathOfMysqldSafe"]
+        self.tabsOfSettings = [None, None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
-        self.neededRestartSettingKeys = ["amarokIsUseHost", "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost"]
+        self.neededRestartSettingKeys = []
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/Amarok", "Using MySQL Server"), 
                     translate("Options/Amarok", "Host"), 
@@ -1464,8 +1400,6 @@ class Amarok(MWidget):
                     translate("Options/Amarok", "User Name"), 
                     translate("Options/Amarok", "Password"), 
                     translate("Options/Amarok", "Database"), 
-                    translate("Options/Amarok", "Read Only Connection"), 
-                    translate("Options/Amarok", "Read Only Connection"), 
                     translate("Options/Amarok", "Path Of Executable \"mysqld_safe\"")]
         self.toolTips = [translate("Options/Amarok", "Are you use MySQL server in the Amarok?"), 
                     translate("Options/Amarok", "Please enter host name of Amarok database."), 
@@ -1473,10 +1407,8 @@ class Amarok(MWidget):
                     translate("Options/Amarok", "Please enter user name of Amarok database."), 
                     translate("Options/Amarok", "Please enter user password of Amarok database."), 
                     translate("Options/Amarok", "Please enter database name of Amarok database."), 
-                    translate("Options/Amarok", "Are you want to read only connection to database?<br>If you select \"Yes\" : amarok database files will be copied to %s. Any changes will not be written to the database so some things will not be run.<br>If you select \"No\" : Some Hamsi Manager default database files will be copied to %s. All existing files will be backup and after will be replaced. Some changes will be written to the database."), 
-                    translate("Options/Amarok", "Are you want to read only connection to database?<br>If you select \"No\" : Some changes will be written to the database. <br>If you select \"Yes\" : Any changes will not be written to the database so some things will not be run."), 
                     translate("Options/Amarok", "Where is executable \"mysqld_safe\" file?")]
-        self.typesOfValues = ["Yes/No", "string", "string", "string", "password", "string", "Yes/No", "Yes/No", ["file", "executable"]]
+        self.typesOfValues = ["Yes/No", "string", "string", "string", "password", "string", ["file", "executable"]]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
         createOptions(self)
@@ -1497,8 +1429,6 @@ class Amarok(MWidget):
             setVisibleFormItems(self, "amarokDBPass", False)
             setVisibleFormItems(self, "amarokDBDB", False)
             setVisibleFormItems(self, "pathOfMysqldSafe", True)
-            setVisibleFormItems(self, "isReadOnlyAmarokDB", True)
-            setVisibleFormItems(self, "isReadOnlyAmarokDBHost", False)
         else:
             setVisibleFormItems(self, "amarokDBHost", True)
             setVisibleFormItems(self, "amarokDBPort", True)
@@ -1506,8 +1436,6 @@ class Amarok(MWidget):
             setVisibleFormItems(self, "amarokDBPass", True)
             setVisibleFormItems(self, "amarokDBDB", True)
             setVisibleFormItems(self, "pathOfMysqldSafe", False)
-            setVisibleFormItems(self, "isReadOnlyAmarokDB", False)
-            setVisibleFormItems(self, "isReadOnlyAmarokDBHost", True)
     
     def saveSettingsForTest(self):
         applySetting(self, "amarokIsUseHost")
@@ -1564,9 +1492,9 @@ class MySettings(MWidget):
         self.toolTips = []
         self.typesOfValues = []
         self.valuesOfOptions = []
-        lblBackUp = MLabel(trForUI("<b>" + translate("Options/MySettings", "Backup Settings") + "</b>"))
-        lblRestore = MLabel(trForUI("<b>" + translate("Options/MySettings", "Restore Settings") + "</b>"))
-        reFillSettings = MLabel(trForUI("<b>" + translate("Options/MySettings", "Reset Settings") + "</b>"))
+        lblBackUp = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Backup Settings") + "</b>".decode("utf-8"))
+        lblRestore = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Restore Settings") + "</b>".decode("utf-8"))
+        reFillSettings = MLabel("<b>".decode("utf-8") + translate("Options/MySettings", "Reset Settings") + "</b>".decode("utf-8"))
         lblBackUp.setAlignment(Mt.AlignHCenter)
         lblRestore.setAlignment(Mt.AlignHCenter)
         reFillSettings.setAlignment(Mt.AlignHCenter)
@@ -1821,13 +1749,10 @@ class QuickOptions(MMenu):
         self.setTitle(translate("MenuBar", "Quick Options"))
         self.setObjectName(translate("MenuBar", "Quick Options"))
         self.values = []
-        self.keysOfSettings = ["isActiveClearGeneral", "isActiveAutoMakeIconToDirectory", 
-                                "validSentenceStructure", "validSentenceStructureForFile", 
-                                "validSentenceStructureForFileExtension", "fileExtesionIs", 
-                                "isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", 
-                                "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
+        self.keysOfSettings = ["isActiveClearGeneral", "validSentenceStructure", "validSentenceStructureForFile", 
+                                "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
+                                "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
         self.labels = [translate("QuickOptions", "Activate General Cleaner"), 
-            translate("QuickOptions", "Auto Change Directory Icon"), 
             translate("QuickOptions", "Valid Sentence Structure"), 
             translate("QuickOptions", "Valid Sentence Structure For Files"),
             translate("QuickOptions", "Valid Sentence Structure For File Extensions"), 
@@ -1837,7 +1762,6 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Clear First And Last Space Chars"), 
             translate("QuickOptions", "Correct Double Space Chars")]
         self.toolTips = [translate("QuickOptions", "Are you want to activate General Cleaner?"), 
-            translate("QuickOptions", "Are you want to change directory icon automatically?"), 
             translate("QuickOptions", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
             translate("QuickOptions", "File and directory names will be changed automatically to the format you selected."),
             translate("QuickOptions", "File extensions will be changed automatically to the format you selected."), 
@@ -1846,7 +1770,7 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Are you want to correct file and directory names by search and replace table?"), 
             translate("QuickOptions", "Are you want to clear first and last space chars?"), 
             translate("QuickOptions", "Are you want to correct double space chars?")]
-        self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], 
+        self.typesOfValues = ["Yes/No", ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("QuickOptions", "Title"), 
@@ -1862,47 +1786,39 @@ class QuickOptions(MMenu):
         
     def createActions(self):
         for x, keyValue in enumerate(self.keysOfSettings):
+            actionLabelList, selectedIndex = [], 0
             if self.typesOfValues[x][0]=="options":
-                actionLabelList, selectedIndex = [], 0
                 actionLabelList = self.valuesOfOptions[self.typesOfValues[x][1]]
                 selectedIndex = self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(Universals.MySettings[keyValue])
-                self.values.append(MMenu(self.labels[x], self))
-                actgActionGroupTableTypes = MActionGroup(self.values[x])
-                for y, actionLabel in enumerate(actionLabelList):
-                    actAction = actgActionGroupTableTypes.addAction(actionLabel)
-                    actAction.setCheckable(True)
-                    actAction.setObjectName(trForUI(actionLabel+";"+str(y)))
-                    if selectedIndex==y:
-                        actAction.setChecked(True)
-                self.values[x].addActions(actgActionGroupTableTypes.actions())
-                self.addAction(self.values[x].menuAction())
-                MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
             elif self.typesOfValues[x]=="Yes/No":
-                self.values.append(MAction(self.labels[x],self))
-                self.values[x].setObjectName(self.labels[x])
-                self.values[x].setToolTip(self.toolTips[x])
-                self.values[x].setCheckable(True)
+                actionLabelList = [translate("QuickOptions", "No"), translate("QuickOptions", "Yes")]
                 if Universals.getBoolValue(keyValue):
-                    self.values[x].setChecked(Universals.isChangeAll)
-                self.addAction(self.values[x])
-                MObject.connect(self.values[x], SIGNAL("changed()"), self.valueChanged)
+                    selectedIndex = 1
+            self.values.append(MMenu(self.labels[x], self))
+            actgActionGroupTableTypes = MActionGroup(self.values[x])
+            for y, actionLabel in enumerate(actionLabelList):
+                actAction = actgActionGroupTableTypes.addAction(actionLabel)
+                actAction.setCheckable(True)
+                actAction.setObjectName(actionLabel+";".decode("utf-8")+str(y))
+                if selectedIndex==y:
+                    actAction.setChecked(True)
+            self.values[x].addActions(actgActionGroupTableTypes.actions())
+            self.addAction(self.values[x].menuAction())
             self.values[x].setToolTip(self.toolTips[x])
+            MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
         
     def valueChanged(self, _action=None):
         try:
             senderAction = self.sender()
-            if senderAction.parent() in self.values:
-                indexNo = self.values.index(senderAction.parent())
-            else:
-                indexNo = self.values.index(senderAction)
+            indexNo = self.values.index(senderAction.parent())
             selectedValue = None
+            valueIndex = int(_action.objectName().split(";")[1])
             if self.typesOfValues[indexNo] =="Yes/No":
-                if senderAction.isChecked():
-                    selectedValue = True
-                else:
+                if valueIndex==0:
                     selectedValue = False
+                else:
+                    selectedValue = True
             elif self.typesOfValues[indexNo][0] =="options":
-                valueIndex = int(_action.objectName().split(";")[1])
                 selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][valueIndex]
             Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
         except:

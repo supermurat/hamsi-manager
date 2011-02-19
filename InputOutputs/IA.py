@@ -31,7 +31,7 @@ from Universals import translate
 class IA:
     """Read and writes are arranged in this class"""
     global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, readDirectory, moveOrChange, moveDir, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType
-    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, clearTempFiles, getFileTree, removeOnlySubFiles, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
+    global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, clearTempFiles, getFileTree, removeOnlySubFiles, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, activateSmartCheckIcon, complateSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath
     
     def isFile(_oldPath):
         return InputOutputs.isFile(_oldPath)
@@ -283,18 +283,18 @@ class IA:
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["unneededFiles"]):
                 try:
-                    if isFile(_path+"/"+str(f)):
-                        removeFile(_path+"/"+str(f))
+                    if isFile(_path+"/"+str(unicode(f,"utf-8"))):
+                        removeFile(_path+"/"+str(unicode(f,"utf-8")))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectoriesIfIsEmpty"]):
                 try:
-                    if isDirEmpty(_path+"/"+str(f)) and f.strip()!="":
-                        removeDir(_path+"/"+str(f))
+                    if isDirEmpty(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
+                        removeDir(_path+"/"+str(unicode(f,"utf-8")))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectories"]):
                 try:
-                    if isDir(_path+"/"+str(f)) and f.strip()!="":
-                        removeFileOrDir(_path+"/"+str(f), True)
+                    if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
+                        removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
@@ -308,13 +308,13 @@ class IA:
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
                 try:
-                    if isFile(_path+"/"+str(f)):
-                        removeFile(_path+"/"+str(f))
+                    if isFile(_path+"/"+str(unicode(f,"utf-8"))):
+                        removeFile(_path+"/"+str(unicode(f,"utf-8")))
                 except:pass
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
                 try:
-                    if isDir(_path+"/"+str(f)) and f.strip()!="":
-                        removeFileOrDir(_path+"/"+str(f), True)
+                    if isDir(_path+"/"+str(unicode(f,"utf-8"))) and f.strip()!="":
+                        removeFileOrDir(_path+"/"+str(unicode(f,"utf-8")), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(_path+"/"+name):
@@ -354,30 +354,34 @@ class IA:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
-                        return _oldPath
+                        return False
             for tDir in InputOutputs.appendingDirectories:
                 if _newPath==tDir:
                     for name in readDirectoryAll(_oldPath):
-                        moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, getObjectType(_oldPath+"/"+name), _actionType, _isQuiet)
+                        name = str(name)
+                        if isDir(_oldPath+"/"+name):
+                            moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, "directory", _actionType, _isQuiet)
+                        else:
+                            moveOrChange(_oldPath+"/"+name, _newPath+"/"+name, "file", _actionType, _isQuiet)
                     isChange = False
             if isChange==True:
                 moveFileOrDir(_oldPath,_newPath)
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
-                        return _newPath
+                        return getBaseName(_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                     checkIcon(_newPath)
             elif _actionType=="auto":
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                     if isDir(getDirName(_oldPath)):
                         checkIcon(getDirName(_oldPath))
                     if isDir(getDirName(_newPath)):
                         checkIcon(getDirName(_newPath))
-            return _newPath
+            return getBaseName(_newPath)
         else:
-            return _oldPath
+            return False
             
     def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQuiet=False):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
@@ -389,44 +393,46 @@ class IA:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
                     if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
-                        return _oldPath
+                        return False
             for tDir in InputOutputs.appendingDirectories:
                 if _newPath==tDir:
                     for name in readDirectoryAll(_oldPath):
-                        copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, getObjectType(_oldPath+"/"+name), _actionType, _isQuiet)
+                        if isDir(_oldPath+"/"+name):
+                            copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, "directory", _actionType, _isQuiet)
+                        else:
+                            copyOrChange(_oldPath+"/"+name, _newPath+"/"+name, "file", _actionType, _isQuiet)
                     isChange = False
             if isChange==True:
                 copyFileOrDir(_oldPath,_newPath)
             if isDir(_newPath)==True and _actionType=="auto":
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
+                if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                     checkIcon(_newPath)
-            return _newPath
+            return getBaseName(_newPath)
         else:
-            return _oldPath
+            return False
     
     def changeDirectories(_values):
-        newFilesPath = []
+        #will return directory(new) name
         import Dialogs
         if len(_values)!=0:
             Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),0,len(_values))
             for no in range(0,len(_values)):
-                values = {}
-                values["oldPath"] = _values[no][0]
-                values["newPath"] = moveOrChange(values["oldPath"], _values[no][1], getObjectType(_values[no][0]))
-                newFilesPath.append(values)
-                dirPath = getDirName(newFilesPath[-1])
-                if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                    clearEmptyDirectories(dirPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                    checkIcon(dirPath)
+                moveOrChange(_values[no][0], _values[no][1], getObjectType(_values[no][0]))
                 Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
-        return newFilesPath
+            if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                if isDir(InputOutputs.currentDirectoryPath):
+                    if clearEmptyDirectories(InputOutputs.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove")):
+                        return getDirName(InputOutputs.currentDirectoryPath)
+            if Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                if isDir(InputOutputs.currentDirectoryPath):
+                    checkIcon(InputOutputs.currentDirectoryPath)
+        return InputOutputs.currentDirectoryPath
         
     def activateSmartCheckIcon():
         InputOutputs.isSmartCheckIcon = True
         InputOutputs.willCheckIconDirectories = []
     
-    def completeSmartCheckIcon():
+    def complateSmartCheckIcon():
         InputOutputs.isSmartCheckIcon = False
         for iconDir in InputOutputs.willCheckIconDirectories:
             checkIcon(iconDir)
@@ -605,9 +611,8 @@ class IA:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
                     
     def getFileTree(_path, _subDirectoryDeep=-1, _actionType="return", _formatType="html", _extInfo="no"):
-        from MyObjects import trForUI
         info = InputOutputs.getFileTree(_path, _subDirectoryDeep, _formatType, _extInfo)
-        info = trForUI(info)
+        info = Organizer.showWithIncorrectChars(info)
         if _actionType=="return":
             return info
         elif _actionType=="file":
@@ -627,9 +632,9 @@ class IA:
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
-                                    trForM(Variables.userDirectoryPath),trForUI(formatTypeName+" (*."+fileExt+")"))
+                                    Variables.userDirectoryPath.decode("utf-8"),formatTypeName+(" (*."+fileExt).decode("utf-8")+")")
             if filePath!="":
-                filePath = str(filePath)
+                filePath = unicode(filePath, "utf-8")
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
                 elif _formatType=="plainText" and filePath[-4:]!=".txt":
@@ -648,10 +653,10 @@ class IA:
             if _formatType=="html":
                 QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
-                wvWeb.setHtml(trForUI(info))
+                wvWeb.setHtml(info.decode("utf-8"))
             elif _formatType=="plainText":
                 wvWeb = MTextEdit()
-                wvWeb.setPlainText(trForUI(info))
+                wvWeb.setPlainText(info.decode("utf-8"))
             pbtnClose = MPushButton(translate("Tables", "OK"))
             MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
             vblMain.addWidget(wvWeb)
@@ -665,7 +670,7 @@ class IA:
             dDialog.show()
         elif _actionType=="clipboard":
             from MyObjects import MApplication
-            MApplication.clipboard().setText(trForUI(info))
+            MApplication.clipboard().setText(info.decode("utf-8"))
             
     def fixToSize(_path, _size, _clearFrom="head"):
         return InputOutputs.fixToSize(_path, _size, _clearFrom)

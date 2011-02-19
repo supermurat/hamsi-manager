@@ -41,29 +41,32 @@ if RoutineChecks.checkQt4Exist():
         from MyObjects import *
         Universals.printForDevelopers("Before InputOutputs")
         import InputOutputs
+        import OldAppName
+        if OldAppName.checkOldAppNameAndSettings():
+            OldAppName.getSettingsFromOldNameAndSettings()
         if Universals.isActivePyKDE4==True:
             Universals.printForDevelopers("ActivePyKDE4")
             appName     = "HamsiManager"
             programName = ki18n ("Hamsi Manager")
             version     = Variables.version
             license     = MAboutData.License_GPL_V3
-            copyright   = ki18n (trForUI("Murat Demir (mopened@gmail.com)"))
+            copyright   = ki18n ("Murat Demir (mopened@gmail.com)".decode("utf-8"))
             kde4LangKode = str(KLocale(Variables.Catalog).language())+"_"+str(KLocale(Variables.Catalog).country()).upper()
-            text        = ki18n (trForUI(""))
-            homePage    = trForUI("hamsiapps.com")
-            bugEmail    = trForUI("Murat Demir (mopened@gmail.com)")
+            text        = ki18n ("".decode("utf-8"))
+            homePage    = "hamsiapps.com".decode("utf-8")
+            bugEmail    = "Murat Demir (mopened@gmail.com)".decode("utf-8")
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode):
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode)
             else:
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
-            description = ki18n (trForUI(aboutFileContent))
+            description = ki18n (aboutFileContent.decode("utf-8"))
             aboutOfHamsiManager = MAboutData (appName, Variables.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
-            aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
+            aboutOfHamsiManager.addAuthor (ki18n("Murat Demir".decode("utf-8")), ki18n("Project Manager and Developer".decode("utf-8")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.addCredit(ki18n(trForUI("Tolga Balcı")), ki18n(trForUI("Translate to English. (Voluntary) (V0.7.x)")), 
+            aboutOfHamsiManager.addCredit(ki18n("Tolga Balcı".decode("utf-8")), ki18n("Translate to English. (Voluntary) (V0.7.x)".decode("utf-8")), 
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
-            aboutOfHamsiManager.addCredit(ki18n(trForUI("Márcio Moraes")), ki18n(trForUI("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)")), 
+            aboutOfHamsiManager.addCredit(ki18n("Márcio Moraes".decode("utf-8")), ki18n("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)".decode("utf-8")), 
                                             "", "")
             aboutOfHamsiManager.setProgramIconName(Universals.themePath + "/Images/HamsiManager-128x128.png") 
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode):
@@ -98,7 +101,7 @@ if RoutineChecks.checkQt4Exist():
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ str(Universals.MySettings["language"]))
             else:
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
-            Variables.aboutOfHamsiManager = trForUI(aboutFileContent)
+            Variables.aboutOfHamsiManager = aboutFileContent.decode("utf-8")
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+
                             str(Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()
@@ -123,13 +126,6 @@ if RoutineChecks.checkQt4Exist():
         MTextCodec.setCodecForTr(MTextCodec.codecForName("UTF-8"))
         HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
         MApplication.setStyle(Universals.MySettings["applicationStyle"])
-        if Universals.isActivePyKDE4:
-            if InputOutputs.isFile(Universals.MySettings["colorSchemes"]):
-                config = MSharedConfig.openConfig(Universals.MySettings["colorSchemes"])
-                plt = MGlobalSettings.createApplicationPalette(config)
-            else:
-                plt = MApplication.desktop().palette()
-            MApplication.setPalette(plt)
         Universals.printForDevelopers("Before RoutineChecks.checkMyModules")
         if RoutineChecks.checkMyModules(HamsiManagerApp):
             if RoutineChecks.isQuickMake:
@@ -226,7 +222,7 @@ if RoutineChecks.checkQt4Exist():
                                 TextDetails.closeAllTextDialogs()
                                 CoverDetails.closeAllCoverDialogs()
                                 Universals.printForDevelopers("Closed Dialogs")
-                                if self.Table.checkUnSavedValues()==False:
+                                if self.Table.checkUnSavedTableValues()==False:
                                     Universals.isStartedCloseProcces=False
                                     Universals.printForDevelopers("Close ignored")
                                     _event.ignore() 
@@ -238,7 +234,7 @@ if RoutineChecks.checkQt4Exist():
                                     self.FileManager.actCollection.writeSettings(kconfGroup)
                                     Universals.printForDevelopers("After Save KDE Configs")
                                 Universals.printForDevelopers("Before Save Configs")
-                                Universals.setMySetting(self.Table.SubTable.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
+                                Universals.setMySetting(self.Table.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
                                 if ReportBug.iSClosingInErrorReporting == False:
                                     Records.setRecordType(1)
@@ -255,7 +251,8 @@ if RoutineChecks.checkQt4Exist():
                                 if Universals.tableType==2:
                                     Universals.setMySetting("isRunOnDoubleClick",self.Table.tbIsRunOnDoubleClick.isChecked())
                                     Universals.setMySetting("isOpenDetailsInNewWindow",self.Table.isOpenDetailsOnNewWindow.isChecked())
-                                    Universals.setMySetting("isPlayNow",self.Table.SubTable.isPlayNow.isChecked())
+                                    Universals.setMySetting("isPlayNow",self.Table.isPlayNow.isChecked())
+                                Universals.setMySetting("isShowOldValues",Universals.isShowOldValues)
                                 Universals.setMySetting("isChangeSelected",Universals.isChangeSelected)
                                 Universals.setMySetting("isChangeAll",Universals.isChangeAll)
                                 Universals.setMySetting("tableType", Universals.tableType)

@@ -53,13 +53,13 @@ class Packager(MyDialog):
         self.cbHash.addItems([translate("Packager", "No Hash")] + Variables.getHashTypes())
         self.cbHashOutput = MComboBox()
         self.cbHashOutput.addItems([translate("Packager", "File"), translate("Packager", "Clipboard")])
-        self.leHashDigestFile = MLineEdit(trForM(_directory))
+        self.leHashDigestFile = MLineEdit(_directory.decode("utf-8"))
         self.pbtnClearAndPack = MPushButton(translate("Packager", "Clear And Pack"))
         self.pbtnClear = MPushButton(translate("Packager", "Clear"))
         self.pbtnPack = MPushButton(translate("Packager", "Pack"))
         self.pbtnClose = MPushButton(translate("Packager", "Close"))
-        self.lePathOfProject = MLineEdit(trForM(_directory))
-        self.lePathOfPackage = MLineEdit(trForM(_directory))
+        self.lePathOfProject = MLineEdit(_directory.decode("utf-8"))
+        self.lePathOfPackage = MLineEdit(_directory.decode("utf-8"))
         self.pbtnClearAndPack.setToolTip(translate("Packager", "Do not will cleared directory you selected but unnecessary files and directories package will not."))
         self.pbtnClear.setToolTip(translate("Packager", "Directory you selected will is cleared"))
         self.pbtnPack.setToolTip(translate("Packager", "Directory you selected will is packed. (Do not will Cleared)"))
@@ -180,16 +180,16 @@ class Packager(MyDialog):
             hashType =  str(self.cbHash.currentText())
         if hashType!=None:
             if self.cbHashOutput.currentIndex()==0:
-                if InputOutputs.IA.createHashDigestFile(str(self.lePathOfPackage.text()), str(self.leHashDigestFile.text()), hashType, False):
+                if InputOutputs.IA.createHashDigestFile(unicode(self.lePathOfPackage.text(), "utf-8"), unicode(self.leHashDigestFile.text(), "utf-8"), hashType, False):
                     Dialogs.show(translate("Packager", "Hash Digest File Created"),
-                                str(translate("Packager", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
+                                str(translate("Packager", "Hash digest writed into %s")) % unicode(self.leHashDigestFile.text(), "utf-8"))
                 else:
                     Dialogs.showError(translate("Packager", "Hash Digest File Is Not Created"),
                                 translate("Packager", "Hash digest file not cteated."))
             else:
-                hashDigestContent = InputOutputs.IA.getHashDigest(str(self.lePathOfPackage.text()), hashType)
+                hashDigestContent = InputOutputs.IA.getHashDigest(unicode(self.lePathOfPackage.text(), "utf-8"), hashType)
                 if hashDigestContent!=False:
-                    MApplication.clipboard().setText(trForM(hashDigestContent))
+                    MApplication.clipboard().setText(hashDigestContent.decode("utf-8"))
                     Dialogs.show(translate("Packager", "Hash Digest Copied To Clipboard"),
                                 str(translate("Packager", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:
@@ -202,10 +202,10 @@ class Packager(MyDialog):
             Universals.isCanBeShowOnMainWindow = False
             import tempfile, random
             tempDir = tempfile.gettempdir() + "/HamsiManager-" + str(random.randrange(0, 1000000))
-            PathOfProject = str(self.lePathOfProject.text())
+            PathOfProject = unicode(self.lePathOfProject.text(), "utf-8")
             InputOutputs.IA.copyFileOrDir(PathOfProject, tempDir+"/"+InputOutputs.IA.getBaseName(PathOfProject))
             InputOutputs.IA.clearPackagingDirectory(tempDir, True, True)
-            if InputOutputs.IA.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), tempDir):
+            if InputOutputs.IA.makePack(unicode(self.lePathOfPackage.text(), "utf-8"), self.getPackageType(), tempDir):
                 InputOutputs.IA.removeFileOrDir(tempDir, True)
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
@@ -224,9 +224,9 @@ class Packager(MyDialog):
             answer = Dialogs.ask(translate("Packager", "Your Files Will Be Removed"),
                     str(translate("Packager", "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>"+
                     "This action will delete the files completely, without any chance to recover.<br>"+
-                    "Are you sure you want to perform the action?")) % Organizer.getLink(str(self.lePathOfProject.text())))
+                    "Are you sure you want to perform the action?")) % Organizer.getLink(unicode(self.lePathOfProject.text(), "utf-8")))
             if answer==Dialogs.Yes:
-                if InputOutputs.IA.clearPackagingDirectory(str(self.lePathOfProject.text()), True, True):
+                if InputOutputs.IA.clearPackagingDirectory(unicode(self.lePathOfProject.text(), "utf-8"), True, True):
                     Dialogs.show(translate("Packager", "Project Is Cleared"),
                                 translate("Packager", "You can now pack your project."))
             Universals.isCanBeShowOnMainWindow = True
@@ -238,8 +238,8 @@ class Packager(MyDialog):
     def Pack(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            if InputOutputs.IA.makePack(str(self.lePathOfPackage.text()), 
-                                self.getPackageType(), str(self.lePathOfProject.text())):
+            if InputOutputs.IA.makePack(unicode(self.lePathOfPackage.text(), "utf-8"), 
+                                self.getPackageType(), unicode(self.lePathOfProject.text(), "utf-8")):
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
                             translate("Packager", "You can now share your project."))
@@ -251,7 +251,7 @@ class Packager(MyDialog):
     
     def getPackageType(self):
         if self.cbPackageType.currentIndex()!=0:
-            return str(self.cbPackageType.currentText()).split(".")[-1]
+            return unicode(self.cbPackageType.currentText(), "utf-8").split(".")[-1]
         else:
             return ""
     

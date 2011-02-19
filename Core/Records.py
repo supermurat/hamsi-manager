@@ -35,7 +35,7 @@ class Records():
     
     def create():
         global recordContents
-        recordContents += str(translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+        recordContents += str(translate("Records", "Hamsi Manager Log File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
     
     def setTitle(_title):
         global isSetedTitle, recordContents
@@ -84,17 +84,17 @@ class Records():
         else:
             if _isShowErrorDialog:
                 import Dialogs
-                Dialogs.showError(translate("Records", "Cannot Find The Record File"), 
-                            translate("Records", "Record file not found."))
+                Dialogs.showError(translate("Records", "Cannot Find The Log File"), 
+                            translate("Records", "No log files found."))
             return False
             
     def clearRecords():
-        InputOutputs.writeToFile(Universals.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+        InputOutputs.writeToFile(Universals.recordFilePath, unicode(translate("Records", "Hamsi Manager Log File - Time Clear : "), "utf-8") + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
         try:dialog.close()
         except:pass
         
     def showInWindow():
-        from MyObjects import MDialog, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject, trForUI
+        from MyObjects import MDialog, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject
         import Organizer
         global dialog
         recordString = read()
@@ -102,11 +102,11 @@ class Records():
             dialog = MDialog(Universals.MainWindow)
             if Universals.isActivePyKDE4==True:
                 dialog.setButtons(MDialog.None)
-            dialog.setWindowTitle(translate("Records", "Last Records"))
+            dialog.setWindowTitle(translate("Records", "Last Action Logs"))
             pnlMain = MWidget(dialog)
             vblMain = MVBoxLayout(pnlMain)
             info = MTextEdit()
-            info.setPlainText(trForUI(recordString))
+            info.setPlainText(Organizer.showWithIncorrectChars(recordString).decode("utf-8"))
             info.setWordWrapMode(MTextOption.ManualWrap)
             pbtnClose = MPushButton(translate("Records", "OK"))
             pbtnClear = MPushButton(translate("Records", "Clear"))

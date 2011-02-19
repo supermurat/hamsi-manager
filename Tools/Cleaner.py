@@ -41,7 +41,7 @@ class Cleaner(MyDialog):
         lblPleaseSelect = MLabel(translate("Cleaner", "Directory"))
         self.pbtnClear = MPushButton(translate("Cleaner", "Clear"))
         self.pbtnClose = MPushButton(translate("Cleaner", "Close"))
-        self.lePathOfProject = MLineEdit(trForM(_directory))
+        self.lePathOfProject = MLineEdit(_directory.decode("utf-8"))
         self.pbtnClear.setToolTip(translate("Cleaner", "Directory you selected will is cleared"))
         self.pbtnSelectProjectPath = MPushButton(translate("Cleaner", "Browse"))
         self.connect(self.pbtnSelectProjectPath,SIGNAL("clicked()"),self.selectProjectPath)
@@ -86,9 +86,9 @@ class Cleaner(MyDialog):
             answer = Dialogs.ask(translate("Cleaner", "Your Files Will Be Removed"),
                     str(translate("Cleaner", "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>"+
                     "This action will delete the files completely, without any chance to recover.<br>"+
-                    "Are you sure you want to perform the action?")) % Organizer.getLink(Organizer.getLink(str(self.lePathOfProject.text()))))
+                    "Are you sure you want to perform the action?")) % Organizer.getLink(Organizer.getLink(unicode(self.lePathOfProject.text(), "utf-8"))))
             if answer==Dialogs.Yes:
-                if InputOutputs.IA.clearCleaningDirectory(str(self.lePathOfProject.text()), True, True):
+                if InputOutputs.IA.clearCleaningDirectory(unicode(self.lePathOfProject.text(), "utf-8"), True, True):
                     Dialogs.show(translate("Cleaner", "Directory Is Cleared"),
                                 str(translate("Cleaner", "This directory is cleared : \"%s\"")) % Organizer.getLink(str(self.lePathOfProject.text())))
             Universals.isCanBeShowOnMainWindow = True
