@@ -23,6 +23,9 @@ import os
 if float(sys.version[:3])<3.0:
     reload(sys)
     sys.setdefaultencoding("utf-8")
+else:
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
 if sys.path[0]=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Core")
@@ -62,12 +65,18 @@ if RoutineChecks.checkQt4Exist():
             description = ki18n (trForUI(aboutFileContent))
             aboutOfHamsiManager = MAboutData (appName, Variables.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
-            aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
+            try:
+                aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.addCredit(ki18n(trForUI("Tolga Balcı")), ki18n(trForUI("Translate to English. (Voluntary) (V0.7.x)")), 
+            except: pass #FIXME: Will be fixed in next major version
+            try:
+                aboutOfHamsiManager.addCredit(ki18n(trForUI("Tolga Balcı")), ki18n(trForUI("Translate to English. (Voluntary) (V0.7.x)")), 
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
-            aboutOfHamsiManager.addCredit(ki18n(trForUI("Márcio Moraes")), ki18n(trForUI("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)")), 
+            except: pass #FIXME: Will be fixed in next major version
+            try:
+                aboutOfHamsiManager.addCredit(ki18n(trForUI("Márcio Moraes")), ki18n(trForUI("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)")), 
                                             "", "")
+            except: pass #FIXME: Will be fixed in next major version
             aboutOfHamsiManager.setProgramIconName(Universals.themePath + "/Images/HamsiManager-128x128.png") 
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode):
                 aboutOfHamsiManager.addLicenseTextFile(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode)
@@ -101,7 +110,8 @@ if RoutineChecks.checkQt4Exist():
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ str(Universals.MySettings["language"]))
             else:
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
-            Variables.aboutOfHamsiManager = trForUI(aboutFileContent)
+            try:Variables.aboutOfHamsiManager = trForUI(aboutFileContent)
+            except:Variables.aboutOfHamsiManager = "Will be fixed in next major version" #FIXME: Will be fixed in next major version
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+
                             str(Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()

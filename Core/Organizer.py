@@ -36,7 +36,9 @@ class Organizer:
         if Universals.getBoolValue("isEmendIncorrectChars"):
             try:_inputString = unicode(_inputString)
             except:_inputString = unicode(_inputString, encoding="iso-8859-9")
-            oldChars = ["Ý","ý", "þ", "Ð",
+            oldChars, newChars = ["_"], [" "]
+            try:
+                oldChars = ["Ý","ý", "þ", "Ð",
                          "Ã", "Ã¼", "Ä°Å", "Ã", "Ä±", "Å", "Ã§", "Ã¶","Ä", "Ä°","Ã", "Ã", "Â³", "Ä",
                          "Å","Ä","Å","Ã§",
                          "" , "" ,"Ã",            "" ,"Â¦", "" ,"ÃÂ°","Ã½","Ã","ï¿½",  
@@ -44,7 +46,7 @@ class Organizer:
                          "§" ,"¦","ä","Ä","Ä","Ã°","ã","Ã","ð", 
                          "" ,"Ã" , "" ,"å","ã","å","Ã¾","ã¾",
                          "_","ã","Ã","å","Å"]
-            newChars = ["İ", "ı", "ş", "ğ",
+                newChars = ["İ", "ı", "ş", "ğ",
                          "Ü", "ü", "İ", "ç", "ı","ş", "ç", "ö", "ğ", "İ", "Ö", "Ö", "ü", "ğ",
                          "Ş","Ğ","ş", "ç",
                          "ö" , "Ö" ,"Ö",                   "İ" , "ı" , "I" ,"İ","ı","i","İ",  
@@ -52,9 +54,11 @@ class Organizer:
                          "ğ" ,"Ğ","ğ","Ğ","ğ","ğ","ğ","Ğ","ğ", 
                          "Ş" ,"Ş" , "ş" ,"ş","ş","ş","ş","ş",
                          " ","","","",""]
+            except:pass #FIXME: Will be fixed in next major version
             _inputString = unquote(_inputString)
             for x in range(0,len(oldChars)):
-                _inputString = _inputString.replace(oldChars[x],newChars[x])
+                try:_inputString = _inputString.replace(oldChars[x],newChars[x])
+                except:pass #FIXME: Will be fixed in next major version
         _inputString = showWithIncorrectChars(_inputString)
         if len(_inputString)==0: return ""
         preString, extString, ext2String = "", "", ""
@@ -76,17 +80,23 @@ class Organizer:
             if _isCorrectCaseSensitive:
                 extString = makeCorrectCaseSensitive(extString, Universals.MySettings["validSentenceStructureForFileExtension"])
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])
+            oldChars, newChars = [], []
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[0]:
                 oldChars = []
                 newChars = []
             elif Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
-                oldChars = [" ", "ç", "Ç", "ğ", "Ğ", "İ", "ı", "ö", "Ö", "ü", "Ü", "ş", "Ş"]
-                newChars = ["_", "c", "C", "g", "G", "I", "i", "o", "O", "u", "U", "s", "S"]
+                try:
+                    oldChars = [" ", "ç", "Ç", "ğ", "Ğ", "İ", "ı", "ö", "Ö", "ü", "Ü", "ş", "Ş"]
+                    newChars = ["_", "c", "C", "g", "G", "I", "i", "o", "O", "u", "U", "s", "S"]
+                except:pass #FIXME: Will be fixed in next major version
             elif Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
-                oldChars = ["ç", "Ç", "ğ", "Ğ", "İ", "ı", "ö", "Ö", "ü", "Ü", "ş", "Ş"]
-                newChars = ["c", "C", "g", "G", "I", "i", "o", "O", "u", "U", "s", "S"]
+                try:
+                    oldChars = ["ç", "Ç", "ğ", "Ğ", "İ", "ı", "ö", "Ö", "ü", "Ü", "ş", "Ş"]
+                    newChars = ["c", "C", "g", "G", "I", "i", "o", "O", "u", "U", "s", "S"]
+                except:pass #FIXME: Will be fixed in next major version
             for x in range(0,len(oldChars)):
-                _inputString = _inputString.replace(oldChars[x],newChars[x])
+                try:_inputString = _inputString.replace(oldChars[x],newChars[x])
+                except:pass #FIXME: Will be fixed in next major version
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
                 _inputString = quote(_inputString)
             if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
