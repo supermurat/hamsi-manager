@@ -35,7 +35,7 @@ class SearchEngines(MMenu):
             exec ("from " + sEngine + " import isAvailable,pluginName")
             if isAvailable:
                 isAnyAvailable = True
-                self.actions.append(MAction(trForUI(pluginName), self))
+                self.actions.append(MAction(pluginName.decode("utf-8"), self))
                 self.actions[-1].setObjectName(str(len(self.actions)-1))
                 self.addAction(self.actions[-1])
                 if pluginName=="MusicBrainz":

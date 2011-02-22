@@ -74,7 +74,7 @@ class ImageDetails(MDialog):
         if _valueType=="data":
             self.setWindowTitle(translate("ImageDetails", "Image Details"))
         else:
-            self.setWindowTitle(trForUI(str(translate("ImageDetails", "Image Details ( %s )")) % (_file)))
+            self.setWindowTitle((str(translate("ImageDetails", "Image Details ( %s )")) % Organizer.showWithIncorrectChars(_file)).decode("utf-8"))
         self.wImage.changeCoverValues(_file, _valueType)
                   
     def closeAllImageDialogs():
