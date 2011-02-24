@@ -605,7 +605,7 @@ class IA:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
                     
     def getFileTree(_path, _subDirectoryDeep=-1, _actionType="return", _formatType="html", _extInfo="no"):
-        from MyObjects import trForUI
+        from MyObjects import trForUI, trForM
         info = InputOutputs.getFileTree(_path, _subDirectoryDeep, _formatType, _extInfo)
         info = trForUI(info)
         if _actionType=="return":
