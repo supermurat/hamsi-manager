@@ -75,7 +75,7 @@ class Content():
                     if _table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(_table.item(rowNo,1).text())
                         _table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(_table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = _table.currentTableContentValues[rowNo]["path"].replace(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"] + "/" + _table.currentTableContentValues[rowNo]["baseName"], "") + "/" + baseNameOfDirectory + "/" + baseName
                     newFilePath = newFilePath.replace("//", "/")
                     if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
                         changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
