@@ -19,6 +19,7 @@
 
 
 from urllib import unquote, quote
+import unicodedata
 import Variables
 import Settings
 import Universals
@@ -36,25 +37,10 @@ class Organizer:
         if Universals.getBoolValue("isEmendIncorrectChars"):
             try:_inputString = unicode(_inputString)
             except:_inputString = unicode(_inputString, encoding="iso-8859-9")
-            oldChars = ["Ý","ý", "þ", "Ð",
-                         "Ã", "Ã¼", "Ä°Å", "Ã", "Ä±", "Å", "Ã§", "Ã¶","Ä", "Ä°","Ã", "Ã", "Â³", "Ä",
-                         "Å","Ä","Å","Ã§",
-                         "" , "" ,"Ã",            "" ,"Â¦", "" ,"ÃÂ°","Ã½","Ã","ï¿½",  
-                         "" , "" , "Â³",              "" , "" ,
-                         "§" ,"¦","ä","Ä","Ä","Ã°","ã","Ã","ð", 
-                         "" ,"Ã" , "" ,"å","ã","å","Ã¾","ã¾",
-                         "_","ã","Ã","å","Å"]
-            newChars = ["İ", "ı", "ş", "ğ",
-                         "Ü", "ü", "İ", "ç", "ı","ş", "ç", "ö", "ğ", "İ", "Ö", "Ö", "ü", "ğ",
-                         "Ş","Ğ","ş", "ç",
-                         "ö" , "Ö" ,"Ö",                   "İ" , "ı" , "I" ,"İ","ı","i","İ",  
-                         "ü" , "Ü" , "Ü",                   "Ç" , "ç" ,
-                         "ğ" ,"Ğ","ğ","Ğ","ğ","ğ","ğ","Ğ","ğ", 
-                         "Ş" ,"Ş" , "ş" ,"ş","ş","ş","ş","ş",
-                         " ","","","",""]
+            replacementChars = {u"\xdd" : u"\u0130", u"\xfd" : u"\u0131", u"\xfe" : u"\u015f", u"\xd0" : u"\u011f", u"\xde" : u"\u015e", u"\xc3\x9c" : u"\xdc", u"\xc3\xbc" : u"\xfc", u"\xc4\xb0\xc5" : u"\u0130", u"\xc3\x87" : u"\xe7", u"\xc4\xb1" : u"\u0131", u"\xc5\x9f" : u"\u015f", u"\xc3\xa7" : u"\xe7", u"\xc3\xb6" : u"\xf6", u"\xc4\x9f" : u"\u011f", u"\xc4\xb0" : u"\u0130", u"\xc3\x96" : u"\xd6", u"\xc3\x8d" : u"\xd6", u"\xc2\xb3" : u"\xfc", u"\xc4\x9f" : u"\u011f", u"\xc5\x9e" : u"\u015e", u"\xc4\x9e" : u"\u011e", u"\xc5\x9f" : u"\u015f", u"\xc3\xa7" : u"\xe7", u"\x94" : u"\xf6", u"\x99" : u"\xd6", u"\xc3\x8d" : u"\xd6", u"\x98" : u"\u0130", u"\xc2\xa6" : u"\u0131", u"\x8d" : u"I", u"\xc3\x84\xc2\xb0" : u"\u0130", u"\xc3\xbd" : u"\u0131", u"\xc3\x9d" : u"i", u"\xef\xbf\xbd" : u"\u0130", u"\x81" : u"\xfc", u"\x9a" : u"\xdc", u"\xc2\xb3" : u"\xdc", u"\x80" : u"\xc7", u"\x87" : u"\xe7", u"\xa7" : u"\u011f", u"\xa6" : u"\u011e", u"\xe4\x9f" : u"\u011f", u"\xc4\x9e" : u"\u011e", u"\xc4\x9e" : u"\u011f", u"\xc3\xb0" : u"\u011f", u"\xe3\x90" : u"\u011f", u"\xc3\x90" : u"\u011e", u"\xf0" : u"\u011f", u"\x9e" : u"\u015e", u"\xc3\x9e" : u"\u015e", u"\x9f" : u"\u015f", u"\xe5\x9e" : u"\u015f", u"\xe3\x9e" : u"\u015f", u"\xe5\x9f" : u"\u015f", u"\xc3\xbe" : u"\u015f", u"\xe3\xbe" : u"\u015f", u"_" : u" ", u"\xe3" : u"", u"\xc3" : u"", u"\xe5" : u"", u"\xc5" : u""}
             _inputString = unquote(_inputString)
-            for x in range(0,len(oldChars)):
-                _inputString = _inputString.replace(oldChars[x],newChars[x])
+            for oldChar, newChar in replacementChars.items():
+                _inputString = _inputString.replace(oldChar,newChar)
         _inputString = str(_inputString.decode("utf-8", "ignore"))
         if len(_inputString)==0: return ""
         preString, extString, ext2String = "", "", ""
@@ -63,30 +49,31 @@ class Organizer:
                 _inputString = _inputString[:-1]
                 ext2String = "/"
             if _inputString.find("/")!=-1:
-                preString = _inputString.rsplit("/", 1)[0] + "/"
-                _inputString = _inputString.rsplit("/", 1)[1]
+                tStr = _inputString.rsplit("/", 1)
+                preString = tStr[0] + "/"
+                _inputString = tStr[1]
             if _type=="file":
                 if _inputString.find(".")!=-1:
                     if Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[0]:
-                        extString = "." + _inputString.split(".", 1)[1]
-                        _inputString = _inputString.split(".", 1)[0]
+                        tStr = _inputString.split(".", 1)
+                        extString = "." + tStr[1]
+                        _inputString = tStr[0]
                     elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
-                        extString = "." + _inputString.rsplit(".", 1)[1]
-                        _inputString = _inputString.rsplit(".", 1)[0]
+                        tStr = _inputString.rsplit(".", 1)
+                        extString = "." + tStr[1]
+                        _inputString = tStr[0]
             if _isCorrectCaseSensitive:
                 extString = makeCorrectCaseSensitive(extString, Universals.MySettings["validSentenceStructureForFileExtension"])
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])
-            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[0]:
-                oldChars = []
-                newChars = []
-            elif Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
-                oldChars = [" ", "ç", "Ç", "ğ", "Ğ", "İ", "ı", "ö", "Ö", "ü", "Ü", "ş", "Ş"]
-                newChars = ["_", "c", "C", "g", "G", "I", "i", "o", "O", "u", "U", "s", "S"]
-            elif Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
-                oldChars = ["ç", "Ç", "ğ", "Ğ", "İ", "ı", "ö", "Ö", "ü", "Ü", "ş", "Ş"]
-                newChars = ["c", "C", "g", "G", "I", "i", "o", "O", "u", "U", "s", "S"]
-            for x in range(0,len(oldChars)):
-                _inputString = _inputString.replace(oldChars[x],newChars[x])
+            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1] or Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
+                _inputString = ''.join(c for c in unicodedata.normalize('NFKD', unicode(_inputString)) if unicodedata.category(c) != 'Mn')
+                _inputString = str(_inputString.encode("utf-8", "ignore")).replace("\xc4\xb1", "i")
+            oldChars, newChars = [], []
+            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
+                oldChars = [" "]
+                newChars = ["_"]
+            for x, oldChar in enumerate(oldChars):
+                _inputString = _inputString.replace(oldChar,newChars[x])
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
                 _inputString = quote(_inputString)
             if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):

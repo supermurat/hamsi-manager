@@ -245,8 +245,8 @@ class Search(MDialog):
 
     def getArtistsFromArtist(self, _artistName):
         """Returns artists that are similar to the one selected.
-        Returned[x][0]:Match             Dönenler[x][1]:Artist ID
-        Returned[x][2]:Name              Dönenler[x][3]:Nickname"""
+        Returned[x][0]:Match             Returned[x][1]:Artist ID
+        Returned[x][2]:Name              Returned[x][3]:Nickname"""
         try:
             return self.searchedArtists[1][self.searchedArtists[0].index(_artistName)]
         except:pass
@@ -388,7 +388,7 @@ class Search(MDialog):
         """Returns all details for the selected album ID.
         Returned[0]:Id              			  Returned[1]:Title
         Returned[2]:Asin	                	Returned[3]:Language
-        Returned[4]:Artist ID	  	        	Returned[5]:Artist Name Adı
+        Returned[4]:Artist ID	  	        	Returned[5]:Artist Name
         Returned[6]:Artist Nickname			    Returned[7]:First Release Date
         Returned[8]:Release Dates(By the countries)
         Returned[8][0]:Country				      Returned[8][1]:Release Date
