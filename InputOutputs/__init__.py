@@ -437,10 +437,10 @@ class InputOutputs:
             return moveOrChange(_oldFileValues["path"], _newFileValues["path"])
         return _oldFileValues["path"]
                 
-    def clearEmptyDirectories(_path, _isAutoCleanSubFolder=True):
+    def clearEmptyDirectories(_path, _isAutoCleanSubFolder=True, _isClear=False):
         #If directory deleted : returned True
         #If directory cleaned : returned False
-        if Universals.getBoolValue("isActiveClearGeneral"):
+        if Universals.getBoolValue("isActiveClearGeneral") or _isClear:
             clearUnneededs(_path)
             dontRemovingFilesCount = 0
             filesAndDirectories = readDirectoryAll(_path)
@@ -471,7 +471,7 @@ class InputOutputs:
                                     dontRemovingFilesCount-=1
                                     break
                             except:pass
-                    if clearEmptyDirectories(_path+"/"+name):
+                    if clearEmptyDirectories(_path+"/"+name, _isAutoCleanSubFolder, _isClear):
                         dontRemovingFilesCount-=1
             if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
                 clearIgnoreds(_path)

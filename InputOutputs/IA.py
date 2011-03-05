@@ -230,10 +230,10 @@ class IA:
     def writeTextFile(_oldFileValues, _newFileValues, _charSet="utf-8"):
         return InputOutputs.writeTextFile(_oldFileValues, _newFileValues, _charSet)
                 
-    def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True):
+    def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True, _isClear=False):
         #If directory deleted : returned True
         #If directory cleaned : returned False
-        if Universals.getBoolValue("isActiveClearGeneral"):
+        if Universals.getBoolValue("isActiveClearGeneral") or _isClear:
             import Dialogs
             clearUnneededs(_path)
             dontRemovingFilesCount = 0
@@ -266,7 +266,7 @@ class IA:
                                     dontRemovingFilesCount-=1
                                     break
                             except:pass
-                    if clearEmptyDirectories(_path+"/"+name, _isShowState):
+                    if clearEmptyDirectories(_path+"/"+name, _isShowState, False, _isAutoCleanSubFolder, _isClear):
                         dontRemovingFilesCount-=1
             if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
                 if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1)
