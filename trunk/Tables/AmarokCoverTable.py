@@ -94,8 +94,8 @@ class Content():
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
-                    pathOfParentDirectory = _table.currentTableContentValues[rowNo]["pathOfParentDirectory"]
-                    baseName = _table.currentTableContentValues[rowNo]["baseName"]
+                    pathOfParentDirectory = str(_table.currentTableContentValues[rowNo]["pathOfParentDirectory"])
+                    baseName = str(_table.currentTableContentValues[rowNo]["baseName"])
                     if _table.isChangableItem(rowNo, 3) or _table.isChangableItem(rowNo, 4):
                         sourcePath = _table.currentTableContentValues[rowNo]["sourceCover"]
                         destinationPath = _table.currentTableContentValues[rowNo]["destinationCover"]

@@ -67,15 +67,15 @@ class Content():
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
-                    baseNameOfDirectory = _table.currentTableContentValues[rowNo]["baseNameOfDirectory"]
-                    baseName = _table.currentTableContentValues[rowNo]["baseName"]
+                    baseNameOfDirectory = str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                    baseName = str(_table.currentTableContentValues[rowNo]["baseName"])
                     if _table.isChangableItem(rowNo, 0, baseNameOfDirectory):
                         baseNameOfDirectory = str(_table.item(rowNo,0).text())
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(_table.item(rowNo,1).text())
                         _table.changedValueNumber += 1
-                    newFilePath = _table.currentTableContentValues[rowNo]["path"].replace(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"] + "/" + _table.currentTableContentValues[rowNo]["baseName"], "") + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = str(_table.currentTableContentValues[rowNo]["path"]).replace(str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"]) + "/" + str(_table.currentTableContentValues[rowNo]["baseName"]), "") + "/" + baseNameOfDirectory + "/" + baseName
                     newFilePath = newFilePath.replace("//", "/")
                     if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
                         changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 

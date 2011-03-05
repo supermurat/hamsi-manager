@@ -255,7 +255,7 @@ class Bars():
                     if answer==Dialogs.Yes:
                         import FileManager
                         Universals.MainWindow.setEnabled(False)
-                        InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True)
+                        InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, True, True)
                         Universals.MainWindow.setEnabled(True)
                         Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
                             translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))

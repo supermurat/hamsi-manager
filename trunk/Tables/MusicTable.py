@@ -79,12 +79,12 @@ class Content():
         for rowNo in range(_table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(str(_table.currentTableContentValues[rowNo]["path"])):
+                if InputOutputs.IA.isWritableFileOrDir(_table.currentTableContentValues[rowNo]["path"]):
                     if _table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(str(_table.currentTableContentValues[rowNo]["path"]))
+                        InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
-                    baseNameOfDirectory = _table.currentTableContentValues[rowNo]["baseNameOfDirectory"]
-                    baseName = _table.currentTableContentValues[rowNo]["baseName"]
+                    baseNameOfDirectory = str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                    baseName = str(_table.currentTableContentValues[rowNo]["baseName"])
                     tagger = Taggers.getTagger()
                     tagger.loadFileForWrite(_table.currentTableContentValues[rowNo]["path"])
                     if _table.isChangableItem(rowNo, 2, _table.currentTableContentValues[rowNo]["Artist"]):
