@@ -320,7 +320,7 @@ def checkMyModules(_HamsiManagerApp):
             title = str(Variables.MQtGui.QApplication.translate("ReportBug", "Error In Module"))
             startNumber=19
             details = str(Variables.MQtGui.QApplication.translate("ReportBug", "\"%s\" is not in this module.Please download and install Hamsi Manager again."))
-        lblDetails = Variables.MQtGui.QLabel(trForUI("<b>"+title+":</b><br>"+ (details % (str(error)[startNumber:]))))
+        lblDetails = Variables.MQtGui.QLabel(("<b>"+title+":</b><br>"+ (details % (str(error)[startNumber:]))).decode("utf-8"))
         pbtnOk = Variables.MQtGui.QPushButton(Variables.MQtGui.QApplication.translate("ReportBug", "OK"))
         errorForm.connect(pbtnOk,Variables.MQtCore.SIGNAL("clicked()"), _HamsiManagerApp.quit)
         hbox0 = Variables.MQtGui.QHBoxLayout()
@@ -342,7 +342,7 @@ def checkQt4Exist():
             HamsiManagerApp=qt.QApplication(sys.argv)
             panel = qt.QWidget()
             panel.vblMain = qt.QVBoxLayout(panel)
-            lblInfo = qt.QLabel(trForM("<br><b>PyQt4 or PySide is not installed:</b><br>You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager."),panel)
+            lblInfo = qt.QLabel("<br><b>PyQt4 or PySide is not installed:</b><br>You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager.".decode("utf-8"),panel)
             pbtnClose = qt.QPushButton("OK",panel)
             panel.connect(pbtnClose,SIGNAL("clicked()"),HamsiManagerApp.quit)
             hbox0 = qt.QHBoxLayout()
