@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ## This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
@@ -127,12 +126,13 @@ class Variables():
     def checkEncoding(_isSetUTF8=False):
         global defaultFileSystemEncoding
         from encodings import aliases
+        if defaultFileSystemEncoding=="iso-8859-1": 
+            defaultFileSystemEncoding = "latin-1"
         if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.items()].count(defaultFileSystemEncoding)==0:
             if _isSetUTF8:
                 defaultFileSystemEncoding = "utf-8"
             else:
-                defaultFileSystemEncoding = sys.getdefaultencoding().lower()
-                checkEncoding(True)
+                defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
         
     def isAvailablePyKDE4():
         try:

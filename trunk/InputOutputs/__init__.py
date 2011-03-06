@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ## This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
@@ -895,7 +894,7 @@ class InputOutputs:
             for x, file in enumerate(files):
                 if isDir(file):
                     findStrings.append(file)
-                    replaceStrings.append(("│&nbsp;&nbsp;&nbsp;"*(file.count("/")-dirNumber))+"├&nbsp;")
+                    replaceStrings.append(("\xe2\x94\x82&nbsp;&nbsp;&nbsp;"*(file.count("/")-dirNumber))+"\xe2\x94\x9c&nbsp;")
             findStrings.reverse()
             replaceStrings.reverse()
             fileList = range(len(files))
@@ -905,15 +904,15 @@ class InputOutputs:
                     if file!=fstr:
                         fileList[x] = fileList[x].replace(fstr + "/", replaceStrings[y])
                 if x>0:
-                    tin = fileList[x-1].find("├")
-                    tin2 = fileList[x].find("├")
+                    tin = fileList[x-1].find("\xe2\x94\x9c")
+                    tin2 = fileList[x].find("\xe2\x94\x9c")
                     if tin>tin2:
-                        fileList[x-1] = fileList[x-1].replace("├", "└")
+                        fileList[x-1] = fileList[x-1].replace("\xe2\x94\x9c", "\xe2\x94\x94")
             for x, fileName in enumerate(fileList):
                 if x!=len(fileList)-1:
-                    info += fileName.replace(_path + "/", "├&nbsp;")
+                    info += fileName.replace(_path + "/", "\xe2\x94\x9c&nbsp;")
                 else:
-                    info += fileName.replace(_path + "/", "└&nbsp;")
+                    info += fileName.replace(_path + "/", "\xe2\x94\x94&nbsp;")
         elif _formatType=="plainText":
             if _extInfo=="no":
                 pass
@@ -925,7 +924,7 @@ class InputOutputs:
             for x, file in enumerate(files):
                 if isDir(file):
                     findStrings.append(file)
-                    replaceStrings.append(("│   "*(file.count("/")-dirNumber))+"├ ")
+                    replaceStrings.append(("\xe2\x94\x82   "*(file.count("/")-dirNumber))+"\xe2\x94\x9c ")
             findStrings.reverse()
             replaceStrings.reverse()
             fileList = range(len(files))
@@ -935,15 +934,15 @@ class InputOutputs:
                     if file!=fstr:
                         fileList[x] = fileList[x].replace(fstr + "/", replaceStrings[y])
                 if x>0:
-                    tin = fileList[x-1].find("├")
-                    tin2 = fileList[x].find("├")
+                    tin = fileList[x-1].find("\xe2\x94\x9c")
+                    tin2 = fileList[x].find("\xe2\x94\x9c")
                     if tin>tin2:
-                        fileList[x-1] = fileList[x-1].replace("├", "└")
+                        fileList[x-1] = fileList[x-1].replace("\xe2\x94\x9c", "\xe2\x94\x94")
             for x, fileName in enumerate(fileList):
                 if x!=len(fileList)-1:
-                    info += fileName.replace(_path + "/", "├ ")
+                    info += fileName.replace(_path + "/", "\xe2\x94\x9c ")
                 else:
-                    info += fileName.replace(_path + "/", "└ ")
+                    info += fileName.replace(_path + "/", "\xe2\x94\x94 ")
         return info
             
     def fixToSize(_path, _size, _clearFrom="head"):

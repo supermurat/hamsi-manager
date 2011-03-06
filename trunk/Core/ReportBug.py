@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ## This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
@@ -134,7 +133,7 @@ class ReportBug(MDialog):
             errorDetails += "<b>" + str(translate("ReportBug", "My Parameters : ")) + "</b>"
             errorDetails += str(myArgvs) + "<br>"
             errorDetails += "<b>FileSystemCharSet : </b>"
-            errorDetails += str(Variables.defaultFileSystemEncoding) + "<br>"
+            errorDetails += str(Variables.defaultFileSystemEncoding) + " / " + str(sys.getfilesystemencoding().lower()) + "<br>"
             errorDetails += "<b>SystemCharSet : </b>"
             errorDetails += str(sys.getdefaultencoding().lower()) + "<br>"
             try:

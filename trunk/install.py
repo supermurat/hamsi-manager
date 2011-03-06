@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 ## This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
@@ -20,13 +19,15 @@
 
 import sys
 import os
-if float(sys.version[:3])<3.0:
-    reload(sys)
-    sys.setdefaultencoding("utf-8")
 if str(sys.path[0])=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(1,sys.path[0]+"/Core")
 import Variables
+try: 
+    if float(sys.version[:3])<3.0: 
+        reload(sys)
+        sys.setdefaultencoding("utf-8")
+except:pass
 Variables.checkStartupVariables()
 import Universals
 import RoutineChecks
