@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ## This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
@@ -91,7 +90,7 @@ class RunCommand(MDialog):
 
     def reFillCodesOfUser():
         codesOfUser("#!/usr/bin/env python\n" +
-                            "# -*- coding: utf-8 -*-\n"+
+                            "# -*- codding: utf-8 -*-\n"+
                             "\n"+
                             "#You can type and execute the commands you wish to run here.\n"+
                             "#You can get detailed information from our official website.\n"+

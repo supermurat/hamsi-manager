@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ## This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 Murat Demir <mopened@gmail.com>      
@@ -96,17 +95,19 @@ else:
     Universals.isActivePyKDE4 = False
     
 def translate(_p, _s):
-    return MApplication.translate(_p, _s)
+    return str(MApplication.translate(_p, _s))
     
 def trForUI(_s):
     try:
         _s = str(_s)
+        return _s
         return _s.decode("utf-8", "replace")
     except:
         return _s.decode("utf-8", "ignore")
     
 def trForM(_s):
     _s = str(_s)
+    return _s
     return _s.decode("utf-8")
     
 def getMyObject(_objectName):
