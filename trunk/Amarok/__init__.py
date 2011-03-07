@@ -157,15 +157,13 @@ class Amarok:
             EmbeddedDBConfigurator()
             
 class EmbeddedDBCore():
-    global configureEmbeddedDB, startEmbeddedDB, stopEmbeddedDB, getPID, isRunning, isStarted
+    global configureEmbeddedDB, startEmbeddedDB, stopEmbeddedDB, getPID, isRunning, isStarted, backupEmbeddedDB, restoreEmbeddedDB, isHasEmbeddedDBBackup
     isStarted = False
         
     def configureEmbeddedDB(_isNoAlertIfSuccesfully=True):
         stopEmbeddedDB()
         import MyConfigure
-        if InputOutputs.isDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi"):
-            InputOutputs.removeFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi", True)
-        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
+        backupEmbeddedDB()
         InputOutputs.copyDirContent(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql")
         InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my.cnf", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
         MyConfigure.reConfigureFile(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
@@ -219,6 +217,16 @@ class EmbeddedDBCore():
         isStarted = False
         return False
         
+    def backupEmbeddedDB():
+        if InputOutputs.isDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi"):
+            InputOutputs.removeFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi", True)
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
+        
+    def restoreEmbeddedDB():
+        InputOutputs.copyDirContent(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle")
+        
+    def isHasEmbeddedDBBackup():
+        return InputOutputs.isDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
 
 class ReadOnlyEmbeddedDBCore():
     global createReadOnlyEmbeddedDB, generateReadOnlyEmbeddedD, startReadOnlyEmbeddedDB, stopReadOnlyEmbeddedDB, getReadOnlyPID, isReadOnlyRunning, isReadOnlyStarted
@@ -296,6 +304,7 @@ class ReadOnlyEmbeddedDBCore():
             return True
         isReadOnlyStarted = False
         return False
+        
 
 class EmbeddedDBConfigurator(MyDialog):
     
@@ -307,21 +316,28 @@ class EmbeddedDBConfigurator(MyDialog):
         elif MyDialogType=="MMainWindow":
             self.setObjectName("EmbeddedDBConfigurator")
             Universals.MainWindow = self
+        self.pbtnBackup = MPushButton(translate("EmbeddedDBConfigurator", "Backup"))
+        self.pbtnRestore = MPushButton(translate("EmbeddedDBConfigurator", "Restore"))
         self.pbtnConfigureEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Configure Embedded Database Files"))
         self.pbtnStartEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Start Embedded Database Server"))
         self.pbtnStopEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Stop Embedded Database Server"))
         self.pbtnIsRunning = MPushButton(translate("EmbeddedDBConfigurator", "Is Running?"))
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
+        vblMain.addWidget(self.pbtnBackup)
+        vblMain.addWidget(self.pbtnRestore)
         vblMain.addWidget(self.pbtnConfigureEmbeddedDB)
         vblMain.addWidget(self.pbtnStartEmbeddedDB)
         vblMain.addWidget(self.pbtnStopEmbeddedDB)
         vblMain.addWidget(self.pbtnIsRunning)
+        self.connect(self.pbtnBackup,SIGNAL("clicked()"),self.backup)
+        self.connect(self.pbtnRestore,SIGNAL("clicked()"),self.restore)
         self.connect(self.pbtnConfigureEmbeddedDB,SIGNAL("clicked()"),self.configureEmbeddedDB)
         self.connect(self.pbtnStartEmbeddedDB,SIGNAL("clicked()"),self.startEmbeddedDB)
         self.connect(self.pbtnStopEmbeddedDB,SIGNAL("clicked()"),self.stopEmbeddedDB)
         self.connect(self.pbtnIsRunning,SIGNAL("clicked()"),self.isRunning)
         self.checkRunState()
+        self.pbtnRestore.setEnabled(isHasEmbeddedDBBackup())
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
@@ -355,15 +371,15 @@ class EmbeddedDBConfigurator(MyDialog):
             error = ReportBug.ReportBug()
             error.show()
         
-    def startEmbeddedDB(self):
+    def startEmbeddedDB(self, _isNoAlertIfSuccesfully=False):
         try:
-            startEmbeddedDB(False)
+            startEmbeddedDB(_isNoAlertIfSuccesfully)
             self.checkRunState()
         except:
             error = ReportBug.ReportBug()
             error.show()
         
-    def stopEmbeddedDB(self):
+    def stopEmbeddedDB(self, _isNoAlertIfSuccesfully=False):
         try:
             stopEmbeddedDB(False)
             self.checkRunState()
@@ -384,7 +400,21 @@ class EmbeddedDBConfigurator(MyDialog):
         except:
             error = ReportBug.ReportBug()
             error.show()
-
+            
+    def backup(self):
+        backupEmbeddedDB()
+        Dialogs.show(translate("EmbeddedDBConfigurator", "Backup Completed"), translate("EmbeddedDBConfigurator", "Backup successfully completed.<br> You can restore when you want. "))
+        self.pbtnRestore.setEnabled(isHasEmbeddedDBBackup())
+            
+    def restore(self):
+        answer = Dialogs.ask(translate("ToolsBar", "Restore Amarok Database"), translate("Amarok", "Are you want to restore backup database?"))
+        if answer==Dialogs.Yes: 
+            if isRunning():
+                self.stopEmbeddedDB(True)
+            Dialogs.show(translate("EmbeddedDBConfigurator", "Close Amarok"), translate("EmbeddedDBConfigurator", "Please close Amarok if it is running."))
+            restoreEmbeddedDB()
+            Dialogs.show(translate("EmbeddedDBConfigurator", "Restore Completed"), translate("EmbeddedDBConfigurator", "Restore successfully completed.<br> You can run Amarok now if you want."))
+            self.checkRunState()
 
 class ReadOnlyEmbeddedDBConfigurator(MyDialog):
     
