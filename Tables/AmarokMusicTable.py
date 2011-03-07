@@ -144,7 +144,9 @@ class Content():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        from Amarok import Operations
+        Operations.changePaths(pathValues)
         return True
 
 
