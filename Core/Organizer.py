@@ -17,11 +17,14 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from urllib import unquote, quote
 import unicodedata
 import Variables
 import Settings
 import Universals
+if Variables.isPython3k:
+    from urllib.parse import unquote, quote
+else:
+    from urllib import unquote, quote
 
 class Organizer:
     """Music tags, filenames, Turkish characters etc. will be arranged through this class

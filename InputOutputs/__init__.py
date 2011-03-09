@@ -222,6 +222,8 @@ class InputOutputs:
     
     def trSort(_info):
         import locale
+        if Variables.isPython3k:
+            _info = str(_info)
         try:
             return locale.strxfrm(_info.encode(fileSystemEncoding))
         except:

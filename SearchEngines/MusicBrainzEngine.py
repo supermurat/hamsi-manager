@@ -34,7 +34,7 @@ class Search(MDialog):
     def __init__(self, _parent, _isCheckSingleFile=False, _searchDepth=3):
         MDialog.__init__(self, _parent)
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         self.isCheckSingleFile = _isCheckSingleFile
         self.searchDepth = _searchDepth
         self.nullSongs, self.falseSongs, self.trueSongs, self.songsOfArtist, self.songsOfAlbum, self.cbTags, self.leTags, self.incorrectSongs = [], [], [], [], [], [], [], []

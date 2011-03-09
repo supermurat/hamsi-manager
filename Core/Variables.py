@@ -20,12 +20,13 @@
 import os, sys
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
+    isPython3k = float(sys.version[:3])>=3.0
     Catalog = "HamsiManager" 
     version = "0.9.61"
     intversion = 961
@@ -97,12 +98,13 @@ class Variables():
                   "amarokDBPass", "amarokDBDB"]
     
     def checkMyObjects():
+        import Universals
         global MQtGui, MQtCore, isQt4Exist, MyObjectName
         myObjectsNames = getMyObjectsNames()
         if myObjectsNames.count("PySide")>0:
             from PySide import QtCore
             sets = QtCore.QSettings(trForM(userDirectoryPath + "/.HamsiApps/HamsiManager/mySettings.ini") ,QtCore.QSettings.IniFormat)
-            if str(sets.value("NeededObjectsName").toString())=="PySide":
+            if Universals.trStr(sets.value("NeededObjectsName"))=="PySide":
                 from PySide import QtGui
                 from PySide import QtCore
                 MyObjectName = "PySide"
@@ -457,7 +459,7 @@ class Variables():
         return styles
         
     def getColorSchemesAndPath():
-        import Settings,  InputOutputs
+        import Settings,  InputOutputs, Universals
         colorSchemes, colorSchemePaths = [], []
         colorSchemes.append("Default")
         colorSchemePaths.append("")
@@ -466,7 +468,7 @@ class Variables():
             schemeFiles = KGlobal.dirs().findAllResources("data", "color-schemes/*.colors", KStandardDirs.NoDuplicates)
             for scheme in schemeFiles:
                 sets = Settings.getSettings(scheme)
-                colorSchemes.append(str(sets.value("Name", InputOutputs.getBaseName(scheme)).toString()))
+                colorSchemes.append(Universals.trStr(sets.value("Name", InputOutputs.getBaseName(scheme))))
                 colorSchemePaths.append(scheme)
         return colorSchemes, colorSchemePaths
         

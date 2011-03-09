@@ -29,7 +29,7 @@ class SuggestIdea(MDialog):
         MDialog.__init__(self, Universals.MainWindow)
         QtWebKit = getMyObject("QtWebKit")
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         pnlMain = MWidget(self)
         self.vblMain = MVBoxLayout(pnlMain)
         self.pbtnClose = MPushButton(translate("SuggestIdea", "Close (Please Suggest Idea First.)"))

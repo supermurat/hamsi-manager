@@ -30,7 +30,7 @@ class RunCommand(MDialog):
         MDialog.__init__(self, _parent)
         from PyQt4.Qsci import QsciScintilla, QsciLexerPython, QsciAPIs
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         self.sciCommand = QsciScintilla()
         self.sciCommand.setUtf8(True)
         self.sciCommand.setText(trForUI(codesOfUser()))

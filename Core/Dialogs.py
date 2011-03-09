@@ -174,7 +174,7 @@ class Dialogs():
             else:
                 pnlState = MDialog(Universals.MainWindow)
                 if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
-                    pnlState.setButtons(MDialog.None)
+                    pnlState.setButtons(MDialog.NoDefault)
                 pnlState.setModal(True)
                 pnlState.setMinimumWidth(500) 
                 pnlMain = MWidget(pnlState)

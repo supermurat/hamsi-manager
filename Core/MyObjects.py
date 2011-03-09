@@ -59,7 +59,7 @@ elif Variables.MyObjectName=="PySide":
         else:
             exec (obj + " = QtNetwork." + obj)
             
-if Variables.MyObjectName=="PyQt4" and Universals.MySettings.keys().count("isActivePyKDE4")>0:
+if Variables.MyObjectName=="PyQt4" and "isActivePyKDE4" in Universals.MySettings.keys():
     if Universals.isActivePyKDE4==True:
         try:
             from PyKDE4 import kdeui
@@ -94,6 +94,10 @@ else:
     #PySide not using with PyKDE4
     Universals.isActivePyKDE4 = False
     
+if MStringList is None:
+    def MStringList(_s):
+        return [_s]
+    
 def translate(_p, _s):
     return str(MApplication.translate(_p, _s))
     
@@ -111,12 +115,11 @@ def trForM(_s):
     return _s.decode("utf-8")
     
 def getMyObject(_objectName):
+    MyObject = None
     if Variables.MyObjectName=="PySide":
-        exec ("from PySide import " + _objectName + " as MyObject")
+        MyObject = __import__("PySide." + _objectName, globals(), locals(), [_objectName], -1)
     elif Variables.MyObjectName=="PyQt4" or Variables.MyObjectName=="":
-        exec ("from PyQt4 import " + _objectName + " as MyObject")
-    else:
-        MyObject = None
+        MyObject = __import__("PyQt4." + _objectName, globals(), locals(), [_objectName], -1)
     return MyObject
             
 def getMyDialog():

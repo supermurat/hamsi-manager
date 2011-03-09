@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -71,18 +71,29 @@ class Universals():
             
     def trForM(_s):
         _s = str(_s)
+        return _s
         return _s.decode("utf-8")
+        
+    def trStr(_s):
+        if Variables.isPython3k:
+            return _s
+        return _s.toString()
+        
+    def trQVariant(_s):
+        if Variables.isPython3k:
+            return _s
+        return Variables.MQtCore.QVariant(_s)
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActiveKDE4=None):
         global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isChangeAll, isChangeSelected
         import Settings, InputOutputs
         sets = Settings.setting()
-        settingVersion = str(sets.value("settingsVersion").toString())
+        settingVersion = trStr(sets.value("settingsVersion"))
         defaultValues = Variables.getDefaultValues()
         valueTypesAndValues = Variables.getValueTypesAndValues()
         for keyValue in Variables.keysOfSettings:
-            value = sets.value(keyValue, Variables.MQtCore.QVariant(trForM(defaultValues[keyValue]))).toString()
-            if MySettings.keys().count(keyValue)==0 or _setAgain:
+            value = trStr(sets.value(keyValue, trQVariant(trForM(defaultValues[keyValue]))))
+            if keyValue not in MySettings.keys() or _setAgain:
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
         newSettingVersion = str(MySettings["settingsVersion"])
         if _isCheckUpdate:

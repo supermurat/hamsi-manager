@@ -77,7 +77,7 @@ class ReportBug(MDialog):
         except:pass
         try:
             if Universals.isActivePyKDE4==True:
-                self.setButtons(MDialog.None)
+                self.setButtons(MDialog.NoDefault)
         except:pass
         try:
             try:

@@ -52,12 +52,12 @@ class Settings():
         keysOfUniversalSettings = ["HamsiManagerPath"]
         values = [Variables.executableHamsiManagerPath]
         for x, keyValue in enumerate(keysOfUniversalSettings):
-            if str(mySetting.value(keyValue).toString()) != values[x]:
+            if Universals.trStr(mySetting.value(keyValue)) != values[x]:
                 mySetting.setValue(keyValue,Variables.MQtCore.QVariant(Universals.trForM(values[x])))
                 
     def getUniversalSetting(_key, _defaultValue):
         mySetting = universalSetting()
-        value = str(mySetting.value(_key).toString())
+        value = Universals.trStr(mySetting.value(_key))
         if value == "":
             value = _defaultValue
         return value
@@ -332,7 +332,7 @@ class Settings():
                 conNewDB.commit()
         if oldVersion<906:
             sets = setting()
-            sets.setValue("fileSystemEncoding", Variables.MQtCore.QVariant(sets.value("systemsCharSet").toString()))
+            sets.setValue("fileSystemEncoding", Universals.trQVariant(Universals.trStr(sets.value("systemsCharSet"))))
         if oldVersion<907:
             newSettingsKeys = newSettingsKeys + ["isActiveCompleter", "isShowAllForCompleter"]
         if oldVersion<908:

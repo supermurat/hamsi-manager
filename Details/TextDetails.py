@@ -50,7 +50,7 @@ class TextDetails(MDialog):
                 textDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
                 if Universals.isActivePyKDE4==True:
-                    self.setButtons(MDialog.None)
+                    self.setButtons(MDialog.NoDefault)
                 self.charSet = MComboBox()
                 self.charSet.addItems(Variables.getCharSets())
                 self.charSet.setCurrentIndex(self.charSet.findText(Universals.MySettings["fileSystemEncoding"]))

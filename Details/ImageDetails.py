@@ -46,7 +46,7 @@ class ImageDetails(MDialog):
             imageDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
             if Universals.isActivePyKDE4==True:
-                self.setButtons(MDialog.None)
+                self.setButtons(MDialog.NoDefault)
             self.wImage = ImageViewer.ImageViewer(self, _defaultMaxSize=_defaultMaxSize)
             self.wImage.setMinimumWidth(520)
             self.wImage.setMinimumHeight(420)
