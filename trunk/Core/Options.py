@@ -30,7 +30,7 @@ class Options(MDialog):
     def __init__(self, _parent=None, _showType="Normal", _focusTo = None, _markedKeys = []):
         MDialog.__init__(self, _parent)
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         self.showType = _showType
         self.focusTo = _focusTo
         self.focusToCategory = None
@@ -678,7 +678,7 @@ class EditDialog(MDialog):
     def __init__(self, _parent, _sender):
         MDialog.__init__(self, _parent)
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("EditDialog", "Advanced Value Editor"))
         self.requestInfos = str(_sender.objectName()).split("_")
         self.categoryNo = self.parent().tboxCategories.currentIndex()

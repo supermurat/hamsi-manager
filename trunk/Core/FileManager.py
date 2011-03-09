@@ -422,7 +422,7 @@ class Bookmarks(MDialog):
         MDialog.__init__(self)
         self._parent = _parent;
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("Bookmarks", "Bookmarks"))
         pbtnDeleteBookmark = MPushButton(translate("Bookmarks", "Delete"))
         pbtnSaveBookmark = MPushButton(translate("Bookmarks", "Save"))

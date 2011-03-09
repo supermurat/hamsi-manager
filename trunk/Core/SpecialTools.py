@@ -929,7 +929,7 @@ class SearchAndReplaceListEditDialog(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("SearchAndReplaceListEditDialog", "Advanced Value Editor"))
         currentValueForSearch = str(self.parent().leSearch.text())
         currentValueForReplace = str(self.parent().leReplace.text())

@@ -38,11 +38,11 @@ class Taggers():
             if len(taggersNames)==0:
                 taggersNames = Variables.getTaggersNames()
             for tagger in taggersNames:
-                exec ("from " + tagger + " import isAvailable,pluginName,Tagger")
-                exec ("import " + tagger + " as TaggerLoaded")
-                if isAvailable:
+                taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger"], -1)
+                TaggerLoaded = __import__("Taggers." + tagger, globals(), locals(), [tagger], -1)
+                if taggerModule.isAvailable:
                     loaddedTagger = TaggerLoaded
-                    return Tagger()
+                    return taggerModule.Tagger()
             if _isAlertIfNotExist:
                 Dialogs.show(translate("Taggers", "You Have Not Any Tagger"), 
                                     translate("Taggers", "Not found any tagger in your system. Please install a tagger module. Now supporting only eyeD3 module (python-eyed3)."))

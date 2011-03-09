@@ -33,7 +33,7 @@ class MyPlugins(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))
         pbtnClose = MPushButton(translate("MyPlugins", "Close"))
@@ -59,16 +59,16 @@ class MyPlugins(MDialog):
         self.lstwPluginList.clear()
         self.myPluginsNames = Variables.getMyPluginsNames()
         for plugin in self.myPluginsNames:
-            exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
-            if isInstallable():
-                installedVersion = Settings.getUniversalSetting(trForM(pluginName), "")
+            pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], -1)
+            if pluginModule.isInstallable():
+                installedVersion = Settings.getUniversalSetting(trForM(pluginModule.pluginName), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
-                elif installedVersion != pluginVersion:
+                elif installedVersion != pluginModule.pluginVersion:
                     details = translate("MyPlugins", "Have A New Version")
                 else:
                     details = translate("MyPlugins", "Installed")
-                self.lstwPluginList.addItem(trForUI(pluginName) + "\n\t" + details)
+                self.lstwPluginList.addItem(trForUI(pluginModule.pluginName) + "\n\t" + details)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
             self.pbtnInstall.setEnabled(False)
@@ -83,35 +83,35 @@ class MyPlugins(MDialog):
     
     def installPlugin(_pluginName, _isQuiet=False):
         isInstalled = False
-        exec ("from " + _pluginName + " import pluginName, pluginFiles, pluginDirectory, installThisPlugin, setupDirectory, pluginVersion")
+        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], -1)
         if installThisPlugin==None:
-            if pluginDirectory=="":
-                try:InputOutputs.IA.makeDirs(setupDirectory)
+            if pluginModule.pluginDirectory=="":
+                try:InputOutputs.IA.makeDirs(pluginModule.setupDirectory)
                 except:pass
-                for pluginFile in pluginFiles:
-                    InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, setupDirectory+"/"+pluginFile, "file", "only", True)
-                    MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
+                for pluginFile in pluginModule.pluginFiles:
+                    InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, pluginModule.setupDirectory+"/"+pluginFile, "file", "only", True)
+                    MyConfigure.reConfigureFile(pluginModule.setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory
-                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginModule.pluginDirectory
+                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, pluginModule.setupDirectory+"/"+pluginModule.pluginDirectory, "directory", "only", True)
                 if newFilePath!=oldFilePath:
                     isInstalled = True
         else:
-            isInstalled = installThisPlugin()
+            isInstalled = pluginModule.installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(trForM(pluginName), str(pluginVersion))
+            Settings.setUniversalSetting(trForM(pluginModule.pluginName), str(pluginModule.pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
-                         str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginName))
+                         str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginModule.pluginName))
         elif isInstalled=="AlreadyInstalled":
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Already Installed"), 
-                         str(translate("MyPlugins", "\"%s\" already installed on your system.")) % (pluginName))
+                         str(translate("MyPlugins", "\"%s\" already installed on your system.")) % (pluginModule.pluginName))
         else:
             if _isQuiet==False:
                 Dialogs.showError(translate("MyPlugins", "Plug-in Installation Failed"), 
-                         str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (pluginName))
+                         str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (pluginModule.pluginName))
 
  
 
@@ -142,16 +142,16 @@ class MyPluginsForSystem(MWidget):
         self.lstwPluginList.clear()
         self.myPluginsNames = Variables.getMyPluginsNames()
         for plugin in self.myPluginsNames:
-            exec ("from " + plugin + " import pluginName , pluginVersion, isInstallable")
-            if isInstallable():
-                installedVersion = Settings.getUniversalSetting(trForM(pluginName), "")
+            pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], -1)
+            if pluginModule.isInstallable():
+                installedVersion = Settings.getUniversalSetting(trForM(pluginModule.pluginName), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
-                elif installedVersion != pluginVersion:
+                elif installedVersion != pluginModule.pluginVersion:
                     details = translate("MyPlugins", "Have A New Version")
                 else:
                     details = translate("MyPlugins", "Installed")
-                self.lstwPluginList.addItem(trForUI(pluginName) + "\n\t" + details)
+                self.lstwPluginList.addItem(trForUI(pluginModule.pluginName) + "\n\t" + details)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
             self.pbtnInstall.setEnabled(False)
@@ -166,34 +166,34 @@ class MyPluginsForSystem(MWidget):
     
     def installPlugin(_pluginName, _isQuiet=False):
         isInstalled = False
-        exec ("from " + _pluginName + " import pluginName, pluginFiles, pluginDirectory, installThisPlugin, setupDirectory, pluginVersion")
-        if installThisPlugin==None:
-            if pluginDirectory=="":
-                try:InputOutputs.IA.makeDirs(setupDirectory)
+        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], -1)
+        if pluginModule.installThisPlugin==None:
+            if pluginModule.pluginDirectory=="":
+                try:InputOutputs.IA.makeDirs(pluginModule.setupDirectory)
                 except:pass
-                for pluginFile in pluginFiles:
-                    InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, setupDirectory+"/"+pluginFile, "file", "only", True)
-                    MyConfigure.reConfigureFile(setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
+                for pluginFile in pluginModule.pluginFiles:
+                    InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, pluginModule.setupDirectory+"/"+pluginFile, "file", "only", True)
+                    MyConfigure.reConfigureFile(pluginModule.setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
-                oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginDirectory
-                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, setupDirectory+"/"+pluginDirectory, "directory", "only", True)
+                oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginModule.pluginDirectory
+                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, pluginModule.setupDirectory+"/"+pluginModule.pluginDirectory, "directory", "only", True)
                 if newFilePath!=oldFilePath:
                     isInstalled = True
         else:
-            isInstalled = installThisPlugin()
+            isInstalled = pluginModule.installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(trForM(pluginName), str(pluginVersion))
+            Settings.setUniversalSetting(trForM(pluginModule.pluginName), str(pluginModule.pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
-                         str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginName))
+                         str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginModule.pluginName))
         elif isInstalled=="AlreadyInstalled":
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Already Installed"), 
-                         str(translate("MyPlugins", "\"%s\" already installed on your system.")) % (pluginName))
+                         str(translate("MyPlugins", "\"%s\" already installed on your system.")) % (pluginModule.pluginName))
         else:
             if _isQuiet==False:
                 Dialogs.showError(translate("MyPlugins", "Plug-in Installation Failed"), 
-                         str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (pluginName))
+                         str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (pluginModule.pluginName))
 
  

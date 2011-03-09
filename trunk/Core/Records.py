@@ -38,7 +38,7 @@ class Records():
     
     def setTitle(_title):
         global isSetedTitle, recordContents
-        if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
+        if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
             recordContents += str(_title) + "\n"
         if Universals.loggingLevel==logging.DEBUG:
             print (_title)
@@ -46,7 +46,7 @@ class Records():
     
     def add(_action, _previous="", _now=""):
         global recordContents
-        if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
+        if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
             if recordType==0 or (recordType==1 and Universals.loggingLevel==logging.DEBUG):
                 recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
         if Universals.loggingLevel==logging.DEBUG:
@@ -63,7 +63,7 @@ class Records():
         
     def saveAllRecords():
         global recordContents, isSetedTitle
-        if Universals.MySettings.keys().count("isSaveActions")==0 or Universals.getBoolValue("isSaveActions"):
+        if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
             if InputOutputs.isFile(Universals.recordFilePath)==False:
                 create()
             setRecordType(1)
@@ -100,7 +100,7 @@ class Records():
         if recordString != False:
             dialog = MDialog(Universals.MainWindow)
             if Universals.isActivePyKDE4==True:
-                dialog.setButtons(MDialog.None)
+                dialog.setButtons(MDialog.NoDefault)
             dialog.setWindowTitle(translate("Records", "Last Records"))
             pnlMain = MWidget(dialog)
             vblMain = MVBoxLayout(pnlMain)

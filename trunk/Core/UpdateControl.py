@@ -33,7 +33,7 @@ class UpdateControl(MDialog):
         MDialog.__init__(self, _parent)
         QtWebKit = getMyObject("QtWebKit")
         if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.None)
+            self.setButtons(MDialog.NoDefault)
         if _isNotInstall==False:
             if self.isUpdatable()==False:
                 _isNotInstall = True
@@ -205,7 +205,7 @@ class UpdateControl(MDialog):
           
     def willDownload(self, _request):
         try:
-            defaultFileName = MFileInfo(_request.url().toString()).fileName()
+            defaultFileName = MFileInfo(trForM(Universals.trStr(_request.url()))).fileName()
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save As")
@@ -245,7 +245,7 @@ class UpdateControl(MDialog):
                 reply = self.sender()
                 request = reply.request()
                 v = request.attribute(MNetworkRequest.User)
-                fileName = v.toString()
+                fileName = Universals.trStr(v)
                 InputOutputs.IA.writeToFile(fileName, reply.readAll())
                 if self.isNotInstall==False:
                     self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))

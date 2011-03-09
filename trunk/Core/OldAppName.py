@@ -92,13 +92,13 @@ def checkAndGetPlugins():
     import Variables, InputOutputs, Universals
     for plugin in Variables.getMyPluginsNames():
         isInstalled = False
-        exec ("from MyPlugins." + plugin + " import pluginName, setupDirectory, pluginFiles, pluginDirectory")
-        for pluginFile in pluginFiles:
-            if InputOutputs.isFile((setupDirectory + "/" + pluginFile).replace("HamsiManager", "OrganizasyonizM")):
+        pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginFiles", "pluginDirectory", "setupDirectory"], -1)
+        for pluginFile in pluginModule.pluginFiles:
+            if InputOutputs.isFile((pluginModule.setupDirectory + "/" + pluginFile).replace("HamsiManager", "OrganizasyonizM")):
                 isInstalled = True
                 break
-        if pluginDirectory!="":
-            if InputOutputs.isDir((setupDirectory + "/" + pluginDirectory).replace("HamsiManager", "OrganizasyonizM")):
+        if pluginModule.pluginDirectory!="":
+            if InputOutputs.isDir((pluginModule.setupDirectory + "/" + pluginModule.pluginDirectory).replace("HamsiManager", "OrganizasyonizM")):
                 isInstalled = True
         if isInstalled:
             from MyPlugins import installPlugin
@@ -117,13 +117,13 @@ def clearOldAppNameAndSettings():
         InputOutputs.removeFile(Variables.userDirectoryPath + "/.kde4/share/config/OrganizasyonizMrc")
     #Clear My Plugins
     for plugin in Variables.getMyPluginsNames():
-        exec ("from MyPlugins." + plugin + " import pluginName, setupDirectory, pluginFiles, pluginDirectory")
-        for pluginFile in pluginFiles:
-            pluginFilePath = (setupDirectory + "/" + pluginFile).replace("HamsiManager", "OrganizasyonizM")
+        pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginFiles", "pluginDirectory", "setupDirectory"], -1)
+        for pluginFile in pluginModule.pluginFiles:
+            pluginFilePath = (pluginModule.setupDirectory + "/" + pluginFile).replace("HamsiManager", "OrganizasyonizM")
             if InputOutputs.isFile(pluginFilePath):
                 InputOutputs.removeFile(pluginFilePath)
-        if pluginDirectory!="":
-            pluginDirectoryPath = (setupDirectory + "/" + pluginDirectory).replace("HamsiManager", "OrganizasyonizM")
+        if pluginModule.pluginDirectory!="":
+            pluginDirectoryPath = (pluginModule.setupDirectory + "/" + pluginModule.pluginDirectory).replace("HamsiManager", "OrganizasyonizM")
             if InputOutputs.isDir(pluginDirectoryPath):
                 InputOutputs.removeFileOrDir(pluginDirectoryPath, True)
     #Clear Setting Directory

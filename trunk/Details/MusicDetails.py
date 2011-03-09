@@ -55,7 +55,7 @@ class MusicDetails(MDialog):
                 musicDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
                 if Universals.isActivePyKDE4==True:
-                    self.setButtons(MDialog.None)
+                    self.setButtons(MDialog.NoDefault)
                 self.isActiveAddImage = False
                 self.infoLabels = {}
                 self.infoValues = {}

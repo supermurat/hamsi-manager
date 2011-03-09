@@ -24,7 +24,7 @@ if sys.path[0]=="":
 sys.path.insert(1,sys.path[0]+"/Core")
 import Variables
 try: 
-    if float(sys.version[:3])<3.0: 
+    if Variables.isPython3k==False: 
         reload(sys)
         sys.setdefaultencoding("utf-8")
 except:pass
@@ -324,7 +324,7 @@ if RoutineChecks.checkQt4Exist():
                     error.show()
                     print (str(MApplication.translate("ReportBug", "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details." )) % (error.pathOfReportFile))
                     print (str(MApplication.translate("ReportBug", "Thanks in advance for your interest.")))
-                    print "Shutting down, result %d" % res
+                    print ("Shutting down, result %d" % res)
                     raise err
                 else:
                     sys.exit(res)

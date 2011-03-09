@@ -640,7 +640,7 @@ class IA:
             from MyObjects import MDialog, MWidget, MVBoxLayout, MTextEdit, MPushButton, MObject, SIGNAL, getMyObject
             dDialog = MDialog(Universals.MainWindow)
             if Universals.isActivePyKDE4==True:
-                dDialog.setButtons(MDialog.None)
+                dDialog.setButtons(MDialog.NoDefault)
             dDialog.setWindowTitle(translate("Tables", "File Tree"))
             mainPanel = MWidget(dDialog)
             vblMain = MVBoxLayout(mainPanel)

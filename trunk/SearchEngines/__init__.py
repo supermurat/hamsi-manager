@@ -31,13 +31,13 @@ class SearchEngines(MMenu):
         self.searchEnginesNames = Variables.getSearchEnginesNames()
         isAnyAvailable = False
         for sEngine in self.searchEnginesNames:
-            exec ("from " + sEngine + " import isAvailable,pluginName")
-            if isAvailable:
+            sEngineModule = __import__("SearchEngines." + sEngine, globals(), locals(), ["isAvailable", "pluginName"], -1)
+            if sEngineModule.isAvailable:
                 isAnyAvailable = True
-                self.actions.append(MAction(trForUI(pluginName), self))
+                self.actions.append(MAction(trForUI(sEngineModule.pluginName), self))
                 self.actions[-1].setObjectName(str(len(self.actions)-1))
                 self.addAction(self.actions[-1])
-                if pluginName=="MusicBrainz":
+                if sEngineModule.pluginName=="MusicBrainz":
                     self.mSearchDepth = MMenu()
                     self.mSearchDepth.setTitle(translate("SearchEngines", "MusicBrainz (Choose Search Depth)"))
                     for no in range(1, 12):
@@ -65,8 +65,8 @@ class SearchEngines(MMenu):
                         selectedSearchDepth = info[2]
                     else:
                         engine = self.searchEnginesNames[int(_action.objectName())]
-                    exec ("from " + engine + " import Search")
-                    Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
+                    sEngineModule = __import__("SearchEngines." + engine, globals(), locals(), ["Search"], -1)
+                    sEngineModule.Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
                 else:
                     Dialogs.show(translate("SearchEngines", "Table Is Empty"), 
                                 translate("SearchEngines", "Nothing to be done because the table is empty."))

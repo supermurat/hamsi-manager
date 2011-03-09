@@ -125,25 +125,25 @@ class Tables(MTableWidget):
     
     def setSubTable(self):
         if Universals.tableType==0:
-            import FolderTable
+            from Tables import FolderTable
             self.SubTable = FolderTable.FolderTable(self)
         elif Universals.tableType==1:
-            import FileTable
+            from Tables import FileTable
             self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==2:
             import Taggers
             if Taggers.getTagger(True)!=None:
-                import MusicTable
+                from Tables import MusicTable
                 self.SubTable = MusicTable.MusicTable(self)
             else:
                 Universals.tableType = 1
-                import FileTable
+                from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==3:
-            import SubFolderTable
+            from Tables import SubFolderTable
             self.SubTable = SubFolderTable.SubFolderTable(self)
         elif Universals.tableType==4:
-            import CoverTable
+            from Tables import CoverTable
             self.SubTable = CoverTable.CoverTable(self)
         elif Universals.tableType==5:
             import Amarok
@@ -154,7 +154,7 @@ class Tables(MTableWidget):
             else:
                 #FIXME: Complate this feature
                 Universals.tableType = 1
-                import FileTable
+                from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==6:
 #            import Taggers, Amarok
@@ -165,7 +165,7 @@ class Tables(MTableWidget):
                 Dialogs.show("This feature not completed/tested. Please wait for this feature. We will open file table now.")
                 #FIXME: Complate this feature
                 Universals.tableType = 1
-                import FileTable
+                from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
     
     def getColumnKeyFromName(self, _nameWithMark):
@@ -591,7 +591,7 @@ class Tables(MTableWidget):
         elif _actionType=="dialog":
             dDialog = MDialog(Universals.MainWindow)
             if Universals.isActivePyKDE4==True:
-                dDialog.setButtons(MDialog.None)
+                dDialog.setButtons(MDialog.NoDefault)
             dDialog.setWindowTitle(translate("Tables", "Table Contents"))
             mainPanel = MWidget(dDialog)
             vblMain = MVBoxLayout(mainPanel)
