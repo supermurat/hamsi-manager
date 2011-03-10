@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, checkMysqldSafe, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -78,6 +78,13 @@ class Universals():
         if Variables.isPython3k:
             return _s
         return _s.toString()
+        
+    def trUnicode(_s, _e = "utf-8"):
+        if Variables.isPython3k:
+            return _s
+#        if _e!=None:
+#            unicode(_s, _e)
+        return unicode(_s, _e)
         
     def trQVariant(_s):
         if Variables.isPython3k:
@@ -150,7 +157,6 @@ class Universals():
         MySettings[_key] = str(_value)
         
     def saveSettings(_key=None):
-        from MyObjects import MVariant
         from Settings import setting
         sets = setting()
         if _key==None:
@@ -158,7 +164,7 @@ class Universals():
         else:
             keys = [_key]
         for value in keys:
-            sets.setValue(value,MVariant(trForM(MySettings[value])))
+            sets.setValue(value,trQVariant(trForM(MySettings[value])))
 
     def activeWindow():
         from MyObjects import MApplication
@@ -242,18 +248,10 @@ class Universals():
         if loggingLevel==logging.DEBUG:
             print (str(_message))
         
-    def checkMysqldSafe(_isAskIfNotFound=True):
-        import InputOutputs, Dialogs
-        from MyObjects import translate
-        if InputOutputs.isFile(MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + MySettings["pathOfMysqldSafe"])==False:
-            if _isAskIfNotFound:
-                answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
-                        translate("EmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
-                if answer==Dialogs.Yes: 
-                    import Options
-                    Options.Options(MainWindow, _focusTo="pathOfMysqldSafe")
-            else:
-                return False
-        else:
-            return True
+    
+        
+        
+        
+        
+        
         

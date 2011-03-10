@@ -66,9 +66,9 @@ class ReportBug(MDialog):
                             str(translate("ReportBug", "Error : ")) + "</b>"+str(error)+"<br><b>" +
                             str(translate("ReportBug", "Error arguments : ")) + "</b>"+str(excArgs)+"</p><hr><p><b>" +
                             str(translate("ReportBug", "Last Signal Sender (Object Name,Object Text) : ")) + "</b>\"")
-            try:realErrorDetails +=unicode(self.sender().objectName())+"&quot;,&quot;"
+            try:realErrorDetails +=Universals.trUnicode(self.sender().objectName())+"&quot;,&quot;"
             except:realErrorDetails +="&quot;,&quot;"
-            try:realErrorDetails +=unicode(self.sender().text())+"&quot;"
+            try:realErrorDetails +=Universals.trUnicode(self.sender().text())+"&quot;"
             except:realErrorDetails +="&quot;"
             realErrorDetails = realErrorDetails.replace("\\n", "<br>").replace("\'", "&#39;")
         try:Records.saveAllRecords()
@@ -92,7 +92,7 @@ class ReportBug(MDialog):
             for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
                 filePath = Universals.MainWindow.Table.currentTableContentValues[rowNo]["path"]
                 errorDetails +="<tr><td>" 
-                try:errorDetails += str(unicode(filePath, InputOutputs.fileSystemEncoding))
+                try:errorDetails += str(Universals.trUnicode(filePath, InputOutputs.fileSystemEncoding))
                 except:
                     try:errorDetails += str(filePath) 
                     except:errorDetails += filePath
@@ -253,7 +253,7 @@ class ReportBug(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
-                    Settings.setting().setValue("lastDirectory", MVariant(trForM(Variables.userDirectoryPath)))
+                    Settings.setting().setValue("lastDirectory", Universals.trQVariant(trForM(Variables.userDirectoryPath)))
                 elif answer==translate("ReportBug", "Settings"):
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):
@@ -307,18 +307,18 @@ class ReportBug(MDialog):
             encodedType = "utf-8"
         except:
             try:
-                errorDetails = str(unicode(_errorDetails, "iso-8859-9"))
+                errorDetails = str(Universals.trUnicode(_errorDetails, "iso-8859-9"))
                 t = errorDetails.decode("utf-8")
                 encodedType = "iso-8859-9"
             except:
                 try:
-                    errorDetails = str(unicode(_errorDetails, "cp-1254"))
+                    errorDetails = str(Universals.trUnicode(_errorDetails, "cp-1254"))
                     t = errorDetails.decode("utf-8")
                     encodedType = "cp-1254"
                 except:
                     for charName in Variables.getCharSets():
                         try:
-                            errorDetails = str(unicode(_errorDetails, charName))
+                            errorDetails = str(Universals.trUnicode(_errorDetails, charName))
                             t = errorDetails.decode("utf-8")
                             encodedType = charName
                         except:pass

@@ -175,7 +175,7 @@ class EmbeddedDBCore():
         global isStarted
         if isStarted: 
             return True
-        if Universals.checkMysqldSafe():
+        if Variables.checkMysqldSafe():
             import Execute
             Execute.executeAsThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf"])
             Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
@@ -263,7 +263,7 @@ class ReadOnlyEmbeddedDBCore():
         global isReadOnlyStarted
         if isReadOnlyStarted: 
             return True
-        if Universals.checkMysqldSafe():
+        if Variables.checkMysqldSafe():
             import Execute
             Execute.executeAsThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Universals.pathOfSettingsDirectory+"/Amarok/my.cnf"])
             Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
@@ -312,7 +312,7 @@ class EmbeddedDBConfigurator(MyDialog):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
-                self.setButtons(MyDialog.None)
+                self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("EmbeddedDBConfigurator")
             Universals.MainWindow = self
@@ -422,7 +422,7 @@ class ReadOnlyEmbeddedDBConfigurator(MyDialog):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
-                self.setButtons(MyDialog.None)
+                self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("ReadOnlyEmbeddedDBConfigurator")
             Universals.MainWindow = self

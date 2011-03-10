@@ -20,6 +20,8 @@
 import Variables
 import Universals
 
+MStringList = None
+
 if Variables.MyObjectName=="PyQt4" or Variables.MyObjectName=="":
     from PyQt4 import QtGui
     for obj in dir(QtGui):

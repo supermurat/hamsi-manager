@@ -264,7 +264,7 @@ class SpecialTools(MWidget):
                                 self.specialActions.whereIsSplitPointer,
                                 self.specialActions.actionCommand, self)
             elif self.tabwTabs.currentIndex()==1:
-                Organizer.searchAndReplaceTable(str(self.searchAndReplace.leSearch.text()),unicode(self.searchAndReplace.leReplace.text()).encode("utf-8"), self)
+                Organizer.searchAndReplaceTable(str(self.searchAndReplace.leSearch.text()),str(self.searchAndReplace.leReplace.text()), self)
             elif self.tabwTabs.currentIndex()==2:
                 Organizer.fillTable(self.fill.columns.currentText(), self, str(self.fill.leFill.text()))
             elif self.tabwTabs.currentIndex()==3:
