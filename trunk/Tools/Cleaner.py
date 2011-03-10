@@ -31,7 +31,7 @@ class Cleaner(MyDialog):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
-                self.setButtons(MyDialog.None)
+                self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
             Universals.MainWindow = self

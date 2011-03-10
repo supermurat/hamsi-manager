@@ -25,7 +25,7 @@ from MyObjects import *
 import Dialogs
 import Organizer
 from Viewers import MusicPlayer
-from ImageDetails import ImageDetails, closeAllImageDialogs
+from Details.ImageDetails import ImageDetails, closeAllImageDialogs
 import Universals
 import ReportBug
 import Taggers

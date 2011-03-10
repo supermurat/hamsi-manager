@@ -25,6 +25,7 @@ except:pass
 import Taggers
 from MyObjects import *
 import InputOutputs
+import Universals
 pluginName = "eyeD3"
 
 class Tagger():
@@ -70,7 +71,7 @@ class Tagger():
         
     def getValuesForMusicTagType(self, _value):
         if Taggers.getSelectedTaggerType()==eyeD3.ID3_V1:
-            return unicode(_value).encode("latin1")
+            return Universals.trUnicode(_value).encode("latin1")
         else:
             return _value
         
@@ -84,9 +85,9 @@ class Tagger():
             
     def correctValuesForMusicTagType(self, _value):
         if Taggers.getSelectedTaggerType()==eyeD3.ID3_V1:
-            return unicode(str(_value), "latin1")
+            return Universals.trUnicode(str(_value), "latin1")
         else:
-            return unicode(str(_value))
+            return Universals.trUnicode(str(_value))
     
     def correctForMusicTagType(self):
         self.tag.setVersion(Taggers.getSelectedTaggerType())

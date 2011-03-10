@@ -37,8 +37,8 @@ class Organizer:
         if Universals.getBoolValue("isClearFirstAndLastSpaceChars"):
             _inputString = _inputString.strip()
         if Universals.getBoolValue("isEmendIncorrectChars"):
-            try:_inputString = unicode(_inputString)
-            except:_inputString = unicode(_inputString, encoding="iso-8859-9")
+            try:_inputString = Universals.trUnicode(_inputString)
+            except:_inputString = Universals.trUnicode(_inputString, "iso-8859-9")
             replacementChars = {u"\xdd" : u"\u0130", u"\xfd" : u"\u0131", u"\xfe" : u"\u015f", u"\xd0" : u"\u011f", u"\xde" : u"\u015e", u"\xc3\x9c" : u"\xdc", u"\xc3\xbc" : u"\xfc", u"\xc4\xb0\xc5" : u"\u0130", u"\xc3\x87" : u"\xe7", u"\xc4\xb1" : u"\u0131", u"\xc5\x9f" : u"\u015f", u"\xc3\xa7" : u"\xe7", u"\xc3\xb6" : u"\xf6", u"\xc4\x9f" : u"\u011f", u"\xc4\xb0" : u"\u0130", u"\xc3\x96" : u"\xd6", u"\xc3\x8d" : u"\xd6", u"\xc2\xb3" : u"\xfc", u"\xc4\x9f" : u"\u011f", u"\xc5\x9e" : u"\u015e", u"\xc4\x9e" : u"\u011e", u"\xc5\x9f" : u"\u015f", u"\xc3\xa7" : u"\xe7", u"\x94" : u"\xf6", u"\x99" : u"\xd6", u"\xc3\x8d" : u"\xd6", u"\x98" : u"\u0130", u"\xc2\xa6" : u"\u0131", u"\x8d" : u"I", u"\xc3\x84\xc2\xb0" : u"\u0130", u"\xc3\xbd" : u"\u0131", u"\xc3\x9d" : u"i", u"\xef\xbf\xbd" : u"\u0130", u"\x81" : u"\xfc", u"\x9a" : u"\xdc", u"\xc2\xb3" : u"\xdc", u"\x80" : u"\xc7", u"\x87" : u"\xe7", u"\xa7" : u"\u011f", u"\xa6" : u"\u011e", u"\xe4\x9f" : u"\u011f", u"\xc4\x9e" : u"\u011e", u"\xc4\x9e" : u"\u011f", u"\xc3\xb0" : u"\u011f", u"\xe3\x90" : u"\u011f", u"\xc3\x90" : u"\u011e", u"\xf0" : u"\u011f", u"\x9e" : u"\u015e", u"\xc3\x9e" : u"\u015e", u"\x9f" : u"\u015f", u"\xe5\x9e" : u"\u015f", u"\xe3\x9e" : u"\u015f", u"\xe5\x9f" : u"\u015f", u"\xc3\xbe" : u"\u015f", u"\xe3\xbe" : u"\u015f", u"_" : u" ", u"\xe3" : u"", u"\xc3" : u"", u"\xe5" : u"", u"\xc5" : u""}
             _inputString = unquote(_inputString)
             for oldChar, newChar in replacementChars.items():
@@ -68,7 +68,7 @@ class Organizer:
                 extString = makeCorrectCaseSensitive(extString, Universals.MySettings["validSentenceStructureForFileExtension"])
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1] or Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
-                _inputString = ''.join(c for c in unicodedata.normalize('NFKD', unicode(_inputString)) if unicodedata.category(c) != 'Mn')
+                _inputString = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(_inputString)) if unicodedata.category(c) != 'Mn')
                 _inputString = str(_inputString.encode("utf-8", "ignore")).replace("\xc4\xb1", "i")
             oldChars, newChars = [], []
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
@@ -94,15 +94,15 @@ class Organizer:
     
     def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
         if _cbCharacterType==Variables.validSentenceStructureKeys[0]:
-            return str(unicode(_inputString).title())
+            return str(Universals.trUnicode(_inputString).title())
         elif _cbCharacterType==Variables.validSentenceStructureKeys[1]:
-            return str(unicode(_inputString).lower())
+            return str(Universals.trUnicode(_inputString).lower())
         elif _cbCharacterType==Variables.validSentenceStructureKeys[2]:
-            return str(unicode(_inputString).upper())
+            return str(Universals.trUnicode(_inputString).upper())
         elif _cbCharacterType==Variables.validSentenceStructureKeys[3]:
-            return str(unicode(_inputString).capitalize())
+            return str(Universals.trUnicode(_inputString).capitalize())
         else :
-            return str(unicode(_inputString))
+            return str(Universals.trUnicode(_inputString))
     
     def getLink(_stringPath):
         _stringPath = str(_stringPath)
@@ -327,16 +327,16 @@ class Organizer:
                 if _isRegExp == True:
                     import re
                     if _isCaseSensitive ==True:
-                        pattern = re.compile(unicode(_searchStrings[filterNo]), re.I | re.U)
-                        newString = re.sub(pattern,unicode(_replaceStrings[filterNo]), unicode(newString))
+                        pattern = re.compile(Universals.trUnicode(_searchStrings[filterNo]), re.I | re.U)
+                        newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
                     else:
-                        pattern = re.compile(unicode(_searchStrings[filterNo]))
-                        newString = re.sub(pattern,unicode(_replaceStrings[filterNo]), unicode(newString))
+                        pattern = re.compile(Universals.trUnicode(_searchStrings[filterNo]))
+                        newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
                 else:
                     if _isCaseSensitive ==True:
                         import re
-                        pattern = re.compile(re.escape(unicode(_searchStrings[filterNo])), re.I | re.U)
-                        newString = re.sub(pattern,unicode(_replaceStrings[filterNo]), unicode(newString))
+                        pattern = re.compile(re.escape(Universals.trUnicode(_searchStrings[filterNo])), re.I | re.U)
+                        newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
                     else:
                         newString = newString.replace(_searchStrings[filterNo],_replaceStrings[filterNo])
         return newString
@@ -380,7 +380,7 @@ class Organizer:
                         myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
                     elif _SpecialTools.tbAddToAfter.isChecked()==True:
                         myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(unicode(myString).title()))
+                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString).title()))
                     
     def clearTable(_SpecialTools):
         from MyObjects import trForUI
@@ -456,16 +456,16 @@ class Organizer:
             if _isRegExp == True:
                 import re
                 if _isCaseSensitive ==True:
-                    pattern = re.compile(unicode(_searchString), re.I | re.U)
-                    myString = re.sub(pattern,unicode(""), unicode(_oldString))
+                    pattern = re.compile(Universals.trUnicode(_searchString), re.I | re.U)
+                    myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
                 else:
-                    pattern = re.compile(unicode(_searchString))
-                    myString = re.sub(pattern,unicode(""), unicode(_oldString))
+                    pattern = re.compile(Universals.trUnicode(_searchString))
+                    myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
             else:
                 if _isCaseSensitive==True:
                     import re
-                    pattern = re.compile(re.escape(unicode(_searchString)), re.I | re.U)
-                    myString = re.sub(pattern,unicode(""), unicode(_oldString))
+                    pattern = re.compile(re.escape(Universals.trUnicode(_searchString)), re.I | re.U)
+                    myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
                 else:
                     myString = _oldString.replace(_searchString,"")
         return myString
@@ -481,19 +481,19 @@ class Organizer:
                             m = re.search(_searchStrings[filterNo], newString, re.I | re.U)
                             try:a = m.group(0)
                             except:return newString
-                            pattern = re.compile(unicode(_searchStrings[filterNo]), re.I | re.U)
-                            newString = re.sub(pattern,unicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), unicode(newString))
+                            pattern = re.compile(Universals.trUnicode(_searchStrings[filterNo]), re.I | re.U)
+                            newString = re.sub(pattern,Universals.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), Universals.trUnicode(newString))
                         else:
                             m = re.search(_searchStrings[filterNo], newString)
                             try:a = m.group(0)
                             except:return newString
-                            pattern = re.compile(unicode(_searchStrings[filterNo]))
-                            newString = re.sub(pattern,unicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), unicode(newString))
+                            pattern = re.compile(Universals.trUnicode(_searchStrings[filterNo]))
+                            newString = re.sub(pattern,Universals.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), Universals.trUnicode(newString))
                     else:
                         if _isCaseSensitive ==True:
                             import re
-                            pattern = re.compile(re.escape(unicode(_searchStrings[filterNo])), re.I | re.U)
-                            newString = re.sub(pattern,unicode(makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType)), unicode(newString))
+                            pattern = re.compile(re.escape(Universals.trUnicode(_searchStrings[filterNo])), re.I | re.U)
+                            newString = re.sub(pattern,Universals.trUnicode(makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType)), Universals.trUnicode(newString))
                         else:
                             newString = newString.replace(_searchStrings[filterNo],makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType))
         else:

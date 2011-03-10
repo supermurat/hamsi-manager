@@ -116,7 +116,7 @@ class QuickMakeWindow(MyDialog):
         wOptionsPanel = Options.Options(None, QuickMakeParameters[0], None, newOrChangedKeys)
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
-                self.setButtons(MyDialog.None)
+                self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
             Universals.MainWindow = self

@@ -215,7 +215,7 @@ class UpdateControl(MDialog):
                 fileName = tempfile.gettempdir() + "/" + defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:]
             self.pbtnDownloadAndInstall.setEnabled(False)
             newRequest = _request
-            newRequest.setAttribute(MNetworkRequest.User,MVariant(fileName))
+            newRequest.setAttribute(MNetworkRequest.User,Universals.trQVariant(fileName))
             networkManager = self.wvWeb.page().networkAccessManager()
             reply = networkManager.get(newRequest)
             self.isFileExist = True
