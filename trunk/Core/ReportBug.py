@@ -303,23 +303,23 @@ class ReportBug(MDialog):
         self.createErrorFile(htmlString.replace("~ERRORDETAILS~", _errorDetails).replace("~ADDITIONALDETAILS~", _errorDetails))
         encodedType = ""
         try:
-            errorDetails = _errorDetails.decode("utf-8")
+            errorDetails = Universals.trDecode(_errorDetails, "utf-8")
             encodedType = "utf-8"
         except:
             try:
                 errorDetails = str(Universals.trUnicode(_errorDetails, "iso-8859-9"))
-                t = errorDetails.decode("utf-8")
+                t = Universals.trDecode(errorDetails, "utf-8")
                 encodedType = "iso-8859-9"
             except:
                 try:
                     errorDetails = str(Universals.trUnicode(_errorDetails, "cp-1254"))
-                    t = errorDetails.decode("utf-8")
+                    t = Universals.trDecode(errorDetails, "utf-8")
                     encodedType = "cp-1254"
                 except:
                     for charName in Variables.getCharSets():
                         try:
                             errorDetails = str(Universals.trUnicode(_errorDetails, charName))
-                            t = errorDetails.decode("utf-8")
+                            t = Universals.trDecode(errorDetails, "utf-8")
                             encodedType = charName
                         except:pass
                     if encodedType=="":

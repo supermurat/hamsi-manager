@@ -39,11 +39,11 @@ class Organizer:
         if Universals.getBoolValue("isEmendIncorrectChars"):
             try:_inputString = Universals.trUnicode(_inputString)
             except:_inputString = Universals.trUnicode(_inputString, "iso-8859-9")
-            replacementChars = {u"\xdd" : u"\u0130", u"\xfd" : u"\u0131", u"\xfe" : u"\u015f", u"\xd0" : u"\u011f", u"\xde" : u"\u015e", u"\xc3\x9c" : u"\xdc", u"\xc3\xbc" : u"\xfc", u"\xc4\xb0\xc5" : u"\u0130", u"\xc3\x87" : u"\xe7", u"\xc4\xb1" : u"\u0131", u"\xc5\x9f" : u"\u015f", u"\xc3\xa7" : u"\xe7", u"\xc3\xb6" : u"\xf6", u"\xc4\x9f" : u"\u011f", u"\xc4\xb0" : u"\u0130", u"\xc3\x96" : u"\xd6", u"\xc3\x8d" : u"\xd6", u"\xc2\xb3" : u"\xfc", u"\xc4\x9f" : u"\u011f", u"\xc5\x9e" : u"\u015e", u"\xc4\x9e" : u"\u011e", u"\xc5\x9f" : u"\u015f", u"\xc3\xa7" : u"\xe7", u"\x94" : u"\xf6", u"\x99" : u"\xd6", u"\xc3\x8d" : u"\xd6", u"\x98" : u"\u0130", u"\xc2\xa6" : u"\u0131", u"\x8d" : u"I", u"\xc3\x84\xc2\xb0" : u"\u0130", u"\xc3\xbd" : u"\u0131", u"\xc3\x9d" : u"i", u"\xef\xbf\xbd" : u"\u0130", u"\x81" : u"\xfc", u"\x9a" : u"\xdc", u"\xc2\xb3" : u"\xdc", u"\x80" : u"\xc7", u"\x87" : u"\xe7", u"\xa7" : u"\u011f", u"\xa6" : u"\u011e", u"\xe4\x9f" : u"\u011f", u"\xc4\x9e" : u"\u011e", u"\xc4\x9e" : u"\u011f", u"\xc3\xb0" : u"\u011f", u"\xe3\x90" : u"\u011f", u"\xc3\x90" : u"\u011e", u"\xf0" : u"\u011f", u"\x9e" : u"\u015e", u"\xc3\x9e" : u"\u015e", u"\x9f" : u"\u015f", u"\xe5\x9e" : u"\u015f", u"\xe3\x9e" : u"\u015f", u"\xe5\x9f" : u"\u015f", u"\xc3\xbe" : u"\u015f", u"\xe3\xbe" : u"\u015f", u"_" : u" ", u"\xe3" : u"", u"\xc3" : u"", u"\xe5" : u"", u"\xc5" : u""}
+            replacementChars = Universals.getUtf8Data("replacementChars")
             _inputString = unquote(_inputString)
             for oldChar, newChar in replacementChars.items():
                 _inputString = _inputString.replace(oldChar,newChar)
-        _inputString = str(_inputString.decode("utf-8", "ignore"))
+        _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore"))
         if len(_inputString)==0: return ""
         preString, extString, ext2String = "", "", ""
         if _type=="file" or _type=="directory":
@@ -69,7 +69,7 @@ class Organizer:
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1] or Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
                 _inputString = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(_inputString)) if unicodedata.category(c) != 'Mn')
-                _inputString = str(_inputString.encode("utf-8", "ignore")).replace("\xc4\xb1", "i")
+                _inputString = str(Universals.trEncode(_inputString, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
             oldChars, newChars = [], []
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
                 oldChars = [" "]
@@ -273,7 +273,7 @@ class Organizer:
         while len(replaceStrings)!=len(searchStrings):
             replaceStrings.append("")
         if _SpecialTools.searchAndReplace.columns.currentIndex()==0:
-            columns = range(0,Universals.MainWindow.Table.columnCount())
+            columns = list(range(0,Universals.MainWindow.Table.columnCount()))
         else:
             columns = [_SpecialTools.searchAndReplace.columns.currentIndex()-1]
         for columnNo in columns:
@@ -387,7 +387,7 @@ class Organizer:
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
         if _SpecialTools.clear.columns.currentIndex()==0:
-            columns = range(0,Universals.MainWindow.Table.columnCount())
+            columns = list(range(0,Universals.MainWindow.Table.columnCount()))
         else:
             columns = [_SpecialTools.clear.columns.currentIndex()-1]
         for columnNo in columns:
@@ -396,7 +396,7 @@ class Organizer:
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
                     newString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
-                    newString = newString.decode("utf-8")
+                    newString = Universals.trDecode(newString, "utf-8")
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
                     informationSectionY = _SpecialTools.cbInformationSectionY.value()
                     isCaseSensitive = _SpecialTools.clear.cckbCaseSensitive.isChecked()
@@ -506,7 +506,7 @@ class Organizer:
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
         searchStrings = str(_SpecialTools.characterState.leSearch.text()).split(";")
         if _SpecialTools.characterState.columns.currentIndex()==0:
-            columns = range(0,Universals.MainWindow.Table.columnCount())
+            columns = list(range(0,Universals.MainWindow.Table.columnCount()))
         else:
             columns = [_SpecialTools.characterState.columns.currentIndex()-1]
         for columnNo in columns:

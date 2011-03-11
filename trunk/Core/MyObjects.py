@@ -104,17 +104,12 @@ def translate(_p, _s):
     return str(MApplication.translate(_p, _s))
     
 def trForUI(_s):
-    try:
-        _s = str(_s)
-        return _s
-        return _s.decode("utf-8", "replace")
-    except:
-        return _s.decode("utf-8", "ignore")
+    _s = str(_s)
+    return _s
     
 def trForM(_s):
     _s = str(_s)
     return _s
-    return _s.decode("utf-8")
     
 def getMyObject(_objectName):
     MyObject = None
