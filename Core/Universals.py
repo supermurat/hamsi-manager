@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -72,7 +72,6 @@ class Universals():
     def trForM(_s):
         _s = str(_s)
         return _s
-        return _s.decode("utf-8")
         
     def trStr(_s):
         if Variables.isPython3k:
@@ -82,9 +81,33 @@ class Universals():
     def trUnicode(_s, _e = "utf-8"):
         if Variables.isPython3k:
             return _s
-#        if _e!=None:
-#            unicode(_s, _e)
+        if isinstance(_s, unicode):
+            return _s
         return unicode(_s, _e)
+        
+    def trDecode(_s, _e = "utf-8", _p = "strict"):
+        if Variables.isPython3k:
+            return _s
+        return _s.decode(_e, _p)
+        
+    def trEncode(_s, _e = "utf-8", _p = "strict"):
+        if Variables.isPython3k:
+            return _s
+        return _s.encode(_e, _p)
+        
+    def getUtf8Data(_key):
+        try:
+            import Utf8Content
+            return Utf8Content.getUtf8Data(_key)
+        except Exception as err:
+            printForDevelopers(str(err))
+            if _key=="replacementChars":
+                return {}
+            else:
+                if Variables.isPython3k:
+                    return ""
+                else:
+                    return unicode("")
         
     def trQVariant(_s):
         if Variables.isPython3k:

@@ -25,7 +25,7 @@ import Records
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, isAvailableName
     global readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
@@ -34,12 +34,12 @@ class InputOutputs:
     
     def isFile(_oldPath):
         _oldPath = str(_oldPath)
-        try:return os.path.isfile(_oldPath.encode(fileSystemEncoding))
+        try:return os.path.isfile(Universals.trEncode(_oldPath, fileSystemEncoding))
         except:return os.path.isfile(_oldPath)
     
     def isDir(_oldPath):
         _oldPath = str(_oldPath)
-        try:return os.path.isdir(_oldPath.encode(fileSystemEncoding))
+        try:return os.path.isdir(Universals.trEncode(_oldPath, fileSystemEncoding))
         except:return os.path.isdir(_oldPath)
     
     def isDirEmpty(_oldPath):
@@ -55,10 +55,17 @@ class InputOutputs:
         elif isDir(_oldPath):
             return True
         return False
+        
+    def isAvailableName(_newPath):
+        try:
+            t = Universals.trEncode(_newPath, fileSystemEncoding)
+            return True
+        except:
+            return False
     
     def getSize(_oldPath):
         from stat import ST_SIZE
-        try:return os.stat(_oldPath.encode(fileSystemEncoding))[ST_SIZE]
+        try:return os.stat(Universals.trEncode(_oldPath, fileSystemEncoding))[ST_SIZE]
         except:return os.stat(_oldPath)[ST_SIZE]
     
     def getObjectType(_oldPath):
@@ -69,9 +76,9 @@ class InputOutputs:
     
     def getDirName(_oldPath):
         _oldPath = str(_oldPath)
-        try:returnValue = os.path.dirname(_oldPath.encode(fileSystemEncoding))
+        try:returnValue = os.path.dirname(Universals.trEncode(_oldPath, fileSystemEncoding))
         except:returnValue = os.path.dirname(_oldPath)
-        try:return returnValue.decode(fileSystemEncoding)
+        try:return Universals.trDecode(returnValue, fileSystemEncoding)
         except:return returnValue
     
     def getRealDirName(_oldPath, isGetParent=False):
@@ -110,9 +117,9 @@ class InputOutputs:
     
     def getBaseName(_oldPath):
         _oldPath = str(_oldPath)
-        try:returnValue = os.path.basename(_oldPath.encode(fileSystemEncoding))
+        try:returnValue = os.path.basename(Universals.trEncode(_oldPath, fileSystemEncoding))
         except:returnValue = os.path.basename(_oldPath)
-        try:return returnValue.decode(fileSystemEncoding)
+        try:return Universals.trDecode(returnValue, fileSystemEncoding)
         except:return returnValue
     
     def checkExtension(_oldPath, _extension):
@@ -130,12 +137,12 @@ class InputOutputs:
     def moveFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         if getDirName(_oldPath)==getDirName(_newPath):
-            try:os.rename(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+            try:os.rename(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
             except:os.rename(_oldPath,_newPath)
         else:
             if isDir(getDirName(_newPath))==False:
                 makeDirs(getDirName(_newPath))
-            try:shutil.move(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+            try:shutil.move(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
             except:shutil.move(_oldPath,_newPath)
         Records.add("Moved", _oldPath, _newPath)
     
@@ -144,7 +151,7 @@ class InputOutputs:
         if isDir(getDirName(_newPath))==False:
             makeDirs(getDirName(_newPath))
         if isFile(_oldPath):
-            try:shutil.copy(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+            try:shutil.copy(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
             except:shutil.copy(_oldPath,_newPath)
         else:
             copyDirTree(_oldPath, _newPath)
@@ -152,7 +159,7 @@ class InputOutputs:
             
     def copyDirTree(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
-        try:shutil.copytree(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+        try:shutil.copytree(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
         except:shutil.copytree(_oldPath,_newPath)
         Records.add("Copied", _oldPath, _newPath)
         
@@ -172,7 +179,7 @@ class InputOutputs:
             from os import symlink
             if isExist(_newPath):
                 removeFile(_newPath)
-            try:symlink(_oldPath.encode(fileSystemEncoding),_newPath.encode(fileSystemEncoding))
+            try:symlink(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
             except:symlink(_oldPath,_newPath)
             Records.add("Created Link", _oldPath, _newPath)
             return True
@@ -184,14 +191,14 @@ class InputOutputs:
     def listDir(_oldPath):
         names = []
         if checkSource(_oldPath, "directory"):
-            try:names = os.listdir(_oldPath.encode(fileSystemEncoding))
+            try:names = os.listdir(Universals.trEncode(_oldPath, fileSystemEncoding))
             except:names = os.listdir(_oldPath)
             names.sort(key=trSort)
         return names
         
     def makeDirs(_newPath):
         if isWritableFileOrDir(getRealDirName(_newPath)):
-            try:os.makedirs(_newPath.encode(fileSystemEncoding))
+            try:os.makedirs(Universals.trEncode(_newPath, fileSystemEncoding))
             except:os.makedirs(_newPath)
             Records.add("Created", _newPath)
             return True
@@ -201,7 +208,7 @@ class InputOutputs:
         if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
             moveToPathOfDeleted(_oldPath)
         else:
-            try:os.rmdir(_oldPath.encode(fileSystemEncoding))
+            try:os.rmdir(Universals.trEncode(_oldPath, fileSystemEncoding))
             except:os.rmdir(_oldPath)
         Records.add("Removed", _oldPath)
         return True
@@ -210,7 +217,7 @@ class InputOutputs:
         if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
             moveToPathOfDeleted(_oldPath)
         else:
-            try:os.remove(_oldPath.encode(fileSystemEncoding))
+            try:os.remove(Universals.trEncode(_oldPath, fileSystemEncoding))
             except:os.remove(_oldPath)
         Records.add("Removed", _oldPath)
         return True
@@ -225,7 +232,7 @@ class InputOutputs:
         if Variables.isPython3k:
             _info = str(_info)
         try:
-            return locale.strxfrm(_info.encode(fileSystemEncoding))
+            return locale.strxfrm(Universals.trEncode(_info, fileSystemEncoding))
         except:
             return locale.strxfrm(_info)
     
@@ -234,7 +241,7 @@ class InputOutputs:
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
         try: 
-            if os.access(realPath.encode(fileSystemEncoding), os.R_OK): 
+            if os.access(Universals.trEncode(realPath, fileSystemEncoding), os.R_OK): 
                 return True 
         except: 
             if os.access(realPath, os.R_OK): 
@@ -246,7 +253,7 @@ class InputOutputs:
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
         try: 
-            if os.access(realPath.encode(fileSystemEncoding), os.W_OK): 
+            if os.access(Universals.trEncode(realPath, fileSystemEncoding), os.W_OK): 
                 return True 
         except: 
             if os.access(realPath, os.W_OK): 
@@ -306,7 +313,7 @@ class InputOutputs:
         fileAndDirectoryNames,fileNames,directoryNames,musicFileNames=[],[],[],[]
         for name in listDir(_path):
             if name[:1] != ".":
-                try:fileAndDirectoryNames.append(name.decode(fileSystemEncoding))
+                try:fileAndDirectoryNames.append(Universals.trDecode(name, fileSystemEncoding))
                 except:fileAndDirectoryNames.append(name)
         for name in fileAndDirectoryNames:
             if isDir(_path+"/"+name):
@@ -338,7 +345,7 @@ class InputOutputs:
     def readDirectoryAll(_path): 
         tFileAndDirs=[]
         for name in listDir(_path):
-            try:tFileAndDirs.append(str(name.decode(fileSystemEncoding)))
+            try:tFileAndDirs.append(str(Universals.trDecode(name, fileSystemEncoding)))
             except:
                 try:tFileAndDirs.append(str(name))
                 except:tFileAndDirs.append(name)
@@ -377,7 +384,7 @@ class InputOutputs:
     
     def readFromFile(_path):
         _path = str(_path)
-        try:f = open(_path.encode(fileSystemEncoding))
+        try:f = open(Universals.trEncode(_path, fileSystemEncoding))
         except:f = open(_path)
         info = f.read()
         f.close()
@@ -385,7 +392,7 @@ class InputOutputs:
         
     def readLinesFromFile(_path):
         _path = str(_path)
-        try:f = open(_path.encode(fileSystemEncoding))
+        try:f = open(Universals.trEncode(_path, fileSystemEncoding))
         except:f = open(_path)
         info = f.readlines()
         f.close()
@@ -393,7 +400,7 @@ class InputOutputs:
         
     def readFromBinaryFile(_path):
         _path = str(_path)
-        try:f = open(_path.encode(fileSystemEncoding), "rb")
+        try:f = open(Universals.trEncode(_path, fileSystemEncoding), "rb")
         except:f = open(_path, "rb")
         info = f.read()
         f.close()
@@ -401,7 +408,7 @@ class InputOutputs:
         
     def writeToFile(_path, _contents=""):
         _path = str(_path)
-        try:f = open(_path.encode(fileSystemEncoding), "w")
+        try:f = open(Universals.trEncode(_path, fileSystemEncoding), "w")
         except:f = open(_path, "w")
         f.write(_contents)
         f.close()
@@ -409,7 +416,7 @@ class InputOutputs:
         
     def writeToBinaryFile(_path, _contents=""):
         _path = str(_path)
-        try:f = open(_path.encode(fileSystemEncoding), "wb")
+        try:f = open(Universals.trEncode(_path, fileSystemEncoding), "wb")
         except:f = open(_path, "w")
         f.write(_contents)
         f.flush()
@@ -418,7 +425,7 @@ class InputOutputs:
     
     def addToFile(_path, _contents=""):
         _path = str(_path)
-        try:f = open(_path.encode(fileSystemEncoding), "a")
+        try:f = open(Universals.trEncode(_path, fileSystemEncoding), "a")
         except:f = open(_path, "w")
         f.write(_contents)
         f.close()
@@ -433,7 +440,7 @@ class InputOutputs:
         
     def writeTextFile(_oldFileValues, _newFileValues, _charSet="utf-8"):
         if _oldFileValues["content"]!=_newFileValues["content"] or _charSet!="utf-8":
-            writeToFile(_oldFileValues["path"], _newFileValues["content"].encode(_charSet))
+            writeToFile(_oldFileValues["path"], Universals.trEncode(_newFileValues["content"], _charSet))
         if _oldFileValues["path"]!=_newFileValues["path"]:
             return moveOrChange(_oldFileValues["path"], _newFileValues["path"])
         return _oldFileValues["path"]
@@ -848,9 +855,9 @@ class InputOutputs:
         _filePath, _sourcePath = str(_filePath), str(_sourcePath)
         if isDir(_filePath):
             return False
-        try:tar = tarfile.open(_filePath.encode(fileSystemEncoding), "w:" + _packageType)
+        try:tar = tarfile.open(Universals.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
         except:tar = tarfile.open(_filePath, "w:" + _packageType)
-        try:tar.add(_sourcePath.encode(fileSystemEncoding), "")
+        try:tar.add(Universals.trEncode(_sourcePath, fileSystemEncoding), "")
         except:tar.add(_sourcePath, "")
         tar.close()
         Records.add("Packed", _filePath)
@@ -861,12 +868,12 @@ class InputOutputs:
         import tarfile
         while 1==1:
             try:
-                try:tar = tarfile.open(_oldPath.encode(fileSystemEncoding), "r:gz")
+                try:tar = tarfile.open(Universals.trEncode(_oldPath, fileSystemEncoding), "r:gz")
                 except:tar = tarfile.open(_oldPath, "r:gz")
                 break
             except:
                 time.sleep(1)
-        try:tar.extractall(_newPath.encode(fileSystemEncoding), members=tar.getmembers())
+        try:tar.extractall(Universals.trEncode(_newPath, fileSystemEncoding), members=tar.getmembers())
         except:tar.extractall(_newPath, members=tar.getmembers())
         tar.close()
         Records.add("Extracted", _oldPath, _newPath)
@@ -896,25 +903,25 @@ class InputOutputs:
             for x, file in enumerate(files):
                 if isDir(file):
                     findStrings.append(file)
-                    replaceStrings.append(("\xe2\x94\x82&nbsp;&nbsp;&nbsp;"*(file.count("/")-dirNumber))+"\xe2\x94\x9c&nbsp;")
+                    replaceStrings.append((Universals.getUtf8Data("upright") + "&nbsp;&nbsp;&nbsp;"*(file.count("/")-dirNumber)) + Universals.getUtf8Data("upright+right") + "&nbsp;")
             findStrings.reverse()
             replaceStrings.reverse()
-            fileList = range(len(files))
+            fileList = list(range(len(files)))
             for x, file in enumerate(files):
                 fileList[x] = file + "<br> \n"
                 for  y, fstr in enumerate(findStrings):
                     if file!=fstr:
                         fileList[x] = fileList[x].replace(fstr + "/", replaceStrings[y])
                 if x>0:
-                    tin = fileList[x-1].find("\xe2\x94\x9c")
-                    tin2 = fileList[x].find("\xe2\x94\x9c")
+                    tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
+                    tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
                     if tin>tin2:
-                        fileList[x-1] = fileList[x-1].replace("\xe2\x94\x9c", "\xe2\x94\x94")
+                        fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
             for x, fileName in enumerate(fileList):
                 if x!=len(fileList)-1:
-                    info += fileName.replace(_path + "/", "\xe2\x94\x9c&nbsp;")
+                    info += fileName.replace(_path + "/", Universals.getUtf8Data("upright+right") + "&nbsp;")
                 else:
-                    info += fileName.replace(_path + "/", "\xe2\x94\x94&nbsp;")
+                    info += fileName.replace(_path + "/", Universals.getUtf8Data("up+right") + "&nbsp;")
         elif _formatType=="plainText":
             if _extInfo=="no":
                 pass
@@ -926,25 +933,25 @@ class InputOutputs:
             for x, file in enumerate(files):
                 if isDir(file):
                     findStrings.append(file)
-                    replaceStrings.append(("\xe2\x94\x82   "*(file.count("/")-dirNumber))+"\xe2\x94\x9c ")
+                    replaceStrings.append((Universals.getUtf8Data("upright") + "   "*(file.count("/")-dirNumber)) + Universals.getUtf8Data("upright+right") + " ")
             findStrings.reverse()
             replaceStrings.reverse()
-            fileList = range(len(files))
+            fileList = list(range(len(files)))
             for x, file in enumerate(files):
                 fileList[x] = file + "\n"
                 for  y, fstr in enumerate(findStrings):
                     if file!=fstr:
                         fileList[x] = fileList[x].replace(fstr + "/", replaceStrings[y])
                 if x>0:
-                    tin = fileList[x-1].find("\xe2\x94\x9c")
-                    tin2 = fileList[x].find("\xe2\x94\x9c")
+                    tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
+                    tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
                     if tin>tin2:
-                        fileList[x-1] = fileList[x-1].replace("\xe2\x94\x9c", "\xe2\x94\x94")
+                        fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
             for x, fileName in enumerate(fileList):
                 if x!=len(fileList)-1:
-                    info += fileName.replace(_path + "/", "\xe2\x94\x9c ")
+                    info += fileName.replace(_path + "/", Universals.getUtf8Data("upright+right") + " ")
                 else:
-                    info += fileName.replace(_path + "/", "\xe2\x94\x94 ")
+                    info += fileName.replace(_path + "/", Universals.getUtf8Data("up+right") + " ")
         return info
             
     def fixToSize(_path, _size, _clearFrom="head"):

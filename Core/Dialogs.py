@@ -22,7 +22,7 @@ from MyObjects import *
 import Universals
 
 class Dialogs():
-    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, select, pbtnCancel, sleep
+    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, getItem, pbtnCancel, sleep, getText
     pnlState, prgbState, lblState, pbtnCancel = None, None, None, None
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
     
@@ -219,7 +219,7 @@ class Dialogs():
             step += 1
             time.sleep(0.25)
             
-    def select(_title="Hamsi Cover", _detail="", _itemList=[""], _currentItem=0):
+    def getItem(_title="Hamsi Cover", _detail="", _itemList=[""], _currentItem=0):
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Cover"
@@ -231,7 +231,19 @@ class Dialogs():
         if isSelected==False:
             return None
         return selectedValue
-                
+    
+    def getText(_title="Hamsi Cover", _detail="", _default=""):
+        if _detail=="": 
+            _detail = _title
+            _title = "Hamsi Cover"
+        import Organizer
+        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+            selectedValue, isSelected = MInputDialog.getText(trForUI(str(_title)+"!.."), trForUI(str(_detail)), trForUI(_default))
+        else:
+            selectedValue, isSelected = MInputDialog.getText(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI(str(_detail)), MLineEdit.Normal, trForUI(_default))
+        if isSelected==False:
+            return None
+        return selectedValue
         
 
         

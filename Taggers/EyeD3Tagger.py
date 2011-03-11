@@ -40,12 +40,12 @@ class Tagger():
         self.filePath = _filePath
         try:
             self.tag = eyeD3.Tag()
-            self.tag.link(self.filePath.encode(InputOutputs.fileSystemEncoding), Taggers.getSelectedTaggerType())
+            self.tag.link(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding), Taggers.getSelectedTaggerType())
         except:
             self.tag = eyeD3.Tag()
             self.tag.link(self.filePath, Taggers.getSelectedTaggerType())
         try:
-            self.Mp3AudioFile = eyeD3.Mp3AudioFile(self.filePath.encode(InputOutputs.fileSystemEncoding))
+            self.Mp3AudioFile = eyeD3.Mp3AudioFile(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding))
         except:
             try:
                 self.Mp3AudioFile = eyeD3.Mp3AudioFile(self.filePath)
@@ -56,7 +56,7 @@ class Tagger():
         self.filePath = _filePath
         try:
             self.tag = eyeD3.Tag()
-            self.tag.link(self.filePath.encode(InputOutputs.fileSystemEncoding), Taggers.getSelectedTaggerType())
+            self.tag.link(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding), Taggers.getSelectedTaggerType())
         except:
             self.tag = eyeD3.Tag()
             self.tag.link(self.filePath, Taggers.getSelectedTaggerType())
@@ -71,7 +71,7 @@ class Tagger():
         
     def getValuesForMusicTagType(self, _value):
         if Taggers.getSelectedTaggerType()==eyeD3.ID3_V1:
-            return Universals.trUnicode(_value).encode("latin1")
+            return Universals.trEncode(Universals.trUnicode(_value), "latin1")
         else:
             return _value
         
