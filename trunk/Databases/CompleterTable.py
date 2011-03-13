@@ -19,7 +19,7 @@
 
 import Variables
 import Universals
-from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInputQueries
+from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
 
 class CompleterTable:
     global fetchAll, fetchAllByObjectName, fetch, checkValues, insert, update, delete
@@ -72,7 +72,7 @@ class CompleterTable:
             allForFetch, allForFetchByObjectName[_objectName], allForFetchByObjectName["%*%"] = None, None, None
             con = getDefaultConnection()
             cur = con.cursor()
-            sqlQueries = getAmendedSQLInputQueries(tableName, {"objectName" : "'" + correctForSql(_objectName) + "'", "value" : "'" + correctForSql(_value) + "'"}, ["objectName", "value"])
+            sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"objectName" : "'" + correctForSql(_objectName) + "'", "value" : "'" + correctForSql(_value) + "'"}, ["objectName", "value"])
             cur.execute(sqlQueries[0])
             cur.execute(sqlQueries[1])
             con.commit()
@@ -105,7 +105,7 @@ class CompleterTable:
         
     def getDefaultsQueries():
         sqlQueries = []
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"objectName" : "'*'", "value" : "'Hamsi'"}, ["objectName", "value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"objectName" : "'*'", "value" : "'Hamsi'"}, ["objectName", "value"])
         return sqlQueries
         
     

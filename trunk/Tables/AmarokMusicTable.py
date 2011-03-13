@@ -72,6 +72,7 @@ class Content():
     def writeContents(_table):
         _table.changedValueNumber = 0
         changingFileDirectories=[]
+        changingTags=[]
         Universals.startThreadAction()
         allItemNumber = len(_table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,allItemNumber, True)
@@ -82,6 +83,7 @@ class Content():
                     if _table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
+                    changingTags.append({"path" : _table.currentTableContentValues[rowNo]["path"]})
                     baseNameOfDirectory = str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
                     baseName = str(_table.currentTableContentValues[rowNo]["baseName"])
                     tagger = Taggers.getTagger()
@@ -89,41 +91,49 @@ class Content():
                     if _table.isChangableItem(rowNo, 2, _table.currentTableContentValues[rowNo]["Artist"]):
                         value = str(_table.item(rowNo,2).text())
                         tagger.setArtist(value)
+                        changingTags[-1] += {"Artist" : value}
                         Records.add(str(translate("AmarokMusicTable", "Artist")), str(_table.currentTableContentValues[rowNo]["Artist"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 3, _table.currentTableContentValues[rowNo]["Title"]):
                         value = str(_table.item(rowNo,3).text())
                         tagger.setTitle(value)
+                        changingTags[-1] += {"Title" : value}
                         Records.add(str(translate("AmarokMusicTable", "Title")), str(_table.currentTableContentValues[rowNo]["Title"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 4, _table.currentTableContentValues[rowNo]["Album"]):
                         value = str(_table.item(rowNo,4).text())
                         tagger.setAlbum(value)
+                        changingTags[-1] += {"Album" : value}
                         Records.add(str(translate("AmarokMusicTable", "Album")), str(_table.currentTableContentValues[rowNo]["Album"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 5, _table.currentTableContentValues[rowNo]["TrackNum"]):
                         value = str(_table.item(rowNo,5).text())
                         tagger.setTrackNum(value, len(_table.currentTableContentValues))
+                        changingTags[-1] += {"TrackNum" : value}
                         Records.add(str(translate("AmarokMusicTable", "Track No")), str(_table.currentTableContentValues[rowNo]["TrackNum"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 6, _table.currentTableContentValues[rowNo]["Year"]):
                         value = str(_table.item(rowNo,6).text())
                         tagger.setDate(value)
+                        changingTags[-1] += {"Year" : value}
                         Records.add(str(translate("AmarokMusicTable", "Year")), str(_table.currentTableContentValues[rowNo]["Year"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 7, _table.currentTableContentValues[rowNo]["Genre"]):
                         value = str(_table.item(rowNo,7).text())
                         tagger.setGenre(value)
+                        changingTags[-1] += {"Genre" : value}
                         Records.add(str(translate("AmarokMusicTable", "Genre")), str(_table.currentTableContentValues[rowNo]["Genre"]), value)
                         _table.changedValueNumber += 1
                     if _table.isChangableItem(rowNo, 8, _table.currentTableContentValues[rowNo]["FirstComment"]):
                         value = str(_table.item(rowNo,8).text())
                         tagger.setFirstComment(value)
+                        changingTags[-1] += {"FirstComment" : value}
                         Records.add(str(translate("AmarokMusicTable", "Comment")), str(_table.currentTableContentValues[rowNo]["FirstComment"]), value)
                         _table.changedValueNumber += 1
                     if len(_table.tableColumns)>9 and _table.isChangableItem(rowNo, 9, _table.currentTableContentValues[rowNo]["FirstLyrics"]):
                         value = str(_table.item(rowNo,9).text())
                         tagger.setFirstLyrics(value)
+                        changingTags[-1] += {"FirstLyrics" : value}
                         Records.add(str(translate("AmarokMusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo]["FirstLyrics"]), value)
                         _table.changedValueNumber += 1
                     tagger.update()
@@ -146,6 +156,7 @@ class Content():
         Universals.finishThreadAction()
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
         from Amarok import Operations
+        Operations.changeTags(changingTags)
         Operations.changePaths(pathValues)
         return True
 

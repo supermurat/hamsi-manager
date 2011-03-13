@@ -19,7 +19,7 @@
 
 import Variables
 import Universals
-from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInputQueries
+from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
 
 class BookmarksOfDirectories:
     global fetchAll, fetch, checkValues, insert, update, delete
@@ -55,7 +55,7 @@ class BookmarksOfDirectories:
             allForFetch = None
             con = getDefaultConnection()
             cur = con.cursor()
-            sqlQueries = getAmendedSQLInputQueries(tableName, {"bookmark" : "'" + correctForSql(_bookmark) + "'", "value" : "'" + correctForSql(_value) + "'", "type" : "'" + correctForSql(_type) + "'"}, ["value"])
+            sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'" + correctForSql(_bookmark) + "'", "value" : "'" + correctForSql(_value) + "'", "type" : "'" + correctForSql(_type) + "'"}, ["value"])
             cur.execute(sqlQueries[0])
             cur.execute(sqlQueries[1])
             con.commit()
@@ -88,9 +88,9 @@ class BookmarksOfDirectories:
         
     def getDefaultsQueries():
         sqlQueries = []
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "'Home'", "value" : "'"+Variables.userDirectoryPath+"'", "type" : "''"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "'MNT'", "value" : "'/mnt'", "type" : "''"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "'MEDIA'", "value" : "'/media'", "type" : "''"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'Home'", "value" : "'"+Variables.userDirectoryPath+"'", "type" : "''"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'MNT'", "value" : "'/mnt'", "type" : "''"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'MEDIA'", "value" : "'/media'", "type" : "''"}, ["value"])
         return sqlQueries
         
     

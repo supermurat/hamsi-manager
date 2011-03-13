@@ -21,7 +21,7 @@ import Amarok
 from Amarok import Commands
 
 class Operations:
-    global getDirectoriesAndValues, changePaths
+    global getDirectoriesAndValues, changePaths, changeTags
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
@@ -30,12 +30,12 @@ class Operations:
             rows = Commands.getDirectoriesAndValues()
             for row in rows:
                 if row[0] not in directoriesValues:
-                    directoriesValues[row[0]] = {"coverPath" : [], "Artist" : [], "Album" : [], "Genre" : [], "Year" : []}
+                    directoriesValues[row[0]] = {"coverPath" : [], "Artist" : [], "Album" : [], "Year" : [], "Genre" : []}
                 directoriesValues[row[0]]["coverPath"].append(row[1])
                 directoriesValues[row[0]]["Artist"].append(row[2])
                 directoriesValues[row[0]]["Album"].append(row[3])
-                directoriesValues[row[0]]["Genre"].append(row[4])
-                directoriesValues[row[0]]["Year"].append(row[5])
+                directoriesValues[row[0]]["Year"].append(row[4])
+                directoriesValues[row[0]]["Genre"].append(row[5])
             return directoriesValues
         return None
         
@@ -43,6 +43,12 @@ class Operations:
         for value in _values:
             Commands.changePath(value["oldPath"], value["newPath"])
         
+    def changeTags(_values):
+        for value in _values:
+            Commands.changeTag(value)
+            
+            
+            
             
             
             

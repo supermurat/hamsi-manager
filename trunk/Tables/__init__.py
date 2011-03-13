@@ -152,18 +152,15 @@ class Tables(MTableWidget):
                 import AmarokCoverTable
                 self.SubTable = AmarokCoverTable.AmarokCoverTable(self)
             else:
-                #FIXME: Complate this feature
                 Universals.tableType = 1
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==6:
-#            import Taggers, Amarok
-#            if Taggers.getTagger(True)!=None and Amarok.checkAmarok():
-#                import AmarokMusicTable
-#                self.SubTable = AmarokMusicTable.AmarokMusicTable(self)
-#            else:
-                Dialogs.show("This feature not completed/tested. Please wait for this feature. We will open file table now.")
-                #FIXME: Complate this feature
+            import Taggers, Amarok
+            if Taggers.getTagger(True)!=None and Amarok.checkAmarok(True,  False):
+                import AmarokMusicTable
+                self.SubTable = AmarokMusicTable.AmarokMusicTable(self)
+            else:
                 Universals.tableType = 1
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)

@@ -19,7 +19,7 @@
 
 import Variables
 import Universals
-from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInputQueries
+from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
 
 class BookmarksOfSpecialTools:
     global fetchAll, fetchAllByType, fetch, checkValues, insert, update, delete
@@ -80,7 +80,7 @@ class BookmarksOfSpecialTools:
             allForFetch, allForFetchByType[_type] = None, None
             con = getDefaultConnection()
             cur = con.cursor()
-            sqlQueries = getAmendedSQLInputQueries(tableName, {"bookmark" : "'" + correctForSql(_bookmark) + "'", "value" : "'" + correctForSql(_value) + "'", "type" : "'" + correctForSql(_type) + "'"}, ["value"])
+            sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'" + correctForSql(_bookmark) + "'", "value" : "'" + correctForSql(_value) + "'", "type" : "'" + correctForSql(_type) + "'"}, ["value"])
             cur.execute(sqlQueries[0])
             cur.execute(sqlQueries[1])
             con.commit()
@@ -117,26 +117,26 @@ class BookmarksOfSpecialTools:
         
     def getDefaultsQueries():
         sqlQueries = []
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Artist - Title ;right;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Track No - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Album , Directory  ;left;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Title  ;right;102'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Title , File Name  ;right;102'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Year , Album  ;right;102'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Lyrics , Artist - Title  ;right;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Album - Title , File Name  ;left;124'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Directory - File Name , Directory  ;left;113'", "type" : "'file'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File Name  ;right;102'", "type" : "'file'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Directory  ;right;102'", "type" : "'file'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File/Directory Name  ;right;102'", "type" : "'directory'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'File/Directory Name , Directory  ;right;102'", "type" : "'directory'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File Name  ;right;102'", "type" : "'subfolder'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Directory  ;right;102'", "type" : "'subfolder'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Directory Name , Directory  ;right;102'", "type" : "'cover'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Source Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Destination Cover , Source Cover  ;right;102'", "type" : "'cover'"}, ["value"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"bookmark" : "''", "value" : "'Destination Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Artist - Title ;right;113'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Track No - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Album , Directory  ;left;113'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Title  ;right;102'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Title , File Name  ;right;102'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Year , Album  ;right;102'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Lyrics , Artist - Title  ;right;113'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Album - Title , File Name  ;left;124'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory - File Name , Directory  ;left;113'", "type" : "'file'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File Name  ;right;102'", "type" : "'file'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Directory  ;right;102'", "type" : "'file'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File/Directory Name  ;right;102'", "type" : "'directory'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File/Directory Name , Directory  ;right;102'", "type" : "'directory'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File Name  ;right;102'", "type" : "'subfolder'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Directory  ;right;102'", "type" : "'subfolder'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory Name , Directory  ;right;102'", "type" : "'cover'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Source Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Destination Cover , Source Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Destination Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
         return sqlQueries
         
         

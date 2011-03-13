@@ -26,7 +26,7 @@ import Universals
 from Databases import *
     
 class Databases:
-    global defaultConnection, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, correctForSql, getAmendedSQLInputQueries, checkDatabases
+    global defaultConnection, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, correctForSql, getAmendedSQLInsertOrUpdateQueries, checkDatabases, getAmendedSQLSelectOrInsertAndSelectQueries
     defaultConnection = None
         
     def getDefaultConnection():
@@ -52,7 +52,7 @@ class Databases:
                 if _actionType=="dropAndInsert":
                     sqlCommands.append(database.getDeleteTableQuery())
                 sqlCommands += database.getDefaultsQueries()
-                tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
+                tableInsertImportantQueries += getAmendedSQLInsertOrUpdateQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
         con = getDefaultConnection()
         for sqlCommand in tableCreateQueries:
             cur = con.cursor()
@@ -70,7 +70,7 @@ class Databases:
     def correctForSql(_string):
         return str(_string).replace("'", "''")
     
-    def getAmendedSQLInputQueries(_table, _columnNamesAndValues, _primaryColumns):
+    def getAmendedSQLInsertOrUpdateQueries(_table, _columnNamesAndValues, _primaryColumns):
         sqlString0 = "INSERT INTO " + _table + "("
         sqlString1 = ") SELECT "
         sqlString2 = " WHERE (SELECT COUNT(*) FROM " + _table + " WHERE "
@@ -94,6 +94,26 @@ class Databases:
                 j +=1
             i +=1
         return [sqlString0 + sqlString1 + sqlString2 + ")=0;" , sqlString3 + sqlString4 + ";"]
+    
+    def getAmendedSQLSelectOrInsertAndSelectQueries(_table, _selectedColumn, _columnNamesAndValues):
+        sqlString0 = "SELECT " + _selectedColumn + " FROM " + _table + " WHERE " 
+        sqlString1 = "INSERT INTO " + _table + "("
+        sqlString2 = ") VALUES ("
+        sqlString3 = ") ON DUPLICATE KEY UPDATE " 
+        j = 0
+        for key, value in _columnNamesAndValues.items():
+            if j>0:
+                sqlString1 += ","
+                sqlString2 += ","
+            sqlString1 += key
+            sqlString2 += str(value)
+            if j>0:
+                sqlString0 += " AND "
+                sqlString3 += " , "
+            sqlString0 += key + "=" + str(value)
+            sqlString3 += key + "=" + key
+            j +=1
+        return sqlString1 + sqlString2 + sqlString3 + ";" + sqlString0
         
     def checkDatabases():
         try:
@@ -111,7 +131,7 @@ class Databases:
                 if tableVersion<database.tableVersion:
                     tableCreateQueries.append(database.getTableCreateQuery())
                     sqlCommands += database.getDefaultsQueries()
-                    tableInsertImportantQueries += getAmendedSQLInputQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
+                    tableInsertImportantQueries += getAmendedSQLInsertOrUpdateQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
                     
             for sqlCommand in tableCreateQueries:
                 cur = con.cursor()
