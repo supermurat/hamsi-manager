@@ -20,7 +20,7 @@
 import Variables
 import Universals
 import InputOutputs
-from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, getAmendedSQLInputQueries, checkDatabases
+from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, getAmendedSQLInsertOrUpdateQueries, checkDatabases
 from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
     
 class Settings():
@@ -308,7 +308,7 @@ class Settings():
             cur.execute("SELECT bookmark,value FROM bookmarksOfDirectories")
             for row in cur.fetchall():
                 cur = conNewDB.cursor()
-                sqlCommands = getAmendedSQLInputQueries("bookmarksOfDirectories", {"bookmark" : "'" + row[0] + "'", "value" : "'" + row[1] + "'"}, ["value"])
+                sqlCommands = getAmendedSQLInsertOrUpdateQueries("bookmarksOfDirectories", {"bookmark" : "'" + row[0] + "'", "value" : "'" + row[1] + "'"}, ["value"])
                 for sqlCommand in sqlCommands:
                     cur.execute(str(sqlCommand))
                 conNewDB.commit()
@@ -317,7 +317,7 @@ class Settings():
             cur.execute("SELECT bookmark,value,label FROM bookmarksOfSpecialTools")
             for row in cur.fetchall():
                 cur = conNewDB.cursor()
-                sqlCommands = getAmendedSQLInputQueries("bookmarksOfSpecialTools", {"bookmark" : "'" + row[0] + "'", "value" : "'" + row[1] + "'", "type" : "'" + row[2] + "'"}, ["value"])
+                sqlCommands = getAmendedSQLInsertOrUpdateQueries("bookmarksOfSpecialTools", {"bookmark" : "'" + row[0] + "'", "value" : "'" + row[1] + "'", "type" : "'" + row[2] + "'"}, ["value"])
                 for sqlCommand in sqlCommands:
                     cur.execute(str(sqlCommand))
                 conNewDB.commit()
@@ -326,7 +326,7 @@ class Settings():
             cur.execute("SELECT searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp FROM searchAndReplaceTable")
             for row in cur.fetchall():
                 cur = conNewDB.cursor()
-                sqlCommands = getAmendedSQLInputQueries("searchAndReplaceTable", {"searching" : "'" + row[0] + "'", "replacing" : "'" + row[1] + "'", "intIsActive" : str(row[2]), "intIsCaseSensitive" : str(row[3]), "intIsRegExp" : str(row[4])}, ["searching", "replacing"])
+                sqlCommands = getAmendedSQLInsertOrUpdateQueries("searchAndReplaceTable", {"searching" : "'" + row[0] + "'", "replacing" : "'" + row[1] + "'", "intIsActive" : str(row[2]), "intIsCaseSensitive" : str(row[3]), "intIsRegExp" : str(row[4])}, ["searching", "replacing"])
                 for sqlCommand in sqlCommands:
                     cur.execute(str(sqlCommand))
                 conNewDB.commit()

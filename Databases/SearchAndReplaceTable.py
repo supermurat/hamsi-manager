@@ -19,7 +19,7 @@
 
 import Variables
 import Universals
-from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInputQueries
+from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
 
 class SearchAndReplaceTable:
     global fetchAll, fetch, checkValues, insert, update, delete
@@ -55,7 +55,7 @@ class SearchAndReplaceTable:
             allForFetch = None
             con = getDefaultConnection()
             cur = con.cursor()
-            sqlQueries = getAmendedSQLInputQueries(tableName, {"searching" : "'" + correctForSql(_searching) + "'", "replacing" : "'" + correctForSql(_replacing) + "'", "intIsActive" : correctForSql(_intIsActive), "intIsCaseSensitive" : correctForSql(_intIsCaseSensitive), "intIsRegExp" : correctForSql(_intIsRegExp)}, ["searching"])
+            sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"searching" : "'" + correctForSql(_searching) + "'", "replacing" : "'" + correctForSql(_replacing) + "'", "intIsActive" : correctForSql(_intIsActive), "intIsCaseSensitive" : correctForSql(_intIsCaseSensitive), "intIsRegExp" : correctForSql(_intIsRegExp)}, ["searching"])
             cur.execute(sqlQueries[0])
             cur.execute(sqlQueries[1])
             con.commit()
@@ -88,8 +88,8 @@ class SearchAndReplaceTable:
         
     def getDefaultsQueries():
         sqlQueries = []
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"searching" : "'http://'", "replacing" : "''", "intIsActive" : "1", "intIsCaseSensitive" : "1", "intIsRegExp" : "0"}, ["searching"])
-        sqlQueries += getAmendedSQLInputQueries(tableName, {"searching" : "'www'", "replacing" : "''", "intIsActive" : "1", "intIsCaseSensitive" : "1", "intIsRegExp" : "0"}, ["searching"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"searching" : "'http://'", "replacing" : "''", "intIsActive" : "1", "intIsCaseSensitive" : "1", "intIsRegExp" : "0"}, ["searching"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"searching" : "'www'", "replacing" : "''", "intIsActive" : "1", "intIsCaseSensitive" : "1", "intIsRegExp" : "0"}, ["searching"])
         return sqlQueries
         
     

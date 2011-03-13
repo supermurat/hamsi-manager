@@ -18,53 +18,161 @@
 
 from urllib import unquote, quote
 import Amarok
+import Databases
 
 class Commands:
-    global getDirectoriesAndValues, changePath, getDevices
+    global getDirectoriesAndValues, changePath, getDevices, changeTag, getOrSetArtist, getOrSetAlbum, getOrSetYear, getOrSetGenre, getAllMusicFileValues, getMusicFileValues
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
         db.query("""
 SELECT DISTINCT (
-REPLACE(
-CONCAT(
-CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-THEN `devices`.`lastmountpoint`
-ELSE ''
-END , SUBSTRING( `urls`.`rpath` , 2 ))
-,
-CONCAT("/", SUBSTRING_INDEX(
-CONCAT(
-CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-THEN `devices`.`lastmountpoint`
-ELSE ''
-END , SUBSTRING( `urls`.`rpath` , 2 ))
-, "/" , -1))
-, "")
+    REPLACE(
+        CONCAT(
+            CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                THEN `devices`.`lastmountpoint`
+            ELSE 
+                ''
+            END, 
+            SUBSTRING( `urls`.`rpath` , 2 )
+        ),
+        CONCAT("/", 
+            SUBSTRING_INDEX(
+                CONCAT(
+                    CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                        THEN `devices`.`lastmountpoint`
+                    ELSE 
+                        ''
+                    END, 
+                    SUBSTRING( `urls`.`rpath` , 2 )
+                ), 
+                "/" , -1)
+        )
+    , "")
 ) AS 'dirPath', `images`.`path` AS 'coverPath', 
 `artists`.`name` as 'Artist', 
 `albums`.`name` as 'Album', 
-`genres`.`name` as 'Genre', 
-`years`.`name` as 'Year'
+`years`.`name` as 'Year', 
+`genres`.`name` as 'Genre'
 FROM `tracks`
 LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
 LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
-LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
-LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
 LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
+LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
+LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
+LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
 LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
 WHERE `images`.`path` IS NOT NULL and `images`.`id` NOT IN (SELECT `id` FROM `images` WHERE path not like '/%') 
-order by 'realPath'
+order by 'dirPath'
 """)
         r = db.store_result()
         return r.fetch_row(0)
+    
+    def getAllMusicFileValues():
+        db = Amarok.checkAndGetDB()
+        db.query("""
+SELECT (
+    REPLACE(
+        CONCAT(
+            CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                THEN `devices`.`lastmountpoint`
+            ELSE 
+                ''
+            END, 
+            SUBSTRING( `urls`.`rpath` , 2 )
+        ),
+        CONCAT("/", 
+                CONCAT(
+                    CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                        THEN `devices`.`lastmountpoint`
+                    ELSE 
+                        ''
+                    END, 
+                    SUBSTRING( `urls`.`rpath` , 2 )
+                )
+        )
+    , "")
+) AS 'filePath', 
+`tracks`.`title` as 'Title', 
+`tracks`.`artist` as 'Artist', 
+`tracks`.`album` as 'Album', 
+`tracks`.`year` as 'Year', 
+`tracks`.`genre` as 'Genre'
+FROM `tracks`
+LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
+""")
+        r = db.store_result()
+        return r.fetch_row(0)
+        
+    def getMusicFileValues(_path):
+        db = Amarok.checkAndGetDB()
+        db.query("""
+SELECT * FROM (
+    SELECT `tracks`.`id` as 'id', (
+        REPLACE(
+            CONCAT(
+                CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                    THEN `devices`.`lastmountpoint`
+                ELSE 
+                    ''
+                END, 
+                SUBSTRING( `urls`.`rpath` , 2 )
+            ),
+            CONCAT("/", 
+                    CONCAT(
+                        CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                            THEN `devices`.`lastmountpoint`
+                        ELSE 
+                            ''
+                        END, 
+                        SUBSTRING( `urls`.`rpath` , 2 )
+                    )
+            )
+        , "")
+    ) AS 'filePath', 
+    `tracks`.`title` as 'Title', 
+    `tracks`.`artist` as 'Artist', 
+    `tracks`.`album` as 'Album', 
+    `tracks`.`year` as 'Year', 
+    `tracks`.`genre` as 'Genre'
+    FROM `tracks`
+    LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+    LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
+) as valueTable WHERE filePath = '%s'
+""" % _path)
+        r = db.store_result()
+        return r.fetch_row(0)[0]
         
     def getDevices():
         db = Amarok.checkAndGetDB()
         db.query("SELECT id,lastmountpoint FROM devices")
         r = db.store_result()
         return r.fetch_row(0)
+        
+    def getOrSetArtist(_artist):
+        db = Amarok.checkAndGetDB()
+        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("artists", "id", {"name" : "'" + _artist + "'"}))
+        r = db.store_result()
+        return r.fetch_row(0)[0][0]
+        
+    def getOrSetAlbum(_album, _artistId):
+        db = Amarok.checkAndGetDB()
+        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("albums", "id", {"name" : "'" + _album + "'", "artist" : "'" + _artistId + "'"}))
+        r = db.store_result()
+        return r.fetch_row(0)[0][0]
+        
+    def getOrSetYear(_year):
+        db = Amarok.checkAndGetDB()
+        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("years", "id", {"name" : "'" + _year + "'"}))
+        r = db.store_result()
+        return r.fetch_row(0)[0][0]
+        
+    def getOrSetGenre(_genre):
+        db = Amarok.checkAndGetDB()
+        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("genres", "id", {"name" : "'" + _genre + "'"}))
+        r = db.store_result()
+        return r.fetch_row(0)[0][0]
     
     def changePath(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
@@ -97,7 +205,36 @@ order by 'realPath'
         db.commit()
         return True
         
-            
-            
+    def changeTag(_values):
+        #FIXME: complate this 
+        pass
+        sqlQuery = ""
+        if len(_values)>1:
+            db = Amarok.checkAndGetDB()
+            path = _values["path"]
+            oldValues = getMusicFileValues(path)
+            trackId, artistId, albumId, yearId, genreId = oldValues[0], oldValues[3], oldValues[4], oldValues[5], oldValues[6]
+            if "Artist" in _values:
+                artistId = getOrSetArtist(_values["Artist"])
+            if "Title" in _values:
+                pass
+            if "Album" in _values:
+                albumId = getOrSetAlbum(_values["Album"], artistId)
+            if "TrackNum" in _values:
+                pass
+            if "Year" in _values:
+                yearId = getOrSetYear(_values["Year"])
+            if "Genre" in _values:
+                genreId = getOrSetGenre(_values["Genre"])
+            if "FirstComment" in _values:
+                pass
+            if "FirstLyrics" in _values:
+                pass
+            db.commit()
+        return True
+        
+        
+        
+        
             
 
