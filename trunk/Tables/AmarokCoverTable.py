@@ -59,10 +59,10 @@ class Content():
                                     content["currentCover"] = (currentCover)
                                     content["sourceCover"] = (dirRow["coverPath"][0].replace(dirPath, "."))
                                     content["destinationCover"] = ("./" + Organizer.getIconName(
-                                                            dirRow["Artist"][0], 
-                                                            dirRow["Album"][0], 
-                                                            dirRow["Genre"][0], 
-                                                            dirRow["Year"][0]))
+                                                            dirRow["artist"][0], 
+                                                            dirRow["album"][0], 
+                                                            dirRow["genre"][0], 
+                                                            dirRow["year"][0]))
                                     content["flagColor"] = {}
                                     if isCorrectedFileContent==False:
                                         content["flagColor"]["currentCover"] = 255,163,163

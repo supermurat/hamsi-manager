@@ -41,19 +41,19 @@ class Musics:
             content["path"] = _filePath
             content["baseNameOfDirectory"] = InputOutputs.getBaseName(_directoryPath)
             content["baseName"] = InputOutputs.getBaseName(_filePath)
-            content["Artist"] = tagger.getArtist()
-            content["Title"] = tagger.getTitle()
-            content["Album"] = tagger.getAlbum()
-            content["TrackNum"] = tagger.getTrackNum()
-            content["Year"] = tagger.getYear()
-            content["Genre"] = tagger.getGenre()
-            content["FirstComment"] = tagger.getFirstComment()
-            content["FirstLyrics"] = tagger.getFirstLyrics()
-            content["Size"] = tagger.getSize()
-            content["PlayTimeString"] = tagger.getPlayTimeString()
-            content["SampleFreq"] = tagger.getSampleFreq()
-            content["BitRateString"] = tagger.getBitRateString()
-            content["Images"] = tagger.getImages()
+            content["artist"] = tagger.getArtist()
+            content["title"] = tagger.getTitle()
+            content["album"] = tagger.getAlbum()
+            content["trackNum"] = tagger.getTrackNum()
+            content["year"] = tagger.getYear()
+            content["genre"] = tagger.getGenre()
+            content["firstComment"] = tagger.getFirstComment()
+            content["firstLyrics"] = tagger.getFirstLyrics()
+            content["size"] = tagger.getSize()
+            content["playTimeString"] = tagger.getPlayTimeString()
+            content["sampleFreq"] = tagger.getSampleFreq()
+            content["bitRateString"] = tagger.getBitRateString()
+            content["images"] = tagger.getImages()
             if isCanNoncompatible == True:
                 Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
                     translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
@@ -66,22 +66,22 @@ class Musics:
             tagger = Taggers.getTagger()
             tagger.loadFileForWrite(_oldMusicTagsValues["path"])
             if _isImageAction==False:
-                if _newMusicTagsValues["Artist"]!=_oldMusicTagsValues["Artist"]:
-                    tagger.setArtist(str(_newMusicTagsValues["Artist"]))
-                if _newMusicTagsValues["Title"]!=_oldMusicTagsValues["Title"]:
-                    tagger.setTitle(str(_newMusicTagsValues["Title"]))
-                if _newMusicTagsValues["Album"]!=_oldMusicTagsValues["Album"]:
-                    tagger.setAlbum(str(_newMusicTagsValues["Album"]))
-                if _newMusicTagsValues["TrackNum"]!=_oldMusicTagsValues["TrackNum"]:
-                    tagger.setTrackNum(int(_newMusicTagsValues["TrackNum"]))
-                if _newMusicTagsValues["Year"]!=_oldMusicTagsValues["Year"]:
-                    tagger.setDate(str(_newMusicTagsValues["Year"]))
-                if _newMusicTagsValues["Genre"]!=_oldMusicTagsValues["Genre"]:
-                    tagger.setGenre(str(_newMusicTagsValues["Genre"]))
-                if _newMusicTagsValues["FirstComment"]!=_oldMusicTagsValues["FirstComment"]:
-                    tagger.setFirstComment(str(_newMusicTagsValues["FirstComment"]))
-                if _newMusicTagsValues["FirstLyrics"]!=_oldMusicTagsValues["FirstLyrics"]:
-                    tagger.setFirstLyrics(str(_newMusicTagsValues["FirstLyrics"]))
+                if _newMusicTagsValues["artist"]!=_oldMusicTagsValues["artist"]:
+                    tagger.setArtist(str(_newMusicTagsValues["artist"]))
+                if _newMusicTagsValues["title"]!=_oldMusicTagsValues["title"]:
+                    tagger.setTitle(str(_newMusicTagsValues["title"]))
+                if _newMusicTagsValues["album"]!=_oldMusicTagsValues["album"]:
+                    tagger.setAlbum(str(_newMusicTagsValues["album"]))
+                if _newMusicTagsValues["trackNum"]!=_oldMusicTagsValues["trackNum"]:
+                    tagger.setTrackNum(int(_newMusicTagsValues["trackNum"]))
+                if _newMusicTagsValues["year"]!=_oldMusicTagsValues["year"]:
+                    tagger.setDate(str(_newMusicTagsValues["year"]))
+                if _newMusicTagsValues["genre"]!=_oldMusicTagsValues["genre"]:
+                    tagger.setGenre(str(_newMusicTagsValues["genre"]))
+                if _newMusicTagsValues["firstComment"]!=_oldMusicTagsValues["firstComment"]:
+                    tagger.setFirstComment(str(_newMusicTagsValues["firstComment"]))
+                if _newMusicTagsValues["firstLyrics"]!=_oldMusicTagsValues["firstLyrics"]:
+                    tagger.setFirstLyrics(str(_newMusicTagsValues["firstLyrics"]))
                 tagger.update()
                 if _newMusicTagsValues["baseNameOfDirectory"]!=_oldMusicTagsValues["baseNameOfDirectory"]:
                     baseNameOfDirectory = str(_newMusicTagsValues["baseNameOfDirectory"])

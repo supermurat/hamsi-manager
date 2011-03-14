@@ -49,14 +49,14 @@ class Content():
                     content["path"] = _directoryPath + "/" + musicName
                     content["baseNameOfDirectory"] = baseNameOfDirectory
                     content["baseName"] = musicName
-                    content["Artist"] = tagger.getArtist()
-                    content["Title"] = tagger.getTitle()
-                    content["Album"] = tagger.getAlbum()
-                    content["TrackNum"] = tagger.getTrackNum()
-                    content["Year"] = tagger.getYear()
-                    content["Genre"] = tagger.getGenre()
-                    content["FirstComment"] = tagger.getFirstComment()
-                    content["FirstLyrics"] = tagger.getFirstLyrics()
+                    content["artist"] = tagger.getArtist()
+                    content["title"] = tagger.getTitle()
+                    content["album"] = tagger.getAlbum()
+                    content["trackNum"] = tagger.getTrackNum()
+                    content["year"] = tagger.getYear()
+                    content["genre"] = tagger.getGenre()
+                    content["firstComment"] = tagger.getFirstComment()
+                    content["firstLyrics"] = tagger.getFirstLyrics()
                     currentTableContentValues.append(content)
             else:
                 allItemNumber = musicNo+1
@@ -88,53 +88,53 @@ class Content():
                     baseName = str(_table.currentTableContentValues[rowNo]["baseName"])
                     tagger = Taggers.getTagger()
                     tagger.loadFileForWrite(_table.currentTableContentValues[rowNo]["path"])
-                    if _table.isChangableItem(rowNo, 2, _table.currentTableContentValues[rowNo]["Artist"]):
+                    if _table.isChangableItem(rowNo, 2, _table.currentTableContentValues[rowNo]["artist"]):
                         value = str(_table.item(rowNo,2).text())
                         tagger.setArtist(value)
-                        changingTags[-1] += {"Artist" : value}
-                        Records.add(str(translate("AmarokMusicTable", "Artist")), str(_table.currentTableContentValues[rowNo]["Artist"]), value)
+                        changingTags[-1]["artist"] = value
+                        Records.add(str(translate("AmarokMusicTable", "Artist")), str(_table.currentTableContentValues[rowNo]["artist"]), value)
                         _table.changedValueNumber += 1
-                    if _table.isChangableItem(rowNo, 3, _table.currentTableContentValues[rowNo]["Title"]):
+                    if _table.isChangableItem(rowNo, 3, _table.currentTableContentValues[rowNo]["title"]):
                         value = str(_table.item(rowNo,3).text())
                         tagger.setTitle(value)
-                        changingTags[-1] += {"Title" : value}
-                        Records.add(str(translate("AmarokMusicTable", "Title")), str(_table.currentTableContentValues[rowNo]["Title"]), value)
+                        changingTags[-1]["title"] = value
+                        Records.add(str(translate("AmarokMusicTable", "Title")), str(_table.currentTableContentValues[rowNo]["title"]), value)
                         _table.changedValueNumber += 1
-                    if _table.isChangableItem(rowNo, 4, _table.currentTableContentValues[rowNo]["Album"]):
+                    if _table.isChangableItem(rowNo, 4, _table.currentTableContentValues[rowNo]["album"]):
                         value = str(_table.item(rowNo,4).text())
                         tagger.setAlbum(value)
-                        changingTags[-1] += {"Album" : value}
-                        Records.add(str(translate("AmarokMusicTable", "Album")), str(_table.currentTableContentValues[rowNo]["Album"]), value)
+                        changingTags[-1]["album"] = value
+                        Records.add(str(translate("AmarokMusicTable", "Album")), str(_table.currentTableContentValues[rowNo]["album"]), value)
                         _table.changedValueNumber += 1
-                    if _table.isChangableItem(rowNo, 5, _table.currentTableContentValues[rowNo]["TrackNum"]):
+                    if _table.isChangableItem(rowNo, 5, _table.currentTableContentValues[rowNo]["trackNum"]):
                         value = str(_table.item(rowNo,5).text())
                         tagger.setTrackNum(value, len(_table.currentTableContentValues))
-                        changingTags[-1] += {"TrackNum" : value}
-                        Records.add(str(translate("AmarokMusicTable", "Track No")), str(_table.currentTableContentValues[rowNo]["TrackNum"]), value)
+                        changingTags[-1]["trackNum"] = value
+                        Records.add(str(translate("AmarokMusicTable", "Track No")), str(_table.currentTableContentValues[rowNo]["trackNum"]), value)
                         _table.changedValueNumber += 1
-                    if _table.isChangableItem(rowNo, 6, _table.currentTableContentValues[rowNo]["Year"]):
+                    if _table.isChangableItem(rowNo, 6, _table.currentTableContentValues[rowNo]["year"]):
                         value = str(_table.item(rowNo,6).text())
                         tagger.setDate(value)
-                        changingTags[-1] += {"Year" : value}
-                        Records.add(str(translate("AmarokMusicTable", "Year")), str(_table.currentTableContentValues[rowNo]["Year"]), value)
+                        changingTags[-1]["year"] = value
+                        Records.add(str(translate("AmarokMusicTable", "Year")), str(_table.currentTableContentValues[rowNo]["year"]), value)
                         _table.changedValueNumber += 1
-                    if _table.isChangableItem(rowNo, 7, _table.currentTableContentValues[rowNo]["Genre"]):
+                    if _table.isChangableItem(rowNo, 7, _table.currentTableContentValues[rowNo]["genre"]):
                         value = str(_table.item(rowNo,7).text())
                         tagger.setGenre(value)
-                        changingTags[-1] += {"Genre" : value}
-                        Records.add(str(translate("AmarokMusicTable", "Genre")), str(_table.currentTableContentValues[rowNo]["Genre"]), value)
+                        changingTags[-1]["genre"] = value
+                        Records.add(str(translate("AmarokMusicTable", "Genre")), str(_table.currentTableContentValues[rowNo]["genre"]), value)
                         _table.changedValueNumber += 1
-                    if _table.isChangableItem(rowNo, 8, _table.currentTableContentValues[rowNo]["FirstComment"]):
+                    if _table.isChangableItem(rowNo, 8, _table.currentTableContentValues[rowNo]["firstComment"]):
                         value = str(_table.item(rowNo,8).text())
                         tagger.setFirstComment(value)
-                        changingTags[-1] += {"FirstComment" : value}
-                        Records.add(str(translate("AmarokMusicTable", "Comment")), str(_table.currentTableContentValues[rowNo]["FirstComment"]), value)
+                        changingTags[-1]["firstComment"] = value
+                        Records.add(str(translate("AmarokMusicTable", "Comment")), str(_table.currentTableContentValues[rowNo]["firstComment"]), value)
                         _table.changedValueNumber += 1
-                    if len(_table.tableColumns)>9 and _table.isChangableItem(rowNo, 9, _table.currentTableContentValues[rowNo]["FirstLyrics"]):
+                    if len(_table.tableColumns)>9 and _table.isChangableItem(rowNo, 9, _table.currentTableContentValues[rowNo]["firstLyrics"]):
                         value = str(_table.item(rowNo,9).text())
                         tagger.setFirstLyrics(value)
-                        changingTags[-1] += {"FirstLyrics" : value}
-                        Records.add(str(translate("AmarokMusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo]["FirstLyrics"]), value)
+                        changingTags[-1]["firstLyrics"] = value
+                        Records.add(str(translate("AmarokMusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo]["firstLyrics"]), value)
                         _table.changedValueNumber += 1
                     tagger.update()
                     if _table.isChangableItem(rowNo, 0, baseNameOfDirectory):
@@ -230,33 +230,33 @@ class AmarokMusicTable():
                     newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseName"], "file")
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseName"])
                 elif itemNo==2:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["Artist"])
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["Artist"])
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["artist"])
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["artist"])
                 elif itemNo==3:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["Title"])
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["Title"])
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["title"])
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["title"])
                 elif itemNo==4:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["Album"])
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["Album"])
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["album"])
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["album"])
                 elif itemNo==5:
-                    newString_temp = str(self.Table.currentTableContentValues[rowNo]["TrackNum"]).split("/")
+                    newString_temp = str(self.Table.currentTableContentValues[rowNo]["trackNum"]).split("/")
                     if newString_temp[0]=="None":
                         newString_temp[0]=str(rowNo+1)
                     newString = newString_temp[0]
                     newString += "/"+str(len(self.Table.currentTableContentValues))
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["TrackNum"])
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["trackNum"])
                 elif itemNo==6:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["Year"])
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["Year"])
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["year"])
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["year"])
                 elif itemNo==7:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["Genre"])
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["Genre"])
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["genre"])
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["genre"])
                 elif itemNo==8:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["FirstComment"])
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["FirstComment"])
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["firstComment"])
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["firstComment"])
                 elif itemNo==9:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["FirstLyrics"])
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["FirstLyrics"])
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["firstLyrics"])
+                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["firstLyrics"])
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
                         
