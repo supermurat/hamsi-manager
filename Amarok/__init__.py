@@ -31,8 +31,8 @@ import Settings
 isLoadedMysql = False
 isCheckAgain = True
 try:
-    import MySQLdb as mdb
-    #import _mysql as mdb
+    #import MySQLdb as mdb
+    import _mysql as mdb
     isLoadedMysql = True
 except:pass
 MyDialog, MyDialogType, MyParent = getMyDialog()

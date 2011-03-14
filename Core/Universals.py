@@ -40,7 +40,7 @@ class Universals():
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
-    tableTypesNames = ["0", "1", "2", "3", "4", "5"]
+    tableTypesNames = ["0", "1", "2", "3", "4", "5", "6"]
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
     pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
@@ -219,7 +219,8 @@ class Universals():
                             translate("Tables", "Music Table"), 
                             translate("Tables", "Subfolder Table"), 
                             translate("Tables", "Cover Table"), 
-                            translate("Tables", "Amarok Cover Table")#, translate("Tables", "Amarok Music Table")
+                            translate("Tables", "Amarok Cover Table"), 
+                            translate("Tables", "Amarok Music Table")
                             ]
         iconNameFormatLabels = [translate("Universals", "%Artist%"), 
                             translate("Universals", "%Album%"), 
@@ -228,7 +229,7 @@ class Universals():
         from InputOutputs import IA #For first import
             
     def clearAllChilds(_object, _isClearThis=False):
-        from MyObjects import MWidget, MLayout
+        from MyObjects import MWidget, MLayout, MObject
         childs = _object.findChildren(MWidget)
         for child in childs:
             clearAllChilds(child)
@@ -236,6 +237,12 @@ class Universals():
             except:pass
             child.deleteLater()
         childs = _object.findChildren(MLayout)
+        for child in childs:
+            clearAllChilds(child)
+            try:child.hide()
+            except:pass
+            child.deleteLater()
+        childs = _object.findChildren(MObject)
         for child in childs:
             clearAllChilds(child)
             try:child.hide()

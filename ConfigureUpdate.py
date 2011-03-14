@@ -28,11 +28,17 @@ from os import listdir,path,removedirs,makedirs, rmdir, remove, rename
 if sys.path[0]=="":
     sys.path.insert(0, sys.path[1])
 sys.path.insert(0,sys.path[0]+"/Core")
-
+try: 
+    if float(sys.version[:3])<3.0: 
+        reload(sys)
+        sys.setdefaultencoding("utf-8")
+except:pass
 try:fileSystemEncoding = sys.getfilesystemencoding().lower()
 except:fileSystemEncoding = sys.getdefaultencoding().lower()
 isPython3k = float(sys.version[:3])>=3.0
 HamsiManagerApp = QApplication(sys.argv)
+QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf-8"))
+QTextCodec.setCodecForTr(QTextCodec.codecForName("utf-8"))
 
 class Update():
     global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, getRealDirName, listDir, isWritableFileOrDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree, trDecode, trEncode

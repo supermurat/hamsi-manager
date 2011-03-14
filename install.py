@@ -50,6 +50,8 @@ if RoutineChecks.checkQt4Exist():
     elif InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+defaultLangCode+".qm"):
             languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+defaultLangCode+".qm"))
     HamsiManagerApp.installTranslator(languageFile)
+    MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
+    MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
     HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
     HamsiManagerApp.setApplicationName("InstallHamsiManager")
     HamsiManagerApp.setApplicationVersion(Variables.version)

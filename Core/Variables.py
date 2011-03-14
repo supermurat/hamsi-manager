@@ -42,8 +42,7 @@ class Variables():
     mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
     imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
     windowModeKeys = ["Normal", "Mini"]
-    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png"#, "amarokMusicTable.png"
-                      ]
+    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png", "amarokMusicTable.png"]
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isRunOnDoubleClick", "isChangeSelected", 
@@ -323,7 +322,7 @@ class Variables():
                 "hiddenAmarokCoverTableColumns": ["intList", list(range(0, 2))], 
                 "isPlayNow": "bool", 
                 "MainWindowGeometries": ["intStaticListLen", 4], 
-                "tableType": ["int", list(range(0, 5))], 
+                "tableType": ["int", list(range(0, 7))], 
                 "activeTabNoOfSpecialTools": ["int", list(range(0, 5))], 
                 "unneededFiles": "list", 
                 "ignoredFiles": "list", 
@@ -637,15 +636,15 @@ class Variables():
 
         
     def checkMysqldSafe(_isAskIfNotFound=True):
-        import InputOutputs, Dialogs
+        import InputOutputs, Dialogs, Universals
         from MyObjects import translate
-        if InputOutputs.isFile(MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + MySettings["pathOfMysqldSafe"])==False:
+        if InputOutputs.isFile(Universals.MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + Universals.MySettings["pathOfMysqldSafe"])==False:
             if _isAskIfNotFound:
                 answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
                         translate("EmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
                 if answer==Dialogs.Yes: 
                     import Options
-                    Options.Options(MainWindow, _focusTo="pathOfMysqldSafe")
+                    Options.Options(Universals.MainWindow, _focusTo="pathOfMysqldSafe")
             else:
                 return False
         else:
