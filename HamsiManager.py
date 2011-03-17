@@ -160,9 +160,9 @@ if RoutineChecks.checkQt4Exist():
                             self.setObjectName("RealMainWindow")
                             myUniversals = Universals.Universals(HamsiManagerApp, self)
                             Universals.fillUIUniversals()
-                            self.CentralWidget = MWidget()
                             self.Menu = None
-                            self.MainLayout = MVBoxLayout()
+                            self.CentralWidget = MWidget()
+                            self.createMainLayout()
                             Universals.printForDevelopers("Before Bars.Bars")
                             self.Bars = Bars.Bars()
                             Universals.printForDevelopers("Before Bars.StatusBar")
@@ -178,7 +178,7 @@ if RoutineChecks.checkQt4Exist():
                             Universals.printForDevelopers("Before FileManager.FileManager")
                             self.FileManager = FileManager.FileManager(self)
                             Universals.printForDevelopers("After FileManager.FileManager")
-                            self.CentralWidget.setLayout(self.MainLayout)
+                            self.setMainLayout()
                             self.setCentralWidget(self.CentralWidget)
                             self.setMenuBar(self.Menu)
                             self.setStatusBar(self.StatusBar)
@@ -189,6 +189,19 @@ if RoutineChecks.checkQt4Exist():
                             self.setCorner(Mt.TopLeftCorner, Mt.LeftDockWidgetArea)
                             self.setCorner(Mt.BottomLeftCorner, Mt.LeftDockWidgetArea)
                             Universals.printForDevelopers("End of __init__")
+                            
+                        def createMainLayout(self):
+                            self.MainLayout = MVBoxLayout()
+                            
+                        def setMainLayout(self):
+                            self.CentralWidget.setLayout(self.MainLayout)
+                            
+                        def resetCentralWidget(self):
+                            Universals.clearAllChilds(self.CentralWidget)
+                            self.MainLayout = self.CentralWidget.layout()
+                            if self.MainLayout is None:
+                                self.createMainLayout()
+                                self.setMainLayout()
                             
                         def lockForm(self):
                             self.CentralWidget.setEnabled(False)
@@ -266,6 +279,7 @@ if RoutineChecks.checkQt4Exist():
                                     import Amarok
                                     Amarok.stopEmbeddedDB()
                                 Universals.printForDevelopers("After Save Configs")
+                                Universals.printForDevelopers("Before RoutineChecks.checkAfterCloseProccess")
                                 RoutineChecks.checkAfterCloseProccess()
                                 Universals.printForDevelopers("After RoutineChecks.checkAfterCloseProccess")
                             except:
