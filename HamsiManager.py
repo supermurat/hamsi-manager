@@ -53,9 +53,9 @@ if RoutineChecks.checkQt4Exist():
             homePage    = trForUI("hamsiapps.com")
             bugEmail    = trForUI("Murat Demir (mopened@gmail.com)")
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode):
-                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode)
+                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode, "utf-8")
             else:
-                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
+                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB", "utf-8")
             description = ki18n (trForUI(aboutFileContent))
             aboutOfHamsiManager = MAboutData (appName, Variables.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
@@ -93,9 +93,9 @@ if RoutineChecks.checkQt4Exist():
             Universals.printForDevelopers("NotActivePyKDE4")
             HamsiManagerApp = MApplication(sys.argv)  
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ Universals.MySettings["language"]):
-                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ Universals.MySettings["language"])
+                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ Universals.MySettings["language"], "utf-8")
             else:
-                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
+                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB", "utf-8")
             Variables.aboutOfHamsiManager = trForUI(aboutFileContent)
             if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+Universals.MySettings["language"]+".qm"):
                 languageFile = MTranslator()

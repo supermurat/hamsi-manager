@@ -120,16 +120,20 @@ if RoutineChecks.checkQt4Exist():
             HBox = MHBoxLayout()
             pnlPage.setLayout(HBox)
             if _pageNo==0:
-                try:f = open(Variables.HamsiManagerDirectory+"/Languages/About_"+defaultLangCode)
-                except:f = open(Variables.HamsiManagerDirectory+"/Languages/About_en_GB")
-                lblAbout = MLabel(trForUI(f.read()))
+                if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+defaultLangCode):
+                    aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+defaultLangCode, "utf-8")
+                else:
+                    aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB", "utf-8")
+                lblAbout = MLabel(trForUI(aboutFileContent))
                 lblAbout.setWordWrap(True)
                 HBox.addWidget(lblAbout)
             elif _pageNo==1:
-                try:f = open(Variables.HamsiManagerDirectory+"/Languages/License_"+defaultLangCode)
-                except:f = open(Variables.HamsiManagerDirectory+"/Languages/License_en_GB")
+                if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/License_"+defaultLangCode):
+                    lisenceFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/License_"+defaultLangCode, "utf-8")
+                else:
+                    lisenceFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/License_en_GB", "utf-8")
                 teCopying = MTextEdit()
-                teCopying.setPlainText(trForUI(f.read()))
+                teCopying.setPlainText(trForUI(lisenceFileContent))
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 VBox = MVBoxLayout()
