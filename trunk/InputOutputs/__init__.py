@@ -382,18 +382,28 @@ class InputOutputs:
                     allFilesAndDirectories.append(_path+"/"+name)
         return allFilesAndDirectories
     
-    def readFromFile(_path):
+    def readFromFile(_path, _contentEncoding = fileSystemEncoding):
         _path = str(_path)
-        try:f = open(Universals.trEncode(_path, fileSystemEncoding))
-        except:f = open(_path)
+        if Variables.isPython3k:
+            try:f = open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+            except:f = open(_path , encoding = _contentEncoding)
+        else:
+            import codecs
+            try:f = codecs.open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+            except:f = codecs.open(_path , encoding = _contentEncoding)
         info = f.read()
         f.close()
         return info
         
-    def readLinesFromFile(_path):
+    def readLinesFromFile(_path, _contentEncoding = fileSystemEncoding):
         _path = str(_path)
-        try:f = open(Universals.trEncode(_path, fileSystemEncoding))
-        except:f = open(_path)
+        if Variables.isPython3k:
+            try:f = open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+            except:f = open(_path , encoding = _contentEncoding)
+        else:
+            import codecs
+            try:f = codecs.open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+            except:f = codecs.open(_path , encoding = _contentEncoding)
         info = f.readlines()
         f.close()
         return info
