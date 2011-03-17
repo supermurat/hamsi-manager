@@ -297,8 +297,6 @@ class Bars():
     
     def refreshBars(self):
         Universals.MainWindow.Table = Tables.Tables(Universals.MainWindow)
-        try:Universals.MainWindow.removeDockWidget(Universals.MainWindow.dckSpecialTools)
-        except:pass
         Universals.MainWindow.SpecialTools = SpecialTools.SpecialTools(Universals.MainWindow)
         Universals.MainWindow.Menu.mSpecialOptions.clear()
         if Universals.tableType==2:
@@ -344,7 +342,9 @@ class Bars():
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.CoverOptionsBar)
                     Universals.MainWindow.CoverOptionsBar.deleteLater()
                     Universals.MainWindow.CoverOptionsBar = None
-                Universals.clearAllChilds(Universals.MainWindow.CentralWidget)
+                try:Universals.MainWindow.removeDockWidget(Universals.MainWindow.dckSpecialTools)
+                except:pass
+                Universals.MainWindow.resetCentralWidget()
                 Universals.tableType = selectedType
                 Universals.MainWindow.Bars.refreshBars()
                 Universals.MainWindow.FileManager.makeRefresh()

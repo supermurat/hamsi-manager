@@ -229,29 +229,14 @@ class Universals():
         from InputOutputs import IA #For first import
             
     def clearAllChilds(_object, _isClearThis=False):
-        from MyObjects import MWidget, MLayout, MObject
-        childs = _object.findChildren(MWidget)
+        childs = _object.children()
         for child in childs:
-            clearAllChilds(child)
-            try:child.hide()
-            except:pass
-            child.deleteLater()
-        childs = _object.findChildren(MLayout)
-        for child in childs:
-            clearAllChilds(child)
-            try:child.hide()
-            except:pass
-            child.deleteLater()
-        childs = _object.findChildren(MObject)
-        for child in childs:
-            clearAllChilds(child)
-            try:child.hide()
-            except:pass
-            child.deleteLater()
+            clearAllChilds(child, True)
         if _isClearThis:
-            try:_object.hide()
+            try:
+                _object.hide()
+                _object.deleteLater()
             except:pass
-            _object.deleteLater()
                             
     def startThreadAction():
         global threadActionState
