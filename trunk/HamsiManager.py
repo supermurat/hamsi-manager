@@ -137,14 +137,12 @@ if RoutineChecks.checkQt4Exist():
                     if RoutineChecks.isQuickMake:
                         res = HamsiManagerApp.exec_()
                         Universals.printForDevelopers("Shutting down, result %d" % res)
-                        sys.exit(res)
                 except:
                     import ReportBug
                     error = ReportBug.ReportBug()
                     error.show()
                     res = HamsiManagerApp.exec_()
                     Universals.printForDevelopers("Shutting down, result %d" % res)
-                    sys.exit(res)
             if RoutineChecks.isQuickMake == False:
                 Universals.printForDevelopers("NotQuickMake")
                 import SpecialTools
@@ -341,13 +339,6 @@ if RoutineChecks.checkQt4Exist():
                     print (str(MApplication.translate("ReportBug", "Thanks in advance for your interest.")))
                     print ("Shutting down, result %d" % res)
                     raise err
-                else:
-                    sys.exit(res)
-        else:
-            sys.exit()
-    else:
-        sys.exit()
-    sys.exit()
-else:
-    sys.exit()
-    
+                    
+sys.exit()
+

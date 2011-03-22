@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-03-12, 00:53:04 -->
+<!-- Saved: 2011-03-17, 23:20:23 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
   <ProgLanguage mixed="1">Python</ProgLanguage>
   <ProjectType>Qt4</ProjectType>
   <Description>Hamsi Manager</Description>
-  <Version>0.9.08</Version>
+  <Version>0.9.XX</Version>
   <Author>Murat Demir</Author>
   <Email>mopened@gmail.com</Email>
   <TranslationPattern>Languages/HamsiManager_%language%.ts</TranslationPattern>
