@@ -38,7 +38,7 @@ except:pass
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
 class Amarok:
-    global checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator
+    global checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType
     isAskEmbeddedDBConfiguration = True
     dbConnection = None
     
@@ -155,6 +155,38 @@ class Amarok:
             ReadOnlyEmbeddedDBConfigurator()
         else:
             EmbeddedDBConfigurator()
+            
+    def getTagSourceTypes():
+        from Taggers import getTaggerTypesName
+        tagSourceTypes = ["Amarok"]
+        tagSourceTypes += getTaggerTypesName()
+        return tagSourceTypes
+            
+    def getTagTargetTypes():
+        from Taggers import getTaggerTypesName
+        tagTargetTypes = ["Amarok"]
+        for tagerTypeName in getTaggerTypesName():
+            tagTargetTypes.append("Amarok + " + tagerTypeName)
+        tagTargetTypes += getTaggerTypesName()
+        return tagTargetTypes
+        
+    def getSelectedTagSourseType():
+        tagSourceTypes = getTagSourceTypes()
+        return Universals.getValue("AmarokTagSourceType", tagSourceTypes, tagSourceTypes[0])
+        
+    def getSelectedTagTargetType():
+        tagTargetTypes = getTagTargetTypes()
+        return Universals.getValue("AmarokTagTargetType", tagTargetTypes, tagTargetTypes[1])
+        
+    def setSelectedTagSourseType(_type):
+        Universals.setMySetting("AmarokTagSourceType", _type)
+        if _type!="Amarok":
+            from Taggers import setSelectedTaggerTypeName
+            setSelectedTaggerTypeName(_type)
+        
+    def setSelectedTagTargetType(_type):
+        Universals.setMySetting("AmarokTagTargetType", _type)
+        
             
 class EmbeddedDBCore():
     global configureEmbeddedDB, startEmbeddedDB, stopEmbeddedDB, getPID, isRunning, isStarted, backupEmbeddedDB, restoreEmbeddedDB, isHasEmbeddedDBBackup

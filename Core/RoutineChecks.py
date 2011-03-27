@@ -283,6 +283,8 @@ def checkWindowMode(_isCheck=False):
                     Universals.MainWindow.ToolsBar.setVisible(False)
                     if Universals.MainWindow.MusicOptionsBar!=None:
                         Universals.MainWindow.MusicOptionsBar.setVisible(False)
+                    if Universals.MainWindow.AmarokMusicOptionsBar!=None:
+                        Universals.MainWindow.AmarokMusicOptionsBar.setVisible(False)
                     if Universals.MainWindow.SubDirectoryOptionsBar!=None:
                         Universals.MainWindow.SubDirectoryOptionsBar.setVisible(False)
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:

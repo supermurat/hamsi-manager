@@ -21,7 +21,7 @@ import Amarok
 import Databases
 
 class Commands:
-    global getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues
+    global getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
@@ -108,7 +108,9 @@ SELECT `tracks`.`id`, (
 `tracks`.`artist`, 
 `tracks`.`album`, 
 `tracks`.`year`, 
-`tracks`.`genre`
+`tracks`.`genre`, 
+`tracks`.`tracknumber`, 
+`tracks`.`comment`
 FROM `tracks`
 LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
 LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
@@ -120,10 +122,87 @@ LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
             musicFileValues.append({})
             musicFileValues[-1]["id"] = row[0]
             musicFileValues[-1]["filePath"] = row[1]
-            musicFileValues[-1]["artist"] = row[2]
-            musicFileValues[-1]["album"] = row[3]
-            musicFileValues[-1]["year"] = row[4]
-            musicFileValues[-1]["genre"] = row[5]
+            musicFileValues[-1]["title"] = row[2]
+            musicFileValues[-1]["artistId"] = row[3]
+            musicFileValues[-1]["albumId"] = row[4]
+            musicFileValues[-1]["yearId"] = row[5]
+            musicFileValues[-1]["genreId"] = row[6]
+            musicFileValues[-1]["tracknumber"] = row[7]
+            musicFileValues[-1]["comment"] = row[8]
+        return musicFileValues
+        
+    def getAllMusicFileValuesWithNames():
+        db = Amarok.checkAndGetDB()
+        db.query("""
+SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
+    SELECT `tracks`.`id`, CONVERT(
+        REPLACE(
+            CONCAT(
+                CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                    THEN `devices`.`lastmountpoint`
+                ELSE 
+                    ''
+                END, 
+                SUBSTRING( `urls`.`rpath` , 2 )
+            ),
+            CONCAT("/", 
+                    CONCAT(
+                        CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                            THEN `devices`.`lastmountpoint`
+                        ELSE 
+                            ''
+                        END, 
+                        SUBSTRING( `urls`.`rpath` , 2 )
+                    )
+            )
+        , "")
+    , char(1000)) AS 'filePath', 
+    `tracks`.`title`, 
+    `tracks`.`artist`, 
+    `tracks`.`album`, 
+    `tracks`.`year`, 
+    `tracks`.`genre`, 
+    `tracks`.`tracknumber`, 
+    `tracks`.`comment`,
+    `artists`.`name` AS 'artistname',
+    `albums`.`name` AS 'albumname',
+    `albumartists`.`name` AS 'albumartistname',
+    `years`.`name` AS 'yearname',
+    `genres`.`name` AS 'genrename',
+    `images`.`path`
+    FROM `tracks`
+    LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+    LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
+    LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
+    LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
+    LEFT JOIN `artists` `albumartists` ON `albumartists`.`id` = `albums`.`artist`
+    LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
+    LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
+    LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
+) as `valueTable`
+LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
+""")
+        r = db.store_result()
+        musicFileValues = []
+        rows = r.fetch_row(0)
+        for row in rows:
+            musicFileValues.append({})
+            musicFileValues[-1]["id"] = row[0]
+            musicFileValues[-1]["filePath"] = row[1]
+            musicFileValues[-1]["title"] = row[2]
+            musicFileValues[-1]["artistId"] = row[3]
+            musicFileValues[-1]["albumId"] = row[4]
+            musicFileValues[-1]["yearId"] = row[5]
+            musicFileValues[-1]["genreId"] = row[6]
+            musicFileValues[-1]["tracknumber"] = row[7]
+            musicFileValues[-1]["comment"] = row[8]
+            musicFileValues[-1]["artist"] = row[9]
+            musicFileValues[-1]["album"] = row[10]
+            musicFileValues[-1]["albumartist"] = row[11]
+            musicFileValues[-1]["year"] = row[12]
+            musicFileValues[-1]["genre"] = row[13]
+            musicFileValues[-1]["imagePath"] = row[14]
+            musicFileValues[-1]["lyrics"] = row[15]
         return musicFileValues
         
     def getMusicFileValues(_path):
@@ -151,7 +230,7 @@ SELECT * FROM (
                     )
             )
         , "")
-    ), char(500)) AS 'filePath', 
+    ), char(1000)) AS 'filePath', 
     `tracks`.`title`, 
     `tracks`.`artist`, 
     `tracks`.`album`, 
@@ -162,7 +241,7 @@ SELECT * FROM (
     FROM `tracks`
     LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-) as valueTable WHERE filePath = '%s'
+) as `valueTable` WHERE `valueTable`.`filePath` = '%s'
 """ % _path)
         r = db.store_result()
         musicFileValues = {}
@@ -173,10 +252,10 @@ SELECT * FROM (
         musicFileValues["id"] = row[0]
         musicFileValues["filePath"] = row[1]
         musicFileValues["title"] = row[2]
-        musicFileValues["artist"] = row[3]
-        musicFileValues["album"] = row[4]
-        musicFileValues["year"] = row[5]
-        musicFileValues["genre"] = row[6]
+        musicFileValues["artistId"] = row[3]
+        musicFileValues["albumId"] = row[4]
+        musicFileValues["yearId"] = row[5]
+        musicFileValues["genreId"] = row[6]
         musicFileValues["tracknumber"] = row[7]
         musicFileValues["comment"] = row[8]
         return musicFileValues
@@ -249,7 +328,7 @@ SELECT * FROM (
             oldValues = getMusicFileValues(path)
             if oldValues is None:
                 return False
-            trackId, artistId, albumId, yearId, genreId = oldValues["id"], oldValues["artist"], oldValues["album"], oldValues["year"], oldValues["genre"]
+            trackId, artistId, albumId, yearId, genreId = oldValues["id"], oldValues["artistId"], oldValues["albumId"], oldValues["yearId"], oldValues["genreId"]
             title = oldValues["title"]
             trackNum = oldValues["tracknumber"]
             firstComment = oldValues["comment"]

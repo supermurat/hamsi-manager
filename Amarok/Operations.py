@@ -21,12 +21,18 @@ import Amarok
 from Amarok import Commands
 
 class Operations:
-    global getDirectoriesAndValues, changePaths, changeTags
+    global getDirectoriesAndValues, changePaths, changeTags, getAllMusicFileValuesWithNames
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
         if db!=None:
             return Commands.getDirectoriesAndValues()
+        return None
+        
+    def getAllMusicFileValuesWithNames():
+        db = Amarok.checkAndGetDB()
+        if db!=None:
+            return Commands.getAllMusicFileValuesWithNames()
         return None
         
     def changePaths(_values):
