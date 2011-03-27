@@ -348,7 +348,7 @@ SELECT * FROM (
                 firstComment = _values["firstComment"]
             if "firstLyrics" in _values:
                 db.query("UPDATE lyrics SET lyrics='%s' WHERE url='.%s'" % (_values["firstLyrics"], path))
-            db.query("UPDATE tracks SET artist=%s, title='%s', album=%s, tracknumber=%s, year=%s, genre=%s, firstComment='%s' WHERE id=%s" % (artistId, title, albumId, trackNum, yearId, genreId, firstComment, trackId))
+            db.query("UPDATE tracks SET artist=%s, title='%s', album=%s, tracknumber=%s, year=%s, genre=%s, comment='%s' WHERE id=%s" % (artistId, title, albumId, trackNum, yearId, genreId, firstComment, trackId))
             db.commit()
         return True
         
