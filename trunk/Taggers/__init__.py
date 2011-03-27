@@ -24,9 +24,8 @@ import Dialogs
 import ReportBug
 
 class Taggers():
-    global getTagger, getSelectedTaggerType, setSelectedTaggerType, getSelectedTaggerTypeName, setSelectedTaggerTypeName, taggersNames, selectedTaggerType, getAvailableLabelsForTable, getAvailableKeysForTable, getTaggerTypes, getTaggerTypesName, getLoaddedTagger, loaddedTagger
+    global getTagger, getSelectedTaggerType, setSelectedTaggerType, getSelectedTaggerTypeName, setSelectedTaggerTypeName, taggersNames, getAvailableLabelsForTable, getAvailableKeysForTable, getTaggerTypes, getTaggerTypesName, getLoaddedTagger, loaddedTagger
     taggersNames = []
-    selectedTaggerType = None
     loaddedTagger = None
     
     def __init__(self):
@@ -68,23 +67,19 @@ class Taggers():
         for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
             if v==_type:
                 typeName = getTaggerTypesName()[x]
-        Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerType", _type)
         if _isSetTypeName:
             setSelectedTaggerTypeName(typeName, False)
         
     def getSelectedTaggerTypeName():
-        try:
-            return Universals.MySettings[getLoaddedTagger().pluginName + "TaggerType"]
-        except:
-            return getTaggerTypesName()[0]
+        return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeName", getTaggerTypesName())
         
     def setSelectedTaggerTypeName(_typeName, _isSetType=True):
         type = getLoaddedTagger().getTaggerTypes()[0]
         for x, v in enumerate(getTaggerTypesName()):
             if _typeName==v:
                 type = getLoaddedTagger().getTaggerTypes()[x]
-        Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerType", type)
-        if _isSetTypeName:
+        Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeName", _typeName)
+        if _isSetType:
             setSelectedTaggerType(type, False)
         
     def getTaggerTypes():

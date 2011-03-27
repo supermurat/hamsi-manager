@@ -32,41 +32,63 @@ class Content():
     
     def readContents(_directoryPath):
         currentTableContentValues = []
-        musicFileNames = InputOutputs.readDirectory(_directoryPath, "music")
-        isCanNoncompatible = False
-        allItemNumber = len(musicFileNames)
         Universals.startThreadAction()
-        baseNameOfDirectory = InputOutputs.getBaseName(_directoryPath)
-        for musicNo,musicName in enumerate(musicFileNames):
+        import Amarok
+        Dialogs.showState(translate("AmarokCoverTable", "Checking For Amarok..."), 0, 2)
+        if Amarok.checkAmarok():
+            Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2)
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+musicName):
-                    tagger = Taggers.getTagger()
-                    tagger.loadFile(_directoryPath+"/"+musicName)
-                    if tagger.isAvailableFile() == False:
-                        isCanNoncompatible=True
-                    content = {}
-                    content["path"] = _directoryPath + "/" + musicName
-                    content["baseNameOfDirectory"] = baseNameOfDirectory
-                    content["baseName"] = musicName
-                    content["artist"] = tagger.getArtist()
-                    content["title"] = tagger.getTitle()
-                    content["album"] = tagger.getAlbum()
-                    content["trackNum"] = tagger.getTrackNum()
-                    content["year"] = tagger.getYear()
-                    content["genre"] = tagger.getGenre()
-                    content["firstComment"] = tagger.getFirstComment()
-                    content["firstLyrics"] = tagger.getFirstLyrics()
-                    currentTableContentValues.append(content)
-            else:
-                allItemNumber = musicNo+1
-            Dialogs.showState(translate("InputOutputs/Musics", "Reading Music Tags"),musicNo+1,allItemNumber, True)
-            if isContinueThreadAction==False:
-                break
+                from Amarok import Operations
+                musicFileValuesWithNames = Operations.getAllMusicFileValuesWithNames()
+                Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
+                isContinueThreadAction = Universals.isContinueThreadAction()
+                if isContinueThreadAction:
+                    if musicFileValuesWithNames!=None:
+                        allItemNumber = len(musicFileValuesWithNames)
+                        musicFileNo = 0
+                        for musicFileRow in musicFileValuesWithNames:
+                            isContinueThreadAction = Universals.isContinueThreadAction()
+                            if isContinueThreadAction:
+                                if Amarok.getSelectedTagSourseType()=="Amarok":
+                                    content = {}
+                                    content["path"] = musicFileRow["filePath"]
+                                    content["baseNameOfDirectory"] = InputOutputs.getBaseName(InputOutputs.getDirName(musicFileRow["filePath"]))
+                                    content["baseName"] = InputOutputs.getBaseName(musicFileRow["filePath"])
+                                    content["artist"] = musicFileRow["artist"]
+                                    content["title"] = musicFileRow["title"]
+                                    content["album"] = musicFileRow["album"]
+                                    content["trackNum"] = musicFileRow["tracknumber"]
+                                    content["year"] = musicFileRow["year"]
+                                    content["genre"] = musicFileRow["genre"]
+                                    content["firstComment"] = musicFileRow["comment"]
+                                    content["firstLyrics"] = musicFileRow["lyrics"]
+                                    currentTableContentValues.append(content)
+                                else:
+                                    if InputOutputs.IA.isFile(musicFileRow["filePath"]) and InputOutputs.IA.isReadableFileOrDir(musicFileRow["filePath"]):
+                                        tagger = Taggers.getTagger()
+                                        tagger.loadFile(musicFileRow["filePath"])
+                                        content = {}
+                                        content["path"] = musicFileRow["filePath"]
+                                        content["baseNameOfDirectory"] = InputOutputs.getBaseName(InputOutputs.getDirName(musicFileRow["filePath"]))
+                                        content["baseName"] = InputOutputs.getBaseName(musicFileRow["filePath"])
+                                        content["artist"] = tagger.getArtist()
+                                        content["title"] = tagger.getTitle()
+                                        content["album"] = tagger.getAlbum()
+                                        content["trackNum"] = tagger.getTrackNum()
+                                        content["year"] = tagger.getYear()
+                                        content["genre"] = tagger.getGenre()
+                                        content["firstComment"] = tagger.getFirstComment()
+                                        content["firstLyrics"] = tagger.getFirstLyrics()
+                                        currentTableContentValues.append(content)
+                            else:
+                                allItemNumber = musicFileNo+1
+                            Dialogs.showState(translate("InputOutputs/Covers", "Reading Music File Informations"),
+                                              musicFileNo+1,allItemNumber, True) 
+                            musicFileNo += 1
+                            if isContinueThreadAction==False:
+                                break
         Universals.finishThreadAction()
-        if isCanNoncompatible == True:
-            Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
-                translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
         return currentTableContentValues
     
     def writeContents(_table):
@@ -86,6 +108,13 @@ class Content():
                     changingTags.append({"path" : _table.currentTableContentValues[rowNo]["path"]})
                     baseNameOfDirectory = str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
                     baseName = str(_table.currentTableContentValues[rowNo]["baseName"])
+                    if Amarok.getSelectedTagTargetType().find("ID3")>-1:
+                        typeTemp = Amarok.getSelectedTagTargetType().split(" + ")
+                        if len(typeTemp)>1:
+                            taggerType = typeTemp[1]
+                        else:
+                            taggerType = typeTemp[0]
+                        Taggers.setSelectedTaggerTypeName(taggerType)
                     tagger = Taggers.getTagger()
                     tagger.loadFileForWrite(_table.currentTableContentValues[rowNo]["path"])
                     if _table.isChangableItem(rowNo, 2, _table.currentTableContentValues[rowNo]["artist"]):
@@ -136,7 +165,8 @@ class Content():
                         changingTags[-1]["firstLyrics"] = value
                         Records.add(str(translate("AmarokMusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo]["firstLyrics"]), value)
                         _table.changedValueNumber += 1
-                    tagger.update()
+                    if Amarok.getSelectedTagTargetType().find("ID3")>-1:
+                        tagger.update()
                     if _table.isChangableItem(rowNo, 0, baseNameOfDirectory):
                         baseNameOfDirectory = str(_table.item(rowNo,0).text())
                         _table.changedValueNumber += 1
@@ -156,7 +186,8 @@ class Content():
         Universals.finishThreadAction()
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
         from Amarok import Operations
-        Operations.changeTags(changingTags)
+        if Amarok.getSelectedTagTargetType().find("Amarok")>-1:
+            Operations.changeTags(changingTags)
         Operations.changePaths(pathValues)
         return True
 

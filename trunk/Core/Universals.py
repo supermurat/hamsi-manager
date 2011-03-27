@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -166,6 +166,26 @@ class Universals():
                 listString += ";"
             listString += value
         return listString
+        
+    def getValue(_key, _valueList = None, _defaultValue = ""):
+        try:
+            return MySettings[_key]
+        except:
+            import Settings
+            sets = Settings.setting()
+            MySettings[_key] = trStr(sets.value(_key, trQVariant(trForM(_defaultValue))))
+            if _valueList != None:
+                if MySettings[_key] in _valueList:
+                    return MySettings[_key]
+                else:
+                    if _defaultValue!="":
+                        MySettings[_key] = _defaultValue
+                        return MySettings[_key]
+                    else:
+                        MySettings[_key] = _valueList[0]
+                        return MySettings[_key]
+            else:
+                return MySettings[_key]
     
     def getDateValue(_key):
         return datetime.strptime(MySettings[_key], "%Y %m %d %H %M %S")
@@ -183,7 +203,7 @@ class Universals():
         from Settings import setting
         sets = setting()
         if _key==None:
-            keys = Variables.keysOfSettings
+            keys = MySettings.keys()
         else:
             keys = [_key]
         for value in keys:
