@@ -173,16 +173,16 @@ class Universals():
         except:
             import Settings
             sets = Settings.setting()
-            MySettings[_key] = trStr(sets.value(_key, trQVariant(trForM(_defaultValue))))
+            MySettings[_key] = str(trStr(sets.value(_key, trQVariant(trForM(_defaultValue)))))
             if _valueList != None:
                 if MySettings[_key] in _valueList:
                     return MySettings[_key]
                 else:
                     if _defaultValue!="":
-                        MySettings[_key] = _defaultValue
+                        MySettings[_key] = str(_defaultValue)
                         return MySettings[_key]
                     else:
-                        MySettings[_key] = _valueList[0]
+                        MySettings[_key] = str(_valueList[0])
                         return MySettings[_key]
             else:
                 return MySettings[_key]
