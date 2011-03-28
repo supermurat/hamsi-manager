@@ -28,9 +28,9 @@ class Variables():
     osName = os.name
     isPython3k = float(sys.version[:3])>=3.0
     Catalog = "HamsiManager" 
-    version = "0.9.61"
-    intversion = 961
-    settingVersion = "961"
+    version = "0.9.62"
+    intversion = 962
+    settingVersion = "962"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])
@@ -92,7 +92,7 @@ class Variables():
                   "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral", 
                   "colorSchemes", "isActiveAutoMakeIconToDirectory", 
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", 
-                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost"]
+                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -302,7 +302,8 @@ class Variables():
                 "isDontDeleteFileAndDirectory": "False", 
                 "pathOfDeletedFilesAndDirectories": userDirectoryPath + "/.HamsiApps/HamsiManager/Deleted", 
                 "isReadOnlyAmarokDB": "False", 
-                "isReadOnlyAmarokDBHost": "False"
+                "isReadOnlyAmarokDBHost": "False", 
+                "isResizeTableColumnsToContents": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -425,7 +426,8 @@ class Variables():
                 "isDontDeleteFileAndDirectory": "bool", 
                 "pathOfDeletedFilesAndDirectories": "str", 
                 "isReadOnlyAmarokDB": "bool", 
-                "isReadOnlyAmarokDBHost": "bool"
+                "isReadOnlyAmarokDBHost": "bool", 
+                "isResizeTableColumnsToContents": "bool"
                 }
 
     def getAvailablePlayers():

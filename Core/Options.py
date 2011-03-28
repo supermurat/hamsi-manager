@@ -115,6 +115,7 @@ class Options(MDialog):
     def checkVisibility(self, _showType):
         if _showType=="Normal":
             self.categories = [General(self, _showType), 
+                            Appearance(self, _showType), 
                             Correct(self, _showType), 
                             SearchAndReplace(self, _showType), 
                             ClearGeneral(self, _showType),
@@ -160,7 +161,7 @@ class Options(MDialog):
                                 "isAutoMakeIconToDirectoryWhenFileMove"]), 
                             Correct(self, _showType)]
         elif _showType=="emendDirectory":
-            self.categories = [General(self, _showType, ["priorityIconNames", "isSaveActions"]), 
+            self.categories = [General(self, _showType, ["isSaveActions"]), 
                             Correct(self, _showType),  
                             Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenMoveOrChange"]), 
@@ -171,7 +172,7 @@ class Options(MDialog):
                                 "ignoredFiles", "ignoredFileExtensions", 
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"])]
         elif _showType=="emendDirectoryWithContents":
-            self.categories = [General(self, _showType, ["priorityIconNames", "isSaveActions"]), 
+            self.categories = [General(self, _showType, ["isSaveActions"]), 
                             Correct(self, _showType),  
                             Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenMoveOrChange", 
@@ -790,9 +791,8 @@ class General(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["applicationStyle", "themeName", "colorSchemes", "isSaveActions", "maxRecordFileSize", 
-                                "isMinimumWindowMode", "updateInterval", "isShowQuickMakeWindow", 
-                                "isShowTransactionDetails", "windowMode", "language"]
+        self.keysOfSettings = ["isSaveActions", "maxRecordFileSize", 
+                                "updateInterval", "language"]
         self.tabsOfSettings = [None, None, None, None, None, 
                                 None, None, None, 
                                 None, None, None]
@@ -801,57 +801,27 @@ class General(MWidget):
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
-        self.neededRestartSettingKeys = ["language", "themeName", "windowMode"]
+        self.neededRestartSettingKeys = ["language"]
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options/General", "Application Style"),
-                    translate("Options/General", "Application Theme"), 
-                    translate("Options/General", "Color Schemes"), 
-                    translate("Options/General", "Save Actions"), 
+        self.labels = [translate("Options/General", "Save Actions"), 
                     translate("Options/General", "Record File Size"), 
-                    translate("Options/General", "Activate Minimal Window Mode"), 
                     translate("Options/General", "Update Interval (in days)"), 
-                    translate("Options/General", "Show Quick Make Dialog"),  
                     translate("Options/General", "Show Transaction Details"), 
                     translate("Options/General", "Window Mode"),  
                     translate("Options/General", "Application Language")]
-        self.toolTips = [translate("Options/General", "You can select style for Hamsi Manager."),
-                    translate("Options/General", "You can select theme for Hamsi Manager."),
-                    translate("Options/General", "You can select color schemes for Hamsi Manager."),
-                    translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
+        self.toolTips = [translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
                     translate("Options/General", "You can select record file size.(Kilobytes)"), 
-                    translate("Options/General", "You have to activate this if you want to work as little number of windows as possible."), 
                     translate("Options/General", "Which interval (in days) do you want to set to check the updates?"), 
-                    translate("Options/General", "Are you want to show quick make dialog in runed with command line or my plugins?"),
-                    translate("Options/General", "Are you want to show transaction details after save table?"), 
-                    translate("Options/General", "You can select window mode.You can select \"Mini\" section for netbook or small screen."),
                     translate("Options/General", "You can select Hamsi Manager`s language.")]
-        self.typesOfValues = [["options", 1], ["options", 4], ["options", 6], "Yes/No", ["number", 3], 
-                                "Yes/No", ["number", 2], "Yes/No", "Yes/No", ["options", 5], ["options", 0]]
-        styles = Variables.getStyles()
-        themes = Variables.getInstalledThemes()
-        schemes, schemePaths  = Variables.getColorSchemesAndPath()
-        if Universals.isActivePyKDE4==False:
-            keyNo = self.keysOfSettings.index("colorSchemes")
-            del self.keysOfSettings[keyNo]
-            del self.labels[keyNo]
-            del self.toolTips[keyNo]
-            del self.typesOfValues[keyNo]
-        self.valuesOfOptions = [Variables.getInstalledLanguagesNames(), styles, 
-                                ["1", "30"], ["10", "100000"], themes, 
-                                [translate("Options/General", "Normal"), 
-                                    translate("Options/General", "Mini")], schemes]
-        self.valuesOfOptionsKeys = [Variables.getInstalledLanguagesCodes(), styles, 
-                                ["1", "30"], ["10", "100000"], themes, 
-                                Variables.windowModeKeys, schemePaths]
+        self.typesOfValues = ["Yes/No", ["number", 2], 
+                                ["number", 1], ["options", 0]]
+        self.valuesOfOptions = [Variables.getInstalledLanguagesNames(), 
+                                ["1", "30"], ["10", "100000"]]
+        self.valuesOfOptionsKeys = [Variables.getInstalledLanguagesCodes(), 
+                                ["1", "30"], ["10", "100000"]]
         createOptions(self)
         if Universals.isActivePyKDE4==True:
             setVisibleFormItems(self, "language", False)
-        if self.visibleKeys.count("applicationStyle")>0:
-            MObject.connect(self.values[self.keysOfSettings.index("applicationStyle")], SIGNAL("currentIndexChanged(int)"), self.styleChanged)
-        if self.visibleKeys.count("colorSchemes")>0:
-            MObject.connect(self.values[self.keysOfSettings.index("colorSchemes")], SIGNAL("currentIndexChanged(int)"), self.schemeChanged)
-        if self.visibleKeys.count("windowMode")>0:
-            MObject.connect(self.values[self.keysOfSettings.index("windowMode")], SIGNAL("currentIndexChanged(int)"), self.windowModeChanged)
         if self.visibleKeys.count("isSaveActions")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isSaveActions")], SIGNAL("currentIndexChanged(int)"), self.saveActionsChanged)
             self.saveActionsChanged()
@@ -861,6 +831,68 @@ class General(MWidget):
             setEnabledFormItems(self, "maxRecordFileSize", True)
         else:
             setEnabledFormItems(self, "maxRecordFileSize", False)
+            
+
+class Appearance(MWidget):
+    def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
+        MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/Appearance", "Appearance")
+        self.labelOfCategory = translate("Options/Appearance", "You can change the appearance settings in this section.")
+        self.categoryNo = None
+        self.Panel = MVBoxLayout(self)
+        self.values, self.lblLabels = [], []
+        self.keysOfSettings = ["applicationStyle", "themeName", "colorSchemes", 
+                                "isMinimumWindowMode", "isShowQuickMakeWindow", 
+                                "isShowTransactionDetails", "windowMode", "isResizeTableColumnsToContents"]
+        self.tabsOfSettings = [None, None, None, 
+                                None, None, None, 
+                                None, None]
+        self.tabNames = []
+        if _visibleKeys==None:
+            self.visibleKeys = self.keysOfSettings
+        else:
+            self.visibleKeys = _visibleKeys
+        self.neededRestartSettingKeys = ["themeName", "windowMode"]
+        self.valuesOfOptionsKeys = []
+        self.labels = [translate("Options/Appearance", "Application Style"),
+                    translate("Options/Appearance", "Application Theme"), 
+                    translate("Options/Appearance", "Color Schemes"), 
+                    translate("Options/Appearance", "Activate Minimal Window Mode"), 
+                    translate("Options/Appearance", "Show Quick Make Dialog"),  
+                    translate("Options/Appearance", "Show Transaction Details"), 
+                    translate("Options/Appearance", "Window Mode"), 
+                    translate("Options/Appearance", "Resize Table Columns")]
+        self.toolTips = [translate("Options/Appearance", "You can select style for Hamsi Manager."),
+                    translate("Options/Appearance", "You can select theme for Hamsi Manager."),
+                    translate("Options/Appearance", "You can select color schemes for Hamsi Manager."),
+                    translate("Options/Appearance", "You have to activate this if you want to work as little number of windows as possible."), 
+                    translate("Options/Appearance", "Are you want to show quick make dialog in runed with command line or my plugins?"),
+                    translate("Options/Appearance", "Are you want to show transaction details after save table?"), 
+                    translate("Options/Appearance", "You can select window mode.You can select \"Mini\" section for netbook or small screen."),
+                    translate("Options/Appearance", "Are you want to resize table columns to contents?")]
+        self.typesOfValues = [["options", 0], ["options", 1], ["options", 3], 
+                                "Yes/No", "Yes/No", "Yes/No", ["options", 2], "Yes/No"]
+        styles = Variables.getStyles()
+        themes = Variables.getInstalledThemes()
+        schemes, schemePaths  = Variables.getColorSchemesAndPath()
+        if Universals.isActivePyKDE4==False:
+            keyNo = self.keysOfSettings.index("colorSchemes")
+            del self.keysOfSettings[keyNo]
+            del self.labels[keyNo]
+            del self.toolTips[keyNo]
+            del self.typesOfValues[keyNo]
+        self.valuesOfOptions = [styles, themes, 
+                                [translate("Options/Appearance", "Normal"), 
+                                    translate("Options/Appearance", "Mini")], schemes]
+        self.valuesOfOptionsKeys = [styles, themes, 
+                                Variables.windowModeKeys, schemePaths]
+        createOptions(self)
+        if self.visibleKeys.count("applicationStyle")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("applicationStyle")], SIGNAL("currentIndexChanged(int)"), self.styleChanged)
+        if self.visibleKeys.count("colorSchemes")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("colorSchemes")], SIGNAL("currentIndexChanged(int)"), self.schemeChanged)
+        if self.visibleKeys.count("windowMode")>0:
+            MObject.connect(self.values[self.keysOfSettings.index("windowMode")], SIGNAL("currentIndexChanged(int)"), self.windowModeChanged)
     
     def styleChanged(self, _value):
         MApplication.setStyle(self.values[self.keysOfSettings.index("applicationStyle")].currentText())
@@ -877,7 +909,8 @@ class General(MWidget):
         
     def windowModeChanged(self, _value):
         Universals.setMySetting("isShowWindowModeSuggestion", True)
-
+        
+        
 class Correct(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
         MWidget.__init__(self, _parent)

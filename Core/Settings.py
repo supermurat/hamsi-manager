@@ -340,5 +340,7 @@ class Settings():
         if oldVersion<961:
             newSettingsKeys = newSettingsKeys + ["colorSchemes", "isActiveAutoMakeIconToDirectory", 
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]
+        if oldVersion<962:
+            newSettingsKeys = newSettingsKeys + ["isResizeTableColumnsToContents"]
         return newSettingsKeys, changedDefaultValuesKeys
         
