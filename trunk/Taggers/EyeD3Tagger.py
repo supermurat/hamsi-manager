@@ -69,7 +69,13 @@ class Tagger():
     def isAvailableFile(self):
         return eyeD3.isMp3File(self.filePath)
         
-    def getValuesForMusicTagType(self, _value):
+    def getCorrectedValues(self, _value):
+        if _value == None or _value == "None" or _value == "None/None":
+            return ""
+        return _value
+        
+    def getCorrectedValuesForMusicTagType(self, _value):
+        _value = self.getCorrectedValues(_value)
         if Taggers.getSelectedTaggerType()==eyeD3.ID3_V1:
             return Universals.trEncode(Universals.trUnicode(_value), "latin1")
         else:
@@ -95,44 +101,44 @@ class Tagger():
             self.tag.setTextEncoding(eyeD3.frames.UTF_8_ENCODING)
         
     def getArtist(self):
-        try:return self.getValuesForMusicTagType(str(self.tag.getArtist()))
-        except:return "None"
+        try:return self.getCorrectedValuesForMusicTagType(str(self.tag.getArtist()))
+        except:return ""
         
     def getTitle(self):
-        try:return self.getValuesForMusicTagType(str(self.tag.getTitle()))
-        except:return "None"
+        try:return self.getCorrectedValuesForMusicTagType(str(self.tag.getTitle()))
+        except:return ""
         
     def getAlbum(self):
-        try:return self.getValuesForMusicTagType(str(self.tag.getAlbum()))
-        except:return "None"
+        try:return self.getCorrectedValuesForMusicTagType(str(self.tag.getAlbum()))
+        except:return ""
         
     def getTrackNum(self):
         try:
             if Taggers.getSelectedTaggerType()==eyeD3.ID3_V2:
-                return str(str(self.tag.getTrackNum()[0])+"/"+str(self.tag.getTrackNum()[1]))
+                return self.getCorrectedValues(str(self.tag.getTrackNum()[0])+"/"+str(self.tag.getTrackNum()[1]))
             else:
-                return str(self.tag.getTrackNum()[0])
-        except:return "None"
+                return self.getCorrectedValues(self.tag.getTrackNum()[0])
+        except:return ""
         
     def getYear(self):
-        try:return str(self.tag.getYear())
-        except:return "None"
+        try:return self.getCorrectedValues(self.tag.getYear())
+        except:return ""
         
     def getGenre(self):
-        try:return self.getValuesForMusicTagType(str(self.tag.getGenre()))
-        except:return "None"
+        try:return self.getCorrectedValuesForMusicTagType(str(self.tag.getGenre()))
+        except:return ""
         
     def getFirstComment(self):
-        try:return self.getValuesForMusicTagType(str(self.tag.getComment()))
-        except:return "None"
+        try:return self.getCorrectedValuesForMusicTagType(str(self.tag.getComment()))
+        except:return ""
         
     def getFirstLyrics(self):
         try:
             if len(self.tag.getLyrics())>0:
-                return self.getValuesForMusicTagType(str(self.tag.getLyrics()[0].lyrics))
+                return self.getCorrectedValuesForMusicTagType(str(self.tag.getLyrics()[0].lyrics))
             else:
-                return "None"
-        except:return "None"
+                return ""
+        except:return ""
         
     def getImages(self):
         try:
@@ -212,26 +218,26 @@ class Tagger():
     def getSize(self):
         if self.Mp3AudioFile!=None:
             try:return str(self.Mp3AudioFile.getSize())
-            except:return "None"
-        return "None"
+            except:return ""
+        return ""
         
     def getPlayTimeString(self):
         if self.Mp3AudioFile!=None:
             try:return str(self.Mp3AudioFile.getPlayTimeString())
-            except:return "None"
-        return "None"
+            except:return ""
+        return ""
         
     def getSampleFreq(self):
         if self.Mp3AudioFile!=None:
             try:return str(self.Mp3AudioFile.getSampleFreq())
-            except:return "None"
-        return "None"
+            except:return ""
+        return ""
         
     def getBitRateString(self):
         if self.Mp3AudioFile!=None:
             try:return str(self.Mp3AudioFile.getBitRateString())
-            except:return "None"
-        return "None"
+            except:return ""
+        return ""
         
     def getImageTypes():
         return ["Other (Default)","Icon","Other Icon","Front Cover","Back Cover","Leaflet","Media",

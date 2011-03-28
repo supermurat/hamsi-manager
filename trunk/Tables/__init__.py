@@ -384,6 +384,8 @@ class Tables(MTableWidget):
             if self.isRowHidden(rowNo):
                 self.showRow(rowNo)
         self.refreshShowedAndHiddenColumns()
+        if Universals.getBoolValue("isResizeTableColumnsToContents"):
+            self.resizeColumnsToContents()
         
     def itemChanged(self, _item):
         global isShowChanges
