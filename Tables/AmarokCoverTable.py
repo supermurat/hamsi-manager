@@ -157,10 +157,9 @@ class AmarokCoverTable():
         CoverDetails.CoverDetails(coverValues, self.Table.isOpenDetailsOnNewWindow.isChecked(), _infoNo)
         
     def cellClicked(self,_row,_column):
-        for row_no in range(self.Table.rowCount()):
-            self.Table.setRowHeight(row_no,30)
-        if len(self.Table.currentItem().text())*8>self.Table.columnWidth(_column):
-            self.Table.setColumnWidth(_column,len(self.Table.currentItem().text())*8)
+        cellLenght = len(self.Table.currentItem().text())*8
+        if cellLenght>self.Table.columnWidth(_column):
+            self.Table.setColumnWidth(_column,cellLenght)
     
     def cellDoubleClicked(self,_row,_column):
         try:
@@ -180,6 +179,7 @@ class AmarokCoverTable():
         self.Table.tableColumnsKey=["Directory", "Directory Name", "Current Cover", "Source Cover", "Destination Cover"]
         
     def save(self):
+        self.Table.checkFileExtensions(4, 3)
         return writeContents(self.Table)
         
     def refresh(self, _path):

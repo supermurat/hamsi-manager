@@ -364,9 +364,9 @@ class Options(MDialog):
             toolTips += self.defaultValues[_keyValue]
         elif _typeOfValue=="Yes/No":
             if eval(self.defaultValues[_keyValue].title())==True:
-                toolTips += str(translate("Options", "Yes"))
+                toolTips += str(translate("Dialogs", "Yes"))
             else:
-                toolTips += str(translate("Options", "No"))
+                toolTips += str(translate("Dialogs", "No"))
         elif _typeOfValue=="file":
             toolTips += self.defaultValues[_keyValue]
         elif _typeOfValue=="directory":
@@ -594,7 +594,7 @@ class Options(MDialog):
                 elif _category.typesOfValues[x]=="Yes/No":
                     typeOfValue = "Yes/No"
                     _category.values.append(MComboBox())
-                    _category.values[x].addItems([translate("Options", "No"),translate("Options", "Yes")])
+                    _category.values[x].addItems([translate("Dialogs", "No"),translate("Dialogs", "Yes")])
                     if Universals.getBoolValue(keyValue):
                         _category.values[x].setCurrentIndex(1)
                 elif _category.typesOfValues[x][0]=="file":
