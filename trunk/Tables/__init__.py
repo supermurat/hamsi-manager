@@ -27,8 +27,8 @@ from MyObjects import *
 import ReportBug
 
 class Tables(MTableWidget):
-    global clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, exportValues, askHiddenColumn
-    isAskShowHiddenColumn = True
+    global clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, exportValues, askHiddenColumn, isAskIncorrectFileExtension
+    isAskShowHiddenColumn, isAskIncorrectFileExtension = True, True
     def __init__(self, _parent):
         global layouts,widgets
         MTableWidget.__init__(self, _parent)
@@ -361,10 +361,10 @@ class Tables(MTableWidget):
         self.refreshShowedAndHiddenColumns()
         
     def refresh(self, _path = ""):
-        global isShowChanges, isAskShowHiddenColumn
+        global isShowChanges, isAskShowHiddenColumn, isAskIncorrectFileExtension
         if _path=="":
             _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
-        isAskShowHiddenColumn = True
+        isAskShowHiddenColumn, isAskIncorrectFileExtension = True, True
         isShowChanges=False
         self.clear()
         self.setColumnCount(len(self.tableColumns))
@@ -485,27 +485,63 @@ class Tables(MTableWidget):
             elif answer==Dialogs.Cancel:
                 return False
         return True
+        
+    def checkFileExtensions(self, _columnNo, _fileNameKeyOrDestinationColumnNo):
+        global isAskIncorrectFileExtension
+        destinationParameterType = "fileNameKey"
+        if type(_fileNameKeyOrDestinationColumnNo)==type(0):
+            destinationParameterType = "destinationColumnNo"
+        isYesToAll, isNoToAll=False, False
+        for rowNo in range(self.rowCount()):
+            if destinationParameterType == "fileNameKey":
+                sFileExt = InputOutputs.getFileExtension(self.currentTableContentValues[rowNo][_fileNameKey])
+                sFilePath = self.currentTableContentValues[rowNo]["path"]
+            else:
+                sFileExt = InputOutputs.getFileExtension(str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text()))
+                sFilePath = str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text())
+            cFileName = str(self.item(rowNo,_columnNo).text())
+            if sFileExt!="":
+                if InputOutputs.getFileExtension(cFileName)!=sFileExt:
+                    if isYesToAll:
+                        answer = Dialogs.Yes
+                    elif isNoToAll:
+                        answer = Dialogs.No
+                    else:
+                        answer = Dialogs.askSpecial(translate("Tables", "Incorrect File Extension"), 
+                                str(translate("Tables", "\"%s\": the file extension is different from the source file extension.<br>Do you want to set the source file extension?<br><b>Source File:</b>\"%s\"")) % (cFileName, sFilePath), 
+                                translate("Dialogs", "Yes"), 
+                                translate("Dialogs", "No"), 
+                                translate("Dialogs", "Yes To All"), 
+                                translate("Dialogs", "No To All"))
+                    if answer==translate("Dialogs", "Yes To All"):
+                        isYesToAll=True
+                        answer = Dialogs.Yes
+                    elif answer==translate("Dialogs", "No To All"):
+                        isNoToAll=True
+                        answer = Dialogs.No
+                    if answer==Dialogs.Yes or answer==translate("Dialogs", "Yes"):
+                        self.item(rowNo,_columnNo).setText(trForUI(cFileName + "." + sFileExt))
 
     def askHiddenColumn(_columnNo, _isYesToAll=True):
-        global isChangeHiddenColumn,isAskShowHiddenColumn
+        global isChangeHiddenColumn, isAskShowHiddenColumn
         if _isYesToAll==False:
             isAskShowHiddenColumn = True
         if isAskShowHiddenColumn:
             if _isYesToAll==True:
                 answer = Dialogs.askSpecial(translate("Tables", "Hidden Field"), 
                                 str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (Universals.MainWindow.Table.tableColumns[_columnNo]), 
-                                translate("Tables", "Yes"), 
-                                translate("Tables", "No"), 
-                                translate("Tables", "Yes To All"))  
+                                translate("Dialogs", "Yes"), 
+                                translate("Dialogs", "No"), 
+                                translate("Dialogs", "Yes To All"))  
             else:
                 answer = Dialogs.ask(translate("Tables", "Hidden Field"), 
                                 str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (Universals.MainWindow.Table.tableColumns[_columnNo]))   
-            if answer==Dialogs.No or answer==translate("Tables", "No"):
+            if answer==Dialogs.No or answer==translate("Dialogs", "No"):
                 isChangeHiddenColumn=False
                 Dialogs.showError(translate("Tables", "Action Cancelled"), 
                                 translate("Tables", "You have cancelled the action.<br>You can make the necessary changes and reperform the action."))
                 return False
-            elif answer==translate("Tables", "Yes To All"):
+            elif answer==translate("Dialogs", "Yes To All"):
                 isAskShowHiddenColumn=False
         Universals.MainWindow.Table.mContextMenuColumnsActions[_columnNo].setChecked(True)
         self.refreshShowedAndHiddenColumns()
@@ -515,7 +551,7 @@ class Tables(MTableWidget):
         if Universals.MainWindow.Table.isColumnHidden(_columnNo)==True:
             return askHiddenColumn(_columnNo, _isYesToAll)
         return True
-     
+        
     def exportValues(_actionType="return",_formatType="html", _extInfo="no"):
         import os
         info = ""

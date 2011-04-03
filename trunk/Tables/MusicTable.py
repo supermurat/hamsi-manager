@@ -172,15 +172,14 @@ class MusicTable():
                                       self.Table.isOpenDetailsOnNewWindow.isChecked(), self.isPlayNow.isChecked())
     
     def cellClicked(self,_row,_column):
-        for row_no in range(self.Table.rowCount()):
-            self.Table.setRowHeight(row_no,30)
-        if len(self.Table.currentItem().text())*8>self.Table.columnWidth(_column):
-            self.Table.setColumnWidth(_column,len(self.Table.currentItem().text())*8)
-        self.Table.setColumnWidth(8,100)
-        self.Table.setColumnWidth(9,100)
+        cellLenght = len(self.Table.currentItem().text())*8
+        if cellLenght > self.Table.columnWidth(_column):
+            self.Table.setColumnWidth(_column,cellLenght)
         if _column==8 or _column==9:
-            self.Table.setRowHeight(_row,150)
-            self.Table.setColumnWidth(_column,250)
+            if self.Table.rowHeight(_row)<150:
+                self.Table.setRowHeight(_row,150)
+            if self.Table.columnWidth(_column)<250:
+                self.Table.setColumnWidth(_column,250)
         
     def cellDoubleClicked(self,_row,_column):
         try:
@@ -199,6 +198,7 @@ class MusicTable():
         self.Table.tableColumnsKey = Taggers.getAvailableKeysForTable()
         
     def save(self):
+        self.Table.checkFileExtensions(1, "baseName")
         MusicDetails.closeAllMusicDialogs()
         return writeContents(self.Table)
         

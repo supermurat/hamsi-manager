@@ -101,10 +101,9 @@ class SubFolderTable():
         TextDetails.TextDetails(self.Table.currentTableContentValues[_fileNo]["path"],self.Table.isOpenDetailsOnNewWindow.isChecked())
         
     def cellClicked(self,_row,_column):
-        for row_no in range(self.Table.rowCount()):
-            self.Table.setRowHeight(row_no,30)
-        if len(self.Table.currentItem().text())*8>self.Table.columnWidth(_column):
-            self.Table.setColumnWidth(_column,len(self.Table.currentItem().text())*8)
+        cellLenght = len(self.Table.currentItem().text())*8
+        if cellLenght>self.Table.columnWidth(_column):
+            self.Table.setColumnWidth(_column,cellLenght)
     
     def cellDoubleClicked(self,_row,_column):
         try:
@@ -121,6 +120,7 @@ class SubFolderTable():
         self.Table.tableColumnsKey=["Directory", "File Name"]
         
     def save(self):
+        self.Table.checkFileExtensions(1, "baseName")
         return writeContents(self.Table)
         
     def refresh(self, _path):
