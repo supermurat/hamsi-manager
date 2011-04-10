@@ -269,6 +269,9 @@ class Bars():
                 elif actionName==translate("ToolsBar", "Clear"):
                     from Tools import Cleaner
                     Cleaner.Cleaner(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                elif actionName==translate("ToolsBar", "Text Corrector"):
+                    from Tools import TextCorrector
+                    TextCorrector.TextCorrector(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 elif actionName==translate("ToolsBar", "File Tree"):
                     from Tools import FileTreeBuilder
                     FileTreeBuilder.FileTreeBuilder(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
@@ -516,6 +519,10 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Clear"),self)
         self.actClear.setObjectName(translate("ToolsBar", "Clear"))
         self.actClear.setToolTip(translate("ToolsBar", "Clears the current folder."))
+        self.actTextCorrector = MAction(MIcon("Images:textCorrector.png"),
+                                                translate("ToolsBar", "Text Corrector"),self)
+        self.actTextCorrector.setObjectName(translate("ToolsBar", "Text Corrector"))
+        self.actTextCorrector.setToolTip(translate("ToolsBar", "Corrects text files."))
         self.actRemoveOnlySubFiles = MAction(MIcon("Images:removeOnlySubFiles.png"),
                                                 translate("ToolsBar", "Remove Sub Files"),self)
         self.actRemoveOnlySubFiles.setObjectName(translate("ToolsBar", "Remove Sub Files"))
@@ -539,6 +546,7 @@ class ToolsBar(MToolBar):
         self.addAction(self.actPack)
         self.addAction(self.actFileTree)
         self.addAction(self.actClear)
+        self.addAction(self.actTextCorrector)
         self.addAction(self.actRunCommand)
         if Universals.getBoolValue("isSaveActions"):
             self.addAction(self.actLastActions)
@@ -558,6 +566,7 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actPack)
         Universals.MainWindow.Menu.mTools.addAction(self.actFileTree)
         Universals.MainWindow.Menu.mTools.addAction(self.actClear)
+        Universals.MainWindow.Menu.mTools.addAction(self.actTextCorrector)
         Universals.MainWindow.Menu.mTools.addAction(self.actRunCommand)
         if Universals.getBoolValue("isSaveActions"):
             Universals.MainWindow.Menu.mTools.addAction(self.actLastActions)

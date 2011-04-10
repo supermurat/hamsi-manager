@@ -83,6 +83,10 @@ class QuickMake():
                 isShowQuickMakeWindow = False
                 makeThisAction = self.quickMakeWindow.clear
                 actionName = translate("QuickMake", "Clear It Now")
+            elif QuickMakeParameters[0]=="textCorrector":
+                isShowQuickMakeWindow = False
+                makeThisAction = self.quickMakeWindow.textCorrector
+                actionName = translate("QuickMake", "Text Corrector")
             else:
                 isCorrectCommand = False
             if isCorrectCommand:
@@ -371,3 +375,14 @@ class QuickMakeWindow(MyDialog):
             self.error = ReportBug.ReportBug()
             self.error.show()     
     
+    def textCorrector(self):
+        try:
+            if self.checkSource(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), "file"):
+                from Tools import TextCorrector
+                self.newDialog = TextCorrector.TextCorrector(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))
+        except:
+            self.error = ReportBug.ReportBug()
+            self.error.show()    
+            
+            
+        

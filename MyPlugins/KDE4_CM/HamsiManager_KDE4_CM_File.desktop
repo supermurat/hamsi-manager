@@ -3,7 +3,7 @@ Type=Service
 ServiceTypes=KonqPopupMenu/Plugin,all/allfiles
 ExcludeServiceTypes=kdedevice/*
 Encoding=UTF-8
-Actions=emend;hash
+Actions=emend;hash;textCorrector
 X-KDE-Priority=TopLevel
 X-KDE-Submenu=&Hamsi Manager
 X-KDE-Submenu[tr]=&Hamsi Manager
@@ -22,3 +22,10 @@ Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
 Name=Hash Digest
 Name[tr]=Doğrulama Özeti
 Name[pt_BR]=Resumo Do Hash
+
+[Desktop Action textCorrector]
+Exec=python '~InstallationDirectory~/HamsiManager.py' --qm --textCorrector %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Correct Content
+Name[tr]=İçeriği Düzelt
+
