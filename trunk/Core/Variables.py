@@ -129,11 +129,10 @@ class Variables():
         from encodings import aliases
         if defaultFileSystemEncoding=="iso-8859-1": 
             defaultFileSystemEncoding = "latin-1"
+        if _isSetUTF8:
+            defaultFileSystemEncoding = "utf-8"
         if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.items()].count(defaultFileSystemEncoding)==0:
-            if _isSetUTF8:
-                defaultFileSystemEncoding = "utf-8"
-            else:
-                defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
+            defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
         
     def isAvailablePyKDE4():
         try:

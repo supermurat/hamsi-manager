@@ -120,6 +120,9 @@ the Free Software Foundation; either version 2 of the License, or
     qmgroup.add_option('--clear',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    qmgroup.add_option('--textCorrector',
+                      help='The file path. '
+                      'Example : /home/yourname/someFile')
     dgroup = OptionGroup(parser, "Dangerous Options",
                     "Caution: use these options at your own risk.  "
                     "It is believed that some of them bite.")
@@ -208,6 +211,10 @@ the Free Software Foundation; either version 2 of the License, or
         elif options.clear:
             QuickMakeParameters.append("clear")
             QuickMakeParameters.append(options.clear)
+            isQuickMake = True
+        elif options.textCorrector:
+            QuickMakeParameters.append("textCorrector")
+            QuickMakeParameters.append(options.textCorrector)
             isQuickMake = True
     if options.runAsRoot:
         import Execute

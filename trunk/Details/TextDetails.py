@@ -19,13 +19,11 @@
 
 import Variables
 import InputOutputs
-import os,sys
 from MyObjects import *
 import Dialogs
 import Organizer
 import Universals
 import ReportBug
-import Settings
 
 class TextDetails(MDialog):
     global textDialogs, closeAllTextDialogs
@@ -91,8 +89,8 @@ class TextDetails(MDialog):
             MainWindow.FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
-        self.fileValues = InputOutputs.IA.readTextFile(_filePath)
-        self.setWindowTitle(trForUI(InputOutputs.IA.getBaseName(self.fileValues["path"])))    
+        self.fileValues = InputOutputs.readTextFile(_filePath, Universals.MySettings["fileSystemEncoding"])
+        self.setWindowTitle(trForUI(InputOutputs.getBaseName(self.fileValues["path"])))    
         if self.pnlClearable != None:
             Universals.clearAllChilds(self.pnlClearable, True)
         self.pnlClearable = MWidget()
@@ -105,15 +103,28 @@ class TextDetails(MDialog):
         self.infoValues["path"] = MLineEdit(trForUI(dirPath + "/" + Organizer.emend(baseName, "file")))
         self.infoValues["content"] = MPlainTextEdit(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
         self.infoValues["content"].setLineWrapMode(MPlainTextEdit.NoWrap)
+        self.sourceCharSet = MComboBox()
+        self.sourceCharSet.addItems(Variables.getCharSets())
+        self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(Universals.MySettings["fileSystemEncoding"]))
+        MObject.connect(self.sourceCharSet, SIGNAL("currentIndexChanged(int)"), self.sourceCharSetChanged)
         HBOXs = []
         HBOXs.append(MHBoxLayout())
         HBOXs[-1].addWidget(self.infoLabels["path"])
         HBOXs[-1].addWidget(self.infoValues["path"])
+        HBOXs[-1].addWidget(self.sourceCharSet)
         for hbox in HBOXs:
             vblClearable.addLayout(hbox)
         vblClearable.addWidget(self.infoLabels["content"])
         vblClearable.addWidget(self.infoValues["content"])
         
+    def sourceCharSetChanged(self):
+        try:
+            self.fileValues = InputOutputs.readTextFile(self.fileValues["path"], str(self.sourceCharSet.currentText()))
+            self.infoValues["content"].setPlainText(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
+        except:
+            Dialogs.showError(translate("TextDetails", "Incorrect File Encoding"), 
+                        str(translate("TextDetails", "File can not decode by \"%s\" codec.<br>Please select another file encoding type.")
+                            )% trForUI(self.sourceCharSet.currentText()))
     
     def closeAllTextDialogs():
         for dialog in textDialogs:
@@ -130,7 +141,7 @@ class TextDetails(MDialog):
             newFileValues = {}
             newFileValues["path"] = str(self.infoValues["path"].text())
             newFileValues["content"] = str(self.infoValues["content"].toPlainText())
-            newPath = InputOutputs.IA.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
+            newPath = InputOutputs.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
             if newPath!=self.fileValues["path"]:
                 self.changeFile(newPath)
             from Universals import MainWindow

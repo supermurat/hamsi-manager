@@ -449,10 +449,10 @@ class InputOutputs:
         f.close()
         Records.add("Added", _path)
     
-    def readTextFile(_path):
+    def readTextFile(_path, _contentEncoding = fileSystemEncoding):
         fileDetails = {}
         fileDetails["path"] = _path
-        fileDetails["content"] = readFromFile(_path)
+        fileDetails["content"] = readFromFile(_path, _contentEncoding)
         #return [getDirName(_path), getBaseName(_path), readFromFile(_path)]  
         return fileDetails
         
