@@ -83,7 +83,7 @@ class TextCorrector(MyDialog):
             if Universals.isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
-                self.setLayout(vblMain)
+                self.setLayout(self.vblMain)
         elif MyDialogType=="MMainWindow":
             self.setCentralWidget(pnlMain)
             moveToCenter(self)
