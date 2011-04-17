@@ -29,9 +29,10 @@ QuickMakeParameters = []
 parser =None
 
 def checkParameters():
-    global isQuickMake, QuickMakeParameters, myArgvs, parser
+    global isQuickMake, QuickMakeParameters, myArgvs, parser, optionList
     myArgvs = sys.argv
     isDontRun = False
+    optionList = []
     parser = OptionParser(
     usage="%prog [options] [<arg1>...]", version="HamsiManager " + Variables.version, 
 
@@ -44,19 +45,27 @@ the Free Software Foundation; either version 2 of the License, or
     parser.add_option('-d', '--debug', help='Enable debugging output. '
                       'Chatty', action='store_const', const=logging.DEBUG,
                       dest='loggingLevel')
+    optionList.append("d")
+    optionList.append("debug")
     parser.add_option('-v', '--verbose', help='Enable informative output',
                       action='store_const', const=logging.INFO,
                       dest='loggingLevel')
+    optionList.append("v")
+    optionList.append("verbose")
     parser.add_option('--directory',
                       help='The current directory path. '
                       'Example : /home/yourname/someDirectory ')
+    optionList.append("directory <directory>")
     parser.add_option('-s', '--sFileName',
                       help='The setting file name(or path). '
                       '"The settings directory path" + "SettingFiles/" + "YourEnteredName" '
                       'Example : enteredName.ini ')
+    optionList.append("s <settingFile>")
+    optionList.append("sFileName <settingFile>")
     parser.add_option('--sDirectoryPath',
                       help='The settings directory path. '
                       'Example : /home/yourname/.HamsiApps/HamsiManager ')
+    optionList.append("sDirectoryPath <settingDirectory>")
     parser.add_option('-t', '--tableType',
                       help='Table Type Name. '
                       'Example : "0" for Folder Table '
@@ -64,72 +73,95 @@ the Free Software Foundation; either version 2 of the License, or
                       'Example : "2" for Music Table '
                       'Example : "3" for Subfolder Table '
                       'Example : "4" for Cover Table ')
+    optionList.append("t <tableTypeNo>")
+    optionList.append("tableType <tableTypeNo>")
     parser.add_option('-f', '--fileReNamerType',
                       help='File Renamer Type. '
                       'Example : "Personal Computer" '
                       'Example : "Web Server" '
                       'Example : "Removable Media" ')
+    optionList.append("f <fileReNamerTypeNo>")
+    optionList.append("fileReNamerType <fileReNamerTypeNo>")
     parser.add_option('--PyKDE4',
                       help='Are you want to activate PyKDE4. '
                       'Example : "1" or "True" for Yes '
                       'Example : "0" or "False" for No ')
+    optionList.append("PyKDE4 <o>")
     qmgroup = OptionGroup(parser, "Quick Make Options",
                     "You can make quickly what are you want.")
     qmgroup.add_option('--qmw',
                       help='Are you want to show Quick Make Window. '
                       'Example : "1" or "True" for Yes '
                       'Example : "0" or "False" for No ')
+    optionList.append("qmw <o>")
     qmgroup.add_option('--qm', help='Are you want to run Quick Make by some parametres?', 
                       action='store_const', const=True)
+    optionList.append("qm")
     qmgroup.add_option('--pack',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("pack <directory>")
     qmgroup.add_option('--hash',
                       help='The file path. '
                       'Example : /home/yourname/someFile')
+    optionList.append("hash <file>")
     qmgroup.add_option('--checkIcon',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("checkIcon <directory>")
     qmgroup.add_option('--clearEmptyDirectories',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("clearEmptyDirectories <directory>")
     qmgroup.add_option('--clearUnneededs',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("clearUnneededs <directory>")
     qmgroup.add_option('--clearIgnoreds',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("clearIgnoreds <directory>")
     qmgroup.add_option('--emendFile',
                       help='The file path. '
                       'Example : /home/yourname/someFile')
+    optionList.append("emendFile <file>")
     qmgroup.add_option('--emendDirectory',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("emendDirectory <directory>")
     qmgroup.add_option('--emendDirectoryWithContents',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("emendDirectoryWithContents <directory>")
     qmgroup.add_option('--copyPath',
                       help='The file/directory path. '
                       'Example : /home/yourname/somePath')
+    optionList.append("copyPath <fileOrDirectory>")
     qmgroup.add_option('--fileTree',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("fileTree <directory>")
     qmgroup.add_option('--removeOnlySubFiles',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("removeOnlySubFiles <directory>")
     qmgroup.add_option('--clear',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
+    optionList.append("clear <directory>")
     qmgroup.add_option('--textCorrector',
                       help='The file path. '
                       'Example : /home/yourname/someFile')
+    optionList.append("textCorrector <file>")
     dgroup = OptionGroup(parser, "Dangerous Options",
                     "Caution: use these options at your own risk.  "
                     "It is believed that some of them bite.")
     dgroup.add_option('--checkAndGetOldAppNameInSystem', help='Are you want to check and get old app name in system?', 
                       action='store_const', const=True)
+    optionList.append("checkAndGetOldAppNameInSystem")
     dgroup.add_option('--runAsRoot', help='Are you want to run as root?', 
                       action='store_const', const=True)
+    optionList.append("runAsRoot")
     parser.add_option_group(qmgroup)
     parser.add_option_group(dgroup)
     parser.set_defaults(loggingLevel=logging.WARNING, 
@@ -229,7 +261,6 @@ the Free Software Foundation; either version 2 of the License, or
         import OldAppName
         OldAppName.checkAndGetOldAppNameInSystem()
         isDontRun = True
-    sys.argv = []
     if isDontRun:
         return False
     return True

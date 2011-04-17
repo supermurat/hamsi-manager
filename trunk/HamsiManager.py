@@ -71,10 +71,10 @@ if RoutineChecks.checkQt4Exist():
             else:
                 aboutOfHamsiManager.addLicenseTextFile(trForM(Variables.HamsiManagerDirectory+"/Languages/License_en_GB"))
             MCmdLineArgs.init(sys.argv, aboutOfHamsiManager)
-#            options = MCmdLineOptions()
-#            for x in RoutineChecks.parser.option_list:
-#                options.add(str(x), ki18n(""))
-#            MCmdLineArgs.addCmdLineOptions(options)
+            options = MCmdLineOptions()
+            for x in RoutineChecks.optionList:
+                options.add(x, ki18n(x + " For Only PyKDE4 Requirement"))
+            MCmdLineArgs.addCmdLineOptions(options)
             HamsiManagerApp = MApplication()
             kde4LangKode = str(MGlobal.locale().language())
             if len(kde4LangKode)!=5: kde4LangKode += "_"+str(MGlobal.locale().country()).upper()

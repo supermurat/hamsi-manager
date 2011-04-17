@@ -57,6 +57,7 @@ class InputOutputs:
         
     def isAvailableName(_newPath):
         try:
+            _newPath = str(_newPath)
             t = Universals.trEncode(_newPath, fileSystemEncoding)
             return True
         except:

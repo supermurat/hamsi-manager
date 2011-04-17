@@ -494,7 +494,7 @@ class Tables(MTableWidget):
         isYesToAll, isNoToAll=False, False
         for rowNo in range(self.rowCount()):
             if destinationParameterType == "fileNameKey":
-                sFileExt = InputOutputs.getFileExtension(self.currentTableContentValues[rowNo][_fileNameKey])
+                sFileExt = InputOutputs.getFileExtension(self.currentTableContentValues[rowNo][_fileNameKeyOrDestinationColumnNo])
                 sFilePath = self.currentTableContentValues[rowNo]["path"]
             else:
                 sFileExt = InputOutputs.getFileExtension(str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text()))
