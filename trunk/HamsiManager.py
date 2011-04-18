@@ -57,6 +57,7 @@ if RoutineChecks.checkQt4Exist():
             else:
                 aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB", "utf-8")
             description = ki18n (trForUI(aboutFileContent))
+            Universals.printForDevelopers("Before MAboutData")
             aboutOfHamsiManager = MAboutData (appName, Variables.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
@@ -70,11 +71,13 @@ if RoutineChecks.checkQt4Exist():
                 aboutOfHamsiManager.addLicenseTextFile(trForM(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode))
             else:
                 aboutOfHamsiManager.addLicenseTextFile(trForM(Variables.HamsiManagerDirectory+"/Languages/License_en_GB"))
+            Universals.printForDevelopers("Before MCmdLineArgs")
             MCmdLineArgs.init(sys.argv, aboutOfHamsiManager)
             options = MCmdLineOptions()
             for x in RoutineChecks.optionList:
                 options.add(x, ki18n(x + " For Only PyKDE4 Requirement"))
             MCmdLineArgs.addCmdLineOptions(options)
+            Universals.printForDevelopers("Before MApplication")
             HamsiManagerApp = MApplication()
             kde4LangKode = str(MGlobal.locale().language())
             if len(kde4LangKode)!=5: kde4LangKode += "_"+str(MGlobal.locale().country()).upper()
@@ -105,6 +108,7 @@ if RoutineChecks.checkQt4Exist():
                 languageFile = MTranslator()
                 languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+Universals.MySettings["language"]+".qm"))
                 HamsiManagerApp.installTranslator(languageFile)
+        Universals.printForDevelopers("Before MTextCodec setCodecFor..")
         MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
         MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
         HamsiManagerApp.setApplicationName("HamsiManager")
