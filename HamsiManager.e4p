@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-04-17, 01:12:20 -->
+<!-- Saved: 2011-04-17, 19:52:32 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -99,131 +99,6 @@
     <Source>Core/Utf8Content.py</Source>
     <Source>Tools/TextCorrector.py</Source>
     <Source>build/bdist.linux-x86_64/rpm/SPECS/HamsiManager.spec</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/setup.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Details/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Details/ImageDetails.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Details/TextDetails.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Details/MusicDetails.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Details/CoverDetails.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Taggers/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Taggers/EyeD3Tagger.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/MyThread.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Records.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/SpecialTools.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/ReportBug.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/QuickMake.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/RoutineChecks.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/SuggestIdea.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Bars.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/FileManager.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/MyConfigure.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Options.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Universals.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/OldAppName.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Variables.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Dialogs.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Utf8Content.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Settings.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Execute.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/Organizer.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/MyObjects.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Core/UpdateControl.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Languages/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Amarok/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Amarok/Operations.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Amarok/Commands.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tools/Packager.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tools/RunCommand.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tools/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tools/FileTreeBuilder.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tools/Cleaner.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tools/Hasher.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tools/TextCorrector.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tables/AmarokMusicTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tables/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tables/CoverTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tables/FileTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tables/AmarokCoverTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tables/MusicTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tables/FolderTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Tables/SubFolderTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Viewers/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Viewers/MusicPlayer.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Viewers/ImageViewer.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/SearchEngines/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/SearchEngines/MusicBrainzEngine.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/InputOutputs/IA.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/InputOutputs/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/InputOutputs/Musics.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Databases/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Databases/SearchAndReplaceTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Databases/CompleterTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Databases/BookmarksOfDirectories.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/Databases/BookmarksOfSpecialTools.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILD/HamsiManager-0.9.62/MyPlugins/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Details/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Details/ImageDetails.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Details/TextDetails.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Details/MusicDetails.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Details/CoverDetails.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Taggers/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Taggers/EyeD3Tagger.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/MyThread.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Records.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/SpecialTools.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/ReportBug.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/QuickMake.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/RoutineChecks.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/SuggestIdea.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Bars.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/FileManager.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/MyConfigure.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Options.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Universals.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/OldAppName.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Variables.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Dialogs.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Utf8Content.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Settings.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Execute.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/Organizer.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/MyObjects.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Core/UpdateControl.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Languages/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Amarok/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Amarok/Operations.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Amarok/Commands.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tools/Packager.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tools/RunCommand.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tools/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tools/FileTreeBuilder.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tools/Cleaner.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tools/Hasher.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tools/TextCorrector.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tables/AmarokMusicTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tables/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tables/CoverTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tables/FileTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tables/AmarokCoverTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tables/MusicTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tables/FolderTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Tables/SubFolderTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Viewers/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Viewers/MusicPlayer.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Viewers/ImageViewer.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/SearchEngines/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/SearchEngines/MusicBrainzEngine.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/InputOutputs/IA.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/InputOutputs/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/InputOutputs/Musics.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Databases/__init__.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Databases/SearchAndReplaceTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Databases/CompleterTable.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Databases/BookmarksOfDirectories.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/Databases/BookmarksOfSpecialTools.py</Source>
-    <Source>build/bdist.linux-x86_64/rpm/BUILDROOT/HamsiManager-0.9.62-1.x86_64/usr/lib/python2.6/site-packages/MyPlugins/__init__.py</Source>
   </Sources>
   <Forms>
   </Forms>
