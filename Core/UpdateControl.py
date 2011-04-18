@@ -57,6 +57,9 @@ class UpdateControl(MDialog):
         self.wvWeb = QtWebKit.QWebView()
         self.prgbState = MProgressBar()
         self.prgbState.setRange(0,100)
+        self.pbtnCheckForDeveloperVersion = MPushButton(translate("UpdateControl", "Check For Developer Version"))
+        self.pbtnCheckForDeveloperVersion.setVisible(False)
+        self.connect(self.pbtnCheckForDeveloperVersion,SIGNAL("clicked()"),self.checkForDeveloperVersion)
         self.connect(self.pbtnCancel,SIGNAL("clicked()"),self.close)
         self.connect(self.pbtnDownloadAndInstall,SIGNAL("clicked()"),self.downloadAndInstall)
         self.connect(self.pbtnShowDetails,SIGNAL("toggled(bool)"),self.showDetails)
@@ -81,6 +84,7 @@ class UpdateControl(MDialog):
         hbox0.addWidget(self.pbtnDownloadAndInstall,1)
         hbox0.addStretch(1)
         hbox0.addWidget(self.pbtnCancel,1)
+        self.vblMain.addWidget(self.pbtnCheckForDeveloperVersion)
         self.vblMain.addLayout(hbox0)
         self.setWindowTitle(translate("UpdateControl", "Checking for the updates"))
         self.details = MLabel("")
@@ -97,11 +101,10 @@ class UpdateControl(MDialog):
         else:
             self.setLayout(self.vblMain)
         self.show()
-        urlSubFix = ""
-        #FIXME: Fix bottom line for if is he/she want to use developer version of Hamsi Manager
-#        if Universals.isDeveloperMode:
-#            urlSubFix = "&m=develop"
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"]) + urlSubFix))
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"])))
+    
+    def checkForDeveloperVersion(self):
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&m=develop&l=" + str(Universals.MySettings["language"])))
     
     def remindMeLaterAndClose(self):
         Universals.setMySetting("remindMeLaterForUpdate", self.cbRemindMeLater.value())
@@ -115,13 +118,17 @@ class UpdateControl(MDialog):
         try:
             if (_bitti):
                 if self.isDownloading==False:
-                    self.setFixedHeight(150)  
+                    self.setFixedHeight(170)  
                     self.prgbState.setVisible(False)
                     self.pbtnShowDetails.setEnabled(True)
                     self.lblInfo.setVisible(True)
                     self.updateInformations=str(self.wvWeb.page().mainFrame().toPlainText()).split("\n")
                     if len(self.updateInformations)!=0:
                         if self.updateInformations[0][0]=="V":
+                            self.pbtnRemindMeLater.setVisible(False)
+                            self.cbRemindMeLater.setVisible(False)
+                            self.pbtnDownloadAndInstall.setVisible(False)
+                            self.pbtnCheckForDeveloperVersion.setVisible(False)
                             Universals.setMySetting("remindMeLaterForUpdate", "-1")
                             Universals.setMySetting("remindMeLaterShowDateForUpdate", datetime.now().strftime("%Y %m %d %H %M %S"))
                             Universals.saveSettings()
@@ -151,6 +158,7 @@ class UpdateControl(MDialog):
                                     details += detail+"<br>"
                                 self.details.setText(trForUI(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>If you want a more accurate version, please download and install this version.<br>%s For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a><br>You can download from <a href='%s' target='_blank'>Hamsi Manager %s</a>")) % (self.updateInformations[0] + self.updateInformations[3], details, self.updateInformations[2], self.updateInformations[1], self.updateInformations[0])))
                                 self.pbtnCancel.setText(translate("UpdateControl", "Ok"))
+                                self.pbtnCheckForDeveloperVersion.setVisible(True)
                             else:
                                 self.details.setText(str(translate("UpdateControl", "For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a>"))%(self.updateInformations[2])) 
                                 self.lblInfo.setText(translate("UpdateControl", "You are already using the latest release."))
