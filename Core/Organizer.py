@@ -18,6 +18,7 @@
 
 
 import unicodedata
+import string
 import Variables
 import Settings
 import Universals
@@ -94,13 +95,13 @@ class Organizer:
     
     def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
         if _cbCharacterType==Variables.validSentenceStructureKeys[0]:
-            return str(Universals.trUnicode(_inputString).title())
+            return string.capwords(Universals.trUnicode(_inputString))
         elif _cbCharacterType==Variables.validSentenceStructureKeys[1]:
-            return str(Universals.trUnicode(_inputString).lower())
+            return string.lower(Universals.trUnicode(_inputString))
         elif _cbCharacterType==Variables.validSentenceStructureKeys[2]:
-            return str(Universals.trUnicode(_inputString).upper())
+            return string.upper(Universals.trUnicode(_inputString))
         elif _cbCharacterType==Variables.validSentenceStructureKeys[3]:
-            return str(Universals.trUnicode(_inputString).capitalize())
+            return string.capitalize(Universals.trUnicode(_inputString))
         else :
             return str(Universals.trUnicode(_inputString))
     
