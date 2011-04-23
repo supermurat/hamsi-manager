@@ -876,8 +876,12 @@ class StatusBar(MStatusBar):
         self.addWidget(self.prgbState)
         self.addWidget(self.pbtnCancel)
         self.addWidget(MLabel(""), 100)
+        self.lblTableInfo = MLabel("")
         self.lblImportantInfo = MLabel("")
+        self.lblSelectionInfo = MLabel("")
+        self.addWidget(self.lblTableInfo)
         self.addWidget(self.lblImportantInfo)
+        self.addWidget(self.lblSelectionInfo)
         MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
         self.fillSelectionInfo()
     
@@ -887,20 +891,32 @@ class StatusBar(MStatusBar):
     def hideInfo(self):
         self.lblInfo.setText("")
     
+    def clearTableInfo(self):
+        self.lblTableInfo.setText("")
+    
     def clearImportantInfo(self):
         self.lblImportantInfo.setText("")
     
+    def clearSelectionInfo(self):
+        self.lblSelectionInfo.setText("")
+    
+    def setTableInfo(self, _info):
+        self.lblTableInfo.setText(trForUI(_info))
+    
     def setImportantInfo(self, _info):
         self.lblImportantInfo.setText(trForUI("<span style=\"color: #FF0000\">" + _info + "</span>"))
+    
+    def setSelectionInfo(self, _info):
+        self.lblSelectionInfo.setText(trForUI("<span style=\"color: #FF0000\">" + _info + "</span>"))
             
     def fillSelectionInfo(self):
         if Universals.isChangeAll:
-            self.setImportantInfo(translate("Tables", "All informations will be change"))
+            self.setSelectionInfo(translate("Tables", "All informations will be change"))
         else:
             if Universals.isChangeSelected:
-                self.setImportantInfo(translate("Tables", "Selected informations will change only"))
+                self.setSelectionInfo(translate("Tables", "Selected informations will change only"))
             else:
-                self.setImportantInfo(translate("Tables", "Selected informations will not change"))
+                self.setSelectionInfo(translate("Tables", "Selected informations will not change"))
         
     def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False):
         MApplication.processEvents()

@@ -386,18 +386,8 @@ class Tables(MTableWidget):
         self.refreshShowedAndHiddenColumns()
         if Universals.getBoolValue("isResizeTableColumnsToContents"):
             self.resizeColumnsToContents()
+        Universals.MainWindow.StatusBar.setTableInfo(Universals.tableTypesNames[Universals.tableType] + trForUI(" : ") + trForUI(str(self.rowCount())))
         
-    def itemChanged(self, _item):
-        global isShowChanges
-        if isShowChanges==True:
-            isShowChanges = False
-            if _item.text()!=_item.statusTip():
-                _item.setToolTip(_item.statusTip())
-                _item.setStatusTip(_item.text())
-                _item.setBackground(MBrush(MColor(142,199,255)))
-            isShowChanges = True
-            
-                
     def save(self):
         try:
             import Records
@@ -453,13 +443,14 @@ class Tables(MTableWidget):
         return False
         
     def createTableWidgetItem(self, _value, _currentValue=None):
-        item = MTableWidgetItem(trForUI(_value))
-        item.setStatusTip(trForUI(_value))
-        if _currentValue!=None:
-            if str(_value)!=str(_currentValue):
-                item.setBackground(MBrush(MColor(142,199,255)))
-                item.setToolTip(trForUI(_currentValue))
+        item = MyTableWidgetItem(_currentValue)
+        item.setText(trForUI(_value))
         return item
+    
+    def itemChanged(self, _item):
+        if _item.text()!=_item.currentText:
+            _item.setToolTip(_item.currentText)
+            _item.setBackground(MBrush(MColor(142,199,255)))
         
     def checkUnSavedValues(self):
         isClose=True
@@ -486,13 +477,16 @@ class Tables(MTableWidget):
                 return False
         return True
         
-    def checkFileExtensions(self, _columnNo, _fileNameKeyOrDestinationColumnNo):
+    def checkFileExtensions(self, _columnNo, _fileNameKeyOrDestinationColumnNo, _isCheckFile=False):
         global isAskIncorrectFileExtension
         destinationParameterType = "fileNameKey"
         if type(_fileNameKeyOrDestinationColumnNo)==type(0):
             destinationParameterType = "destinationColumnNo"
         isYesToAll, isNoToAll=False, False
         for rowNo in range(self.rowCount()):
+            if _isCheckFile:
+                if InputOutputs.isFile(self.currentTableContentValues[rowNo]["path"])==False:
+                    continue
             if destinationParameterType == "fileNameKey":
                 sFileExt = InputOutputs.getFileExtension(self.currentTableContentValues[rowNo][_fileNameKeyOrDestinationColumnNo])
                 sFilePath = self.currentTableContentValues[rowNo]["path"]
@@ -651,3 +645,14 @@ class Tables(MTableWidget):
         elif _actionType=="clipboard":
             MApplication.clipboard().setText(trForUI(info))
             
+class MyTableWidgetItem(MTableWidgetItem):
+    
+    def __init__(self, _value):
+        MTableWidgetItem.__init__(self, trForUI(_value))
+        self.currentText = trForUI(_value)
+            
+                
+    
+    
+    
+    
