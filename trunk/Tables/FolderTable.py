@@ -118,7 +118,7 @@ class FolderTable():
         self.Table.tableColumnsKey=["Directory", "File/Directory Name"]
         
     def save(self):
-        self.Table.checkFileExtensions(1, "baseName")
+        self.Table.checkFileExtensions(1, "baseName", True)
         return writeContents(self.Table)
     
     def refresh(self, _path):
