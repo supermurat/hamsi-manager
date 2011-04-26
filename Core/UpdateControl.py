@@ -150,7 +150,10 @@ class UpdateControl(MDialog):
                             elif lastVersion < Variables.intversion:
                                 self.lblInfo.setText(trForUI(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[0], self.updateInformations[2])))
                                 self.pbtnDownloadAndInstall.setVisible(True)
-                                self.pbtnDownloadAndInstall.setText(trForUI(self.pbtnDownloadAndInstall.text() + " (!)"))
+                                if self.isNotInstall==False:
+                                    self.pbtnDownloadAndInstall.setText(translate("UpdateControl", "Download and Install") + " (!)")
+                                else:
+                                    self.pbtnDownloadAndInstall.setText(translate("UpdateControl", "Download") + " (!)")
                                 self.pbtnRemindMeLater.setVisible(True)
                                 self.cbRemindMeLater.setVisible(True)
                                 details = ""
