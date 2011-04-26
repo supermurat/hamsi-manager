@@ -502,7 +502,7 @@ class Tables(MTableWidget):
                         answer = Dialogs.No
                     else:
                         answer = Dialogs.askSpecial(translate("Tables", "Incorrect File Extension"), 
-                                str(translate("Tables", "\"%s\": the file extension is different from the source file extension.<br>Do you want to set the source file extension?<br><b>Source File:</b>\"%s\"")) % (cFileName, sFilePath), 
+                                str(translate("Tables", "\"%s\": the file extension is different from the source file extension.<br>Do you want to set the source file extension?<br><b>Source file : </b>\"%s\"")) % (cFileName, sFilePath), 
                                 translate("Dialogs", "Yes"), 
                                 translate("Dialogs", "No"), 
                                 translate("Dialogs", "Yes To All"), 
