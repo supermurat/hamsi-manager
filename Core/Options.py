@@ -1505,7 +1505,7 @@ class Amarok(MWidget):
                     translate("Options/Amarok", "Please enter user name of Amarok database."), 
                     translate("Options/Amarok", "Please enter user password of Amarok database."), 
                     translate("Options/Amarok", "Please enter database name of Amarok database."), 
-                    translate("Options/Amarok", "Are you want to read only connection to database?<br>If you select \"Yes\" : amarok database files will be copied to %s. Any changes will not be written to the database so some things will not be run.<br>If you select \"No\" : Some Hamsi Manager default database files will be copied to %s. All existing files will be backup and after will be replaced. Some changes will be written to the database."), 
+                    translate("Options/Amarok", "Are you want to read only connection to database?<br>If you select \"Yes\" : Amarok database files will be copied to %s. Any changes will not be written to the database so some things will not be run.<br>If you select \"No\" : Some Hamsi Manager default database files will be copied to %s. All existing files will be backup and after will be replaced. Some changes will be written to the database."), 
                     translate("Options/Amarok", "Are you want to read only connection to database?<br>If you select \"No\" : Some changes will be written to the database. <br>If you select \"Yes\" : Any changes will not be written to the database so some things will not be run."), 
                     translate("Options/Amarok", "Where is executable \"mysqld_safe\" file?")]
         self.typesOfValues = ["Yes/No", "string", "string", "string", "password", "string", "Yes/No", "Yes/No", ["file", "executable"]]

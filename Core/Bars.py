@@ -658,7 +658,7 @@ class AmarokMusicOptionsBar(MToolBar):
         self.setWindowTitle(translate("AmarokMusicOptionsBar", "Music options"))
         self.setObjectName(translate("AmarokMusicOptionsBar", "Music options"))
         lblSourceDetails = MLabel(translate("AmarokMusicOptionsBar", "Read From : "))
-        lblTargetDetails = MLabel(translate("AmarokMusicOptionsBar", "Write To :"))
+        lblTargetDetails = MLabel(translate("AmarokMusicOptionsBar", "Write To : "))
         self.MusicTagSourceTypes = Amarok.getTagSourceTypes()
         self.cbTagSourceType = MComboBox(self)
         self.cbTagSourceType.addItems(self.MusicTagSourceTypes)

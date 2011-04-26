@@ -28,9 +28,9 @@ class Variables():
     osName = os.name
     isPython3k = float(sys.version[:3])>=3.0
     Catalog = "HamsiManager" 
-    version = "0.9.68"
-    intversion = 968
-    settingVersion = "968"
+    version = "0.9.69"
+    intversion = 969
+    settingVersion = "969"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])

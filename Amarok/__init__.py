@@ -49,7 +49,7 @@ class Amarok:
                     return True
                 else:
                     if _isAlertIfNotAvailable:
-                        answer = Dialogs.ask(translate("ToolsBar", "This Feature Is Not Usable"), translate("Amarok", "This feature is not usable with read only amarok database. <br>Are you want to give permission to read and write for amarok database?"))
+                        answer = Dialogs.ask(translate("ToolsBar", "This Feature Is Not Usable"), translate("Amarok", "This feature is not usable with read only Amarok database. <br>Are you want to give permission to read and write for Amarok database?"))
                         if answer==Dialogs.Yes: 
                             Universals.setMySetting("isReadOnlyAmarokDBHost", False)
                             return True
