@@ -114,8 +114,7 @@ class Content():
                         baseName = str(_table.item(rowNo,1).text())
                         _table.changedValueNumber += 1
                     newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(_table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
-                    newFilePath = newFilePath.replace("//", "/")
-                    if _table.currentTableContentValues[rowNo]["path"] != newFilePath:
+                    if InputOutputs.getRealPath(_table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
                         changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
                                                         newFilePath])
             else:

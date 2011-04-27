@@ -88,8 +88,7 @@ class Musics:
                 if _newMusicTagsValues["baseName"]!=_oldMusicTagsValues["baseName"]:
                     baseName = str(_newMusicTagsValues["baseName"])
                 newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(_oldMusicTagsValues["path"])) + "/" + baseNameOfDirectory + "/" + baseName
-                newFilePath = newFilePath.replace("//", "/")
-                if _oldMusicTagsValues["path"] != newFilePath:
+                if InputOutputs.getRealPath(_oldMusicTagsValues["path"]) != InputOutputs.getRealPath(newFilePath):
                     return InputOutputs.moveOrChange(_oldMusicTagsValues["path"], newFilePath, InputOutputs.getObjectType(_oldMusicTagsValues["path"]))
             #Making changes on image files
             else:
