@@ -53,7 +53,7 @@ class Settings():
         values = [Variables.executableHamsiManagerPath]
         for x, keyValue in enumerate(keysOfUniversalSettings):
             if Universals.trStr(mySetting.value(keyValue)) != values[x]:
-                mySetting.setValue(keyValue,Variables.MQtCore.QVariant(Universals.trForM(values[x])))
+                mySetting.setValue(keyValue, Universals.trQVariant(Universals.trForM(values[x])))
                 
     def getUniversalSetting(_key, _defaultValue):
         mySetting = universalSetting()
@@ -64,7 +64,7 @@ class Settings():
     
     def setUniversalSetting(_key, _value):
         mySetting = universalSetting()
-        mySetting.setValue(_key, Variables.MQtCore.QVariant(Universals.trForM(_value)))
+        mySetting.setValue(_key, Universals.trQVariant(Universals.trForM(_value)))
 
     def reFillSettings(_makeBackUp=False):
         if _makeBackUp==True:
@@ -72,7 +72,7 @@ class Settings():
         mySetting = Variables.MQtCore.QSettings(Universals.trForM(Universals.pathOfSettingsDirectory + "/" + Universals.fileOfSettings), Variables.MQtCore.QSettings.IniFormat)
         defaultValues = Variables.getDefaultValues()
         for keyValue in Variables.keysOfSettings:
-            mySetting.setValue(keyValue,Variables.MQtCore.QVariant(Universals.trForM(defaultValues[keyValue])))
+            mySetting.setValue(keyValue, Universals.trQVariant(Universals.trForM(defaultValues[keyValue])))
     
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
         if _valueTypesAndValue==None:

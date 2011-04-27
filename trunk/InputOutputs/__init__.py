@@ -106,8 +106,7 @@ class InputOutputs:
             _parentPath = getRealPath(_parentPath)
             if _path[:2]=="./":
                 _path = _parentPath + _path[1:]
-        return os.path.abspath(_path)
-        return _path
+        return os.path.abspath(_path).replace("\\", "/")
     
     def getShortPath(_path, _parentPath):
         _path = str(_path)
@@ -460,7 +459,7 @@ class InputOutputs:
     def writeTextFile(_oldFileValues, _newFileValues, _charSet="utf-8"):
         if _oldFileValues["content"]!=_newFileValues["content"] or _charSet!="utf-8":
             writeToFile(_oldFileValues["path"], Universals.trEncode(_newFileValues["content"], _charSet))
-        if _oldFileValues["path"]!=_newFileValues["path"]:
+        if InputOutputs.getRealPath(_oldFileValues["path"]) != InputOutputs.getRealPath(_newFileValues["path"]):
             return moveOrChange(_oldFileValues["path"], _newFileValues["path"])
         return _oldFileValues["path"]
                 

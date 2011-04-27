@@ -106,37 +106,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCoverTable.py" line="169"/>
+        <location filename="Tables/AmarokCoverTable.py" line="168"/>
         <source>Cannot Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCoverTable.py" line="169"/>
+        <location filename="Tables/AmarokCoverTable.py" line="168"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a text file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCoverTable.py" line="174"/>
+        <location filename="Tables/AmarokCoverTable.py" line="173"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCoverTable.py" line="175"/>
+        <location filename="Tables/AmarokCoverTable.py" line="174"/>
         <source>Directory Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCoverTable.py" line="176"/>
+        <location filename="Tables/AmarokCoverTable.py" line="175"/>
         <source>Current Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCoverTable.py" line="177"/>
+        <location filename="Tables/AmarokCoverTable.py" line="176"/>
         <source>Source Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCoverTable.py" line="178"/>
+        <location filename="Tables/AmarokCoverTable.py" line="177"/>
         <source>Destination Cover</source>
         <translation type="unfinished"></translation>
     </message>
@@ -212,22 +212,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="205"/>
+        <location filename="Tables/AmarokMusicTable.py" line="204"/>
         <source>Verify Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="209"/>
+        <location filename="Tables/AmarokMusicTable.py" line="208"/>
         <source>Play Now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="239"/>
+        <location filename="Tables/AmarokMusicTable.py" line="238"/>
         <source>Cannot Open Music File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="239"/>
+        <location filename="Tables/AmarokMusicTable.py" line="238"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a music file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -367,57 +367,57 @@
 <context>
     <name>CoverTable</name>
     <message>
-        <location filename="Tables/CoverTable.py" line="160"/>
+        <location filename="Tables/CoverTable.py" line="159"/>
         <source>Cannot Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="160"/>
+        <location filename="Tables/CoverTable.py" line="159"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a text file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="165"/>
+        <location filename="Tables/CoverTable.py" line="164"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="166"/>
+        <location filename="Tables/CoverTable.py" line="165"/>
         <source>Directory Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="167"/>
+        <location filename="Tables/CoverTable.py" line="166"/>
         <source>Current Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="168"/>
+        <location filename="Tables/CoverTable.py" line="167"/>
         <source>Source Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="169"/>
+        <location filename="Tables/CoverTable.py" line="168"/>
         <source>Destination Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="138"/>
+        <location filename="Tables/CoverTable.py" line="137"/>
         <source>Get From Amarok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="225"/>
+        <location filename="Tables/CoverTable.py" line="224"/>
         <source>Checking For Amarok...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="227"/>
+        <location filename="Tables/CoverTable.py" line="226"/>
         <source>Getting Values From Amarok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="230"/>
+        <location filename="Tables/CoverTable.py" line="229"/>
         <source>Values Are Being Processed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -725,22 +725,22 @@
 <context>
     <name>FileTable</name>
     <message>
-        <location filename="Tables/FileTable.py" line="111"/>
+        <location filename="Tables/FileTable.py" line="110"/>
         <source>Cannot Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/FileTable.py" line="117"/>
+        <location filename="Tables/FileTable.py" line="116"/>
         <source>File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/FileTable.py" line="111"/>
+        <location filename="Tables/FileTable.py" line="110"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a text file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/FileTable.py" line="116"/>
+        <location filename="Tables/FileTable.py" line="115"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -846,22 +846,22 @@
 <context>
     <name>FolderTable</name>
     <message>
-        <location filename="Tables/FolderTable.py" line="111"/>
+        <location filename="Tables/FolderTable.py" line="110"/>
         <source>Cannot Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/FolderTable.py" line="117"/>
+        <location filename="Tables/FolderTable.py" line="116"/>
         <source>File/Directory Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/FolderTable.py" line="111"/>
+        <location filename="Tables/FolderTable.py" line="110"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a text file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/FolderTable.py" line="116"/>
+        <location filename="Tables/FolderTable.py" line="115"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1281,7 +1281,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCoverTable.py" line="133"/>
+        <location filename="Tables/AmarokCoverTable.py" line="132"/>
         <source>Writing Cover Informations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1299,7 +1299,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/FileTable.py" line="82"/>
+        <location filename="Tables/FileTable.py" line="81"/>
         <source>Writing File Informations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1312,7 +1312,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/FolderTable.py" line="82"/>
+        <location filename="Tables/FolderTable.py" line="81"/>
         <source>Writing Directory Informations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1335,7 +1335,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="186"/>
+        <location filename="Tables/AmarokMusicTable.py" line="185"/>
         <source>Writing Music Tags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1348,7 +1348,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderTable.py" line="84"/>
+        <location filename="Tables/SubFolderTable.py" line="83"/>
         <source>Writing File Informations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1903,12 +1903,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="158"/>
+        <location filename="Tables/MusicTable.py" line="157"/>
         <source>Verify Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="162"/>
+        <location filename="Tables/MusicTable.py" line="161"/>
         <source>Play Now</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1938,12 +1938,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="192"/>
+        <location filename="Tables/MusicTable.py" line="191"/>
         <source>Cannot Open Music File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="192"/>
+        <location filename="Tables/MusicTable.py" line="191"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a music file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5143,22 +5143,22 @@
 <context>
     <name>SubFolderTable</name>
     <message>
-        <location filename="Tables/SubFolderTable.py" line="113"/>
+        <location filename="Tables/SubFolderTable.py" line="112"/>
         <source>Cannot Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderTable.py" line="119"/>
+        <location filename="Tables/SubFolderTable.py" line="118"/>
         <source>File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderTable.py" line="113"/>
+        <location filename="Tables/SubFolderTable.py" line="112"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a text file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderTable.py" line="118"/>
+        <location filename="Tables/SubFolderTable.py" line="117"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5845,7 +5845,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="50"/>
+        <location filename="Core/UpdateControl.py" line="154"/>
         <source>Download and Install</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5865,77 +5865,77 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="163"/>
+        <location filename="Core/UpdateControl.py" line="166"/>
         <source>For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="164"/>
+        <location filename="Core/UpdateControl.py" line="167"/>
         <source>You are already using the latest release.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="165"/>
+        <location filename="Core/UpdateControl.py" line="168"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="181"/>
+        <location filename="Core/UpdateControl.py" line="184"/>
         <source>Cannot Fetch Release Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="178"/>
+        <location filename="Core/UpdateControl.py" line="181"/>
         <source>Download complete.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="203"/>
+        <location filename="Core/UpdateControl.py" line="206"/>
         <source>Downloading Latest Release...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="217"/>
+        <location filename="Core/UpdateControl.py" line="220"/>
         <source>You Can Click Cancel To Update Without Saving The Package.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="243"/>
+        <location filename="Core/UpdateControl.py" line="246"/>
         <source>Cannot Read Source.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="243"/>
+        <location filename="Core/UpdateControl.py" line="246"/>
         <source>Cannot read source package. Please retry later.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="259"/>
+        <location filename="Core/UpdateControl.py" line="262"/>
         <source>Installing The Latest Release</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="260"/>
+        <location filename="Core/UpdateControl.py" line="263"/>
         <source>Latest release downloaded, initializing installation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="268"/>
+        <location filename="Core/UpdateControl.py" line="271"/>
         <source>Update Will Be Complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="268"/>
+        <location filename="Core/UpdateControl.py" line="271"/>
         <source>Please restart Hamsi Manager now.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="268"/>
+        <location filename="Core/UpdateControl.py" line="271"/>
         <source>Restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="52"/>
+        <location filename="Core/UpdateControl.py" line="156"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5945,12 +5945,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="181"/>
+        <location filename="Core/UpdateControl.py" line="184"/>
         <source>Cannot fetch release information. Please retry later.&lt;br&gt;If you are constantly receiving this error, please visit &quot;http://hamsiapps.com/HamsiManager&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="219"/>
+        <location filename="Core/UpdateControl.py" line="222"/>
         <source>Save As</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5965,17 +5965,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="159"/>
+        <location filename="Core/UpdateControl.py" line="162"/>
         <source>Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.&lt;br&gt;If you want a more accurate version, please download and install this version.&lt;br&gt;%s For detailed information: &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager&lt;/a&gt;&lt;br&gt;You can download from &lt;a href=&apos;%s&apos; target=&apos;_blank&apos;&gt;Hamsi Manager %s&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="208"/>
+        <location filename="Core/UpdateControl.py" line="211"/>
         <source>Access Denied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/UpdateControl.py" line="208"/>
+        <location filename="Core/UpdateControl.py" line="211"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br /&gt;Please check your access controls and retry. &lt;br /&gt;Note: You can run Hamsi Manager as root and try again.</source>
         <translation type="unfinished"></translation>
     </message>
