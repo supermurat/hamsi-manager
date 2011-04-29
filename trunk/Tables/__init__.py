@@ -363,7 +363,10 @@ class Tables(MTableWidget):
     def refresh(self, _path = ""):
         global isShowChanges, isAskShowHiddenColumn, isAskIncorrectFileExtension
         if _path=="":
-            _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+            if Universals.MainWindow.FileManager is not None:
+                _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+            else:
+                _path = Variables.userDirectoryPath
         isAskShowHiddenColumn, isAskIncorrectFileExtension = True, True
         isShowChanges=False
         self.clear()
