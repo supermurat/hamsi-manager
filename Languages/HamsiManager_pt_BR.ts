@@ -81,12 +81,12 @@
     <message>
         <location filename="Amarok/__init__.py" line="52"/>
         <source>This feature is not usable with read only Amarok database. &lt;br&gt;Are you want to give permission to read and write for Amarok database?</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta característica não está usável com apenas leitura da base de dados do Amarok. &lt;br&gt;Você deve dar permissão de leitura e escrita para a base de dados do Amarok?</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="442"/>
         <source>Are you want to restore backup database?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja restaurar o backup da base de dados?</translation>
     </message>
 </context>
 <context>
@@ -94,52 +94,52 @@
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="37"/>
         <source>Checking For Amarok...</source>
-        <translation type="unfinished">Verificando Pelo Amarok...</translation>
+        <translation>Verificando Pelo Amarok...</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="39"/>
         <source>Getting Values From Amarok</source>
-        <translation type="unfinished">Obtendo Valores Do Amarok</translation>
+        <translation>Obtendo Valores Do Amarok</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="44"/>
         <source>Values Are Being Processed</source>
-        <translation type="unfinished">Os valores Estão Sendo Processados</translation>
+        <translation>Os valores Estão Sendo Processados</translation>
     </message>
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="168"/>
         <source>Cannot Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Não Foi Possível Abrir O Arquivo</translation>
     </message>
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="168"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a text file.</source>
-        <translation type="unfinished">&quot;%s&quot; : não pode ser aberto. Por favor, certifique-se que você selecionou um arquivo de texto.</translation>
+        <translation>&quot;%s&quot; : não pode ser aberto. Por favor, certifique-se que você selecionou um arquivo de texto.</translation>
     </message>
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="173"/>
         <source>Directory</source>
-        <translation type="unfinished">Diretório</translation>
+        <translation>Diretório</translation>
     </message>
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="174"/>
         <source>Directory Name</source>
-        <translation type="unfinished">Nome Do Diretório</translation>
+        <translation>Nome Do Diretório</translation>
     </message>
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="175"/>
         <source>Current Cover</source>
-        <translation type="unfinished">Capa Atual</translation>
+        <translation>Capa Atual</translation>
     </message>
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="176"/>
         <source>Source Cover</source>
-        <translation type="unfinished">Origem Da Capa</translation>
+        <translation>Origem Da Capa</translation>
     </message>
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="177"/>
         <source>Destination Cover</source>
-        <translation type="unfinished">Destino Da Capa</translation>
+        <translation>Destino Da Capa</translation>
     </message>
 </context>
 <context>
@@ -147,27 +147,27 @@
     <message>
         <location filename="Core/Bars.py" line="659"/>
         <source>Music options</source>
-        <translation type="unfinished">Opções da música</translation>
+        <translation>Opções da música</translation>
     </message>
     <message>
         <location filename="Core/Bars.py" line="728"/>
         <source>Read From : </source>
-        <translation type="unfinished"></translation>
+        <translation>Ler De : </translation>
     </message>
     <message>
         <location filename="Core/Bars.py" line="730"/>
         <source>Write To : </source>
-        <translation type="unfinished"></translation>
+        <translation>Escrver Para : </translation>
     </message>
     <message>
         <location filename="Core/Bars.py" line="672"/>
         <source>You can select the ID3 tag source to read.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode selecionar a fonte da tag ID3 para ler.</translation>
     </message>
     <message>
         <location filename="Core/Bars.py" line="673"/>
         <source>You can select the ID3 tag target to write.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode selecionar a fonte da tag ID3 para escrever.</translation>
     </message>
 </context>
 <context>
@@ -175,62 +175,62 @@
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="126"/>
         <source>Artist</source>
-        <translation type="unfinished">Artista</translation>
+        <translation>Artista</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="132"/>
         <source>Title</source>
-        <translation type="unfinished">Título</translation>
+        <translation>Título</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="138"/>
         <source>Album</source>
-        <translation type="unfinished">Álbum</translation>
+        <translation>Álbum</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="144"/>
         <source>Track No</source>
-        <translation type="unfinished">Sem faixa</translation>
+        <translation>Sem faixa</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="150"/>
         <source>Year</source>
-        <translation type="unfinished">Ano</translation>
+        <translation>Ano</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="156"/>
         <source>Genre</source>
-        <translation type="unfinished">Gênero</translation>
+        <translation>Gênero</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="162"/>
         <source>Comment</source>
-        <translation type="unfinished">Comentário</translation>
+        <translation>Comentário</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="168"/>
         <source>Lyrics</source>
-        <translation type="unfinished">Lyrics</translation>
+        <translation>Lyrics</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="204"/>
         <source>Verify Table</source>
-        <translation type="unfinished">Verificar tabela</translation>
+        <translation>Verificar Tabela</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="208"/>
         <source>Play Now</source>
-        <translation type="unfinished">Reproduzir</translation>
+        <translation>Reproduzir</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="238"/>
         <source>Cannot Open Music File</source>
-        <translation type="unfinished">Não foi possível abrir arquivo de música</translation>
+        <translation>Não Foi Possível Abrir Arquivo De Música</translation>
     </message>
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="238"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a music file.</source>
-        <translation type="unfinished">&quot;%s&quot; : não pode ser aberto. Por favor, certtifique-se que você selecionou um arquivo de música.</translation>
+        <translation>&quot;%s&quot; : não pode ser aberto. Por favor, certifique-se que você selecionou um arquivo de música.</translation>
     </message>
 </context>
 <context>
@@ -453,12 +453,12 @@
     <message>
         <location filename="Tables/__init__.py" line="538"/>
         <source>Yes To All</source>
-        <translation type="unfinished">Sim para todos</translation>
+        <translation>Sim Para Todos</translation>
     </message>
     <message>
         <location filename="Tables/__init__.py" line="513"/>
         <source>No To All</source>
-        <translation type="unfinished"></translation>
+        <translation>Não Para Todos</translation>
     </message>
 </context>
 <context>
@@ -484,97 +484,97 @@
     <message>
         <location filename="Amarok/__init__.py" line="351"/>
         <source>Backup</source>
-        <translation type="unfinished"></translation>
+        <translation>Backup</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="352"/>
         <source>Restore</source>
-        <translation type="unfinished"></translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="353"/>
         <source>Configure Embedded Database Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar Arquivos Embarcados Da Base De Dados</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="463"/>
         <source>Start Embedded Database Server</source>
-        <translation type="unfinished">Iniciar O Servidor Da Base De Dados Embarcada</translation>
+        <translation>Iniciar O Servidor Da Base De Dados Embarcada</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="464"/>
         <source>Stop Embedded Database Server</source>
-        <translation type="unfinished">Parar O Servidor Da Base De Dados Embarcada</translation>
+        <translation>Parar O Servidor Da Base De Dados Embarcada</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="465"/>
         <source>Is Running?</source>
-        <translation type="unfinished">Está Em Execução?</translation>
+        <translation>Está Em Execução?</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="487"/>
         <source>Amarok Embedded Database Configurator</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurador Da Base De Dados Embarcada Do Amarok</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="543"/>
         <source>Running Embedded Server</source>
-        <translation type="unfinished">O Servidor Embarcado Está Em Execução</translation>
+        <translation>O Servidor Embarcado Está Em Execução</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="543"/>
         <source>Embedded Amarok database server is running.</source>
-        <translation type="unfinished">O servidor da base de dados embarcada do Amarok está em execução.</translation>
+        <translation>O servidor da base de dados embarcada do Amarok está em execução.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="547"/>
         <source>Not Running Embedded Server</source>
-        <translation type="unfinished">O Servidor Embarcado Não Está Em Execução</translation>
+        <translation>O Servidor Embarcado Não Está Em Execução</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="547"/>
         <source>Embedded Amarok database server is not running.</source>
-        <translation type="unfinished">Servidor da base de dados embarcada do Amarok não está em execução.</translation>
+        <translation>Servidor da base de dados embarcada do Amarok não está em execução.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="438"/>
         <source>Backup Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Backup Está Completo</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="438"/>
         <source>Backup successfully completed.&lt;br&gt; You can restore when you want. </source>
-        <translation type="unfinished"></translation>
+        <translation>Backup finalizado com êxito.&lt;br&gt; Você pode restaurá-lo quando quiser.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="446"/>
         <source>Close Amarok</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar Amarok</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="446"/>
         <source>Please close Amarok if it is running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, feche o Amarok se ele estiver em execução.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="448"/>
         <source>Restore Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Restauração Está Completa</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="448"/>
         <source>Restore successfully completed.&lt;br&gt; You can run Amarok now if you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Restauração finalizada com êxito.&lt;br&gt; Você pode executar o Amarok agora se quiser.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="461"/>
         <source>Create Embedded Database Files</source>
-        <translation type="unfinished">Criar Os Arquivos Da Base De Dados Embarcada</translation>
+        <translation>Criar Os Arquivos Da Base De Dados Embarcada</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="462"/>
         <source>Generate Embedded Database From Amarok</source>
-        <translation type="unfinished">Gerar A Base De Dados Embarcada Do Amarok</translation>
+        <translation>Gerar A Base De Dados Embarcada Do Amarok</translation>
     </message>
 </context>
 <context>
@@ -582,62 +582,62 @@
     <message>
         <location filename="Amarok/__init__.py" line="282"/>
         <source>Created Embedded Server</source>
-        <translation type="unfinished">Servidor Embarcado Criado</translation>
+        <translation>Servidor Embarcado Criado</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="282"/>
         <source>Embedded Amarok database server created and generated.</source>
-        <translation type="unfinished">Servidor da base de dados embarcada do Amarok criado e gerado.</translation>
+        <translation>Servidor da base de dados embarcada do Amarok criado e gerado.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="301"/>
         <source>Starting Embedded Server...</source>
-        <translation type="unfinished">Iniciando Servidor Embarcado...</translation>
+        <translation>Iniciando Servidor Embarcado...</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="303"/>
         <source>Started Embedded Server</source>
-        <translation type="unfinished">Servidor Embarcado Parado</translation>
+        <translation>Servidor Embarcado Iniciado</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="303"/>
         <source>Embedded Amarok database server started.</source>
-        <translation type="unfinished">Servidor da base de dados embarcada do Amarok iniciado.</translation>
+        <translation>Servidor da base de dados embarcada do Amarok iniciado.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="318"/>
         <source>Stopping Embedded Server...</source>
-        <translation type="unfinished">Parando Servidor Embarcado...</translation>
+        <translation>Parando Servidor Embarcado...</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="320"/>
         <source>Stopped Embedded Server</source>
-        <translation type="unfinished">Servidor Embarcado Parado</translation>
+        <translation>Servidor Embarcado Parado</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="320"/>
         <source>Embedded Amarok database server stopped.</source>
-        <translation type="unfinished">Servidor da base de dados embarcada do Amarok parado.</translation>
+        <translation>Servidor da base de dados embarcada do Amarok parado.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="291"/>
         <source>Generated Embedded Server</source>
-        <translation type="unfinished">Servidor Embarcado Gerado</translation>
+        <translation>Servidor Embarcado Gerado</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="291"/>
         <source>Embedded Amarok database server generated.</source>
-        <translation type="unfinished">Servidor da base de dados embarcada do Amarok gerado.</translation>
+        <translation>Servidor da base de dados embarcada do Amarok gerado.</translation>
     </message>
     <message>
         <location filename="Core/Variables.py" line="646"/>
         <source>&quot;mysqld_safe&quot; Not Found</source>
-        <translation type="unfinished">&quot;mysqld_safe&quot; Não Encontrado</translation>
+        <translation>&quot;mysqld_safe&quot; Não Encontrado</translation>
     </message>
     <message>
         <location filename="Core/Variables.py" line="646"/>
         <source>Executable &quot;mysqld_safe&quot; file is not found. Are you want to set path of this file?&lt;br&gt;&lt;b&gt;Note :&lt;/b&gt; &quot;mysql-common&quot; must be installed on your system.</source>
-        <translation type="unfinished">O arquivo executável &quot;mysqld_safe&quot; não foi encontrado. Vocẽ deseja definir o caminho deste arquivo?&lt;br&gt;&lt;b&gt;Nota :&lt;/b&gt; &quot;mysql-common&quot; deve estar instalado no seu sistema.</translation>
+        <translation>O arquivo executável &quot;mysqld_safe&quot; não foi encontrado. Vocẽ deseja definir o caminho deste arquivo?&lt;br&gt;&lt;b&gt;Nota :&lt;/b&gt; &quot;mysql-common&quot; deve estar instalado no seu sistema.</translation>
     </message>
 </context>
 <context>
@@ -1266,12 +1266,12 @@
     <message>
         <location filename="InputOutputs/IA.py" line="149"/>
         <source>Unavailable Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome Não Está Disponível</translation>
     </message>
     <message>
         <location filename="InputOutputs/IA.py" line="149"/>
         <source>&quot;%s&quot; : can not encoded by %s.&lt;br&gt;Please review and correct the name!&lt;br&gt;You can correct your file system encoding name in Options/Advanced, If you want.&lt;br&gt;You can click cancel to cancel this action.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%s&quot; : não pode ser codificado pelo %s.&lt;br&gt;Por favor, reveja e corrija o nome!&lt;br&gt;Você pode corrigir seu arquivo de nome de codificação do sistema em Opções/Avançada, se você desejar.&lt;br&gt;Você pode clicar em cancelar para parar esta ação.</translation>
     </message>
 </context>
 <context>
@@ -1289,7 +1289,7 @@
     <message>
         <location filename="Tables/AmarokMusicTable.py" line="86"/>
         <source>Reading Music File Informations</source>
-        <translation type="unfinished"></translation>
+        <translation>Lendo Informações Do Arquivo De Música</translation>
     </message>
 </context>
 <context>
@@ -1855,12 +1855,12 @@
     <message>
         <location filename="Details/MusicDetails.py" line="226"/>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Comentários</translation>
     </message>
     <message>
         <location filename="Details/MusicDetails.py" line="227"/>
         <source>Lyrics</source>
-        <translation type="unfinished">Lyrics</translation>
+        <translation>Lyrics</translation>
     </message>
 </context>
 <context>
@@ -2209,12 +2209,12 @@
     <message>
         <location filename="MyPlugins/Krusader/__init__.py" line="160"/>
         <source>Correct Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Corrigir Conteúdo</translation>
     </message>
     <message>
         <location filename="MyPlugins/Krusader/__init__.py" line="160"/>
         <source>Correct content with Hamsi Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Corrigir conteúdo com Hamsi Manager</translation>
     </message>
 </context>
 <context>
@@ -2410,17 +2410,17 @@
     <message>
         <location filename="Core/Options.py" line="1320"/>
         <source>Never Delete Files And Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Nunca Excluir Arquivos E Diretórios</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1321"/>
         <source>Path Of Deleted Files And Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho De Arquivos E Diretórios De Excluídos</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1327"/>
         <source>Would you like to move files to specific directory to be deleted?&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;This process can cause slow!&lt;/b&gt;&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Você gostaria de mover os arquivos para o diretório especificado para serem excluídos?&lt;br&gt;&lt;font color=red&gt;&lt;b&gt;Este processo pode causar lentidão!&lt;/b&gt;&lt;/font&gt;</translation>
     </message>
 </context>
 <context>
@@ -2523,17 +2523,17 @@
     <message>
         <location filename="Core/Options.py" line="1500"/>
         <source>Read Only Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Ler Apenas A Conexão</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1508"/>
         <source>Are you want to read only connection to database?&lt;br&gt;If you select &quot;Yes&quot; : Amarok database files will be copied to %s. Any changes will not be written to the database so some things will not be run.&lt;br&gt;If you select &quot;No&quot; : Some Hamsi Manager default database files will be copied to %s. All existing files will be backup and after will be replaced. Some changes will be written to the database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja ler somente a conexão para base de dados?&lt;br&gt;Se você selecionar &quot;Sim&quot; : Os arquivos da base de dados do Amarok serão copiados para &quot;%s&quot;. Quaisquer alterações não serão gravadas na base de dados. Então, algumas coisas não serão executadas.&lt;br&gt;Se você selecionar &quot;Não&quot; : Alguns arquivos da base de dados do Hamsi Manager serão copiados para &quot;%s&quot;. Todos os arquivos existentes serão copiados e depois serão substituídos. Algumas alterações serão gravadas para a base de dados.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1509"/>
         <source>Are you want to read only connection to database?&lt;br&gt;If you select &quot;No&quot; : Some changes will be written to the database. &lt;br&gt;If you select &quot;Yes&quot; : Any changes will not be written to the database so some things will not be run.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja ler somente a conexão para base de dados?&lt;br&gt;Se você selecionar &quot;Não&quot; : Algumas mudanças serão gravadas na base de dados. &lt;br&gt;Se você selecionar &quot;Sim&quot; : Quaisquer alterações não serão gravadas na base de dados. Então, algumas coisas não serão executadas.</translation>
     </message>
 </context>
 <context>
@@ -2541,102 +2541,102 @@
     <message>
         <location filename="Core/Options.py" line="839"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Aparência</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="840"/>
         <source>You can change the appearance settings in this section.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode alterar as configrurações da aparência nesta seção.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="857"/>
         <source>Application Style</source>
-        <translation type="unfinished">Estilo do programa</translation>
+        <translation>Estilo Do Programa</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="858"/>
         <source>Application Theme</source>
-        <translation type="unfinished">Tema do programa</translation>
+        <translation>Tema Do Programa</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="859"/>
         <source>Color Schemes</source>
-        <translation type="unfinished"></translation>
+        <translation>Esquema De Cores</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="860"/>
         <source>Activate Minimal Window Mode</source>
-        <translation type="unfinished">Ativar modo mínimo da janela</translation>
+        <translation>Ativar Modo Mínimo Da Janela</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="861"/>
         <source>Show Quick Make Dialog</source>
-        <translation type="unfinished">Mostrar diálogo de criação rápida</translation>
+        <translation>Mostrar Diálogo De Criação Rápida</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="862"/>
         <source>Show Transaction Details</source>
-        <translation type="unfinished">Mostrar Detalhes da Transação</translation>
+        <translation>Mostrar Detalhes Da Transação</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="863"/>
         <source>Window Mode</source>
-        <translation type="unfinished">Modo Janela</translation>
+        <translation>Modo Janela</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="864"/>
         <source>Resize Table Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Redimensionar As Colunas Da Tabela</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="865"/>
         <source>You can select style for Hamsi Manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode selecionar o estilo para Hamsi Manager.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="866"/>
         <source>You can select theme for Hamsi Manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode selecionar o tema para Hamsi Manager.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="867"/>
         <source>You can select color schemes for Hamsi Manager.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode selecionar o esquema de cores para Hamsi Manager.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="868"/>
         <source>You have to activate this if you want to work as little number of windows as possible.</source>
-        <translation type="unfinished">Você precisa ativar isto, se você deseja trabalhar com um pequeno número de janelas possíveis.</translation>
+        <translation>Você precisa ativar isto, se você deseja trabalhar com um pequeno número de janelas possíveis.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="869"/>
         <source>Are you want to show quick make dialog in runed with command line or my plugins?</source>
-        <translation type="unfinished">Você deseja mostrar o diálogo de criação rápida em execução com linha de comando ou meus plug-ins?</translation>
+        <translation>Você deseja mostrar o diálogo de criação rápida executada com a linha de comando ou meus plug-ins?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="870"/>
         <source>Are you want to show transaction details after save table?</source>
-        <translation type="unfinished">Você deseja mostrar os detalhes da transação após salvar a tabela?</translation>
+        <translation>Você deseja mostrar os detalhes da transação após salvar a tabela?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="871"/>
         <source>You can select window mode.You can select &quot;Mini&quot; section for netbook or small screen.</source>
-        <translation type="unfinished">Você pode selecionar o modo janela. Você pode selecionar a seção &quot;Mini&quot; para netbook ou pequena tela.</translation>
+        <translation>Você pode selecionar o modo janela. Você pode selecionar a seção &quot;Mini&quot; para netbook ou pequena tela.</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="872"/>
         <source>Are you want to resize table columns to contents?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja redimensionar as colunas da tabela de conteúdos?</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="885"/>
         <source>Normal</source>
-        <translation type="unfinished">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="886"/>
         <source>Mini</source>
-        <translation type="unfinished">Mini</translation>
+        <translation>Mini</translation>
     </message>
 </context>
 <context>
@@ -3163,12 +3163,12 @@
     <message>
         <location filename="Core/Options.py" line="1256"/>
         <source>Auto Change Directory Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterar Automaticamente Ícone Do Diretório</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1266"/>
         <source>Are you want to change directory icon automatically?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja alterar o ícone do diretório automaticamente?</translation>
     </message>
 </context>
 <context>
@@ -4123,7 +4123,7 @@
     <message>
         <location filename="Core/QuickMake.py" line="89"/>
         <source>Text Corrector</source>
-        <translation type="unfinished"></translation>
+        <translation>Corretor De Texto</translation>
     </message>
 </context>
 <context>
@@ -4256,12 +4256,12 @@
     <message>
         <location filename="Core/Options.py" line="1862"/>
         <source>Auto Change Directory Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterar Automaticamnte Ícone Do Diretório</translation>
     </message>
     <message>
         <location filename="Core/Options.py" line="1872"/>
         <source>Are you want to change directory icon automatically?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deseja alterar o ícone do diretório automaticamente?</translation>
     </message>
 </context>
 <context>
@@ -4377,27 +4377,27 @@
     <message>
         <location filename="Core/Records.py" line="37"/>
         <source>Hamsi Manager Record File - Time Created : </source>
-        <translation type="unfinished"></translation>
+        <translation>Hamsi Manager Arquivo Gravado - Hora Da Criação : </translation>
     </message>
     <message>
         <location filename="Core/Records.py" line="86"/>
         <source>Cannot Find The Record File</source>
-        <translation type="unfinished"></translation>
+        <translation>Não Foi Possível Localizar O Arquivo Gravado</translation>
     </message>
     <message>
         <location filename="Core/Records.py" line="86"/>
         <source>Record file not found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gravação do arquivo não encontrada.</translation>
     </message>
     <message>
         <location filename="Core/Records.py" line="91"/>
         <source>Hamsi Manager Record File - Time Clear : </source>
-        <translation type="unfinished"></translation>
+        <translation>Hamsi Manager Arquivo Gravado - Hora Da Exclusão : </translation>
     </message>
     <message>
         <location filename="Core/Records.py" line="104"/>
         <source>Last Records</source>
-        <translation type="unfinished"></translation>
+        <translation>Últimas Gravações</translation>
     </message>
 </context>
 <context>
@@ -5460,22 +5460,22 @@
     <message>
         <location filename="Tables/__init__.py" line="504"/>
         <source>Incorrect File Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensão Do Arquivo Incorreta</translation>
     </message>
     <message>
         <location filename="Tables/__init__.py" line="504"/>
         <source>&quot;%s&quot;: the file extension is different from the source file extension.&lt;br&gt;Do you want to set the source file extension?&lt;br&gt;&lt;b&gt;Source file : &lt;/b&gt;&quot;%s&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%s&quot;: a extensão do arquivo é diferente da extensão do arquivo de origem.&lt;br&gt;Você deseja definir a extensão do arquivo de origem?&lt;br&gt;&lt;b&gt;Arquivo de origem : &lt;/b&gt;&quot;%s&quot;</translation>
     </message>
     <message>
         <location filename="Core/Universals.py" line="242"/>
         <source>Amarok Cover Table</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabela De Capas Do Amarok</translation>
     </message>
     <message>
         <location filename="Core/Universals.py" line="243"/>
         <source>Amarok Music Table</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabela De Músicas Do Amarok</translation>
     </message>
 </context>
 <context>
@@ -5496,62 +5496,62 @@
     <message>
         <location filename="Tools/TextCorrector.py" line="40"/>
         <source>Text Corrector</source>
-        <translation type="unfinished"></translation>
+        <translation>Corretor De Texto</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="49"/>
         <source>Browse</source>
-        <translation type="unfinished">Navegar</translation>
+        <translation>Navegar</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="51"/>
         <source>Close</source>
-        <translation type="unfinished">Fechar</translation>
+        <translation>Fechar</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="52"/>
         <source>Save Changes</source>
-        <translation type="unfinished">Salvar alterações</translation>
+        <translation>Salvar Alterações</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="56"/>
         <source>File Path : </source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho Do Arquivo : </translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="57"/>
         <source>Content : </source>
-        <translation type="unfinished"></translation>
+        <translation>Conteúdo : </translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="115"/>
         <source>Incorrect File Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificação Do Arquivo Incorreta</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="115"/>
         <source>File can not decode by &quot;%s&quot; codec.&lt;br&gt;Please select another file encoding type.</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo não pode ser decodificado pelo codec &quot;%s&quot;.&lt;br&gt;Por favor, selecione outro tipo de codificação prara o arquivo.</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="121"/>
         <source>Please Select A Text File To Correct</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, Selecione Um ArquivoTexto Para Corrijir</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="121"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos Os Arquivos (*)</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="138"/>
         <source>Text File</source>
-        <translation type="unfinished">Arquivo texto</translation>
+        <translation>Arquivo Texto</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="149"/>
         <source>File Does Not Exist</source>
-        <translation type="unfinished">Arquivo não existe</translation>
+        <translation>Arquivo Não Existe</translation>
     </message>
 </context>
 <context>
@@ -5584,27 +5584,27 @@
     <message>
         <location filename="Details/TextDetails.py" line="63"/>
         <source>File Path : </source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho Do Arquivo : </translation>
     </message>
     <message>
         <location filename="Details/TextDetails.py" line="64"/>
         <source>Content : </source>
-        <translation type="unfinished"></translation>
+        <translation>Conteúdo : </translation>
     </message>
     <message>
         <location filename="Details/TextDetails.py" line="125"/>
         <source>Incorrect File Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificação Do Arquivo incorreta</translation>
     </message>
     <message>
         <location filename="Details/TextDetails.py" line="125"/>
         <source>File can not decode by &quot;%s&quot; codec.&lt;br&gt;Please select another file encoding type.</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo não pode ser decodificado pelo codec &quot;%s&quot;.&lt;br&gt;Por favor, selecione outro tipo de codificação.</translation>
     </message>
     <message>
         <location filename="Tools/TextCorrector.py" line="149"/>
         <source>&quot;%s&quot; does not exist.&lt;br&gt;Please select an exist file and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%s&quot; não existe.&lt;br&gt;Por favor, selecione um arquivo existente e tente novamente.</translation>
     </message>
 </context>
 <context>
@@ -5777,32 +5777,32 @@
     <message>
         <location filename="Core/Bars.py" line="524"/>
         <source>Text Corrector</source>
-        <translation type="unfinished"></translation>
+        <translation>Corretor De Texto</translation>
     </message>
     <message>
         <location filename="Core/Bars.py" line="537"/>
         <source>Show Last Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Últimas Ações</translation>
     </message>
     <message>
         <location filename="Core/Bars.py" line="525"/>
         <source>Corrects text files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Corrija arquivos de texto.</translation>
     </message>
     <message>
         <location filename="Core/Bars.py" line="538"/>
         <source>You can see last actions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode ver as últimas ações.</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="52"/>
         <source>This Feature Is Not Usable</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta Característica Não Está Usável</translation>
     </message>
     <message>
         <location filename="Amarok/__init__.py" line="442"/>
         <source>Restore Amarok Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Restaurar Base De Dados Do Amarok</translation>
     </message>
 </context>
 <context>
@@ -5983,7 +5983,7 @@
     <message>
         <location filename="Core/UpdateControl.py" line="60"/>
         <source>Check For Developer Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar Se Há Versão Do Desenvolvedor</translation>
     </message>
 </context>
 <context>
