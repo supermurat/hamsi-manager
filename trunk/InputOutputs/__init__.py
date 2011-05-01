@@ -392,28 +392,46 @@ class InputOutputs:
     
     def readFromFile(_path, _contentEncoding = fileSystemEncoding):
         _path = str(_path)
-        if Variables.isPython3k:
-            try:f = open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
-            except:f = open(_path , encoding = _contentEncoding)
+        if _contentEncoding is not None:
+            if Variables.isPython3k:
+                try:f = open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+                except:f = open(_path , encoding = _contentEncoding)
+            else:
+                import codecs
+                try:f = codecs.open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+                except:f = codecs.open(_path , encoding = _contentEncoding)
+            try:
+                info = f.read()
+                f.close()
+            except:
+                info = readFromFile(_path, None)
         else:
-            import codecs
-            try:f = codecs.open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
-            except:f = codecs.open(_path , encoding = _contentEncoding)
-        info = f.read()
-        f.close()
+            try:f = open(Universals.trEncode(_path, fileSystemEncoding))
+            except:f = open(_path)
+            info = f.read()
+            f.close()
         return info
         
     def readLinesFromFile(_path, _contentEncoding = fileSystemEncoding):
         _path = str(_path)
-        if Variables.isPython3k:
-            try:f = open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
-            except:f = open(_path , encoding = _contentEncoding)
+        if _contentEncoding is not None:
+            if Variables.isPython3k:
+                try:f = open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+                except:f = open(_path , encoding = _contentEncoding)
+            else:
+                import codecs
+                try:f = codecs.open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+                except:f = codecs.open(_path , encoding = _contentEncoding)
+            try:
+                info = f.readlines()
+                f.close()
+            except:
+                info = readLinesFromFile(_path, None)
         else:
-            import codecs
-            try:f = codecs.open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
-            except:f = codecs.open(_path , encoding = _contentEncoding)
-        info = f.readlines()
-        f.close()
+            try:f = open(Universals.trEncode(_path, fileSystemEncoding))
+            except:f = open(_path)
+            info = f.readlines()
+            f.close()
         return info
         
     def readFromBinaryFile(_path):
@@ -459,7 +477,7 @@ class InputOutputs:
     def writeTextFile(_oldFileValues, _newFileValues, _charSet="utf-8"):
         if _oldFileValues["content"]!=_newFileValues["content"] or _charSet!="utf-8":
             writeToFile(_oldFileValues["path"], Universals.trEncode(_newFileValues["content"], _charSet))
-        if InputOutputs.getRealPath(_oldFileValues["path"]) != InputOutputs.getRealPath(_newFileValues["path"]):
+        if getRealPath(_oldFileValues["path"]) != getRealPath(_newFileValues["path"]):
             return moveOrChange(_oldFileValues["path"], _newFileValues["path"])
         return _oldFileValues["path"]
                 
