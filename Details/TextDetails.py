@@ -85,8 +85,7 @@ class TextDetails(MDialog):
             Dialogs.showError(translate("TextDetails", "File Does Not Exist"), 
                         str(translate("TextDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
                             )% Organizer.getLink(trForUI(_filePath)))
-            from Universals import MainWindow
-            MainWindow.FileManager.makeRefresh()
+            if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
         self.fileValues = InputOutputs.readTextFile(_filePath, Universals.MySettings["fileSystemEncoding"])
@@ -144,8 +143,7 @@ class TextDetails(MDialog):
             newPath = InputOutputs.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
             if newPath!=self.fileValues["path"]:
                 self.changeFile(newPath)
-            from Universals import MainWindow
-            MainWindow.FileManager.makeRefresh()
+            if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()

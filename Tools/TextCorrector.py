@@ -142,8 +142,7 @@ class TextCorrector(MyDialog):
                 newPath = InputOutputs.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
                 if newPath!=self.fileValues["path"]:
                     self.changeFile(newPath)
-                from Universals import MainWindow
-                MainWindow.FileManager.makeRefresh()
+                if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
                 Records.saveAllRecords()
             else:
                 Dialogs.showError(translate("TextCorrector", "File Does Not Exist"), 
