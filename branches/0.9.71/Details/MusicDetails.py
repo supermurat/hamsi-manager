@@ -94,8 +94,7 @@ class MusicDetails(MDialog):
             Dialogs.showError(translate("MusicDetails", "File Does Not Exist"), 
                     str(translate("MusicDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
                         ) % Organizer.getLink(trForUI(_filePath)))
-            from Universals import MainWindow
-            MainWindow.FileManager.makeRefresh()
+            if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
     
     def checkMusicTagType(self):
         if Taggers.getSelectedTaggerTypeName()=="ID3 V2":
@@ -272,8 +271,7 @@ class MusicDetails(MDialog):
             newPath = Musics.writeMusicFile(self.musicValues, newMusicValues)
             if newPath!=self.musicValues["path"]:
                 self.changeFile(newPath)
-            from Universals import MainWindow
-            MainWindow.FileManager.makeRefresh()
+            if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
