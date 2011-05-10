@@ -164,6 +164,16 @@ class Tables(MTableWidget):
                 Universals.tableType = 1
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
+        elif Universals.tableType==7:
+            import Amarok
+            if Amarok.checkAmarok(True,  False):
+                import AmarokDatabaseCorrector
+                self.SubTable = AmarokDatabaseCorrector.AmarokDatabaseCorrector(self)
+            else:
+                Universals.tableType = 1
+                from Tables import FileTable
+                self.SubTable = FileTable.FileTable(self)
+            
     
     def getColumnKeyFromName(self, _nameWithMark):
         for x, name in enumerate(self.tableColumns):
@@ -187,29 +197,30 @@ class Tables(MTableWidget):
         try:
             rowNo = self.currentRow()
             if rowNo!=-1:
-                filePath = self.currentTableContentValues[rowNo]["path"]
                 isOpenedDetails = False
-                if InputOutputs.IA.isExist(filePath):
-                    if Universals.tableType!=2:
-                        isImage = False
-                        isMusic = False
-                        for fileExt in Universals.getListFromStrint(Universals.MySettings["imageExtensions"]):
-                            if InputOutputs.IA.checkExtension(filePath, fileExt):
-                                isImage = True
-                                break
-                        if isImage==False:
-                            for fileExt in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                if "path" in self.currentTableContentValues[rowNo].keys():
+                    filePath = self.currentTableContentValues[rowNo]["path"]
+                    if InputOutputs.IA.isExist(filePath):
+                        if Universals.tableType!=2:
+                            isImage = False
+                            isMusic = False
+                            for fileExt in Universals.getListFromStrint(Universals.MySettings["imageExtensions"]):
                                 if InputOutputs.IA.checkExtension(filePath, fileExt):
-                                    isMusic = True
+                                    isImage = True
                                     break
-                        if isImage:
-                            from Details import ImageDetails
-                            ImageDetails.ImageDetails(filePath, _isOpenDetailsOnNewWindow = self.isOpenDetailsOnNewWindow.isChecked())
-                            isOpenedDetails = True
-                        elif isMusic:
-                            from Details import MusicDetails
-                            MusicDetails.MusicDetails(filePath, self.isOpenDetailsOnNewWindow.isChecked())
-                            isOpenedDetails = True
+                            if isImage==False:
+                                for fileExt in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                                    if InputOutputs.IA.checkExtension(filePath, fileExt):
+                                        isMusic = True
+                                        break
+                            if isImage:
+                                from Details import ImageDetails
+                                ImageDetails.ImageDetails(filePath, _isOpenDetailsOnNewWindow = self.isOpenDetailsOnNewWindow.isChecked())
+                                isOpenedDetails = True
+                            elif isMusic:
+                                from Details import MusicDetails
+                                MusicDetails.MusicDetails(filePath, self.isOpenDetailsOnNewWindow.isChecked())
+                                isOpenedDetails = True
                 if isOpenedDetails==False:
                     self.SubTable.showDetails(rowNo, self.currentColumn())
         except:
