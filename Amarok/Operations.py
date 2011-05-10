@@ -21,7 +21,7 @@ import Amarok
 from Amarok import Commands
 
 class Operations:
-    global getDirectoriesAndValues, changePaths, changeTags, getAllMusicFileValuesWithNames
+    global getDirectoriesAndValues, changePaths, changeTags, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValues
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
@@ -35,6 +35,12 @@ class Operations:
             return Commands.getAllMusicFileValuesWithNames()
         return None
         
+    def getAllArtistsValues():
+        db = Amarok.checkAndGetDB()
+        if db!=None:
+            return Commands.getAllArtistsValues()
+        return None
+        
     def changePaths(_values):
         for value in _values:
             Commands.changePath(value["oldPath"], value["newPath"])
@@ -43,6 +49,33 @@ class Operations:
         for value in _values:
             Commands.changeTag(value)
             
+    def changeArtistValues(_values):
+        import Taggers, InputOutputs, Universals, Dialogs
+        Universals.startThreadAction()
+        allItemNumber = len(_values)
+        Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
+        for x, value in enumerate(_values):
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
+                musicFilePathAndArtist = Commands.changeArtistValue(value)
+                if musicFilePathAndArtist!=None:
+                    artistName = musicFilePathAndArtist[1]
+                    for musicFilePath in musicFilePathAndArtist[0]:
+                        if InputOutputs.IA.isWritableFileOrDir(musicFilePath):
+                            tagger = Taggers.getTagger()
+                            tagger.loadFileForWrite(musicFilePath, False)
+                            currentArtistName = tagger.getArtist()
+                            tagger.correctForMusicTagType()
+                            tagger.setArtist(artistName)
+                            tagger.update()
+                            Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
+            else:
+                allItemNumber = x+1
+            Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)
+            if isContinueThreadAction==False:
+                break
+        Universals.finishThreadAction()
+                        
             
             
             
