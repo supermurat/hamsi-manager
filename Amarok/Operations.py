@@ -62,10 +62,14 @@ class Operations:
                     artistName = musicFilePathAndArtist[1]
                     for musicFilePath in musicFilePathAndArtist[0]:
                         if InputOutputs.IA.isWritableFileOrDir(musicFilePath):
+                            currentArtistName = ""
                             tagger = Taggers.getTagger()
-                            tagger.loadFileForWrite(musicFilePath, False)
-                            currentArtistName = tagger.getArtist()
-                            tagger.correctForMusicTagType()
+                            try:
+                                tagger.loadFileForWrite(musicFilePath, False)
+                                currentArtistName = tagger.getArtist()
+                                tagger.correctForMusicTagType()
+                            except: 
+                                tagger.loadFileForWrite(musicFilePath)
                             tagger.setArtist(artistName)
                             tagger.update()
                             Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)

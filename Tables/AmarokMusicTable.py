@@ -67,7 +67,12 @@ class Content():
                                 else:
                                     if InputOutputs.IA.isFile(musicFileRow["filePath"]) and InputOutputs.IA.isReadableFileOrDir(musicFileRow["filePath"]):
                                         tagger = Taggers.getTagger()
-                                        tagger.loadFile(musicFileRow["filePath"])
+                                        try:
+                                            tagger.loadFile(musicFileRow["filePath"])
+                                        except:
+                                            Dialogs.showError(translate("InputOutputs/Musics", "Incorrect Tag"), 
+                                                str(translate("InputOutputs/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
+                                                ) % Organizer.getLink(musicFileRow["filePath"]))
                                         content = {}
                                         content["path"] = musicFileRow["filePath"]
                                         content["baseNameOfDirectory"] = InputOutputs.getBaseName(InputOutputs.getDirName(musicFileRow["filePath"]))

@@ -34,7 +34,12 @@ class Musics:
         isCanNoncompatible = False
         if InputOutputs.IA.isReadableFileOrDir(_filePath):
             tagger = Taggers.getTagger()
-            tagger.loadFile(_filePath)
+            try:
+                tagger.loadFile(_filePath)
+            except:
+                Dialogs.showError(translate("InputOutputs/Musics", "Incorrect Tag"), 
+                    str(translate("InputOutputs/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
+                    ) % Organizer.getLink(_filePath))
             if tagger.isAvailableFile() == False:
                 isCanNoncompatible=True
             content = {}
