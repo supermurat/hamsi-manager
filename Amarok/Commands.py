@@ -21,7 +21,7 @@ import Amarok
 import Databases
 
 class Commands:
-    global getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName
+    global getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
@@ -205,42 +205,6 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
             musicFileValues[-1]["lyrics"] = row[15]
         return musicFileValues
         
-    def getAllMusicFilePathsByArtistId(_artistId):
-        db = Amarok.checkAndGetDB()
-        db.query("""
-    SELECT CONVERT(
-        REPLACE(
-            CONCAT(
-                CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                    THEN `devices`.`lastmountpoint`
-                ELSE 
-                    ''
-                END, 
-                SUBSTRING( `urls`.`rpath` , 2 )
-            ),
-            CONCAT("/", 
-                    CONCAT(
-                        CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                            THEN `devices`.`lastmountpoint`
-                        ELSE 
-                            ''
-                        END, 
-                        SUBSTRING( `urls`.`rpath` , 2 )
-                    )
-            )
-        , "")
-    , char(1000)) AS 'filePath'
-    FROM `tracks`
-    LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-    LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-    WHERE `tracks`.`artist`=""" + _artistId)
-        r = db.store_result()
-        musicFileValues = []
-        rows = r.fetch_row(0)
-        for row in rows:
-            musicFileValues.append(row[0])
-        return musicFileValues
-        
     def getMusicFileValues(_path):
         db = Amarok.checkAndGetDB()
         db.query("""
@@ -296,42 +260,11 @@ SELECT * FROM (
         musicFileValues["comment"] = row[8]
         return musicFileValues
         
-    def getAllArtistsValues():
-        db = Amarok.checkAndGetDB()
-        db.query("SELECT `id`,`name` FROM `artists`")
-        r = db.store_result()
-        musicFileValues = []
-        rows = r.fetch_row(0)
-        for row in rows:
-            musicFileValues.append({})
-            musicFileValues[-1]["id"] = row[0]
-            musicFileValues[-1]["name"] = row[1]
-        return musicFileValues
-        
-    def getArtistName(_artistId):
-        db = Amarok.checkAndGetDB()
-        db.query("SELECT `name` FROM `artists` WHERE `id`=%s" % _artistId)
-        r = db.store_result()
-        musicFileValues = []
-        rows = r.fetch_row(0)
-        if len(rows)>0:
-            return rows[0][0]
-        return None
-
     def getDevices():
         db = Amarok.checkAndGetDB()
         db.query("SELECT id,lastmountpoint FROM devices")
         r = db.store_result()
         return r.fetch_row(0)
-        
-    def getArtistId(_artist):
-        db = Amarok.checkAndGetDB()
-        db.query("SELECT `id` FROM `artists` WHERE `name`='%s'" % (_artist))
-        r = db.store_result()
-        rows = r.fetch_row(0)
-        if len(rows)>0:
-            return rows[0][0]
-        return None
         
     def getOrInsertArtist(_artist):
         db = Amarok.checkAndGetDB()
@@ -414,37 +347,12 @@ SELECT * FROM (
             if "firstComment" in _values:
                 firstComment = _values["firstComment"]
             if "firstLyrics" in _values:
-                db.query("UPDATE `lyrics` SET `lyrics`='%s' WHERE `url`='.%s'" % (_values["firstLyrics"], path))
-            db.query("UPDATE `tracks` SET `artist`=%s, `title`='%s', `album`=%s, `tracknumber`=%s, `year`=%s, `genre`=%s, `comment`='%s' WHERE `id`=%s" % (artistId, title, albumId, trackNum, yearId, genreId, firstComment, trackId))
+                db.query("UPDATE lyrics SET lyrics='%s' WHERE url='.%s'" % (_values["firstLyrics"], path))
+            db.query("UPDATE tracks SET artist=%s, title='%s', album=%s, tracknumber=%s, year=%s, genre=%s, comment='%s' WHERE id=%s" % (artistId, title, albumId, trackNum, yearId, genreId, firstComment, trackId))
             db.commit()
         return True
         
-    def changeArtistValue(_values):
-        if len(_values)>1:
-            db = Amarok.checkAndGetDB()
-            try:
-                db.query("UPDATE `artists` SET `name`='%s' WHERE `id`=%s" % (_values["name"], _values["id"]))
-                db.commit()
-                return [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
-            except Amarok.getMySQLModule().IntegrityError as error:
-                changeArtistWithAnother(_values["id"], getArtistId(_values["name"]))
-                returnValues = [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
-                deleteArtist(_values["id"])
-                return returnValues
-        return None
         
-    def changeArtistWithAnother(_currentArtistId, _artistWillBeSelectedId):
-        db = Amarok.checkAndGetDB()
-        db.query("UPDATE `tracks` SET `artist`=%s WHERE `artist`=%s" % (_artistWillBeSelectedId, _currentArtistId))
-        db.query("UPDATE `albums` SET `artist`=%s WHERE `artist`=%s" % (_artistWillBeSelectedId, _currentArtistId))
-        db.commit()
-        return True
-        
-    def deleteArtist(_artistId):
-        db = Amarok.checkAndGetDB()
-        db.query("DELETE FROM `artists` WHERE `id`=%s" % (_artistId))
-        db.commit()
-        return True
         
         
             

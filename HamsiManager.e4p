@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-05-10, 23:09:03 -->
+<!-- Saved: 2011-04-17, 19:52:32 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -99,8 +99,6 @@
     <Source>Core/Utf8Content.py</Source>
     <Source>Tools/TextCorrector.py</Source>
     <Source>build/bdist.linux-x86_64/rpm/SPECS/HamsiManager.spec</Source>
-    <Source>Tables/AmarokDatabaseCorrector.py</Source>
-    <Source>Details/AmarokArtistDetails.py</Source>
   </Sources>
   <Forms>
   </Forms>

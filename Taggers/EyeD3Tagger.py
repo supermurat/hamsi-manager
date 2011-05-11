@@ -52,7 +52,7 @@ class Tagger():
             except:
                 self.Mp3AudioFile = None
                 
-    def loadFileForWrite(self, _filePath, _isCorrect=True):
+    def loadFileForWrite(self, _filePath):
         self.filePath = _filePath
         try:
             self.tag = eyeD3.Tag()
@@ -61,7 +61,7 @@ class Tagger():
             self.tag = eyeD3.Tag()
             self.tag.link(self.filePath, Taggers.getSelectedTaggerType())
         self.Mp3AudioFile = None
-        if _isCorrect: self.correctForMusicTagType()
+        self.correctForMusicTagType()
         
     def update(self):
         self.tag.update()
