@@ -34,7 +34,10 @@ class Musics:
         isCanNoncompatible = False
         if InputOutputs.IA.isReadableFileOrDir(_filePath):
             tagger = Taggers.getTagger()
-            tagger.loadFile(_filePath)
+            try:
+                tagger.loadFile(_filePath)
+            except:
+                pass
             if tagger.isAvailableFile() == False:
                 isCanNoncompatible=True
             content = {}

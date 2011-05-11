@@ -42,7 +42,10 @@ class Content():
             if isContinueThreadAction:
                 if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+musicName):
                     tagger = Taggers.getTagger()
-                    tagger.loadFile(_directoryPath+"/"+musicName)
+                    try:
+                        tagger.loadFile(_directoryPath+"/"+musicName)
+                    except:
+                        pass
                     if tagger.isAvailableFile() == False:
                         isCanNoncompatible=True
                     content = {}

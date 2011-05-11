@@ -67,7 +67,10 @@ class Content():
                                 else:
                                     if InputOutputs.IA.isFile(musicFileRow["filePath"]) and InputOutputs.IA.isReadableFileOrDir(musicFileRow["filePath"]):
                                         tagger = Taggers.getTagger()
-                                        tagger.loadFile(musicFileRow["filePath"])
+                                        try:
+                                            tagger.loadFile(musicFileRow["filePath"])
+                                        except:
+                                            pass
                                         content = {}
                                         content["path"] = musicFileRow["filePath"]
                                         content["baseNameOfDirectory"] = InputOutputs.getBaseName(InputOutputs.getDirName(musicFileRow["filePath"]))
