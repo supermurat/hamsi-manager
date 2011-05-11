@@ -42,7 +42,12 @@ class Content():
             if isContinueThreadAction:
                 if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+musicName):
                     tagger = Taggers.getTagger()
-                    tagger.loadFile(_directoryPath+"/"+musicName)
+                    try:
+                        tagger.loadFile(_directoryPath+"/"+musicName)
+                    except:
+                        Dialogs.showError(translate("InputOutputs/Musics", "Incorrect Tag"), 
+                            str(translate("InputOutputs/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
+                            ) % Organizer.getLink(_directoryPath+"/"+musicName))
                     if tagger.isAvailableFile() == False:
                         isCanNoncompatible=True
                     content = {}
