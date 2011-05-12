@@ -62,6 +62,15 @@ class AmarokArtistDetails(MDialog):
                 MObject.connect(self.pbtnSave, SIGNAL("clicked()"), self.save)
                 self.labels = [translate("AmarokArtistDetails", "Current Artist: "),
                                 translate("AmarokArtistDetails", "Corrected Artist: ")]
+                self.songTableColumns = [translate("AmarokArtistDetails", "File Path"), 
+                    translate("AmarokArtistDetails", "Artist"), 
+                    translate("AmarokArtistDetails", "Title"), 
+                    translate("AmarokArtistDetails", "Album"), 
+                    translate("AmarokArtistDetails", "Album Artist"), 
+                    translate("AmarokArtistDetails", "Track No"), 
+                    translate("AmarokArtistDetails", "Year"), 
+                    translate("AmarokArtistDetails", "Genre"), 
+                    translate("AmarokArtistDetails", "Comment")]
                 self.pnlMain = MWidget()
                 self.vblMain = MVBoxLayout(self.pnlMain)
                 self.pnlClearable = None
@@ -76,6 +85,8 @@ class AmarokArtistDetails(MDialog):
                 else:
                     self.setLayout(self.vblMain)
                 self.show()
+                self.setMinimumWidth(700)
+                self.setMinimumHeight(500)
         else:
             Dialogs.showError(translate("AmarokArtistDetails", "Artist Does Not Exist"), 
                     str(translate("AmarokArtistDetails", "\"%s\" does not exist in \"id\" column of \"artist\" table.<br>Table will be refreshed automatically!<br>Please retry.")
@@ -95,6 +106,33 @@ class AmarokArtistDetails(MDialog):
         self.infoLabels["correctedArtist"] = MLabel(self.labels[1]) 
         self.infoValues["currentArtist"] = MLineEdit(trForUI(self.artistName))
         self.infoValues["correctedArtist"] = MLineEdit(trForUI(Organizer.emend(self.artistName)))
+        self.songTableContentValues = Commands.getAllMusicFileValuesWithNamesByArtistId(self.artistId)
+        self.twSongs = MTableWidget()
+        self.twSongs.clear()
+        self.twSongs.setColumnCount(len(self.songTableColumns))
+        self.twSongs.setHorizontalHeaderLabels(self.songTableColumns)
+        self.twSongs.setRowCount(len(self.songTableContentValues))
+        for rowNo in range(self.twSongs.rowCount()):
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["filePath"]))
+            self.twSongs.setItem(rowNo, 0, item)
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["artist"]))
+            self.twSongs.setItem(rowNo, 1, item)
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["title"]))
+            self.twSongs.setItem(rowNo, 2, item)
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["album"]))
+            self.twSongs.setItem(rowNo, 3, item)
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["albumartist"]))
+            self.twSongs.setItem(rowNo, 4, item)
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["tracknumber"]))
+            self.twSongs.setItem(rowNo, 5, item)
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["year"]))
+            self.twSongs.setItem(rowNo, 6, item)
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["genre"]))
+            self.twSongs.setItem(rowNo, 7, item)
+            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["comment"]))
+            self.twSongs.setItem(rowNo, 8, item)
+            for x in range(self.twSongs.columnCount()):
+                self.twSongs.item(rowNo, x).setFlags(Mt.ItemIsSelectable | Mt.ItemIsEnabled)
         HBOXs = []
         HBOXs.append(MHBoxLayout())
         HBOXs[-1].addWidget(self.infoLabels["currentArtist"])
@@ -105,6 +143,7 @@ class AmarokArtistDetails(MDialog):
         vblInfos = MVBoxLayout()
         for hbox in HBOXs:
             vblInfos.addLayout(hbox)
+        vblInfos.addWidget(self.twSongs)
         vblClearable.addLayout(vblInfos)
                                        
     def closeAllAmarokArtistDialogs():
