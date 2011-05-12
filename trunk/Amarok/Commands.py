@@ -21,7 +21,7 @@ import Amarok
 import Databases
 
 class Commands:
-    global getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName
+    global getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
@@ -179,6 +179,81 @@ SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
     LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
     LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
+) as `valueTable`
+LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
+""")
+        r = db.store_result()
+        musicFileValues = []
+        rows = r.fetch_row(0)
+        for row in rows:
+            musicFileValues.append({})
+            musicFileValues[-1]["id"] = row[0]
+            musicFileValues[-1]["filePath"] = row[1]
+            musicFileValues[-1]["title"] = row[2]
+            musicFileValues[-1]["artistId"] = row[3]
+            musicFileValues[-1]["albumId"] = row[4]
+            musicFileValues[-1]["yearId"] = row[5]
+            musicFileValues[-1]["genreId"] = row[6]
+            musicFileValues[-1]["tracknumber"] = row[7]
+            musicFileValues[-1]["comment"] = row[8]
+            musicFileValues[-1]["artist"] = row[9]
+            musicFileValues[-1]["album"] = row[10]
+            musicFileValues[-1]["albumartist"] = row[11]
+            musicFileValues[-1]["year"] = row[12]
+            musicFileValues[-1]["genre"] = row[13]
+            musicFileValues[-1]["imagePath"] = row[14]
+            musicFileValues[-1]["lyrics"] = row[15]
+        return musicFileValues
+        
+    def getAllMusicFileValuesWithNamesByArtistId(_artistId):
+        db = Amarok.checkAndGetDB()
+        db.query("""
+SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
+    SELECT `tracks`.`id`, CONVERT(
+        REPLACE(
+            CONCAT(
+                CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                    THEN `devices`.`lastmountpoint`
+                ELSE 
+                    ''
+                END, 
+                SUBSTRING( `urls`.`rpath` , 2 )
+            ),
+            CONCAT("/", 
+                    CONCAT(
+                        CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                            THEN `devices`.`lastmountpoint`
+                        ELSE 
+                            ''
+                        END, 
+                        SUBSTRING( `urls`.`rpath` , 2 )
+                    )
+            )
+        , "")
+    , char(1000)) AS 'filePath', 
+    `tracks`.`title`, 
+    `tracks`.`artist`, 
+    `tracks`.`album`, 
+    `tracks`.`year`, 
+    `tracks`.`genre`, 
+    `tracks`.`tracknumber`, 
+    `tracks`.`comment`,
+    `artists`.`name` AS 'artistname',
+    `albums`.`name` AS 'albumname',
+    `albumartists`.`name` AS 'albumartistname',
+    `years`.`name` AS 'yearname',
+    `genres`.`name` AS 'genrename',
+    `images`.`path`
+    FROM `tracks`
+    LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+    LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
+    LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
+    LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
+    LEFT JOIN `artists` `albumartists` ON `albumartists`.`id` = `albums`.`artist`
+    LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
+    LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
+    LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
+    WHERE `tracks`.`artist`=""" + _artistId + """ OR `albums`.`artist`=""" + _artistId + """
 ) as `valueTable`
 LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
 """)
