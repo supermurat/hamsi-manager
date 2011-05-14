@@ -173,6 +173,15 @@ class Tables(MTableWidget):
                 Universals.tableType = 1
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
+        elif Universals.tableType==8:
+            import Taggers, Amarok
+            if Taggers.getTagger(True)!=None and Amarok.checkAmarok(True,  False):
+                import AmarokCopyTable
+                self.SubTable = AmarokCopyTable.AmarokCopyTable(self)
+            else:
+                Universals.tableType = 1
+                from Tables import FileTable
+                self.SubTable = FileTable.FileTable(self)
             
     
     def getColumnKeyFromName(self, _nameWithMark):

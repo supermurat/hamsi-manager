@@ -40,7 +40,7 @@ class Universals():
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
-    tableTypesNames = ["0", "1", "2", "3", "4", "5", "6", "7"]
+    tableTypesNames = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
     pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
@@ -241,7 +241,8 @@ class Universals():
                             translate("Tables", "Cover Table"), 
                             translate("Tables", "Amarok Cover Table"), 
                             translate("Tables", "Amarok Music Table"), 
-                            translate("Tables", "Amarok Database Corrector")
+                            translate("Tables", "Amarok Database Corrector"), 
+                            translate("Tables", "Amarok Copy Table")
                             ]
         iconNameFormatLabels = [translate("Universals", "%Artist%"), 
                             translate("Universals", "%Album%"), 
