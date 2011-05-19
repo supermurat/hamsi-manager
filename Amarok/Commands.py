@@ -21,7 +21,30 @@ import Amarok
 import Databases
 
 class Commands:
-    global getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId
+    global getSQLConditionByFilter, getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId
+    
+    def getSQLConditionByFilter(_filter = "", _isValueTable = True, _isAppendWhere = True):
+        _filter = str(_filter).strip()
+        if _filter == "":
+            return ""
+        if _isAppendWhere : sqlCondition = " WHERE "
+        else: sqlCondition = ""
+        filterParts = _filter.split(" ")
+        for x, filterPart in enumerate(filterParts):
+            if filterPart!="OR" or filterPart!="AND":
+                appendingCondition = " "
+                if x>0:
+                    if filterParts[x-1] == "OR" and x-2>=0:
+                        sqlCondition += " OR "
+                    elif filterParts[x-1] == "AND" and x-2>=0:
+                        sqlCondition += " AND "
+                    elif filterParts[x-1] != "AND" and filterParts[x-1] != "OR":
+                        sqlCondition += " AND "
+                if _isValueTable:
+                    sqlCondition += appendingCondition + " ( `valueTable`.`filePath` LIKE '%s' OR `valueTable`.`title` LIKE '%s' OR `valueTable`.`artistname` LIKE '%s' OR `valueTable`.`albumname` LIKE '%s' OR `valueTable`.`albumartistname` LIKE '%s' OR `valueTable`.`genrename` LIKE '%s' OR `valueTable`.`comment` LIKE '%s' ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+                else:
+                    sqlCondition += appendingCondition + " ( `urls`.`rpath` LIKE '%s' OR `tracks`.`title` LIKE '%s' OR `artists`.`name` LIKE '%s' OR `albums`.`name` LIKE '%s' OR `albumartists`.`name` LIKE '%s' OR `genres`.`name` LIKE '%s' OR `tracks`.`comment` LIKE '%s' ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+        return sqlCondition
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
@@ -131,7 +154,7 @@ LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
             musicFileValues[-1]["comment"] = row[8]
         return musicFileValues
         
-    def getAllMusicFileValuesWithNames():
+    def getAllMusicFileValuesWithNames(_filter = ""):
         db = Amarok.checkAndGetDB()
         db.query("""
 SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
@@ -181,7 +204,7 @@ SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
 ) as `valueTable`
 LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
-""")
+""" + getSQLConditionByFilter(_filter))
         r = db.store_result()
         musicFileValues = []
         rows = r.fetch_row(0)

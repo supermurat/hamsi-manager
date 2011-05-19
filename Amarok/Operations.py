@@ -29,10 +29,10 @@ class Operations:
             return Commands.getDirectoriesAndValues()
         return None
         
-    def getAllMusicFileValuesWithNames():
+    def getAllMusicFileValuesWithNames(_filter = ""):
         db = Amarok.checkAndGetDB()
         if db!=None:
-            return Commands.getAllMusicFileValuesWithNames()
+            return Commands.getAllMusicFileValuesWithNames(_filter)
         return None
         
     def getAllArtistsValues():
