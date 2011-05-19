@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-05-13, 00:54:06 -->
+<!-- Saved: 2011-05-15, 01:08:33 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -102,6 +102,7 @@
     <Source>Tables/AmarokDatabaseCorrector.py</Source>
     <Source>Details/AmarokArtistDetails.py</Source>
     <Source>Tables/AmarokCopyTable.py</Source>
+    <Source>Amarok/Filter.py</Source>
   </Sources>
   <Forms>
   </Forms>

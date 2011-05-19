@@ -27,21 +27,26 @@ import Taggers
 from time import gmtime
 import Records
 
-class Content():
-    global readContents, writeContents
-    
-    def readContents(_directoryPath):
+class AmarokDatabaseCorrector():
+    def __init__(self, _table):
+        self.Table = _table
+        self.keyName = "ADCArtist"
+        self.amarokFilterKeyName = "AmarokFilterADCArtist"
+        self.hiddenTableColumnsSettingKey = "hiddenAmarokDatabaseCorrectorColumns"
+        self.refreshColumns()
+        
+    def readContents(self, _directoryPath):
         currentTableContentValues = []
         Universals.startThreadAction()
         import Amarok
-        Dialogs.showState(translate("AmarokCoverTable", "Checking For Amarok..."), 0, 2)
+        Dialogs.showState(translate("AmarokDatabaseCorrector", "Checking For Amarok..."), 0, 2)
         if Amarok.checkAmarok():
-            Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2)
+            Dialogs.showState(translate("AmarokDatabaseCorrector", "Getting Values From Amarok"), 1, 2)
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
                 artistValues = Operations.getAllArtistsValues()
-                Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
+                Dialogs.showState(translate("AmarokDatabaseCorrector", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = Universals.isContinueThreadAction()
                 if isContinueThreadAction:
                     if artistValues!=None:
@@ -64,23 +69,23 @@ class Content():
         Universals.finishThreadAction()
         return currentTableContentValues
     
-    def writeContents(_table):
-        _table.changedValueNumber = 0
+    def writeContents(self):
+        self.Table.changedValueNumber = 0
         changedArtistValues=[]
         Universals.startThreadAction()
         import Amarok
-        allItemNumber = len(_table.currentTableContentValues)
+        allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,allItemNumber, True)
-        for rowNo in range(_table.rowCount()):
+        for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if _table.isChangableItem(rowNo, 1, str(_table.currentTableContentValues[rowNo]["name"])):
+                if self.Table.isChangableItem(rowNo, 1, str(self.Table.currentTableContentValues[rowNo]["name"])):
                     changedArtistValues.append({})
-                    changedArtistValues[-1]["id"] = str(_table.currentTableContentValues[rowNo]["id"])
-                    value = str(_table.item(rowNo, 1).text())
+                    changedArtistValues[-1]["id"] = str(self.Table.currentTableContentValues[rowNo]["id"])
+                    value = str(self.Table.item(rowNo, 1).text())
                     changedArtistValues[-1]["name"] = value
-                    Records.add(str(translate("AmarokDatabaseCorrector", "Artist")), str(_table.currentTableContentValues[rowNo]["name"]), value)
-                    _table.changedValueNumber += 1
+                    Records.add(str(translate("AmarokDatabaseCorrector", "Artist")), str(self.Table.currentTableContentValues[rowNo]["name"]), value)
+                    self.Table.changedValueNumber += 1
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
@@ -90,15 +95,6 @@ class Content():
         from Amarok import Operations
         Operations.changeArtistValues(changedArtistValues)
         return True
-
-
-
-class AmarokDatabaseCorrector():
-    def __init__(self, _table):
-        self.Table = _table
-        self.specialTollsBookmarkPointer = "ADCArtist"
-        self.hiddenTableColumnsSettingKey = "hiddenAmarokDatabaseCorrectorColumns"
-        self.refreshColumns()
         
     def showDetails(self, _fileNo, _infoNo):
         AmarokArtistDetails.AmarokArtistDetails(self.Table.currentTableContentValues[_fileNo]["id"],
@@ -119,10 +115,10 @@ class AmarokDatabaseCorrector():
         
     def save(self):
         AmarokArtistDetails.closeAllAmarokArtistDialogs()
-        return writeContents(self.Table)
+        return self.writeContents()
         
     def refresh(self, _path):
-        self.Table.currentTableContentValues = readContents(_path)
+        self.Table.currentTableContentValues = self.readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
         for rowNo in range(self.Table.rowCount()):
             newString = self.Table.currentTableContentValues[rowNo]["name"]

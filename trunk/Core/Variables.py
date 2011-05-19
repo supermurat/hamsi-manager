@@ -93,7 +93,8 @@ class Variables():
                   "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral", 
                   "colorSchemes", "isActiveAutoMakeIconToDirectory", 
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", 
-                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents"]
+                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents", 
+                  "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -305,7 +306,9 @@ class Variables():
                 "pathOfDeletedFilesAndDirectories": userDirectoryPath + "/.HamsiApps/HamsiManager/Deleted", 
                 "isReadOnlyAmarokDB": "False", 
                 "isReadOnlyAmarokDBHost": "False", 
-                "isResizeTableColumnsToContents": "False"
+                "isResizeTableColumnsToContents": "False", 
+                "AmarokFilterAmarokCopyTable": "", 
+                "AmarokFilterADCArtist": ""
                 }
                 
     def getValueTypesAndValues():
@@ -431,7 +434,9 @@ class Variables():
                 "pathOfDeletedFilesAndDirectories": "str", 
                 "isReadOnlyAmarokDB": "bool", 
                 "isReadOnlyAmarokDBHost": "bool", 
-                "isResizeTableColumnsToContents": "bool"
+                "isResizeTableColumnsToContents": "bool", 
+                "AmarokFilterAmarokCopyTable": "str", 
+                "AmarokFilterADCArtist": "str"
                 }
 
     def getAvailablePlayers():
