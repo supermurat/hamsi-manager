@@ -16,9 +16,10 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
+import time
 import unicodedata
 import string
+import math
 import Variables
 import Settings
 import Universals
@@ -30,7 +31,7 @@ else:
 class Organizer:
     """Music tags, filenames, Turkish characters etc. will be arranged through this class
     """
-    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName
+    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName, getCorrectedFileSize, getCorrectedTime
     
     def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
         _inputString = str(_inputString)
@@ -109,6 +110,19 @@ class Organizer:
         _stringPath = str(_stringPath)
         return "<a href=\"file://%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
     
+    def getCorrectedFileSize(bytes, precision=2):
+        bytes = int(bytes)
+        if bytes is 0:
+            return '0 byte'
+        log = math.floor(math.log(bytes, 1024))
+        return "%.*f %s" % (precision, 
+                           bytes / math.pow(1024, log),
+                           ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
+                           [int(log)])
+                           
+    def getCorrectedTime(_timeValue):
+        return str(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime(_timeValue)))
+        
     def getIconName(_artist, _album, _year, _genre):
         iconName = Universals.MySettings["iconNameFormat"]
         iconName = iconName.replace(Variables.iconNameFormatKeys[0], _artist)

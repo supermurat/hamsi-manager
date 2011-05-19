@@ -54,6 +54,16 @@ class FileTreeBuilder(MyDialog):
                                     translate("FileTreeBuilder", "Dialog"),
                                     translate("FileTreeBuilder", "Clipboard")])
         self.cbOutputType.setCurrentIndex(1)
+        self.cckbFileSize = MCheckBox(translate("FileTreeBuilder", "File Size"))
+        self.cckbLastModified = MCheckBox(translate("FileTreeBuilder", "Last Modified"))
+        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+            self.cckbFileSize.setCheckState(Mt.Checked)
+        else:
+            self.cckbFileSize.setCheckState(Mt.Unchecked)
+        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+            self.cckbLastModified.setCheckState(Mt.Checked)
+        else:
+            self.cckbLastModified.setCheckState(Mt.Unchecked)
         pbtnBuild = MPushButton(translate("FileTreeBuilder", "Build"))
         pbtnClose = MPushButton(translate("FileTreeBuilder", "Close"))
         self.lePath = MLineEdit(trForM(_directory))
@@ -81,11 +91,17 @@ class FileTreeBuilder(MyDialog):
         HBox4 = MHBoxLayout()
         HBox4.addWidget(lblSubDirectoryDeep)
         HBox4.addWidget(self.cbSubDirectoryDeep)
+        HBox5 = MHBoxLayout()
+        HBox5.addWidget(self.cckbFileSize)
+        HBox5.addWidget(self.cckbLastModified)
         vblMain2.addWidget(lblDirectory)
         vblMain2.addLayout(HBox)
         vblMain2.addLayout(HBox2)
         vblMain2.addLayout(HBox3)
         vblMain2.addLayout(HBox4)
+        gboxDetails = MGroupBox(translate("FileTreeBuilder", "Details"))
+        gboxDetails.setLayout(HBox5)
+        vblMain2.addWidget(gboxDetails)
         vblMain2.addStretch(1)
         vblMain2.addLayout(HBox1)
         tabwTabs.addTab(pnlMain2, translate("FileTreeBuilder", "File Tree"))
@@ -110,6 +126,14 @@ class FileTreeBuilder(MyDialog):
     def build(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
+            if self.cckbFileSize.checkState() == Mt.Checked:
+                Universals.setMySetting("isAppendFileSizeToFileTree", True)
+            else:
+                Universals.setMySetting("isAppendFileSizeToFileTree", False)
+            if self.cckbLastModified.checkState() == Mt.Checked:
+                Universals.setMySetting("isAppendLastModifiedToFileTree", True)
+            else:
+                Universals.setMySetting("isAppendLastModifiedToFileTree", False)
             outputType = "file"
             contentType = "html"
             if self.cbOutputType.currentIndex()==1:
