@@ -94,7 +94,8 @@ class Variables():
                   "colorSchemes", "isActiveAutoMakeIconToDirectory", 
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", 
                   "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents", 
-                  "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist"]
+                  "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist", 
+                  "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -308,7 +309,9 @@ class Variables():
                 "isReadOnlyAmarokDBHost": "False", 
                 "isResizeTableColumnsToContents": "False", 
                 "AmarokFilterAmarokCopyTable": "", 
-                "AmarokFilterADCArtist": ""
+                "AmarokFilterADCArtist": "", 
+                "isAppendFileSizeToFileTree": "True", 
+                "isAppendLastModifiedToFileTree": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -436,7 +439,9 @@ class Variables():
                 "isReadOnlyAmarokDBHost": "bool", 
                 "isResizeTableColumnsToContents": "bool", 
                 "AmarokFilterAmarokCopyTable": "str", 
-                "AmarokFilterADCArtist": "str"
+                "AmarokFilterADCArtist": "str", 
+                "isAppendFileSizeToFileTree": "bool", 
+                "isAppendLastModifiedToFileTree": "bool"
                 }
 
     def getAvailablePlayers():
