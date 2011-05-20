@@ -41,9 +41,9 @@ class Commands:
                     elif filterParts[x-1] != "AND" and filterParts[x-1] != "OR":
                         sqlCondition += " AND "
                 if _isValueTable:
-                    sqlCondition += appendingCondition + " ( `valueTable`.`filePath` LIKE '%s' OR `valueTable`.`title` LIKE '%s' OR `valueTable`.`artistname` LIKE '%s' OR `valueTable`.`albumname` LIKE '%s' OR `valueTable`.`albumartistname` LIKE '%s' OR `valueTable`.`genrename` LIKE '%s' OR `valueTable`.`comment` LIKE '%s' ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+                    sqlCondition += appendingCondition + " ( LOWER(`valueTable`.`filePath`) LIKE LOWER('%s') OR LOWER(`valueTable`.`title`) LIKE LOWER('%s') OR LOWER(`valueTable`.`artistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumartistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`genrename`) LIKE LOWER('%s') OR LOWER(`valueTable`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
                 else:
-                    sqlCondition += appendingCondition + " ( `urls`.`rpath` LIKE '%s' OR `tracks`.`title` LIKE '%s' OR `artists`.`name` LIKE '%s' OR `albums`.`name` LIKE '%s' OR `albumartists`.`name` LIKE '%s' OR `genres`.`name` LIKE '%s' OR `tracks`.`comment` LIKE '%s' ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+                    sqlCondition += appendingCondition + " ( LOWER(`urls`.`rpath`) LIKE LOWER('%s') OR LOWER(`tracks`.`title`) LIKE LOWER('%s') OR LOWER(`artists`.`name`) LIKE LOWER('%s') OR LOWER(`albums`.`name`) LIKE LOWER('%s') OR LOWER(`albumartists`.`name`) LIKE LOWER('%s') OR LOWER(`genres`.`name`) LIKE LOWER('%s') OR LOWER(`tracks`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
         return sqlCondition
     
     def getDirectoriesAndValues():
@@ -394,9 +394,67 @@ SELECT * FROM (
         musicFileValues["comment"] = row[8]
         return musicFileValues
         
-    def getAllArtistsValues():
+    def getAllArtistsValues(_filter = "", _isOnlyArtistFilter = False):
         db = Amarok.checkAndGetDB()
-        db.query("SELECT `id`,`name` FROM `artists`")
+        _filter = str(_filter).strip()
+        if _isOnlyArtistFilter:
+            if _filter!="":
+                db.query("SELECT `id`,`name` FROM `artists` WHERE LOWER(`name`) like LOWER('%s')" % ("%" + _filter + "%"))
+            else:
+                db.query("SELECT `id`,`name` FROM `artists`")
+        else:
+            db.query("""
+SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
+    SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
+        SELECT `tracks`.`id`, CONVERT(
+            REPLACE(
+                CONCAT(
+                    CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                        THEN `devices`.`lastmountpoint`
+                    ELSE 
+                        ''
+                    END, 
+                    SUBSTRING( `urls`.`rpath` , 2 )
+                ),
+                CONCAT("/", 
+                        CONCAT(
+                            CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                                THEN `devices`.`lastmountpoint`
+                            ELSE 
+                                ''
+                            END, 
+                            SUBSTRING( `urls`.`rpath` , 2 )
+                        )
+                )
+            , "")
+        , char(1000)) AS 'filePath', 
+        `tracks`.`title`, 
+        `tracks`.`artist`, 
+        `tracks`.`album`, 
+        `tracks`.`year`, 
+        `tracks`.`genre`, 
+        `tracks`.`tracknumber`, 
+        `tracks`.`comment`,
+        `artists`.`name` AS 'artistname',
+        `albums`.`name` AS 'albumname',
+        `albumartists`.`name` AS 'albumartistname',
+        `years`.`name` AS 'yearname',
+        `genres`.`name` AS 'genrename',
+        `images`.`path`
+        FROM `tracks`
+        LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+        LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
+        LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
+        LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
+        LEFT JOIN `artists` `albumartists` ON `albumartists`.`id` = `albums`.`artist`
+        LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
+        LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
+        LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
+    ) as `valueTable`
+    LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
+""" + getSQLConditionByFilter(_filter) + """
+) as `artistTable`
+""")
         r = db.store_result()
         musicFileValues = []
         rows = r.fetch_row(0)

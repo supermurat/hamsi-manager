@@ -35,10 +35,10 @@ class Operations:
             return Commands.getAllMusicFileValuesWithNames(_filter)
         return None
         
-    def getAllArtistsValues():
+    def getAllArtistsValues(_filter = "", _isOnlyArtistFilter = False):
         db = Amarok.checkAndGetDB()
         if db!=None:
-            return Commands.getAllArtistsValues()
+            return Commands.getAllArtistsValues(_filter, _isOnlyArtistFilter)
         return None
         
     def changePaths(_values):

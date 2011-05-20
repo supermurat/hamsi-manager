@@ -29,11 +29,14 @@ import Records
 
 class AmarokDatabaseCorrector():
     def __init__(self, _table):
+        from Amarok import Filter
         self.Table = _table
         self.keyName = "ADCArtist"
         self.amarokFilterKeyName = "AmarokFilterADCArtist"
         self.hiddenTableColumnsSettingKey = "hiddenAmarokDatabaseCorrectorColumns"
         self.refreshColumns()
+        self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
+        Universals.MainWindow.MainLayout.addWidget(self.wFilter)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -45,7 +48,7 @@ class AmarokDatabaseCorrector():
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
-                artistValues = Operations.getAllArtistsValues()
+                artistValues = Operations.getAllArtistsValues(Universals.MySettings[self.amarokFilterKeyName])
                 Dialogs.showState(translate("AmarokDatabaseCorrector", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = Universals.isContinueThreadAction()
                 if isContinueThreadAction:
