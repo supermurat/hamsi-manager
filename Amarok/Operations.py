@@ -50,7 +50,7 @@ class Operations:
             Commands.changeTag(value)
             
     def changeArtistValues(_values):
-        import Taggers, InputOutputs, Universals, Dialogs
+        import Taggers, InputOutputs, Universals, Dialogs, Records
         Universals.startThreadAction()
         allItemNumber = len(_values)
         Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
@@ -62,6 +62,7 @@ class Operations:
                     artistName = musicFilePathAndArtist[1]
                     for musicFilePath in musicFilePathAndArtist[0]:
                         if InputOutputs.IA.isWritableFileOrDir(musicFilePath):
+                            Records.add(str(Universals.translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
                             currentArtistName = ""
                             tagger = Taggers.getTagger()
                             try:
@@ -72,7 +73,7 @@ class Operations:
                                 tagger.loadFileForWrite(musicFilePath)
                             tagger.setArtist(artistName)
                             tagger.update()
-                            Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
+                            Records.add(str(Universals.translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
             else:
                 allItemNumber = x+1
             Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)

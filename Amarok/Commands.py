@@ -583,8 +583,8 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
                 db.commit()
                 return [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
             except Amarok.getMySQLModule().IntegrityError as error:
-                changeArtistWithAnother(_values["id"], getArtistId(_values["name"]))
                 returnValues = [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
+                changeArtistWithAnother(_values["id"], getArtistId(_values["name"]))
                 deleteArtist(_values["id"])
                 return returnValues
         return None
