@@ -29,8 +29,10 @@ import Records
 
 class AmarokMusicTable():
     def __init__(self, _table):
+        from Amarok import Filter
         self.Table = _table
         self.keyName = "music"
+        self.amarokFilterKeyName = "AmarokFilterAmarokMusicTable"
         self.hiddenTableColumnsSettingKey = "hiddenAmarokMusicTableColumns"
         self.refreshColumns()
         pbtnVerifyTableValues = MPushButton(translate("AmarokMusicTable", "Verify Table"))
@@ -44,6 +46,8 @@ class AmarokMusicTable():
         self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.isPlayNow)
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnVerifyTableValues)
+        self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
+        Universals.MainWindow.MainLayout.addWidget(self.wFilter)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -55,7 +59,7 @@ class AmarokMusicTable():
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
-                musicFileValuesWithNames = Operations.getAllMusicFileValuesWithNames()
+                musicFileValuesWithNames = Operations.getAllMusicFileValuesWithNames(Universals.MySettings[self.amarokFilterKeyName])
                 Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = Universals.isContinueThreadAction()
                 if isContinueThreadAction:
