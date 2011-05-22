@@ -268,25 +268,29 @@ SELECT * FROM (
         
     def getOrInsertArtist(_artist):
         db = Amarok.checkAndGetDB()
-        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("artists", "id", {"name" : "'" + _artist + "'"}))
+        for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("artists", "id", {"name" : "'" + _artist + "'"}):
+            db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
         
     def getOrInsertAlbum(_album, _artistId):
         db = Amarok.checkAndGetDB()
-        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("albums", "id", {"name" : "'" + _album + "'", "artist" : "'" + _artistId + "'"}))
+        for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("albums", "id", {"name" : "'" + _album + "'", "artist" : "'" + _artistId + "'"}):
+            db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
         
     def getOrInsertYear(_year):
         db = Amarok.checkAndGetDB()
-        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("years", "id", {"name" : "'" + _year + "'"}))
+        for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("years", "id", {"name" : "'" + _year + "'"}):
+            db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
         
     def getOrInsertGenre(_genre):
         db = Amarok.checkAndGetDB()
-        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("genres", "id", {"name" : "'" + _genre + "'"}))
+        for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("genres", "id", {"name" : "'" + _genre + "'"}):
+            db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
     
