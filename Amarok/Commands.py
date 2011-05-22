@@ -25,6 +25,11 @@ class Commands:
     global getSQLConditionByFilter, getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId, getSQLConditionPartByPartOfFilter, getSQLConditionValues
     
     def getSQLConditionPartByPartOfFilter(_partOfFilterString = "", _isValueTable = True):
+        _partOfFilterString = _partOfFilterString.strip()
+        while _partOfFilterString.find(" :")!=-1:
+            _partOfFilterString=_partOfFilterString.replace(" :",":")
+        while _partOfFilterString.find(": ")!=-1:
+            _partOfFilterString=_partOfFilterString.replace(": ",":")
         _partOfFilterString = _partOfFilterString.replace("\"", "")
         if _partOfFilterString.find("filename:")!=-1:
             filterPart = _partOfFilterString.replace("filename:", "")

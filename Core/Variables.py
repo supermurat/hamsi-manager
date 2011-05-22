@@ -94,7 +94,7 @@ class Variables():
                   "colorSchemes", "isActiveAutoMakeIconToDirectory", 
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", 
                   "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents", 
-                  "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist", 
+                  "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist", "AmarokFilterAmarokMusicTable", 
                   "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
@@ -310,6 +310,7 @@ class Variables():
                 "isResizeTableColumnsToContents": "False", 
                 "AmarokFilterAmarokCopyTable": "", 
                 "AmarokFilterADCArtist": "", 
+                "AmarokFilterAmarokMusicTable": "", 
                 "isAppendFileSizeToFileTree": "True", 
                 "isAppendLastModifiedToFileTree": "False"
                 }
@@ -440,6 +441,7 @@ class Variables():
                 "isResizeTableColumnsToContents": "bool", 
                 "AmarokFilterAmarokCopyTable": "str", 
                 "AmarokFilterADCArtist": "str", 
+                "AmarokFilterAmarokMusicTable": "str", 
                 "isAppendFileSizeToFileTree": "bool", 
                 "isAppendLastModifiedToFileTree": "bool"
                 }
