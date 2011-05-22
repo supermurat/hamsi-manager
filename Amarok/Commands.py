@@ -17,33 +17,99 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from urllib import unquote, quote
+import re
 import Amarok
 import Databases
 
 class Commands:
-    global getSQLConditionByFilter, getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId
+    global getSQLConditionByFilter, getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId, getSQLConditionPartByPartOfFilter, getSQLConditionValues
+    
+    def getSQLConditionPartByPartOfFilter(_partOfFilterString = "", _isValueTable = True):
+        _partOfFilterString = _partOfFilterString.replace("\"", "")
+        if _partOfFilterString.find("filename:")!=-1:
+            filterPart = _partOfFilterString.replace("filename:", "")
+            if _isValueTable:
+                return " ( LOWER(`valueTable`.`filePath`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+            else:
+                return " ( LOWER(`urls`.`rpath`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        elif _partOfFilterString.find("title:")!=-1:
+            filterPart = _partOfFilterString.replace("title:", "")
+            if _isValueTable:
+                return " ( LOWER(`valueTable`.`title`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+            else:
+                return " ( LOWER(`tracks`.`title`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        elif _partOfFilterString.find("artist:")!=-1:
+            filterPart = _partOfFilterString.replace("artist:", "")
+            if _isValueTable:
+                return " ( LOWER(`valueTable`.`artistname`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+            else:
+                return " ( LOWER(`artists`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        elif _partOfFilterString.find("album:")!=-1:
+            filterPart = _partOfFilterString.replace("album:", "")
+            if _isValueTable:
+                return " ( LOWER(`valueTable`.`albumname`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+            else:
+                return " ( LOWER(`albums`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        elif _partOfFilterString.find("albumartist:")!=-1:
+            filterPart = _partOfFilterString.replace("albumartist:", "")
+            if _isValueTable:
+                return " ( LOWER(`valueTable`.`albumartistname`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+            else:
+                return " ( LOWER(`albumartists`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        elif _partOfFilterString.find("genre:")!=-1:
+            filterPart = _partOfFilterString.replace("genre:", "")
+            if _isValueTable:
+                return " ( LOWER(`valueTable`.`genrename`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+            else:
+                return " ( LOWER(`genres`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        elif _partOfFilterString.find("comment:")!=-1:
+            filterPart = _partOfFilterString.replace("comment:", "")
+            if _isValueTable:
+                return " ( LOWER(`valueTable`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+            else:
+                return " ( LOWER(`tracks`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        else:
+            filterPart = _partOfFilterString
+            if _isValueTable:
+                return " ( LOWER(`valueTable`.`filePath`) LIKE LOWER('%s') OR LOWER(`valueTable`.`title`) LIKE LOWER('%s') OR LOWER(`valueTable`.`artistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumartistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`genrename`) LIKE LOWER('%s') OR LOWER(`valueTable`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+            else:
+                return " ( LOWER(`urls`.`rpath`) LIKE LOWER('%s') OR LOWER(`tracks`.`title`) LIKE LOWER('%s') OR LOWER(`artists`.`name`) LIKE LOWER('%s') OR LOWER(`albums`.`name`) LIKE LOWER('%s') OR LOWER(`albumartists`.`name`) LIKE LOWER('%s') OR LOWER(`genres`.`name`) LIKE LOWER('%s') OR LOWER(`tracks`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+        
+    def getSQLConditionValues(sqlCondition, _filter, _listOfFilters, _isValueTable = True):
+        for f in _listOfFilters:
+            _filter.replace(f, "__filter__")
+            appendingConditionControl = re.findall(r"((OR|AND)? *__filter__)", _filter) #[('OR __filter__', 'OR')]
+            if len(appendingConditionControl)>0:
+                appendingCondition = " " + appendingConditionControl[0][1] + " "
+                deleteThisFromFilter = appendingConditionControl[0][0]
+            else:
+                appendingCondition = " AND "
+                deleteThisFromFilter = f
+            sqlCondition += appendingCondition + getSQLConditionPartByPartOfFilter(f, _isValueTable)
+            _filter = _filter.replace(deleteThisFromFilter, " ")
+        return sqlCondition, _filter
     
     def getSQLConditionByFilter(_filter = "", _isValueTable = True, _isAppendWhere = True):
-        _filter = str(_filter).strip()
+        _filter = str(_filter).strip().replace("\t", " ").replace("\n", " ")
+        while _filter.find("  ")!=-1:
+            _filter=_filter.replace("  "," ")
         if _filter == "":
             return ""
+        if _filter.count("\"") % 2 != 0:
+            return "" # Incorrect filter string
         if _isAppendWhere : sqlCondition = " WHERE "
         else: sqlCondition = ""
-        filterParts = _filter.split(" ")
-        for x, filterPart in enumerate(filterParts):
-            if filterPart!="OR" or filterPart!="AND":
-                appendingCondition = " "
-                if x>0:
-                    if filterParts[x-1] == "OR" and x-2>=0:
-                        sqlCondition += " OR "
-                    elif filterParts[x-1] == "AND" and x-2>=0:
-                        sqlCondition += " AND "
-                    elif filterParts[x-1] != "AND" and filterParts[x-1] != "OR":
-                        sqlCondition += " AND "
-                if _isValueTable:
-                    sqlCondition += appendingCondition + " ( LOWER(`valueTable`.`filePath`) LIKE LOWER('%s') OR LOWER(`valueTable`.`title`) LIKE LOWER('%s') OR LOWER(`valueTable`.`artistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumartistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`genrename`) LIKE LOWER('%s') OR LOWER(`valueTable`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
-                else:
-                    sqlCondition += appendingCondition + " ( LOWER(`urls`.`rpath`) LIKE LOWER('%s') OR LOWER(`tracks`.`title`) LIKE LOWER('%s') OR LOWER(`artists`.`name`) LIKE LOWER('%s') OR LOWER(`albums`.`name`) LIKE LOWER('%s') OR LOWER(`albumartists`.`name`) LIKE LOWER('%s') OR LOWER(`genres`.`name`) LIKE LOWER('%s') OR LOWER(`tracks`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+        listOfSpecialAndQuoted = re.findall(r"([a-zA-Z]* ?: ?\"[ a-zA-Z0-9_-]*\")", _filter) #['artist:"like this"']
+        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecialAndQuoted, _isValueTable)
+        listOfSpecial = re.findall(r"([a-zA-Z]* ?: ?[a-zA-Z0-9_-]+)", _filter) #['artist:likeThis']
+        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial, _isValueTable)
+        listOfQuoted = re.findall(r"(\"[ a-zA-Z0-9_-]*\")", _filter) #['"like this"']
+        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfQuoted, _isValueTable)
+        listOfFilters = _filter.split(" ")
+        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfFilters, _isValueTable)
+        sqlControl = re.findall(r"(WHERE *(OR|AND)?)", sqlCondition)
+        if len(sqlControl)>0:
+            sqlCondition = sqlCondition.replace(sqlControl[0][0], "WHERE ")
         return sqlCondition
     
     def getDirectoriesAndValues():
