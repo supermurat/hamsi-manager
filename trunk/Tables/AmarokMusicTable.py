@@ -140,7 +140,7 @@ class AmarokMusicTable():
                             taggerType = typeTemp[1]
                         else:
                             taggerType = typeTemp[0]
-                        Taggers.setSelectedTaggerTypeName(taggerType)
+                        Taggers.setSelectedTaggerTypeForReadName(taggerType)
                     tagger = Taggers.getTagger()
                     tagger.loadFileForWrite(self.Table.currentTableContentValues[rowNo]["path"])
                 if self.Table.isChangableItem(rowNo, 2):

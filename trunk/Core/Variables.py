@@ -95,7 +95,8 @@ class Variables():
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", 
                   "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents", 
                   "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist", "AmarokFilterAmarokMusicTable", 
-                  "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree"]
+                  "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree", 
+                  "isMusicTableValuesChangeInAmarokDB"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -312,7 +313,8 @@ class Variables():
                 "AmarokFilterADCArtist": "", 
                 "AmarokFilterAmarokMusicTable": "", 
                 "isAppendFileSizeToFileTree": "True", 
-                "isAppendLastModifiedToFileTree": "False"
+                "isAppendLastModifiedToFileTree": "False", 
+                "isMusicTableValuesChangeInAmarokDB": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -443,7 +445,8 @@ class Variables():
                 "AmarokFilterADCArtist": "str", 
                 "AmarokFilterAmarokMusicTable": "str", 
                 "isAppendFileSizeToFileTree": "bool", 
-                "isAppendLastModifiedToFileTree": "bool"
+                "isAppendLastModifiedToFileTree": "bool", 
+                "isMusicTableValuesChangeInAmarokDB": "bool"
                 }
 
     def getAvailablePlayers():

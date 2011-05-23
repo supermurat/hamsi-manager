@@ -445,10 +445,10 @@ class Tables(MTableWidget):
                              str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
         Universals.MainWindow.FileManager.makeRefresh("", False)
         
-    def isChangableItem(self, _rowNo, _columnNo, isCheckLike=None, isCanBeEmpty=True):
+    def isChangableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
         if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-            if isCheckLike!=None:
-                if str(isCheckLike)!=str(self.item(_rowNo, _columnNo).text()):
+            if _isCheckLike and _checkLikeThis!=None:
+                if str(_checkLikeThis)!=str(self.item(_rowNo, _columnNo).text()):
                     if isCanBeEmpty==False:
                         if str(self.item(_rowNo, _columnNo).text()).strip()!="":
                             return True
