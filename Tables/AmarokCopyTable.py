@@ -156,7 +156,7 @@ class AmarokCopyTable():
                                     taggerType = typeTemp[1]
                                 else:
                                     taggerType = typeTemp[0]
-                                Taggers.setSelectedTaggerTypeName(taggerType)
+                                Taggers.setSelectedTaggerTypeForReadName(taggerType)
                             tagger = Taggers.getTagger()
                             tagger.loadFileForWrite(newFilePath)
                             if self.Table.isChangableItem(rowNo, 2):

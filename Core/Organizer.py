@@ -145,6 +145,7 @@ class Organizer:
         return newString
     
     def applySpecialCommand(_splitPointer, _whereIsSplitPointer, _command, _SpecialTools):
+        from MyObjects import trForUI
         import Tables
         blok = _command.split(",")
         changings = blok[0].split(_splitPointer)
@@ -214,7 +215,7 @@ class Organizer:
         
     def whatDoesSpecialCommandDo(_splitPointer, _whereIsSplitPointer, _command, _isCorrect=False, _isReturnDetails=False):
         import Dialogs
-        from MyObjects import translate
+        from MyObjects import trForUI, translate
         if _command[-2:]!="- " and _command[-2:]!=", " and _command.find(",")!=-1:
             _command = _command.split(",")
             changings = _command[0].split(_splitPointer)

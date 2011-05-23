@@ -31,6 +31,7 @@ class Commands:
         while _partOfFilterString.find(": ")!=-1:
             _partOfFilterString=_partOfFilterString.replace(": ",":")
         _partOfFilterString = _partOfFilterString.replace("\"", "")
+        _partOfFilterString = Databases.correctForSql(_partOfFilterString)
         if _partOfFilterString.find("filename:")!=-1:
             filterPart = _partOfFilterString.replace("filename:", "")
             if _isValueTable:
@@ -447,7 +448,7 @@ SELECT * FROM (
     LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
 ) as `valueTable` WHERE `valueTable`.`filePath` = '%s'
-""" % _path)
+""" % Databases.correctForSql(_path))
         r = db.store_result()
         musicFileValues = {}
         rows = r.fetch_row(0)
@@ -553,7 +554,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         
     def getArtistId(_artist):
         db = Amarok.checkAndGetDB()
-        db.query("SELECT `id` FROM `artists` WHERE `name`='%s'" % (_artist))
+        db.query("SELECT `id` FROM `artists` WHERE `name`='%s'" % (Databases.correctForSql(_artist)))
         r = db.store_result()
         rows = r.fetch_row(0)
         if len(rows)>0:
@@ -562,56 +563,60 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         
     def getOrInsertArtist(_artist):
         db = Amarok.checkAndGetDB()
-        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("artists", "id", {"name" : "'" + _artist + "'"}))
+        for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("artists", "id", {"name" : "'" + Databases.correctForSql(_artist) + "'"}):
+            db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
         
     def getOrInsertAlbum(_album, _artistId):
         db = Amarok.checkAndGetDB()
-        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("albums", "id", {"name" : "'" + _album + "'", "artist" : "'" + _artistId + "'"}))
+        for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("albums", "id", {"name" : "'" + Databases.correctForSql(_album) + "'", "artist" : "'" + _artistId + "'"}):
+            db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
         
     def getOrInsertYear(_year):
         db = Amarok.checkAndGetDB()
-        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("years", "id", {"name" : "'" + _year + "'"}))
+        for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("years", "id", {"name" : "'" + Databases.correctForSql(_year) + "'"}):
+            db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
         
     def getOrInsertGenre(_genre):
         db = Amarok.checkAndGetDB()
-        db.query(Databases.getAmendedSQLSelectOrInsertAndSelectQueries("genres", "id", {"name" : "'" + _genre + "'"}))
+        for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("genres", "id", {"name" : "'" + Databases.correctForSql(_genre) + "'"}):
+            db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
     
     def changePath(_oldPath, _newPath):
-        _oldPath, _newPath = str(_oldPath), str(_newPath)
+        _oldPath, _newPath = Databases.correctForSql(str(_oldPath)), Databases.correctForSql(str(_newPath))
         _oldPathUrl, _newPathUrl = quote(_oldPath), quote(_newPath)
-        withOutDevicePoints, withOutDevice = [], []
+        withOutDevicePointValues, withOutDeviceValues = [], []
         for devicePoint in getDevices():
             if devicePoint[1] + "/" == _oldPath[:len(devicePoint[1])+1]:
                 if devicePoint[1] + "/" == _newPath[:len(devicePoint[1])+1]:
-                    withOutDevicePoints.append({"id":devicePoint[0], 
+                    withOutDevicePointValues.append({"id":devicePoint[0], 
                                                 "oldPath":  _oldPath[len(devicePoint[1]):], 
                                                 "newPath": _newPath[len(devicePoint[1]):]
                                                 })
                 else:
-                    withOutDevice.append({"id": devicePoint[0], 
+                    withOutDeviceValues.append({"id": devicePoint[0], 
                                         "oldPath":  _oldPath[len(devicePoint[1]):], 
                                         "newPath": _newPath
                                                 })
         db = Amarok.checkAndGetDB()
         db.query("UPDATE directories SET dir=REPLACE(dir, '.%s/', '.%s/')" % (_oldPath, _newPath))
         db.query("UPDATE urls SET rpath='.%s' WHERE rpath='.%s'" % (_newPath, _oldPath))
-        for withOutDevice in withOutDevice:
-            db.query("UPDATE directories SET dir='.%s/', deviceid = -1 WHERE deviceid = %s and dir = '.%s/' " % (withOutDevice["newPath"], withOutDevice["id"], withOutDevice["oldPath"]))
-            db.query("UPDATE urls SET rpath='.%s/', deviceid = -1 WHERE deviceid = %s and rpath = '.%s/' " % (withOutDevice["newPath"], withOutDevice["id"], withOutDevice["oldPath"]))
-        for withOutDevicePoint in withOutDevicePoints:
-            db.query("UPDATE directories SET dir='.%s/' WHERE deviceid = %s and dir = '.%s/'" % (withOutDevicePoint["newPath"], withOutDevicePoint["id"], withOutDevicePoint["oldPath"]))
-            db.query("UPDATE urls SET rpath='.%s/' WHERE deviceid = %s and rpath = '.%s/'" % (withOutDevicePoint["newPath"], withOutDevicePoint["id"], withOutDevicePoint["oldPath"]))
+        for withOutDevice in withOutDeviceValues:
+            db.query("UPDATE directories SET dir='.%s/', deviceid = -1 WHERE deviceid = %s and dir = '.%s/' " % (Databases.correctForSql(withOutDevice["newPath"]), withOutDevice["id"], Databases.correctForSql(withOutDevice["oldPath"])))
+            db.query("UPDATE urls SET rpath='.%s', deviceid = -1 WHERE deviceid = %s and rpath = '.%s' " % (Databases.correctForSql(withOutDevice["newPath"]), withOutDevice["id"], Databases.correctForSql(withOutDevice["oldPath"])))
+        for withOutDevicePoint in withOutDevicePointValues:
+            db.query("UPDATE directories SET dir='.%s/' WHERE deviceid = %s and dir = '.%s/'" % (Databases.correctForSql(withOutDevicePoint["newPath"]), withOutDevicePoint["id"], Databases.correctForSql(withOutDevicePoint["oldPath"])))
+            db.query("UPDATE urls SET rpath='.%s' WHERE deviceid = %s and rpath = '.%s'" % (Databases.correctForSql(withOutDevicePoint["newPath"]), withOutDevicePoint["id"], Databases.correctForSql(withOutDevicePoint["oldPath"])))
         db.query("UPDATE images SET path='%s' WHERE path='%s'" % (_newPath, _oldPath))
         db.query("UPDATE lyrics SET url='.%s' WHERE url='.%s'" % (_newPath, _oldPath))
-        db.query("UPDATE statistics_permanent SET url='file://%s' WHERE url='file://%s'" % (_newPathUrl, _oldPathUrl))
+        db.query("UPDATE statistics_permanent SET url='file://%s' WHERE url='file://%s'" % (Databases.correctForSql(_newPathUrl), Databases.correctForSql(_oldPathUrl)))
         db.commit()
         return True
         
@@ -641,8 +646,8 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
             if "firstComment" in _values:
                 firstComment = _values["firstComment"]
             if "firstLyrics" in _values:
-                db.query("UPDATE `lyrics` SET `lyrics`='%s' WHERE `url`='.%s'" % (_values["firstLyrics"], path))
-            db.query("UPDATE `tracks` SET `artist`=%s, `title`='%s', `album`=%s, `tracknumber`=%s, `year`=%s, `genre`=%s, `comment`='%s' WHERE `id`=%s" % (artistId, title, albumId, trackNum, yearId, genreId, firstComment, trackId))
+                db.query("UPDATE `lyrics` SET `lyrics`='%s' WHERE `url`='.%s'" % (Databases.correctForSql(_values["firstLyrics"]), Databases.correctForSql(path)))
+            db.query("UPDATE `tracks` SET `artist`=%s, `title`='%s', `album`=%s, `tracknumber`=%s, `year`=%s, `genre`=%s, `comment`='%s' WHERE `id`=%s" % (artistId, Databases.correctForSql(title), albumId, trackNum, yearId, genreId, Databases.correctForSql(firstComment), trackId))
             db.commit()
         return True
         
@@ -650,7 +655,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         if len(_values)>1:
             db = Amarok.checkAndGetDB()
             try:
-                db.query("UPDATE `artists` SET `name`='%s' WHERE `id`=%s" % (_values["name"], _values["id"]))
+                db.query("UPDATE `artists` SET `name`='%s' WHERE `id`=%s" % (Databases.correctForSql(_values["name"]), _values["id"]))
                 db.commit()
                 return [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
             except Amarok.getMySQLModule().IntegrityError as error:

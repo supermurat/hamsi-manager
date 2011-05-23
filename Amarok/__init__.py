@@ -185,8 +185,8 @@ class Amarok:
     def setSelectedTagSourseType(_type):
         Universals.setMySetting("AmarokTagSourceType", _type)
         if _type!="Amarok":
-            from Taggers import setSelectedTaggerTypeName
-            setSelectedTaggerTypeName(_type)
+            from Taggers import setSelectedTaggerTypeForReadName
+            setSelectedTaggerTypeForReadName(_type)
         
     def setSelectedTagTargetType(_type):
         Universals.setMySetting("AmarokTagTargetType", _type)

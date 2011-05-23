@@ -24,7 +24,7 @@ import Dialogs
 import ReportBug
 
 class Taggers():
-    global getTagger, getSelectedTaggerType, setSelectedTaggerType, getSelectedTaggerTypeName, setSelectedTaggerTypeName, taggersNames, getAvailableLabelsForTable, getAvailableKeysForTable, getTaggerTypes, getTaggerTypesName, getLoaddedTagger, loaddedTagger
+    global getTagger, getSelectedTaggerTypeForRead, setSelectedTaggerTypeForRead, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, taggersNames, getAvailableLabelsForTable, getAvailableKeysForTable, getTaggerTypes, getTaggerTypesName, getLoaddedTagger, loaddedTagger, getSelectedTaggerTypeForWrite, setSelectedTaggerTypeForWrite, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
     taggersNames = []
     loaddedTagger = None
     
@@ -55,32 +55,59 @@ class Taggers():
             getTagger()
         return loaddedTagger
         
-    def getSelectedTaggerType():
-        type = getSelectedTaggerTypeName()
+    def getSelectedTaggerTypeForRead():
+        type = getSelectedTaggerTypeForReadName()
         for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
             if type==getTaggerTypesName()[x]:
                 return v
         return getLoaddedTagger().getTaggerTypes()[0]
         
-    def setSelectedTaggerType(_type, _isSetTypeName=True):
+    def setSelectedTaggerTypeForRead(_type, _isSetTypeName=True):
         typeName = getTaggerTypesName()[0]
         for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
             if v==_type:
                 typeName = getTaggerTypesName()[x]
         if _isSetTypeName:
-            setSelectedTaggerTypeName(typeName, False)
+            setSelectedTaggerTypeForReadName(typeName, False)
         
-    def getSelectedTaggerTypeName():
-        return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeName", getTaggerTypesName())
+    def getSelectedTaggerTypeForReadName():
+        return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", getTaggerTypesName())
         
-    def setSelectedTaggerTypeName(_typeName, _isSetType=True):
+    def setSelectedTaggerTypeForReadName(_typeName, _isSetType=True):
         type = getLoaddedTagger().getTaggerTypes()[0]
         for x, v in enumerate(getTaggerTypesName()):
             if _typeName==v:
                 type = getLoaddedTagger().getTaggerTypes()[x]
-        Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeName", _typeName)
+        Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", _typeName)
         if _isSetType:
-            setSelectedTaggerType(type, False)
+            setSelectedTaggerTypeForRead(type, False)
+        
+    def getSelectedTaggerTypeForWrite():
+        type = getSelectedTaggerTypeForWriteName()
+        for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
+            if type==getTaggerTypesName()[x]:
+                return v
+        return getLoaddedTagger().getTaggerTypes()[0]
+        
+    def setSelectedTaggerTypeForWrite(_type, _isSetTypeName=True):
+        typeName = getTaggerTypesName()[0]
+        for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
+            if v==_type:
+                typeName = getTaggerTypesName()[x]
+        if _isSetTypeName:
+            setSelectedTaggerTypeForWriteName(typeName, False)
+        
+    def getSelectedTaggerTypeForWriteName():
+        return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", getTaggerTypesName())
+        
+    def setSelectedTaggerTypeForWriteName(_typeName, _isSetType=True):
+        type = getLoaddedTagger().getTaggerTypes()[0]
+        for x, v in enumerate(getTaggerTypesName()):
+            if _typeName==v:
+                type = getLoaddedTagger().getTaggerTypes()[x]
+        Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", _typeName)
+        if _isSetType:
+            setSelectedTaggerTypeForWrite(type, False)
         
     def getTaggerTypes():
         return getLoaddedTagger().getTaggerTypes()

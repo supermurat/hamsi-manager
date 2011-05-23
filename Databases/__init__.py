@@ -113,7 +113,7 @@ class Databases:
             sqlString0 += key + "=" + str(value)
             sqlString3 += key + "=" + key
             j +=1
-        return sqlString1 + sqlString2 + sqlString3 + ";" + sqlString0
+        return [sqlString1 + sqlString2 + sqlString3, sqlString0]
         
     def checkDatabases():
         try:
