@@ -604,7 +604,8 @@ class MusicOptionsBar(MToolBar):
         self.cbMusicTagTypeForWriteForMenu = None
         self.setWindowTitle(translate("MusicOptionsBar", "Music options"))
         self.setObjectName(translate("MusicOptionsBar", "Music options"))
-        lblDetails = translate("MusicOptionsBar", "You can select the ID3 tag you want to see and edit.<br><font color=blue>ID3 V2 is recommended.</font>")
+        lblMusicTagTypeForRead = MLabel(translate("MusicOptionsBar", "Read From : "))
+        lblMusicTagTypeForWrite = MLabel(translate("MusicOptionsBar", "Write To : "))
         self.MusicTagTypes = getTaggerTypesName()
         self.cbMusicTagTypeForRead = MComboBox(self)
         self.cbMusicTagTypeForRead.addItems(self.MusicTagTypes)
@@ -614,9 +615,11 @@ class MusicOptionsBar(MToolBar):
         self.cbMusicTagTypeForRead.setCurrentIndex(self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
         self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
         self.isActiveChanging = True
-        self.cbMusicTagTypeForRead.setToolTip(lblDetails)
-        self.cbMusicTagTypeForWrite.setToolTip(lblDetails)
+        self.cbMusicTagTypeForRead.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForWrite.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.addWidget(lblMusicTagTypeForRead)
         self.addWidget(self.cbMusicTagTypeForRead)
+        self.addWidget(lblMusicTagTypeForWrite)
         self.addWidget(self.cbMusicTagTypeForWrite)
         MObject.connect(self.cbMusicTagTypeForRead, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForReadChanged)
         MObject.connect(self.cbMusicTagTypeForWrite, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForWriteChanged)
@@ -658,6 +661,8 @@ class MusicOptionsBar(MToolBar):
     def getSpecialOptions(self, _menu):
         self.cbMusicTagTypeForReadForMenu = MComboBox(self)
         self.cbMusicTagTypeForWriteForMenu = MComboBox(self)
+        self.cbMusicTagTypeForReadForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForWriteForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
         self.cbMusicTagTypeForReadForMenu.addItems(self.MusicTagTypes)
         self.cbMusicTagTypeForWriteForMenu.addItems(self.MusicTagTypes)
         self.isActiveChanging = False
@@ -666,13 +671,18 @@ class MusicOptionsBar(MToolBar):
         self.isActiveChanging = True
         MObject.connect(self.cbMusicTagTypeForReadForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForReadChanged)
         MObject.connect(self.cbMusicTagTypeForWriteForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForWriteChanged)
-        wactLabel = MWidgetAction(_menu)
-        wactLabel.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "ID3 Version") + " : ")))
-        wact = MWidgetAction(_menu)
-        wact.setDefaultWidget(self.cbMusicTagTypeForReadForMenu)
-        wact.setDefaultWidget(self.cbMusicTagTypeForWriteForMenu)
-        _menu.addAction(wactLabel)
-        _menu.addAction(wact)
+        wactLabelForRead = MWidgetAction(_menu)
+        wactLabelForRead.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "Read From : "))))
+        wactLabelForWrite = MWidgetAction(_menu)
+        wactLabelForWrite.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "Write To : "))))
+        wactForRead = MWidgetAction(_menu)
+        wactForWrite = MWidgetAction(_menu)
+        wactForRead.setDefaultWidget(self.cbMusicTagTypeForReadForMenu)
+        wactForWrite.setDefaultWidget(self.cbMusicTagTypeForWriteForMenu)
+        _menu.addAction(wactLabelForRead)
+        _menu.addAction(wactForRead)
+        _menu.addAction(wactLabelForWrite)
+        _menu.addAction(wactForWrite)
         
 class AmarokMusicOptionsBar(MToolBar):
 
