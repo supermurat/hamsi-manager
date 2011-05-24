@@ -191,7 +191,7 @@ class MusicTable():
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
         from Amarok import Operations
         if Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
-            #Operations.changeTags(changingTags)
+            Operations.changeTags(changingTags)
             Operations.changePaths(pathValues)
         return True
         
