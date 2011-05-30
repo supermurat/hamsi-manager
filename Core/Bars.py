@@ -29,7 +29,7 @@ import Execute
 import Records
 import InputOutputs
 import Options
-from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
+from Taggers import getTaggerTypesName, getSelectedTaggerTypeName, setSelectedTaggerTypeName
 
 class MenuBar(MMenuBar):
     def __init__(self, _parent):
@@ -600,89 +600,52 @@ class MusicOptionsBar(MToolBar):
     def __init__(self, _parent):
         MToolBar.__init__(self, _parent)
         self.isActiveChanging = True
-        self.cbMusicTagTypeForReadForMenu = None
-        self.cbMusicTagTypeForWriteForMenu = None
+        self.cbMusicTagTypeForMenu = None
         self.setWindowTitle(translate("MusicOptionsBar", "Music options"))
         self.setObjectName(translate("MusicOptionsBar", "Music options"))
-        lblMusicTagTypeForRead = MLabel(translate("MusicOptionsBar", "Read From : "))
-        lblMusicTagTypeForWrite = MLabel(translate("MusicOptionsBar", "Write To : "))
+        lblDetails = translate("MusicOptionsBar", "You can select the ID3 tag you want to see and edit.<br><font color=blue>ID3 V2 is recommended.</font>")
         self.MusicTagTypes = getTaggerTypesName()
-        self.cbMusicTagTypeForRead = MComboBox(self)
-        self.cbMusicTagTypeForRead.addItems(self.MusicTagTypes)
-        self.cbMusicTagTypeForWrite = MComboBox(self)
-        self.cbMusicTagTypeForWrite.addItems(self.MusicTagTypes)
+        self.cbMusicTagType = MComboBox(self)
+        self.cbMusicTagType.addItems(self.MusicTagTypes)
         self.isActiveChanging = False
-        self.cbMusicTagTypeForRead.setCurrentIndex(self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
-        self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
+        self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(getSelectedTaggerTypeName()))
         self.isActiveChanging = True
-        self.cbMusicTagTypeForRead.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbMusicTagTypeForWrite.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.addWidget(lblMusicTagTypeForRead)
-        self.addWidget(self.cbMusicTagTypeForRead)
-        self.addWidget(lblMusicTagTypeForWrite)
-        self.addWidget(self.cbMusicTagTypeForWrite)
-        MObject.connect(self.cbMusicTagTypeForRead, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForReadChanged)
-        MObject.connect(self.cbMusicTagTypeForWrite, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForWriteChanged)
+        self.cbMusicTagType.setToolTip(lblDetails)
+        self.addWidget(self.cbMusicTagType)
+        MObject.connect(self.cbMusicTagType, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
         self.setIconSize(MSize(32,32))
     
-    def musicTagTypeForReadChanged(self, _action=None):
+    def musicTagTypeChanged(self, _action=None):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
                 if Universals.MainWindow.Table.checkUnSavedValues()==True:
-                    setSelectedTaggerTypeForReadName(selectedType)
+                    setSelectedTaggerTypeName(selectedType)
                     Universals.MainWindow.Table.refreshForColumns()
                     Universals.MainWindow.SpecialTools.refreshForColumns()
                     Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
-                self.cbMusicTagTypeForRead.setCurrentIndex(self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
-                if self.cbMusicTagTypeForReadForMenu != None:
-                    self.cbMusicTagTypeForReadForMenu.setCurrentIndex(self.cbMusicTagTypeForReadForMenu.findText(getSelectedTaggerTypeForReadName()))
-                self.isActiveChanging = True
-        except:
-            error = ReportBug.ReportBug()
-            error.show()
-    
-    def musicTagTypeForWriteChanged(self, _action=None):
-        try:
-            selectedType = str(self.MusicTagTypes[_action])
-            if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedValues()==True:
-                    setSelectedTaggerTypeForWriteName(selectedType)
-                self.isActiveChanging = False
-                self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
-                if self.cbMusicTagTypeForWriteForMenu != None:
-                    self.cbMusicTagTypeForWriteForMenu.setCurrentIndex(self.cbMusicTagTypeForWriteForMenu.findText(getSelectedTaggerTypeForWriteName()))
+                self.cbMusicTagType.setCurrentIndex(self.cbMusicTagType.findText(getSelectedTaggerTypeName()))
+                if self.cbMusicTagTypeForMenu != None:
+                    self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(getSelectedTaggerTypeName()))
                 self.isActiveChanging = True
         except:
             error = ReportBug.ReportBug()
             error.show()
         
     def getSpecialOptions(self, _menu):
-        self.cbMusicTagTypeForReadForMenu = MComboBox(self)
-        self.cbMusicTagTypeForWriteForMenu = MComboBox(self)
-        self.cbMusicTagTypeForReadForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbMusicTagTypeForWriteForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbMusicTagTypeForReadForMenu.addItems(self.MusicTagTypes)
-        self.cbMusicTagTypeForWriteForMenu.addItems(self.MusicTagTypes)
+        self.cbMusicTagTypeForMenu = MComboBox(self)
+        self.cbMusicTagTypeForMenu.addItems(self.MusicTagTypes)
         self.isActiveChanging = False
-        self.cbMusicTagTypeForReadForMenu.setCurrentIndex(self.cbMusicTagTypeForReadForMenu.findText(getSelectedTaggerTypeForReadName()))
-        self.cbMusicTagTypeForWriteForMenu.setCurrentIndex(self.cbMusicTagTypeForWriteForMenu.findText(getSelectedTaggerTypeForWriteName()))
+        self.cbMusicTagTypeForMenu.setCurrentIndex(self.cbMusicTagTypeForMenu.findText(getSelectedTaggerTypeName()))
         self.isActiveChanging = True
-        MObject.connect(self.cbMusicTagTypeForReadForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForReadChanged)
-        MObject.connect(self.cbMusicTagTypeForWriteForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForWriteChanged)
-        wactLabelForRead = MWidgetAction(_menu)
-        wactLabelForRead.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "Read From : "))))
-        wactLabelForWrite = MWidgetAction(_menu)
-        wactLabelForWrite.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "Write To : "))))
-        wactForRead = MWidgetAction(_menu)
-        wactForWrite = MWidgetAction(_menu)
-        wactForRead.setDefaultWidget(self.cbMusicTagTypeForReadForMenu)
-        wactForWrite.setDefaultWidget(self.cbMusicTagTypeForWriteForMenu)
-        _menu.addAction(wactLabelForRead)
-        _menu.addAction(wactForRead)
-        _menu.addAction(wactLabelForWrite)
-        _menu.addAction(wactForWrite)
+        MObject.connect(self.cbMusicTagTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeChanged)
+        wactLabel = MWidgetAction(_menu)
+        wactLabel.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "ID3 Version") + " : ")))
+        wact = MWidgetAction(_menu)
+        wact.setDefaultWidget(self.cbMusicTagTypeForMenu)
+        _menu.addAction(wactLabel)
+        _menu.addAction(wact)
         
 class AmarokMusicOptionsBar(MToolBar):
 
@@ -756,8 +719,8 @@ class AmarokMusicOptionsBar(MToolBar):
         self.cbTagTargetTypeForMenu = MComboBox(self)
         self.cbTagTargetTypeForMenu.addItems(self.MusicTagTargetTypes)
         self.isActiveChanging = False
-        self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(getSelectedTaggerTypeForReadName()))
-        self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(getSelectedTaggerTypeForReadName()))
+        self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(getSelectedTaggerTypeName()))
+        self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(getSelectedTaggerTypeName()))
         self.isActiveChanging = True
         MObject.connect(self.cbTagSourceTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
         MObject.connect(self.cbTagTargetTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)

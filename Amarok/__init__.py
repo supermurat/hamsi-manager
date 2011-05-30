@@ -38,13 +38,9 @@ except:pass
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
 class Amarok:
-    global getMySQLModule, checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType
+    global checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType
     isAskEmbeddedDBConfiguration = True
     dbConnection = None
-    
-    def getMySQLModule():
-        if isLoadedMysql: return mdb
-        return None
     
     def checkAmarok(_isAlertIfNotAvailable=True, _isUseReadOnly=True):
         if isLoadedMysql and Variables.isAvailableKDE4():
@@ -185,8 +181,8 @@ class Amarok:
     def setSelectedTagSourseType(_type):
         Universals.setMySetting("AmarokTagSourceType", _type)
         if _type!="Amarok":
-            from Taggers import setSelectedTaggerTypeForReadName
-            setSelectedTaggerTypeForReadName(_type)
+            from Taggers import setSelectedTaggerTypeName
+            setSelectedTaggerTypeName(_type)
         
     def setSelectedTagTargetType(_type):
         Universals.setMySetting("AmarokTagTargetType", _type)

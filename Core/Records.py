@@ -44,19 +44,13 @@ class Records():
             print (_title)
         isSetedTitle = True
     
-    def add(_action, _previous="", _now=None):
+    def add(_action, _previous="", _now=""):
         global recordContents
         if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
             if recordType==0 or (recordType==1 and Universals.loggingLevel==logging.DEBUG):
-                if _now is not None:
-                    recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
-                else:
-                    recordContents += str(_action + " ::::::: '") + str(_previous) + "' " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+                recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
         if Universals.loggingLevel==logging.DEBUG:
-            if _now is not None:
-                print (str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
-            else:
-                print (str(_action + " ::::::: '") + str(_previous) + "' " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+            print (str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
         
     def setRecordType(_recordType):
         global lastRecordType, recordType

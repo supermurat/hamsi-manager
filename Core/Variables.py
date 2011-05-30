@@ -28,8 +28,8 @@ class Variables():
     osName = os.name
     isPython3k = float(sys.version[:3])>=3.0
     Catalog = "HamsiManager" 
-    version = "0.9.77"
-    intversion = 977
+    version = "0.9.72"
+    intversion = 972
     settingVersion = "970"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
@@ -42,14 +42,13 @@ class Variables():
     mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
     imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
     windowModeKeys = ["Normal", "Mini"]
-    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png", "amarokMusicTable.png", "amarokMusicTable.png", "amarokCopyTable.png"]
+    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png", "amarokMusicTable.png"]
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
                   "hiddenFileTableColumns", "hiddenMusicTableColumns", "hiddenSubFolderTableColumns", 
                   "hiddenCoverTableColumns", "hiddenAmarokMusicTableColumns", "hiddenAmarokCoverTableColumns", 
-                  "hiddenAmarokDatabaseCorrectorColumns", "hiddenAmarokCopyTableColumns", 
                   "isPlayNow", "MainWindowGeometries", "tableType", 
                   "activeTabNoOfSpecialTools", "unneededFiles", "ignoredFiles", 
                   "imageExtensions", "musicExtensions", "priorityIconNames", 
@@ -93,10 +92,7 @@ class Variables():
                   "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral", 
                   "colorSchemes", "isActiveAutoMakeIconToDirectory", 
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", 
-                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents", 
-                  "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist", "AmarokFilterAmarokMusicTable", 
-                  "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree", 
-                  "isMusicTableValuesChangeInAmarokDB"]
+                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -201,8 +197,6 @@ class Variables():
                 "hiddenCoverTableColumns": str([]),
                 "hiddenAmarokMusicTableColumns": str([]),
                 "hiddenAmarokCoverTableColumns": str([]),
-                "hiddenAmarokDatabaseCorrectorColumns": str([]),
-                "hiddenAmarokCopyTableColumns": str([]),
                 "isPlayNow": "False", 
                 "MainWindowGeometries": str([50, 50, 850, 533]), 
                 "tableType": "2", 
@@ -308,13 +302,7 @@ class Variables():
                 "pathOfDeletedFilesAndDirectories": userDirectoryPath + "/.HamsiApps/HamsiManager/Deleted", 
                 "isReadOnlyAmarokDB": "False", 
                 "isReadOnlyAmarokDBHost": "False", 
-                "isResizeTableColumnsToContents": "False", 
-                "AmarokFilterAmarokCopyTable": "", 
-                "AmarokFilterADCArtist": "", 
-                "AmarokFilterAmarokMusicTable": "", 
-                "isAppendFileSizeToFileTree": "True", 
-                "isAppendLastModifiedToFileTree": "False", 
-                "isMusicTableValuesChangeInAmarokDB": "False"
+                "isResizeTableColumnsToContents": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -333,11 +321,9 @@ class Variables():
                 "hiddenCoverTableColumns": ["intList", list(range(0, 2))], 
                 "hiddenAmarokMusicTableColumns": ["intList", list(range(0, 10))], 
                 "hiddenAmarokCoverTableColumns": ["intList", list(range(0, 2))], 
-                "hiddenAmarokDatabaseCorrectorColumns": ["intList", list(range(0, 2))], 
-                "hiddenAmarokCopyTableColumns": ["intList", list(range(0, 10))], 
                 "isPlayNow": "bool", 
                 "MainWindowGeometries": ["intStaticListLen", 4], 
-                "tableType": ["int", list(range(0, 9))], 
+                "tableType": ["int", list(range(0, 7))], 
                 "activeTabNoOfSpecialTools": ["int", list(range(0, 5))], 
                 "unneededFiles": "list", 
                 "ignoredFiles": "list", 
@@ -440,13 +426,7 @@ class Variables():
                 "pathOfDeletedFilesAndDirectories": "str", 
                 "isReadOnlyAmarokDB": "bool", 
                 "isReadOnlyAmarokDBHost": "bool", 
-                "isResizeTableColumnsToContents": "bool", 
-                "AmarokFilterAmarokCopyTable": "str", 
-                "AmarokFilterADCArtist": "str", 
-                "AmarokFilterAmarokMusicTable": "str", 
-                "isAppendFileSizeToFileTree": "bool", 
-                "isAppendLastModifiedToFileTree": "bool", 
-                "isMusicTableValuesChangeInAmarokDB": "bool"
+                "isResizeTableColumnsToContents": "bool"
                 }
 
     def getAvailablePlayers():

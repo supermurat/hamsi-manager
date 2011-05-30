@@ -21,7 +21,7 @@ import Amarok
 from Amarok import Commands
 
 class Operations:
-    global getDirectoriesAndValues, changePaths, changeTags, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValues
+    global getDirectoriesAndValues, changePaths, changeTags, getAllMusicFileValuesWithNames
     
     def getDirectoriesAndValues():
         db = Amarok.checkAndGetDB()
@@ -29,16 +29,10 @@ class Operations:
             return Commands.getDirectoriesAndValues()
         return None
         
-    def getAllMusicFileValuesWithNames(_filter = ""):
+    def getAllMusicFileValuesWithNames():
         db = Amarok.checkAndGetDB()
         if db!=None:
-            return Commands.getAllMusicFileValuesWithNames(_filter)
-        return None
-        
-    def getAllArtistsValues(_filter = "", _isOnlyArtistFilter = False):
-        db = Amarok.checkAndGetDB()
-        if db!=None:
-            return Commands.getAllArtistsValues(_filter, _isOnlyArtistFilter)
+            return Commands.getAllMusicFileValuesWithNames()
         return None
         
     def changePaths(_values):
@@ -49,38 +43,6 @@ class Operations:
         for value in _values:
             Commands.changeTag(value)
             
-    def changeArtistValues(_values):
-        import Taggers, InputOutputs, Universals, Dialogs, Records
-        Universals.startThreadAction()
-        allItemNumber = len(_values)
-        Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
-        for x, value in enumerate(_values):
-            isContinueThreadAction = Universals.isContinueThreadAction()
-            if isContinueThreadAction:
-                musicFilePathAndArtist = Commands.changeArtistValue(value)
-                if musicFilePathAndArtist!=None:
-                    artistName = musicFilePathAndArtist[1]
-                    for musicFilePath in musicFilePathAndArtist[0]:
-                        if InputOutputs.IA.isWritableFileOrDir(musicFilePath):
-                            Records.add(str(Universals.translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
-                            currentArtistName = ""
-                            tagger = Taggers.getTagger()
-                            try:
-                                tagger.loadFileForWrite(musicFilePath, False)
-                                currentArtistName = tagger.getArtist()
-                                tagger.correctForMusicTagType()
-                            except: 
-                                tagger.loadFileForWrite(musicFilePath)
-                            tagger.setArtist(artistName)
-                            tagger.update()
-                            Records.add(str(Universals.translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
-            else:
-                allItemNumber = x+1
-            Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)
-            if isContinueThreadAction==False:
-                break
-        Universals.finishThreadAction()
-                        
             
             
             

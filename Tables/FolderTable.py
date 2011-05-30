@@ -25,14 +25,10 @@ import Dialogs
 from time import gmtime
 import Universals
 
-class FolderTable():
-    def __init__(self, _table):
-        self.Table = _table
-        self.keyName = "directory"
-        self.hiddenTableColumnsSettingKey = "hiddenFolderTableColumns"
-        self.refreshColumns()
-        
-    def readContents(self, _directoryPath):
+class Content():
+    global readContents, writeContents
+    
+    def readContents(_directoryPath):
         currentTableContentValues = []
         fileAndDirectoryNames = InputOutputs.IA.readDirectory(_directoryPath, "fileAndDirectory")
         allItemNumber = len(fileAndDirectoryNames)
@@ -55,30 +51,30 @@ class FolderTable():
         Universals.finishThreadAction()
         return currentTableContentValues
     
-    def writeContents(self):
-        self.Table.changedValueNumber = 0
+    def writeContents(_table):
+        _table.changedValueNumber = 0
         changingFileDirectories=[]
         Universals.startThreadAction()
-        allItemNumber = len(self.Table.currentTableContentValues)
+        allItemNumber = len(_table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),0,allItemNumber, True)
-        for rowNo in range(self.Table.rowCount()):
+        for rowNo in range(_table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
-                    if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], True)
+                if InputOutputs.IA.isWritableFileOrDir(_table.currentTableContentValues[rowNo]["path"]):
+                    if _table.isRowHidden(rowNo):
+                        InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"], True)
                         continue
-                    baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                    baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                    if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
-                        baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
-                        self.Table.changedValueNumber += 1
-                    if self.Table.isChangableItem(rowNo, 1, baseName, False):
-                        baseName = str(self.Table.item(rowNo,1).text())
-                        self.Table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
-                    if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
-                        changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
+                    baseNameOfDirectory = str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                    baseName = str(_table.currentTableContentValues[rowNo]["baseName"])
+                    if _table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                        baseNameOfDirectory = str(_table.item(rowNo,0).text())
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 1, baseName, False):
+                        baseName = str(_table.item(rowNo,1).text())
+                        _table.changedValueNumber += 1
+                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(_table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
+                    if InputOutputs.getRealPath(_table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
+                        changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
                                                         newFilePath])
             else:
                 allItemNumber = rowNo+1
@@ -88,6 +84,15 @@ class FolderTable():
         Universals.finishThreadAction()
         InputOutputs.IA.changeDirectories(changingFileDirectories)
         return True
+
+
+
+class FolderTable():
+    def __init__(self, _table):
+        self.Table = _table
+        self.specialTollsBookmarkPointer = "directory"
+        self.hiddenTableColumnsSettingKey = "hiddenFolderTableColumns"
+        self.refreshColumns()
         
     def showDetails(self, _fileNo, _infoNo):
         TextDetails.TextDetails(self.Table.currentTableContentValues[_fileNo]["path"],self.Table.isOpenDetailsOnNewWindow.isChecked())
@@ -113,10 +118,10 @@ class FolderTable():
         
     def save(self):
         self.Table.checkFileExtensions(1, "baseName", True)
-        return self.writeContents()
+        return writeContents(self.Table)
     
     def refresh(self, _path):
-        self.Table.currentTableContentValues = self.readContents(_path)
+        self.Table.currentTableContentValues = readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(2):
