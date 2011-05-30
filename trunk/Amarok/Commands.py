@@ -20,6 +20,7 @@ from urllib import unquote, quote
 import re
 import Amarok
 import Databases
+import Universals
 
 class Commands:
     global getSQLConditionByFilter, getDirectoriesAndValues, changePath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId, getSQLConditionPartByPartOfFilter, getSQLConditionValues
@@ -30,6 +31,14 @@ class Commands:
             _partOfFilterString=_partOfFilterString.replace(" :",":")
         while _partOfFilterString.find(": ")!=-1:
             _partOfFilterString=_partOfFilterString.replace(": ",":")
+        while _partOfFilterString.find(" <")!=-1:
+            _partOfFilterString=_partOfFilterString.replace(" <","<")
+        while _partOfFilterString.find("< ")!=-1:
+            _partOfFilterString=_partOfFilterString.replace("< ","<")
+        while _partOfFilterString.find(" >")!=-1:
+            _partOfFilterString=_partOfFilterString.replace(" >",">")
+        while _partOfFilterString.find("> ")!=-1:
+            _partOfFilterString=_partOfFilterString.replace("> ",">")
         _partOfFilterString = _partOfFilterString.replace("\"", "")
         _partOfFilterString = Databases.correctForSql(_partOfFilterString)
         if _partOfFilterString.find("filename:")!=-1:
@@ -74,6 +83,30 @@ class Commands:
                 return " ( LOWER(`valueTable`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
             else:
                 return " ( LOWER(`tracks`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        elif _partOfFilterString.find("rating:<")!=-1:
+            filterPart = _partOfFilterString.replace("rating:<", "").replace(".", ",")
+            try: filterPart = int(float(filterPart) * 2)
+            except: filterPart = 0
+            if _isValueTable:
+                return " ( `valueTable`.`rating` < %s ) " % (filterPart)
+            else:
+                return " ( `statistics`.`rating` < %s ) " % (filterPart)
+        elif _partOfFilterString.find("rating:>")!=-1:
+            filterPart = _partOfFilterString.replace("rating:>", "").replace(".", ",")
+            try: filterPart = int(float(filterPart) * 2)
+            except: filterPart = 0
+            if _isValueTable:
+                return " ( `valueTable`.`rating` > %s ) " % (filterPart)
+            else:
+                return " ( `statistics`.`rating` > %s ) " % (filterPart)
+        elif _partOfFilterString.find("rating:")!=-1:
+            filterPart = _partOfFilterString.replace("rating:", "").replace(".", ",")
+            try: filterPart = int(float(filterPart) * 2)
+            except: filterPart = 0
+            if _isValueTable:
+                return " ( `valueTable`.`rating` = %s ) " % (filterPart)
+            else:
+                return " ( `statistics`.`rating` = %s ) " % (filterPart)
         else:
             filterPart = _partOfFilterString
             if _isValueTable:
@@ -93,7 +126,7 @@ class Commands:
                 deleteThisFromFilter = f
             sqlCondition += appendingCondition + getSQLConditionPartByPartOfFilter(f, _isValueTable)
             _filter = _filter.replace(deleteThisFromFilter, " ")
-        return sqlCondition, _filter
+        return sqlCondition, _filter.strip()
     
     def getSQLConditionByFilter(_filter = "", _isValueTable = True, _isAppendWhere = True):
         _filter = str(_filter).strip().replace("\t", " ").replace("\n", " ")
@@ -105,14 +138,19 @@ class Commands:
             return "" # Incorrect filter string
         if _isAppendWhere : sqlCondition = " WHERE "
         else: sqlCondition = ""
-        listOfSpecialAndQuoted = re.findall(r"([a-zA-Z]* ?: ?\"[ a-zA-Z0-9_-]*\")", _filter) #['artist:"like this"']
+        listOfSpecialAndQuoted = re.findall(r"([a-zA-Z]* ?: ?\"[ a-zA-Z0-9+_\-\.]*\")", _filter) #['artist:"like this"']
         sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecialAndQuoted, _isValueTable)
-        listOfSpecial = re.findall(r"([a-zA-Z]* ?: ?[a-zA-Z0-9_-]+)", _filter) #['artist:likeThis']
+        listOfSpecial1 = re.findall(r"([a-zA-Z]* ?: ?< ?[a-zA-Z0-9+_\-\.]+)", _filter) #['rating:<likeThis']
+        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial1, _isValueTable)
+        listOfSpecial2 = re.findall(r"([a-zA-Z]* ?: ?> ?[a-zA-Z0-9+_\-\.]+)", _filter) #['rating:>likeThis']
+        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial2, _isValueTable)
+        listOfSpecial = re.findall(r"([a-zA-Z]* ?: ?[a-zA-Z0-9+_\-\.]+)", _filter) #['artist:likeThis']
         sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial, _isValueTable)
-        listOfQuoted = re.findall(r"(\"[ a-zA-Z0-9_-]*\")", _filter) #['"like this"']
+        listOfQuoted = re.findall(r"(\"[ a-zA-Z0-9+_\-\.]*\")", _filter) #['"like this"']
         sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfQuoted, _isValueTable)
         listOfFilters = _filter.split(" ")
-        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfFilters, _isValueTable)
+        if listOfFilters != [""]:
+            sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfFilters, _isValueTable)
         sqlControl = re.findall(r"(WHERE *(OR|AND)?)", sqlCondition)
         if len(sqlControl)>0:
             sqlCondition = sqlCondition.replace(sqlControl[0][0], "WHERE ")
@@ -228,7 +266,7 @@ LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
         
     def getAllMusicFileValuesWithNames(_filter = ""):
         db = Amarok.checkAndGetDB()
-        db.query("""
+        query = """
 SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     SELECT `tracks`.`id`, CONVERT(
         REPLACE(
@@ -264,7 +302,8 @@ SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     `albumartists`.`name` AS 'albumartistname',
     `years`.`name` AS 'yearname',
     `genres`.`name` AS 'genrename',
-    `images`.`path`
+    `images`.`path`,
+    `statistics`.`rating`
     FROM `tracks`
     LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
@@ -274,9 +313,12 @@ SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
     LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
     LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
+    LEFT JOIN `statistics` ON `statistics`.`url` = `tracks`.`url`
 ) as `valueTable`
 LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
-""" + getSQLConditionByFilter(_filter))
+""" + getSQLConditionByFilter(_filter)
+        Universals.printForDevelopers("Query - getAllMusicFileValuesWithNames : " + query)
+        db.query(query)
         r = db.store_result()
         musicFileValues = []
         rows = r.fetch_row(0)
@@ -512,7 +554,8 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         `albumartists`.`name` AS 'albumartistname',
         `years`.`name` AS 'yearname',
         `genres`.`name` AS 'genrename',
-        `images`.`path`
+        `images`.`path`,
+        `statistics`.`rating`
         FROM `tracks`
         LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
         LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
@@ -522,6 +565,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
         LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
         LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
+        LEFT JOIN `statistics` ON `statistics`.`url` = `tracks`.`url`
     ) as `valueTable`
     LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
 """ + getSQLConditionByFilter(_filter) + """
