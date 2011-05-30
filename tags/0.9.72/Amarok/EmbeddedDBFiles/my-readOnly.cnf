@@ -1,0 +1,16 @@
+# The following options will be passed to all MySQL clients
+[client]
+user		= root
+port		= 33616
+socket		= ~SettingsDirectory~/Amarok/mysql.sock
+default-character-set=utf8
+
+# The MySQL server
+[mysqld]
+user		= root
+datadir		= ~SettingsDirectory~/Amarok/mysqle
+port		= 33616
+socket		= ~SettingsDirectory~/Amarok/mysql.sock
+pid-file	= ~SettingsDirectory~/Amarok/mysqld.pid
+default-character-set=utf8
+default-collation=utf8_general_ci
