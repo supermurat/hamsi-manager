@@ -88,7 +88,7 @@ class SubFolderTable():
                     newFilePath = str(self.Table.currentTableContentValues[rowNo]["path"]).replace(str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"]) + "/" + str(self.Table.currentTableContentValues[rowNo]["baseName"]), "") + "/" + baseNameOfDirectory + "/" + baseName
                     if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
                         changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
-                                                        newFilePath])
+                                                        InputOutputs.getRealPath(newFilePath)])
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/SubFolders", "Writing File Informations"),rowNo+1,allItemNumber, True)
