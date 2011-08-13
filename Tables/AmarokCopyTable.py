@@ -144,63 +144,59 @@ class AmarokCopyTable():
                 if self.Table.isChangableItem(rowNo, 1, baseName, False):
                     baseName = str(self.Table.item(rowNo,1).text())
                     self.Table.changedValueNumber += 1
-                newFilePath = str(self.Table.SubTable.leDestinationDirPath.text()) + "/" + baseNameOfDirectory + "/" + baseName
+                newFilePath = InputOutputs.getRealPath(str(self.Table.SubTable.leDestinationDirPath.text()) + "/" + baseNameOfDirectory + "/" + baseName)
                 if InputOutputs.IA.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.IA.isReadableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
                     if InputOutputs.IA.isWritableFileOrDir(newFilePath):
                         newFilePathCopied = InputOutputs.IA.copyOrChange(self.Table.currentTableContentValues[rowNo]["path"], newFilePath)
                         if self.Table.currentTableContentValues[rowNo]["path"] != newFilePathCopied:
                             newFilePath = newFilePathCopied
-                            if Amarok.getSelectedTagTargetType().find("ID3")>-1:
-                                typeTemp = Amarok.getSelectedTagTargetType().split(" + ")
-                                if len(typeTemp)>1:
-                                    taggerType = typeTemp[1]
-                                else:
-                                    taggerType = typeTemp[0]
-                                Taggers.setSelectedTaggerTypeForReadName(taggerType)
-                            tagger = Taggers.getTagger()
-                            tagger.loadFileForWrite(newFilePath)
-                            if self.Table.isChangableItem(rowNo, 2):
-                                value = str(self.Table.item(rowNo,2).text())
-                                tagger.setArtist(value)
-                                Records.add(str(translate("AmarokCopyTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["artist"]), value)
-                                self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 3):
-                                value = str(self.Table.item(rowNo,3).text())
-                                tagger.setTitle(value)
-                                Records.add(str(translate("AmarokCopyTable", "Title")), str(self.Table.currentTableContentValues[rowNo]["title"]), value)
-                                self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 4):
-                                value = str(self.Table.item(rowNo,4).text())
-                                tagger.setAlbum(value)
-                                Records.add(str(translate("AmarokCopyTable", "Album")), str(self.Table.currentTableContentValues[rowNo]["album"]), value)
-                                self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 5):
-                                value = str(self.Table.item(rowNo,5).text())
-                                tagger.setTrackNum(value, len(self.Table.currentTableContentValues))
-                                Records.add(str(translate("AmarokCopyTable", "Track No")), str(self.Table.currentTableContentValues[rowNo]["trackNum"]), value)
-                                self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 6):
-                                value = str(self.Table.item(rowNo,6).text())
-                                tagger.setDate(value)
-                                Records.add(str(translate("AmarokCopyTable", "Year")), str(self.Table.currentTableContentValues[rowNo]["year"]), value)
-                                self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 7):
-                                value = str(self.Table.item(rowNo,7).text())
-                                tagger.setGenre(value)
-                                Records.add(str(translate("AmarokCopyTable", "Genre")), str(self.Table.currentTableContentValues[rowNo]["genre"]), value)
-                                self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 8):
-                                value = str(self.Table.item(rowNo,8).text())
-                                tagger.setFirstComment(value)
-                                Records.add(str(translate("AmarokCopyTable", "Comment")), str(self.Table.currentTableContentValues[rowNo]["firstComment"]), value)
-                                self.Table.changedValueNumber += 1
-                            if len(self.Table.tableColumns)>9 and self.Table.isChangableItem(rowNo, 9):
-                                value = str(self.Table.item(rowNo,9).text())
-                                tagger.setFirstLyrics(value)
-                                Records.add(str(translate("AmarokCopyTable", "Lyrics")), str(self.Table.currentTableContentValues[rowNo]["firstLyrics"]), value)
-                                self.Table.changedValueNumber += 1
-                            if Amarok.getSelectedTagTargetType().find("ID3")>-1:
+                            try:
+                                #FIXME: Add destination taggerType selection into Table
+                                #Taggers.setSelectedTaggerTypeForReadName(taggerType)
+                                tagger = Taggers.getTagger()
+                                tagger.loadFileForWrite(newFilePath)
+                                if self.Table.isChangableItem(rowNo, 2):
+                                    value = str(self.Table.item(rowNo,2).text())
+                                    tagger.setArtist(value)
+                                    Records.add(str(translate("AmarokCopyTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["artist"]), value)
+                                    self.Table.changedValueNumber += 1
+                                if self.Table.isChangableItem(rowNo, 3):
+                                    value = str(self.Table.item(rowNo,3).text())
+                                    tagger.setTitle(value)
+                                    Records.add(str(translate("AmarokCopyTable", "Title")), str(self.Table.currentTableContentValues[rowNo]["title"]), value)
+                                    self.Table.changedValueNumber += 1
+                                if self.Table.isChangableItem(rowNo, 4):
+                                    value = str(self.Table.item(rowNo,4).text())
+                                    tagger.setAlbum(value)
+                                    Records.add(str(translate("AmarokCopyTable", "Album")), str(self.Table.currentTableContentValues[rowNo]["album"]), value)
+                                    self.Table.changedValueNumber += 1
+                                if self.Table.isChangableItem(rowNo, 5):
+                                    value = str(self.Table.item(rowNo,5).text())
+                                    tagger.setTrackNum(value, len(self.Table.currentTableContentValues))
+                                    Records.add(str(translate("AmarokCopyTable", "Track No")), str(self.Table.currentTableContentValues[rowNo]["trackNum"]), value)
+                                    self.Table.changedValueNumber += 1
+                                if self.Table.isChangableItem(rowNo, 6):
+                                    value = str(self.Table.item(rowNo,6).text())
+                                    tagger.setDate(value)
+                                    Records.add(str(translate("AmarokCopyTable", "Year")), str(self.Table.currentTableContentValues[rowNo]["year"]), value)
+                                    self.Table.changedValueNumber += 1
+                                if self.Table.isChangableItem(rowNo, 7):
+                                    value = str(self.Table.item(rowNo,7).text())
+                                    tagger.setGenre(value)
+                                    Records.add(str(translate("AmarokCopyTable", "Genre")), str(self.Table.currentTableContentValues[rowNo]["genre"]), value)
+                                    self.Table.changedValueNumber += 1
+                                if self.Table.isChangableItem(rowNo, 8):
+                                    value = str(self.Table.item(rowNo,8).text())
+                                    tagger.setFirstComment(value)
+                                    Records.add(str(translate("AmarokCopyTable", "Comment")), str(self.Table.currentTableContentValues[rowNo]["firstComment"]), value)
+                                    self.Table.changedValueNumber += 1
+                                if len(self.Table.tableColumns)>9 and self.Table.isChangableItem(rowNo, 9):
+                                    value = str(self.Table.item(rowNo,9).text())
+                                    tagger.setFirstLyrics(value)
+                                    Records.add(str(translate("AmarokCopyTable", "Lyrics")), str(self.Table.currentTableContentValues[rowNo]["firstLyrics"]), value)
+                                    self.Table.changedValueNumber += 1
                                 tagger.update()
+                            except:pass #FIXME: alert 
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)

@@ -31,6 +31,13 @@ class SubFolderTable():
         self.keyName = "subfolder"
         self.hiddenTableColumnsSettingKey = "hiddenSubFolderTableColumns"
         self.refreshColumns()
+        self.cckbChangeInAmarokDB = MCheckBox(translate("SubFolderTable", "Change in Amarok database"))
+        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+            self.cckbChangeInAmarokDB.setCheckState(Mt.Checked)
+        else:
+            self.cckbChangeInAmarokDB.setCheckState(Mt.Unchecked)
+        Universals.MainWindow.MainLayout.addWidget(self.cckbChangeInAmarokDB)
+
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -88,7 +95,10 @@ class SubFolderTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        from Amarok import Operations
+        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+            Operations.changePaths(pathValues)
         return True
         
     def showDetails(self, _fileNo, _infoNo):
@@ -115,6 +125,10 @@ class SubFolderTable():
         
     def save(self):
         self.Table.checkFileExtensions(1, "baseName")
+        if self.cckbChangeInAmarokDB.checkState() == Mt.Checked:
+            Universals.setMySetting("isSubFolderTableValuesChangeInAmarokDB", True)
+        else:
+            Universals.setMySetting("isSubFolderTableValuesChangeInAmarokDB", False)
         return self.writeContents()
         
     def refresh(self, _path):
