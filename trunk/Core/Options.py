@@ -125,6 +125,7 @@ class Options(MDialog):
                             Packager(self, _showType), 
                             Cleaner(self, _showType), 
                             Amarok(self, _showType), 
+                            HiddenObjects(self, _showType), 
                             MySettings(self, _showType, [])]
         elif _showType=="pack":
             self.categories = [General(self, _showType, ["isSaveActions"]), 
@@ -461,7 +462,7 @@ class Options(MDialog):
             Universals.saveSettings()
             if isSaveSearchAndReplaceTable:
                 self.categories[searchAndReplaceCategoryNo].searchAndReplaceTable.save()
-            Universals.MainWindow.ToolsBar.refreshQuickOptions()
+            Universals.MainWindow.Menu.refreshQuickOptions()
             Records.checkSize()
             if isDontClose:return False
             if isNeededRestart==True:
@@ -793,9 +794,7 @@ class General(MWidget):
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["isSaveActions", "maxRecordFileSize", 
                                 "updateInterval", "language"]
-        self.tabsOfSettings = [None, None, None, None, None, 
-                                None, None, None, 
-                                None, None, None]
+        self.tabsOfSettings = [None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -806,8 +805,6 @@ class General(MWidget):
         self.labels = [translate("Options/General", "Save Actions"), 
                     translate("Options/General", "Record File Size"), 
                     translate("Options/General", "Update Interval (in days)"), 
-                    translate("Options/General", "Show Transaction Details"), 
-                    translate("Options/General", "Window Mode"),  
                     translate("Options/General", "Application Language")]
         self.toolTips = [translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
                     translate("Options/General", "You can select record file size.(Kilobytes)"), 
@@ -1563,7 +1560,39 @@ class Amarok(MWidget):
         except:
             error = ReportBug.ReportBug()
             error.show()
-        
+
+class HiddenObjects(MWidget):
+    def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
+        MWidget.__init__(self, _parent)
+        self.titleOfCategory = translate("Options/HiddenObjects", "Hidden Objects")
+        self.labelOfCategory = translate("Options/HiddenObjects", "You can change the hidden files / directories visibility in this section.")
+        self.categoryNo = None
+        self.Panel = MVBoxLayout(self)
+        self.values, self.lblLabels = [], []
+        self.keysOfSettings = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
+        self.tabsOfSettings = [0, 0, 0, 0, 0]
+        self.tabNames = [translate("Options/ClearGeneral", "Show Hidden Files / Directories ...")]
+        if _visibleKeys==None:
+            self.visibleKeys = self.keysOfSettings
+        else:
+            self.visibleKeys = _visibleKeys
+        self.neededRestartSettingKeys = []
+        self.valuesOfOptionsKeys = []
+        self.labels = [translate("Options/HiddenObjects", "In SubFolder Table"), 
+                    translate("Options/HiddenObjects", "In Folder Table"), 
+                    translate("Options/HiddenObjects", "In File Table"), 
+                    translate("Options/HiddenObjects", "In Music Table"), 
+                    translate("Options/HiddenObjects", "In Cover Table")]
+        self.toolTips = [translate("Options/HiddenObjects", "Are you want to show hidden files and directories in subfolder table?"), 
+                    translate("Options/HiddenObjects", "Are you want to show hidden files and directories in folder table?"), 
+                    translate("Options/HiddenObjects", "Are you want to show hidden files in file table?"), 
+                    translate("Options/HiddenObjects", "Are you want to show hidden files in music table?"),
+                    translate("Options/HiddenObjects", "Are you want to show hidden directories in cover table?")]
+        self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
+        self.valuesOfOptions = []
+        self.valuesOfOptionsKeys = []
+        createOptions(self)
 
 class MySettings(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
@@ -1852,12 +1881,14 @@ class QuickOptions(MMenu):
         MDialog.__init__(self, _parent)
         self.setTitle(translate("MenuBar", "Quick Options"))
         self.setObjectName(translate("MenuBar", "Quick Options"))
-        self.values = []
+        self.values, self.hiddenKeys = [], []
         self.keysOfSettings = ["isActiveClearGeneral", "isActiveAutoMakeIconToDirectory", 
                                 "validSentenceStructure", "validSentenceStructureForFile", 
                                 "validSentenceStructureForFileExtension", "fileExtesionIs", 
                                 "isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", 
-                                "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
+                                "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars", 
+                                "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
         self.labels = [translate("QuickOptions", "Activate General Cleaner"), 
             translate("QuickOptions", "Auto Change Directory Icon"), 
             translate("QuickOptions", "Valid Sentence Structure"), 
@@ -1867,7 +1898,12 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Emend Incorrect Chars"),  
             translate("QuickOptions", "Correct File Name By Search Table"), 
             translate("QuickOptions", "Clear First And Last Space Chars"), 
-            translate("QuickOptions", "Correct Double Space Chars")]
+            translate("QuickOptions", "Correct Double Space Chars"), 
+            translate("Options/HiddenObjects", "Show Hidden Files And Directories"), 
+            translate("Options/HiddenObjects", "Show Hidden Files And Directories"), 
+            translate("Options/HiddenObjects", "Show Hidden Files"), 
+            translate("Options/HiddenObjects", "Show Hidden Files"), 
+            translate("Options/HiddenObjects", "Show Hidden Directories")]
         self.toolTips = [translate("QuickOptions", "Are you want to activate General Cleaner?"), 
             translate("QuickOptions", "Are you want to change directory icon automatically?"), 
             translate("QuickOptions", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
@@ -1877,10 +1913,15 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Are you want to emend incorrect chars?"), 
             translate("QuickOptions", "Are you want to correct file and directory names by search and replace table?"), 
             translate("QuickOptions", "Are you want to clear first and last space chars?"), 
-            translate("QuickOptions", "Are you want to correct double space chars?")]
+            translate("QuickOptions", "Are you want to correct double space chars?"), 
+            translate("Options/HiddenObjects", "Are you want to show hidden files and directories in subfolder table?"), 
+            translate("Options/HiddenObjects", "Are you want to show hidden files and directories in folder table?"), 
+            translate("Options/HiddenObjects", "Are you want to show hidden files in file table?"), 
+            translate("Options/HiddenObjects", "Are you want to show hidden files in music table?"),
+            translate("Options/HiddenObjects", "Are you want to show hidden directories in cover table?")]
         self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], 
-                            ["options", 1], "Yes/No", "Yes/No", 
-                            "Yes/No", "Yes/No"]
+                            ["options", 1], "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
+                            "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("QuickOptions", "Title"), 
                                     translate("QuickOptions", "All Small"), 
                                     translate("QuickOptions", "All Caps"), 
@@ -1890,35 +1931,56 @@ class QuickOptions(MMenu):
                                     translate("QuickOptions", "After The Last Point")]]
         self.valuesOfOptionsKeys = [Variables.validSentenceStructureKeys,
                                     Variables.fileExtesionIsKeys]
+        if Universals.tableType==0:
+            self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFileTable", 
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
+        elif Universals.tableType==1:
+            self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable",
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
+        elif Universals.tableType==2:
+            self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", 
+                                "isShowHiddensInFileTable", "isShowHiddensInCoverTable"]
+        elif Universals.tableType==3:
+            self.hiddenKeys = ["isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
+        elif Universals.tableType==4:
+            self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", 
+                                "isShowHiddensInFileTable", "isShowHiddensInMusicTable"]
+        else:
+            self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
         self.createActions()
         
     def createActions(self):
         for x, keyValue in enumerate(self.keysOfSettings):
-            if self.typesOfValues[x][0]=="options":
-                actionLabelList, selectedIndex = [], 0
-                actionLabelList = self.valuesOfOptions[self.typesOfValues[x][1]]
-                selectedIndex = self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(Universals.MySettings[keyValue])
-                self.values.append(MMenu(self.labels[x], self))
-                actgActionGroupTableTypes = MActionGroup(self.values[x])
-                for y, actionLabel in enumerate(actionLabelList):
-                    actAction = actgActionGroupTableTypes.addAction(actionLabel)
-                    actAction.setCheckable(True)
-                    actAction.setObjectName(trForUI(actionLabel+";"+str(y)))
-                    if selectedIndex==y:
-                        actAction.setChecked(True)
-                self.values[x].addActions(actgActionGroupTableTypes.actions())
-                self.addAction(self.values[x].menuAction())
-                MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
-            elif self.typesOfValues[x]=="Yes/No":
-                self.values.append(MAction(self.labels[x],self))
-                self.values[x].setObjectName(self.labels[x])
-                self.values[x].setToolTip(self.toolTips[x])
-                self.values[x].setCheckable(True)
-                if Universals.getBoolValue(keyValue):
-                    self.values[x].setChecked(Universals.isChangeAll)
-                self.addAction(self.values[x])
-                MObject.connect(self.values[x], SIGNAL("changed()"), self.valueChanged)
-            self.values[x].setToolTip(self.toolTips[x])
+            if keyValue not in self.hiddenKeys:
+                if self.typesOfValues[x][0]=="options":
+                    actionLabelList, selectedIndex = [], 0
+                    actionLabelList = self.valuesOfOptions[self.typesOfValues[x][1]]
+                    selectedIndex = self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(Universals.MySettings[keyValue])
+                    self.values.append(MMenu(self.labels[x], self))
+                    actgActionGroupTableTypes = MActionGroup(self.values[-1])
+                    for y, actionLabel in enumerate(actionLabelList):
+                        actAction = actgActionGroupTableTypes.addAction(actionLabel)
+                        actAction.setCheckable(True)
+                        actAction.setObjectName(trForUI(actionLabel+";"+str(y)))
+                        if selectedIndex==y:
+                            actAction.setChecked(True)
+                    self.values[-1].addActions(actgActionGroupTableTypes.actions())
+                    self.addAction(self.values[-1].menuAction())
+                    MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
+                elif self.typesOfValues[x]=="Yes/No":
+                    self.values.append(MAction(self.labels[x],self))
+                    self.values[-1].setObjectName(self.labels[x])
+                    self.values[-1].setToolTip(self.toolTips[x])
+                    self.values[-1].setCheckable(True)
+                    if Universals.getBoolValue(keyValue):
+                        self.values[-1].setChecked(Universals.isChangeAll)
+                    self.addAction(self.values[-1])
+                    MObject.connect(self.values[-1], SIGNAL("changed()"), self.valueChanged)
+                self.values[-1].setToolTip(self.toolTips[x])
+            else:
+                self.values.append(None)
         
     def valueChanged(self, _action=None):
         try:

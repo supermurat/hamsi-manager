@@ -319,12 +319,12 @@ class InputOutputs:
                 return False
         return False
         
-    def readDirectory(_path, _objectType="fileOrDirectory"):
+    def readDirectory(_path, _objectType="fileOrDirectory", _isShowHiddens=False):
         global appendingDirectories
         appendingDirectories=[]
         fileAndDirectoryNames,fileNames,directoryNames,musicFileNames=[],[],[],[]
         for name in listDir(_path):
-            if name[:1] != ".":
+            if _isShowHiddens or name[:1] != ".":
                 try:fileAndDirectoryNames.append(Universals.trDecode(name, fileSystemEncoding))
                 except:fileAndDirectoryNames.append(name)
         for name in fileAndDirectoryNames:
@@ -338,11 +338,6 @@ class InputOutputs:
                             musicFileNames.append(name)
                     except:
                         pass
-        fileAndDirectoryNames = []
-        for d in directoryNames:
-            fileAndDirectoryNames.append(d)
-        for f in fileNames:
-            fileAndDirectoryNames.append(f)
         if _objectType=="file":
             return fileNames
         elif _objectType=="directory":
@@ -363,35 +358,27 @@ class InputOutputs:
                 except:tFileAndDirs.append(name)
         return tFileAndDirs
   
-    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _currentSubDeep=0):
+    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _isShowHiddens=False, _currentSubDeep=0):
         global appendingDirectories
         _subDirectoryDeep = int(_subDirectoryDeep)
-        allFilesAndDirectories, names, files, directories, appendingDirectories =[],[],[],[],[]
+        allFilesAndDirectories, files, directories, appendingDirectories =[],[],[],[]
         try:namesList = readDirectoryAll(_path)
         except:return []
         for name in namesList:
-            if name[:1] != ".":
-                names.append(name)
-        for name in names:
-            if isDir(_path+"/"+name):
-                directories.append(name)
-            else:
-                files.append(name)
-        names = []
-        for d in directories:
-            names.append(d)
-        for f in files:
-            names.append(f)
-        for name in names:
-            if name[:1] != ".":
+            if _isShowHiddens or name[:1] != ".":
                 if isDir(_path+"/"+name):
-                    if _subDirectoryDeep==-1 or _subDirectoryDeep>_currentSubDeep:
-                        if _isGetDirectoryNames==True:
-                            allFilesAndDirectories.append(_path+"/"+name)
-                        for dd in readDirectoryWithSubDirectories(_path+"/"+name, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _currentSubDeep+1):
-                            allFilesAndDirectories.append(dd)
-                elif _isOnlyDirectories==False:
+                    directories.append(name)
+                else:
+                    files.append(name)
+        for name in directories:
+            if _subDirectoryDeep==-1 or _subDirectoryDeep>_currentSubDeep:
+                if _isGetDirectoryNames==True:
                     allFilesAndDirectories.append(_path+"/"+name)
+                for dd in readDirectoryWithSubDirectories(_path+"/"+name, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _isShowHiddens, _currentSubDeep+1):
+                    allFilesAndDirectories.append(dd)
+        if _isOnlyDirectories==False:
+            for name in files:
+                allFilesAndDirectories.append(_path+"/"+name)
         return allFilesAndDirectories
     
     def readFromFile(_path, _contentEncoding = fileSystemEncoding):
@@ -930,7 +917,7 @@ class InputOutputs:
     def getFileTree(_path, _subDirectoryDeep=-1, _formatType="html", _extInfo="no"):
         import Organizer
         _path = str(_path)
-        files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True)
+        files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True, False, Universals.getBoolValue("isShowHiddensInFileTree"))
         info = ""
         if _formatType=="html":
             if _extInfo=="no":

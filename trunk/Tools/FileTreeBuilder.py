@@ -54,6 +54,11 @@ class FileTreeBuilder(MyDialog):
                                     translate("FileTreeBuilder", "Dialog"),
                                     translate("FileTreeBuilder", "Clipboard")])
         self.cbOutputType.setCurrentIndex(1)
+        self.cckbIsShowHiddens = MCheckBox(translate("FileTreeBuilder", "Show Hidden Files / Directories"))
+        if Universals.getBoolValue("isShowHiddensInFileTree"):
+            self.cckbIsShowHiddens.setCheckState(Mt.Checked)
+        else:
+            self.cckbIsShowHiddens.setCheckState(Mt.Unchecked)
         self.cckbFileSize = MCheckBox(translate("FileTreeBuilder", "File Size"))
         self.cckbLastModified = MCheckBox(translate("FileTreeBuilder", "Last Modified"))
         if Universals.getBoolValue("isAppendFileSizeToFileTree"):
@@ -92,15 +97,20 @@ class FileTreeBuilder(MyDialog):
         HBox4.addWidget(lblSubDirectoryDeep)
         HBox4.addWidget(self.cbSubDirectoryDeep)
         HBox5 = MHBoxLayout()
-        HBox5.addWidget(self.cckbFileSize)
-        HBox5.addWidget(self.cckbLastModified)
+        HBox5.addWidget(self.cckbIsShowHiddens)
+        HBox6 = MHBoxLayout()
+        HBox6.addWidget(self.cckbFileSize)
+        HBox6.addWidget(self.cckbLastModified)
         vblMain2.addWidget(lblDirectory)
         vblMain2.addLayout(HBox)
         vblMain2.addLayout(HBox2)
         vblMain2.addLayout(HBox3)
         vblMain2.addLayout(HBox4)
+        gboxFilters = MGroupBox(translate("FileTreeBuilder", "Filters"))
+        gboxFilters.setLayout(HBox5)
+        vblMain2.addWidget(gboxFilters)
         gboxDetails = MGroupBox(translate("FileTreeBuilder", "Details"))
-        gboxDetails.setLayout(HBox5)
+        gboxDetails.setLayout(HBox6)
         vblMain2.addWidget(gboxDetails)
         vblMain2.addStretch(1)
         vblMain2.addLayout(HBox1)
@@ -126,6 +136,10 @@ class FileTreeBuilder(MyDialog):
     def build(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
+            if self.cckbIsShowHiddens.checkState() == Mt.Checked:
+                Universals.setMySetting("isShowHiddensInFileTree", True)
+            else:
+                Universals.setMySetting("isShowHiddensInFileTree", False)
             if self.cckbFileSize.checkState() == Mt.Checked:
                 Universals.setMySetting("isAppendFileSizeToFileTree", True)
             else:

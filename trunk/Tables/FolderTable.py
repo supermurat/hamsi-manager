@@ -34,7 +34,7 @@ class FolderTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        fileAndDirectoryNames = InputOutputs.IA.readDirectory(_directoryPath, "fileAndDirectory")
+        fileAndDirectoryNames = InputOutputs.IA.readDirectory(_directoryPath, "fileAndDirectory", Universals.getBoolValue("isShowHiddensInFolderTable"))
         allItemNumber = len(fileAndDirectoryNames)
         Universals.startThreadAction()
         baseNameOfDirectory = InputOutputs.getBaseName(_directoryPath)

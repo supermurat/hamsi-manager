@@ -96,7 +96,8 @@ class Variables():
                   "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents", 
                   "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist", "AmarokFilterAmarokMusicTable", 
                   "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree", 
-                  "isMusicTableValuesChangeInAmarokDB", "isSubFolderTableValuesChangeInAmarokDB"]
+                  "isMusicTableValuesChangeInAmarokDB", "isSubFolderTableValuesChangeInAmarokDB", 
+                  "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -315,7 +316,13 @@ class Variables():
                 "isAppendFileSizeToFileTree": "True", 
                 "isAppendLastModifiedToFileTree": "False", 
                 "isMusicTableValuesChangeInAmarokDB": "False", 
-                "isSubFolderTableValuesChangeInAmarokDB": "False"
+                "isSubFolderTableValuesChangeInAmarokDB": "False", 
+                "isShowHiddensInSubFolderTable": "False", 
+                "isShowHiddensInFolderTable": "False", 
+                "isShowHiddensInFileTable": "False", 
+                "isShowHiddensInMusicTable": "False", 
+                "isShowHiddensInCoverTable": "False", 
+                "isShowHiddensInFileTree": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -448,7 +455,13 @@ class Variables():
                 "isAppendFileSizeToFileTree": "bool", 
                 "isAppendLastModifiedToFileTree": "bool", 
                 "isMusicTableValuesChangeInAmarokDB": "bool", 
-                "isSubFolderTableValuesChangeInAmarokDB": "bool"
+                "isSubFolderTableValuesChangeInAmarokDB": "bool", 
+                "isShowHiddensInSubFolderTable": "bool", 
+                "isShowHiddensInFolderTable": "bool", 
+                "isShowHiddensInFileTable": "bool", 
+                "isShowHiddensInMusicTable": "bool", 
+                "isShowHiddensInCoverTable": "bool", 
+                "isShowHiddensInFileTree": "bool"
                 }
 
     def getAvailablePlayers():
