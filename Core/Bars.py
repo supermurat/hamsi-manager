@@ -132,6 +132,13 @@ class MenuBar(MMenuBar):
             mTemp = Universals.MainWindow.createPopupMenu()
             self.mMainPopupMenu.clear()
             self.mMainPopupMenu.addActions(mTemp.actions())
+        self.refreshQuickOptions()
+        
+    def refreshQuickOptions(self):
+        if Universals.MainWindow.Menu.mQuickOptions!=None:
+            Universals.MainWindow.Menu.removeAction(Universals.MainWindow.Menu.mQuickOptions.menuAction())
+        Universals.MainWindow.Menu.mQuickOptions = Options.QuickOptions(self)
+        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mQuickOptions)
     
 class Bars():
     global isClicked, changeTableType
@@ -578,13 +585,6 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTools)
         MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Universals.MainWindow.Bars.click)
-        self.refreshQuickOptions()
-        
-    def refreshQuickOptions(self):
-        if Universals.MainWindow.Menu.mQuickOptions!=None:
-            Universals.MainWindow.Menu.removeAction(Universals.MainWindow.Menu.mQuickOptions.menuAction())
-        Universals.MainWindow.Menu.mQuickOptions = Options.QuickOptions(self)
-        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mQuickOptions)
 
 class PlayerBar(MToolBar):
     def __init__(self, _parent):

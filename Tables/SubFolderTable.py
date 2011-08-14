@@ -42,7 +42,7 @@ class SubFolderTable():
     def readContents(self, _directoryPath):
         currentTableContentValues = []
         allFilesAndDirectories = InputOutputs.IA.readDirectoryWithSubDirectories(_directoryPath, 
-                    int(Universals.MySettings["subDirectoryDeep"]))
+                    int(Universals.MySettings["subDirectoryDeep"]), _isShowHiddens=Universals.getBoolValue("isShowHiddensInSubFolderTable"))
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
         for fileNo,fileName in enumerate(allFilesAndDirectories):

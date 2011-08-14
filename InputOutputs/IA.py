@@ -205,14 +205,14 @@ class IA:
                 return False
         return False
         
-    def readDirectory(_path, _objectType="fileOrDirectory"):
-        return InputOutputs.readDirectory(_path, _objectType)
+    def readDirectory(_path, _objectType="fileOrDirectory", _isShowHiddens=False):
+        return InputOutputs.readDirectory(_path, _objectType, _isShowHiddens)
     
     def readDirectoryAll(_path): 
         return InputOutputs.readDirectoryAll(_path)
   
-    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _currentSubDeep=0):
-        return InputOutputs.readDirectoryWithSubDirectories(_path, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _currentSubDeep)
+    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _isShowHiddens=False, _currentSubDeep=0):
+        return InputOutputs.readDirectoryWithSubDirectories(_path, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _isShowHiddens, _currentSubDeep)
     
     def readFromFile(_path):
         return InputOutputs.readFromFile(_path)

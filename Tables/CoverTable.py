@@ -38,7 +38,7 @@ class CoverTable():
     def readContents(self, _directoryPath):
         currentTableContentValues = []
         allFilesAndDirectories = InputOutputs.IA.readDirectoryWithSubDirectories(_directoryPath, 
-                    int(Universals.MySettings["CoversSubDirectoryDeep"]), True, True)
+                    int(Universals.MySettings["CoversSubDirectoryDeep"]), True, True, Universals.getBoolValue("isShowHiddensInCoverTable"))
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
         for dirNo,dirName in enumerate(allFilesAndDirectories):

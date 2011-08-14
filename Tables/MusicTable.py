@@ -53,7 +53,7 @@ class MusicTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        musicFileNames = InputOutputs.readDirectory(_directoryPath, "music")
+        musicFileNames = InputOutputs.readDirectory(_directoryPath, "music", Universals.getBoolValue("isShowHiddensInMusicTable"))
         isCanNoncompatible = False
         allItemNumber = len(musicFileNames)
         Universals.startThreadAction()
