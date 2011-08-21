@@ -914,91 +914,129 @@ class InputOutputs:
                 else:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
                     
-    def getFileTree(_path, _subDirectoryDeep=-1, _formatType="html", _extInfo="no"):
+    def getFileTree(_path, _subDirectoryDeep=-1, _outputType="html", _contentType="fileTree", _extInfo="no"):
         import Organizer
         _path = str(_path)
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True, False, Universals.getBoolValue("isShowHiddensInFileTree"))
         info = ""
-        if _formatType=="html":
-            if _extInfo=="no":
-                pass
-            elif _extInfo=="title":
-                info += " \n <h3>%s </h3> \n" % (str(Universals.translate("Tables", "File Tree")))
-                info += " %s<br> \n" % (_path)
-            dirNumber = _path.count("/")
-            findStrings, replaceStrings = [], []
-            for x, file in enumerate(files):
-                if isDir(file):
-                    findStrings.append(file)
-                    replaceStrings.append((Universals.getUtf8Data("upright") + "&nbsp;&nbsp;&nbsp;"*(file.count("/")-dirNumber)) + Universals.getUtf8Data("upright+right") + "&nbsp;")
-            findStrings.reverse()
-            replaceStrings.reverse()
-            fileList = list(range(len(files)))
-            for x, file in enumerate(files):
-                fileList[x] = file
-                for  y, fstr in enumerate(findStrings):
-                    if file!=fstr:
-                        fileList[x] = fileList[x].replace(fstr + "/", replaceStrings[y])
-                if x>0:
-                    tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
-                    tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
-                    if tin>tin2:
-                        fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
-            for x, fileName in enumerate(fileList):
-                if x!=len(fileList)-1:
-                    info += fileName.replace(_path + "/", Universals.getUtf8Data("upright+right") + "&nbsp;")
-                else:
-                    info += fileName.replace(_path + "/", Universals.getUtf8Data("up+right") + "&nbsp;")
-                if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                    details = getDetails(files[x])
-                    info += " ( "
-                    if Universals.getBoolValue("isAppendFileSizeToFileTree"):
-                        info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                    if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                        info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
-                    info += " )"
-                info += "<br> \n"
-        elif _formatType=="plainText":
-            if _extInfo=="no":
-                pass
-            elif _extInfo=="title":
-                info += " %s \n" % (str(Universals.translate("Tables", "File Tree")))
-                info += _path + "\n"
-            dirNumber = _path.count("/")
-            findStrings, replaceStrings = [], []
-            for x, file in enumerate(files):
-                if isDir(file):
-                    findStrings.append(file)
-                    replaceStrings.append((Universals.getUtf8Data("upright") + "   "*(file.count("/")-dirNumber)) + Universals.getUtf8Data("upright+right") + " ")
-            findStrings.reverse()
-            replaceStrings.reverse()
-            fileList = list(range(len(files)))
-            for x, file in enumerate(files):
-                fileList[x] = file
-                for  y, fstr in enumerate(findStrings):
-                    if file!=fstr:
-                        fileList[x] = fileList[x].replace(fstr + "/", replaceStrings[y])
-                if x>0:
-                    tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
-                    tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
-                    if tin>tin2:
-                        fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
-            for x, fileName in enumerate(fileList):
-                if x!=len(fileList)-1:
-                    info += fileName.replace(_path + "/", Universals.getUtf8Data("upright+right") + " ")
-                else:
-                    info += fileName.replace(_path + "/", Universals.getUtf8Data("up+right") + " ")
-                if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                    details = getDetails(files[x])
-                    info += " ( "
-                    if Universals.getBoolValue("isAppendFileSizeToFileTree"):
-                        info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                    if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                        info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
-                    info += " )"
-                info += "\n"
+        if _contentType=="fileTree":
+            if _outputType=="html":
+                if _extInfo=="no":
+                    pass
+                elif _extInfo=="title":
+                    info += " \n <h3>%s </h3> \n" % (str(Universals.translate("Tables", "File Tree")))
+                    info += " %s<br> \n" % (_path)
+                dirNumber = _path.count("/")
+                findStrings, replaceStrings = [], []
+                for x, file in enumerate(files):
+                    if isDir(file):
+                        findStrings.append(file)
+                        replaceStrings.append((Universals.getUtf8Data("upright") + "&nbsp;&nbsp;&nbsp;"*(file.count("/")-dirNumber)) + Universals.getUtf8Data("upright+right") + "&nbsp;")
+                findStrings.reverse()
+                replaceStrings.reverse()
+                fileList = list(range(len(files)))
+                for x, file in enumerate(files):
+                    fileList[x] = file
+                    for  y, fstr in enumerate(findStrings):
+                        if file!=fstr:
+                            fileList[x] = fileList[x].replace(fstr + "/", replaceStrings[y])
+                    if x>0:
+                        tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
+                        tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
+                        if tin>tin2:
+                            fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
+                for x, fileName in enumerate(fileList):
+                    if x!=len(fileList)-1:
+                        info += fileName.replace(_path + "/", Universals.getUtf8Data("upright+right") + "&nbsp;")
+                    else:
+                        info += fileName.replace(_path + "/", Universals.getUtf8Data("up+right") + "&nbsp;")
+                    if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                        details = getDetails(files[x])
+                        info += " ( "
+                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                            info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
+                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                            info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                        info += " )"
+                    info += "<br> \n"
+            elif _outputType=="plainText":
+                if _extInfo=="no":
+                    pass
+                elif _extInfo=="title":
+                    info += " %s \n" % (str(Universals.translate("Tables", "File Tree")))
+                    info += _path + "\n"
+                dirNumber = _path.count("/")
+                findStrings, replaceStrings = [], []
+                for x, file in enumerate(files):
+                    if isDir(file):
+                        findStrings.append(file)
+                        replaceStrings.append((Universals.getUtf8Data("upright") + "   "*(file.count("/")-dirNumber)) + Universals.getUtf8Data("upright+right") + " ")
+                findStrings.reverse()
+                replaceStrings.reverse()
+                fileList = list(range(len(files)))
+                for x, file in enumerate(files):
+                    fileList[x] = file
+                    for  y, fstr in enumerate(findStrings):
+                        if file!=fstr:
+                            fileList[x] = fileList[x].replace(fstr + "/", replaceStrings[y])
+                    if x>0:
+                        tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
+                        tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
+                        if tin>tin2:
+                            fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
+                for x, fileName in enumerate(fileList):
+                    if x!=len(fileList)-1:
+                        info += fileName.replace(_path + "/", Universals.getUtf8Data("upright+right") + " ")
+                    else:
+                        info += fileName.replace(_path + "/", Universals.getUtf8Data("up+right") + " ")
+                    if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                        details = getDetails(files[x])
+                        info += " ( "
+                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                            info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
+                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                            info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                        info += " )"
+                    info += "\n"
+        elif _contentType=="fileList":
+            if _outputType=="html":
+                if _extInfo=="no":
+                    pass
+                elif _extInfo=="title":
+                    info += " \n <h3>%s </h3> \n" % (str(Universals.translate("Tables", "File List")))
+                    info += " %s<br> \n" % (_path)
+                for x, fileName in enumerate(files):
+                    info += fileName
+                    if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                        details = getDetails(files[x])
+                        info += " ( "
+                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                            info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
+                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                            info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                        info += " )"
+                    info += "<br> \n"
+            elif _outputType=="plainText":
+                if _extInfo=="no":
+                    pass
+                elif _extInfo=="title":
+                    info += " %s \n" % (str(Universals.translate("Tables", "File Tree")))
+                    info += _path + "\n"
+                for x, fileName in enumerate(files):
+                    info += fileName
+                    if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                        details = getDetails(files[x])
+                        info += " ( "
+                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                            info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
+                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                            info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                        info += " )"
+                    info += "\n"
         return info
             
     def fixToSize(_path, _size, _clearFrom="head"):
