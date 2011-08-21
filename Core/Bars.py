@@ -194,18 +194,18 @@ class Bars():
                     Tables.exportValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "fileTree", "title")
             elif actionName==translate("MenuBar", "Text Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "title")
+                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "fileTree", "title")
             elif actionName==translate("MenuBar", "About QT"):
                 if Universals.isActivePyKDE4==True:
                     QMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
@@ -282,6 +282,9 @@ class Bars():
                 elif actionName==translate("ToolsBar", "File Tree"):
                     from Tools import FileTreeBuilder
                     FileTreeBuilder.FileTreeBuilder(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                elif actionName==translate("ToolsBar", "Search"):
+                    from Tools import Searcher
+                    Searcher.Searcher(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 elif actionName==translate("ToolsBar", "Run Command"):
                     from Tools import RunCommand
                     if RunCommand.checkRunCommand():
@@ -534,6 +537,10 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Remove Sub Files"),self)
         self.actRemoveOnlySubFiles.setObjectName(translate("ToolsBar", "Remove Sub Files"))
         self.actRemoveOnlySubFiles.setToolTip(translate("ToolsBar", "Remove only all sub files.Do not will remove directory and subfolders."))
+        self.actSearch = MAction(MIcon("Images:search.png"),
+                                                translate("ToolsBar", "Search"),self)
+        self.actSearch.setObjectName(translate("ToolsBar", "Search"))
+        self.actSearch.setToolTip(translate("ToolsBar", "Special search tool"))
         self.actRunCommand = MAction(MIcon("Images:runCommand.png"),
                                                 translate("ToolsBar", "Run Command"),self)
         self.actRunCommand.setObjectName(translate("ToolsBar", "Run Command"))
@@ -554,6 +561,7 @@ class ToolsBar(MToolBar):
         self.addAction(self.actFileTree)
         self.addAction(self.actClear)
         self.addAction(self.actTextCorrector)
+        self.addAction(self.actSearch)
         self.addAction(self.actRunCommand)
         if Universals.getBoolValue("isSaveActions"):
             self.addAction(self.actLastActions)
@@ -574,6 +582,7 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actFileTree)
         Universals.MainWindow.Menu.mTools.addAction(self.actClear)
         Universals.MainWindow.Menu.mTools.addAction(self.actTextCorrector)
+        Universals.MainWindow.Menu.mTools.addAction(self.actSearch)
         Universals.MainWindow.Menu.mTools.addAction(self.actRunCommand)
         if Universals.getBoolValue("isSaveActions"):
             Universals.MainWindow.Menu.mTools.addAction(self.actLastActions)

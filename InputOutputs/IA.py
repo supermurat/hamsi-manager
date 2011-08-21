@@ -612,16 +612,16 @@ class IA:
                 else:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
                     
-    def getFileTree(_path, _subDirectoryDeep=-1, _actionType="return", _formatType="html", _extInfo="no"):
+    def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):
         from MyObjects import trForUI, trForM
-        info = InputOutputs.getFileTree(_path, _subDirectoryDeep, _formatType, _extInfo)
+        info = InputOutputs.getFileTree(_path, _subDirectoryDeep, _outputType, _contentType, _extInfo)
         info = trForUI(info)
-        if _actionType=="return":
+        if _outputTarget=="return":
             return info
-        elif _actionType=="file":
+        elif _outputTarget=="file":
             from MyObjects import MFileDialog
             import Dialogs
-            if _formatType=="html":
+            if _outputType=="html":
                 if _extInfo!="no":
                     strHeader = ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \n"+
                         "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"> \n"+
@@ -631,21 +631,21 @@ class IA:
                     info = strHeader + info + strFooter
                 formatTypeName = translate("Tables", "HTML")
                 fileExt="html"
-            elif _formatType=="plainText":
+            elif _outputType=="plainText":
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
                                     trForM(Variables.userDirectoryPath),trForUI(formatTypeName+" (*."+fileExt+")"))
             if filePath!="":
                 filePath = str(filePath)
-                if _formatType=="html" and filePath[-5:]!=".html":
+                if _outputType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
-                elif _formatType=="plainText" and filePath[-4:]!=".txt":
+                elif _outputType=="plainText" and filePath[-4:]!=".txt":
                     filePath += ".txt"
                 writeToFile(filePath, info)
                 Dialogs.show(translate("Tables", "File Tree Created"),
                             str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
-        elif _actionType=="dialog":
+        elif _outputTarget=="dialog":
             from MyObjects import MDialog, MWidget, MVBoxLayout, MTextEdit, MPushButton, MObject, SIGNAL, getMyObject
             dDialog = MDialog(Universals.MainWindow)
             if Universals.isActivePyKDE4==True:
@@ -653,11 +653,11 @@ class IA:
             dDialog.setWindowTitle(translate("Tables", "File Tree"))
             mainPanel = MWidget(dDialog)
             vblMain = MVBoxLayout(mainPanel)
-            if _formatType=="html":
+            if _outputType=="html":
                 QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
                 wvWeb.setHtml(trForUI(info))
-            elif _formatType=="plainText":
+            elif _outputType=="plainText":
                 wvWeb = MTextEdit()
                 wvWeb.setPlainText(trForUI(info))
             pbtnClose = MPushButton(translate("Tables", "OK"))
@@ -671,7 +671,7 @@ class IA:
             dDialog.setMinimumWidth(600)
             dDialog.setMinimumHeight(400)
             dDialog.show()
-        elif _actionType=="clipboard":
+        elif _outputTarget=="clipboard":
             from MyObjects import MApplication
             MApplication.clipboard().setText(trForUI(info))
             

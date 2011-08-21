@@ -37,6 +37,7 @@ class FileTreeBuilder(MyDialog):
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = Options.Options(None, "fileTree", None, newOrChangedKeys)
         lblDirectory = MLabel(translate("FileTreeBuilder", "Directory : "))
+        lblOutputTarget = MLabel(translate("FileTreeBuilder", "Output Target : "))
         lblOutputType = MLabel(translate("FileTreeBuilder", "Output Type : "))
         lblContentType = MLabel(translate("FileTreeBuilder", "Content Type : "))
         lblSubDirectoryDeepDetails = translate("FileTreeBuilder", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
@@ -46,14 +47,17 @@ class FileTreeBuilder(MyDialog):
             self.cbSubDirectoryDeep.addItem(str(x))
         self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(Universals.MySettings["subDirectoryDeep"]))
         self.cbSubDirectoryDeep.setToolTip(lblSubDirectoryDeepDetails)
-        self.cbContentType = MComboBox()
-        self.cbContentType.addItems([translate("FileTreeBuilder", "HTML"),
-                                    translate("FileTreeBuilder", "Plain Text")])
         self.cbOutputType = MComboBox()
-        self.cbOutputType.addItems([translate("FileTreeBuilder", "File"),
+        self.cbOutputType.addItems([translate("FileTreeBuilder", "HTML"),
+                                    translate("FileTreeBuilder", "Plain Text")])
+        self.cbOutputTarget = MComboBox()
+        self.cbOutputTarget.addItems([translate("FileTreeBuilder", "File"),
                                     translate("FileTreeBuilder", "Dialog"),
                                     translate("FileTreeBuilder", "Clipboard")])
-        self.cbOutputType.setCurrentIndex(1)
+        self.cbOutputTarget.setCurrentIndex(1)
+        self.cbContentType = MComboBox()
+        self.cbContentType.addItems([translate("FileTreeBuilder", "File Tree"),
+                                    translate("FileTreeBuilder", "File List (With Full Path)")])
         self.cckbIsShowHiddens = MCheckBox(translate("FileTreeBuilder", "Show Hidden Files / Directories"))
         if Universals.getBoolValue("isShowHiddensInFileTree"):
             self.cckbIsShowHiddens.setCheckState(Mt.Checked)
@@ -88,11 +92,14 @@ class FileTreeBuilder(MyDialog):
         HBox1.addWidget(pbtnBuild)
         HBox1.addWidget(pbtnClose)
         HBox2 = MHBoxLayout()
-        HBox2.addWidget(lblOutputType)
-        HBox2.addWidget(self.cbOutputType)
+        HBox2.addWidget(lblOutputTarget)
+        HBox2.addWidget(self.cbOutputTarget)
         HBox3 = MHBoxLayout()
-        HBox3.addWidget(lblContentType)
-        HBox3.addWidget(self.cbContentType)
+        HBox3.addWidget(lblOutputType)
+        HBox3.addWidget(self.cbOutputType)
+        HBox7 = MHBoxLayout()
+        HBox7.addWidget(lblContentType)
+        HBox7.addWidget(self.cbContentType)
         HBox4 = MHBoxLayout()
         HBox4.addWidget(lblSubDirectoryDeep)
         HBox4.addWidget(self.cbSubDirectoryDeep)
@@ -105,6 +112,7 @@ class FileTreeBuilder(MyDialog):
         vblMain2.addLayout(HBox)
         vblMain2.addLayout(HBox2)
         vblMain2.addLayout(HBox3)
+        vblMain2.addLayout(HBox7)
         vblMain2.addLayout(HBox4)
         gboxFilters = MGroupBox(translate("FileTreeBuilder", "Filters"))
         gboxFilters.setLayout(HBox5)
@@ -148,18 +156,21 @@ class FileTreeBuilder(MyDialog):
                 Universals.setMySetting("isAppendLastModifiedToFileTree", True)
             else:
                 Universals.setMySetting("isAppendLastModifiedToFileTree", False)
-            outputType = "file"
-            contentType = "html"
+            outputTarget = "file"
+            outputType = "html"
+            contentType = "fileTree"
+            if self.cbOutputTarget.currentIndex()==1:
+                outputTarget = "dialog"
+            elif self.cbOutputTarget.currentIndex()==2:
+                outputTarget = "clipboard"
             if self.cbOutputType.currentIndex()==1:
-                outputType = "dialog"
-            elif self.cbOutputType.currentIndex()==2:
-                outputType = "clipboard"
+                outputType = "plainText"
             if self.cbContentType.currentIndex()==1:
-                contentType = "plainText"
+                contentType = "fileList"
             InputOutputs.IA.getFileTree(str(self.lePath.text()), 
                                 self.cbSubDirectoryDeep.currentText(), 
-                                outputType, contentType, "title")
-            if self.cbOutputType.currentIndex()==2:
+                                outputTarget, outputType, contentType, "title")
+            if self.cbOutputTarget.currentIndex()==2:
                 Dialogs.show(translate("FileTreeBuilder", "Builded File Tree"),
                             translate("FileTreeBuilder", "File tree copied to clipboard."))
             Universals.isCanBeShowOnMainWindow = True

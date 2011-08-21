@@ -136,12 +136,12 @@ class Organizer:
         newString = _oldString
         for info in Databases.SearchAndReplaceTable.fetchAll():
             if info[3]==1:
-                isCaseSensitive, isRegExp = False, False
+                isCaseInsensitive, isRegExp = False, False
                 if info[4]==1:
-                    isCaseSensitive = True
+                    isCaseInsensitive = True
                 if info[5]==1:
                     isRegExp = True
-                newString = searchAndReplace(newString, [info[1]], [info[2]], isCaseSensitive, isRegExp)
+                newString = searchAndReplace(newString, [info[1]], [info[2]], isCaseInsensitive, isRegExp)
         return newString
     
     def applySpecialCommand(_splitPointer, _whereIsSplitPointer, _command, _SpecialTools):
@@ -302,54 +302,54 @@ class Organizer:
                     myString = ""
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
                     informationSectionY = _SpecialTools.cbInformationSectionY.value()
-                    isCaseSensitive = _SpecialTools.searchAndReplace.cckbCaseSensitive.isChecked()
+                    isCaseInsensitive = _SpecialTools.searchAndReplace.cckbCaseInsensitive.isChecked()
                     isRegExp = _SpecialTools.searchAndReplace.cckbRegExp.isChecked()
                     if _SpecialTools.cbInformationSection.currentIndex()==0:
                         myString = searchAndReplace(newString, searchStrings, 
-                                               replaceStrings, isCaseSensitive, isRegExp)
+                                               replaceStrings, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==1:
                         myString = searchAndReplace(newString[:informationSectionX], searchStrings, 
-                                               replaceStrings, isCaseSensitive, isRegExp)
+                                               replaceStrings, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==2:
                         myString = newString[:informationSectionX]
                         myString += searchAndReplace(newString[informationSectionX:], searchStrings, 
-                                                replaceStrings, isCaseSensitive, isRegExp)
+                                                replaceStrings, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==3:
                         myString = searchAndReplace(newString[:-informationSectionX], searchStrings, 
-                                               replaceStrings, isCaseSensitive, isRegExp)
+                                               replaceStrings, isCaseInsensitive, isRegExp)
                         myString += newString[-informationSectionX:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==4:
                         myString = newString[:-informationSectionX]
                         myString += searchAndReplace(newString[-informationSectionX:], searchStrings, 
-                                                replaceStrings, isCaseSensitive, isRegExp)
+                                                replaceStrings, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==5:
                         myString = newString[:informationSectionX]
                         myString += searchAndReplace(newString[informationSectionX:informationSectionY], searchStrings, 
-                                                replaceStrings, isCaseSensitive, isRegExp)
+                                                replaceStrings, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionY:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==6:
                         myString = searchAndReplace(newString[:informationSectionX], searchStrings, 
-                                                replaceStrings, isCaseSensitive, isRegExp)
+                                                replaceStrings, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:informationSectionY]
                         myString += searchAndReplace(newString[informationSectionY:], searchStrings, 
-                                                replaceStrings, isCaseSensitive, isRegExp)
+                                                replaceStrings, isCaseInsensitive, isRegExp)
                     Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
     
-    def searchAndReplace(_oldString, _searchStrings, _replaceStrings, _isCaseSensitive=True, _isRegExp=False):
+    def searchAndReplace(_oldString, _searchStrings, _replaceStrings, _isCaseInsensitive=True, _isRegExp=False):
         newString = _oldString
         for filterNo in range(0,len(_searchStrings)):
             if _searchStrings[filterNo]!="":
                 if _isRegExp == True:
                     import re
-                    if _isCaseSensitive ==True:
+                    if _isCaseInsensitive ==True:
                         pattern = re.compile(Universals.trUnicode(_searchStrings[filterNo]), re.I | re.U)
                         newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
                     else:
                         pattern = re.compile(Universals.trUnicode(_searchStrings[filterNo]))
                         newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
                 else:
-                    if _isCaseSensitive ==True:
+                    if _isCaseInsensitive ==True:
                         import re
                         pattern = re.compile(re.escape(Universals.trUnicode(_searchStrings[filterNo])), re.I | re.U)
                         newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
@@ -415,43 +415,43 @@ class Organizer:
                     newString = Universals.trDecode(newString, "utf-8")
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
                     informationSectionY = _SpecialTools.cbInformationSectionY.value()
-                    isCaseSensitive = _SpecialTools.clear.cckbCaseSensitive.isChecked()
+                    isCaseInsensitive = _SpecialTools.clear.cckbCaseInsensitive.isChecked()
                     oldString = str(_SpecialTools.clear.leClear.text())
                     cbClearType = _SpecialTools.clear.cbClearType.currentText()
                     isRegExp = _SpecialTools.clear.cckbRegExp.isChecked()
                     if _SpecialTools.cbInformationSection.currentIndex()==0:
                         myString = clear(cbClearType, newString, 
-                                               oldString, isCaseSensitive, isRegExp)
+                                               oldString, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==1:
                         myString = clear(cbClearType, newString[:informationSectionX], 
-                                               oldString, isCaseSensitive, isRegExp)
+                                               oldString, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==2:
                         myString = newString[:informationSectionX]
                         myString += clear(cbClearType, newString[informationSectionX:], 
-                                                oldString, isCaseSensitive, isRegExp)
+                                                oldString, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==3:
                         myString = clear(cbClearType, newString[:-informationSectionX], 
-                                               oldString, isCaseSensitive, isRegExp)
+                                               oldString, isCaseInsensitive, isRegExp)
                         myString += newString[-informationSectionX:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==4:
                         myString = newString[:-informationSectionX]
                         myString += clear(cbClearType, newString[-informationSectionX:], 
-                                                oldString, isCaseSensitive, isRegExp)
+                                                oldString, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==5:
                         myString = newString[:informationSectionX]
                         myString += clear(cbClearType, newString[informationSectionX:informationSectionY], 
-                                                oldString, isCaseSensitive, isRegExp)
+                                                oldString, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionY:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==6:
                         myString = clear(cbClearType, newString[:informationSectionX], 
-                                                oldString, isCaseSensitive, isRegExp)
+                                                oldString, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:informationSectionY]
                         myString += clear(cbClearType, newString[informationSectionY:], 
-                                                oldString, isCaseSensitive, isRegExp)
+                                                oldString, isCaseInsensitive, isRegExp)
                     Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
     
-    def clear(_cbClearType, _oldString="", _searchString="", _isCaseSensitive=True, _isRegExp=False):
+    def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True, _isRegExp=False):
         from MyObjects import translate
         myString=""
         if _cbClearType==translate("SpecialTools", "All"):
@@ -471,14 +471,14 @@ class Organizer:
         elif _cbClearType==translate("SpecialTools", "Selected Text"):
             if _isRegExp == True:
                 import re
-                if _isCaseSensitive ==True:
+                if _isCaseInsensitive ==True:
                     pattern = re.compile(Universals.trUnicode(_searchString), re.I | re.U)
                     myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
                 else:
                     pattern = re.compile(Universals.trUnicode(_searchString))
                     myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
             else:
-                if _isCaseSensitive==True:
+                if _isCaseInsensitive==True:
                     import re
                     pattern = re.compile(re.escape(Universals.trUnicode(_searchString)), re.I | re.U)
                     myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
@@ -486,14 +486,14 @@ class Organizer:
                     myString = _oldString.replace(_searchString,"")
         return myString
      
-    def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText = False, _searchStrings=[], _isCaseSensitive=True, _isRegExp=False):
+    def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText = False, _searchStrings=[], _isCaseInsensitive=True, _isRegExp=False):
         newString = _inputString
         if isCorrectText:
             for filterNo in range(0,len(_searchStrings)):
                 if _searchStrings[filterNo]!="":
                     if _isRegExp == True:
                         import re
-                        if _isCaseSensitive ==True:
+                        if _isCaseInsensitive ==True:
                             m = re.search(_searchStrings[filterNo], newString, re.I | re.U)
                             try:a = m.group(0)
                             except:return newString
@@ -506,7 +506,7 @@ class Organizer:
                             pattern = re.compile(Universals.trUnicode(_searchStrings[filterNo]))
                             newString = re.sub(pattern,Universals.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), Universals.trUnicode(newString))
                     else:
-                        if _isCaseSensitive ==True:
+                        if _isCaseInsensitive ==True:
                             import re
                             pattern = re.compile(re.escape(Universals.trUnicode(_searchStrings[filterNo])), re.I | re.U)
                             newString = re.sub(pattern,Universals.trUnicode(makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType)), Universals.trUnicode(newString))
@@ -535,31 +535,31 @@ class Organizer:
                     informationSectionX = _SpecialTools.cbInformationSectionX.value()
                     informationSectionY = _SpecialTools.cbInformationSectionY.value()
                     cbCharacterType = Variables.validSentenceStructureKeys[_SpecialTools.characterState.cbCharacterType.currentIndex()]
-                    isCaseSensitive = _SpecialTools.characterState.cckbCaseSensitive.isChecked()
+                    isCaseInsensitive = _SpecialTools.characterState.cckbCaseInsensitive.isChecked()
                     isRegExp = _SpecialTools.characterState.cckbRegExp.isChecked()
                     isCorrectText = _SpecialTools.characterState.cckbCorrectText.isChecked()
                     if _SpecialTools.cbInformationSection.currentIndex()==0:
-                        myString = correctCaseSensitive(newString, cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
+                        myString = correctCaseSensitive(newString, cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==1:
-                        myString = correctCaseSensitive(newString[:informationSectionX], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
+                        myString = correctCaseSensitive(newString[:informationSectionX], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==2:
                         myString = newString[:informationSectionX]
-                        myString += correctCaseSensitive(newString[informationSectionX:], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
+                        myString += correctCaseSensitive(newString[informationSectionX:], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==3:
-                        myString = correctCaseSensitive(newString[:-informationSectionX], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
+                        myString = correctCaseSensitive(newString[:-informationSectionX], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                         myString += newString[-informationSectionX:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==4:
                         myString = newString[:-informationSectionX]
-                        myString += correctCaseSensitive(newString[-informationSectionX:], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
+                        myString += correctCaseSensitive(newString[-informationSectionX:], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                     elif _SpecialTools.cbInformationSection.currentIndex()==5:
                         myString = newString[:informationSectionX]
-                        myString += correctCaseSensitive(newString[informationSectionX:informationSectionY], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
+                        myString += correctCaseSensitive(newString[informationSectionX:informationSectionY], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionY:]
                     elif _SpecialTools.cbInformationSection.currentIndex()==6:
-                        myString = correctCaseSensitive(newString[:informationSectionX], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
+                        myString = correctCaseSensitive(newString[:informationSectionX], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:informationSectionY]
-                        myString += correctCaseSensitive(newString[informationSectionY:], cbCharacterType, isCorrectText, searchStrings, isCaseSensitive, isRegExp)
+                        myString += correctCaseSensitive(newString[informationSectionY:], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                     Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
             
             
