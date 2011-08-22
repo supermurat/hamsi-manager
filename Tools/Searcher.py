@@ -41,13 +41,14 @@ class Searcher(MyDialog):
         self.sourceToSearch = None
         lblPleaseSelect = MLabel(translate("Searcher", "Directory"))
         self.pbtnClose = MPushButton(translate("Searcher", "Close"))
-        self.lePathOfDirectoryToSeach = MLineEdit(trForM(_directory))
-        self.lePathOfFileToSeach = MLineEdit(trForM(_directory))
-        self.pbtnSelectSeachDirectoryPath = MPushButton(translate("Searcher", "Browse"))
-        self.pbtnSelectSeachFilePath = MPushButton(translate("Searcher", "Browse"))
+        self.lePathToSeach = MLineEdit(trForM(_directory))
+        self.pbtnSelectSeachDirectoryPath = MPushButton(translate("Searcher", "Select Directory"))
+        self.pbtnSelectSeachFilePath = MPushButton(translate("Searcher", "Select File"))
         self.connect(self.pbtnSelectSeachDirectoryPath,SIGNAL("clicked()"),self.selectSearchDirectoryPath)
         self.connect(self.pbtnSelectSeachFilePath,SIGNAL("clicked()"),self.selectSearchFilePath)
         self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
+        self.pbtnReloadSourceToSearch = MPushButton(translate("Searcher", "(Re)Load"))
+        self.connect(self.pbtnReloadSourceToSearch,SIGNAL("clicked()"),self.reloadSourceToSearch)
         lblSearch = MLabel(translate("Searcher", "Search"))
         self.leSeach = MLineEdit(trForM(""))
         self.teSeachResult = MTextEdit()
@@ -59,10 +60,10 @@ class Searcher(MyDialog):
         pnlMain2 = MWidget(tabwTabs)
         vblMain2 = MVBoxLayout(pnlMain2)
         HBox = MHBoxLayout()
-        HBox.addWidget(self.lePathOfDirectoryToSeach)
-        HBox.addWidget(self.pbtnSelectSeachDirectoryPath)
+        HBox.addWidget(self.lePathToSeach)
         HBox1 = MHBoxLayout()
-        HBox1.addWidget(self.lePathOfFileToSeach)
+        HBox1.addWidget(self.pbtnReloadSourceToSearch)
+        HBox1.addWidget(self.pbtnSelectSeachDirectoryPath)
         HBox1.addWidget(self.pbtnSelectSeachFilePath)
         HBox3 = MHBoxLayout()
         HBox3.addWidget(lblSearch)
@@ -94,78 +95,99 @@ class Searcher(MyDialog):
     def closeEvent(self, _event):
         MApplication.setQuitOnLastWindowClosed(True)
     
-    def setSourceToSearch(self, _isReload=False):
-        if self.sourceToSearch == None or _isReload==True:
-            self.sourceToSearch = InputOutputs.readFromFile(str(self.lePathOfFileToSeach.text()))
-            self.sourceToSearchType = "file"
+    def reloadSourceToSearch(self):
+        if self.setSourceToSearch():
+            self.search()
+    
+    def setSourceToSearch(self, _isReload=True):
+        try:
+            if self.sourceToSearch == None or _isReload==True:
+                pathToSearch = str(self.lePathToSeach.text())
+                if InputOutputs.IA.checkSource(pathToSearch):
+                    if InputOutputs.IA.isReadableFileOrDir(pathToSearch):
+                        if InputOutputs.isFile(pathToSearch):
+                            self.sourceToSearch = InputOutputs.readFromFile(pathToSearch)
+                            self.sourceToSearchType = "file"
+                            return True
+                        elif InputOutputs.isDir(pathToSearch):
+                            self.sourceToSearch = InputOutputs.getFileTree(pathToSearch, -1, "plainText", "fileList")
+                            self.sourceToSearchType = "dir"
+                            return True
+                return False
+            else:
+                return True
+        except:
+            import ReportBug
+            error = ReportBug.ReportBug()
+            error.show() 
     
     def search(self, _searchValue=""):
         try:
             import re
             #Universals.isCanBeShowOnMainWindow = False
-            self.setSourceToSearch()
-            searchValue = str(self.leSeach.text())
-            if searchValue!="":
-                searchValueList = [searchValue]
-                
-                _isCaseInsensitive = True
-                
-                clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
-                clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
-                searchValueList.append(clearedSearchValue)
-                
-                clearedSearchValue1 = ""
-                for char in searchValue:
-                    if char.isdigit()==False:
-                        clearedSearchValue1+=char
-                searchValueList.append(clearedSearchValue1)
-                
-                clearedSearchValue2 = ""
-                for char in searchValue:
-                    if char.isdigit()==True or char.isalpha()==True:
-                        clearedSearchValue2+=char
-                searchValueList.append(clearedSearchValue2)
-                
-                vowels=["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
-                clearedSearchValue3 = ""
-                for char in Universals.trUnicode(searchValue):
-                    clearedChar = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(char)) if unicodedata.category(c) != 'Mn')
-                    clearedChar = str(Universals.trEncode(clearedChar, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
-                    if clearedChar not in vowels:
-                        clearedSearchValue3+=char
-                searchValueList.append(clearedSearchValue3)
-                
-                clearedSearchValue4 = ""
-                for char in clearedSearchValue:
-                    if clearedChar not in vowels:
-                        clearedSearchValue4+=char
-                searchValueList.append(clearedSearchValue4)
-                
-                resultOfSearch = ""
-                arrayOfSource = str(self.sourceToSearch).split("\n\r")
-                if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("\n")
-                if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br>")
-                if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br/>")
-                if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br >")
-                if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br />")
-                for row in arrayOfSource:
-                    for searchVal in searchValueList:
-                        if row.find(searchVal) != -1:
-                            resultOfSearch += row + "\n\r"
-                            break
-                        if _isCaseInsensitive == True:
-                            pattern = re.compile(Universals.trUnicode(searchVal), re.I | re.U)
-                            if re.search(pattern, Universals.trUnicode(row)) is not None:
-                                resultOfSearch += row + "\n\r"
+            if self.setSourceToSearch(False):
+                searchValue = str(self.leSeach.text())
+                if searchValue!="":
+                    searchValueList = [searchValue]
+                    
+                    _isCaseInsensitive = True
+                    
+                    clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
+                    clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+                    searchValueList.append(clearedSearchValue)
+                    
+                    clearedSearchValue1 = ""
+                    for char in searchValue:
+                        if char.isdigit()==False:
+                            clearedSearchValue1+=char
+                    searchValueList.append(clearedSearchValue1)
+                    
+                    clearedSearchValue2 = ""
+                    for char in searchValue:
+                        if char.isdigit()==True or char.isalpha()==True:
+                            clearedSearchValue2+=char
+                    searchValueList.append(clearedSearchValue2)
+                    
+                    vowels=["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
+                    clearedSearchValue3 = ""
+                    for char in Universals.trUnicode(searchValue):
+                        clearedChar = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(char)) if unicodedata.category(c) != 'Mn')
+                        clearedChar = str(Universals.trEncode(clearedChar, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+                        if clearedChar not in vowels:
+                            clearedSearchValue3+=char
+                    searchValueList.append(clearedSearchValue3)
+                    
+                    clearedSearchValue4 = ""
+                    for char in clearedSearchValue:
+                        if clearedChar not in vowels:
+                            clearedSearchValue4+=char
+                    searchValueList.append(clearedSearchValue4)
+                    
+                    resultOfSearch = ""
+                    arrayOfSource = str(self.sourceToSearch).split("\n\r")
+                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("\n")
+                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br>")
+                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br/>")
+                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br >")
+                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br />")
+                    for row in arrayOfSource:
+                        for searchVal in searchValueList:
+                            if row.find(searchVal) != -1:
+                                resultOfSearch += row + "\n"
                                 break
-                        else:
-                            pattern = re.compile(Universals.trUnicode(searchVal))
-                            if re.search(pattern, Universals.trUnicode(row)) is not None:
-                                resultOfSearch += row + "\n\r"
-                                break
-            else:
-                resultOfSearch = str(self.sourceToSearch)
-            self.teSeachResult.setText(trForUI(resultOfSearch))
+                            if _isCaseInsensitive == True:
+                                pattern = re.compile(Universals.trUnicode(searchVal), re.I | re.U)
+                                if re.search(pattern, Universals.trUnicode(row)) is not None:
+                                    resultOfSearch += row + "\n"
+                                    break
+                            else:
+                                pattern = re.compile(Universals.trUnicode(searchVal))
+                                if re.search(pattern, Universals.trUnicode(row)) is not None:
+                                    resultOfSearch += row + "\n"
+                                    break
+                else:
+                    resultOfSearch = str(self.sourceToSearch)
+                self.teSeachResult.setText(trForUI(resultOfSearch))
             #Universals.isCanBeShowOnMainWindow = True
         except:
             import ReportBug
@@ -175,9 +197,11 @@ class Searcher(MyDialog):
     def selectSearchDirectoryPath(self):
         try:
             SearchPath = MFileDialog.getExistingDirectory(self,
-                            translate("Searcher", "Please Select Directory"),self.lePathOfDirectoryToSeach.text())
+                            translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
             if SearchPath!="":
-                self.lePathOfDirectoryToSeach.setText(SearchPath)
+                self.lePathToSeach.setText(SearchPath)
+                if self.setSourceToSearch(True):
+                    self.search()
         except:
             import ReportBug
             error = ReportBug.ReportBug()
@@ -186,12 +210,12 @@ class Searcher(MyDialog):
     def selectSearchFilePath(self):
         try:
             SearchPath = MFileDialog.getOpenFileName(self,
-                        translate("Searcher", "Please Select A Text File To Search"), self.lePathOfFileToSeach.text(),
+                        translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
                         translate("Searcher", "All Files (*.*)"))
             if SearchPath!="":
-                self.lePathOfFileToSeach.setText(SearchPath)
-                self.setSourceToSearch(True)
-                self.search()
+                self.lePathToSeach.setText(SearchPath)
+                if self.setSourceToSearch(True):
+                    self.search()
         except:
             import ReportBug
             error = ReportBug.ReportBug()
