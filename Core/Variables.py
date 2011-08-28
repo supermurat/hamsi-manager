@@ -680,9 +680,9 @@ class Variables():
             if _isAskIfNotFound:
                 answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
                         translate("EmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
-                if answer==Dialogs.Yes: 
-                    import Options
-                    Options.Options(Universals.MainWindow, _focusTo="pathOfMysqldSafe")
+                if answer==Dialogs.Yes:
+                    from Options import OptionsForm
+                    OptionsForm.OptionsForm(Universals.MainWindow, _focusTo="pathOfMysqldSafe")
             else:
                 return False
         else:

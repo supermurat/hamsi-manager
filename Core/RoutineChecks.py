@@ -272,8 +272,8 @@ def checkAfterRunProccess():
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
         if answer==Dialogs.No: 
-            import Options
-            Options.Options(Universals.MainWindow, _focusTo="fileSystemEncoding")
+            from Options import OptionsForm
+            OptionsForm.OptionsForm(Universals.MainWindow, _focusTo="fileSystemEncoding")
     checkWindowMode()
     if Universals.getBoolValue("isMakeAutoDesign"):
         if Universals.isActivePyKDE4==True:
@@ -288,15 +288,15 @@ def checkAfterRunProccess():
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes: 
-            import Options
-            Options.Options(Universals.MainWindow)
+            from Options import OptionsForm
+            OptionsForm.OptionsForm(Universals.MainWindow)
     elif Universals.changedDefaultValuesKeys!=[] or Universals.newSettingsKeys!=[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?"), False, "Added New Options And New Features")
-        if answer==Dialogs.Yes: 
-            import Options
+        if answer==Dialogs.Yes:
+            from Options import OptionsForm
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-            Options.Options(Universals.MainWindow, "Normal", None, newOrChangedKeys)
+            OptionsForm.OptionsForm(Universals.MainWindow, "Normal", None, newOrChangedKeys)
     elif Universals.getBoolValue("isShowReconfigureWizard"):
         import Execute
         Execute.executeReconfigure()

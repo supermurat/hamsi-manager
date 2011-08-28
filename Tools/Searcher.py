@@ -21,7 +21,7 @@ from MyObjects import *
 import Universals
 import Dialogs
 import InputOutputs
-import Options
+from Options import OptionsForm
 import Organizer
 import unicodedata
 
@@ -37,7 +37,7 @@ class Searcher(MyDialog):
             self.setObjectName("Searcher")
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-        wOptionsPanel = Options.Options(None, "search", None, newOrChangedKeys)
+        wOptionsPanel = OptionsForm.OptionsForm(None, "search", None, newOrChangedKeys)
         self.sourceToSearch = None
         lblPleaseSelect = MLabel(translate("Searcher", "Directory"))
         self.pbtnClose = MPushButton(translate("Searcher", "Close"))

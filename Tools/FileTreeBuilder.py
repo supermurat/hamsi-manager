@@ -22,6 +22,7 @@ import Universals
 import Dialogs
 import InputOutputs
 import Options
+from Options import OptionsForm
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
@@ -35,7 +36,7 @@ class FileTreeBuilder(MyDialog):
             self.setObjectName("Packager")
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-        wOptionsPanel = Options.Options(None, "fileTree", None, newOrChangedKeys)
+        wOptionsPanel = OptionsForm.OptionsForm(None, "fileTree", None, newOrChangedKeys)
         lblDirectory = MLabel(translate("FileTreeBuilder", "Directory : "))
         lblOutputTarget = MLabel(translate("FileTreeBuilder", "Output Target : "))
         lblOutputType = MLabel(translate("FileTreeBuilder", "Output Type : "))
@@ -58,21 +59,9 @@ class FileTreeBuilder(MyDialog):
         self.cbContentType = MComboBox()
         self.cbContentType.addItems([translate("FileTreeBuilder", "File Tree"),
                                     translate("FileTreeBuilder", "File List (With Full Path)")])
-        self.cckbIsShowHiddens = MCheckBox(translate("FileTreeBuilder", "Show Hidden Files / Directories"))
-        if Universals.getBoolValue("isShowHiddensInFileTree"):
-            self.cckbIsShowHiddens.setCheckState(Mt.Checked)
-        else:
-            self.cckbIsShowHiddens.setCheckState(Mt.Unchecked)
-        self.cckbFileSize = MCheckBox(translate("FileTreeBuilder", "File Size"))
-        self.cckbLastModified = MCheckBox(translate("FileTreeBuilder", "Last Modified"))
-        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
-            self.cckbFileSize.setCheckState(Mt.Checked)
-        else:
-            self.cckbFileSize.setCheckState(Mt.Unchecked)
-        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-            self.cckbLastModified.setCheckState(Mt.Checked)
-        else:
-            self.cckbLastModified.setCheckState(Mt.Unchecked)
+        self.cckbIsShowHiddens = Options.MyCheckBox(self, translate("FileTreeBuilder", "Show Hidden Files / Directories"), None, "isShowHiddensInFileTree")
+        self.cckbFileSize = Options.MyCheckBox(self, translate("FileTreeBuilder", "File Size"), None, "isAppendFileSizeToFileTree")
+        self.cckbLastModified = Options.MyCheckBox(self, translate("FileTreeBuilder", "Last Modified"), None, "isAppendLastModifiedToFileTree")
         pbtnBuild = MPushButton(translate("FileTreeBuilder", "Build"))
         pbtnClose = MPushButton(translate("FileTreeBuilder", "Close"))
         self.lePath = MLineEdit(trForM(_directory))
@@ -144,18 +133,6 @@ class FileTreeBuilder(MyDialog):
     def build(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            if self.cckbIsShowHiddens.checkState() == Mt.Checked:
-                Universals.setMySetting("isShowHiddensInFileTree", True)
-            else:
-                Universals.setMySetting("isShowHiddensInFileTree", False)
-            if self.cckbFileSize.checkState() == Mt.Checked:
-                Universals.setMySetting("isAppendFileSizeToFileTree", True)
-            else:
-                Universals.setMySetting("isAppendFileSizeToFileTree", False)
-            if self.cckbLastModified.checkState() == Mt.Checked:
-                Universals.setMySetting("isAppendLastModifiedToFileTree", True)
-            else:
-                Universals.setMySetting("isAppendLastModifiedToFileTree", False)
             outputTarget = "file"
             outputType = "html"
             contentType = "fileTree"

@@ -28,7 +28,7 @@ import Organizer
 import Execute
 import Records
 import InputOutputs
-import Options
+from Options import QuickOptions
 from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
 
 class MenuBar(MMenuBar):
@@ -137,7 +137,7 @@ class MenuBar(MMenuBar):
     def refreshQuickOptions(self):
         if Universals.MainWindow.Menu.mQuickOptions!=None:
             Universals.MainWindow.Menu.removeAction(Universals.MainWindow.Menu.mQuickOptions.menuAction())
-        Universals.MainWindow.Menu.mQuickOptions = Options.QuickOptions(self)
+        Universals.MainWindow.Menu.mQuickOptions = QuickOptions.QuickOptions(self)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mQuickOptions)
     
 class Bars():
@@ -212,8 +212,8 @@ class Bars():
                 else:
                     MMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
             elif actionName==translate("MenuBar", "Options"):
-                import Options
-                Options.Options(Universals.MainWindow)
+                from Options import OptionsForm
+                OptionsForm.OptionsForm(Universals.MainWindow)
             elif actionName==translate("MenuBar", "My Plug-ins"):
                 import MyPlugins
                 MyPlugins.MyPlugins(Universals.MainWindow)

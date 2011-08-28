@@ -22,7 +22,7 @@ from MyObjects import *
 import Universals
 import Dialogs
 import InputOutputs
-import Options
+from Options import OptionsForm
 import Organizer
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
@@ -37,7 +37,7 @@ class Packager(MyDialog):
             self.setObjectName("Packager")
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-        wOptionsPanel = Options.Options(None, "pack", None, newOrChangedKeys)
+        wOptionsPanel = OptionsForm.OptionsForm(None, "pack", None, newOrChangedKeys)
         lblPleaseSelect = MLabel(translate("Packager", "Path Of The Directory"))
         lblPathOfPackage = MLabel(translate("Packager", "Path Of The Pack"))
         lblPackageType = MLabel(translate("Packager", "Package Compression Type : "))
