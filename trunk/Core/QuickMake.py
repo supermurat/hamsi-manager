@@ -115,9 +115,9 @@ class QuickMakeWindow(MyDialog):
         MyDialog.__init__(self, MyParent)
         
     def createWindow(self, _actionName, _makeThisAction, _isShowEmendWidgets):
-        import Options
+        from Options import OptionsForm
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-        wOptionsPanel = Options.Options(None, QuickMakeParameters[0], None, newOrChangedKeys)
+        wOptionsPanel = OptionsForm.OptionsForm(None, QuickMakeParameters[0], None, newOrChangedKeys)
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-08-18, 22:23:32 -->
+<!-- Saved: 2011-08-28, 18:16:30 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -104,6 +104,7 @@
     <Source>Tables/AmarokCopyTable.py</Source>
     <Source>Amarok/Filter.py</Source>
     <Source>Tools/Searcher.py</Source>
+    <Source>Options/__init__.py</Source>
   </Sources>
   <Forms>
   </Forms>
