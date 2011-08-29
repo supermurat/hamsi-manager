@@ -227,8 +227,10 @@ class Tables(MTableWidget):
                                 ImageDetails.ImageDetails(filePath, _isOpenDetailsOnNewWindow = self.isOpenDetailsOnNewWindow.isChecked())
                                 isOpenedDetails = True
                             elif isMusic:
-                                from Details import MusicDetails
-                                MusicDetails.MusicDetails(filePath, self.isOpenDetailsOnNewWindow.isChecked())
+                                import Taggers
+                                if Taggers.getTagger(True)!=None:
+                                    from Details import MusicDetails
+                                    MusicDetails.MusicDetails(filePath, self.isOpenDetailsOnNewWindow.isChecked())
                                 isOpenedDetails = True
                 if isOpenedDetails==False:
                     self.SubTable.showDetails(rowNo, self.currentColumn())

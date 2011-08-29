@@ -23,6 +23,7 @@ from MyObjects import *
 from Details import MusicDetails
 import Universals
 import Dialogs
+import Options
 import Taggers
 from time import gmtime
 import Records
@@ -44,11 +45,7 @@ class MusicTable():
         self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.isPlayNow)
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnVerifyTableValues)
-        self.cckbChangeInAmarokDB = MCheckBox(translate("MusicTable", "Change in Amarok database"))
-        if Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
-            self.cckbChangeInAmarokDB.setCheckState(Mt.Checked)
-        else:
-            self.cckbChangeInAmarokDB.setCheckState(Mt.Unchecked)
+        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("MusicTable", "Change In Amarok Database"), None, "isMusicTableValuesChangeInAmarokDB")
         Universals.MainWindow.MainLayout.addWidget(self.cckbChangeInAmarokDB)
         
     def readContents(self, _directoryPath):
@@ -228,10 +225,6 @@ class MusicTable():
     def save(self):
         self.Table.checkFileExtensions(1, "baseName")
         MusicDetails.closeAllMusicDialogs()
-        if self.cckbChangeInAmarokDB.checkState() == Mt.Checked:
-            Universals.setMySetting("isMusicTableValuesChangeInAmarokDB", True)
-        else:
-            Universals.setMySetting("isMusicTableValuesChangeInAmarokDB", False)
         return self.writeContents()
         
     def refresh(self, _path):
