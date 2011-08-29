@@ -22,6 +22,7 @@ import InputOutputs
 from MyObjects import *
 from Details import TextDetails
 import Dialogs
+import Options
 from time import gmtime
 import Universals
 
@@ -31,6 +32,8 @@ class FileTable():
         self.keyName = "file"
         self.hiddenTableColumnsSettingKey = "hiddenFileTableColumns"
         self.refreshColumns()
+        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("FileTable", "Change In Amarok Database"), None, "isFileTableValuesChangeInAmarokDB")
+        Universals.MainWindow.MainLayout.addWidget(self.cckbChangeInAmarokDB)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -86,7 +89,10 @@ class FileTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        from Amarok import Operations
+        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+            Operations.changePaths(pathValues)
         return True
         
     def showDetails(self, _fileNo, _infoNo):

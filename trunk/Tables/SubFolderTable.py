@@ -22,6 +22,7 @@ import InputOutputs
 from MyObjects import *
 from Details import TextDetails
 import Dialogs
+import Options
 from time import gmtime
 import Universals
 
@@ -31,11 +32,7 @@ class SubFolderTable():
         self.keyName = "subfolder"
         self.hiddenTableColumnsSettingKey = "hiddenSubFolderTableColumns"
         self.refreshColumns()
-        self.cckbChangeInAmarokDB = MCheckBox(translate("SubFolderTable", "Change in Amarok database"))
-        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
-            self.cckbChangeInAmarokDB.setCheckState(Mt.Checked)
-        else:
-            self.cckbChangeInAmarokDB.setCheckState(Mt.Unchecked)
+        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("SubFolderTable", "Change In Amarok Database"), None, "isSubFolderTableValuesChangeInAmarokDB")
         Universals.MainWindow.MainLayout.addWidget(self.cckbChangeInAmarokDB)
 
         
@@ -125,10 +122,6 @@ class SubFolderTable():
         
     def save(self):
         self.Table.checkFileExtensions(1, "baseName")
-        if self.cckbChangeInAmarokDB.checkState() == Mt.Checked:
-            Universals.setMySetting("isSubFolderTableValuesChangeInAmarokDB", True)
-        else:
-            Universals.setMySetting("isSubFolderTableValuesChangeInAmarokDB", False)
         return self.writeContents()
         
     def refresh(self, _path):

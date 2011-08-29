@@ -97,6 +97,7 @@ class Variables():
                   "AmarokFilterAmarokCopyTable", "AmarokFilterADCArtist", "AmarokFilterAmarokMusicTable", 
                   "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree", 
                   "isMusicTableValuesChangeInAmarokDB", "isSubFolderTableValuesChangeInAmarokDB", 
+                  "isFileTableValuesChangeInAmarokDB", "isFolderTableValuesChangeInAmarokDB", 
                   "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
@@ -317,6 +318,8 @@ class Variables():
                 "isAppendLastModifiedToFileTree": "False", 
                 "isMusicTableValuesChangeInAmarokDB": "False", 
                 "isSubFolderTableValuesChangeInAmarokDB": "False", 
+                "isFileTableValuesChangeInAmarokDB": "False", 
+                "isFolderTableValuesChangeInAmarokDB": "False", 
                 "isShowHiddensInSubFolderTable": "False", 
                 "isShowHiddensInFolderTable": "False", 
                 "isShowHiddensInFileTable": "False", 
@@ -456,6 +459,8 @@ class Variables():
                 "isAppendLastModifiedToFileTree": "bool", 
                 "isMusicTableValuesChangeInAmarokDB": "bool", 
                 "isSubFolderTableValuesChangeInAmarokDB": "bool", 
+                "isFileTableValuesChangeInAmarokDB": "bool", 
+                "isFolderTableValuesChangeInAmarokDB": "bool", 
                 "isShowHiddensInSubFolderTable": "bool", 
                 "isShowHiddensInFolderTable": "bool", 
                 "isShowHiddensInFileTable": "bool", 
