@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-08-28, 18:16:30 -->
+<!-- Saved: 2011-08-28, 21:07:11 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -52,7 +52,6 @@
     <Source>Core/ReportBug.py</Source>
     <Source>Core/Bars.py</Source>
     <Source>Core/MyConfigure.py</Source>
-    <Source>Core/Options.py</Source>
     <Source>Core/SuggestIdea.py</Source>
     <Source>Core/Settings.py</Source>
     <Source>Core/FileManager.py</Source>
@@ -105,6 +104,9 @@
     <Source>Amarok/Filter.py</Source>
     <Source>Tools/Searcher.py</Source>
     <Source>Options/__init__.py</Source>
+    <Source>Options/OptionsForm.py</Source>
+    <Source>Options/QuickOptions.py</Source>
+    <Source>Options/OptionsFormContent.py</Source>
   </Sources>
   <Forms>
   </Forms>
