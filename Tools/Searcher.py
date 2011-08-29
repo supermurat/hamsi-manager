@@ -21,6 +21,7 @@ from MyObjects import *
 import Universals
 import Dialogs
 import InputOutputs
+import Options
 from Options import OptionsForm
 import Organizer
 import unicodedata
@@ -54,6 +55,12 @@ class Searcher(MyDialog):
         self.teSeachResult = MTextEdit()
         self.teSeachResult.setText(trForUI(""))
         self.connect(self.leSeach,SIGNAL("textChanged(const QString&)"),self.search)
+        self.cckbIsCaseInsensitive = Options.MyCheckBox(self, translate("Searcher", "Case Insensitive"), 2, _stateChanged = self.search)
+        self.cckbIsNormalizeUTF8Chars = Options.MyCheckBox(self, translate("Searcher", "Normalize UTF-8 Characters"), 2, _stateChanged = self.search)
+        self.cckbIsClearDigits = Options.MyCheckBox(self, translate("Searcher", "Clear Digits"), 2, _stateChanged = self.search)
+        self.cckbIsOnlyDigitsAndLetters = Options.MyCheckBox(self, translate("Searcher", "Only Digits And Letters"), 2, _stateChanged = self.search)
+        self.cckbIsClearVowels = Options.MyCheckBox(self, translate("Searcher", "Clear Vowels"), 2, _stateChanged = self.search)
+        self.cckbIsNormalizeUTF8CharsAndClearVowels = Options.MyCheckBox(self, translate("Searcher", "Normalize UTF-8 Characters And Clear Vowels"), 2, _stateChanged = self.search)
         pnlMain = MWidget(self)
         tabwTabs = MTabWidget()
         vblMain = MVBoxLayout(pnlMain)
@@ -70,10 +77,26 @@ class Searcher(MyDialog):
         HBox3.addWidget(self.leSeach)
         HBox2 = MHBoxLayout()
         HBox2.addWidget(self.pbtnClose)
+        VBox1 = MVBoxLayout()
+        HBox4 = MHBoxLayout()
+        HBox4.addWidget(self.cckbIsCaseInsensitive)
+        HBox4.addWidget(self.cckbIsClearDigits)
+        HBox4.addWidget(self.cckbIsOnlyDigitsAndLetters)
+        HBox5 = MHBoxLayout()
+        HBox5.addWidget(self.cckbIsNormalizeUTF8Chars)
+        HBox5.addWidget(self.cckbIsClearVowels)
+        HBox6 = MHBoxLayout()
+        HBox6.addWidget(self.cckbIsNormalizeUTF8CharsAndClearVowels)
+        VBox1.addLayout(HBox4)
+        VBox1.addLayout(HBox5)
+        VBox1.addLayout(HBox6)
         vblMain2.addWidget(lblPleaseSelect)
         vblMain2.addLayout(HBox)
         vblMain2.addLayout(HBox1)
         vblMain2.addLayout(HBox3)
+        gboxFilters = MGroupBox(translate("Searcher", "Filters"))
+        gboxFilters.setLayout(VBox1)
+        vblMain2.addWidget(gboxFilters)
         vblMain2.addWidget(self.teSeachResult, 20)
         vblMain2.addStretch(1)
         vblMain2.addLayout(HBox2)
@@ -129,39 +152,41 @@ class Searcher(MyDialog):
                 searchValue = str(self.leSeach.text())
                 if searchValue!="":
                     searchValueList = [searchValue]
+                    if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked:
+                        clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
+                        clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+                        searchValueList.append(clearedSearchValue)
                     
-                    _isCaseInsensitive = True
+                    if self.cckbIsClearDigits.checkState() == Mt.Checked:
+                        clearedSearchValue1 = ""
+                        for char in searchValue:
+                            if char.isdigit()==False:
+                                clearedSearchValue1+=char
+                        searchValueList.append(clearedSearchValue1)
                     
-                    clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
-                    clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
-                    searchValueList.append(clearedSearchValue)
-                    
-                    clearedSearchValue1 = ""
-                    for char in searchValue:
-                        if char.isdigit()==False:
-                            clearedSearchValue1+=char
-                    searchValueList.append(clearedSearchValue1)
-                    
-                    clearedSearchValue2 = ""
-                    for char in searchValue:
-                        if char.isdigit()==True or char.isalpha()==True:
-                            clearedSearchValue2+=char
-                    searchValueList.append(clearedSearchValue2)
+                    if self.cckbIsOnlyDigitsAndLetters.checkState() == Mt.Checked:
+                        clearedSearchValue2 = ""
+                        for char in searchValue:
+                            if char.isdigit()==True or char.isalpha()==True:
+                                clearedSearchValue2+=char
+                        searchValueList.append(clearedSearchValue2)
                     
                     vowels=["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
-                    clearedSearchValue3 = ""
-                    for char in Universals.trUnicode(searchValue):
-                        clearedChar = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(char)) if unicodedata.category(c) != 'Mn')
-                        clearedChar = str(Universals.trEncode(clearedChar, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
-                        if clearedChar not in vowels:
-                            clearedSearchValue3+=char
-                    searchValueList.append(clearedSearchValue3)
+                    if self.cckbIsClearVowels.checkState() == Mt.Checked:
+                        clearedSearchValue3 = ""
+                        for char in Universals.trUnicode(searchValue):
+                            clearedChar = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(char)) if unicodedata.category(c) != 'Mn')
+                            clearedChar = str(Universals.trEncode(clearedChar, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+                            if clearedChar not in vowels:
+                                clearedSearchValue3+=char
+                        searchValueList.append(clearedSearchValue3)
                     
-                    clearedSearchValue4 = ""
-                    for char in clearedSearchValue:
-                        if clearedChar not in vowels:
-                            clearedSearchValue4+=char
-                    searchValueList.append(clearedSearchValue4)
+                    if self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
+                        clearedSearchValue4 = ""
+                        for char in clearedSearchValue:
+                            if char not in vowels:
+                                clearedSearchValue4+=char
+                        searchValueList.append(clearedSearchValue4)
                     
                     resultOfSearch = ""
                     arrayOfSource = str(self.sourceToSearch).split("\n\r")
@@ -175,7 +200,7 @@ class Searcher(MyDialog):
                             if row.find(searchVal) != -1:
                                 resultOfSearch += row + "\n"
                                 break
-                            if _isCaseInsensitive == True:
+                            if self.cckbIsCaseInsensitive.checkState() == Mt.Checked:
                                 pattern = re.compile(Universals.trUnicode(searchVal), re.I | re.U)
                                 if re.search(pattern, Universals.trUnicode(row)) is not None:
                                     resultOfSearch += row + "\n"
