@@ -90,9 +90,11 @@ class FileTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
-        from Amarok import Operations
         if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
-            Operations.changePaths(pathValues)
+            import Amarok
+            if Amarok.checkAmarok(True,  False):
+                from Amarok import Operations
+                Operations.changePaths(pathValues)
         return True
         
     def showDetails(self, _fileNo, _infoNo):
