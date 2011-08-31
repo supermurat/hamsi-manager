@@ -73,6 +73,7 @@ class SubFolderTable():
                 if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
                     if self.Table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                        self.Table.changedValueNumber += 1
                         continue
                     baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
                     baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
