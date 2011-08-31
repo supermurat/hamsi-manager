@@ -211,7 +211,7 @@ class FileManager():
             _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.TreeBrowser)
             _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.Browser)
 
-    def goTo(self, _path, _isRemember = True):
+    def goTo(self, _path, _isRemember = True, _isOnlyBrowser = False):
         try:
             _path = InputOutputs.getRealPath(str(_path))
             if InputOutputs.IA.isReadableFileOrDir(_path):
@@ -233,7 +233,8 @@ class FileManager():
                         self.lstvFileManager.setRootIndex(self.dirModel.index(_path))
                         self.trvFileManager.setCurrentIndex(self.dirModel.index(_path))
                     self.actForward.setEnabled(False)
-                    self.showInTable()
+                    if _isOnlyBrowser==False:
+                        self.showInTable()
                     self.actBack.setEnabled(True)
                     if str(self.currentDirectory)=="/":
                         self.actUp.setEnabled(False)
@@ -310,7 +311,7 @@ class FileManager():
                     if _isOnlyBrowser==False:
                         self.showInTable()
                 else:
-                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False)
+                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False, _isOnlyBrowser)
         except:
             error = ReportBug.ReportBug()
             error.show()

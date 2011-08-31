@@ -435,8 +435,7 @@ class Tables(MTableWidget):
             if Universals.tableType not in [5, 6]:
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                     if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
-                        Universals.MainWindow.FileManager.makeRefresh()
-                        return True
+                        Universals.MainWindow.FileManager.makeRefresh("", True)
             InputOutputs.IA.completeSmartCheckIcon()
             Records.saveAllRecords()
             if self.changedValueNumber==0:
