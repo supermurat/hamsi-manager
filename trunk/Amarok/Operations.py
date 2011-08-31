@@ -42,8 +42,24 @@ class Operations:
         return None
         
     def changePaths(_values):
-        for value in _values:
-            Commands.changePath(value["oldPath"], value["newPath"])
+        import Taggers, InputOutputs, Universals, Dialogs, Records, ReportBug
+        Universals.startThreadAction()
+        allItemNumber = len(_values)
+        for valueNo,value in enumerate(_values):
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    Commands.changePath(value["oldPath"], value["newPath"])
+                except:
+                    error = ReportBug.ReportBug()
+                    error.show()   
+            else:
+                allItemNumber = valueNo+1
+            Dialogs.showState(Universals.translate("Amarok/Operations", "Changing Paths In Amarok Database"),
+                              valueNo+1,allItemNumber, True) 
+            if isContinueThreadAction==False:
+                break
+        Universals.finishThreadAction()
         
     def changeTags(_values):
         for value in _values:
