@@ -182,19 +182,39 @@ class IA:
                             return _newPath
                         else:
                             import Dialogs
-                            answer = Dialogs.ask(translate("InputOutputs", "Current File Name"),
-                                        str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath))
-                            if answer==Dialogs.Yes: 
+                            answer = Dialogs.askSpecial(translate("InputOutputs", "Current File Name"),
+                                        str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath), 
+                                translate("Dialogs", "Replace"), 
+                                translate("Dialogs", "Rename"), 
+                                translate("Dialogs", "Cancel"))
+                            if answer==translate("Dialogs", "Replace"): 
                                 return _newPath
+                            elif answer==translate("Dialogs", "Rename"): 
+                                from MyObjects import MFileDialog, trForM, trForUI
+                                newPath = MFileDialog.getSaveFileName(Universals.MainWindow, translate("InputOutputs", "Select A New Name For File"),
+                                                        trForM(_newPath),trForUI(translate("InputOutputs", "All Files") + " (*)"))
+                                if newPath!="":
+                                    return checkDestination(_oldPath, str(newPath), _isQuiet)
+                                return False
                             else:
                                 return False
                     elif isDir(_newPath):
                         if isFile(_oldPath):
                             import Dialogs
-                            answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"),
-                                    str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)))
-                            if answer==Dialogs.Yes: 
+                            answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"),
+                                    str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)), 
+                                translate("Dialogs", "Yes, Add Into"), 
+                                translate("Dialogs", "Rename"), 
+                                translate("Dialogs", "Cancel"))
+                            if answer==translate("Dialogs", "Yes, Add Into"): 
                                 return _newPath+"/"+getBaseName(_newPath)
+                            elif answer==translate("Dialogs", "Rename"): 
+                                from MyObjects import MFileDialog, trForM, trForUI
+                                newPath = MFileDialog.getSaveFileName(Universals.MainWindow, translate("InputOutputs", "Select A New Name For File"),
+                                                        trForM(_newPath),trForUI(translate("InputOutputs", "All Files") + " (*)"))
+                                if newPath!="":
+                                    return checkDestination(_oldPath, str(newPath), _isQuiet)
+                                return False
                             else:
                                 return False
                         else:
@@ -209,11 +229,21 @@ class IA:
                                     return _newPath
                                 else:
                                     import Dialogs
-                                    answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"), 
-                                            str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>Add your files to the current folder?")) % Organizer.getLink(_newPath))
-                                    if answer==Dialogs.Yes:
+                                    answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"), 
+                                            str(translate("InputOutputs", "\"%s\" : there already exists a directory with the same name.<br>Add your files to the current directory?")) % Organizer.getLink(_newPath), 
+                                        translate("Dialogs", "Yes, Add Into"), 
+                                        translate("Dialogs", "Rename"), 
+                                        translate("Dialogs", "Cancel"))
+                                    if answer==translate("Dialogs", "Yes, Add Into"):
                                         InputOutputs.appendingDirectories.append(_newPath)
                                         return _newPath
+                                    elif answer==translate("Dialogs", "Rename"): 
+                                        from MyObjects import MFileDialog, trForM, trForUI
+                                        newPath = MFileDialog.getExistingDirectory(Universals.MainWindow, translate("InputOutputs", "Select A Directory"),
+                                                trForM(_newPath))
+                                        if newPath!="":
+                                            return checkDestination(_oldPath, str(newPath), _isQuiet)
+                                        return False
                                     else:
                                         return False
                     else:
@@ -270,45 +300,53 @@ class IA:
             clearUnneededs(_path)
             dontRemovingFilesCount = 0
             filesAndDirectories = readDirectoryAll(_path)
+            filesAndDirectoriesCount = len(filesAndDirectories)
+            if _isShowState and _isCloseState:Universals.startThreadAction()
             for nameNo, name in enumerate(filesAndDirectories):
-                if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
-                if isFile(_path+"/"+name):
-                    dontRemovingFilesCount+=1
-                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                        for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
-                            try:
-                                if str(f)==name:
-                                    dontRemovingFilesCount-=1
-                                    break
-                            except:pass
-                        for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
-                            try:
-                                if checkExtension(name, ext):
-                                    dontRemovingFilesCount-=1
-                                    break
-                            except:pass
-                if isDir(_path+"/"+name):
-                    dontRemovingFilesCount+=1
-                    if _isAutoCleanSubFolder==False:
-                        break
-                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                        for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
-                            try:
-                                if str(f)==name:
-                                    dontRemovingFilesCount-=1
-                                    break
-                            except:pass
-                    if clearEmptyDirectories(_path+"/"+name, _isShowState, False, _isAutoCleanSubFolder, _isClear):
-                        dontRemovingFilesCount-=1
+                if _isShowState:isContinueThreadAction = Universals.isContinueThreadAction()
+                else: isContinueThreadAction = True
+                if isContinueThreadAction:
+                    if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, filesAndDirectoriesCount, True)
+                    if isFile(_path+"/"+name):
+                        dontRemovingFilesCount+=1
+                        if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                            for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
+                                try:
+                                    if str(f)==name:
+                                        dontRemovingFilesCount-=1
+                                        break
+                                except:pass
+                            for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
+                                try:
+                                    if checkExtension(name, ext):
+                                        dontRemovingFilesCount-=1
+                                        break
+                                except:pass
+                    if isDir(_path+"/"+name):
+                        dontRemovingFilesCount+=1
+                        if _isAutoCleanSubFolder==False:
+                            break
+                        if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                            for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
+                                try:
+                                    if str(f)==name:
+                                        dontRemovingFilesCount-=1
+                                        break
+                                except:pass
+                        if clearEmptyDirectories(_path+"/"+name, _isShowState, False, _isAutoCleanSubFolder, _isClear):
+                            dontRemovingFilesCount-=1
+                else:
+                    if _isShowState: Dialogs.showState(translate("InputOutputs", "Checked Empty Directories"), filesAndDirectoriesCount, filesAndDirectoriesCount, True)
+            if _isShowState and _isCloseState:Universals.finishThreadAction()
             if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
-                if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1)
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1, True)
                 clearIgnoreds(_path)
                 removeDir(_path)
                 if _isCloseState: 
-                    Dialogs.showState(translate("InputOutputs", "Directory Deleted"), 1, 1)
+                    Dialogs.showState(translate("InputOutputs", "Directory Deleted"), 1, 1, True)
                     Dialogs.show(translate("InputOutputs", "Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
                 return True
-            if _isCloseState: Dialogs.showState(translate("InputOutputs", "Directories Cleaned"), 1, 1)
+            if _isCloseState: Dialogs.showState(translate("InputOutputs", "Directories Cleaned"), 1, 1, True)
         return False
         
     def clearUnneededs(_path):
