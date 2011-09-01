@@ -69,7 +69,7 @@ class AmarokMusicTable():
                         for musicFileRow in musicFileValuesWithNames:
                             isContinueThreadAction = Universals.isContinueThreadAction()
                             if isContinueThreadAction:
-                                if Amarok.getSelectedTagSourseType()=="Amarok":
+                                if Amarok.getSelectedTagSourseType("AmarokMusicTable")=="Amarok":
                                     content = {}
                                     content["path"] = musicFileRow["filePath"]
                                     content["baseNameOfDirectory"] = InputOutputs.getBaseName(InputOutputs.getDirName(musicFileRow["filePath"]))
@@ -135,13 +135,13 @@ class AmarokMusicTable():
                         continue
                     baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
                     baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                    if Amarok.getSelectedTagTargetType().find("ID3")>-1:
-                        typeTemp = Amarok.getSelectedTagTargetType().split(" + ")
+                    if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("ID3")>-1:
+                        typeTemp = Amarok.getSelectedTagTargetType("AmarokMusicTable").split(" + ")
                         if len(typeTemp)>1:
                             taggerType = typeTemp[1]
                         else:
                             taggerType = typeTemp[0]
-                        Taggers.setSelectedTaggerTypeForReadName(taggerType)
+                        Taggers.setSelectedTaggerTypeForWriteName(taggerType)
                     tagger = Taggers.getTagger()
                     tagger.loadFileForWrite(self.Table.currentTableContentValues[rowNo]["path"])
                 if self.Table.isChangableItem(rowNo, 2):
@@ -193,7 +193,7 @@ class AmarokMusicTable():
                     Records.add(str(translate("AmarokMusicTable", "Lyrics")), str(self.Table.currentTableContentValues[rowNo]["firstLyrics"]), value)
                     self.Table.changedValueNumber += 1
                 if isWritableFileOrDir:
-                    if Amarok.getSelectedTagTargetType().find("ID3")>-1:
+                    if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("ID3")>-1:
                         tagger.update()
                     if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
                         baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
@@ -213,7 +213,7 @@ class AmarokMusicTable():
         Universals.finishThreadAction()
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
         from Amarok import Operations
-        if Amarok.getSelectedTagTargetType().find("Amarok")>-1:
+        if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("Amarok")>-1:
             Operations.changeTags(changingTags)
         Operations.changePaths(pathValues)
         return True

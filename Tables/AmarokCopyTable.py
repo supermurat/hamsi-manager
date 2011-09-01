@@ -38,7 +38,7 @@ class AmarokCopyTable():
         self.refreshColumns()
         lblDestinationDir = MLabel(translate("AmarokCopyTable", "Destination Path : "))
         self.leDestinationDirPath = MLineEdit(Variables.userDirectoryPath)
-        self.pbtnSelectDestinationDir = MPushButton(translate("Packager", "Browse"))
+        self.pbtnSelectDestinationDir = MPushButton(translate("AmarokCopyTable", "Browse"))
         self.Table.connect(self.pbtnSelectDestinationDir,SIGNAL("clicked()"),self.selectDestinationDir)
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
         self.hblBox = MHBoxLayout()
@@ -79,7 +79,7 @@ class AmarokCopyTable():
                         for musicFileRow in musicFileValuesWithNames:
                             isContinueThreadAction = Universals.isContinueThreadAction()
                             if isContinueThreadAction:
-                                if Amarok.getSelectedTagSourseType()=="Amarok":
+                                if Amarok.getSelectedTagSourseType("AmarokCopyTable")=="Amarok":
                                     content = {}
                                     content["path"] = musicFileRow["filePath"]
                                     content["baseNameOfDirectory"] = ""
@@ -151,8 +151,13 @@ class AmarokCopyTable():
                         if self.Table.currentTableContentValues[rowNo]["path"] != newFilePathCopied:
                             newFilePath = newFilePathCopied
                             try:
-                                #FIXME: Add destination taggerType selection into Table
-                                #Taggers.setSelectedTaggerTypeForReadName(taggerType)
+                                if Amarok.getSelectedTagTargetType("AmarokCopyTable").find("ID3")>-1:
+                                    typeTemp = Amarok.getSelectedTagTargetType("AmarokCopyTable").split(" + ")
+                                    if len(typeTemp)>1:
+                                        taggerType = typeTemp[1]
+                                    else:
+                                        taggerType = typeTemp[0]
+                                    Taggers.setSelectedTaggerTypeForWriteName(taggerType)
                                 tagger = Taggers.getTagger()
                                 tagger.loadFileForWrite(newFilePath)
                                 if self.Table.isChangableItem(rowNo, 2):
@@ -196,7 +201,10 @@ class AmarokCopyTable():
                                     Records.add(str(translate("AmarokCopyTable", "Lyrics")), str(self.Table.currentTableContentValues[rowNo]["firstLyrics"]), value)
                                     self.Table.changedValueNumber += 1
                                 tagger.update()
-                            except:pass #FIXME: alert 
+                            except:
+                                Dialogs.showError(translate("AmarokCopyTable", "Tags Cannot Changed"), 
+                                    str(translate("AmarokCopyTable", "\"%s\" : cannot be changed tags. ")
+                                    ) % Organizer.getLink(newFilePath))
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
