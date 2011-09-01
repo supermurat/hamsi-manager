@@ -84,7 +84,7 @@ class AmarokMusicTable():
                                     content["firstLyrics"] = musicFileRow["lyrics"]
                                     currentTableContentValues.append(content)
                                 else:
-                                    if InputOutputs.IA.isFile(musicFileRow["filePath"]) and InputOutputs.IA.isReadableFileOrDir(musicFileRow["filePath"]):
+                                    if InputOutputs.IA.isFile(musicFileRow["filePath"]) and InputOutputs.IA.isReadableFileOrDir(musicFileRow["filePath"], False, True):
                                         tagger = Taggers.getTagger()
                                         try:
                                             tagger.loadFile(musicFileRow["filePath"])
@@ -127,7 +127,7 @@ class AmarokMusicTable():
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 changingTags.append({"path" : self.Table.currentTableContentValues[rowNo]["path"]})
-                isWritableFileOrDir = InputOutputs.IA.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                isWritableFileOrDir = InputOutputs.IA.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True)
                 if isWritableFileOrDir:
                     if self.Table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])

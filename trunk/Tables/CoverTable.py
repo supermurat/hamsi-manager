@@ -44,7 +44,7 @@ class CoverTable():
         for dirNo,dirName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(dirName):
+                if InputOutputs.IA.isReadableFileOrDir(dirName, False, True):
                     content = {}
                     content["path"] = dirName
                     content["baseNameOfDirectory"] = str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
@@ -86,7 +86,7 @@ class CoverTable():
         for rowNo in range(startRowNo,self.Table.rowCount(),rowStep):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
+                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1

@@ -45,7 +45,7 @@ class SubFolderTable():
         for fileNo,fileName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(fileName):
+                if InputOutputs.IA.isReadableFileOrDir(fileName, False, True):
                     content = {}
                     content["path"] = fileName
                     content["baseNameOfDirectory"] = str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
@@ -70,7 +70,7 @@ class SubFolderTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
+                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1
