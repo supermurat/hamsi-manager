@@ -366,7 +366,8 @@ class FileManager():
     
     def showInTable(self):
         try:
-            Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
+            if Universals.tableType in [0, 1, 2, 3, 4] or Universals.isStartingSuccessfully==False:
+                Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
         except:
             error = ReportBug.ReportBug()
             error.show()
