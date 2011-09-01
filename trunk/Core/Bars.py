@@ -146,6 +146,7 @@ class Bars():
     def __init__(self):
         Universals.MainWindow.MusicOptionsBar = None
         Universals.MainWindow.AmarokMusicOptionsBar = None
+        Universals.MainWindow.AmarokCopyOptionsBar = None
         Universals.MainWindow.SubDirectoryOptionsBar = None
         
     def click(self, _action, _isFromMenu=False):
@@ -333,6 +334,12 @@ class Bars():
             Universals.MainWindow.AmarokMusicOptionsBar = AmarokMusicOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.AmarokMusicOptionsBar)
             Universals.MainWindow.AmarokMusicOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
+        elif Universals.tableType==8:
+            Universals.MainWindow.PlayerBar = PlayerBar(Universals.MainWindow)
+            Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.PlayerBar)
+            Universals.MainWindow.AmarokCopyOptionsBar = AmarokCopyOptionsBar(Universals.MainWindow)
+            Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.AmarokCopyOptionsBar)
+            Universals.MainWindow.AmarokCopyOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
         if len(Universals.MainWindow.Menu.mSpecialOptions.actions())==0:
             Universals.MainWindow.Menu.mSpecialOptions.setEnabled(False)
         else:
@@ -367,6 +374,13 @@ class Bars():
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.AmarokMusicOptionsBar)
                     Universals.MainWindow.AmarokMusicOptionsBar.deleteLater()
                     Universals.MainWindow.AmarokMusicOptionsBar = None
+                elif Universals.tableType==8:
+                    Universals.MainWindow.removeToolBar(Universals.MainWindow.PlayerBar)
+                    Universals.MainWindow.PlayerBar.deleteLater()
+                    Universals.MainWindow.PlayerBar = None
+                    Universals.MainWindow.removeToolBar(Universals.MainWindow.AmarokCopyOptionsBar)
+                    Universals.MainWindow.AmarokCopyOptionsBar.deleteLater()
+                    Universals.MainWindow.AmarokCopyOptionsBar = None
                 try:Universals.MainWindow.removeDockWidget(Universals.MainWindow.dckSpecialTools)
                 except:pass
                 Universals.MainWindow.resetCentralWidget()
@@ -408,6 +422,9 @@ class Bars():
         elif Universals.tableType==6:
             Universals.MainWindow.PlayerBar.setToolButtonStyle(int(Universals.MySettings["PlayerBarButtonStyle"]))
             Universals.MainWindow.AmarokMusicOptionsBar.setToolButtonStyle(int(Universals.MySettings["AmarokMusicOptionsBarButtonStyle"]))
+        elif Universals.tableType==8:
+            Universals.MainWindow.PlayerBar.setToolButtonStyle(int(Universals.MySettings["PlayerBarButtonStyle"]))
+            Universals.MainWindow.AmarokCopyOptionsBar.setToolButtonStyle(int(Universals.MySettings["AmarokCopyOptionsBarButtonStyle"]))
         
     def setAllBarsStyleToMySettings(self):
         Universals.setMySetting("TableToolsBarButtonStyle", Universals.MainWindow.TableToolsBar.toolButtonStyle())
@@ -422,6 +439,9 @@ class Bars():
         elif Universals.tableType==6:
             Universals.setMySetting("PlayerBarButtonStyle", Universals.MainWindow.PlayerBar.toolButtonStyle())
             Universals.setMySetting("AmarokMusicOptionsBarButtonStyle", Universals.MainWindow.AmarokMusicOptionsBar.toolButtonStyle())
+        elif Universals.tableType==8:
+            Universals.setMySetting("PlayerBarButtonStyle", Universals.MainWindow.PlayerBar.toolButtonStyle())
+            Universals.setMySetting("AmarokCopyOptionsBarButtonStyle", Universals.MainWindow.AmarokCopyOptionsBar.toolButtonStyle())
         
     
 class TableToolsBar(MToolBar):
@@ -726,8 +746,8 @@ class AmarokMusicOptionsBar(MToolBar):
         self.cbTagTargetType = MComboBox(self)
         self.cbTagTargetType.addItems(self.MusicTagTargetTypes)
         self.isActiveChanging = False
-        self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType()))
-        self.cbTagTargetType.setCurrentIndex(self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType()))
+        self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
+        self.cbTagTargetType.setCurrentIndex(self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
         self.isActiveChanging = True
         self.cbTagSourceType.setToolTip(translate("AmarokMusicOptionsBar", "You can select the ID3 tag source to read."))
         self.cbTagTargetType.setToolTip(translate("AmarokMusicOptionsBar", "You can select the ID3 tag target to write."))
@@ -745,14 +765,14 @@ class AmarokMusicOptionsBar(MToolBar):
             selectedType = str(self.MusicTagSourceTypes[_action])
             if self.isActiveChanging:
                 if Universals.MainWindow.Table.checkUnSavedValues()==True:
-                    Amarok.setSelectedTagSourseType(selectedType)
+                    Amarok.setSelectedTagSourseType(selectedType, "AmarokMusicTable")
                     Universals.MainWindow.Table.refreshForColumns()
                     Universals.MainWindow.SpecialTools.refreshForColumns()
                     Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
-                self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType()))
+                self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
                 if self.cbTagSourceTypeForMenu != None:
-                    self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(Amarok.getSelectedTagSourseType()))
+                    self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
                 self.isActiveChanging = True
         except:
             error = ReportBug.ReportBug()
@@ -763,11 +783,11 @@ class AmarokMusicOptionsBar(MToolBar):
             import Amarok
             selectedType = str(self.MusicTagTargetTypes[_action])
             if self.isActiveChanging:
-                Amarok.setSelectedTagTargetType(selectedType)
+                Amarok.setSelectedTagTargetType(selectedType, "AmarokMusicTable")
                 self.isActiveChanging = False
-                self.cbTagTargetType.setCurrentIndex(self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType()))
+                self.cbTagTargetType.setCurrentIndex(self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
                 if self.cbTagTargetTypeForMenu != None:
-                    self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(Amarok.getSelectedTagTargetType()))
+                    self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
                 self.isActiveChanging = True
         except:
             error = ReportBug.ReportBug()
@@ -796,6 +816,103 @@ class AmarokMusicOptionsBar(MToolBar):
         _menu.addAction(wactSource)
         _menu.addAction(wactTargetLabel)
         _menu.addAction(wactTarget)
+        
+class AmarokCopyOptionsBar(MToolBar):
+
+    def __init__(self, _parent):
+        MToolBar.__init__(self, _parent)
+        import Amarok
+        self.isActiveChanging = True
+        self.cbTagSourceTypeForMenu = None
+        self.cbTagTargetTypeForMenu = None
+        self.setWindowTitle(translate("AmarokCopyOptionsBar", "Music options"))
+        self.setObjectName(translate("AmarokCopyOptionsBar", "Music options"))
+        lblSourceDetails = MLabel(translate("AmarokCopyOptionsBar", "Read From : "))
+        lblTargetDetails = MLabel(translate("AmarokCopyOptionsBar", "Write To : "))
+        self.MusicTagSourceTypes = Amarok.getTagSourceTypes()
+        self.cbTagSourceType = MComboBox(self)
+        self.cbTagSourceType.addItems(self.MusicTagSourceTypes)
+        musicTagTargetTypes = Amarok.getTagTargetTypes()
+        self.MusicTagTargetTypes = []
+        for mttt in musicTagTargetTypes:
+            if mttt.find("Amarok")==-1:
+                self.MusicTagTargetTypes.append(mttt)
+        if Amarok.getSelectedTagTargetType("AmarokCopyTable") not in self.MusicTagTargetTypes:
+            Amarok.setSelectedTagTargetType(self.MusicTagTargetTypes[0], "AmarokCopyTable")
+        self.cbTagTargetType = MComboBox(self)
+        self.cbTagTargetType.addItems(self.MusicTagTargetTypes)
+        self.isActiveChanging = False
+        self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
+        self.cbTagTargetType.setCurrentIndex(self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
+        self.isActiveChanging = True
+        self.cbTagSourceType.setToolTip(translate("AmarokCopyOptionsBar", "You can select the ID3 tag source to read."))
+        self.cbTagTargetType.setToolTip(translate("AmarokCopyOptionsBar", "You can select the ID3 tag target to write."))
+        self.addWidget(lblSourceDetails)
+        self.addWidget(self.cbTagSourceType)
+        self.addWidget(lblTargetDetails)
+        self.addWidget(self.cbTagTargetType)
+        MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
+        MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
+        self.setIconSize(MSize(32,32))
+    
+    def musicTagSourceTypeChanged(self, _action=None):
+        try:
+            import Amarok
+            selectedType = str(self.MusicTagSourceTypes[_action])
+            if self.isActiveChanging:
+                if Universals.MainWindow.Table.checkUnSavedValues()==True:
+                    Amarok.setSelectedTagSourseType(selectedType, "AmarokCopyTable")
+                    Universals.MainWindow.Table.refreshForColumns()
+                    Universals.MainWindow.SpecialTools.refreshForColumns()
+                    Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                self.isActiveChanging = False
+                self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
+                if self.cbTagSourceTypeForMenu != None:
+                    self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
+                self.isActiveChanging = True
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+    
+    def musicTagTargetTypeChanged(self, _action=None):
+        try:
+            import Amarok
+            selectedType = str(self.MusicTagTargetTypes[_action])
+            if self.isActiveChanging:
+                Amarok.setSelectedTagTargetType(selectedType, "AmarokCopyTable")
+                self.isActiveChanging = False
+                self.cbTagTargetType.setCurrentIndex(self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
+                if self.cbTagTargetTypeForMenu != None:
+                    self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
+                self.isActiveChanging = True
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+        
+    def getSpecialOptions(self, _menu):
+        self.cbTagSourceTypeForMenu = MComboBox(self)
+        self.cbTagSourceTypeForMenu.addItems(self.MusicTagSourceTypes)
+        self.cbTagTargetTypeForMenu = MComboBox(self)
+        self.cbTagTargetTypeForMenu.addItems(self.MusicTagTargetTypes)
+        self.isActiveChanging = False
+        self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(getSelectedTaggerTypeForReadName()))
+        self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(getSelectedTaggerTypeForReadName()))
+        self.isActiveChanging = True
+        MObject.connect(self.cbTagSourceTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
+        MObject.connect(self.cbTagTargetTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
+        wactSourceLabel = MWidgetAction(_menu)
+        wactSourceLabel.setDefaultWidget(MLabel(trForUI(translate("AmarokCopyOptionsBar", "Read From : "))))
+        wactTargetLabel = MWidgetAction(_menu)
+        wactTargetLabel.setDefaultWidget(MLabel(trForUI(translate("AmarokCopyOptionsBar", "Write To : "))))
+        wactSource = MWidgetAction(_menu)
+        wactSource.setDefaultWidget(self.cbTagSourceTypeForMenu)
+        wactTarget = MWidgetAction(_menu)
+        wactTarget.setDefaultWidget(self.cbTagTargetTypeForMenu)
+        _menu.addAction(wactSourceLabel)
+        _menu.addAction(wactSource)
+        _menu.addAction(wactTargetLabel)
+        _menu.addAction(wactTarget)
+        
         
 class SubDirectoryOptionsBar(MToolBar):
     def __init__(self, _parent):

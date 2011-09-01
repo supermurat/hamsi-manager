@@ -174,22 +174,22 @@ class Amarok:
         tagTargetTypes += getTaggerTypesName()
         return tagTargetTypes
         
-    def getSelectedTagSourseType():
+    def getSelectedTagSourseType(_tableName="AmarokMusicTable"):
         tagSourceTypes = getTagSourceTypes()
-        return Universals.getValue("AmarokTagSourceType", tagSourceTypes, tagSourceTypes[0])
+        return Universals.getValue("AmarokTagSourceType" + _tableName, tagSourceTypes, tagSourceTypes[0])
         
-    def getSelectedTagTargetType():
+    def getSelectedTagTargetType(_tableName="AmarokMusicTable"):
         tagTargetTypes = getTagTargetTypes()
-        return Universals.getValue("AmarokTagTargetType", tagTargetTypes, tagTargetTypes[1])
+        return Universals.getValue("AmarokTagTargetType" + _tableName, tagTargetTypes, tagTargetTypes[1])
         
-    def setSelectedTagSourseType(_type):
-        Universals.setMySetting("AmarokTagSourceType", _type)
+    def setSelectedTagSourseType(_type, _tableName="AmarokMusicTable"):
+        Universals.setMySetting("AmarokTagSourceType" + _tableName, _type)
         if _type!="Amarok":
             from Taggers import setSelectedTaggerTypeForReadName
             setSelectedTaggerTypeForReadName(_type)
         
-    def setSelectedTagTargetType(_type):
-        Universals.setMySetting("AmarokTagTargetType", _type)
+    def setSelectedTagTargetType(_type, _tableName="AmarokMusicTable"):
+        Universals.setMySetting("AmarokTagTargetType" + _tableName, _type)
         
             
 class EmbeddedDBCore():

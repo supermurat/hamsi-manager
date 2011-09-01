@@ -130,8 +130,10 @@ class QuickOptions(MMenu):
             
     def getActionByKey(self, _key):
         for act in self.values:
-            if str(act.objectName()) == str(_key):
-                return act
+            try:
+                if str(act.objectName()) == str(_key):
+                    return act
+            except:pass
         return None
         
     def createActions(self):
@@ -146,22 +148,20 @@ class QuickOptions(MMenu):
                     for y, actionLabel in enumerate(actionLabelList):
                         actAction = actgActionGroupTableTypes.addAction(actionLabel)
                         actAction.setCheckable(True)
-                        actAction.setObjectName(trForUI(actionLabel+";"+str(y)))
+                        actAction.setObjectName(trForUI(self.keysOfSettings[x]+";"+str(y)))
                         if selectedIndex==y:
                             actAction.setChecked(True)
                     self.values[-1].addActions(actgActionGroupTableTypes.actions())
-                    self.values[-1].setObjectName(self.keysOfSettings[x])
                     self.addAction(self.values[-1].menuAction())
                     MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
                 elif self.typesOfValues[x]=="Yes/No":
                     self.values.append(MAction(self.labels[x],self))
-                    self.values[-1].setObjectName(self.keysOfSettings[x])
-                    self.values[-1].setToolTip(self.toolTips[x])
                     self.values[-1].setCheckable(True)
                     if Universals.getBoolValue(keyValue):
                         self.values[-1].setChecked(Universals.isChangeAll)
                     self.addAction(self.values[-1])
                     MObject.connect(self.values[-1], SIGNAL("changed()"), self.valueChanged)
+                self.values[-1].setObjectName(self.keysOfSettings[x])
                 self.values[-1].setToolTip(self.toolTips[x])
             else:
                 self.values.append(None)
