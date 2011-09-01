@@ -430,10 +430,10 @@ class Tables(MTableWidget):
         try:
             import Records
             isGoUpDirectoryWithFileTable = False
-            if Universals.tableType not in [4, 5, 6]:
+            if Universals.tableType in [0, 1, 2, 3]:
                 if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                     InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
-            if Universals.tableType not in [5, 6]:
+            if Universals.tableType in [0, 1, 2, 3, 4]:
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                     if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                         isGoUpDirectoryWithFileTable = True

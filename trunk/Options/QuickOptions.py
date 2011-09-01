@@ -30,7 +30,8 @@ class QuickOptions(MMenu):
         self.setTitle(translate("MenuBar", "Quick Options"))
         self.setObjectName(translate("MenuBar", "Quick Options"))
         self.values, self.hiddenKeys = [], []
-        self.keysOfSettings = ["isActiveClearGeneral", "isActiveAutoMakeIconToDirectory", 
+        self.keysOfSettings = ["isActiveClearGeneral", "isClearEmptyDirectoriesWhenSave", "isAutoCleanSubFolderWhenSave", 
+                                "isActiveAutoMakeIconToDirectory", 
                                 "validSentenceStructure", "validSentenceStructureForFile", 
                                 "validSentenceStructureForFileExtension", "fileExtesionIs", 
                                 "isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", 
@@ -38,6 +39,8 @@ class QuickOptions(MMenu):
                                 "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
         self.labels = [translate("QuickOptions", "Activate General Cleaner"), 
+            translate("Options/ClearGeneral", "General Cleaning (Table Saved)"), 
+            translate("Options/ClearGeneral", "Clean Subfolders (Table Saved)"), 
             translate("QuickOptions", "Auto Change Directory Icon"), 
             translate("QuickOptions", "Valid Sentence Structure"), 
             translate("QuickOptions", "Valid Sentence Structure For Files"),
@@ -53,6 +56,8 @@ class QuickOptions(MMenu):
             translate("Options/HiddenObjects", "Show Hidden Files"), 
             translate("Options/HiddenObjects", "Show Hidden Directories")]
         self.toolTips = [translate("QuickOptions", "Are you want to activate General Cleaner?"), 
+            translate("Options/ClearGeneral", "Do you want to general cleaning when table saved?"), 
+            translate("Options/ClearGeneral", "Do you want to clear the subfolders when table saved?"), 
             translate("QuickOptions", "Are you want to change directory icon automatically?"), 
             translate("QuickOptions", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
             translate("QuickOptions", "File and directory names will be changed automatically to the format you selected."),
@@ -67,7 +72,7 @@ class QuickOptions(MMenu):
             translate("Options/HiddenObjects", "Are you want to show hidden files in file table?"), 
             translate("Options/HiddenObjects", "Are you want to show hidden files in music table?"),
             translate("Options/HiddenObjects", "Are you want to show hidden directories in cover table?")]
-        self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], 
+        self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("QuickOptions", "Title"), 
@@ -93,11 +98,41 @@ class QuickOptions(MMenu):
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
         elif Universals.tableType==4:
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", 
-                                "isShowHiddensInFileTable", "isShowHiddensInMusicTable"]
+                                "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isActiveAutoMakeIconToDirectory"]
         else:
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
-                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
+                                "isActiveClearGeneral", "isClearEmptyDirectoriesWhenSave", "isAutoCleanSubFolderWhenSave", 
+                                "isActiveAutoMakeIconToDirectory"]
         self.createActions()
+        self.checkEnableStates()
+        
+    def checkEnableStates(self):
+        if Universals.getBoolValue("isActiveClearGeneral"):
+            actED = self.getActionByKey("isClearEmptyDirectoriesWhenSave")
+            if actED != None:
+                actED.setEnabled(True)
+            if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
+                actSF = self.getActionByKey("isAutoCleanSubFolderWhenSave")
+                if actSF != None:
+                    actSF.setEnabled(True)
+            else:
+                actSF = self.getActionByKey("isAutoCleanSubFolderWhenSave")
+                if actSF != None:
+                    actSF.setEnabled(False)
+        else:
+            actED = self.getActionByKey("isClearEmptyDirectoriesWhenSave")
+            if actED != None:
+                actED.setEnabled(False)
+            actSF = self.getActionByKey("isAutoCleanSubFolderWhenSave")
+            if actSF != None:
+                actSF.setEnabled(False)
+            
+    def getActionByKey(self, _key):
+        for act in self.values:
+            if str(act.objectName()) == str(_key):
+                return act
+        return None
         
     def createActions(self):
         for x, keyValue in enumerate(self.keysOfSettings):
@@ -115,11 +150,12 @@ class QuickOptions(MMenu):
                         if selectedIndex==y:
                             actAction.setChecked(True)
                     self.values[-1].addActions(actgActionGroupTableTypes.actions())
+                    self.values[-1].setObjectName(self.keysOfSettings[x])
                     self.addAction(self.values[-1].menuAction())
                     MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), self.valueChanged)
                 elif self.typesOfValues[x]=="Yes/No":
                     self.values.append(MAction(self.labels[x],self))
-                    self.values[-1].setObjectName(self.labels[x])
+                    self.values[-1].setObjectName(self.keysOfSettings[x])
                     self.values[-1].setToolTip(self.toolTips[x])
                     self.values[-1].setCheckable(True)
                     if Universals.getBoolValue(keyValue):
@@ -147,6 +183,7 @@ class QuickOptions(MMenu):
                 valueIndex = int(_action.objectName().split(";")[1])
                 selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][valueIndex]
             Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
+            self.checkEnableStates()
         except:
             error = ReportBug.ReportBug()
             error.show()
