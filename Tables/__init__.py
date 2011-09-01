@@ -429,13 +429,14 @@ class Tables(MTableWidget):
     def continueSave(self, _returned=None):
         try:
             import Records
+            isGoUpDirectoryWithFileTable = False
             if Universals.tableType not in [4, 5, 6]:
                 if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                     InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
             if Universals.tableType not in [5, 6]:
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                     if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
-                        Universals.MainWindow.FileManager.makeRefresh("", True)
+                        isGoUpDirectoryWithFileTable = True
             InputOutputs.IA.completeSmartCheckIcon()
             Records.saveAllRecords()
             if self.changedValueNumber==0:
@@ -445,7 +446,10 @@ class Tables(MTableWidget):
                 if Universals.getBoolValue("isShowTransactionDetails"):
                     Dialogs.show(translate("Tables", "Transaction Details"), 
                                  str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-            Universals.MainWindow.FileManager.makeRefresh("", False)
+            if isGoUpDirectoryWithFileTable:
+                Universals.MainWindow.Bars.changeTableTypeByType(1)
+            else:
+                Universals.MainWindow.FileManager.makeRefresh("", False)
         except:
             error = ReportBug.ReportBug()
             error.show()    

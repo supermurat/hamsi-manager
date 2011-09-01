@@ -34,6 +34,7 @@ class Organizer:
     global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName, getCorrectedFileSize, getCorrectedTime
     
     def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
+        #FIXME: Recheck code of this def
         _inputString = str(_inputString)
         if len(_inputString)==0: return ""
         if Universals.getBoolValue("isClearFirstAndLastSpaceChars"):
