@@ -44,7 +44,7 @@ class FileTable():
         for fileNo,fileName in enumerate(fileNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(_directoryPath + "/" + fileName):
+                if InputOutputs.IA.isReadableFileOrDir(_directoryPath + "/" + fileName, False, True):
                     content = {}
                     content["path"] = _directoryPath + "/" + fileName
                     content["baseNameOfDirectory"] = baseNameOfDirectory
@@ -67,7 +67,7 @@ class FileTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
+                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1

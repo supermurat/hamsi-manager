@@ -94,7 +94,7 @@ class AmarokCopyTable():
                                     content["firstLyrics"] = musicFileRow["lyrics"]
                                     currentTableContentValues.append(content)
                                 else:
-                                    if InputOutputs.IA.isFile(musicFileRow["filePath"]) and InputOutputs.IA.isReadableFileOrDir(musicFileRow["filePath"]):
+                                    if InputOutputs.IA.isFile(musicFileRow["filePath"]) and InputOutputs.IA.isReadableFileOrDir(musicFileRow["filePath"], False, True):
                                         tagger = Taggers.getTagger()
                                         try:
                                             tagger.loadFile(musicFileRow["filePath"])
@@ -145,8 +145,8 @@ class AmarokCopyTable():
                     baseName = str(self.Table.item(rowNo,1).text())
                     self.Table.changedValueNumber += 1
                 newFilePath = InputOutputs.getRealPath(str(self.Table.SubTable.leDestinationDirPath.text()) + "/" + baseNameOfDirectory + "/" + baseName)
-                if InputOutputs.IA.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.IA.isReadableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
-                    if InputOutputs.IA.isWritableFileOrDir(newFilePath):
+                if InputOutputs.IA.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.IA.isReadableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                    if InputOutputs.IA.isWritableFileOrDir(newFilePath, False, True):
                         newFilePathCopied = InputOutputs.IA.copyOrChange(self.Table.currentTableContentValues[rowNo]["path"], newFilePath)
                         if self.Table.currentTableContentValues[rowNo]["path"] != newFilePathCopied:
                             newFilePath = newFilePathCopied

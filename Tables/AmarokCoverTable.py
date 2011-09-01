@@ -52,7 +52,7 @@ class AmarokCoverTable():
                         for dirPath,dirRow in directoriesAndValues.items():
                             isContinueThreadAction = Universals.isContinueThreadAction()
                             if isContinueThreadAction:
-                                if InputOutputs.IA.isReadableFileOrDir(dirPath):
+                                if InputOutputs.IA.isReadableFileOrDir(dirPath, False, True):
                                     content = {}
                                     content["path"] = dirPath
                                     content["pathOfParentDirectory"] = InputOutputs.IA.getDirName(dirPath)
@@ -93,7 +93,7 @@ class AmarokCoverTable():
         for rowNo in range(startRowNo,self.Table.rowCount(),rowStep):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
+                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1

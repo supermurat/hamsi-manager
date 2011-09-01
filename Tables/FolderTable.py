@@ -44,7 +44,7 @@ class FolderTable():
         for dirNo,dirName in enumerate(fileAndDirectoryNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(_directoryPath + "/" + dirName):
+                if InputOutputs.IA.isReadableFileOrDir(_directoryPath + "/" + dirName, False, True):
                     content = {}
                     content["path"] = _directoryPath + "/" + dirName
                     content["baseNameOfDirectory"] = baseNameOfDirectory
@@ -67,7 +67,7 @@ class FolderTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"]):
+                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
                         InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], True)
                         self.Table.changedValueNumber += 1

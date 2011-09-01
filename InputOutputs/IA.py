@@ -96,34 +96,58 @@ class IA:
     def removeFile(_oldPath):
         return InputOutputs.removeFile(_oldPath)
     
-    def isReadableFileOrDir(_newPath, _isOnlyCheck=False): 
+    def isReadableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False): 
         realPath = _newPath
         if InputOutputs.isReadableFileOrDir(realPath):
             return True
         if _isOnlyCheck==False:
+            if _isInLoop:
+                okButtonLabel = translate("Dialogs", "Continue")
+            else:
+                okButtonLabel = translate("Dialogs", "OK")
             if isDir(realPath):
                 import Dialogs
-                Dialogs.showError(translate("InputOutputs", "Access Denied"),
-                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
+                            okButtonLabel, 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    return isReadableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
             else:
                 import Dialogs
-                Dialogs.showError(translate("InputOutputs", "Access Denied"),
-                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
+                            okButtonLabel, 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    return isReadableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
         return False
         
-    def isWritableFileOrDir(_newPath, _isOnlyCheck=False):
+    def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
         realPath = _newPath
         if InputOutputs.isWritableFileOrDir(realPath):
             return True
         if _isOnlyCheck==False:
+            if _isInLoop:
+                okButtonLabel = translate("Dialogs", "Continue")
+            else:
+                okButtonLabel = translate("Dialogs", "OK")
             if isDir(realPath):
                 import Dialogs
-                Dialogs.showError(translate("InputOutputs", "Access Denied"),
-                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
+                            okButtonLabel, 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
             else:
                 import Dialogs
-                Dialogs.showError(translate("InputOutputs", "Access Denied"),
-                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
+                            okButtonLabel, 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
         return False
         
     def checkSource(_oldPath, _objectType="fileOrDirectory"):
