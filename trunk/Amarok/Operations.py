@@ -62,8 +62,24 @@ class Operations:
         Universals.finishThreadAction()
         
     def changeTags(_values):
-        for value in _values:
-            Commands.changeTag(value)
+        import Taggers, InputOutputs, Universals, Dialogs, Records, ReportBug
+        Universals.startThreadAction()
+        allItemNumber = len(_values)
+        for valueNo,value in enumerate(_values):
+            isContinueThreadAction = Universals.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    Commands.changeTag(value)
+                except:
+                    error = ReportBug.ReportBug()
+                    error.show()   
+            else:
+                allItemNumber = valueNo+1
+            Dialogs.showState(Universals.translate("Amarok/Operations", "Changing Tags In Amarok Database"),
+                              valueNo+1,allItemNumber, True) 
+            if isContinueThreadAction==False:
+                break
+        Universals.finishThreadAction()
             
     def changeArtistValues(_values):
         import Taggers, InputOutputs, Universals, Dialogs, Records

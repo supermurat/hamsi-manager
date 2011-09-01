@@ -141,7 +141,7 @@ class MenuBar(MMenuBar):
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mQuickOptions)
     
 class Bars():
-    global isClicked, changeTableType
+    global isClicked
     isClicked = False
     def __init__(self):
         Universals.MainWindow.MusicOptionsBar = None
@@ -338,13 +338,11 @@ class Bars():
         else:
             Universals.MainWindow.Menu.mSpecialOptions.setEnabled(True)
         Universals.MainWindow.Menu.refreshForTableType()
-    
-    def changeTableType(_action):
+        
+    def changeTableTypeByType(self, _tableType):
         try:
-            selectedType = Universals.getThisTableType(_action.objectName())
-            if _action.isChecked() and Universals.tableType != selectedType:
+            if Universals.tableType != _tableType:
                 if Universals.MainWindow.Table.checkUnSavedValues()==False:
-                    _action.setChecked(False)
                     return False
                 Universals.setMySetting(Universals.MainWindow.Table.SubTable.hiddenTableColumnsSettingKey,Universals.MainWindow.Table.hiddenTableColumns)
                 if Universals.tableType==2:
@@ -372,9 +370,25 @@ class Bars():
                 try:Universals.MainWindow.removeDockWidget(Universals.MainWindow.dckSpecialTools)
                 except:pass
                 Universals.MainWindow.resetCentralWidget()
-                Universals.tableType = selectedType
-                Universals.MainWindow.Bars.refreshBars()
+                Universals.tableType = _tableType
+                self.refreshBars()
                 Universals.MainWindow.FileManager.makeRefresh()
+                return True
+            else:
+                return False
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+        return False
+    
+    def changeTableType(self, _action):
+        try:
+            selectedType = Universals.getThisTableType(_action.objectName())
+            if _action.isChecked() and Universals.tableType != selectedType:
+                isChanged = self.changeTableTypeByType(selectedType)
+                if isChanged==False:
+                    _action.setChecked(False)
+                    return False
             else:
                 _action.setChecked(True)
         except:
@@ -440,7 +454,7 @@ class TableToolsBar(MToolBar):
             if Universals.tableType==Universals.getThisTableType(name):
                 a.setChecked(True)
         self.addActions(actgActionGroupTableTypes.actions())
-        MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), changeTableType)
+        MObject.connect(actgActionGroupTableTypes, SIGNAL("selected(QAction *)"), Universals.MainWindow.Bars.changeTableType)
         self.addSeparator()
         self.fileReNamerTypeNames = [str(translate("ToolsBar", "Personal Computer")), 
                                     str(translate("ToolsBar", "Web Server")), 
