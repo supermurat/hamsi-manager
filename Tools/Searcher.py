@@ -152,9 +152,11 @@ class Searcher(MyDialog):
                 searchValue = str(self.leSeach.text())
                 if searchValue!="":
                     searchValueList = [searchValue]
-                    if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked:
+                    if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked or self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
                         clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
                         clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+                    
+                    if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked:
                         searchValueList.append(clearedSearchValue)
                     
                     if self.cckbIsClearDigits.checkState() == Mt.Checked:
