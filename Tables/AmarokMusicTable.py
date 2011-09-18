@@ -215,7 +215,7 @@ class AmarokMusicTable():
         from Amarok import Operations
         if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("Amarok")>-1:
             Operations.changeTags(changingTags)
-        Operations.changePaths(pathValues)
+        Operations.changePaths(pathValues, "file")
         return True
         
     def showDetails(self, _fileNo, _infoNo):

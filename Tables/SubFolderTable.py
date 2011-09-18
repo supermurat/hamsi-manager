@@ -98,7 +98,7 @@ class SubFolderTable():
             import Amarok
             if Amarok.checkAmarok(True,  False):
                 from Amarok import Operations
-                Operations.changePaths(pathValues)
+                Operations.changePaths(pathValues, "file")
         return True
         
     def showDetails(self, _fileNo, _infoNo):
