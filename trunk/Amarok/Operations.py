@@ -41,7 +41,7 @@ class Operations:
             return Commands.getAllArtistsValues(_filter, _isOnlyArtistFilter)
         return None
         
-    def changePaths(_values):
+    def changePaths(_values, _type="auto"):
         import Taggers, InputOutputs, Universals, Dialogs, Records, ReportBug
         Universals.startThreadAction()
         allItemNumber = len(_values)
@@ -49,7 +49,10 @@ class Operations:
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    Commands.changePath(value["oldPath"], value["newPath"])
+                    if _type == "file" or (_type=="auto" and InputOutputs.isFile(value["newPath"])):
+                        Commands.changeFilePath(value["oldPath"], value["newPath"])
+                    else:
+                        Commands.changeDirectoryPath(value["oldPath"], value["newPath"])
                 except:
                     error = ReportBug.ReportBug()
                     error.show()   

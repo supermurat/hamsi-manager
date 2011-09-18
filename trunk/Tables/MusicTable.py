@@ -192,7 +192,7 @@ class MusicTable():
             if Amarok.checkAmarok(True,  False):
                 from Amarok import Operations
                 Operations.changeTags(changingTags)
-                Operations.changePaths(pathValues)
+                Operations.changePaths(pathValues, "file")
         return True
         
     def showDetails(self, _fileNo, _infoNo):
