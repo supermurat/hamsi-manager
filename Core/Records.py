@@ -28,9 +28,8 @@ class Records():
     global add, create, read, setTitle, showInWindow, clearRecords, recordContents, isSetedTitle, saveAllRecords,recordContents, checkSize, recordType, lastRecordType, setRecordType, restoreRecordType
     recordContents = ""
     isSetedTitle = False
-    recordType = 0
+    recordType = 0 # 0=Normal, 1=Debug
     lastRecordType = 0
-    #recordType : 0=Normal, 1=Debug
     
     def create():
         global recordContents
@@ -80,7 +79,9 @@ class Records():
     
     def checkSize():
         setRecordType(1)
-        InputOutputs.fixToSize(Universals.recordFilePath, (int(Universals.MySettings["maxRecordFileSize"])*1024))
+        if InputOutputs.isFile(Universals.recordFilePath):
+            if InputOutputs.getSize(Universals.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
+                InputOutputs.moveFileOrDir(Universals.recordFilePath, Universals.oldRecordsDirectoryPath + "/" + str(time.strftime("%Y%m%d_%H%M%S")) + ".txt")
         restoreRecordType()
         
     def read(_isShowErrorDialog=True):
