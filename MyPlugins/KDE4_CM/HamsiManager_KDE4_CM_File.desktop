@@ -3,7 +3,7 @@ Type=Service
 ServiceTypes=KonqPopupMenu/Plugin,all/allfiles
 ExcludeServiceTypes=kdedevice/*
 Encoding=UTF-8
-Actions=emend;hash;textCorrector
+Actions=emend;hash;textCorrector;search
 X-KDE-Priority=TopLevel
 X-KDE-Submenu=&Hamsi Manager
 X-KDE-Submenu[tr]=&Hamsi Manager
@@ -29,3 +29,8 @@ Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
 Name=Correct Content
 Name[tr]=İçeriği Düzelt
 
+[Desktop Action search]
+Exec=python '~InstallationDirectory~/HamsiManager.py' --qm --search %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Search
+Name[tr]=Ara

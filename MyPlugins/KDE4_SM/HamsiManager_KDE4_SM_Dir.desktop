@@ -3,7 +3,7 @@ Type=Service
 ServiceTypes=KonqPopupMenu/Plugin,inode/directory
 ExcludeServiceTypes=kdedevice/*
 Encoding=UTF-8
-Actions=emendDirectory;emendDirectoryWithContents;pack;checkIcon;clearEmptyDirectories;clearUnneededs;clearIgnoreds;fileTree;removeOnlySubFiles;clear
+Actions=emendDirectory;emendDirectoryWithContents;pack;checkIcon;clearEmptyDirectories;clearUnneededs;clearIgnoreds;fileTree;removeOnlySubFiles;clear;search
 X-KDE-Submenu=&Hamsi Manager
 X-KDE-Submenu[tr]=&Hamsi Manager
 X-KDE-Submenu[pt_BR]=&Hamsi Manager
@@ -77,3 +77,9 @@ Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
 Name=Clear It
 Name[tr]=Temizle
 Name[pt_BR]=Apagá-lo
+
+[Desktop Action search]
+Exec=python '~InstallationDirectory~/HamsiManager.py' --qm --search %U
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Name=Search
+Name[tr]=Ara

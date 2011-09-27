@@ -634,61 +634,63 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         return r.fetch_row(0)[0][0]
     
     def changeFilePath(_oldPath, _newPath):
-        _oldPath, _newPath = Databases.correctForSql(str(_oldPath)), Databases.correctForSql(str(_newPath))
-        _oldPathUrl, _newPathUrl = quote(_oldPath), quote(_newPath)
+        _oldPath, _newPath = str(_oldPath), str(_newPath)
         withOutDevicePointValues, withOutDeviceValues = [], []
         for devicePoint in getDevices():
             if devicePoint[1] + "/" == _oldPath[:len(devicePoint[1])+1]:
                 if devicePoint[1] + "/" == _newPath[:len(devicePoint[1])+1]:
                     withOutDevicePointValues.append({"id":devicePoint[0], 
-                                                "oldPath":  _oldPath[len(devicePoint[1]):], 
-                                                "newPath": _newPath[len(devicePoint[1]):]
+                                                "oldPath":  Databases.correctForSql(_oldPath[len(devicePoint[1]):]), 
+                                                "newPath": Databases.correctForSql(_newPath[len(devicePoint[1]):])
                                                 })
                 else:
                     withOutDeviceValues.append({"id": devicePoint[0], 
-                                        "oldPath":  _oldPath[len(devicePoint[1]):], 
-                                        "newPath": _newPath
+                                        "oldPath":  Databases.correctForSql(_oldPath[len(devicePoint[1]):]), 
+                                        "newPath": Databases.correctForSql(_newPath)
                                                 })
+        _oldPath, _newPath = Databases.correctForSql(_oldPath), Databases.correctForSql(_newPath)
+        _oldPathUrl, _newPathUrl = Databases.correctForSql(quote(_oldPath)), Databases.correctForSql(quote(_newPath))
         db = Amarok.checkAndGetDB()
         db.query("UPDATE urls SET rpath='.%s' WHERE rpath='.%s'" % (_newPath, _oldPath))
         for withOutDevice in withOutDeviceValues:
-            db.query("UPDATE urls SET rpath='.%s', deviceid = -1 WHERE deviceid = %s and rpath = '.%s' " % (Databases.correctForSql(withOutDevice["newPath"]), withOutDevice["id"], Databases.correctForSql(withOutDevice["oldPath"])))
+            db.query("UPDATE urls SET rpath='.%s', deviceid = -1 WHERE deviceid = %s and rpath = '.%s' " % (withOutDevice["newPath"], withOutDevice["id"], withOutDevice["oldPath"]))
         for withOutDevicePoint in withOutDevicePointValues:
-            db.query("UPDATE urls SET rpath='.%s' WHERE deviceid = %s and rpath = '.%s'" % (Databases.correctForSql(withOutDevicePoint["newPath"]), withOutDevicePoint["id"], Databases.correctForSql(withOutDevicePoint["oldPath"])))
+            db.query("UPDATE urls SET rpath='.%s' WHERE deviceid = %s and rpath = '.%s'" % (withOutDevicePoint["newPath"], withOutDevicePoint["id"], withOutDevicePoint["oldPath"]))
         db.query("UPDATE images SET path='%s' WHERE path='%s'" % (_newPath, _oldPath))
         db.query("UPDATE lyrics SET url='.%s' WHERE url='.%s'" % (_newPath, _oldPath))
-        db.query("UPDATE statistics_permanent SET url='file://%s' WHERE url='file://%s'" % (Databases.correctForSql(_newPathUrl), Databases.correctForSql(_oldPathUrl)))
+        db.query("UPDATE statistics_permanent SET url='file://%s' WHERE url='file://%s'" % (_newPathUrl, _oldPathUrl))
         db.commit()
         return True
         
     def changeDirectoryPath(_oldPath, _newPath):
-        _oldPath, _newPath = Databases.correctForSql(str(_oldPath)), Databases.correctForSql(str(_newPath))
-        _oldPathUrl, _newPathUrl = quote(_oldPath), quote(_newPath)
+        _oldPath, _newPath = str(_oldPath), str(_newPath)
         withOutDevicePointValues, withOutDeviceValues = [], []
         for devicePoint in getDevices():
             if devicePoint[1] + "/" == _oldPath[:len(devicePoint[1])+1]:
                 if devicePoint[1] + "/" == _newPath[:len(devicePoint[1])+1]:
                     withOutDevicePointValues.append({"id":devicePoint[0], 
-                                                "oldPath":  _oldPath[len(devicePoint[1]):], 
-                                                "newPath": _newPath[len(devicePoint[1]):]
+                                                "oldPath":  Databases.correctForSql(_oldPath[len(devicePoint[1]):]), 
+                                                "newPath": Databases.correctForSql(_newPath[len(devicePoint[1]):])
                                                 })
                 else:
                     withOutDeviceValues.append({"id": devicePoint[0], 
-                                        "oldPath":  _oldPath[len(devicePoint[1]):], 
-                                        "newPath": _newPath
+                                        "oldPath":  Databases.correctForSql(_oldPath[len(devicePoint[1]):]), 
+                                        "newPath": Databases.correctForSql(_newPath)
                                                 })
+        _oldPath, _newPath = Databases.correctForSql(_oldPath), Databases.correctForSql(_newPath)
+        _oldPathUrl, _newPathUrl = Databases.correctForSql(quote(_oldPath)), Databases.correctForSql(quote(_newPath))
         db = Amarok.checkAndGetDB()
         db.query("UPDATE directories SET dir=REPLACE(dir, '.%s/', '.%s/')" % (_oldPath, _newPath))
         db.query("UPDATE urls SET rpath=REPLACE(rpath, '.%s/', '.%s/')" % (_oldPath, _newPath))
         for withOutDevice in withOutDeviceValues:
-            db.query("UPDATE directories SET dir=REPLACE(dir, '.%s/', '.%s/'), deviceid = -1 WHERE deviceid = %s " % (Databases.correctForSql(withOutDevice["oldPath"]), Databases.correctForSql(withOutDevice["newPath"]), withOutDevice["id"]))
-            db.query("UPDATE urls SET rpath=REPLACE(rpath, '.%s/', '.%s/'), deviceid = -1 WHERE deviceid = %s " % (Databases.correctForSql(withOutDevice["oldPath"]), Databases.correctForSql(withOutDevice["newPath"]), withOutDevice["id"]))
+            db.query("UPDATE directories SET dir=REPLACE(dir, '.%s/', '.%s/'), deviceid = -1 WHERE deviceid = %s " % (withOutDevice["oldPath"], withOutDevice["newPath"], withOutDevice["id"]))
+            db.query("UPDATE urls SET rpath=REPLACE(rpath, '.%s/', '.%s/'), deviceid = -1 WHERE deviceid = %s " % (withOutDevice["oldPath"], withOutDevice["newPath"], withOutDevice["id"]))
         for withOutDevicePoint in withOutDevicePointValues:
-            db.query("UPDATE directories SET dir=REPLACE(dir, '.%s/', '.%s/') WHERE deviceid = %s " % (Databases.correctForSql(withOutDevicePoint["oldPath"]), Databases.correctForSql(withOutDevicePoint["newPath"]), withOutDevicePoint["id"]))
-            db.query("UPDATE urls SET rpath=REPLACE(rpath, '.%s/', '.%s/') WHERE deviceid = %s " % (Databases.correctForSql(withOutDevicePoint["oldPath"]), Databases.correctForSql(withOutDevicePoint["newPath"]), withOutDevicePoint["id"]))
+            db.query("UPDATE directories SET dir=REPLACE(dir, '.%s/', '.%s/') WHERE deviceid = %s " % (withOutDevicePoint["oldPath"], withOutDevicePoint["newPath"], withOutDevicePoint["id"]))
+            db.query("UPDATE urls SET rpath=REPLACE(rpath, '.%s/', '.%s/') WHERE deviceid = %s " % (withOutDevicePoint["oldPath"], withOutDevicePoint["newPath"], withOutDevicePoint["id"]))
         db.query("UPDATE images SET path=REPLACE(path, '%s/', '%s/')" % (_oldPath, _newPath))
         db.query("UPDATE lyrics SET url=REPLACE(url, '.%s/', '.%s/')" % (_oldPath, _newPath))
-        db.query("UPDATE statistics_permanent SET url=REPLACE(url, '%s/', '%s/')" % (Databases.correctForSql(_oldPathUrl), Databases.correctForSql(_newPathUrl)))
+        db.query("UPDATE statistics_permanent SET url=REPLACE(url, '%s/', '%s/')" % (_oldPathUrl, _newPathUrl))
         db.commit()
         return True
         
