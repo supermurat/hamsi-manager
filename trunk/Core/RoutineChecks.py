@@ -153,6 +153,10 @@ the Free Software Foundation; either version 2 of the License, or
                       help='The file path. '
                       'Example : /home/yourname/someFile')
     optionList.append("textCorrector <file>")
+    qmgroup.add_option('--search',
+                      help='The file/directory path. '
+                      'Example : /home/yourname/somePath')
+    optionList.append("search <fileOrDirectory>")
     dgroup = OptionGroup(parser, "Dangerous Options",
                     "Caution: use these options at your own risk.  "
                     "It is believed that some of them bite.")
@@ -247,6 +251,10 @@ the Free Software Foundation; either version 2 of the License, or
         elif options.textCorrector:
             QuickMakeParameters.append("textCorrector")
             QuickMakeParameters.append(options.textCorrector)
+            isQuickMake = True
+        elif options.search:
+            QuickMakeParameters.append("search")
+            QuickMakeParameters.append(options.search)
             isQuickMake = True
     if options.runAsRoot:
         import Execute

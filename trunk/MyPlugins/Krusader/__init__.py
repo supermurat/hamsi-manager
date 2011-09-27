@@ -21,7 +21,7 @@ import InputOutputs
 import Execute
 from MyObjects import translate
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
-pluginVersion = "0.3"
+pluginVersion = "0.4"
 pluginFiles = []
 pluginDirectory = ""
 setupDirectory = ""
@@ -164,6 +164,15 @@ def installThisPlugin():
                     "  <category>Hamsi Manager</category>\n"+
                     "  <description>" + str(translate("MyPlugins/Krusader", "Correct content with Hamsi Manager")) + ".</description>\n"+
                     "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --textCorrector %aCurrent%</command>\n"+
+                    "  <defaultshortcut></defaultshortcut>\n"+
+                    " </action>\n"), 
+                    (" <action name=\"hamsimanager_search\" >\n"+
+                    "  <title>" + str(translate("MyPlugins/Krusader", "Search")) + "</title>\n"+
+                    "  <tooltip>" + str(translate("MyPlugins/Krusader", "Search with Hamsi Manager")) + "</tooltip>\n"+
+                    "  <icon>"+Variables.HamsiManagerDirectory+"/Themes/Default/Images/HamsiManager-128x128.png</icon>\n"+
+                    "  <category>Hamsi Manager</category>\n"+
+                    "  <description>" + str(translate("MyPlugins/Krusader", "Search with Hamsi Manager")) + ".</description>\n"+
+                    "  <command>python "+Variables.HamsiManagerDirectory+"/HamsiManager.py --qm --search %aCurrent%</command>\n"+
                     "  <defaultshortcut></defaultshortcut>\n"+
                     " </action>\n")]
         if Variables.isRunningAsRoot():
