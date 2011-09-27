@@ -143,53 +143,65 @@ class Searcher(MyDialog):
             import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
+            
+    def getSearchValueList(self):
+        searchValue = str(self.leSeach.text())
+        if searchValue!="":
+            searchValueList = [searchValue]
+            if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked or self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
+                clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
+                clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+            
+            if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked:
+                if clearedSearchValue not in searchValueList:
+                    searchValueList.append(clearedSearchValue)
+            
+            if self.cckbIsClearDigits.checkState() == Mt.Checked:
+                clearedSearchValue1 = ""
+                for char in searchValue:
+                    if char.isdigit()==False:
+                        clearedSearchValue1+=char
+                if clearedSearchValue1 not in searchValueList:
+                    searchValueList.append(clearedSearchValue1)
+            
+            if self.cckbIsOnlyDigitsAndLetters.checkState() == Mt.Checked:
+                clearedSearchValue2 = ""
+                for char in searchValue:
+                    if char.isdigit()==True or char.isalpha()==True:
+                        clearedSearchValue2+=char
+                if clearedSearchValue2 not in searchValueList:
+                    searchValueList.append(clearedSearchValue2)
+            
+            vowels=["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
+            if self.cckbIsClearVowels.checkState() == Mt.Checked:
+                clearedSearchValue3 = ""
+                for char in Universals.trUnicode(searchValue):
+                    clearedChar = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(char)) if unicodedata.category(c) != 'Mn')
+                    clearedChar = str(Universals.trEncode(clearedChar, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+                    if clearedChar not in vowels:
+                        clearedSearchValue3+=char
+                if clearedSearchValue3 not in searchValueList:
+                    searchValueList.append(clearedSearchValue3)
+            
+            if self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
+                clearedSearchValue4 = ""
+                for char in clearedSearchValue:
+                    if char not in vowels:
+                        clearedSearchValue4+=char
+                if clearedSearchValue4 not in searchValueList:
+                    searchValueList.append(clearedSearchValue4)
+            return searchValueList
+        else:
+            return []
     
     def search(self, _searchValue=""):
         try:
             import re
             #Universals.isCanBeShowOnMainWindow = False
             if self.setSourceToSearch(False):
-                searchValue = str(self.leSeach.text())
-                if searchValue!="":
-                    searchValueList = [searchValue]
-                    if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked or self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
-                        clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
-                        clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
-                    
-                    if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked:
-                        searchValueList.append(clearedSearchValue)
-                    
-                    if self.cckbIsClearDigits.checkState() == Mt.Checked:
-                        clearedSearchValue1 = ""
-                        for char in searchValue:
-                            if char.isdigit()==False:
-                                clearedSearchValue1+=char
-                        searchValueList.append(clearedSearchValue1)
-                    
-                    if self.cckbIsOnlyDigitsAndLetters.checkState() == Mt.Checked:
-                        clearedSearchValue2 = ""
-                        for char in searchValue:
-                            if char.isdigit()==True or char.isalpha()==True:
-                                clearedSearchValue2+=char
-                        searchValueList.append(clearedSearchValue2)
-                    
-                    vowels=["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
-                    if self.cckbIsClearVowels.checkState() == Mt.Checked:
-                        clearedSearchValue3 = ""
-                        for char in Universals.trUnicode(searchValue):
-                            clearedChar = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(char)) if unicodedata.category(c) != 'Mn')
-                            clearedChar = str(Universals.trEncode(clearedChar, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
-                            if clearedChar not in vowels:
-                                clearedSearchValue3+=char
-                        searchValueList.append(clearedSearchValue3)
-                    
-                    if self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
-                        clearedSearchValue4 = ""
-                        for char in clearedSearchValue:
-                            if char not in vowels:
-                                clearedSearchValue4+=char
-                        searchValueList.append(clearedSearchValue4)
-                    
+                searchValueList = self.getSearchValueList()
+                if len(searchValueList)!=0:
+                    searchValueListForToolTip = str(translate("Searcher", "Key List : <br>"))
                     resultOfSearch = ""
                     arrayOfSource = str(self.sourceToSearch).split("\n\r")
                     if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("\n")
@@ -212,6 +224,9 @@ class Searcher(MyDialog):
                                 if re.search(pattern, Universals.trUnicode(row)) is not None:
                                     resultOfSearch += row + "\n"
                                     break
+                    for searchVal in searchValueList:
+                        searchValueListForToolTip += "'" + searchVal + "', "
+                    self.leSeach.setToolTip(trForUI(searchValueListForToolTip))
                 else:
                     resultOfSearch = str(self.sourceToSearch)
                 self.teSeachResult.setText(trForUI(resultOfSearch))
