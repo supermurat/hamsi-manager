@@ -74,7 +74,9 @@ class Records():
     
     def checkSize():
         setRecordType(1)
-        InputOutputs.fixToSize(Universals.recordFilePath, (int(Universals.MySettings["maxRecordFileSize"])*1024))
+        if InputOutputs.isFile(Universals.recordFilePath):
+            if InputOutputs.getSize(Universals.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
+                InputOutputs.moveFileOrDir(Universals.recordFilePath, Universals.oldRecordsDirectoryPath + "/" + str(time.strftime("%Y%m%d_%H%M%S")) + ".txt")
         restoreRecordType()
         
     def read(_isShowErrorDialog=True):
