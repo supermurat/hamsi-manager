@@ -96,58 +96,34 @@ class IA:
     def removeFile(_oldPath):
         return InputOutputs.removeFile(_oldPath)
     
-    def isReadableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False): 
+    def isReadableFileOrDir(_newPath, _isOnlyCheck=False): 
         realPath = _newPath
         if InputOutputs.isReadableFileOrDir(realPath):
             return True
         if _isOnlyCheck==False:
-            if _isInLoop:
-                okButtonLabel = translate("Dialogs", "Continue")
-            else:
-                okButtonLabel = translate("Dialogs", "OK")
             if isDir(realPath):
                 import Dialogs
-                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
-                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
-                            okButtonLabel, 
-                            translate("Dialogs", "Retry"))
-                if answer==translate("Dialogs", "Retry"):
-                    return isReadableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
+                Dialogs.showError(translate("InputOutputs", "Access Denied"),
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
             else:
                 import Dialogs
-                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
-                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
-                            okButtonLabel, 
-                            translate("Dialogs", "Retry"))
-                if answer==translate("Dialogs", "Retry"):
-                    return isReadableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
+                Dialogs.showError(translate("InputOutputs", "Access Denied"),
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
         return False
         
-    def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
+    def isWritableFileOrDir(_newPath, _isOnlyCheck=False):
         realPath = _newPath
         if InputOutputs.isWritableFileOrDir(realPath):
             return True
         if _isOnlyCheck==False:
-            if _isInLoop:
-                okButtonLabel = translate("Dialogs", "Continue")
-            else:
-                okButtonLabel = translate("Dialogs", "OK")
             if isDir(realPath):
                 import Dialogs
-                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
-                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
-                            okButtonLabel, 
-                            translate("Dialogs", "Retry"))
-                if answer==translate("Dialogs", "Retry"):
-                    return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
+                Dialogs.showError(translate("InputOutputs", "Access Denied"),
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
             else:
                 import Dialogs
-                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
-                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
-                            okButtonLabel, 
-                            translate("Dialogs", "Retry"))
-                if answer==translate("Dialogs", "Retry"):
-                    return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
+                Dialogs.showError(translate("InputOutputs", "Access Denied"),
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath))
         return False
         
     def checkSource(_oldPath, _objectType="fileOrDirectory"):
@@ -182,39 +158,19 @@ class IA:
                             return _newPath
                         else:
                             import Dialogs
-                            answer = Dialogs.askSpecial(translate("InputOutputs", "Current File Name"),
-                                        str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath), 
-                                translate("Dialogs", "Replace"), 
-                                translate("Dialogs", "Rename"), 
-                                translate("Dialogs", "Cancel"))
-                            if answer==translate("Dialogs", "Replace"): 
+                            answer = Dialogs.ask(translate("InputOutputs", "Current File Name"),
+                                        str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath))
+                            if answer==Dialogs.Yes: 
                                 return _newPath
-                            elif answer==translate("Dialogs", "Rename"): 
-                                from MyObjects import MFileDialog, trForM, trForUI
-                                newPath = MFileDialog.getSaveFileName(Universals.MainWindow, translate("InputOutputs", "Select A New Name For File"),
-                                                        trForM(_newPath),trForUI(translate("InputOutputs", "All Files") + " (*)"))
-                                if newPath!="":
-                                    return checkDestination(_oldPath, str(newPath), _isQuiet)
-                                return False
                             else:
                                 return False
                     elif isDir(_newPath):
                         if isFile(_oldPath):
                             import Dialogs
-                            answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"),
-                                    str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)), 
-                                translate("Dialogs", "Yes, Add Into"), 
-                                translate("Dialogs", "Rename"), 
-                                translate("Dialogs", "Cancel"))
-                            if answer==translate("Dialogs", "Yes, Add Into"): 
+                            answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"),
+                                    str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)))
+                            if answer==Dialogs.Yes: 
                                 return _newPath+"/"+getBaseName(_newPath)
-                            elif answer==translate("Dialogs", "Rename"): 
-                                from MyObjects import MFileDialog, trForM, trForUI
-                                newPath = MFileDialog.getSaveFileName(Universals.MainWindow, translate("InputOutputs", "Select A New Name For File"),
-                                                        trForM(_newPath),trForUI(translate("InputOutputs", "All Files") + " (*)"))
-                                if newPath!="":
-                                    return checkDestination(_oldPath, str(newPath), _isQuiet)
-                                return False
                             else:
                                 return False
                         else:
@@ -229,21 +185,11 @@ class IA:
                                     return _newPath
                                 else:
                                     import Dialogs
-                                    answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"), 
-                                            str(translate("InputOutputs", "\"%s\" : there already exists a directory with the same name.<br>Add your files to the current directory?")) % Organizer.getLink(_newPath), 
-                                        translate("Dialogs", "Yes, Add Into"), 
-                                        translate("Dialogs", "Rename"), 
-                                        translate("Dialogs", "Cancel"))
-                                    if answer==translate("Dialogs", "Yes, Add Into"):
+                                    answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"), 
+                                            str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>Add your files to the current folder?")) % Organizer.getLink(_newPath))
+                                    if answer==Dialogs.Yes:
                                         InputOutputs.appendingDirectories.append(_newPath)
                                         return _newPath
-                                    elif answer==translate("Dialogs", "Rename"): 
-                                        from MyObjects import MFileDialog, trForM, trForUI
-                                        newPath = MFileDialog.getExistingDirectory(Universals.MainWindow, translate("InputOutputs", "Select A Directory"),
-                                                trForM(_newPath))
-                                        if newPath!="":
-                                            return checkDestination(_oldPath, str(newPath), _isQuiet)
-                                        return False
                                     else:
                                         return False
                     else:
@@ -259,14 +205,14 @@ class IA:
                 return False
         return False
         
-    def readDirectory(_path, _objectType="fileOrDirectory", _isShowHiddens=False):
-        return InputOutputs.readDirectory(_path, _objectType, _isShowHiddens)
+    def readDirectory(_path, _objectType="fileOrDirectory"):
+        return InputOutputs.readDirectory(_path, _objectType)
     
     def readDirectoryAll(_path): 
         return InputOutputs.readDirectoryAll(_path)
   
-    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _isShowHiddens=False, _currentSubDeep=0):
-        return InputOutputs.readDirectoryWithSubDirectories(_path, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _isShowHiddens, _currentSubDeep)
+    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _currentSubDeep=0):
+        return InputOutputs.readDirectoryWithSubDirectories(_path, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _currentSubDeep)
     
     def readFromFile(_path):
         return InputOutputs.readFromFile(_path)
@@ -300,53 +246,45 @@ class IA:
             clearUnneededs(_path)
             dontRemovingFilesCount = 0
             filesAndDirectories = readDirectoryAll(_path)
-            filesAndDirectoriesCount = len(filesAndDirectories)
-            if _isShowState and _isCloseState:Universals.startThreadAction()
             for nameNo, name in enumerate(filesAndDirectories):
-                if _isShowState:isContinueThreadAction = Universals.isContinueThreadAction()
-                else: isContinueThreadAction = True
-                if isContinueThreadAction:
-                    if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, filesAndDirectoriesCount, True)
-                    if isFile(_path+"/"+name):
-                        dontRemovingFilesCount+=1
-                        if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                            for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
-                                try:
-                                    if str(f)==name:
-                                        dontRemovingFilesCount-=1
-                                        break
-                                except:pass
-                            for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
-                                try:
-                                    if checkExtension(name, ext):
-                                        dontRemovingFilesCount-=1
-                                        break
-                                except:pass
-                    if isDir(_path+"/"+name):
-                        dontRemovingFilesCount+=1
-                        if _isAutoCleanSubFolder==False:
-                            break
-                        if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                            for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
-                                try:
-                                    if str(f)==name:
-                                        dontRemovingFilesCount-=1
-                                        break
-                                except:pass
-                        if clearEmptyDirectories(_path+"/"+name, _isShowState, False, _isAutoCleanSubFolder, _isClear):
-                            dontRemovingFilesCount-=1
-                else:
-                    if _isShowState: Dialogs.showState(translate("InputOutputs", "Checked Empty Directories"), filesAndDirectoriesCount, filesAndDirectoriesCount, True)
-            if _isShowState and _isCloseState:Universals.finishThreadAction()
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
+                if isFile(_path+"/"+name):
+                    dontRemovingFilesCount+=1
+                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                        for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
+                            try:
+                                if str(f)==name:
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                        for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
+                            try:
+                                if checkExtension(name, ext):
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                if isDir(_path+"/"+name):
+                    dontRemovingFilesCount+=1
+                    if _isAutoCleanSubFolder==False:
+                        break
+                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                        for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
+                            try:
+                                if str(f)==name:
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                    if clearEmptyDirectories(_path+"/"+name, _isShowState, False, _isAutoCleanSubFolder, _isClear):
+                        dontRemovingFilesCount-=1
             if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
-                if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1, True)
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1)
                 clearIgnoreds(_path)
                 removeDir(_path)
                 if _isCloseState: 
-                    Dialogs.showState(translate("InputOutputs", "Directory Deleted"), 1, 1, True)
+                    Dialogs.showState(translate("InputOutputs", "Directory Deleted"), 1, 1)
                     Dialogs.show(translate("InputOutputs", "Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
                 return True
-            if _isCloseState: Dialogs.showState(translate("InputOutputs", "Directories Cleaned"), 1, 1, True)
+            if _isCloseState: Dialogs.showState(translate("InputOutputs", "Directories Cleaned"), 1, 1)
         return False
         
     def clearUnneededs(_path):
@@ -674,16 +612,16 @@ class IA:
                 else:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
                     
-    def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):
+    def getFileTree(_path, _subDirectoryDeep=-1, _actionType="return", _formatType="html", _extInfo="no"):
         from MyObjects import trForUI, trForM
-        info = InputOutputs.getFileTree(_path, _subDirectoryDeep, _outputType, _contentType, _extInfo)
+        info = InputOutputs.getFileTree(_path, _subDirectoryDeep, _formatType, _extInfo)
         info = trForUI(info)
-        if _outputTarget=="return":
+        if _actionType=="return":
             return info
-        elif _outputTarget=="file":
+        elif _actionType=="file":
             from MyObjects import MFileDialog
             import Dialogs
-            if _outputType=="html":
+            if _formatType=="html":
                 if _extInfo!="no":
                     strHeader = ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \n"+
                         "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"> \n"+
@@ -693,21 +631,21 @@ class IA:
                     info = strHeader + info + strFooter
                 formatTypeName = translate("Tables", "HTML")
                 fileExt="html"
-            elif _outputType=="plainText":
+            elif _formatType=="plainText":
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = MFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
                                     trForM(Variables.userDirectoryPath),trForUI(formatTypeName+" (*."+fileExt+")"))
             if filePath!="":
                 filePath = str(filePath)
-                if _outputType=="html" and filePath[-5:]!=".html":
+                if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
-                elif _outputType=="plainText" and filePath[-4:]!=".txt":
+                elif _formatType=="plainText" and filePath[-4:]!=".txt":
                     filePath += ".txt"
                 writeToFile(filePath, info)
                 Dialogs.show(translate("Tables", "File Tree Created"),
                             str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
-        elif _outputTarget=="dialog":
+        elif _actionType=="dialog":
             from MyObjects import MDialog, MWidget, MVBoxLayout, MTextEdit, MPushButton, MObject, SIGNAL, getMyObject
             dDialog = MDialog(Universals.MainWindow)
             if Universals.isActivePyKDE4==True:
@@ -715,11 +653,11 @@ class IA:
             dDialog.setWindowTitle(translate("Tables", "File Tree"))
             mainPanel = MWidget(dDialog)
             vblMain = MVBoxLayout(mainPanel)
-            if _outputType=="html":
+            if _formatType=="html":
                 QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
                 wvWeb.setHtml(trForUI(info))
-            elif _outputType=="plainText":
+            elif _formatType=="plainText":
                 wvWeb = MTextEdit()
                 wvWeb.setPlainText(trForUI(info))
             pbtnClose = MPushButton(translate("Tables", "OK"))
@@ -733,7 +671,7 @@ class IA:
             dDialog.setMinimumWidth(600)
             dDialog.setMinimumHeight(400)
             dDialog.show()
-        elif _outputTarget=="clipboard":
+        elif _actionType=="clipboard":
             from MyObjects import MApplication
             MApplication.clipboard().setText(trForUI(info))
             

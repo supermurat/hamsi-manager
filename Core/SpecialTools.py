@@ -625,8 +625,8 @@ class SearchAndReplace(MWidget):
                                  "</table><table>")
         sExample=translate("SpecialTools", "<tr><td><nobr>Example: \"search 1<b>;</b>search 2<b>;</b>search 3<b>;</b>...<b>;</b>search n<b>;</b>\"</nobr></td></tr>")
         rExample=translate("SpecialTools", "<tr><td><nobr>Example: \"Change/replace 1<b>;</b>Change/replace 2<b>;</b>Change/replace 3<b>;</b>...<b>;</b>Change/replace n<b>;</b>\"</nobr></td></tr>")
-        self.cckbCaseInsensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
-        self.cckbCaseInsensitive.setChecked(True)
+        self.cckbCaseSensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
+        self.cckbCaseSensitive.setChecked(True)
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
         self.leSearch.setToolTip(trForUI(srExamples+sExample+"</table>"))
         self.leReplace.setToolTip(trForUI(srExamples+rExample+"</table>"))
@@ -657,7 +657,7 @@ class SearchAndReplace(MWidget):
         HBoxs[1].addWidget(lblColumns)
         HBoxs[1].addWidget(self.columns)
         HBoxs[1].addStretch(2)
-        HBoxs[1].addWidget(self.cckbCaseInsensitive)
+        HBoxs[1].addWidget(self.cckbCaseSensitive)
         HBoxs.append(MHBoxLayout())
         HBoxs[2].addStretch(3)
         HBoxs[2].addWidget(self.cckbRegExp)
@@ -807,9 +807,9 @@ class Clear(MWidget):
                                 translate("SpecialTools", "Selected Text")])
         self.columns = MComboBox()
         self.columns.addItem(translate("SpecialTools", "All"))
-        self.cckbCaseInsensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
+        self.cckbCaseSensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
-        self.cckbCaseInsensitive.setChecked(True)
+        self.cckbCaseSensitive.setChecked(True)
         HBoxs = []
         HBoxs.append(MHBoxLayout())
         HBoxs[0].addWidget(lblColumns)
@@ -819,7 +819,7 @@ class Clear(MWidget):
         HBoxs.append(MHBoxLayout())
         HBoxs[1].addWidget(self.lblClear)
         HBoxs[1].addWidget(self.leClear)
-        HBoxs[1].addWidget(self.cckbCaseInsensitive)
+        HBoxs[1].addWidget(self.cckbCaseSensitive)
         HBoxs.append(MHBoxLayout())
         HBoxs[2].addStretch(3)
         HBoxs[2].addWidget(self.cckbRegExp)
@@ -828,7 +828,7 @@ class Clear(MWidget):
         vblClear.addLayout(HBoxs[1])
         vblClear.addLayout(HBoxs[2])
         self.setLayout(vblClear)
-        self.cckbCaseInsensitive.setEnabled(False)
+        self.cckbCaseSensitive.setEnabled(False)
         self.cckbRegExp.setEnabled(False)
         self.lblClear.setEnabled(False)
         self.leClear.setEnabled(False)
@@ -838,12 +838,12 @@ class Clear(MWidget):
         
     def clearTypeChanged(self):
         if self.cbClearType.currentIndex()!=4:
-            self.cckbCaseInsensitive.setEnabled(False)
+            self.cckbCaseSensitive.setEnabled(False)
             self.lblClear.setEnabled(False)
             self.leClear.setEnabled(False)
             self.cckbRegExp.setEnabled(False)
         else:
-            self.cckbCaseInsensitive.setEnabled(True)
+            self.cckbCaseSensitive.setEnabled(True)
             self.lblClear.setEnabled(True)
             self.leClear.setEnabled(True)
             self.cckbRegExp.setEnabled(True)
@@ -875,7 +875,7 @@ class CharacterState(MWidget):
                             translate("Options", "All Caps"), 
                             translate("Options", "Sentence"), 
                             translate("Options", "Don`t Change")])
-        self.cckbCaseInsensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
+        self.cckbCaseSensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
         HBoxs = []
         HBoxs.append(MHBoxLayout())
@@ -886,11 +886,11 @@ class CharacterState(MWidget):
         HBoxs.append(MHBoxLayout())
         HBoxs[1].addWidget(self.cckbCorrectText)
         HBoxs[1].addWidget(self.leSearch)
-        HBoxs[1].addWidget(self.cckbCaseInsensitive)
+        HBoxs[1].addWidget(self.cckbCaseSensitive)
         HBoxs.append(MHBoxLayout())
         HBoxs[2].addStretch(3)
         HBoxs[2].addWidget(self.cckbRegExp)
-        self.cckbCaseInsensitive.setEnabled(False)
+        self.cckbCaseSensitive.setEnabled(False)
         self.cckbRegExp.setEnabled(False)
         self.leSearch.setEnabled(False)
         vblCharacterState = MVBoxLayout()
@@ -910,11 +910,11 @@ class CharacterState(MWidget):
         
     def cckbCorrectTextChanged(self, _value):
         if _value==2:
-            self.cckbCaseInsensitive.setEnabled(True)
+            self.cckbCaseSensitive.setEnabled(True)
             self.cckbRegExp.setEnabled(True)
             self.leSearch.setEnabled(True)
         else:
-            self.cckbCaseInsensitive.setEnabled(False)
+            self.cckbCaseSensitive.setEnabled(False)
             self.cckbRegExp.setEnabled(False)
             self.leSearch.setEnabled(False)
     

@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue, oldRecordsDirectoryPath
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -40,13 +40,12 @@ class Universals():
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
-    tableTypesNames = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    tableTypesNames = ["0", "1", "2", "3", "4", "5", "6"]
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
     pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
     fileOfSettings = "mySettings.ini"
     recordFilePath = pathOfSettingsDirectory + "/logs.txt"
-    oldRecordsDirectoryPath = pathOfSettingsDirectory + "/OldRecords"
     isRaisedAnError = False
     if Variables.executableHamsiManagerPath.find("HamsiManager")==-1 or Variables.executableHamsiManagerPath.find("./HamsiManager")!=-1:
         Variables.executableHamsiManagerPath = Variables.HamsiManagerDirectory + "/HamsiManager.py"
@@ -241,9 +240,7 @@ class Universals():
                             translate("Tables", "Subfolder Table"), 
                             translate("Tables", "Cover Table"), 
                             translate("Tables", "Amarok Cover Table"), 
-                            translate("Tables", "Amarok Music Table"), 
-                            translate("Tables", "Amarok Database Corrector"), 
-                            translate("Tables", "Amarok Copy Table")
+                            translate("Tables", "Amarok Music Table")
                             ]
         iconNameFormatLabels = [translate("Universals", "%Artist%"), 
                             translate("Universals", "%Album%"), 
