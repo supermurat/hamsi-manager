@@ -96,6 +96,11 @@ else:
     #PySide not using with PyKDE4
     Universals.isActivePyKDE4 = False
     
+if Universals.isActivePyKDE4==False:
+    QMessageBox = QtGui.QMessageBox
+    QDirModel = QtGui.QDirModel
+    QIcon = QtGui.QIcon
+    
 if MStringList is None:
     def MStringList(_s):
         return [_s]
