@@ -35,7 +35,10 @@ class Variables():
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])
     userDirectoryPath = os.path.expanduser("~")
-    defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
+    defaultFileSystemEncoding = sys.getfilesystemencoding()
+    if defaultFileSystemEncoding is None:
+        defaultFileSystemEncoding = sys.getdefaultencoding()
+    defaultFileSystemEncoding = defaultFileSystemEncoding.lower()
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
     fileExtesionIsKeys = ["After The First Point", "After The Last Point"]
