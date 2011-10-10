@@ -877,15 +877,15 @@ class InputOutputs:
         else:
             False
 
-    def makePack(_filePath, _packageType, _sourcePath):
+    def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
         import tarfile
         _filePath, _sourcePath = str(_filePath), str(_sourcePath)
         if isDir(_filePath):
             return False
         try:tar = tarfile.open(Universals.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
         except:tar = tarfile.open(_filePath, "w:" + _packageType)
-        try:tar.add(Universals.trEncode(_sourcePath, fileSystemEncoding), "")
-        except:tar.add(_sourcePath, "")
+        try:tar.add(Universals.trEncode(_sourcePath, fileSystemEncoding), arcname=_realSourceBaseName)
+        except:tar.add(_sourcePath, arcname=_realSourceBaseName)
         tar.close()
         Records.add("Packed", _filePath)
         return True
