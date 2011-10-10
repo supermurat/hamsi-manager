@@ -28,14 +28,17 @@ class Variables():
     osName = os.name
     isPython3k = float(sys.version[:3])>=3.0
     Catalog = "HamsiManager" 
-    version = "0.9.72"
-    intversion = 972
+    version = "0.9.73"
+    intversion = 973
     settingVersion = "970"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
     executableHamsiManagerPath = str(sys.argv[0])
     userDirectoryPath = os.path.expanduser("~")
-    defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
+    defaultFileSystemEncoding = sys.getfilesystemencoding()
+    if defaultFileSystemEncoding is None:
+        defaultFileSystemEncoding = sys.getdefaultencoding()
+    defaultFileSystemEncoding = defaultFileSystemEncoding.lower()
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
     fileExtesionIsKeys = ["After The First Point", "After The Last Point"]

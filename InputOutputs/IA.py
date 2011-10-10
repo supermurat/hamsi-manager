@@ -591,14 +591,14 @@ class IA:
         else:
             False
 
-    def makePack(_filePath, _packageType, _sourcePath):
+    def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
         import Dialogs
         _filePath, _sourcePath = str(_filePath), str(_sourcePath)
         if isDir(_filePath):
             Dialogs.showError(translate("InputOutputs", "Current Directory Name"),
                         str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>Please choose another file name!")) % Organizer.getLink(_filePath))
             return False
-        return InputOutputs.makePack(_filePath, _packageType, _sourcePath)
+        return InputOutputs.makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName)
         
     def extractPack(_oldPath, _newPath):
         return InputOutputs.extractPack(_oldPath, _newPath)
