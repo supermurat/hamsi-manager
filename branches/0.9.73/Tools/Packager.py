@@ -201,10 +201,11 @@ class Packager(MyDialog):
             Universals.isCanBeShowOnMainWindow = False
             import tempfile, random
             tempDir = tempfile.gettempdir() + "/HamsiManager-" + str(random.randrange(0, 1000000))
-            PathOfProject = str(self.lePathOfProject.text())
-            InputOutputs.IA.copyFileOrDir(PathOfProject, tempDir+"/"+InputOutputs.IA.getBaseName(PathOfProject))
+            pathOfProject = str(self.lePathOfProject.text())
+            pathOfTempSource = tempDir+"/"+InputOutputs.IA.getBaseName(pathOfProject)
+            InputOutputs.IA.copyFileOrDir(pathOfProject, tempDir+"/"+InputOutputs.IA.getBaseName(pathOfProject))
             InputOutputs.IA.clearPackagingDirectory(tempDir, True, True)
-            if InputOutputs.IA.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), tempDir):
+            if InputOutputs.IA.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource, InputOutputs.getBaseName(pathOfProject)):
                 InputOutputs.IA.removeFileOrDir(tempDir, True)
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
@@ -238,7 +239,7 @@ class Packager(MyDialog):
         try:
             Universals.isCanBeShowOnMainWindow = False
             if InputOutputs.IA.makePack(str(self.lePathOfPackage.text()), 
-                                self.getPackageType(), str(self.lePathOfProject.text())):
+                                self.getPackageType(), str(self.lePathOfProject.text()), InputOutputs.getBaseName(self.lePathOfProject.text())):
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
                             translate("Packager", "You can now share your project."))
