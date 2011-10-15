@@ -44,7 +44,7 @@ class CoverTable():
         for dirNo,dirName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(dirName, False, True):
+                if InputOutputs.IA.isReadableFileOrDir(dirName, False, True) and InputOutputs.IA.isReadableFileOrDir(dirName + "/.directory", False, True):
                     content = {}
                     content["path"] = dirName
                     content["baseNameOfDirectory"] = str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
