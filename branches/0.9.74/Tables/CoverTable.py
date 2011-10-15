@@ -37,7 +37,7 @@ class Content():
         for dirNo,dirName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(dirName):
+                if InputOutputs.IA.isReadableFileOrDir(dirName) and InputOutputs.IA.isReadableFileOrDir(dirName + "/.directory"):
                     content = {}
                     content["path"] = dirName
                     content["baseNameOfDirectory"] = str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
