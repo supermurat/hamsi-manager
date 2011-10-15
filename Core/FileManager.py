@@ -211,7 +211,7 @@ class FileManager():
             _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.TreeBrowser)
             _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.Browser)
 
-    def goTo(self, _path, _isRemember = True, _isOnlyBrowser = False):
+    def goTo(self, _path, _isRemember = True):
         try:
             _path = InputOutputs.getRealPath(str(_path))
             if InputOutputs.IA.isReadableFileOrDir(_path):
@@ -233,8 +233,7 @@ class FileManager():
                         self.lstvFileManager.setRootIndex(self.dirModel.index(_path))
                         self.trvFileManager.setCurrentIndex(self.dirModel.index(_path))
                     self.actForward.setEnabled(False)
-                    if _isOnlyBrowser==False:
-                        self.showInTable()
+                    self.showInTable()
                     self.actBack.setEnabled(True)
                     if str(self.currentDirectory)=="/":
                         self.actUp.setEnabled(False)
@@ -311,7 +310,7 @@ class FileManager():
                     if _isOnlyBrowser==False:
                         self.showInTable()
                 else:
-                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False, _isOnlyBrowser)
+                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False)
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -366,8 +365,7 @@ class FileManager():
     
     def showInTable(self):
         try:
-            if Universals.tableType in [0, 1, 2, 3, 4] or Universals.isStartingSuccessfully==False:
-                Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
+            Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
         except:
             error = ReportBug.ReportBug()
             error.show()

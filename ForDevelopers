@@ -41,4 +41,3 @@ fpm				=	MFilePlacesModel
 dck				=	MDockWidget
 dop				=	MDirOperator
 cmp				=	MCompleter
-tw				=	MTableWidget

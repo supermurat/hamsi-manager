@@ -21,7 +21,7 @@ from MyObjects import *
 import Universals
 import Dialogs
 import InputOutputs
-from Options import OptionsForm
+import Options
 import Organizer
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
@@ -36,7 +36,7 @@ class Cleaner(MyDialog):
             self.setObjectName("Cleaner")
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-        wOptionsPanel = OptionsForm.OptionsForm(None, "clear", None, newOrChangedKeys)
+        wOptionsPanel = Options.Options(None, "clear", None, newOrChangedKeys)
         lblPleaseSelect = MLabel(translate("Cleaner", "Directory"))
         self.pbtnClear = MPushButton(translate("Cleaner", "Clear"))
         self.pbtnClose = MPushButton(translate("Cleaner", "Close"))

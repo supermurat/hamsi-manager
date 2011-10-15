@@ -44,6 +44,7 @@ class MusicDetails(MDialog):
                         isHasOpenedDialog=True
                         self = dialog
                         self.changeFile(_filePath)
+                        self.checkMusicTagType()
                         self.activateWindow()
                         self.raise_()
                         self.player.play(_filePath, _isPlayNow)
@@ -86,6 +87,7 @@ class MusicDetails(MDialog):
                     self.setMainWidget(self.pnlMain)
                 else:
                     self.setLayout(self.vblMain)
+                self.checkMusicTagType()
                 self.show()
                 self.player.play(_filePath, _isPlayNow)
         else:
@@ -93,6 +95,14 @@ class MusicDetails(MDialog):
                     str(translate("MusicDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
                         ) % Organizer.getLink(trForUI(_filePath)))
             if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
+    
+    def checkMusicTagType(self):
+        if Taggers.getSelectedTaggerTypeName()=="ID3 V2":
+            self.tabwTabs.setTabEnabled(1, True)
+            self.tabwTabs.setTabEnabled(2, True)
+        else:
+            self.tabwTabs.setTabEnabled(1, False)
+            self.tabwTabs.setTabEnabled(2, False)
     
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath

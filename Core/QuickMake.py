@@ -87,10 +87,6 @@ class QuickMake():
                 isShowQuickMakeWindow = False
                 makeThisAction = self.quickMakeWindow.textCorrector
                 actionName = translate("QuickMake", "Text Corrector")
-            elif QuickMakeParameters[0]=="search":
-                isShowQuickMakeWindow = False
-                makeThisAction = self.quickMakeWindow.search
-                actionName = translate("QuickMake", "Search")
             else:
                 isCorrectCommand = False
             if isCorrectCommand:
@@ -119,9 +115,9 @@ class QuickMakeWindow(MyDialog):
         MyDialog.__init__(self, MyParent)
         
     def createWindow(self, _actionName, _makeThisAction, _isShowEmendWidgets):
-        from Options import OptionsForm
+        import Options
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-        wOptionsPanel = OptionsForm.OptionsForm(None, QuickMakeParameters[0], None, newOrChangedKeys)
+        wOptionsPanel = Options.Options(None, QuickMakeParameters[0], None, newOrChangedKeys)
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
@@ -384,15 +380,6 @@ class QuickMakeWindow(MyDialog):
             if self.checkSource(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), "file"):
                 from Tools import TextCorrector
                 self.newDialog = TextCorrector.TextCorrector(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))
-        except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()    
-            
-    def search(self):
-        try:
-            if self.checkSource(InputOutputs.IA.getRealPath(QuickMakeParameters[1])):
-                from Tools import Searcher
-                self.newDialog = Searcher.Searcher(InputOutputs.IA.getRealPath(QuickMakeParameters[1]))
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()    

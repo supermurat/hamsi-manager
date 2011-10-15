@@ -38,13 +38,9 @@ except:pass
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
 class Amarok:
-    global getMySQLModule, checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType
+    global checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType
     isAskEmbeddedDBConfiguration = True
     dbConnection = None
-    
-    def getMySQLModule():
-        if isLoadedMysql: return mdb
-        return None
     
     def checkAmarok(_isAlertIfNotAvailable=True, _isUseReadOnly=True):
         if isLoadedMysql and Variables.isAvailableKDE4():
@@ -174,22 +170,22 @@ class Amarok:
         tagTargetTypes += getTaggerTypesName()
         return tagTargetTypes
         
-    def getSelectedTagSourseType(_tableName="AmarokMusicTable"):
+    def getSelectedTagSourseType():
         tagSourceTypes = getTagSourceTypes()
-        return Universals.getValue("AmarokTagSourceType" + _tableName, tagSourceTypes, tagSourceTypes[0])
+        return Universals.getValue("AmarokTagSourceType", tagSourceTypes, tagSourceTypes[0])
         
-    def getSelectedTagTargetType(_tableName="AmarokMusicTable"):
+    def getSelectedTagTargetType():
         tagTargetTypes = getTagTargetTypes()
-        return Universals.getValue("AmarokTagTargetType" + _tableName, tagTargetTypes, tagTargetTypes[1])
+        return Universals.getValue("AmarokTagTargetType", tagTargetTypes, tagTargetTypes[1])
         
-    def setSelectedTagSourseType(_type, _tableName="AmarokMusicTable"):
-        Universals.setMySetting("AmarokTagSourceType" + _tableName, _type)
+    def setSelectedTagSourseType(_type):
+        Universals.setMySetting("AmarokTagSourceType", _type)
         if _type!="Amarok":
-            from Taggers import setSelectedTaggerTypeForReadName
-            setSelectedTaggerTypeForReadName(_type)
+            from Taggers import setSelectedTaggerTypeName
+            setSelectedTaggerTypeName(_type)
         
-    def setSelectedTagTargetType(_type, _tableName="AmarokMusicTable"):
-        Universals.setMySetting("AmarokTagTargetType" + _tableName, _type)
+    def setSelectedTagTargetType(_type):
+        Universals.setMySetting("AmarokTagTargetType", _type)
         
             
 class EmbeddedDBCore():
