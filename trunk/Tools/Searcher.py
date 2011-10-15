@@ -40,7 +40,8 @@ class Searcher(MyDialog):
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "search", None, newOrChangedKeys)
         self.sourceToSearch = None
-        lblPleaseSelect = MLabel(translate("Searcher", "Directory"))
+        self.tmrSearchAfter = None
+        lblPleaseSelect = MLabel(translate("Searcher", "Directory Or File : "))
         self.pbtnClose = MPushButton(translate("Searcher", "Close"))
         self.lePathToSeach = MLineEdit(trForM(_directory))
         self.pbtnSelectSeachDirectoryPath = MPushButton(translate("Searcher", "Select Directory"))
@@ -50,11 +51,17 @@ class Searcher(MyDialog):
         self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
         self.pbtnReloadSourceToSearch = MPushButton(translate("Searcher", "(Re)Load"))
         self.connect(self.pbtnReloadSourceToSearch,SIGNAL("clicked()"),self.reloadSourceToSearch)
-        lblSearch = MLabel(translate("Searcher", "Search"))
-        self.leSeach = MLineEdit(trForM(""))
-        self.teSeachResult = MTextEdit()
-        self.teSeachResult.setText(trForUI(""))
-        self.connect(self.leSeach,SIGNAL("textChanged(const QString&)"),self.search)
+        self.pbtnSearch = MPushButton(translate("Searcher", "Search"))
+        self.connect(self.pbtnSearch,SIGNAL("clicked()"),self.search)
+        lblSearch = MLabel(translate("Searcher", "Search : "))
+        lblSearchList = MLabel(trForM("Search List : "))
+        self.lblSearchListValues = MLabel(trForM(""))
+        self.lblSearchListValues.setWordWrap(True)
+        self.leSearch = MLineEdit(trForM(""))
+        self.teSearchResult = MTextEdit()
+        self.teSearchResult.setText(trForUI(""))
+        self.connect(self.leSearch,SIGNAL("textChanged(const QString&)"), self.searchAfter)
+        self.cckbIsRegExp = Options.MyCheckBox(self, translate("Searcher", "Regular Expression (RegExp)"), 0, _stateChanged = self.isRegExpChanged)
         self.cckbIsCaseInsensitive = Options.MyCheckBox(self, translate("Searcher", "Case Insensitive"), 2, _stateChanged = self.search)
         self.cckbIsNormalizeUTF8Chars = Options.MyCheckBox(self, translate("Searcher", "Normalize UTF-8 Characters"), 2, _stateChanged = self.search)
         self.cckbIsClearDigits = Options.MyCheckBox(self, translate("Searcher", "Clear Digits"), 2, _stateChanged = self.search)
@@ -73,13 +80,13 @@ class Searcher(MyDialog):
         HBox1.addWidget(self.pbtnSelectSeachDirectoryPath)
         HBox1.addWidget(self.pbtnSelectSeachFilePath)
         HBox3 = MHBoxLayout()
-        HBox3.addWidget(lblSearch)
-        HBox3.addWidget(self.leSeach)
+        HBox3.addWidget(lblSearch, 1)
+        HBox3.addWidget(self.leSearch, 20)
+        HBox3.addWidget(self.pbtnSearch, 1)
         HBox2 = MHBoxLayout()
         HBox2.addWidget(self.pbtnClose)
         VBox1 = MVBoxLayout()
         HBox4 = MHBoxLayout()
-        HBox4.addWidget(self.cckbIsCaseInsensitive)
         HBox4.addWidget(self.cckbIsClearDigits)
         HBox4.addWidget(self.cckbIsOnlyDigitsAndLetters)
         HBox5 = MHBoxLayout()
@@ -87,6 +94,13 @@ class Searcher(MyDialog):
         HBox5.addWidget(self.cckbIsClearVowels)
         HBox6 = MHBoxLayout()
         HBox6.addWidget(self.cckbIsNormalizeUTF8CharsAndClearVowels)
+        HBox7 = MHBoxLayout()
+        HBox7.addWidget(lblSearchList, 1)
+        HBox7.addWidget(self.lblSearchListValues, 20)
+        HBox8 = MHBoxLayout()
+        HBox8.addWidget(self.cckbIsRegExp)
+        HBox8.addWidget(self.cckbIsCaseInsensitive)
+        VBox1.addLayout(HBox8)
         VBox1.addLayout(HBox4)
         VBox1.addLayout(HBox5)
         VBox1.addLayout(HBox6)
@@ -94,10 +108,11 @@ class Searcher(MyDialog):
         vblMain2.addLayout(HBox)
         vblMain2.addLayout(HBox1)
         vblMain2.addLayout(HBox3)
-        gboxFilters = MGroupBox(translate("Searcher", "Filters"))
+        vblMain2.addLayout(HBox7)
+        gboxFilters = MGroupBox(translate("Searcher", "Filters : "))
         gboxFilters.setLayout(VBox1)
         vblMain2.addWidget(gboxFilters)
-        vblMain2.addWidget(self.teSeachResult, 20)
+        vblMain2.addWidget(self.teSearchResult, 20)
         vblMain2.addStretch(1)
         vblMain2.addLayout(HBox2)
         tabwTabs.addTab(pnlMain2, translate("Searcher", "Search"))
@@ -111,6 +126,7 @@ class Searcher(MyDialog):
         elif MyDialogType=="MMainWindow":
             self.setCentralWidget(pnlMain)
             moveToCenter(self)
+        self.isRegExpChanged(False)
         self.setWindowTitle(translate("Searcher", "Searcher"))
         self.setWindowIcon(MIcon("Images:search.png"))
         self.show()
@@ -145,7 +161,7 @@ class Searcher(MyDialog):
             error.show() 
             
     def getSearchValueList(self):
-        searchValue = str(self.leSeach.text())
+        searchValue = str(self.leSearch.text())
         if searchValue!="":
             searchValueList = [searchValue]
             if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked or self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
@@ -194,14 +210,32 @@ class Searcher(MyDialog):
         else:
             return []
     
+    def searchAfter(self, _searchValue=""):
+        try:
+            if self.cckbIsRegExp.checkState() != Mt.Checked:
+                if self.tmrSearchAfter!= None:
+                    self.tmrSearchAfter.stop()
+                    self.tmrSearchAfter.deleteLater()
+                self.tmrSearchAfter = MTimer(self)
+                self.tmrSearchAfter.setSingleShot(True)
+                self.connect(self.tmrSearchAfter,SIGNAL("timeout()"),self.search)
+                self.tmrSearchAfter.start(500)
+        except:
+            import ReportBug
+            error = ReportBug.ReportBug()
+            error.show() 
+    
     def search(self, _searchValue=""):
         try:
             import re
             #Universals.isCanBeShowOnMainWindow = False
             if self.setSourceToSearch(False):
-                searchValueList = self.getSearchValueList()
+                if self.cckbIsRegExp.checkState() == Mt.Checked:
+                    searchValueList = [str(self.leSearch.text())]
+                else:
+                    searchValueList = self.getSearchValueList()
                 if len(searchValueList)!=0:
-                    searchValueListForToolTip = str(translate("Searcher", "Key List : <br>"))
+                    searchValueListForToolTip = ""
                     resultOfSearch = ""
                     arrayOfSource = str(self.sourceToSearch).split("\n\r")
                     if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("\n")
@@ -211,31 +245,65 @@ class Searcher(MyDialog):
                     if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br />")
                     for row in arrayOfSource:
                         for searchVal in searchValueList:
-                            if row.find(searchVal) != -1:
-                                resultOfSearch += row + "\n"
-                                break
-                            if self.cckbIsCaseInsensitive.checkState() == Mt.Checked:
-                                pattern = re.compile(Universals.trUnicode(searchVal), re.I | re.U)
-                                if re.search(pattern, Universals.trUnicode(row)) is not None:
-                                    resultOfSearch += row + "\n"
-                                    break
+                            if self.cckbIsRegExp.checkState() == Mt.Checked:
+                                try:
+                                    if self.cckbIsCaseInsensitive.checkState() == Mt.Checked:
+                                        pattern = re.compile(Universals.trUnicode(searchVal), re.I | re.U)
+                                        if re.search(pattern, Universals.trUnicode(row)) is not None:
+                                            resultOfSearch += row + "\n"
+                                            break
+                                    else:
+                                        pattern = re.compile(Universals.trUnicode(searchVal), re.U)
+                                        if re.search(pattern, Universals.trUnicode(row)) is not None:
+                                            resultOfSearch += row + "\n"
+                                            break
+                                except:
+                                    Dialogs.show(translate("Searcher", "Incorrect Syntax"), translate("Searcher", "Search value is not correct for Regular Expression (RegExp). Please check it and try again."))
+                                    return False
                             else:
-                                pattern = re.compile(Universals.trUnicode(searchVal))
-                                if re.search(pattern, Universals.trUnicode(row)) is not None:
+                                if row.find(searchVal) != -1:
                                     resultOfSearch += row + "\n"
                                     break
+                                if self.cckbIsCaseInsensitive.checkState() == Mt.Checked:
+                                    pattern = re.compile(re.escape(Universals.trUnicode(searchVal)), re.I | re.U)
+                                    if re.search(pattern, Universals.trUnicode(row)) is not None:
+                                        resultOfSearch += row + "\n"
+                                        break
+                                else:
+                                    pattern = re.compile(re.escape(Universals.trUnicode(searchVal)), re.U)
+                                    if re.search(pattern, Universals.trUnicode(row)) is not None:
+                                        resultOfSearch += row + "\n"
+                                        break
                     for searchVal in searchValueList:
                         searchValueListForToolTip += "'" + searchVal + "', "
-                    self.leSeach.setToolTip(trForUI(searchValueListForToolTip))
+                    self.lblSearchListValues.setText(trForUI(searchValueListForToolTip[0:-2]))
                 else:
                     resultOfSearch = str(self.sourceToSearch)
-                self.teSeachResult.setText(trForUI(resultOfSearch))
+                    self.lblSearchListValues.setText(trForUI(""))
+                self.teSearchResult.setText(trForUI(resultOfSearch))
             #Universals.isCanBeShowOnMainWindow = True
         except:
             import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
 
+    def isRegExpChanged(self, _isSearch=True):
+        if self.cckbIsRegExp.checkState() == Mt.Checked:
+            self.cckbIsNormalizeUTF8Chars.setEnabled(False)
+            self.cckbIsClearDigits.setEnabled(False)
+            self.cckbIsOnlyDigitsAndLetters.setEnabled(False)
+            self.cckbIsClearVowels.setEnabled(False)
+            self.cckbIsNormalizeUTF8CharsAndClearVowels.setEnabled(False)
+        else:
+            self.cckbIsNormalizeUTF8Chars.setEnabled(True)
+            self.cckbIsClearDigits.setEnabled(True)
+            self.cckbIsOnlyDigitsAndLetters.setEnabled(True)
+            self.cckbIsClearVowels.setEnabled(True)
+            self.cckbIsNormalizeUTF8CharsAndClearVowels.setEnabled(True)
+        self.lblSearchListValues.setText(trForM(""))
+        if _isSearch:
+            self.search()
+    
     def selectSearchDirectoryPath(self):
         try:
             SearchPath = MFileDialog.getExistingDirectory(self,
