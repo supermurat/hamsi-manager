@@ -22,7 +22,7 @@ from MyObjects import *
 import Universals
 import Dialogs
 import InputOutputs
-from Options import OptionsForm
+import Options
 import Organizer
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
@@ -37,7 +37,7 @@ class Hasher(MyDialog):
             self.setObjectName("Hasher")
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-        wOptionsPanel = OptionsForm.OptionsForm(None, "hash", None, newOrChangedKeys)
+        wOptionsPanel = Options.Options(None, "hash", None, newOrChangedKeys)
         lblPathOfPackage = MLabel(translate("Hasher", "Path Of The File : "))
         lblHash = MLabel(translate("Hasher", "Hash Type : "))
         lblHashOutput = MLabel(translate("Hasher", "Hash Output : "))

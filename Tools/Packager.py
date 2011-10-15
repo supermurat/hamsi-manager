@@ -22,7 +22,7 @@ from MyObjects import *
 import Universals
 import Dialogs
 import InputOutputs
-from Options import OptionsForm
+import Options
 import Organizer
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
@@ -37,7 +37,7 @@ class Packager(MyDialog):
             self.setObjectName("Packager")
             Universals.MainWindow = self
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-        wOptionsPanel = OptionsForm.OptionsForm(None, "pack", None, newOrChangedKeys)
+        wOptionsPanel = Options.Options(None, "pack", None, newOrChangedKeys)
         lblPleaseSelect = MLabel(translate("Packager", "Path Of The Directory"))
         lblPathOfPackage = MLabel(translate("Packager", "Path Of The Pack"))
         lblPackageType = MLabel(translate("Packager", "Package Compression Type : "))
@@ -203,7 +203,7 @@ class Packager(MyDialog):
             tempDir = tempfile.gettempdir() + "/HamsiManager-" + str(random.randrange(0, 1000000))
             pathOfProject = str(self.lePathOfProject.text())
             pathOfTempSource = tempDir+"/"+InputOutputs.IA.getBaseName(pathOfProject)
-            InputOutputs.IA.copyFileOrDir(pathOfProject, pathOfTempSource)
+            InputOutputs.IA.copyFileOrDir(pathOfProject, tempDir+"/"+InputOutputs.IA.getBaseName(pathOfProject))
             InputOutputs.IA.clearPackagingDirectory(tempDir, True, True)
             if InputOutputs.IA.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource, InputOutputs.getBaseName(pathOfProject)):
                 InputOutputs.IA.removeFileOrDir(tempDir, True)

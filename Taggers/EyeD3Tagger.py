@@ -40,10 +40,10 @@ class Tagger():
         self.filePath = _filePath
         try:
             self.tag = eyeD3.Tag()
-            self.tag.link(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding), Taggers.getSelectedTaggerTypeForRead())
+            self.tag.link(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding), Taggers.getSelectedTaggerType())
         except:
             self.tag = eyeD3.Tag()
-            self.tag.link(self.filePath, Taggers.getSelectedTaggerTypeForRead())
+            self.tag.link(self.filePath, Taggers.getSelectedTaggerType())
         try:
             self.Mp3AudioFile = eyeD3.Mp3AudioFile(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding))
         except:
@@ -52,16 +52,16 @@ class Tagger():
             except:
                 self.Mp3AudioFile = None
                 
-    def loadFileForWrite(self, _filePath, _isCorrect=True):
+    def loadFileForWrite(self, _filePath):
         self.filePath = _filePath
         try:
             self.tag = eyeD3.Tag()
-            self.tag.link(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding), Taggers.getSelectedTaggerTypeForWrite())
+            self.tag.link(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding), Taggers.getSelectedTaggerType())
         except:
             self.tag = eyeD3.Tag()
-            self.tag.link(self.filePath, Taggers.getSelectedTaggerTypeForWrite())
+            self.tag.link(self.filePath, Taggers.getSelectedTaggerType())
         self.Mp3AudioFile = None
-        if _isCorrect: self.correctForMusicTagType()
+        self.correctForMusicTagType()
         
     def update(self):
         self.tag.update()
@@ -77,7 +77,7 @@ class Tagger():
         
     def getCorrectedValuesForMusicTagType(self, _value):
         _value = self.getCorrectedValues(_value)
-        if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V1:
+        if Taggers.getSelectedTaggerType()==eyeD3.ID3_V1:
             return Universals.trEncode(Universals.trUnicode(_value), "latin1")
         else:
             return _value
@@ -91,14 +91,14 @@ class Tagger():
         return str(genreStrAmended)
             
     def correctValuesForMusicTagType(self, _value):
-        if Taggers.getSelectedTaggerTypeForWrite()==eyeD3.ID3_V1:
+        if Taggers.getSelectedTaggerType()==eyeD3.ID3_V1:
             return Universals.trUnicode(str(_value), "latin1")
         else:
             return Universals.trUnicode(str(_value))
     
     def correctForMusicTagType(self):
-        self.tag.setVersion(Taggers.getSelectedTaggerTypeForWrite())
-        if Taggers.getSelectedTaggerTypeForWrite()==eyeD3.ID3_V2:
+        self.tag.setVersion(Taggers.getSelectedTaggerType())
+        if Taggers.getSelectedTaggerType()==eyeD3.ID3_V2:
             self.tag.setTextEncoding(eyeD3.frames.UTF_8_ENCODING)
         
     def getArtist(self):
@@ -115,7 +115,7 @@ class Tagger():
         
     def getTrackNum(self):
         try:
-            if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
+            if Taggers.getSelectedTaggerType()==eyeD3.ID3_V2:
                 return self.getCorrectedValues(str(self.tag.getTrackNum()[0])+"/"+str(self.tag.getTrackNum()[1]))
             else:
                 return self.getCorrectedValues(self.tag.getTrackNum()[0])
@@ -184,7 +184,7 @@ class Tagger():
             try:    track.append(int(track_temp))
             except: track.append(None)    
             track.append(_numberOfTracks)
-        if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
+        if Taggers.getSelectedTaggerType()==eyeD3.ID3_V2:
             self.tag.setTrackNum(track)
         else:
             try:self.tag.setTrackNum(track.split("/")[0])
@@ -213,7 +213,7 @@ class Tagger():
         self.tag.addLyrics(self.correctValuesForMusicTagType(_value))
         
     def addImage(self, _ImageType,_ImagePath):
-        if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
+        if Taggers.getSelectedTaggerType()==eyeD3.ID3_V2:
             self.tag.addImage(_ImageType,_ImagePath)
         
     def getSize(self):
@@ -257,7 +257,7 @@ class Tagger():
     def getAvailableKeysForTable():
         keys = ["Directory", "File Name", "Artist", "Title", "Album", 
                               "Track No", "Year", "Genre", "Comment", "Lyrics"]
-        if Taggers.getSelectedTaggerTypeForRead()!=getTaggerTypes()[0]:
+        if Taggers.getSelectedTaggerType()!=getTaggerTypes()[0]:
             t = keys.pop()
         return keys
         
@@ -272,7 +272,7 @@ class Tagger():
             translate("MusicTable", "Genre"), 
             translate("MusicTable", "Comment"), 
             translate("MusicTable", "Lyrics")]
-        if Taggers.getSelectedTaggerTypeForRead()!=getTaggerTypes()[0]:
+        if Taggers.getSelectedTaggerType()!=getTaggerTypes()[0]:
             t = labels.pop()
         return labels
         

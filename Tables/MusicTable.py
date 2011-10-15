@@ -23,34 +23,16 @@ from MyObjects import *
 from Details import MusicDetails
 import Universals
 import Dialogs
-import Options
 import Taggers
 from time import gmtime
 import Records
 
-class MusicTable():
-    def __init__(self, _table):
-        self.Table = _table
-        self.keyName = "music"
-        self.hiddenTableColumnsSettingKey = "hiddenMusicTableColumns"
-        self.refreshColumns()
-        pbtnVerifyTableValues = MPushButton(translate("MusicTable", "Verify Table"))
-        pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self.Table))
-        self.Table.mContextMenu.addMenu(SearchEngines.SearchEngines(self.Table, True))
-        self.isPlayNow = MToolButton()
-        self.isPlayNow.setToolTip(translate("MusicTable", "Play Now"))
-        self.isPlayNow.setIcon(MIcon("Images:playNow.png"))
-        self.isPlayNow.setCheckable(True)
-        self.isPlayNow.setAutoRaise(True)
-        self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
-        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.isPlayNow)
-        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnVerifyTableValues)
-        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("MusicTable", "Change In Amarok Database"), None, "isMusicTableValuesChangeInAmarokDB")
-        Universals.MainWindow.MainLayout.addWidget(self.cckbChangeInAmarokDB)
-        
-    def readContents(self, _directoryPath):
+class Content():
+    global readContents, writeContents
+    
+    def readContents(_directoryPath):
         currentTableContentValues = []
-        musicFileNames = InputOutputs.readDirectory(_directoryPath, "music", Universals.getBoolValue("isShowHiddensInMusicTable"))
+        musicFileNames = InputOutputs.readDirectory(_directoryPath, "music")
         isCanNoncompatible = False
         allItemNumber = len(musicFileNames)
         Universals.startThreadAction()
@@ -58,14 +40,12 @@ class MusicTable():
         for musicNo,musicName in enumerate(musicFileNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+musicName, False, True):
+                if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+musicName):
                     tagger = Taggers.getTagger()
                     try:
                         tagger.loadFile(_directoryPath+"/"+musicName)
                     except:
-                        Dialogs.showError(translate("InputOutputs/Musics", "Incorrect Tag"), 
-                            str(translate("InputOutputs/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
-                            ) % Organizer.getLink(_directoryPath+"/"+musicName))
+                        pass
                     if tagger.isAvailableFile() == False:
                         isCanNoncompatible=True
                     content = {}
@@ -92,93 +72,73 @@ class MusicTable():
                 translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
         return currentTableContentValues
     
-    def writeContents(self):
-        self.Table.changedValueNumber = 0
+    def writeContents(_table):
+        _table.changedValueNumber = 0
         changingFileDirectories=[]
-        changingTags=[]
         Universals.startThreadAction()
-        allItemNumber = len(self.Table.currentTableContentValues)
+        allItemNumber = len(_table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,allItemNumber, True)
-        for rowNo in range(self.Table.rowCount()):
+        for rowNo in range(_table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                changingTags.append({"path" : self.Table.currentTableContentValues[rowNo]["path"]})
-                changingTags[-1]["artist"] = self.Table.currentTableContentValues[rowNo]["artist"]
-                changingTags[-1]["title"] = self.Table.currentTableContentValues[rowNo]["title"]
-                changingTags[-1]["album"] = self.Table.currentTableContentValues[rowNo]["album"]
-                changingTags[-1]["trackNum"] = self.Table.currentTableContentValues[rowNo]["trackNum"]
-                changingTags[-1]["year"] = self.Table.currentTableContentValues[rowNo]["year"]
-                changingTags[-1]["genre"] = self.Table.currentTableContentValues[rowNo]["genre"]
-                changingTags[-1]["firstComment"] = self.Table.currentTableContentValues[rowNo]["firstComment"]
-                changingTags[-1]["firstLyrics"] = self.Table.currentTableContentValues[rowNo]["firstLyrics"]
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
-                    if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
-                        self.Table.changedValueNumber += 1
+                if InputOutputs.IA.isWritableFileOrDir(_table.currentTableContentValues[rowNo]["path"]):
+                    if _table.isRowHidden(rowNo):
+                        InputOutputs.IA.removeFileOrDir(_table.currentTableContentValues[rowNo]["path"])
                         continue
-                    baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                    baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
+                    baseNameOfDirectory = str(_table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                    baseName = str(_table.currentTableContentValues[rowNo]["baseName"])
                     tagger = Taggers.getTagger()
-                    tagger.loadFileForWrite(self.Table.currentTableContentValues[rowNo]["path"])
-                    isCheckLike = Taggers.getSelectedTaggerTypeForRead()==Taggers.getSelectedTaggerTypeForWrite()
-                    if self.Table.isChangableItem(rowNo, 2, self.Table.currentTableContentValues[rowNo]["artist"], True, isCheckLike):
-                        value = str(self.Table.item(rowNo,2).text())
+                    tagger.loadFileForWrite(_table.currentTableContentValues[rowNo]["path"])
+                    if _table.isChangableItem(rowNo, 2, _table.currentTableContentValues[rowNo]["artist"]):
+                        value = str(_table.item(rowNo,2).text())
                         tagger.setArtist(value)
-                        changingTags[-1]["artist"] = value
-                        Records.add(str(translate("MusicTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["artist"]), value)
-                        self.Table.changedValueNumber += 1
-                    if self.Table.isChangableItem(rowNo, 3, self.Table.currentTableContentValues[rowNo]["title"], True, isCheckLike):
-                        value = str(self.Table.item(rowNo,3).text())
+                        Records.add(str(translate("MusicTable", "Artist")), str(_table.currentTableContentValues[rowNo]["artist"]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 3, _table.currentTableContentValues[rowNo]["title"]):
+                        value = str(_table.item(rowNo,3).text())
                         tagger.setTitle(value)
-                        changingTags[-1]["title"] = value
-                        Records.add(str(translate("MusicTable", "Title")), str(self.Table.currentTableContentValues[rowNo]["title"]), value)
-                        self.Table.changedValueNumber += 1
-                    if self.Table.isChangableItem(rowNo, 4, self.Table.currentTableContentValues[rowNo]["album"], True, isCheckLike):
-                        value = str(self.Table.item(rowNo,4).text())
+                        Records.add(str(translate("MusicTable", "Title")), str(_table.currentTableContentValues[rowNo]["title"]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 4, _table.currentTableContentValues[rowNo]["album"]):
+                        value = str(_table.item(rowNo,4).text())
                         tagger.setAlbum(value)
-                        changingTags[-1]["album"] = value
-                        Records.add(str(translate("MusicTable", "Album")), str(self.Table.currentTableContentValues[rowNo]["album"]), value)
-                        self.Table.changedValueNumber += 1
-                    if self.Table.isChangableItem(rowNo, 5, self.Table.currentTableContentValues[rowNo]["trackNum"], True, isCheckLike):
-                        value = str(self.Table.item(rowNo,5).text())
-                        tagger.setTrackNum(value, len(self.Table.currentTableContentValues))
-                        changingTags[-1]["trackNum"] = value.split("/")[0]
-                        Records.add(str(translate("MusicTable", "Track No")), str(self.Table.currentTableContentValues[rowNo]["trackNum"]), value)
-                        self.Table.changedValueNumber += 1
-                    if self.Table.isChangableItem(rowNo, 6, self.Table.currentTableContentValues[rowNo]["year"], True, isCheckLike):
-                        value = str(self.Table.item(rowNo,6).text())
+                        Records.add(str(translate("MusicTable", "Album")), str(_table.currentTableContentValues[rowNo]["album"]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 5, _table.currentTableContentValues[rowNo]["trackNum"]):
+                        value = str(_table.item(rowNo,5).text())
+                        tagger.setTrackNum(value, len(_table.currentTableContentValues))
+                        Records.add(str(translate("MusicTable", "Track No")), str(_table.currentTableContentValues[rowNo]["trackNum"]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 6, _table.currentTableContentValues[rowNo]["year"]):
+                        value = str(_table.item(rowNo,6).text())
                         tagger.setDate(value)
-                        changingTags[-1]["year"] = value
-                        Records.add(str(translate("MusicTable", "Year")), str(self.Table.currentTableContentValues[rowNo]["year"]), value)
-                        self.Table.changedValueNumber += 1
-                    if self.Table.isChangableItem(rowNo, 7, self.Table.currentTableContentValues[rowNo]["genre"], True, isCheckLike):
-                        value = str(self.Table.item(rowNo,7).text())
+                        Records.add(str(translate("MusicTable", "Year")), str(_table.currentTableContentValues[rowNo]["year"]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 7, _table.currentTableContentValues[rowNo]["genre"]):
+                        value = str(_table.item(rowNo,7).text())
                         tagger.setGenre(value)
-                        changingTags[-1]["genre"] = value
-                        Records.add(str(translate("MusicTable", "Genre")), str(self.Table.currentTableContentValues[rowNo]["genre"]), value)
-                        self.Table.changedValueNumber += 1
-                    if self.Table.isChangableItem(rowNo, 8, self.Table.currentTableContentValues[rowNo]["firstComment"], True, isCheckLike):
-                        value = str(self.Table.item(rowNo,8).text())
+                        Records.add(str(translate("MusicTable", "Genre")), str(_table.currentTableContentValues[rowNo]["genre"]), value)
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 8, _table.currentTableContentValues[rowNo]["firstComment"]):
+                        value = str(_table.item(rowNo,8).text())
                         tagger.setFirstComment(value)
-                        changingTags[-1]["firstComment"] = value
-                        Records.add(str(translate("MusicTable", "Comment")), str(self.Table.currentTableContentValues[rowNo]["firstComment"]), value)
-                        self.Table.changedValueNumber += 1
-                    if len(self.Table.tableColumns)>9 and self.Table.isChangableItem(rowNo, 9, self.Table.currentTableContentValues[rowNo]["firstLyrics"], True, isCheckLike):
-                        value = str(self.Table.item(rowNo,9).text())
+                        Records.add(str(translate("MusicTable", "Comment")), str(_table.currentTableContentValues[rowNo]["firstComment"]), value)
+                        _table.changedValueNumber += 1
+                    if len(_table.tableColumns)>9 and _table.isChangableItem(rowNo, 9, _table.currentTableContentValues[rowNo]["firstLyrics"]):
+                        value = str(_table.item(rowNo,9).text())
                         tagger.setFirstLyrics(value)
-                        changingTags[-1]["firstLyrics"] = value
-                        Records.add(str(translate("MusicTable", "Lyrics")), str(self.Table.currentTableContentValues[rowNo]["firstLyrics"]), value)
-                        self.Table.changedValueNumber += 1
+                        Records.add(str(translate("MusicTable", "Lyrics")), str(_table.currentTableContentValues[rowNo]["firstLyrics"]), value)
+                        _table.changedValueNumber += 1
                     tagger.update()
-                    if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
-                        baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
-                        self.Table.changedValueNumber += 1
-                    if self.Table.isChangableItem(rowNo, 1, baseName, False):
-                        baseName = str(self.Table.item(rowNo,1).text())
-                        self.Table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
-                    if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
-                        changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
+                    if _table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                        baseNameOfDirectory = str(_table.item(rowNo,0).text())
+                        _table.changedValueNumber += 1
+                    if _table.isChangableItem(rowNo, 1, baseName, False):
+                        baseName = str(_table.item(rowNo,1).text())
+                        _table.changedValueNumber += 1
+                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(_table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
+                    if InputOutputs.getRealPath(_table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
+                        changingFileDirectories.append([_table.currentTableContentValues[rowNo]["path"], 
                                                         newFilePath])
             else:
                 allItemNumber = rowNo+1
@@ -186,14 +146,28 @@ class MusicTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
-        if Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
-            import Amarok
-            if Amarok.checkAmarok(True,  False):
-                from Amarok import Operations
-                Operations.changeTags(changingTags)
-                Operations.changePaths(pathValues, "file")
+        InputOutputs.IA.changeDirectories(changingFileDirectories)
         return True
+
+
+
+class MusicTable():
+    def __init__(self, _table):
+        self.Table = _table
+        self.specialTollsBookmarkPointer = "music"
+        self.hiddenTableColumnsSettingKey = "hiddenMusicTableColumns"
+        self.refreshColumns()
+        pbtnVerifyTableValues = MPushButton(translate("MusicTable", "Verify Table"))
+        pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self.Table))
+        self.Table.mContextMenu.addMenu(SearchEngines.SearchEngines(self.Table, True))
+        self.isPlayNow = MToolButton()
+        self.isPlayNow.setToolTip(translate("MusicTable", "Play Now"))
+        self.isPlayNow.setIcon(MIcon("Images:playNow.png"))
+        self.isPlayNow.setCheckable(True)
+        self.isPlayNow.setAutoRaise(True)
+        self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
+        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.isPlayNow)
+        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnVerifyTableValues)
         
     def showDetails(self, _fileNo, _infoNo):
         MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"],
@@ -228,12 +202,12 @@ class MusicTable():
     def save(self):
         self.Table.checkFileExtensions(1, "baseName")
         MusicDetails.closeAllMusicDialogs()
-        return self.writeContents()
+        return writeContents(self.Table)
         
     def refresh(self, _path):
         self.Table.setColumnWidth(5,70)
         self.Table.setColumnWidth(6,40)
-        self.Table.currentTableContentValues = self.readContents(_path)
+        self.Table.currentTableContentValues = readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(len(self.Table.tableColumns)):

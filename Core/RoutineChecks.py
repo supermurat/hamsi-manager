@@ -153,10 +153,6 @@ the Free Software Foundation; either version 2 of the License, or
                       help='The file path. '
                       'Example : /home/yourname/someFile')
     optionList.append("textCorrector <file>")
-    qmgroup.add_option('--search',
-                      help='The file/directory path. '
-                      'Example : /home/yourname/somePath')
-    optionList.append("search <fileOrDirectory>")
     dgroup = OptionGroup(parser, "Dangerous Options",
                     "Caution: use these options at your own risk.  "
                     "It is believed that some of them bite.")
@@ -252,10 +248,6 @@ the Free Software Foundation; either version 2 of the License, or
             QuickMakeParameters.append("textCorrector")
             QuickMakeParameters.append(options.textCorrector)
             isQuickMake = True
-        elif options.search:
-            QuickMakeParameters.append("search")
-            QuickMakeParameters.append(options.search)
-            isQuickMake = True
     if options.runAsRoot:
         import Execute
         if Variables.isRunningAsRoot()==False:
@@ -280,8 +272,8 @@ def checkAfterRunProccess():
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
         if answer==Dialogs.No: 
-            from Options import OptionsForm
-            OptionsForm.OptionsForm(Universals.MainWindow, _focusTo="fileSystemEncoding")
+            import Options
+            Options.Options(Universals.MainWindow, _focusTo="fileSystemEncoding")
     checkWindowMode()
     if Universals.getBoolValue("isMakeAutoDesign"):
         if Universals.isActivePyKDE4==True:
@@ -296,15 +288,15 @@ def checkAfterRunProccess():
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes: 
-            from Options import OptionsForm
-            OptionsForm.OptionsForm(Universals.MainWindow)
+            import Options
+            Options.Options(Universals.MainWindow)
     elif Universals.changedDefaultValuesKeys!=[] or Universals.newSettingsKeys!=[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?"), False, "Added New Options And New Features")
-        if answer==Dialogs.Yes:
-            from Options import OptionsForm
+        if answer==Dialogs.Yes: 
+            import Options
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-            OptionsForm.OptionsForm(Universals.MainWindow, "Normal", None, newOrChangedKeys)
+            Options.Options(Universals.MainWindow, "Normal", None, newOrChangedKeys)
     elif Universals.getBoolValue("isShowReconfigureWizard"):
         import Execute
         Execute.executeReconfigure()
@@ -331,8 +323,6 @@ def checkWindowMode(_isCheck=False):
                         Universals.MainWindow.MusicOptionsBar.setVisible(False)
                     if Universals.MainWindow.AmarokMusicOptionsBar!=None:
                         Universals.MainWindow.AmarokMusicOptionsBar.setVisible(False)
-                    if Universals.MainWindow.AmarokCopyOptionsBar!=None:
-                        Universals.MainWindow.AmarokCopyOptionsBar.setVisible(False)
                     if Universals.MainWindow.SubDirectoryOptionsBar!=None:
                         Universals.MainWindow.SubDirectoryOptionsBar.setVisible(False)
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:
