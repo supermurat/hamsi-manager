@@ -228,7 +228,6 @@ class Searcher(MyDialog):
     def search(self, _searchValue=""):
         try:
             import re
-            #Universals.isCanBeShowOnMainWindow = False
             if self.setSourceToSearch(False):
                 if self.cckbIsRegExp.checkState() == Mt.Checked:
                     searchValueList = [str(self.leSearch.text())]
@@ -281,7 +280,6 @@ class Searcher(MyDialog):
                     resultOfSearch = str(self.sourceToSearch)
                     self.lblSearchListValues.setText(trForUI(""))
                 self.teSearchResult.setText(trForUI(resultOfSearch))
-            #Universals.isCanBeShowOnMainWindow = True
         except:
             import ReportBug
             error = ReportBug.ReportBug()

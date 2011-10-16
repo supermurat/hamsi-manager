@@ -32,7 +32,7 @@ class FilterWidget(MWidget):
         MWidget.__init__(self, _parent)
         vblMain = MVBoxLayout(self)
         self.filterKeyName = _filterKeyName
-        lblFilter = MLabel(translate("Amarok/FilterWidget", "Filter"))
+        lblFilter = MLabel(translate("Amarok/FilterWidget", "Filter : "))
         self.leFilter = MLineEdit(Universals.MySettings[self.filterKeyName])
         self.pbtnEditFilter = MPushButton(translate("Amarok/FilterDialog", "Edit"))
         self.pbtnApply = MPushButton(translate("Amarok/FilterDialog", "Apply"))
@@ -73,22 +73,43 @@ class FilterEditor(MDialog):
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
         self.filterKeyName = _filterKeyName
-        lblFilter = MLabel(translate("Amarok/FilterEditor", "Filter"))
-        self.leFilter = MLineEdit(Universals.MySettings[self.filterKeyName])
-        self.pbtnApply = MPushButton(translate("Amarok/FilterEditor", "Apply"))
+        lblFilter = MLabel(translate("Amarok/FilterEditor", "Filter"), self)
+        self.leFilter = MLineEdit(Universals.MySettings[self.filterKeyName], self)
+        self.pbtnApply = MPushButton(translate("Amarok/FilterEditor", "Apply"), self)
         _parent.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
+        teUsableInformations = MTextEdit("")
+        teUsableInformations.setHtml(translate("Amarok/FilterEditor", "<b>Conditions : </b>")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "filename: some file name (contains)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "title: some song title (contains)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "artist: some artist name (contains)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "album: some album name (contains)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "albumartist: some album artist name (contains)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "genre: some genre (contains)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "comment: some comment (contains)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "rating:5 (equals)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "rating:< (less than)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "rating:> (greater than)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "<b>Multiple Conditions : </b>")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "x:y <b>and</b> t:s (match first and second conditions)")+u"<br>"+
+                                            translate("Amarok/FilterEditor", "x:y <b>or</b> t:s (match first or second conditions)"))
+        gboxUsableInformations = MGroupBox(translate("Searcher", "Filters : "))
+        vblBox1 = MVBoxLayout()
+        vblBox1.addWidget(teUsableInformations)
+        gboxUsableInformations.setLayout(vblBox1)
         self.hblBox = MHBoxLayout()
         self.hblBox.addWidget(lblFilter)
         self.hblBox.addWidget(self.leFilter)
         self.hblBox.addWidget(self.pbtnApply)
         vblMain.addLayout(self.hblBox)
-        self.setLayout(vblMain)
+        vblMain.addWidget(gboxUsableInformations)
         if Universals.isActivePyKDE4==True:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
         self.setWindowTitle(translate("Amarok/FilterEditor", "Edit Filter"))
         self.show()
+        self.setMinimumWidth(500)
+        self.setMinimumHeight(350)
         self.setWindowIcon(MIcon("Images:amarokFilter.png"))
         
     def apply(self):

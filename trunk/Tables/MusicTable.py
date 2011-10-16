@@ -45,8 +45,9 @@ class MusicTable():
         self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.isPlayNow)
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnVerifyTableValues)
-        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("MusicTable", "Change In Amarok Database"), None, "isMusicTableValuesChangeInAmarokDB")
-        Universals.MainWindow.MainLayout.addWidget(self.cckbChangeInAmarokDB)
+        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("MusicTable", "Change In Amarok"), None, "isMusicTableValuesChangeInAmarokDB")
+        self.cckbChangeInAmarokDB.setToolTip(translate("MusicTable", "Are you want to change file paths and tags in Amarok database?"))
+        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.cckbChangeInAmarokDB)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
