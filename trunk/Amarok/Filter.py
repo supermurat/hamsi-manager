@@ -35,14 +35,14 @@ class FilterWidget(MWidget):
         lblFilter = MLabel(translate("Amarok/FilterWidget", "Filter : "))
         self.leFilter = MLineEdit(Universals.MySettings[self.filterKeyName])
         self.pbtnEditFilter = MPushButton(translate("Amarok/FilterDialog", "Edit"))
-        self.pbtnApply = MPushButton(translate("Amarok/FilterDialog", "Apply"))
+        self.pbtnApply = MPushButton(translate("Amarok/FilterDialog", "Apply Filter"))
         _parent.connect(self.pbtnEditFilter,SIGNAL("clicked()"),self.editFilter)
         _parent.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
         self.hblBox = MHBoxLayout()
-        self.hblBox.addWidget(lblFilter)
-        self.hblBox.addWidget(self.leFilter)
-        self.hblBox.addWidget(self.pbtnEditFilter)
-        self.hblBox.addWidget(self.pbtnApply)
+        self.hblBox.addWidget(lblFilter, 1)
+        self.hblBox.addWidget(self.leFilter, 20)
+        self.hblBox.addWidget(self.pbtnEditFilter, 1)
+        self.hblBox.addWidget(self.pbtnApply, 2)
         vblMain.addLayout(self.hblBox)
         self.setLayout(vblMain)
         
@@ -75,11 +75,10 @@ class FilterEditor(MDialog):
         self.filterKeyName = _filterKeyName
         lblFilter = MLabel(translate("Amarok/FilterEditor", "Filter"), self)
         self.leFilter = MLineEdit(Universals.MySettings[self.filterKeyName], self)
-        self.pbtnApply = MPushButton(translate("Amarok/FilterEditor", "Apply"), self)
+        self.pbtnApply = MPushButton(translate("Amarok/FilterEditor", "Apply Filter"), self)
         _parent.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
         teUsableInformations = MTextEdit("")
-        teUsableInformations.setHtml(translate("Amarok/FilterEditor", "<b>Conditions : </b>")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "filename: some file name (contains)")+u"<br>"+
+        teUsableInformations.setHtml(translate("Amarok/FilterEditor", "filename: some file name (contains)")+u"<br>"+
                                             translate("Amarok/FilterEditor", "title: some song title (contains)")+u"<br>"+
                                             translate("Amarok/FilterEditor", "artist: some artist name (contains)")+u"<br>"+
                                             translate("Amarok/FilterEditor", "album: some album name (contains)")+u"<br>"+
@@ -92,7 +91,7 @@ class FilterEditor(MDialog):
                                             translate("Amarok/FilterEditor", "<b>Multiple Conditions : </b>")+u"<br>"+
                                             translate("Amarok/FilterEditor", "x:y <b>and</b> t:s (match first and second conditions)")+u"<br>"+
                                             translate("Amarok/FilterEditor", "x:y <b>or</b> t:s (match first or second conditions)"))
-        gboxUsableInformations = MGroupBox(translate("Searcher", "Filters : "))
+        gboxUsableInformations = MGroupBox(translate("Searcher", "Conditions : "))
         vblBox1 = MVBoxLayout()
         vblBox1.addWidget(teUsableInformations)
         gboxUsableInformations.setLayout(vblBox1)

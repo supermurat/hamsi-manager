@@ -242,7 +242,7 @@ class Universals():
                             translate("Tables", "Cover Table"), 
                             translate("Tables", "Amarok Cover Table"), 
                             translate("Tables", "Amarok Music Table"), 
-                            translate("Tables", "Amarok Database Corrector"), 
+                            translate("Tables", "Amarok Artist Table"), 
                             translate("Tables", "Amarok Copy Table")
                             ]
         iconNameFormatLabels = [translate("Universals", "%Artist%"), 
