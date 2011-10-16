@@ -61,6 +61,10 @@ class FileTable():
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
+        if Universals.getBoolValue("isFileTableValuesChangeInAmarokDB"):
+            import Amarok
+            if Amarok.checkAmarok(True, False) == False:
+                return False
         Universals.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/Files", "Writing File Informations"),0,allItemNumber, True)
@@ -91,11 +95,10 @@ class FileTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
-        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if Universals.getBoolValue("isFileTableValuesChangeInAmarokDB"):
             import Amarok
-            if Amarok.checkAmarok(True,  False):
-                from Amarok import Operations
-                Operations.changePaths(pathValues, "file")
+            from Amarok import Operations
+            Operations.changePaths(pathValues, "file")
         return True
         
     def showDetails(self, _fileNo, _infoNo):

@@ -428,28 +428,29 @@ class Tables(MTableWidget):
         
     def continueSave(self, _returned=None):
         try:
-            import Records
-            isGoUpDirectoryWithFileTable = False
-            if Universals.tableType in [0, 1, 2, 3]:
-                if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                    InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
-            if Universals.tableType in [0, 1, 2, 3, 4]:
-                if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                    if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
-                        isGoUpDirectoryWithFileTable = True
-            InputOutputs.IA.completeSmartCheckIcon()
-            Records.saveAllRecords()
-            if self.changedValueNumber==0:
-                Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
-                             translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
-            else:
-                if Universals.getBoolValue("isShowTransactionDetails"):
-                    Dialogs.show(translate("Tables", "Transaction Details"), 
-                                 str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-            if isGoUpDirectoryWithFileTable:
-                Universals.MainWindow.Bars.changeTableTypeByType(1)
-            else:
-                Universals.MainWindow.FileManager.makeRefresh("", False)
+            if _returned:
+                import Records
+                isGoUpDirectoryWithFileTable = False
+                if Universals.tableType in [0, 1, 2, 3]:
+                    if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                        InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                if Universals.tableType in [0, 1, 2, 3, 4]:
+                    if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
+                        if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                            isGoUpDirectoryWithFileTable = True
+                InputOutputs.IA.completeSmartCheckIcon()
+                Records.saveAllRecords()
+                if self.changedValueNumber==0:
+                    Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
+                                 translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
+                else:
+                    if Universals.getBoolValue("isShowTransactionDetails"):
+                        Dialogs.show(translate("Tables", "Transaction Details"), 
+                                     str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
+                if isGoUpDirectoryWithFileTable:
+                    Universals.MainWindow.Bars.changeTableTypeByType(1)
+                else:
+                    Universals.MainWindow.FileManager.makeRefresh("", False)
         except:
             error = ReportBug.ReportBug()
             error.show()    

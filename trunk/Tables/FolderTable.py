@@ -62,6 +62,10 @@ class FolderTable():
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
         Universals.startThreadAction()
+        if Universals.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
+            import Amarok
+            if Amarok.checkAmarok(True, False) == False:
+                return False
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),0,allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
@@ -91,11 +95,10 @@ class FolderTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
-        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if Universals.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
             import Amarok
-            if Amarok.checkAmarok(True,  False):
-                from Amarok import Operations
-                Operations.changePaths(pathValues)
+            from Amarok import Operations
+            Operations.changePaths(pathValues)
         return True
         
     def showDetails(self, _fileNo, _infoNo):
