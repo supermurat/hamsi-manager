@@ -96,7 +96,7 @@ class SuggestIdea(MDialog):
             self.nrqPost = MNetworkRequest(MUrl("http://hamsiapps.com/ForMyProjects/SuggestIdea.php"))
             self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(Universals.MySettings["language"]) + "&v=" + str(Variables.intversion) +
                                             "&thankYouMessages=new style" + 
-                                            "&userNotes=" + quote(str(self.teIdea.toPlainText())) + 
+                                            "&userNotes=" + quote(str(self.teIdea.toHtml())) + 
                                             "&nameAndSurname=" + quote(str(self.leName.text())) + 
                                             "&mail=" + quote(str(self.leEMailAddress.text()))
                                             )
@@ -140,16 +140,16 @@ class SuggestIdea(MDialog):
         
     def isSendMySettings(self):
         try:
-            currentPlainText = str(self.teIdea.toPlainText())
+            currenText = str(self.teIdea.toHtml())
             if self.cckbIsSendMySettings.checkState() == Mt.Checked:
-                settingText = "\n\n"
+                settingText = "<br><br>"
                 for keyName in Universals.MySettings:
                     if Variables.willNotReportSettings.count(keyName)==0:
-                        settingText += str(keyName) + " : " + str(Universals.MySettings[keyName]) + "\n"
-                self.teIdea.setPlainText(trForUI(currentPlainText + "\n\n----------------------////////----------------------" + settingText))
+                        settingText += "<b>" + str(keyName) + " :</b> " + str(Universals.MySettings[keyName]) + "<br>"
+                self.teIdea.setHtml(trForUI(currenText + "<br>----------------------////////----------------------<br><br><b>" + str(translate("SuggestIdea", "Note : You can check and delete your personal informations.")) + "</b>" + settingText))
             else:
-                currentPlainText = currentPlainText.split("\n\n----------------------////////----------------------")[0]
-                self.teIdea.setPlainText(trForUI(currentPlainText))
+                currenText = currenText.split("----------------------////////----------------------")[0]
+                self.teIdea.setHtml(trForUI(currenText))
         except:
             import ReportBug
             error = ReportBug.ReportBug()

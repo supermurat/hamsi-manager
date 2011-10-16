@@ -23,10 +23,15 @@ import Variables
 from MyObjects import *
 import Universals
 import Settings
+import Dialogs
 import InputOutputs, Records
 import traceback
 import logging
 from RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
+if Variables.isPython3k:
+    from urllib.parse import unquote, quote
+else:
+    from urllib import unquote, quote
 iSClosingInErrorReporting = False
 
 class ReportBug(MDialog):
@@ -43,12 +48,13 @@ class ReportBug(MDialog):
             isShowFixMe = True
         try:MDialog.__init__(self, MainWindow)
         except:MDialog.__init__(self, None)
-        QtWebKit = getMyObject("QtWebKit")
+        self.namMain = None
+        self.nrqPost = None
+        self.nrpBack = None
         self.pathOfReportFile = ""
         self.isOnlyReport=True
         isClose=False
-        self.isLoading=True
-        errorDetails = "<b>" + str(translate("ReportBug", "Please check your personal information from this table."))+"</b><br>"
+        errorDetails = "<b>" + str(translate("ReportBug", "Note : You can check and delete your personal informations."))+"</b><br>"
         if _isOnlyReport==False:
             Universals.isRaisedAnError = True
             realErrorDetails = str(self.formatExceptionInfo())
@@ -202,30 +208,53 @@ class ReportBug(MDialog):
         except:pass
         pnlMain = MWidget(self)
         self.vblMain = MVBoxLayout(pnlMain)
-        self.pbtnClose = MPushButton(translate("ReportBug", "Close (Please Report This Bug First.)"))
+        self.pbtnSendAndClose = MPushButton(translate("ReportBug", "Send And Close"))
+        self.pbtnCancel = MPushButton(translate("ReportBug", "Cancel"))
+        self.connect(self.pbtnSendAndClose, SIGNAL("clicked()"), self.sendAndClose)
+        self.connect(self.pbtnCancel, SIGNAL("clicked()"), self.cancel)
         self.pbtnShowDetailsPage = MPushButton(translate("ReportBug", "Show Details File"))
         self.pbtnCheckUpdate = MPushButton(translate("ReportBug", "Check Update"))
-        self.teErrorDetails = MTextEdit()  
-        self.wvWeb = QtWebKit.QWebView()
+        self.teErrorDetails = MTextEdit() 
         self.createErrorPage(errorDetails)
-        self.connect(self.wvWeb,SIGNAL("loadProgress(int)"),self.loading)
         try:
             self.teErrorDetails.setHtml(trForUI(errorDetails.replace("<hr>", "")))
         except:
             self.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>To see the details, please click on the \"Show details file\" button."))
             self.teErrorDetails.setEnabled(False)
-        self.connect(self.teErrorDetails,SIGNAL("textChanged()"), self.errorDetailsChanged)
-        self.connect(self.pbtnClose,SIGNAL("clicked()"), self.close)
         self.connect(self.pbtnShowDetailsPage,SIGNAL("clicked()"), self.showDetailsPage)
         self.connect(self.pbtnCheckUpdate,SIGNAL("clicked()"), self.checkUpdate)
         self.teErrorDetails.setMinimumHeight(220)
         self.vblMain.addWidget(self.teErrorDetails, 10) 
-        self.vblMain.addWidget(self.wvWeb, 10) 
+        lblUserNotes = MLabel(translate("ReportBug", "Notes : "))
+        lblName = MLabel(translate("ReportBug", "Name And Surname : "))
+        lblEMailAddress = MLabel(translate("ReportBug", "E-mail Address : "))
+        lblAlert = MLabel(translate("ReportBug", "Note : Will be kept strictly confidential. It will be used solely to learn information about of your idea."))
+        self.teUserNotes = MTextEdit(self)
+        self.leName = MLineEdit(self)
+        self.leEMailAddress = MLineEdit(self)
+        hbox1 = MHBoxLayout()
+        hbox1.addWidget(lblUserNotes, 1)
+        hbox1.addWidget(self.teUserNotes, 20)
+        hbox2 = MHBoxLayout()
+        hbox2.addWidget(lblName, 1)
+        hbox2.addWidget(self.leName, 20)
+        hbox3 = MHBoxLayout()
+        hbox3.addWidget(lblEMailAddress, 1)
+        hbox3.addWidget(self.leEMailAddress, 20)
         hbox0 = MHBoxLayout()
         hbox0.addWidget(self.pbtnShowDetailsPage,1)
         hbox0.addStretch(2)
         hbox0.addWidget(self.pbtnCheckUpdate,1)
-        hbox0.addWidget(self.pbtnClose,1)
+        hbox0.addWidget(self.pbtnSendAndClose,1)
+        hbox0.addWidget(self.pbtnCancel,1)
+        VBox1 = MVBoxLayout()
+        VBox1.addLayout(hbox2)
+        VBox1.addLayout(hbox3)
+        VBox1.addWidget(lblAlert)
+        gboxContactInformations = MGroupBox(translate("ReportBug", "Contact Informations : "))
+        gboxContactInformations.setLayout(VBox1)
+        self.vblMain.addLayout(hbox1, 1) 
+        self.vblMain.addWidget(gboxContactInformations, 1)
         self.vblMain.addLayout(hbox0, 1)
         try:
             if Universals.isActivePyKDE4==True:
@@ -236,7 +265,6 @@ class ReportBug(MDialog):
             self.setLayout(self.vblMain)
         self.setWindowTitle(translate("ReportBug", "Please Report This Bug!.."))
         self.setMaximumSize(600, 375)  
-        self.wvWeb.setMinimumHeight(272)
         self.show()
         self.setMaximumSize(10000, 10000)
         if isShowFixMe == True and isQuickMake==False and _hideFixMe==False and Universals.loggingLevel!=logging.DEBUG:
@@ -260,6 +288,54 @@ class ReportBug(MDialog):
                     Settings.reFillAll(True)
             except:pass
     
+    def sendAndClose(self):
+        Universals.isCanBeShowOnMainWindow = False
+        language = "en_GB"
+        if "language" in Universals.MySettings:
+            language = Universals.MySettings["language"]
+        self.namMain = MNetworkAccessManager(self)
+        self.connect(self.namMain, SIGNAL("finished (QNetworkReply *)"), self.sendFinished)
+        self.nrqPost = MNetworkRequest(MUrl("http://hamsiapps.com/ForMyProjects/ReportBug.php"))
+        self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(language) + "&v=" + str(Variables.intversion) +
+                                        "&thankYouMessages=new style" + 
+                                        "&userNotes=" + quote(str(self.teUserNotes.toHtml())) + 
+                                        "&error=" + quote(str(self.teErrorDetails.toHtml())) + 
+                                        "&nameAndSurname=" + quote(str(self.leName.text())) + 
+                                        "&mail=" + quote(str(self.leEMailAddress.text()))
+                                        )
+        self.connect(self.nrpBack, SIGNAL("downloadProgress (qint64,qint64)"), self.sending)
+        Dialogs.showState(translate("ReportBug", "Sending Your Report"), 0, 100, True, self.cancelSending)
+        
+    def sending(self, _currentValue, _maxValue):
+        Dialogs.showState(translate("ReportBug", "Sending Your Report"), _currentValue, _maxValue, True, self.cancelSending)
+    
+    def cancelSending(self):
+        if self.nrpBack is not None:
+            self.nrpBack.abort()
+        
+    def sendFinished(self, _nrpBack):
+        Dialogs.showState(translate("ReportBug", "Sending Your Report"), 100, 100)
+        if _nrpBack.error() == MNetworkReply.NoError:
+            Dialogs.show(translate("ReportBug", "Report Received Successfully"), translate("ReportBug", "Thank you for sending us your report. You have contributed a lot to make the next release even better."))
+            self.close()
+        elif _nrpBack.error() == MNetworkReply.OperationCanceledError:
+            Dialogs.show(translate("ReportBug", "Report Sending Canceled"), translate("ReportBug", "Report sending canceled successfully."))
+        else:
+            Dialogs.show(translate("ReportBug", "An Error Has Occurred."), translate("ReportBug", "An unknown error has occurred. Please try again."))
+        Universals.isCanBeShowOnMainWindow = True
+        self.namMain = None
+        self.nrqPost = None
+        self.nrpBack = None
+        
+    def cancel(self):
+        if self.nrpBack is not None:
+            self.nrpBack.abort()
+        self.close()
+        
+    def checkUpdate(self):
+        import UpdateControl
+        UpdateControl.UpdateControl(self)
+        
     def formatExceptionInfo(self, maxTBlevel=5):
         cla, exc, trbk = sys.exc_info()
         excName = cla.__name__
@@ -269,76 +345,6 @@ class ReportBug(MDialog):
             excArgs = "<no args>"
         excTb = traceback.format_tb(trbk, maxTBlevel)
         return (excName, excArgs, excTb)
-    
-    def createErrorPage(self, _errorDetails, _userNote="", _userName="", _mail=""):
-        _errorDetails = _errorDetails.replace("\"", "&quot;").replace("\'", "&#39;")
-        self.isLoading=False
-        language = "en_GB"
-        if "language" in Universals.MySettings:
-            language = Universals.MySettings["language"]
-        htmlString=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
-                    '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Hamsi Manager</title></head><body>'+
-                    '<center>'+
-                    '<form action="http://hamsiapps.com/ForMyProjects/ReportBug.php" method="post">'+
-                    '<TABLE><TR><TD valign="top">%s'
-                    '</TD><TD colspan=2><textarea ROWS="7" COLS="40" name="userNotes">%s</textarea></TD></TR></TABLE>'+
-                    '<TABLE><TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="nameAndSurname" value="%s"></input></TD></TR>'+
-                    '<TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="mail" value="%s"></input></TD></TR></TABLE>'+
-                    '<TABLE><TR><TD align="right"><input name="send" type="submit" value="&nbsp;&nbsp;&nbsp;%s&nbsp;&nbsp;&nbsp;&nbsp;"></TD></TR></TABLE>'+
-                    '<INPUT TYPE="hidden" name="error" value="~ERRORDETAILS~" />'+
-                    '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
-                    '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
-                    '<INPUT TYPE="hidden" name="l" value="' + str(language) + '" />'+
-                    '<INPUT TYPE="hidden" name="v" value="' + str(Variables.intversion) + '" /></form>'+
-                    '~ADDITIONALDETAILS~</center></body></html>'
-                    ) % (
-                    str(translate("ReportBug", "<b>Error description :</b> <br>(Be can null)<br><b>Note:</b>Please write what you did before you received the error here.")), 
-                    _userNote, 
-                    str(translate("ReportBug", "<b>Name and Surname :</b> (Be can null)")), 
-                    _userName, 
-                    str(translate("ReportBug", "<b>E-mail address :</b> (Be can null)<br><b>Note:</b>Will be kept strictly confidential. It will be used solely to report you back once the problem is solved..")), 
-                    _mail, 
-                    str(translate("ReportBug", "Report Bug")), 
-                    str(translate("ReportBug", "Thank you for sending us your error report. You have already contributed a lot to make the next release even better..<br>")))
-        self.createErrorFile(htmlString.replace("~ERRORDETAILS~", _errorDetails).replace("~ADDITIONALDETAILS~", _errorDetails))
-        encodedType = ""
-        try:
-            errorDetails = Universals.trDecode(_errorDetails, "utf-8")
-            encodedType = "utf-8"
-        except:
-            try:
-                errorDetails = str(Universals.trUnicode(_errorDetails, "iso-8859-9"))
-                t = Universals.trDecode(errorDetails, "utf-8")
-                encodedType = "iso-8859-9"
-            except:
-                try:
-                    errorDetails = str(Universals.trUnicode(_errorDetails, "cp-1254"))
-                    t = Universals.trDecode(errorDetails, "utf-8")
-                    encodedType = "cp-1254"
-                except:
-                    for charName in Variables.getCharSets():
-                        try:
-                            errorDetails = str(Universals.trUnicode(_errorDetails, charName))
-                            t = Universals.trDecode(errorDetails, "utf-8")
-                            encodedType = charName
-                        except:pass
-                    if encodedType=="":
-                        errorDetails = ""
-        htmlString = htmlString.replace("~ERRORDETAILS~", errorDetails).replace("~ADDITIONALDETAILS~", str(translate("ReportBug", "<b>(Is Encoded With %s.)</b>")) % (encodedType))
-        try:self.wvWeb.setHtml(trForUI(htmlString))
-        except:
-            self.teErrorDetails.setVisible(False)   
-            self.wvWeb.setUrl(MUrl(trForM(self.pathOfReportFile)))
-        self.isLoading=True
-    
-    def errorDetailsChanged(self):
-        self.createErrorPage(str(self.teErrorDetails.toHtml()))
-        pass
-    
-    def loading(self, _value):
-        if self.isLoading:
-            if (_value==100):
-                self.pbtnClose.setText(translate("ReportBug", "Close"))
 
     def closeEvent(self, _event):
         global isClose, iSClosingInErrorReporting
@@ -350,19 +356,43 @@ class ReportBug(MDialog):
                 self.parent().close()
         except:pass
         
-    def createErrorFile(self, _errorDetails):
+    def createErrorPage(self, _errorDetails):
+        _errorDetails = _errorDetails.replace("\"", "&quot;").replace("\'", "&#39;")
+        language = "en_GB"
+        if "language" in Universals.MySettings:
+            language = Universals.MySettings["language"]
+        htmlString=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
+                    '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Hamsi Manager</title></head><body>'+
+                    '<center>'+
+                    '<form action="http://hamsiapps.com/ForMyProjects/ReportBug.php" method="post">'+
+                    '<TABLE><TR><TD valign="top">%s'
+                    '</TD><TD colspan=2><textarea ROWS="7" COLS="40" name="userNotes"></textarea></TD></TR></TABLE>'+
+                    '<TABLE><TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="nameAndSurname" value=""></input></TD></TR>'+
+                    '<TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="mail" value=""></input></TD></TR></TABLE>'+
+                    '<TABLE><TR><TD align="right"><input name="send" type="submit" value="&nbsp;&nbsp;&nbsp;%s&nbsp;&nbsp;&nbsp;&nbsp;"></TD></TR></TABLE>'+
+                    '<INPUT TYPE="hidden" name="error" value="%s" />'+
+                    '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
+                    '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
+                    '<INPUT TYPE="hidden" name="l" value="' + str(language) + '" />'+
+                    '<INPUT TYPE="hidden" name="v" value="' + str(Variables.intversion) + '" /></form>'+
+                    '%s</center></body></html>'
+                    ) % (
+                    str(translate("ReportBug", "<b>Error description :</b> <br>(Be can null)<br><b>Note:</b>Please write what you did before you received the error here.")), 
+                    str(translate("ReportBug", "<b>Name and Surname :</b> (Be can null)")), 
+                    str(translate("ReportBug", "<b>E-mail address :</b> (Be can null)<br><b>Note:</b>Will be kept strictly confidential. It will be used solely to report you back once the problem is solved..")), 
+                    str(translate("ReportBug", "Report Bug")), 
+                    _errorDetails, 
+                    str(translate("ReportBug", "Thank you for sending us your error report. You have already contributed a lot to make the next release even better..<br>")), 
+                    _errorDetails)
         if self.pathOfReportFile=="":
             import tempfile, random
             self.pathOfReportFile = tempfile.gettempdir() + "/HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html"
-            InputOutputs.writeToFile(self.pathOfReportFile, _errorDetails)
-    
+            InputOutputs.writeToFile(self.pathOfReportFile, htmlString)
+            
     def showDetailsPage(self):
-        self.teErrorDetails.setVisible(False)   
-        self.wvWeb.setUrl(MUrl(trForM(self.pathOfReportFile)))
-        
-    def checkUpdate(self):
-        import UpdateControl
-        UpdateControl.UpdateControl(self)
+        from Details import HtmlDetails
+        HtmlDetails.HtmlDetails(self.pathOfReportFile)
+
         
         
         
