@@ -32,8 +32,9 @@ class SubFolderTable():
         self.keyName = "subfolder"
         self.hiddenTableColumnsSettingKey = "hiddenSubFolderTableColumns"
         self.refreshColumns()
-        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("SubFolderTable", "Change In Amarok Database"), None, "isSubFolderTableValuesChangeInAmarokDB")
-        Universals.MainWindow.MainLayout.addWidget(self.cckbChangeInAmarokDB)
+        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("SubFolderTable", "Change In Amarok"), None, "isSubFolderTableValuesChangeInAmarokDB")
+        self.cckbChangeInAmarokDB.setToolTip(translate("SubFolderTable", "Are you want to change file paths in Amarok database?"))
+        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
 
         
     def readContents(self, _directoryPath):

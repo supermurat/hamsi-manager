@@ -32,8 +32,9 @@ class FileTable():
         self.keyName = "file"
         self.hiddenTableColumnsSettingKey = "hiddenFileTableColumns"
         self.refreshColumns()
-        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("FileTable", "Change In Amarok Database"), None, "isFileTableValuesChangeInAmarokDB")
-        Universals.MainWindow.MainLayout.addWidget(self.cckbChangeInAmarokDB)
+        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("FileTable", "Change In Amarok"), None, "isFileTableValuesChangeInAmarokDB")
+        self.cckbChangeInAmarokDB.setToolTip(translate("FileTable", "Are you want to change file paths in Amarok database?"))
+        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
