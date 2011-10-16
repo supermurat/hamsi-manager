@@ -192,7 +192,7 @@ class Universals():
         return datetime.strptime(MySettings[_key], "%Y %m %d %H %M %S")
     
     def getBoolValue(_key):
-        if eval(MySettings[_key].title())==True:
+        if str(MySettings[_key]).title()=="True" or str(MySettings[_key]).title()=="1":
             return True
         return False
      

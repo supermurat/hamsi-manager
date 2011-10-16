@@ -182,7 +182,7 @@ class Searcher(MyDialog):
             
             if self.cckbIsOnlyDigitsAndLetters.checkState() == Mt.Checked:
                 clearedSearchValue2 = ""
-                for char in searchValue:
+                for char in Universals.trUnicode(searchValue):
                     if char.isdigit()==True or char.isalpha()==True:
                         clearedSearchValue2+=char
                 if clearedSearchValue2 not in searchValueList:
