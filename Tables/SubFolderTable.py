@@ -64,6 +64,10 @@ class SubFolderTable():
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
+        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+            import Amarok
+            if Amarok.checkAmarok(True, False) == False:
+                return False
         Universals.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/SubFolders", "Writing File Informations"),0,allItemNumber, True)
@@ -96,9 +100,8 @@ class SubFolderTable():
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
         if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
-            if Amarok.checkAmarok(True,  False):
-                from Amarok import Operations
-                Operations.changePaths(pathValues, "file")
+            from Amarok import Operations
+            Operations.changePaths(pathValues, "file")
         return True
         
     def showDetails(self, _fileNo, _infoNo):

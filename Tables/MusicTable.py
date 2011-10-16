@@ -96,6 +96,10 @@ class MusicTable():
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
         changingTags=[]
+        if Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
+            import Amarok
+            if Amarok.checkAmarok(True, False) == False:
+                return False
         Universals.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,allItemNumber, True)
@@ -189,10 +193,9 @@ class MusicTable():
         pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
         if Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
-            if Amarok.checkAmarok(True,  False):
-                from Amarok import Operations
-                Operations.changeTags(changingTags)
-                Operations.changePaths(pathValues, "file")
+            from Amarok import Operations
+            Operations.changeTags(changingTags)
+            Operations.changePaths(pathValues, "file")
         return True
         
     def showDetails(self, _fileNo, _infoNo):
