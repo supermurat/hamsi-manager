@@ -145,7 +145,7 @@ class Dialogs():
             elif btn!=None:
                 return _btnString
                 
-    def showState(_title, _value=0, _maxValue=100, _isShowCancel=False):
+    def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
         if Universals.windowMode==Variables.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
             return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel)
         MApplication.processEvents()
@@ -154,7 +154,10 @@ class Dialogs():
             prgbState = MProgressBar()
             pbtnCancel = MPushButton(translate("Dialogs", "Cancel"))
             pbtnCancel.setVisible(False)
-            MObject.connect(pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
+            if _connectToCancel==None:
+                MObject.connect(pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
+            else:
+                MObject.connect(pbtnCancel, SIGNAL("clicked()"), _connectToCancel)
             HBoxs=[]
             if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
                 Universals.MainWindow.lockForm()
