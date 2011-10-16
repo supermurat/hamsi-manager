@@ -27,13 +27,13 @@ import Taggers
 from time import gmtime
 import Records
 
-class AmarokDatabaseCorrector():
+class AmarokArtistTable():
     def __init__(self, _table):
         from Amarok import Filter
         self.Table = _table
         self.keyName = "ADCArtist"
         self.amarokFilterKeyName = "AmarokFilterADCArtist"
-        self.hiddenTableColumnsSettingKey = "hiddenAmarokDatabaseCorrectorColumns"
+        self.hiddenTableColumnsSettingKey = "hiddenAmarokArtistTableColumns"
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
         Universals.MainWindow.MainLayout.addWidget(self.wFilter)
@@ -42,14 +42,14 @@ class AmarokDatabaseCorrector():
         currentTableContentValues = []
         Universals.startThreadAction()
         import Amarok
-        Dialogs.showState(translate("AmarokDatabaseCorrector", "Checking For Amarok..."), 0, 2)
+        Dialogs.showState(translate("AmarokArtistTable", "Checking For Amarok..."), 0, 2)
         if Amarok.checkAmarok():
-            Dialogs.showState(translate("AmarokDatabaseCorrector", "Getting Values From Amarok"), 1, 2)
+            Dialogs.showState(translate("AmarokArtistTable", "Getting Values From Amarok"), 1, 2)
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
                 artistValues = Operations.getAllArtistsValues(Universals.MySettings[self.amarokFilterKeyName])
-                Dialogs.showState(translate("AmarokDatabaseCorrector", "Values Are Being Processed"), 2, 2)
+                Dialogs.showState(translate("AmarokArtistTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = Universals.isContinueThreadAction()
                 if isContinueThreadAction:
                     if artistValues!=None:
@@ -87,7 +87,7 @@ class AmarokDatabaseCorrector():
                     changedArtistValues[-1]["id"] = str(self.Table.currentTableContentValues[rowNo]["id"])
                     value = str(self.Table.item(rowNo, 1).text())
                     changedArtistValues[-1]["name"] = value
-                    Records.add(str(translate("AmarokDatabaseCorrector", "Artist")), str(self.Table.currentTableContentValues[rowNo]["name"]), value)
+                    Records.add(str(translate("AmarokArtistTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["name"]), value)
                     self.Table.changedValueNumber += 1
             else:
                 allItemNumber = rowNo+1
@@ -113,7 +113,7 @@ class AmarokDatabaseCorrector():
             self.showDetails(_row, _column)
        
     def refreshColumns(self):
-        self.Table.tableColumns = [translate("AmarokDatabaseCorrector", "Current Artist"), translate("AmarokDatabaseCorrector", "Corrected Artist")]
+        self.Table.tableColumns = [translate("AmarokArtistTable", "Current Artist"), translate("AmarokArtistTable", "Corrected Artist")]
         self.Table.tableColumnsKey = ["currentArtist", "correctedArtist"]
         
     def save(self):

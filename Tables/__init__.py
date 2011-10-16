@@ -167,8 +167,8 @@ class Tables(MTableWidget):
         elif Universals.tableType==7:
             import Amarok
             if Amarok.checkAmarok(True,  False):
-                import AmarokDatabaseCorrector
-                self.SubTable = AmarokDatabaseCorrector.AmarokDatabaseCorrector(self)
+                import AmarokArtistTable
+                self.SubTable = AmarokArtistTable.AmarokArtistTable(self)
             else:
                 Universals.tableType = 1
                 from Tables import FileTable
