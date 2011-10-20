@@ -58,7 +58,10 @@ class Organizer:
                             ps = ps.replace(oldChar,newChar)
                     ps = str(Universals.trDecode(ps, "utf-8", "ignore"))
                     if _isCorrectCaseSensitive:
-                        ps = makeCorrectCaseSensitive(ps, Universals.MySettings["validSentenceStructureForFile"])
+                        if _type=="file": 
+                            ps = makeCorrectCaseSensitive(ps, Universals.MySettings["validSentenceStructureForFile"])
+                        elif _type=="directory": 
+                            ps = makeCorrectCaseSensitive(ps, Universals.MySettings["validSentenceStructureForDirectory"])
                     if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1] or Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
                         ps = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(ps)) if unicodedata.category(c) != 'Mn')
                         ps = str(Universals.trEncode(ps, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
@@ -91,7 +94,10 @@ class Organizer:
                         _inputString = tStr[0]
             if _isCorrectCaseSensitive:
                 extString = makeCorrectCaseSensitive(extString, Universals.MySettings["validSentenceStructureForFileExtension"])
-                _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])
+                if _type=="file": 
+                    _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])
+                elif _type=="directory": 
+                    _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForDirectory"])
             if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1] or Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
                 _inputString = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(_inputString)) if unicodedata.category(c) != 'Mn')
                 _inputString = str(Universals.trEncode(_inputString, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")

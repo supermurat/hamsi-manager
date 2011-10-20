@@ -32,7 +32,7 @@ class AmarokArtistTable():
         from Amarok import Filter
         self.Table = _table
         self.keyName = "ADCArtist"
-        self.amarokFilterKeyName = "AmarokFilterADCArtist"
+        self.amarokFilterKeyName = "AmarokFilterArtistTable"
         self.hiddenTableColumnsSettingKey = "hiddenAmarokArtistTableColumns"
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
