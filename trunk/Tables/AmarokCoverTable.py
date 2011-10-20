@@ -27,10 +27,14 @@ import Universals
 
 class AmarokCoverTable():
     def __init__(self, _table):
+        from Amarok import Filter
         self.Table = _table
         self.keyName = "cover"
+        self.amarokFilterKeyName = "AmarokFilterAmarokCoverTable"
         self.hiddenTableColumnsSettingKey = "hiddenAmarokCoverTableColumns"
         self.refreshColumns()
+        self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
+        Universals.MainWindow.MainLayout.addWidget(self.wFilter)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -42,7 +46,7 @@ class AmarokCoverTable():
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
-                directoriesAndValues = Operations.getDirectoriesAndValues()
+                directoriesAndValues = Operations.getDirectoriesAndValues(Universals.MySettings[self.amarokFilterKeyName])
                 Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = Universals.isContinueThreadAction()
                 if isContinueThreadAction:

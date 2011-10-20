@@ -32,7 +32,7 @@ class QuickOptions(MMenu):
         self.values, self.hiddenKeys = [], []
         self.keysOfSettings = ["isActiveClearGeneral", "isClearEmptyDirectoriesWhenSave", "isAutoCleanSubFolderWhenSave", 
                                 "isActiveAutoMakeIconToDirectory", 
-                                "validSentenceStructure", "validSentenceStructureForFile", 
+                                "validSentenceStructure", "validSentenceStructureForFile", "validSentenceStructureForDirectory", 
                                 "validSentenceStructureForFileExtension", "fileExtesionIs", 
                                 "isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", 
                                 "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars", 
@@ -44,6 +44,7 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Auto Change Directory Icon"), 
             translate("QuickOptions", "Valid Sentence Structure"), 
             translate("QuickOptions", "Valid Sentence Structure For Files"),
+            translate("QuickOptions", "Valid Sentence Structure For Directories"),
             translate("QuickOptions", "Valid Sentence Structure For File Extensions"), 
             translate("QuickOptions", "Which Part Is The File Extension"), 
             translate("QuickOptions", "Emend Incorrect Chars"),  
@@ -60,7 +61,8 @@ class QuickOptions(MMenu):
             translate("Options/ClearGeneral", "Do you want to clear the subfolders when table saved?"), 
             translate("QuickOptions", "Are you want to change directory icon automatically?"), 
             translate("QuickOptions", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
-            translate("QuickOptions", "File and directory names will be changed automatically to the format you selected."),
+            translate("QuickOptions", "File names will be changed automatically to the format you selected."),
+            translate("QuickOptions", "Directory names will be changed automatically to the format you selected."),
             translate("QuickOptions", "File extensions will be changed automatically to the format you selected."), 
             translate("QuickOptions", "Which part of the filename is the file extension?"), 
             translate("QuickOptions", "Are you want to emend incorrect chars?"), 
@@ -72,7 +74,7 @@ class QuickOptions(MMenu):
             translate("Options/HiddenObjects", "Are you want to show hidden files in file table?"), 
             translate("Options/HiddenObjects", "Are you want to show hidden files in music table?"),
             translate("Options/HiddenObjects", "Are you want to show hidden directories in cover table?")]
-        self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], 
+        self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("QuickOptions", "Title"), 

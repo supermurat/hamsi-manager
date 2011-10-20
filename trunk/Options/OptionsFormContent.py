@@ -161,7 +161,7 @@ class Correct(MWidget):
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["isActiveCompleter", "isShowAllForCompleter",
-            "validSentenceStructure", "validSentenceStructureForFile", 
+            "validSentenceStructure", "validSentenceStructureForFile", "validSentenceStructureForDirectory", 
             "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
             "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
         self.tabsOfSettings = [None, None, None, None, 
@@ -178,6 +178,7 @@ class Correct(MWidget):
                     translate("Options/Correct", "Show All"), 
                     translate("Options/Correct", "Valid Sentence Structure"), 
                     translate("Options/Correct", "Valid Sentence Structure For Files"),
+                    translate("Options/Correct", "Valid Sentence Structure For Directories"),
                     translate("Options/Correct", "Valid Sentence Structure For File Extensions"), 
                     translate("Options/Correct", "Which Part Is The File Extension"), 
                     translate("Options/Correct", "Emend Incorrect Chars"),  
@@ -187,14 +188,15 @@ class Correct(MWidget):
         self.toolTips = [translate("Options/Correct", "Are you want to activate completer for auto complete some input controls?"), 
                     translate("Options/Correct", "Are you want to show all words in all input controls?"), 
                     translate("Options/Correct", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
-                    translate("Options/Correct", "File and directory names will be changed automatically to the format you selected."),
+                    translate("Options/Correct", "File names will be changed automatically to the format you selected."),
+                    translate("Options/Correct", "Directory names will be changed automatically to the format you selected."),
                     translate("Options/Correct", "File extensions will be changed automatically to the format you selected."), 
                     translate("Options/Correct", "Which part of the filename is the file extension?"), 
                     translate("Options/Correct", "Are you want to emend incorrect chars?"), 
                     translate("Options/Correct", "Are you want to correct file and directory names by search and replace table?"), 
                     translate("Options/Correct", "Are you want to clear first and last space chars?"), 
                     translate("Options/Correct", "Are you want to correct double space chars?")]
-        self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], 
+        self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("Options/Correct", "Title"), 

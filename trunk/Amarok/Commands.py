@@ -156,9 +156,9 @@ class Commands:
             sqlCondition = sqlCondition.replace(sqlControl[0][0], "WHERE ")
         return sqlCondition
     
-    def getDirectoriesAndValues():
+    def getDirectoriesAndValues(_filter = ""):
         db = Amarok.checkAndGetDB()
-        db.query("""
+        query = """
 SELECT DISTINCT (
     REPLACE(
         CONCAT(
@@ -197,8 +197,64 @@ LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
 LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
 LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
 WHERE `images`.`path` IS NOT NULL and `images`.`id` NOT IN (SELECT `id` FROM `images` WHERE path not like '/%') 
+and `tracks`.`id` IN (
+    SELECT `valueTableForID`.`id` FROM (
+        SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
+            SELECT `tracks`.`id`, CONVERT(
+                REPLACE(
+                    CONCAT(
+                        CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                            THEN `devices`.`lastmountpoint`
+                        ELSE 
+                            ''
+                        END, 
+                        SUBSTRING( `urls`.`rpath` , 2 )
+                    ),
+                    CONCAT("/", 
+                            CONCAT(
+                                CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
+                                    THEN `devices`.`lastmountpoint`
+                                ELSE 
+                                    ''
+                                END, 
+                                SUBSTRING( `urls`.`rpath` , 2 )
+                            )
+                    )
+                , "")
+            , char(1000)) AS 'filePath', 
+            `tracks`.`title`, 
+            `tracks`.`artist`, 
+            `tracks`.`album`, 
+            `tracks`.`year`, 
+            `tracks`.`genre`, 
+            `tracks`.`tracknumber`, 
+            `tracks`.`comment`,
+            `artists`.`name` AS 'artistname',
+            `albums`.`name` AS 'albumname',
+            `albumartists`.`name` AS 'albumartistname',
+            `years`.`name` AS 'yearname',
+            `genres`.`name` AS 'genrename',
+            `images`.`path`,
+            `statistics`.`rating`
+            FROM `tracks`
+            LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+            LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
+            LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
+            LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
+            LEFT JOIN `artists` `albumartists` ON `albumartists`.`id` = `albums`.`artist`
+            LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
+            LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
+            LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
+            LEFT JOIN `statistics` ON `statistics`.`url` = `tracks`.`url`
+        ) as `valueTable`
+        LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
+        """ + getSQLConditionByFilter(_filter) + """
+    ) as `valueTableForID` GROUP BY `id`
+) 
 order by 'dirPath'
-""")
+"""
+        Universals.printForDevelopers("Query - getDirectoriesAndValues : " + query)
+        db.query(query)
         r = db.store_result()
         directoriesValues = {}
         rows = r.fetch_row(0)
@@ -214,7 +270,7 @@ order by 'dirPath'
     
     def getAllMusicFileValues():
         db = Amarok.checkAndGetDB()
-        db.query("""
+        query = """
 SELECT `tracks`.`id`, (
     REPLACE(
         CONCAT(
@@ -247,7 +303,9 @@ SELECT `tracks`.`id`, (
 FROM `tracks`
 LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
 LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-""")
+"""
+        Universals.printForDevelopers("Query - getAllMusicFileValues : " + query)
+        db.query(query)
         r = db.store_result()
         musicFileValues = []
         rows = r.fetch_row(0)
@@ -344,7 +402,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
         
     def getAllMusicFileValuesWithNamesByArtistId(_artistId):
         db = Amarok.checkAndGetDB()
-        db.query("""
+        query = """
 SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     SELECT `tracks`.`id`, CONVERT(
         REPLACE(
@@ -393,7 +451,9 @@ SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     WHERE `tracks`.`artist`=""" + _artistId + """ OR `albums`.`artist`=""" + _artistId + """
 ) as `valueTable`
 LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
-""")
+"""
+        Universals.printForDevelopers("Query - getAllMusicFileValuesWithNamesByArtistId : " + query)
+        db.query(query)
         r = db.store_result()
         musicFileValues = []
         rows = r.fetch_row(0)
@@ -419,7 +479,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
         
     def getAllMusicFilePathsByArtistId(_artistId):
         db = Amarok.checkAndGetDB()
-        db.query("""
+        query = """
     SELECT CONVERT(
         REPLACE(
             CONCAT(
@@ -445,7 +505,9 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
     FROM `tracks`
     LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-    WHERE `tracks`.`artist`=""" + _artistId)
+    WHERE `tracks`.`artist`=""" + _artistId
+        Universals.printForDevelopers("Query - getAllMusicFilePathsByArtistId : " + query)
+        db.query(query)
         r = db.store_result()
         musicFileValues = []
         rows = r.fetch_row(0)
@@ -455,7 +517,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
         
     def getMusicFileValues(_path):
         db = Amarok.checkAndGetDB()
-        db.query("""
+        query = """
 SELECT * FROM (
     SELECT `tracks`.`id`, CONVERT((
         REPLACE(
@@ -490,7 +552,9 @@ SELECT * FROM (
     LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
 ) as `valueTable` WHERE `valueTable`.`filePath` = '%s'
-""" % Databases.correctForSql(_path))
+""" % Databases.correctForSql(_path)
+        Universals.printForDevelopers("Query - getMusicFileValues : " + query)
+        db.query(query)
         r = db.store_result()
         musicFileValues = {}
         rows = r.fetch_row(0)
@@ -513,11 +577,11 @@ SELECT * FROM (
         _filter = str(_filter).strip()
         if _isOnlyArtistFilter:
             if _filter!="":
-                db.query("SELECT `id`,`name` FROM `artists` WHERE LOWER(`name`) like LOWER('%s')" % ("%" + _filter + "%"))
+                query = "SELECT `id`,`name` FROM `artists` WHERE LOWER(`name`) like LOWER('%s')" % ("%" + _filter + "%")
             else:
-                db.query("SELECT `id`,`name` FROM `artists`")
+                query = "SELECT `id`,`name` FROM `artists`"
         else:
-            db.query("""
+            query = """
 SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
     SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
         SELECT `tracks`.`id`, CONVERT(
@@ -570,7 +634,9 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
     LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
 """ + getSQLConditionByFilter(_filter) + """
 ) as `artistTable`
-""")
+"""
+        Universals.printForDevelopers("Query - getAllArtistsValues : " + query)
+        db.query(query)
         r = db.store_result()
         musicFileValues = []
         rows = r.fetch_row(0)

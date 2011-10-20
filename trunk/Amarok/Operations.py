@@ -23,10 +23,10 @@ from Amarok import Commands
 class Operations:
     global getDirectoriesAndValues, changePaths, changeTags, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValues
     
-    def getDirectoriesAndValues():
+    def getDirectoriesAndValues(_filter = ""):
         db = Amarok.checkAndGetDB()
         if db!=None:
-            return Commands.getDirectoriesAndValues()
+            return Commands.getDirectoriesAndValues(_filter)
         return None
         
     def getAllMusicFileValuesWithNames(_filter = ""):
