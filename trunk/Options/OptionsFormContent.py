@@ -166,7 +166,7 @@ class Correct(MWidget):
             "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
         self.tabsOfSettings = [None, None, None, None, 
                                 None, None, None, 
-                                None, None, None]
+                                None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
