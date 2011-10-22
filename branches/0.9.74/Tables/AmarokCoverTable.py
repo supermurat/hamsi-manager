@@ -48,7 +48,7 @@ class Content():
                         for dirPath,dirRow in directoriesAndValues.items():
                             isContinueThreadAction = Universals.isContinueThreadAction()
                             if isContinueThreadAction:
-                                if InputOutputs.IA.isReadableFileOrDir(dirPath):
+                                if InputOutputs.IA.isReadableFileOrDir(dirPath) and InputOutputs.IA.isReadableFileOrDir(dirPath + "/.directory"):
                                     content = {}
                                     content["path"] = dirPath
                                     content["pathOfParentDirectory"] = InputOutputs.IA.getDirName(dirPath)
