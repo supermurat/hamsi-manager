@@ -40,7 +40,7 @@ class Universals():
     isChangeAll = None
     isChangeSelected = None
     threadActionState = None
-    tableTypesNames = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    tableTypesNames = ["0", "1", "2", "3", "4", "5", "6"]
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
     pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
@@ -192,7 +192,7 @@ class Universals():
         return datetime.strptime(MySettings[_key], "%Y %m %d %H %M %S")
     
     def getBoolValue(_key):
-        if str(MySettings[_key]).title()=="True" or str(MySettings[_key]).title()=="1":
+        if eval(MySettings[_key].title())==True:
             return True
         return False
      
@@ -241,9 +241,7 @@ class Universals():
                             translate("Tables", "Subfolder Table"), 
                             translate("Tables", "Cover Table"), 
                             translate("Tables", "Amarok Cover Table"), 
-                            translate("Tables", "Amarok Music Table"), 
-                            translate("Tables", "Amarok Artist Table"), 
-                            translate("Tables", "Amarok Copy Table")
+                            translate("Tables", "Amarok Music Table")
                             ]
         iconNameFormatLabels = [translate("Universals", "%Artist%"), 
                             translate("Universals", "%Album%"), 

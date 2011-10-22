@@ -164,25 +164,6 @@ class Tables(MTableWidget):
                 Universals.tableType = 1
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==7:
-            import Amarok
-            if Amarok.checkAmarok(True,  False):
-                import AmarokArtistTable
-                self.SubTable = AmarokArtistTable.AmarokArtistTable(self)
-            else:
-                Universals.tableType = 1
-                from Tables import FileTable
-                self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==8:
-            import Taggers, Amarok
-            if Taggers.getTagger(True)!=None and Amarok.checkAmarok(True,  False):
-                import AmarokCopyTable
-                self.SubTable = AmarokCopyTable.AmarokCopyTable(self)
-            else:
-                Universals.tableType = 1
-                from Tables import FileTable
-                self.SubTable = FileTable.FileTable(self)
-            
     
     def getColumnKeyFromName(self, _nameWithMark):
         for x, name in enumerate(self.tableColumns):
@@ -206,32 +187,29 @@ class Tables(MTableWidget):
         try:
             rowNo = self.currentRow()
             if rowNo!=-1:
+                filePath = self.currentTableContentValues[rowNo]["path"]
                 isOpenedDetails = False
-                if "path" in self.currentTableContentValues[rowNo].keys():
-                    filePath = self.currentTableContentValues[rowNo]["path"]
-                    if InputOutputs.IA.isExist(filePath):
-                        if Universals.tableType!=2:
-                            isImage = False
-                            isMusic = False
-                            for fileExt in Universals.getListFromStrint(Universals.MySettings["imageExtensions"]):
+                if InputOutputs.IA.isExist(filePath):
+                    if Universals.tableType!=2:
+                        isImage = False
+                        isMusic = False
+                        for fileExt in Universals.getListFromStrint(Universals.MySettings["imageExtensions"]):
+                            if InputOutputs.IA.checkExtension(filePath, fileExt):
+                                isImage = True
+                                break
+                        if isImage==False:
+                            for fileExt in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
                                 if InputOutputs.IA.checkExtension(filePath, fileExt):
-                                    isImage = True
+                                    isMusic = True
                                     break
-                            if isImage==False:
-                                for fileExt in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                                    if InputOutputs.IA.checkExtension(filePath, fileExt):
-                                        isMusic = True
-                                        break
-                            if isImage:
-                                from Details import ImageDetails
-                                ImageDetails.ImageDetails(filePath, _isOpenDetailsOnNewWindow = self.isOpenDetailsOnNewWindow.isChecked())
-                                isOpenedDetails = True
-                            elif isMusic:
-                                import Taggers
-                                if Taggers.getTagger(True)!=None:
-                                    from Details import MusicDetails
-                                    MusicDetails.MusicDetails(filePath, self.isOpenDetailsOnNewWindow.isChecked())
-                                isOpenedDetails = True
+                        if isImage:
+                            from Details import ImageDetails
+                            ImageDetails.ImageDetails(filePath, _isOpenDetailsOnNewWindow = self.isOpenDetailsOnNewWindow.isChecked())
+                            isOpenedDetails = True
+                        elif isMusic:
+                            from Details import MusicDetails
+                            MusicDetails.MusicDetails(filePath, self.isOpenDetailsOnNewWindow.isChecked())
+                            isOpenedDetails = True
                 if isOpenedDetails==False:
                     self.SubTable.showDetails(rowNo, self.currentColumn())
         except:
@@ -419,6 +397,11 @@ class Tables(MTableWidget):
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
             if Universals.tableType!=4:
                 InputOutputs.IA.activateSmartCheckIcon()
+            if Universals.tableType not in [5, 6]:
+                if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
+                    if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                        Universals.MainWindow.FileManager.makeRefresh()
+                        return True
             import MyThread
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
@@ -427,38 +410,25 @@ class Tables(MTableWidget):
             error.show()      
         
     def continueSave(self, _returned=None):
-        try:
-            if _returned:
-                import Records
-                isGoUpDirectoryWithFileTable = False
-                if Universals.tableType in [0, 1, 2, 3]:
-                    if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                        InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
-                if Universals.tableType in [0, 1, 2, 3, 4]:
-                    if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                        if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
-                            isGoUpDirectoryWithFileTable = True
-                InputOutputs.IA.completeSmartCheckIcon()
-                Records.saveAllRecords()
-                if self.changedValueNumber==0:
-                    Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
-                                 translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
-                else:
-                    if Universals.getBoolValue("isShowTransactionDetails"):
-                        Dialogs.show(translate("Tables", "Transaction Details"), 
-                                     str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-                if isGoUpDirectoryWithFileTable:
-                    Universals.MainWindow.Bars.changeTableTypeByType(1)
-                else:
-                    Universals.MainWindow.FileManager.makeRefresh("", False)
-        except:
-            error = ReportBug.ReportBug()
-            error.show()    
+        import Records
+        if Universals.tableType not in [4, 5, 6]:
+            if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+        InputOutputs.IA.completeSmartCheckIcon()
+        Records.saveAllRecords()
+        if self.changedValueNumber==0:
+            Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
+                         translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
+        else:
+            if Universals.getBoolValue("isShowTransactionDetails"):
+                Dialogs.show(translate("Tables", "Transaction Details"), 
+                             str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
+        Universals.MainWindow.FileManager.makeRefresh("", False)
         
-    def isChangableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
+    def isChangableItem(self, _rowNo, _columnNo, isCheckLike=None, isCanBeEmpty=True):
         if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-            if _isCheckLike and _checkLikeThis!=None:
-                if str(_checkLikeThis)!=str(self.item(_rowNo, _columnNo).text()):
+            if isCheckLike!=None:
+                if str(isCheckLike)!=str(self.item(_rowNo, _columnNo).text()):
                     if isCanBeEmpty==False:
                         if str(self.item(_rowNo, _columnNo).text()).strip()!="":
                             return True

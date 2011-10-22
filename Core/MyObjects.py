@@ -95,6 +95,8 @@ if Variables.MyObjectName=="PyQt4" and "isActivePyKDE4" in Universals.MySettings
 else:
     #PySide not using with PyKDE4
     Universals.isActivePyKDE4 = False
+    
+if Universals.isActivePyKDE4==False:
     QMessageBox = QtGui.QMessageBox
     QDirModel = QtGui.QDirModel
     QIcon = QtGui.QIcon

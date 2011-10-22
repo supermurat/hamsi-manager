@@ -28,8 +28,8 @@ class Variables():
     osName = os.name
     isPython3k = float(sys.version[:3])>=3.0
     Catalog = "HamsiManager" 
-    version = "0.9.77"
-    intversion = 977
+    version = "0.9.74"
+    intversion = 974
     settingVersion = "970"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
@@ -45,14 +45,13 @@ class Variables():
     mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
     imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
     windowModeKeys = ["Normal", "Mini"]
-    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png", "amarokMusicTable.png", "amarokMusicTable.png", "amarokCopyTable.png"]
+    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png", "amarokMusicTable.png"]
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
                   "hiddenFileTableColumns", "hiddenMusicTableColumns", "hiddenSubFolderTableColumns", 
                   "hiddenCoverTableColumns", "hiddenAmarokMusicTableColumns", "hiddenAmarokCoverTableColumns", 
-                  "hiddenAmarokArtistTableColumns", "hiddenAmarokCopyTableColumns", 
                   "isPlayNow", "MainWindowGeometries", "tableType", 
                   "activeTabNoOfSpecialTools", "unneededFiles", "ignoredFiles", 
                   "imageExtensions", "musicExtensions", "priorityIconNames", 
@@ -66,9 +65,9 @@ class Variables():
                   "NeededObjectsName", "isActivePyKDE4", "isCloseOnCleanAndPackage", 
                   "TableToolsBarButtonStyle", "ToolsBarButtonStyle", "PlayerBarButtonStyle", 
                   "MusicOptionsBarButtonStyle", "SubDirectoryOptionsBarButtonStyle", 
-                  "CoverOptionsBarButtonStyle", "AmarokMusicOptionsBarButtonStyle", "AmarokCopyOptionsBarButtonStyle", 
+                  "CoverOptionsBarButtonStyle", "AmarokMusicOptionsBarButtonStyle", 
                   "language", "isShowQuickMakeWindow", "isChangeExistIcon", 
-                  "isClearFirstAndLastSpaceChars", "isEmendIncorrectChars", "validSentenceStructureForFile", "validSentenceStructureForDirectory", 
+                  "isClearFirstAndLastSpaceChars", "isEmendIncorrectChars", "validSentenceStructureForFile", 
                   "validSentenceStructureForFileExtension", "isCorrectFileNameWithSearchAndReplaceTable", 
                   "isCorrectDoubleSpaceChars", "fileExtesionIs", "settingsVersion", "subDirectoryDeep", 
                   "maxRecordFileSize", "themeName", 
@@ -96,12 +95,7 @@ class Variables():
                   "isActiveCompleter", "isShowAllForCompleter", "isActiveClearGeneral", 
                   "colorSchemes", "isActiveAutoMakeIconToDirectory", 
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", 
-                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents", 
-                  "AmarokFilterAmarokCoverTable", "AmarokFilterAmarokCopyTable", "AmarokFilterArtistTable", "AmarokFilterAmarokMusicTable", 
-                  "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree", 
-                  "isMusicTableValuesChangeInAmarokDB", "isSubFolderTableValuesChangeInAmarokDB", 
-                  "isFileTableValuesChangeInAmarokDB", "isFolderTableValuesChangeInAmarokDB", 
-                  "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree"]
+                  "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "isResizeTableColumnsToContents"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -206,8 +200,6 @@ class Variables():
                 "hiddenCoverTableColumns": str([]),
                 "hiddenAmarokMusicTableColumns": str([]),
                 "hiddenAmarokCoverTableColumns": str([]),
-                "hiddenAmarokArtistTableColumns": str([]),
-                "hiddenAmarokCopyTableColumns": str([]),
                 "isPlayNow": "False", 
                 "MainWindowGeometries": str([50, 50, 850, 533]), 
                 "tableType": "2", 
@@ -245,14 +237,12 @@ class Variables():
                 "SubDirectoryOptionsBarButtonStyle": "0",
                 "CoverOptionsBarButtonStyle": "0",
                 "AmarokMusicOptionsBarButtonStyle": "0", 
-                "AmarokCopyOptionsBarButtonStyle": "0", 
                 "language": insLangCode, 
                 "isShowQuickMakeWindow": "True", 
                 "isChangeExistIcon": "False", 
                 "isClearFirstAndLastSpaceChars": "True", 
                 "isEmendIncorrectChars": "True", 
                 "validSentenceStructureForFile": "Title", 
-                "validSentenceStructureForDirectory": "Don`t Change", 
                 "validSentenceStructureForFileExtension": "All Small", 
                 "isCorrectFileNameWithSearchAndReplaceTable": "True", 
                 "isCorrectDoubleSpaceChars": "True", 
@@ -315,23 +305,7 @@ class Variables():
                 "pathOfDeletedFilesAndDirectories": userDirectoryPath + "/.HamsiApps/HamsiManager/Deleted", 
                 "isReadOnlyAmarokDB": "False", 
                 "isReadOnlyAmarokDBHost": "False", 
-                "isResizeTableColumnsToContents": "False", 
-                "AmarokFilterAmarokCoverTable": "", 
-                "AmarokFilterAmarokCopyTable": "", 
-                "AmarokFilterArtistTable": "", 
-                "AmarokFilterAmarokMusicTable": "", 
-                "isAppendFileSizeToFileTree": "True", 
-                "isAppendLastModifiedToFileTree": "False", 
-                "isMusicTableValuesChangeInAmarokDB": "False", 
-                "isSubFolderTableValuesChangeInAmarokDB": "False", 
-                "isFileTableValuesChangeInAmarokDB": "False", 
-                "isFolderTableValuesChangeInAmarokDB": "False", 
-                "isShowHiddensInSubFolderTable": "False", 
-                "isShowHiddensInFolderTable": "False", 
-                "isShowHiddensInFileTable": "False", 
-                "isShowHiddensInMusicTable": "False", 
-                "isShowHiddensInCoverTable": "False", 
-                "isShowHiddensInFileTree": "False"
+                "isResizeTableColumnsToContents": "False"
                 }
                 
     def getValueTypesAndValues():
@@ -350,11 +324,9 @@ class Variables():
                 "hiddenCoverTableColumns": ["intList", list(range(0, 2))], 
                 "hiddenAmarokMusicTableColumns": ["intList", list(range(0, 10))], 
                 "hiddenAmarokCoverTableColumns": ["intList", list(range(0, 2))], 
-                "hiddenAmarokArtistTableColumns": ["intList", list(range(0, 2))], 
-                "hiddenAmarokCopyTableColumns": ["intList", list(range(0, 10))], 
                 "isPlayNow": "bool", 
                 "MainWindowGeometries": ["intStaticListLen", 4], 
-                "tableType": ["int", list(range(0, 9))], 
+                "tableType": ["int", list(range(0, 7))], 
                 "activeTabNoOfSpecialTools": ["int", list(range(0, 5))], 
                 "unneededFiles": "list", 
                 "ignoredFiles": "list", 
@@ -389,14 +361,12 @@ class Variables():
                 "SubDirectoryOptionsBarButtonStyle": ["int", list(range(0, 4))], 
                 "CoverOptionsBarButtonStyle": ["int", list(range(0, 4))], 
                 "AmarokMusicOptionsBarButtonStyle": ["int", list(range(0, 4))], 
-                "AmarokCopyOptionsBarButtonStyle": ["int", list(range(0, 4))], 
                 "language": ["options", getInstalledLanguagesCodes()], 
                 "isShowQuickMakeWindow": "bool", 
                 "isChangeExistIcon": "bool", 
                 "isClearFirstAndLastSpaceChars": "bool", 
                 "isEmendIncorrectChars": "bool", 
                 "validSentenceStructureForFile": ["options", validSentenceStructureKeys], 
-                "validSentenceStructureForDirectory": ["options", validSentenceStructureKeys], 
                 "validSentenceStructureForFileExtension": ["options", validSentenceStructureKeys], 
                 "isCorrectFileNameWithSearchAndReplaceTable": "bool", 
                 "isCorrectDoubleSpaceChars": "bool", 
@@ -459,23 +429,7 @@ class Variables():
                 "pathOfDeletedFilesAndDirectories": "str", 
                 "isReadOnlyAmarokDB": "bool", 
                 "isReadOnlyAmarokDBHost": "bool", 
-                "isResizeTableColumnsToContents": "bool", 
-                "AmarokFilterAmarokCoverTable": "str", 
-                "AmarokFilterAmarokCopyTable": "str", 
-                "AmarokFilterArtistTable": "str", 
-                "AmarokFilterAmarokMusicTable": "str", 
-                "isAppendFileSizeToFileTree": "bool", 
-                "isAppendLastModifiedToFileTree": "bool", 
-                "isMusicTableValuesChangeInAmarokDB": "bool", 
-                "isSubFolderTableValuesChangeInAmarokDB": "bool", 
-                "isFileTableValuesChangeInAmarokDB": "bool", 
-                "isFolderTableValuesChangeInAmarokDB": "bool", 
-                "isShowHiddensInSubFolderTable": "bool", 
-                "isShowHiddensInFolderTable": "bool", 
-                "isShowHiddensInFileTable": "bool", 
-                "isShowHiddensInMusicTable": "bool", 
-                "isShowHiddensInCoverTable": "bool", 
-                "isShowHiddensInFileTree": "bool"
+                "isResizeTableColumnsToContents": "bool"
                 }
 
     def getAvailablePlayers():
@@ -698,9 +652,9 @@ class Variables():
             if _isAskIfNotFound:
                 answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
                         translate("EmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
-                if answer==Dialogs.Yes:
-                    from Options import OptionsForm
-                    OptionsForm.OptionsForm(Universals.MainWindow, _focusTo="pathOfMysqldSafe")
+                if answer==Dialogs.Yes: 
+                    import Options
+                    Options.Options(Universals.MainWindow, _focusTo="pathOfMysqldSafe")
             else:
                 return False
         else:
