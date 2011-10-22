@@ -581,7 +581,7 @@ class Variables():
         import InputOutputs
         plugins = []
         for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/MyPlugins"):
-            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/MyPlugins/"+name):
+            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(HamsiManagerDirectory+"/MyPlugins/"+name):
                 plugins.append(name)
         return plugins
         
@@ -589,7 +589,7 @@ class Variables():
         import InputOutputs
         themes = []
         for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Themes"):
-            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/Themes/"+name):
+            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(HamsiManagerDirectory+"/Themes/"+name):
                 themes.append(name)
         return themes
     
