@@ -627,16 +627,20 @@ class Variables():
         import InputOutputs
         plugins = []
         for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/MyPlugins"):
-            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/MyPlugins/"+name):
-                plugins.append(name)
+            try:
+                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(HamsiManagerDirectory+"/MyPlugins/"+name):
+                    plugins.append(name)
+            except:pass
         return plugins
         
     def getInstalledThemes():
         import InputOutputs
         themes = []
         for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Themes"):
-            if name[:1] != "." and InputOutputs.isDir(HamsiManagerDirectory+"/Themes/"+name):
-                themes.append(name)
+            try:
+                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(HamsiManagerDirectory+"/Themes/"+name):
+                    themes.append(name)
+            except:pass
         return themes
     
     def getInstalledLanguagesCodes():
