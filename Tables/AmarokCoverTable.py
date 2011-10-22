@@ -56,7 +56,7 @@ class AmarokCoverTable():
                         for dirPath,dirRow in directoriesAndValues.items():
                             isContinueThreadAction = Universals.isContinueThreadAction()
                             if isContinueThreadAction:
-                                if InputOutputs.IA.isReadableFileOrDir(dirPath, False, True):
+                                if InputOutputs.IA.isReadableFileOrDir(dirPath, False, True) and InputOutputs.IA.isReadableFileOrDir(dirPath + "/.directory", False, True):
                                     content = {}
                                     content["path"] = dirPath
                                     content["pathOfParentDirectory"] = InputOutputs.IA.getDirName(dirPath)
