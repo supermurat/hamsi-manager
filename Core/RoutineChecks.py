@@ -282,8 +282,9 @@ def checkAfterRunProccess():
         if answer==Dialogs.No: 
             from Options import OptionsForm
             OptionsForm.OptionsForm(Universals.MainWindow, _focusTo="fileSystemEncoding")
-    checkWindowMode()
     if Universals.getBoolValue("isMakeAutoDesign"):
+        Universals.MainWindow.TableToolsBar.setVisible(False)
+        Universals.MainWindow.ToolsBar.setVisible(False)
         if Universals.isActivePyKDE4==True:
             Universals.MainWindow.Browser.setVisible(False)
             Universals.MainWindow.TreeBrowser.setVisible(False)
@@ -292,6 +293,7 @@ def checkAfterRunProccess():
             except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
         try:Universals.MainWindow.PlayerBar.setVisible(False)
         except:pass
+    checkWindowMode()
     if Universals.isShowVerifySettings and Universals.changedDefaultValuesKeys==[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
@@ -325,8 +327,6 @@ def checkWindowMode(_isCheck=False):
                     translate("HamsiManager", "Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?"), False)
             if answer==Dialogs.Yes: 
                 try:
-                    Universals.MainWindow.TableToolsBar.setVisible(False)
-                    Universals.MainWindow.ToolsBar.setVisible(False)
                     if Universals.MainWindow.MusicOptionsBar!=None:
                         Universals.MainWindow.MusicOptionsBar.setVisible(False)
                     if Universals.MainWindow.AmarokMusicOptionsBar!=None:
@@ -335,12 +335,16 @@ def checkWindowMode(_isCheck=False):
                         Universals.MainWindow.AmarokCopyOptionsBar.setVisible(False)
                     if Universals.MainWindow.SubDirectoryOptionsBar!=None:
                         Universals.MainWindow.SubDirectoryOptionsBar.setVisible(False)
+                    if Universals.MainWindow.CoverOptionsBar!=None:
+                        Universals.MainWindow.CoverOptionsBar.setVisible(False)
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:
                         Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.Places)
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.TreeBrowser!=None:
                         Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.TreeBrowser)
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.DirOperator!=None:
                         Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.DirOperator)
+                    try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
+                    except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
                     geometries = Universals.getListFromStrint(Universals.MySettings["MainWindowGeometries"])
                     Universals.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
                 except:pass

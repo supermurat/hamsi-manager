@@ -148,6 +148,7 @@ class Bars():
         Universals.MainWindow.AmarokMusicOptionsBar = None
         Universals.MainWindow.AmarokCopyOptionsBar = None
         Universals.MainWindow.SubDirectoryOptionsBar = None
+        Universals.MainWindow.CoverOptionsBar = None
         
     def click(self, _action, _isFromMenu=False):
         try:

@@ -26,7 +26,7 @@ import Records
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, isAvailableName, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails
+    global isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, isAvailableName, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
@@ -137,14 +137,29 @@ class InputOutputs:
                     return True
         return False
         
-    def getFileExtension(_filePath):
-        _filePath = str(_filePath).lower()
-        if _filePath.find(".")!=-1:
+    def getFileExtension(_fileName):
+        _fileName = str(_fileName).lower()
+        if _fileName.find(".")!=-1:
             if Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[0]:
-                return _filePath.split(".", 1)[1]
+                return _fileName.split(".", 1)[1]
             elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
-                return _filePath.rsplit(".", 1)[1]
+                return _fileName.rsplit(".", 1)[1]
         return ""
+    
+    def getFileNameParts(_fileNameOrPath):
+        _fileName = getBaseName(str(_fileNameOrPath))
+        fileName, fileExtension = "", ""
+        if _fileName.find(".")!=-1:
+            fParts = [_fileName, fileExtension]
+            if Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[0]:
+                fParts = _fileName.split(".", 1)
+            elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
+                fParts = _fileName.rsplit(".", 1)
+            fileName = fParts[0]
+            fileExtension = fParts[1]
+        else:
+            fileName = _fileName
+        return fileName, fileExtension.lower()
     
     def moveFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)

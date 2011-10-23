@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue, oldRecordsDirectoryPath
+    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue, oldRecordsDirectoryPath, Utf8Contents
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -48,6 +48,7 @@ class Universals():
     recordFilePath = pathOfSettingsDirectory + "/logs.txt"
     oldRecordsDirectoryPath = pathOfSettingsDirectory + "/OldRecords"
     isRaisedAnError = False
+    Utf8Contents = {}
     if Variables.executableHamsiManagerPath.find("HamsiManager")==-1 or Variables.executableHamsiManagerPath.find("./HamsiManager")!=-1:
         Variables.executableHamsiManagerPath = Variables.HamsiManagerDirectory + "/HamsiManager.py"
     
@@ -97,9 +98,13 @@ class Universals():
         return _s.encode(_e, _p)
         
     def getUtf8Data(_key):
+        global Utf8Contents
         try:
+            if _key in Utf8Contents.keys():
+                return Utf8Contents[_key]
             import Utf8Content
-            return Utf8Content.getUtf8Data(_key)
+            Utf8Contents[_key] = Utf8Content.getUtf8Data(_key)
+            return Utf8Contents[_key]
         except Exception as err:
             printForDevelopers(str(err))
             if _key=="replacementChars":
