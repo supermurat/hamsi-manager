@@ -31,10 +31,9 @@ else:
 class Organizer:
     """Music tags, filenames, Turkish characters etc. will be arranged through this class
     """
-    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName, getCorrectedFileSize, getCorrectedTime
+    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName, getCorrectedFileSize, getCorrectedTime, getFileNameParts, emendBaseName, emendFileExtension
     
     def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
-        #FIXME: Recheck code of this def
         _inputString = str(_inputString)
         if len(_inputString)==0: return ""
         if Universals.getBoolValue("isClearFirstAndLastSpaceChars"):
@@ -42,7 +41,15 @@ class Organizer:
         if len(_inputString)==0: return ""
         if Universals.getBoolValue("isEmendIncorrectChars"):
             replacementChars = Universals.getUtf8Data("replacementChars")
+            try:_inputString = Universals.trUnicode(_inputString)
+            except:_inputString = Universals.trUnicode(_inputString, "iso-8859-9")
+            _inputString = unquote(_inputString)
+            for oldChar, newChar in replacementChars.items():
+                _inputString = _inputString.replace(oldChar,newChar)
+        _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore"))
         if _type=="file" or _type=="directory":
+            if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
+                _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
             preString, extString, ext2String = "", "", ""
             if _inputString[-1]=="/":
                 _inputString = _inputString[:-1]
@@ -50,81 +57,18 @@ class Organizer:
             if _inputString.find("/")!=-1:
                 tStr = _inputString.rsplit("/", 1)
                 for ps in tStr[0].split("/"):
-                    if Universals.getBoolValue("isEmendIncorrectChars"):
-                        try:ps = Universals.trUnicode(ps)
-                        except:ps = Universals.trUnicode(ps, "iso-8859-9")
-                        ps = unquote(ps)
-                        for oldChar, newChar in replacementChars.items():
-                            ps = ps.replace(oldChar,newChar)
-                    ps = str(Universals.trDecode(ps, "utf-8", "ignore"))
-                    if _isCorrectCaseSensitive:
-                        if _type=="file": 
-                            ps = makeCorrectCaseSensitive(ps, Universals.MySettings["validSentenceStructureForFile"])
-                        elif _type=="directory": 
-                            ps = makeCorrectCaseSensitive(ps, Universals.MySettings["validSentenceStructureForDirectory"])
-                    if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1] or Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
-                        ps = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(ps)) if unicodedata.category(c) != 'Mn')
-                        ps = str(Universals.trEncode(ps, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
-                    oldChars, newChars = [], []
-                    if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
-                        oldChars = [" "]
-                        newChars = ["_"]
-                    for x, oldChar in enumerate(oldChars):
-                        ps = ps.replace(oldChar,newChars[x])
-                    if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
-                        ps = quote(ps)
-                    preString += ps + "/"
+                    preString += emendBaseName(ps, "directory", _isCorrectCaseSensitive) + "/"
                 _inputString = tStr[1]
-            if Universals.getBoolValue("isEmendIncorrectChars"):
-                try:_inputString= Universals.trUnicode(_inputString)
-                except:_inputString = Universals.trUnicode(_inputString, "iso-8859-9")
-                _inputString = unquote(_inputString)
-                for oldChar, newChar in replacementChars.items():
-                    _inputString = _inputString.replace(oldChar,newChar)
-            _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore"))
             if _type=="file":
-                if _inputString.find(".")!=-1:
-                    if Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[0]:
-                        tStr = _inputString.split(".", 1)
-                        extString = "." + tStr[1]
-                        _inputString = tStr[0]
-                    elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
-                        tStr = _inputString.rsplit(".", 1)
-                        extString = "." + tStr[1]
-                        _inputString = tStr[0]
-            if _isCorrectCaseSensitive:
-                extString = makeCorrectCaseSensitive(extString, Universals.MySettings["validSentenceStructureForFileExtension"])
-                if _type=="file": 
-                    _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForFile"])
-                elif _type=="directory": 
-                    _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructureForDirectory"])
-            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1] or Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
-                _inputString = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(_inputString)) if unicodedata.category(c) != 'Mn')
-                _inputString = str(Universals.trEncode(_inputString, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
-            oldChars, newChars = [], []
-            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
-                oldChars = [" "]
-                newChars = ["_"]
-            for x, oldChar in enumerate(oldChars):
-                _inputString = _inputString.replace(oldChar,newChars[x])
-            if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
-                _inputString = quote(_inputString)
+                _inputString, extString = getFileNameParts(_inputString)
+            _inputString = emendBaseName(_inputString, _type, _isCorrectCaseSensitive)
+            extString = emendFileExtension(extString, _isCorrectCaseSensitive)
             _inputString = preString + _inputString
-            if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
-                _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
             _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore")) + str(Universals.trDecode(extString, "utf-8", "ignore")) + str(Universals.trDecode(ext2String, "utf-8", "ignore"))
         else:
-            if Universals.getBoolValue("isEmendIncorrectChars"):
-                try:_inputString = Universals.trUnicode(_inputString)
-                except:_inputString = Universals.trUnicode(_inputString, "iso-8859-9")
-                replacementChars = Universals.getUtf8Data("replacementChars")
-                _inputString = unquote(_inputString)
-                for oldChar, newChar in replacementChars.items():
-                    _inputString = _inputString.replace(oldChar,newChar)
-            _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore"))
+            _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
             if _isCorrectCaseSensitive:
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructure"])
-            _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
         if _isRichText==False:
             if Universals.getBoolValue("isCorrectDoubleSpaceChars"):
                 isFinded=_inputString.find("  ")
@@ -132,6 +76,47 @@ class Organizer:
                     _inputString=_inputString.replace("  "," ")
                     isFinded=_inputString.find("  ")
         return _inputString
+        
+    def emendBaseName(_baseName, _type, _isCorrectCaseSensitive):
+        baseName = _baseName
+        if _isCorrectCaseSensitive:
+            if _type=="file": 
+                baseName = makeCorrectCaseSensitive(baseName, Universals.MySettings["validSentenceStructureForFile"])
+            elif _type=="directory": 
+                baseName = makeCorrectCaseSensitive(baseName, Universals.MySettings["validSentenceStructureForDirectory"])
+        if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1] or Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[2]:
+            baseName = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(baseName)) if unicodedata.category(c) != 'Mn')
+            baseName = str(Universals.trEncode(baseName, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+        oldChars, newChars = [], []
+        if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
+            oldChars = [" "]
+            newChars = ["_"]
+        for x, oldChar in enumerate(oldChars):
+            baseName = baseName.replace(oldChar,newChars[x])
+        if Universals.MySettings["fileReNamerType"]==Variables.fileReNamerTypeNamesKeys[1]:
+            baseName = quote(baseName)
+        return baseName
+        
+    def emendFileExtension(_fileExtension, _isCorrectCaseSensitive):
+        fileExtension = _fileExtension
+        if _isCorrectCaseSensitive:
+            fileExtension = makeCorrectCaseSensitive(fileExtension, Universals.MySettings["validSentenceStructureForFileExtension"])
+        return fileExtension
+    
+    def getFileNameParts(_fileName):
+        _fileName = str(_fileName)
+        fileName, fileExtension = "", ""
+        if _fileName.find(".")!=-1:
+            fParts = [_fileName, fileExtension]
+            if Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[0]:
+                fParts = _fileName.split(".", 1)
+            elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
+                fParts = _fileName.rsplit(".", 1)
+            fileName = fParts[0]
+            fileExtension = fParts[1]
+        else:
+            fileName = _fileName
+        return fileName, fileExtension.lower()
     
     def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
         if _cbCharacterType==Variables.validSentenceStructureKeys[0]:
