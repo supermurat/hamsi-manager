@@ -63,6 +63,7 @@ class Organizer:
                 _inputString, extString = getFileNameParts(_inputString)
             _inputString = emendBaseName(_inputString, _type, _isCorrectCaseSensitive)
             extString = emendFileExtension(extString, _isCorrectCaseSensitive)
+            if extString!="": extString = "." + extString
             _inputString = preString + _inputString
             _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore")) + str(Universals.trDecode(extString, "utf-8", "ignore")) + str(Universals.trDecode(ext2String, "utf-8", "ignore"))
         else:
