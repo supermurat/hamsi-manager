@@ -18,11 +18,11 @@
 
 
 import os,sys
-from MyObjects import *
+from Core.MyObjects import *
 from Viewers import ImageViewer
-import Dialogs
-import Organizer
-import Universals
+from Core import Dialogs
+from Core import Organizer
+from Core import Universals
 
 class HtmlDetails(MDialog):
     global htmlDialogs, closeAllHtmlDialogs

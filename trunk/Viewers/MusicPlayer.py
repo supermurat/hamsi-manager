@@ -17,16 +17,16 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
+from Core import Variables
 from InputOutputs import Musics
 import InputOutputs
 import os
-from MyObjects import *
-import Dialogs
-import Organizer
+from Core.MyObjects import *
+from Core import Dialogs
+from Core import Organizer
 import time
-import Universals
-import ReportBug
+from Core import Universals
+from Core import ReportBug
 
 class MusicPlayer(MWidget):
     def __init__(self, _parent, _type="bar", _file=""):
@@ -229,7 +229,7 @@ class M_Phonon():
             Dialogs.showError(translate("Player", "Phonon Is Not Installed On Your System."),
                         translate("Player", "We could not find the Phonon(PyQt4) module installed on your system.<br>Please choose another player from the options or <br>check your Phonon installation."))
             return False
-        import Universals
+        from Core import Universals
         if not self.m_media:
             self.m_media = Phonon.MediaObject(Universals.MainWindow)
             self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, Universals.MainWindow)
@@ -281,7 +281,7 @@ class M_Phonon_PySide():
         except:
             Dialogs.showError(translate("Player", "Phonon Is Not Installed On Your System."),
                         translate("Player", "We could not find the Phonon(PySide) module installed on your system.<br>Please choose another player from the options or <br>check your Phonon installation."))
-        import Universals
+        from Core import Universals
         if not self.m_media:
             self.m_media = Phonon.MediaObject()
             self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory)
@@ -360,7 +360,7 @@ class M_MPlayer():
             writeToPopen(self.popen, _command)
         
     def play(self, _filePath):
-        import Execute
+        from Core import Execute
         if self.popen!=False:
             self.runCommand("quit")
         command = [Universals.MySettings["mplayerPath"]] 

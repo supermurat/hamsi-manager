@@ -18,13 +18,13 @@
 
 import sys
 import os
-from RoutineChecks import QuickMakeParameters
-import RoutineChecks
-import Dialogs, Records, Organizer
+from Core.RoutineChecks import QuickMakeParameters
+from Core import RoutineChecks
+from Core import Dialogs, Records, Organizer
 import InputOutputs
-from MyObjects import *
-import Universals
-import ReportBug
+from Core.MyObjects import *
+from Core import Universals
+from Core import ReportBug
 
 class QuickMake():
     def __init__(self):
@@ -274,7 +274,7 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
-                import Organizer
+                from Core import Organizer
                 oldFileName = InputOutputs.IA.getRealPath(QuickMakeParameters[1])
                 newFileName = InputOutputs.IA.moveOrChange(oldFileName, newEmendedName)
                 if newFileName!=oldFileName:
@@ -293,7 +293,7 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
-                import Organizer
+                from Core import Organizer
                 oldFileName = InputOutputs.IA.getRealPath(QuickMakeParameters[1])
                 newDirName = InputOutputs.IA.moveOrChange(oldFileName, newEmendedName, "directory")
                 if newDirName!=oldFileName:
@@ -312,7 +312,7 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(InputOutputs.IA.getRealPath(QuickMakeParameters[1]), InputOutputs.IA.getObjectType(InputOutputs.IA.getRealPath(QuickMakeParameters[1])))
-                import Organizer
+                from Core import Organizer
                 InputOutputs.IA.activateSmartCheckIcon()
                 oldFileName = InputOutputs.IA.getRealPath(QuickMakeParameters[1])
                 newDirName = InputOutputs.IA.moveOrChange(oldFileName, newEmendedName, "directory")

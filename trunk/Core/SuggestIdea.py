@@ -18,12 +18,11 @@
 
 
 import sys,os
-import Variables
-from MyObjects import *
-import Universals
-import Settings
+from Core import Variables
+from Core.MyObjects import *
+from Core import Universals
 import Options
-import Dialogs
+from Core import Dialogs
 from Options import OptionsForm
 if Variables.isPython3k:
     from urllib.parse import unquote, quote
@@ -103,7 +102,7 @@ class SuggestIdea(MDialog):
             self.connect(self.nrpBack, SIGNAL("downloadProgress (qint64,qint64)"), self.sending)
             Dialogs.showState(translate("SuggestIdea", "Sending Your Idea"), 0, 100, True, self.cancelSending)
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
         
@@ -129,7 +128,7 @@ class SuggestIdea(MDialog):
             self.nrqPost = None
             self.nrpBack = None
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
         
@@ -151,7 +150,7 @@ class SuggestIdea(MDialog):
                 currenText = currenText.split("----------------------////////----------------------")[0]
                 self.teIdea.setHtml(trForUI(currenText))
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
         

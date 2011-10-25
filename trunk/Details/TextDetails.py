@@ -17,13 +17,13 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
+from Core import Variables
 import InputOutputs
-from MyObjects import *
-import Dialogs
-import Organizer
-import Universals
-import ReportBug
+from Core.MyObjects import *
+from Core import Dialogs
+from Core import Organizer
+from Core import Universals
+from Core import ReportBug
 
 class TextDetails(MDialog):
     global textDialogs, closeAllTextDialogs
@@ -135,7 +135,7 @@ class TextDetails(MDialog):
         
     def save(self):
         try:
-            import Records
+            from Core import Records
             Records.setTitle(translate("TextDetails", "Text File"))
             newFileValues = {}
             newFileValues["path"] = str(self.infoValues["path"].text())

@@ -18,12 +18,12 @@
 
 
 import InputOutputs
-from MyObjects import *
+from Core.MyObjects import *
 from time import gmtime
-import Dialogs
-import Organizer
-import Records
-import Universals
+from Core import Dialogs
+from Core import Organizer
+from Core import Records
+from Core import Universals
 import Taggers
 
 class Musics:

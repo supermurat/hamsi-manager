@@ -17,8 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-import Universals
+from Core import Variables
+from Core import Universals
 from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
 
 class BookmarksOfSpecialTools:
@@ -43,7 +43,7 @@ class BookmarksOfSpecialTools:
         if _type==None:
             _type = Universals.MainWindow.Table.SubTable.keyName
         if _type not in allForFetchByType or allForFetchByType[_type]==None:
-            import Organizer
+            from Core import Organizer
             con = getDefaultConnection()
             cur = con.cursor()
             cur.execute("SELECT * FROM " + tableName + " where type='" + _type + "'")

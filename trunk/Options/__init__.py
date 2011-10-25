@@ -18,11 +18,12 @@
 
 
 import sys,os
-import Variables
-from MyObjects import *
-import Settings, Dialogs, Universals, InputOutputs, Records
+from Core import Variables
+from Core.MyObjects import *
+from Core import Dialogs, Universals, Records
+import InputOutputs
 import Databases
-import ReportBug
+from Core import ReportBug
 
 class MyComboBox(MComboBox):
     

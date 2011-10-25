@@ -19,10 +19,9 @@
 
 import sys
 import os
-import Variables
+from Core import Variables
 import InputOutputs
-import Universals
-import Settings
+from Core import Universals
 
 class MyConfigure:
     global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent
@@ -43,7 +42,7 @@ class MyConfigure:
         if Variables.isAvailableKDE4():
             if _KDELocalateDir==None:
                 _KDELocalateDir = Variables.getKDE4HomePath() +"/share/locale/~langCode~/LC_MESSAGES/"
-            import Execute
+            from Core import Execute
             if Variables.isRunningAsRoot():
                 _KDELocalateDir = "/usr/share/locale/~langCode~/LC_MESSAGES/"
             _KDELocalateDir = str(_KDELocalateDir)

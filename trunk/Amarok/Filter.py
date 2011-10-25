@@ -17,13 +17,13 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-from MyObjects import *
-import Universals
-import Dialogs
+from Core import Variables
+from Core.MyObjects import *
+from Core import Universals
+from Core import Dialogs
 import InputOutputs
 import Options
-import Organizer
+from Core import Organizer
 import Amarok
 from Amarok import Commands
 
@@ -51,7 +51,7 @@ class FilterWidget(MWidget):
             self.dFilterEditor = FilterEditor(self, self.filterKeyName)
             self.dFilterEditor.show()
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
         
@@ -60,7 +60,7 @@ class FilterWidget(MWidget):
             Universals.setMySetting(self.filterKeyName, str(self.leFilter.text()))
             Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
 
@@ -116,7 +116,7 @@ class FilterEditor(MDialog):
             self.fWidget.leFilter.setText(self.leFilter.text())
             self.fWidget.apply()
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
         

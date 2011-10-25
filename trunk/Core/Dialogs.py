@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-from MyObjects import *
-import Universals
+from Core import Variables
+from Core.MyObjects import *
+from Core import Universals
 
 class Dialogs():
     global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, getItem, pbtnCancel, sleep, getText
@@ -31,7 +31,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
-        import Organizer
+        from Core import Organizer
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
             MMessageBox.information(Universals.activeWindow(), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), trForUI(str(_title)+"!.."))
         else:
@@ -43,7 +43,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
-        import Organizer
+        from Core import Organizer
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
             MMessageBox.error(Universals.activeWindow(), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), trForUI(str(_title)+"!.."))
         else:
@@ -55,7 +55,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
-        import Organizer
+        from Core import Organizer
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
             if _isShowCancel:
                 if _showAgainKeyName!="":
@@ -109,7 +109,7 @@ class Dialogs():
             
             
     def askSpecial(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "Yes"), _btnString1=translate("Dialogs", "No"), _btnString2=translate("Dialogs", "Cancel"), _btnString3=None):
-        import Organizer
+        from Core import Organizer
         MApplication.processEvents()
         MyMessageBox = MMessageBox
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
@@ -226,7 +226,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Cover"
-        import Organizer
+        from Core import Organizer
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
             selectedValue, isSelected = MInputDialog.getItem(trForUI(str(_title)+"!.."), trForUI(str(_detail)), [trForUI(str(x)) for x in _itemList], _currentItem, False)
         else:
@@ -239,7 +239,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Cover"
-        import Organizer
+        from Core import Organizer
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
             selectedValue, isSelected = MInputDialog.getText(trForUI(str(_title)+"!.."), trForUI(str(_detail)), trForUI(_default))
         else:

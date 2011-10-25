@@ -19,12 +19,12 @@
 
 import sys,os
 import time
-import Variables
-import Universals
+from Core import Variables
+from Core import Universals
 import InputOutputs
-import Dialogs
-import ReportBug
-from MyObjects import *
+from Core import Dialogs
+from Core import ReportBug
+from Core.MyObjects import *
 from datetime import timedelta, datetime
 
 class UpdateControl(MDialog):
@@ -207,7 +207,7 @@ class UpdateControl(MDialog):
                 self.request = MNetworkRequest(MUrl(self.updateInformations[1]))
                 self.willDownload(self.request)
             else:
-                import Organizer
+                from Core import Organizer
                 Dialogs.showError(translate("UpdateControl", "Access Denied"),
                         str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(realPath))
         except:

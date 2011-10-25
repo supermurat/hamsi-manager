@@ -17,11 +17,10 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from MyObjects import *
+from Core.MyObjects import *
 import sys
-import Settings
-import Dialogs
-import Universals
+from Core import Dialogs
+from Core import Universals
 import InputOutputs
 
 class RunCommand(MDialog):
@@ -94,7 +93,7 @@ class RunCommand(MDialog):
                             "\n"+
                             "#You can type and execute the commands you wish to run here.\n"+
                             "#You can get detailed information from our official website.\n"+
-                            "import Dialogs\nDialogs.show(\"This is an example\",\"You can develop the examples as you wish.\")"+
+                            "from Core import Dialogs\nDialogs.show(\"This is an example\",\"You can develop the examples as you wish.\")"+
                             "\n\n\n\n\n\n\n\n\n")
         
     def runCommandAndClose(self):

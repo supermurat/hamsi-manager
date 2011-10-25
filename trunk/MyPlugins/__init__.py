@@ -17,15 +17,15 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-from MyObjects import *
-import Universals
-import Dialogs
-import Settings
+from Core import Variables
+from Core.MyObjects import *
+from Core import Universals
+from Core import Dialogs
+from Core import Settings
 import InputOutputs
 import sys
-import MyConfigure
-import ReportBug
+from Core import MyConfigure
+from Core import ReportBug
 
 class MyPlugins(MDialog):
     global installPlugin

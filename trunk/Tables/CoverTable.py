@@ -17,13 +17,13 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Organizer
+from Core import Organizer
 import InputOutputs
-from MyObjects import *
+from Core.MyObjects import *
 from Details import CoverDetails
-import Dialogs
+from Core import Dialogs
 from time import gmtime
-import Universals
+from Core import Universals
 
 class CoverTable():
     def __init__(self, _table):
@@ -237,7 +237,7 @@ class CoverTable():
                                                             directoryAndValues["genre"][0], 
                                                             directoryAndValues["year"][0]))
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show()
         

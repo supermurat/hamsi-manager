@@ -19,15 +19,14 @@
 
 from os import *
 import sys
-import Variables
+from Core import Variables
 import InputOutputs
-from MyObjects import *
+from Core.MyObjects import *
 from time import gmtime
-import Dialogs
-import Organizer
-import Universals
-import ReportBug
-import Settings
+from Core import Dialogs
+from Core import Organizer
+from Core import Universals
+from Core import ReportBug
 isLoadedMysql = False
 isCheckAgain = True
 try:
@@ -198,7 +197,7 @@ class EmbeddedDBCore():
         
     def configureEmbeddedDB(_isNoAlertIfSuccesfully=True):
         stopEmbeddedDB()
-        import MyConfigure
+        from Core import MyConfigure
         backupEmbeddedDB()
         InputOutputs.copyDirContent(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql")
         InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my.cnf", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
@@ -212,7 +211,7 @@ class EmbeddedDBCore():
         if isStarted: 
             return True
         if Variables.checkMysqldSafe():
-            import Execute
+            from Core import Execute
             Execute.executeAsThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf"])
             Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
             if _isNoAlertIfSuccesfully==False:
@@ -229,7 +228,7 @@ class EmbeddedDBCore():
         isStarted = False
         mysqldPID = getPID()
         if mysqldPID!=None:
-            import Execute
+            from Core import Execute
             Execute.execute(["kill", "-TERM", str(mysqldPID)])
             Dialogs.sleep(translate("EmbeddedDBCore", "Stopping Embedded Server..."), 3)
         if _isNoAlertIfSuccesfully==False:
@@ -270,7 +269,7 @@ class ReadOnlyEmbeddedDBCore():
         
     def createReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
         stopReadOnlyEmbeddedDB()
-        import MyConfigure
+        from Core import MyConfigure
         if InputOutputs.IA.isDir(Universals.pathOfSettingsDirectory+"/Amarok"):
             InputOutputs.IA.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok", True)
         InputOutputs.IA.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle")
@@ -300,7 +299,7 @@ class ReadOnlyEmbeddedDBCore():
         if isReadOnlyStarted: 
             return True
         if Variables.checkMysqldSafe():
-            import Execute
+            from Core import Execute
             Execute.executeAsThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Universals.pathOfSettingsDirectory+"/Amarok/my.cnf"])
             Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
             if _isNoAlertIfSuccesfully==False:
@@ -317,7 +316,7 @@ class ReadOnlyEmbeddedDBCore():
         isReadOnlyStarted = False
         mysqldPID = getReadOnlyPID()
         if mysqldPID!=None:
-            import Execute
+            from Core import Execute
             Execute.execute(["kill", "-TERM", str(mysqldPID)])
             Dialogs.sleep(translate("EmbeddedDBCore", "Stopping Embedded Server..."), 3)
         if _isNoAlertIfSuccesfully==False:

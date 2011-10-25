@@ -17,17 +17,17 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
+from Core import Variables
 from InputOutputs import Musics
 import InputOutputs
 import os,sys
-from MyObjects import *
-import Dialogs
-import Organizer
+from Core.MyObjects import *
+from Core import Dialogs
+from Core import Organizer
 from Viewers import MusicPlayer
 from Details.ImageDetails import ImageDetails, closeAllImageDialogs
-import Universals
-import ReportBug
+from Core import Universals
+from Core import ReportBug
 import Taggers
 from Taggers import EyeD3Tagger
 
@@ -244,7 +244,7 @@ class MusicDetails(MDialog):
         
     def save(self):
         try:
-            import Records
+            from Core import Records
             Records.setTitle(translate("MusicDetails", "Music File"))
             closeAllImageDialogs()
             newMusicValues={}

@@ -17,15 +17,14 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
+from Core import Variables
 import InputOutputs
 import Tables
-import Settings
-import Universals
-import Dialogs
-from MyObjects import *
-import ReportBug
-import Organizer
+from Core import Universals
+from Core import Dialogs
+from Core.MyObjects import *
+from Core import ReportBug
+from Core import Organizer
 import Databases
 
 class FileManager():

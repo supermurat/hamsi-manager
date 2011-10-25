@@ -20,9 +20,9 @@
 import os
 import shutil
 import stat
-import Variables
-import Universals
-import Records
+from Core import Variables
+from Core import Universals
+from Core import Records
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
@@ -930,7 +930,7 @@ class InputOutputs:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
                     
     def getFileTree(_path, _subDirectoryDeep=-1, _outputType="html", _contentType="fileTree", _extInfo="no"):
-        import Organizer
+        from Core import Organizer
         _path = str(_path)
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True, False, Universals.getBoolValue("isShowHiddensInFileTree"))
         info = ""

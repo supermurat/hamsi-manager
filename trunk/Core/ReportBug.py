@@ -19,11 +19,10 @@
 
 import sys,os
 
-import Variables
-from MyObjects import *
-import Universals
-import Settings
-import Dialogs
+from Core import Variables
+from Core.MyObjects import *
+from Core import Universals
+from Core import Dialogs
 import InputOutputs, Records
 import traceback
 import logging
@@ -202,7 +201,7 @@ class ReportBug(MDialog):
         if _isOnlyReport==False:
             errorDetails += str(realErrorDetails)
         try:
-            import Dialogs
+            from Core import Dialogs
             if Dialogs.pnlState!=None:
                 Dialogs.showState("", 1, 1)
         except:pass
@@ -269,7 +268,7 @@ class ReportBug(MDialog):
         self.setMaximumSize(10000, 10000)
         if isShowFixMe == True and isQuickMake==False and _hideFixMe==False and Universals.loggingLevel!=logging.DEBUG:
             try:
-                import Dialogs
+                from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("ReportBug", "I Have A Suggestion!"),
                             translate("ReportBug", "<b>Please check the following: ;</b><br>"+
                             "<b>1-)</b>If you have received this error when you were checking the last folder, reset the \"Last Directory\",<br>"+
@@ -281,10 +280,13 @@ class ReportBug(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
+                    from Core import Settings
                     Settings.setting().setValue("lastDirectory", Universals.trQVariant(trForM(Variables.userDirectoryPath)))
                 elif answer==translate("ReportBug", "Settings"):
+                    from Core import Settings
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):
+                    from Core import Settings
                     Settings.reFillAll(True)
             except:pass
     
@@ -333,7 +335,7 @@ class ReportBug(MDialog):
         self.close()
         
     def checkUpdate(self):
-        import UpdateControl
+        from Core import Universals
         UpdateControl.UpdateControl(self)
         
     def formatExceptionInfo(self, maxTBlevel=5):

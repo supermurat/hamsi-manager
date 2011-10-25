@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import Universals, Variables
+from Core import Universals, Variables
 
 def getUtf8Data(_key):
     unicodeData = ""

@@ -19,10 +19,10 @@
 
 import InputOutputs
 import os,sys
-from MyObjects import *
-import Dialogs
-import Organizer
-import Universals
+from Core.MyObjects import *
+from Core import Dialogs
+from Core import Organizer
+from Core import Universals
 
 class ImageViewer(MWidget):
     def __init__(self, _parent, _image = None, _valueType="file", _isCorrectedWhenNotExist=False, _defaultMaxSize=[150, 150]):
