@@ -16,17 +16,17 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import Organizer
+from Core import Organizer
 import InputOutputs
 import SearchEngines
-from MyObjects import *
+from Core.MyObjects import *
 from Details import MusicDetails
-import Universals
-import Dialogs
+from Core import Universals
+from Core import Dialogs
 import Taggers
 from time import gmtime
-import Records
-import Variables
+from Core import Records
+from Core import Variables
 
 class AmarokCopyTable():
     def __init__(self, _table):
@@ -311,6 +311,6 @@ class AmarokCopyTable():
             if destinationDirPath!="":
                 self.leDestinationDirPath.setText(destinationDirPath)
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 

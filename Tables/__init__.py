@@ -17,14 +17,14 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-import FileManager
-import Dialogs
-import Universals
+from Core import Variables
+from Core import FileManager
+from Core import Dialogs
+from Core import Universals
 import InputOutputs
-import Organizer
-from MyObjects import *
-import ReportBug
+from Core import Organizer
+from Core.MyObjects import *
+from Core import ReportBug
 
 class Tables(MTableWidget):
     global clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, exportValues, askHiddenColumn, isAskIncorrectFileExtension
@@ -310,13 +310,13 @@ class Tables(MTableWidget):
                         for rowNo in self.getSelectedRows():
                             self.hideRow(rowNo)
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
-                        import Execute
+                        from Core import Execute
                         Execute.open([InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
-                        import Execute
+                        from Core import Execute
                         Execute.open([self.currentTableContentValues[self.currentItem().row()]["path"]])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
-                        import Execute
+                        from Core import Execute
                         Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
         except:
             error = ReportBug.ReportBug()
@@ -398,7 +398,7 @@ class Tables(MTableWidget):
         if columnWidth>110:
             for x in range(len(self.tableColumns)):
                 self.setColumnWidth(x,columnWidth)
-        import MyThread
+        from Core import MyThread
         myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [_path])
         myProcs.run()
 
@@ -415,11 +415,11 @@ class Tables(MTableWidget):
         
     def save(self):
         try:
-            import Records
+            from Core import Records
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
             if Universals.tableType!=4:
                 InputOutputs.IA.activateSmartCheckIcon()
-            import MyThread
+            from Core import MyThread
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
         except:
@@ -429,7 +429,7 @@ class Tables(MTableWidget):
     def continueSave(self, _returned=None):
         try:
             if _returned:
-                import Records
+                from Core import Records
                 isGoUpDirectoryWithFileTable = False
                 if Universals.tableType in [0, 1, 2, 3]:
                     if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):

@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from MyObjects import *
-import Universals
-import Dialogs
+from Core.MyObjects import *
+from Core import Universals
+from Core import Dialogs
 import InputOutputs
 import Options
 from Options import OptionsForm
@@ -152,7 +152,7 @@ class FileTreeBuilder(MyDialog):
                             translate("FileTreeBuilder", "File tree copied to clipboard."))
             Universals.isCanBeShowOnMainWindow = True
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show()   
     
@@ -163,7 +163,7 @@ class FileTreeBuilder(MyDialog):
             if dirPath!="":
                 self.lePath.setText(dirPath)
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
     

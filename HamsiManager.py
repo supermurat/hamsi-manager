@@ -19,26 +19,23 @@
 
 import sys
 import os
-if sys.path[0]=="":
-    sys.path.insert(0, sys.path[1])
-sys.path.insert(1,sys.path[0]+"/Core")
-import Variables
+from Core import Variables
 try: 
     if Variables.isPython3k==False: 
         reload(sys)
         sys.setdefaultencoding("utf-8")
 except:pass
 Variables.checkStartupVariables()
-import Universals
-import RoutineChecks
+from Core import Universals
+from Core import RoutineChecks
 if RoutineChecks.checkQt4Exist():
     myUniversals = ""
     if RoutineChecks.checkParameters():
-        import Settings
+        from Core import Settings
         Settings.checkSettings()
         Universals.fillMySettings()
         Universals.printForDevelopers("Before MyObjects")
-        from MyObjects import *
+        from Core.MyObjects import *
         Universals.printForDevelopers("Before InputOutputs")
         import InputOutputs
         if Universals.isActivePyKDE4==True:
@@ -136,23 +133,23 @@ if RoutineChecks.checkQt4Exist():
                 try:
                     myUniversals = Universals.Universals(HamsiManagerApp, None)
                     Universals.fillUIUniversals()
-                    import QuickMake
+                    from Core import QuickMake
                     quickMake = QuickMake.QuickMake()
                     if RoutineChecks.isQuickMake:
                         res = HamsiManagerApp.exec_()
                         Universals.printForDevelopers("Shutting down, result %d" % res)
                 except:
-                    import ReportBug
+                    from Core import ReportBug
                     error = ReportBug.ReportBug()
                     error.show()
                     res = HamsiManagerApp.exec_()
                     Universals.printForDevelopers("Shutting down, result %d" % res)
             if RoutineChecks.isQuickMake == False:
                 Universals.printForDevelopers("NotQuickMake")
-                import SpecialTools
+                from Core import SpecialTools
                 import Tables
-                import FileManager
-                import Bars
+                from Core import FileManager
+                from Core import Bars
                 Universals.printForDevelopers("After Modules")
                 try:
                     class Main(MMainWindow):
@@ -234,7 +231,7 @@ if RoutineChecks.checkQt4Exist():
                                 MApplication.setQuitOnLastWindowClosed(True)
                                 try:self.PlayerBar.Player.stop()
                                 except:pass
-                                import ReportBug, Records
+                                from Core import ReportBug, Records
                                 from Details import MusicDetails, TextDetails, CoverDetails
                                 MusicDetails.closeAllMusicDialogs()
                                 TextDetails.closeAllTextDialogs()
@@ -285,7 +282,7 @@ if RoutineChecks.checkQt4Exist():
                                 RoutineChecks.checkAfterCloseProccess()
                                 Universals.printForDevelopers("After RoutineChecks.checkAfterCloseProccess")
                             except:
-                                import ReportBug
+                                from Core import ReportBug
                                 if ReportBug.isClose==False:
                                     error = ReportBug.ReportBug()
                                     error.show()
@@ -327,7 +324,7 @@ if RoutineChecks.checkQt4Exist():
                     Universals.isStartingSuccessfully = True
                     Universals.isCanBeShowOnMainWindow = True
                 except:
-                    import ReportBug
+                    from Core import ReportBug
                     error = ReportBug.ReportBug()
                     error.show()
                 res = None
@@ -336,7 +333,7 @@ if RoutineChecks.checkQt4Exist():
                     res = HamsiManagerApp.exec_()
                     Universals.printForDevelopers("Shutting down, result %d" % res)
                 except Exception as err:
-                    import ReportBug
+                    from Core import ReportBug
                     error = ReportBug.ReportBug()
                     error.show()
                     print (str(MApplication.translate("ReportBug", "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details." )) % (error.pathOfReportFile))

@@ -17,11 +17,12 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import sys,os
-import Variables
-from MyObjects import *
-import Settings, Dialogs, Universals, InputOutputs, Records
+from Core import Variables
+from Core.MyObjects import *
+from Core import Settings, Dialogs, Universals, Records
+import InputOutputs
 import Databases
-import ReportBug
+from Core import ReportBug
 
   
   
@@ -976,7 +977,7 @@ class MySettings(MWidget):
                     
     def reInstallKDE4Language(self):
         try:
-            import MyConfigure
+            from Core import MyConfigure
             answer = Dialogs.ask(translate("Options/MySettings", "KDE4 Language Will Be Reinstalled Into Hamsi Manager"),
                         translate("Options/MySettings", "Are you sure you want to reinstall kde4 language into Hamsi Manager?"))
             if answer==Dialogs.Yes:

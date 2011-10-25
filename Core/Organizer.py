@@ -20,9 +20,8 @@ import time
 import unicodedata
 import string
 import math
-import Variables
-import Settings
-import Universals
+from Core import Variables
+from Core import Universals
 if Variables.isPython3k:
     from urllib.parse import unquote, quote
 else:
@@ -170,7 +169,7 @@ class Organizer:
         return newString
     
     def applySpecialCommand(_splitPointer, _whereIsSplitPointer, _command, _SpecialTools):
-        from MyObjects import trForUI
+        from Core.MyObjects import trForUI
         import Tables
         blok = _command.split(",")
         changings = blok[0].split(_splitPointer)
@@ -239,8 +238,8 @@ class Organizer:
                             stringNo+=1
         
     def whatDoesSpecialCommandDo(_splitPointer, _whereIsSplitPointer, _command, _isCorrect=False, _isReturnDetails=False):
-        import Dialogs
-        from MyObjects import trForUI, translate
+        from Core import Dialogs
+        from Core.MyObjects import trForUI, translate
         if _command[-2:]!="- " and _command[-2:]!=", " and _command.find(",")!=-1:
             _command = _command.split(",")
             changings = _command[0].split(_splitPointer)
@@ -301,7 +300,7 @@ class Organizer:
                 return False
     
     def searchAndReplaceTable(_searchStrings,_replaceStrings, _SpecialTools):
-        from MyObjects import trForUI
+        from Core.MyObjects import trForUI
         searchStrings=_searchStrings.split(";")
         replaceStrings=_replaceStrings.split(";")
         for filterNo in range(0,len(searchStrings)):
@@ -383,7 +382,7 @@ class Organizer:
         return newString
     
     def fillTable(_columnName, _SpecialTools,_newString=""):
-        from MyObjects import trForUI
+        from Core.MyObjects import trForUI
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
         for No, columnName in enumerate(Universals.MainWindow.Table.tableColumns):
@@ -424,7 +423,7 @@ class Organizer:
                     Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString).title()))
                     
     def clearTable(_SpecialTools):
-        from MyObjects import trForUI
+        from Core.MyObjects import trForUI
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
         if _SpecialTools.clear.columns.currentIndex()==0:
@@ -477,7 +476,7 @@ class Organizer:
                     Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
     
     def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True, _isRegExp=False):
-        from MyObjects import translate
+        from Core.MyObjects import translate
         myString=""
         if _cbClearType==translate("SpecialTools", "All"):
             myString=""
@@ -542,7 +541,7 @@ class Organizer:
         return newString
         
     def correctCaseSensitiveTable(_SpecialTools):
-        from MyObjects import trForUI
+        from Core.MyObjects import trForUI
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
         searchStrings = str(_SpecialTools.characterState.leSearch.text()).split(";")

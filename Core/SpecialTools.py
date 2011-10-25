@@ -17,15 +17,14 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-import Organizer
-import Settings
-import Universals
-from MyObjects import *
+from Core import Variables
+from Core import Organizer
+from Core import Universals
+from Core.MyObjects import *
 import Tables
-import Dialogs
+from Core import Dialogs
 import sys
-import ReportBug
+from Core import ReportBug
 import Databases
 
 class SpecialTools(MWidget):

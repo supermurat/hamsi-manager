@@ -23,9 +23,9 @@ try:
     isAvailable = True
 except:pass
 import Taggers
-from MyObjects import *
+from Core.MyObjects import *
 import InputOutputs
-import Universals
+from Core import Universals
 pluginName = "eyeD3"
 
 class Tagger():

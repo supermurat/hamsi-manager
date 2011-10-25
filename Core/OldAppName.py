@@ -18,7 +18,8 @@
 
 
 def checkOldAppNameAndSettings():
-    import Variables, InputOutputs, Universals
+    from Core import Variables, Universals
+    import InputOutputs
     return InputOutputs.isDir(Variables.userDirectoryPath + "/.OrganizasyonizM")
     
 def checkOldAppNameInSystem():
@@ -26,17 +27,18 @@ def checkOldAppNameInSystem():
     return InputOutputs.isFile("/usr/bin/OrganizasyonizM")
     
 def getSettingsFromOldNameAndSettings():
-    import Variables, InputOutputs, Universals
+    from Core import Variables, Universals
+    import InputOutputs
     if InputOutputs.isDir(Variables.userDirectoryPath + "/.OrganizasyonizM"):
         if InputOutputs.isFile(Variables.userDirectoryPath + "/.OrganizasyonizM/universalSettings.ini"):
-            from MyObjects import MSettings, trForM
+            from Core.MyObjects import MSettings, trForM
             oldSettins = MSettings(trForM(Variables.userDirectoryPath+"/.OrganizasyonizM/universalSettings.ini") ,MSettings.IniFormat)
             newSettings = MSettings(trForM(Variables.userDirectoryPath+"/.HamsiApps/universalSettings.ini") ,MSettings.IniFormat)
             for oldKey in oldSettins.allKeys():
                 newKey = str(oldKey).replace("OrganizasyonizM", "HamsiManager")
                 newSettings.setValue(newKey, oldSettins.value(oldKey))
         if InputOutputs.isFile(Variables.userDirectoryPath + "/.OrganizasyonizM/mySettings.ini"):
-            from MyObjects import MSettings, trForM
+            from Core.MyObjects import MSettings, trForM
             oldSettins = MSettings(trForM(Variables.userDirectoryPath+"/.OrganizasyonizM/mySettings.ini") ,MSettings.IniFormat)
             newSettings = MSettings(trForM(Variables.userDirectoryPath+"/.HamsiApps/HamsiManager/mySettings.ini") ,MSettings.IniFormat)
             for oldKey in oldSettins.allKeys():
@@ -83,13 +85,14 @@ def getSettingsFromOldNameAndSettings():
                                            Variables.getKDE4HomePath() + "/share/config/HamsiManagerrc")
         for langCode in Variables.getInstalledLanguagesCodes():
             if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/locale/" + langCode + "/LC_MESSAGES/OrganizasyonizM.mo"):
-                import MyConfigure
+                from Core import MyConfigure
                 MyConfigure.installKDE4Language(langCode)
         Universals.fillMySettings(True)
         Universals.saveSettings()
     
 def checkAndGetPlugins():
-    import Variables, InputOutputs, Universals
+    from Core import Variables, Universals
+    import InputOutputs
     for plugin in Variables.getMyPluginsNames():
         isInstalled = False
         pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginFiles", "pluginDirectory", "setupDirectory"], -1)
@@ -106,8 +109,9 @@ def checkAndGetPlugins():
         
         
 def clearOldAppNameAndSettings():
-    import Variables, InputOutputs, Universals, Dialogs, Organizer
-    from MyObjects import translate
+    from Core import Variables, Universals, Dialogs, Organizer
+    import InputOutputs
+    from Core.MyObjects import translate
     #Clear language file
     for langCode in Variables.getInstalledLanguagesCodes():
         if InputOutputs.isFile(Variables.userDirectoryPath + "/.kde4/share/locale/" + langCode + "/LC_MESSAGES/OrganizasyonizM.mo"):
@@ -140,8 +144,9 @@ def clearOldAppNameAndSettings():
             InputOutputs.removeFileOrDir(Variables.userDirectoryPath + "/.OrganizasyonizM", True)
 
 def checkAndGetOldAppNameInSystem():
-    import Variables, InputOutputs, Dialogs, Execute, Organizer, Universals
-    from MyObjects import translate
+    from Core import Variables, Dialogs, Execute, Organizer, Universals
+    import InputOutputs
+    from Core.MyObjects import translate
     #Clear OrganizasyonizM in system(/usr/bin/OrganizasyonizM) by root
     if Variables.isRunningAsRoot():
         if InputOutputs.isFile("/usr/bin/OrganizasyonizM"):

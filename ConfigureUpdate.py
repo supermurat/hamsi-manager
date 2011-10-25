@@ -213,7 +213,7 @@ class Update():
 try:
     apps = Update()
 except:
-    import ReportBug
+    from Core import ReportBug
     error = ReportBug.ReportBug(False, True)
     error.show()
 sys.exit(HamsiManagerApp.exec_())

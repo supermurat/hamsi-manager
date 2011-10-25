@@ -17,14 +17,14 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Organizer
+from Core import Organizer
 import InputOutputs
-from MyObjects import *
+from Core.MyObjects import *
 from Details import TextDetails
-import Dialogs
+from Core import Dialogs
 import Options
 from time import gmtime
-import Universals
+from Core import Universals
 
 class FolderTable():
     def __init__(self, _table):

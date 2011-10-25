@@ -18,11 +18,10 @@
 
 
 import time
-import Universals
+from Core import Universals
 import InputOutputs
-import Settings
 import logging
-from Universals import translate
+from Core.Universals import translate
 
 class Records():
     global add, create, read, setTitle, showInWindow, clearRecords, recordContents, isSetedTitle, saveAllRecords,recordContents, checkSize, recordType, lastRecordType, setRecordType, restoreRecordType
@@ -89,7 +88,7 @@ class Records():
             return InputOutputs.readFromFile(Universals.recordFilePath)
         else:
             if _isShowErrorDialog:
-                import Dialogs
+                from Core import Dialogs
                 Dialogs.showError(translate("Records", "Cannot Find The Record File"), 
                             translate("Records", "Record file not found."))
             return False
@@ -100,8 +99,8 @@ class Records():
         except:pass
         
     def showInWindow():
-        from MyObjects import MDialog, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject, trForUI
-        import Organizer
+        from Core.MyObjects import MDialog, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject, trForUI
+        from Core import Organizer
         global dialog
         recordString = read()
         if recordString != False:

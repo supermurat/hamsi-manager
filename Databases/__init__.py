@@ -22,7 +22,7 @@ if float(sys.version[:3])>=2.6:
     import sqlite3 as sqlite
 else:
     from pysqlite2 import dbapi2 as sqlite
-import Universals
+from Core import Universals
 from Databases import *
     
 class Databases:

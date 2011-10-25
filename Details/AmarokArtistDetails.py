@@ -17,15 +17,15 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
+from Core import Variables
 from InputOutputs import Musics
 import InputOutputs
 import os,sys
-from MyObjects import *
-import Dialogs
-import Organizer
-import Universals
-import ReportBug
+from Core.MyObjects import *
+from Core import Dialogs
+from Core import Organizer
+from Core import Universals
+from Core import ReportBug
 import Amarok
 from Amarok import Operations, Commands
 
@@ -156,7 +156,7 @@ class AmarokArtistDetails(MDialog):
         
     def save(self):
         try:
-            import Records
+            from Core import Records
             Records.setTitle(translate("AmarokArtistDetails", "Amarok - Artist"))
             Operations.changeArtistValues([{"id" : self.artistId, "name" : str(self.infoValues["correctedArtist"].text())}])
             if self.artistName!=str(self.infoValues["correctedArtist"].text()):

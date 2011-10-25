@@ -17,11 +17,11 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-from MyObjects import *
-import Universals
-import Dialogs
-import ReportBug
+from Core import Variables
+from Core.MyObjects import *
+from Core import Universals
+from Core import Dialogs
+from Core import ReportBug
 
 class Taggers():
     global getTagger, getSelectedTaggerTypeForRead, setSelectedTaggerTypeForRead, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, taggersNames, getAvailableLabelsForTable, getAvailableKeysForTable, getTaggerTypes, getTaggerTypesName, getLoaddedTagger, loaddedTagger, getSelectedTaggerTypeForWrite, setSelectedTaggerTypeForWrite, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName

@@ -17,13 +17,13 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from MyObjects import *
-import Universals
-import Dialogs
+from Core.MyObjects import *
+from Core import Universals
+from Core import Dialogs
 import InputOutputs
 import Options
 from Options import OptionsForm
-import Organizer
+from Core import Organizer
 import unicodedata
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
@@ -156,7 +156,7 @@ class Searcher(MyDialog):
             else:
                 return True
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
             
@@ -221,7 +221,7 @@ class Searcher(MyDialog):
                 self.connect(self.tmrSearchAfter,SIGNAL("timeout()"),self.search)
                 self.tmrSearchAfter.start(500)
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
     
@@ -281,7 +281,7 @@ class Searcher(MyDialog):
                     self.lblSearchListValues.setText(trForUI(""))
                 self.teSearchResult.setText(trForUI(resultOfSearch))
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
 
@@ -311,7 +311,7 @@ class Searcher(MyDialog):
                 if self.setSourceToSearch(True):
                     self.search()
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
 
@@ -325,7 +325,7 @@ class Searcher(MyDialog):
                 if self.setSourceToSearch(True):
                     self.search()
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
     

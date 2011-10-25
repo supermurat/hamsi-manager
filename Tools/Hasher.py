@@ -17,13 +17,13 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-from MyObjects import *
-import Universals
-import Dialogs
+from Core import Variables
+from Core.MyObjects import *
+from Core import Universals
+from Core import Dialogs
 import InputOutputs
 from Options import OptionsForm
-import Organizer
+from Core import Organizer
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
@@ -119,7 +119,7 @@ class Hasher(MyDialog):
             packageExtension =  "." + str(self.cbHash.currentText()).lower()
             self.leHashDigestFile.setText(self.lePathOfPackage.text() + packageExtension)  
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show()  
     
@@ -161,7 +161,7 @@ class Hasher(MyDialog):
             if PathOfPackage!="":
                 self.lePathOfPackage.setText(PathOfPackage)    
         except:
-            import ReportBug
+            from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
     

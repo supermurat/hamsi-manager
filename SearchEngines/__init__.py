@@ -17,10 +17,10 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-from MyObjects import *
-import Dialogs
-import ReportBug
+from Core import Variables
+from Core.MyObjects import *
+from Core import Dialogs
+from Core import ReportBug
 
 class SearchEngines(MMenu):
     def __init__(self,  _parent, _isCheckSingleFile=False):

@@ -20,7 +20,7 @@ from urllib import unquote, quote
 import re
 import Amarok
 import Databases
-import Universals
+from Core import Universals
 
 class Commands:
     global getSQLConditionByFilter, getDirectoriesAndValues, changeFilePath, changeDirectoryPath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId, getSQLConditionPartByPartOfFilter, getSQLConditionValues

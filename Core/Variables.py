@@ -33,6 +33,8 @@ class Variables():
     settingVersion = "970"
     aboutOfHamsiManager = ""
     HamsiManagerDirectory = sys.path[0]
+    if HamsiManagerDirectory=="":
+        HamsiManagerDirectory = sys.path[1]
     executableHamsiManagerPath = str(sys.argv[0])
     userDirectoryPath = os.path.expanduser("~")
     defaultFileSystemEncoding = sys.getfilesystemencoding()
@@ -106,7 +108,7 @@ class Variables():
                   "amarokDBPass", "amarokDBDB"]
     
     def checkMyObjects():
-        import Universals
+        from Core import Universals
         global MQtGui, MQtCore, isQt4Exist, MyObjectName
         myObjectsNames = getMyObjectsNames()
         if myObjectsNames.count("PySide")>0:
@@ -510,7 +512,8 @@ class Variables():
         return styles
         
     def getColorSchemesAndPath():
-        import Settings,  InputOutputs, Universals
+        from Core import Settings, Universals
+        import InputOutputs
         colorSchemes, colorSchemePaths = [], []
         colorSchemes.append("Default")
         colorSchemePaths.append("")
@@ -524,7 +527,7 @@ class Variables():
         return colorSchemes, colorSchemePaths
         
     def getScreenSize():
-        import Universals
+        from Core import Universals
         if Universals.MainWindow!=None:
             return MQtGui.QDesktopWidget().screenGeometry()
         else:
@@ -548,7 +551,7 @@ class Variables():
             from PyKDE4.kdeui import KGlobalSettings
             desktopPath = str(KGlobalSettings.desktopPath())
         elif isAvailableKDE4():
-            import Execute
+            from Core import Execute
             desktopPath = Execute.getCommandResult(["kde4-config", "--userpath", "desktop"])[:-2]
         else:
             desktopNames = [str(MQtGui.QApplication.translate("Variables", "Desktop")), "Desktop"]
@@ -569,7 +572,7 @@ class Variables():
                     if kdedirPath[-1]=="/":
                         kdedirPath = kdedirPath[:-1]
                 else:
-                    import Execute
+                    from Core import Execute
                     kdedirPath = Execute.getCommandResult(["kde4-config", "--localprefix"])[:-2]
                 return kdedirPath
             except:pass
@@ -587,7 +590,7 @@ class Variables():
                 libPath = pykdeconfig._pkg_config["kdelibdir"]
             else:
                 try:
-                    import Execute
+                    from Core import Execute
                     libPath = Execute.getCommandResult(["kde4-config", "--path", "lib"]).split(":")[1][:-2]
                 except:
                     import InputOutputs
@@ -693,7 +696,7 @@ class Variables():
         
     def checkMysqldSafe(_isAskIfNotFound=True):
         import InputOutputs, Dialogs, Universals
-        from MyObjects import translate
+        from Core.MyObjects import translate
         if InputOutputs.isFile(Universals.MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + Universals.MySettings["pathOfMysqldSafe"])==False:
             if _isAskIfNotFound:
                 answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),

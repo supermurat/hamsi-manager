@@ -19,26 +19,23 @@
 
 import sys
 import os
-if str(sys.path[0])=="":
-    sys.path.insert(0, sys.path[1])
-sys.path.insert(1,sys.path[0]+"/Core")
-import Variables
+from Core import Variables
 try: 
     if float(sys.version[:3])<3.0: 
         reload(sys)
         sys.setdefaultencoding("utf-8")
 except:pass
 Variables.checkStartupVariables()
-import Universals
-import RoutineChecks
+from Core import Universals
+from Core import RoutineChecks
 if RoutineChecks.checkQt4Exist():
-    import Settings
+    from Core import Settings
     Universals.fillMySettings(False, False, False)
     Universals.isActivePyKDE4 = False
-    from MyObjects import *
+    from Core.MyObjects import *
     import InputOutputs
-    import Dialogs
-    import Execute
+    from Core import Dialogs
+    from Core import Execute
     defaultLangCode = str(MLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
     MDir.setSearchPaths("Images", MStringList(trForM(Variables.HamsiManagerDirectory+"/Themes/Default/Images/")))
@@ -67,7 +64,7 @@ if RoutineChecks.checkQt4Exist():
         for argv in sys.argv:
             if argv=="--onlyRoot":
                 isOnlyRoot = True
-    import MyConfigure
+    from Core import MyConfigure
     class Main(MMainWindow):
         def __init__(self, parent=None):
             MMainWindow.__init__(self, parent)
@@ -218,7 +215,7 @@ if RoutineChecks.checkQt4Exist():
                 MyConfigure.reConfigureFile(Variables.HamsiManagerDirectory + "/HamsiManager.desktop", Variables.HamsiManagerDirectory)
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
-                    import Settings
+                    from Core import Settings
                     desktopPath = Variables.getUserDesktopPath()
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
                     InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)

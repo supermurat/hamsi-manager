@@ -17,8 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import Variables
-import Universals
+from Core import Variables
+from Core import Universals
 import InputOutputs
 from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, getAmendedSQLInsertOrUpdateQueries, checkDatabases
 from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
@@ -201,7 +201,7 @@ class Settings():
         return isSuccesfully
 
     def saveStateOfSettings(_file):
-        import MyConfigure
+        from Core import MyConfigure
         newFile = makeBackUp("Settings", "SettingFiles", "random")
         info = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
         newInfo = []
@@ -215,7 +215,7 @@ class Settings():
         InputOutputs.writeToFile(_file, info)
         
     def openStateOfSettings(_file):
-        import Execute
+        from Core import Execute
         for rowNo, row in enumerate(InputOutputs.readLinesFromFile(_file)):
             if row [:5]=="Exec=":
                 t = Execute.executeStringCommand(row[5:])

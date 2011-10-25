@@ -23,10 +23,10 @@ try:
     from musicbrainz2.webservice import Query, ArtistFilter, WebServiceError, ReleaseFilter, TrackFilter
     isAvailable = True
 except:pass
-from MyObjects import *
-import Dialogs
+from Core.MyObjects import *
+from Core import Dialogs
 import time
-import Universals
+from Core import Universals
 pluginName = "MusicBrainz"
 
 class Search(MDialog):
@@ -94,7 +94,7 @@ class Search(MDialog):
         self.setAttribute(Mt.WA_DeleteOnClose)
         self.show()
         self.connect(self, SIGNAL("changedProgressBarValue"), self.changeProgressBarValue)
-        import MyThread
+        from Core import MyThread
         myProcs = MyThread.MyThread(self.startSearch, self.finishSearch)
         myProcs.start()
         

@@ -20,7 +20,7 @@
 import sys
 from os import path
 from datetime import timedelta, datetime
-import Variables
+from Core import Variables
 
 class Universals():
     global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue, oldRecordsDirectoryPath, Utf8Contents
@@ -102,7 +102,7 @@ class Universals():
         try:
             if _key in Utf8Contents.keys():
                 return Utf8Contents[_key]
-            import Utf8Content
+            from Core import Utf8Content
             Utf8Contents[_key] = Utf8Content.getUtf8Data(_key)
             return Utf8Contents[_key]
         except Exception as err:
@@ -122,7 +122,8 @@ class Universals():
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActiveKDE4=None):
         global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isChangeAll, isChangeSelected
-        import Settings, InputOutputs
+        from Core import Settings
+        import InputOutputs
         sets = Settings.setting()
         settingVersion = trStr(sets.value("settingsVersion"))
         defaultValues = Variables.getDefaultValues()
@@ -155,7 +156,7 @@ class Universals():
             isChangeAll = getBoolValue("isChangeAll")
             isChangeSelected = getBoolValue("isChangeSelected")
         if getBoolValue("isInstalledKDE4Language")==False:
-            import MyConfigure
+            from Core import MyConfigure
             MyConfigure.installKDE4Languages()
     
     def getListFromStrint(_listString):
@@ -177,7 +178,7 @@ class Universals():
         try:
             return MySettings[_key]
         except:
-            import Settings
+            from Core import Settings
             sets = Settings.setting()
             MySettings[_key] = str(trStr(sets.value(_key, trQVariant(trForM(_defaultValue)))))
             if _valueList != None:
@@ -216,7 +217,7 @@ class Universals():
             sets.setValue(value,trQVariant(trForM(MySettings[value])))
 
     def activeWindow():
-        from MyObjects import MApplication
+        from Core.MyObjects import MApplication
         if MApplication.activeModalWidget()!=None:
             return MApplication.activeModalWidget()
         else:
@@ -239,7 +240,7 @@ class Universals():
         
     def fillUIUniversals():
         global tableTypesNames, iconNameFormatLabels
-        from MyObjects import translate
+        from Core.MyObjects import translate
         tableTypesNames = [translate("Tables", "Folder Table"), 
                             translate("Tables", "File Table"), 
                             translate("Tables", "Music Table"), 
@@ -272,8 +273,8 @@ class Universals():
         
     def cancelThreadAction():
         global threadActionState
-        import Dialogs
-        from MyObjects import translate
+        from Core import Dialogs
+        from Core.MyObjects import translate
         answer = Dialogs.ask(translate("Universals", "Are You Sure?"),
                             translate("Universals", "Are you want to cancel these transactions?"))
         if answer==Dialogs.Yes:

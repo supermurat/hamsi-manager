@@ -16,10 +16,10 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import Variables
+from Core import Variables
 import InputOutputs
-import Execute
-from MyObjects import translate
+from Core import Execute
+from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
 pluginVersion = "0.4"
 pluginFiles = []

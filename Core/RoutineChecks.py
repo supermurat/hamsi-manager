@@ -19,8 +19,8 @@
 import sys
 import os
 from optparse import OptionParser, OptionGroup
-import Variables
-import Universals
+from Core import Variables
+from Core import Universals
 import logging
 
 myArgvs = []
@@ -257,7 +257,7 @@ the Free Software Foundation; either version 2 of the License, or
             QuickMakeParameters.append(options.search)
             isQuickMake = True
     if options.runAsRoot:
-        import Execute
+        from Core import Execute
         if Variables.isRunningAsRoot()==False:
             strArgvs = []
             for tempArg in sys.argv:
@@ -266,7 +266,7 @@ the Free Software Foundation; either version 2 of the License, or
             if Execute.executeHamsiManagerAsRoot(strArgvs):
                 isDontRun = True
     if options.checkAndGetOldAppNameInSystem:
-        import OldAppName
+        from Core import OldAppName
         OldAppName.checkAndGetOldAppNameInSystem()
         isDontRun = True
     if isDontRun:
@@ -274,8 +274,8 @@ the Free Software Foundation; either version 2 of the License, or
     return True
 
 def checkAfterRunProccess():
-    import Dialogs, Universals, Settings, UpdateControl
-    from MyObjects import translate
+    from Core import Dialogs, Universals, UpdateControl
+    from Core.MyObjects import translate
     if str(Variables.defaultFileSystemEncoding) != str(Universals.MySettings["fileSystemEncoding"]):
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
@@ -308,14 +308,14 @@ def checkAfterRunProccess():
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
             OptionsForm.OptionsForm(Universals.MainWindow, "Normal", None, newOrChangedKeys)
     elif Universals.getBoolValue("isShowReconfigureWizard"):
-        import Execute
+        from Core import Execute
         Execute.executeReconfigure()
     elif UpdateControl.isMakeUpdateControl():
         UpdateControl.UpdateControl(Universals.MainWindow)
     
 def checkWindowMode(_isCheck=False):
-    import Dialogs, Universals, Settings 
-    from MyObjects import translate
+    from Core import Dialogs, Universals 
+    from Core.MyObjects import translate
     if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
         if Universals.windowMode == Variables.windowModeKeys[0]:
             screenSize = Variables.getScreenSize()
@@ -351,16 +351,16 @@ def checkWindowMode(_isCheck=False):
             Universals.setMySetting("isShowWindowModeSuggestion", False)
      
 def checkAfterCloseProccess():
-    import Records
+    from Core import Records
     Records.saveAllRecords()
     Records.checkSize()
     
 def checkMyModules(_HamsiManagerApp):
     try:
-        import SpecialTools
+        from Core import SpecialTools
         import Tables
-        import FileManager
-        import Bars
+        from Core import FileManager
+        from Core import Bars
         return True
     except ImportError as error:
         errorForm = Variables.MQtGui.QWidget()
