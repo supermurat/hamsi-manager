@@ -207,7 +207,7 @@ class Universals():
         MySettings[_key] = str(_value)
         
     def saveSettings(_key=None):
-        from Settings import setting
+        from Core.Settings import setting
         sets = setting()
         if _key==None:
             keys = MySettings.keys()
