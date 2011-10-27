@@ -23,10 +23,11 @@ from Core import Variables
 from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
-import InputOutputs, Records
+import InputOutputs
+from Core import Records
 import traceback
 import logging
-from RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
+from Core.RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
 if Variables.isPython3k:
     from urllib.parse import unquote, quote
 else:
