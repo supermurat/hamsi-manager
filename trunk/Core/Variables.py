@@ -695,7 +695,8 @@ class Variables():
 
         
     def checkMysqldSafe(_isAskIfNotFound=True):
-        import InputOutputs, Dialogs, Universals
+        import InputOutputs
+        from Core import Dialogs, Universals
         from Core.MyObjects import translate
         if InputOutputs.isFile(Universals.MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + Universals.MySettings["pathOfMysqldSafe"])==False:
             if _isAskIfNotFound:
