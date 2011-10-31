@@ -267,7 +267,7 @@ class UpdateControl(MDialog):
             error.show()  
         
     def install(self, _fileName):
-        from Execute import executeWithPython
+        from Core.Execute import executeWithPython
         Dialogs.show(translate("UpdateControl", "Update Will Be Complete"),
                         translate("UpdateControl", "Please restart Hamsi Manager now."),
                         translate("UpdateControl", "Restart"))

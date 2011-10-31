@@ -224,7 +224,7 @@ class OptionsForm(MDialog):
         if answer==Dialogs.Yes:
             self.close()
             if Universals.MainWindow.close():
-                from Execute import executeHamsiManager
+                from Core.Execute import executeHamsiManager
                 executeHamsiManager()
     
     def setVisibleFormItems(self, _category, _keyOfSetting, _visible):

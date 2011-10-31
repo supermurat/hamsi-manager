@@ -42,7 +42,8 @@ class Operations:
         return None
         
     def changePaths(_values, _type="auto"):
-        import Taggers, InputOutputs, Universals, Dialogs, Records, ReportBug
+        import Taggers, InputOutputs 
+        from Core import Universals, Dialogs, Records, ReportBug
         Universals.startThreadAction()
         allItemNumber = len(_values)
         for valueNo,value in enumerate(_values):
@@ -65,7 +66,8 @@ class Operations:
         Universals.finishThreadAction()
         
     def changeTags(_values):
-        import Taggers, InputOutputs, Universals, Dialogs, Records, ReportBug
+        import Taggers, InputOutputs
+        from Core import Universals, Dialogs, Records, ReportBug
         Universals.startThreadAction()
         allItemNumber = len(_values)
         for valueNo,value in enumerate(_values):
@@ -85,7 +87,8 @@ class Operations:
         Universals.finishThreadAction()
             
     def changeArtistValues(_values):
-        import Taggers, InputOutputs, Universals, Dialogs, Records
+        import Taggers, InputOutputs
+        from Core import Universals, Dialogs, Records
         Universals.startThreadAction()
         allItemNumber = len(_values)
         Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
