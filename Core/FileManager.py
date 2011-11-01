@@ -60,8 +60,8 @@ class FileManager():
         self.lstvFileManager = MListView()
         self.trvFileManager.setModel(self.dirModel)
         self.lstvFileManager.setModel(self.dirModel)
-        self.currentDirectory = trForM(InputOutputs.IA.getRealDirName(Universals.MySettings["lastDirectory"]))
-        if InputOutputs.IA.isDir(str(self.currentDirectory))==False:
+        self.currentDirectory = trForM(InputOutputs.getRealDirName(Universals.MySettings["lastDirectory"]))
+        if InputOutputs.isDir(str(self.currentDirectory))==False:
             self.currentDirectory = MDir.homePath()
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndex)
         MObject.connect(self.lstvFileManager, SIGNAL("doubleClicked(QModelIndex)"),self.setMyCurrentIndex)
@@ -213,8 +213,8 @@ class FileManager():
     def goTo(self, _path, _isRemember = True, _isOnlyBrowser = False):
         try:
             _path = InputOutputs.getRealPath(str(_path))
-            if InputOutputs.IA.isReadableFileOrDir(_path):
-                if InputOutputs.IA.isDir(_path):
+            if InputOutputs.isReadableFileOrDir(_path):
+                if InputOutputs.isDir(_path):
                     if _isRemember:
                         self.future = []
                         self.history.append(self.currentDirectory)
@@ -239,7 +239,7 @@ class FileManager():
                         self.actUp.setEnabled(False)
                     else:
                         self.actUp.setEnabled(True)
-                elif InputOutputs.IA.isFile(_path):
+                elif InputOutputs.isFile(_path):
                     isOpened = False
                     for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
                         if str(_path).split(".")[-1].lower() == str(ext).lower():
@@ -288,7 +288,7 @@ class FileManager():
 
     def goUp(self):
         try:
-            self.goTo(trForM(InputOutputs.IA.getDirName(self.currentDirectory)))
+            self.goTo(trForM(InputOutputs.getDirName(self.currentDirectory)))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -305,12 +305,12 @@ class FileManager():
             if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
                 self.goTo(_newDirectoryPath, False)
             else:
-                if InputOutputs.IA.checkSource(str(self.currentDirectory), "directory")!=False:
+                if InputOutputs.checkSource(str(self.currentDirectory), "directory")!=False:
                     self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
                     if _isOnlyBrowser==False:
                         self.showInTable()
                 else:
-                    self.goTo(InputOutputs.IA.getRealDirName(str(self.currentDirectory)), False, _isOnlyBrowser)
+                    self.goTo(InputOutputs.getRealDirName(str(self.currentDirectory)), False, _isOnlyBrowser)
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -353,7 +353,7 @@ class FileManager():
         try:
             while 1==1:
                 selected = str(self.getPathOfIndex(_index))
-                if InputOutputs.IA.isDir(selected)==True or InputOutputs.IA.isFile(selected)==True:
+                if InputOutputs.isDir(selected)==True or InputOutputs.isFile(selected)==True:
                     self.makeRefreshOnlyFileList(_index)
                     break
                 else:
@@ -402,7 +402,7 @@ class BookmarksMenu(MMenu):
                 return
             for info in Databases.BookmarksOfDirectories.fetchAll():
                 if info[1]==str(_action.objectName()):
-                    if InputOutputs.IA.isDir(str(info[2]))==True:
+                    if InputOutputs.isDir(str(info[2]))==True:
                         Universals.MainWindow.FileManager.goTo(trForM(info[2]))
                         return
                     else:

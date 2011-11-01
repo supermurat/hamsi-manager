@@ -282,13 +282,13 @@ class OptionsForm(MDialog):
         leValue = self.categories[self.tboxCategories.currentIndex()].values[int(requestInfos[2])]
         if requestInfos[0]=="file":
             if requestInfos[1]=="image":
-                directory = InputOutputs.IA.getRealDirName(leValue.text())
+                directory = InputOutputs.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Image"),
                                             directory,trForUI(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG))
                 if filePath!="":
                     leValue.setText(filePath)   
             if requestInfos[1]=="executable":
-                directory = InputOutputs.IA.getRealDirName(leValue.text())
+                directory = InputOutputs.getRealDirName(leValue.text())
                 filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
                                             directory, trForUI(translate("Options", "Executable Files") + " (*)"))
                 if filePath!="":
@@ -299,7 +299,7 @@ class OptionsForm(MDialog):
         leValue = self.categories[self.tboxCategories.currentIndex()].values[int(requestInfos[2])]
         if requestInfos[0]=="directory":  
             if requestInfos[1]=="exist":
-                directory = InputOutputs.IA.getRealPath(leValue.text())
+                directory = InputOutputs.getRealPath(leValue.text())
                 dirPath = MFileDialog.getExistingDirectory(self,translate("Options", "Choose Image"),
                                                 directory)
                 if dirPath!="":

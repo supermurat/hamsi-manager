@@ -96,7 +96,7 @@ class TextCorrector(MyDialog):
         
     def fillValues(self):
         filePath = str(self.leFilePath.text())
-        if InputOutputs.isFile(filePath) and InputOutputs.IA.isReadableFileOrDir(filePath):
+        if InputOutputs.isFile(filePath) and InputOutputs.isReadableFileOrDir(filePath):
             
             self.fileValues = InputOutputs.readTextFile(filePath, str(self.sourceCharSet.currentText()))
             self.pteFileContent.setPlainText(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))

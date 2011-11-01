@@ -142,14 +142,14 @@ class Searcher(MyDialog):
         try:
             if self.sourceToSearch == None or _isReload==True:
                 pathToSearch = str(self.lePathToSeach.text())
-                if InputOutputs.IA.checkSource(pathToSearch):
-                    if InputOutputs.IA.isReadableFileOrDir(pathToSearch):
+                if InputOutputs.checkSource(pathToSearch):
+                    if InputOutputs.isReadableFileOrDir(pathToSearch):
                         if InputOutputs.isFile(pathToSearch):
                             self.sourceToSearch = InputOutputs.readFromFile(pathToSearch)
                             self.sourceToSearchType = "file"
                             return True
                         elif InputOutputs.isDir(pathToSearch):
-                            self.sourceToSearch = InputOutputs.getFileTree(pathToSearch, -1, "plainText", "fileList")
+                            self.sourceToSearch = InputOutputs.getFileTree(pathToSearch, -1, "return", "plainText", "fileList")
                             self.sourceToSearchType = "dir"
                             return True
                 return False

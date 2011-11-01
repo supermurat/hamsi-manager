@@ -192,18 +192,18 @@ class Bars():
                     Tables.exportValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "fileTree", "title")
+                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "fileTree", "title")
+                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "fileTree", "title")
+                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "fileTree", "title")
             elif actionName==translate("MenuBar", "Text Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "fileTree", "title")
+                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "fileTree", "title")
+                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    InputOutputs.IA.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "fileTree", "title")
+                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "fileTree", "title")
             elif actionName==translate("MenuBar", "About QT"):
                 if Universals.isActivePyKDE4==True:
                     QMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
@@ -246,7 +246,7 @@ class Bars():
                 Universals.MainWindow.StatusBar.fillSelectionInfo()
             elif actionName==translate("ToolsBar", "Check Icon"):
                 Universals.MainWindow.setEnabled(False)
-                InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                InputOutputs.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
                         translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
                 Universals.MainWindow.setEnabled(True)
@@ -259,7 +259,7 @@ class Bars():
                 if answer==Dialogs.Yes:
                     from Core import FileManager
                     Universals.MainWindow.setEnabled(False)
-                    InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, True, True)
+                    InputOutputs.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, True, True)
                     Universals.MainWindow.setEnabled(True)
                     Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
                         translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))
@@ -293,7 +293,7 @@ class Bars():
                         str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
                 if answer==Dialogs.Yes:
                     Universals.MainWindow.setEnabled(False)
-                    InputOutputs.IA.removeOnlySubFiles(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    InputOutputs.removeOnlySubFiles(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                     Universals.MainWindow.setEnabled(True)
                     Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
                         str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))

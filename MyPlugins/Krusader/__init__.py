@@ -180,17 +180,17 @@ def installThisPlugin():
         else:
             destinationPath = Variables.getKDE4HomePath() +"/share/apps/krusader/"
         try:
-            pluginStrings = InputOutputs.IA.readFromFile(destinationPath + "useractions.xml")
+            pluginStrings = InputOutputs.readFromFile(destinationPath + "useractions.xml")
         except:
-            if InputOutputs.IA.isDir(destinationPath)==False:
-                InputOutputs.IA.makeDirs(destinationPath)
-            pluginStrings = InputOutputs.IA.readFromFile("/usr/share/apps/krusader/useraction_examples.xml")
+            if InputOutputs.isDir(destinationPath)==False:
+                InputOutputs.makeDirs(destinationPath)
+            pluginStrings = InputOutputs.readFromFile("/usr/share/apps/krusader/useraction_examples.xml")
         pluginString = ""
         for pstr in myPluginStrings:
             if pluginStrings.find(pstr.split("\n")[0])==-1:
                 pluginString += pstr
         pluginStrings = pluginStrings.replace("</KrusaderUserActions>", pluginString + "</KrusaderUserActions>")
-        InputOutputs.IA.writeToFile(destinationPath + "useractions.xml", pluginStrings)
+        InputOutputs.writeToFile(destinationPath + "useractions.xml", pluginStrings)
         if pluginString=="":
             return "AlreadyInstalled"
     except:

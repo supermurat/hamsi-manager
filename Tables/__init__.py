@@ -209,17 +209,17 @@ class Tables(MTableWidget):
                 isOpenedDetails = False
                 if "path" in self.currentTableContentValues[rowNo].keys():
                     filePath = self.currentTableContentValues[rowNo]["path"]
-                    if InputOutputs.IA.isExist(filePath):
+                    if InputOutputs.isExist(filePath):
                         if Universals.tableType!=2:
                             isImage = False
                             isMusic = False
                             for fileExt in Universals.getListFromStrint(Universals.MySettings["imageExtensions"]):
-                                if InputOutputs.IA.checkExtension(filePath, fileExt):
+                                if InputOutputs.checkExtension(filePath, fileExt):
                                     isImage = True
                                     break
                             if isImage==False:
                                 for fileExt in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
-                                    if InputOutputs.IA.checkExtension(filePath, fileExt):
+                                    if InputOutputs.checkExtension(filePath, fileExt):
                                         isMusic = True
                                         break
                             if isImage:
@@ -418,7 +418,7 @@ class Tables(MTableWidget):
             from Core import Records
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
             if Universals.tableType!=4:
-                InputOutputs.IA.activateSmartCheckIcon()
+                InputOutputs.activateSmartCheckIcon()
             from Core import MyThread
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
@@ -433,12 +433,12 @@ class Tables(MTableWidget):
                 isGoUpDirectoryWithFileTable = False
                 if Universals.tableType in [0, 1, 2, 3]:
                     if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                        InputOutputs.IA.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                        InputOutputs.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 if Universals.tableType in [0, 1, 2, 3, 4]:
                     if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                        if InputOutputs.IA.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                        if InputOutputs.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                             isGoUpDirectoryWithFileTable = True
-                InputOutputs.IA.completeSmartCheckIcon()
+                InputOutputs.completeSmartCheckIcon()
                 Records.saveAllRecords()
                 if self.changedValueNumber==0:
                     Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
@@ -647,7 +647,7 @@ class Tables(MTableWidget):
                     filePath += ".html"
                 elif _formatType=="plainText" and filePath[-4:]!=".txt":
                     filePath += ".txt"
-                InputOutputs.IA.writeToFile(filePath, info)
+                InputOutputs.writeToFile(filePath, info)
                 Dialogs.show(translate("Tables", "Table Exported"),
                             str(translate("Tables", "Table contents are exported to file: \"%s\".")) % Organizer.getLink(filePath))
         elif _actionType=="dialog":

@@ -23,6 +23,10 @@ import stat
 from Core import Variables
 from Core import Universals
 from Core import Records
+from Core import Organizer
+from Core.Universals import translate
+
+
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
@@ -263,7 +267,7 @@ class InputOutputs:
         except:
             return locale.strxfrm(_info)
     
-    def isReadableFileOrDir(_newPath): 
+    def isReadableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False): 
         realPath = _newPath
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
@@ -273,9 +277,30 @@ class InputOutputs:
         except: 
             if os.access(realPath, os.R_OK): 
                 return True
+        if _isOnlyCheck==False:
+            if _isInLoop:
+                okButtonLabel = translate("Dialogs", "Continue")
+            else:
+                okButtonLabel = translate("Dialogs", "OK")
+            if isDir(realPath):
+                from Core import Dialogs
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
+                            okButtonLabel, 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    return isReadableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
+            else:
+                from Core import Dialogs
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
+                            okButtonLabel, 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    return isReadableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
         return False
         
-    def isWritableFileOrDir(_newPath):
+    def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
         realPath = _newPath
         if isFile(realPath)==False:
             realPath = getRealDirName(realPath)
@@ -285,30 +310,100 @@ class InputOutputs:
         except: 
             if os.access(realPath, os.W_OK): 
                 return True
+        if _isOnlyCheck==False:
+            if _isInLoop:
+                okButtonLabel = translate("Dialogs", "Continue")
+            else:
+                okButtonLabel = translate("Dialogs", "OK")
+            if isDir(realPath):
+                from Core import Dialogs
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
+                            okButtonLabel, 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
+            else:
+                from Core import Dialogs
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
+                        str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
+                            okButtonLabel, 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
         return False
         
     def checkSource(_oldPath, _objectType="fileOrDirectory"):
-        if _objectType=="file" and isFile(_oldPath)==False:
-            return False
-        elif _objectType=="directory" and isDir(_oldPath)==False:
-            return False
-        elif isDir(_oldPath)==False and isFile(_oldPath)==False:
-            return False
-        return _oldPath
+        if _objectType=="file" and isFile(_oldPath):
+            return _oldPath
+        elif _objectType=="directory" and isDir(_oldPath):
+            return _oldPath
+        elif _objectType=="fileOrDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
+            return _oldPath
+        if _objectType=="file":
+            from Core import Dialogs
+            Dialogs.showError(translate("InputOutputs", "Cannot Find File"),
+                    str(translate("InputOutputs", "\"%s\" : cannot find a file with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+        elif _objectType=="directory":
+            from Core import Dialogs
+            Dialogs.showError(translate("InputOutputs", "Cannot Find Directory"),
+                    str(translate("InputOutputs", "\"%s\" : cannot find a folder with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+        else:
+            from Core import Dialogs
+            Dialogs.showError(translate("InputOutputs", "Cannot Find File Or Directory"),
+                    str(translate("InputOutputs", "\"%s\" : cannot find a file or directory with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+        return False
         
-    def checkDestination(_oldPath, _newPath, _isMake=False):
-        global appendingDirectories
+    def checkDestination(_oldPath, _newPath, _isQuiet=False):
+        while isAvailableName(_newPath) == False:
+            from Core import Dialogs
+            _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
+                                        str(translate("InputOutputs", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
+            if _newPath is None:
+                return False
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
                 if _oldPath.lower()!=_newPath.lower() or Variables.osName=="posix": 
                     if isFile(_newPath):
-                        if _isMake:
+                        if _isQuiet:
                             return _newPath
                         else:
-                            return False
+                            from Core import Dialogs
+                            answer = Dialogs.askSpecial(translate("InputOutputs", "Current File Name"),
+                                        str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath), 
+                                translate("Dialogs", "Replace"), 
+                                translate("Dialogs", "Rename"), 
+                                translate("Dialogs", "Cancel"))
+                            if answer==translate("Dialogs", "Replace"): 
+                                return _newPath
+                            elif answer==translate("Dialogs", "Rename"): 
+                                from Core.MyObjects import MFileDialog, trForM, trForUI
+                                newPath = MFileDialog.getSaveFileName(Universals.MainWindow, translate("InputOutputs", "Select A New Name For File"),
+                                                        trForM(_newPath),trForUI(translate("InputOutputs", "All Files") + " (*)"))
+                                if newPath!="":
+                                    return checkDestination(_oldPath, str(newPath), _isQuiet)
+                                return False
+                            else:
+                                return False
                     elif isDir(_newPath):
                         if isFile(_oldPath):
-                            return False
+                            from Core import Dialogs
+                            answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"),
+                                    str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)), 
+                                translate("Dialogs", "Yes, Add Into"), 
+                                translate("Dialogs", "Rename"), 
+                                translate("Dialogs", "Cancel"))
+                            if answer==translate("Dialogs", "Yes, Add Into"): 
+                                return _newPath+"/"+getBaseName(_newPath)
+                            elif answer==translate("Dialogs", "Rename"): 
+                                from Core.MyObjects import MFileDialog, trForM, trForUI
+                                newPath = MFileDialog.getSaveFileName(Universals.MainWindow, translate("InputOutputs", "Select A New Name For File"),
+                                                        trForM(_newPath),trForUI(translate("InputOutputs", "All Files") + " (*)"))
+                                if newPath!="":
+                                    return checkDestination(_oldPath, str(newPath), _isQuiet)
+                                return False
+                            else:
+                                return False
                         else:
                             isAllowed=False
                             for tDir in appendingDirectories:
@@ -316,11 +411,28 @@ class InputOutputs:
                                     isAllowed=True
                                     return _newPath
                             if isAllowed==False: 
-                                if _isMake:
+                                if _isQuiet:
                                     appendingDirectories.append(_newPath)
                                     return _newPath
                                 else:
-                                    return False
+                                    from Core import Dialogs
+                                    answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"), 
+                                            str(translate("InputOutputs", "\"%s\" : there already exists a directory with the same name.<br>Add your files to the current directory?")) % Organizer.getLink(_newPath), 
+                                        translate("Dialogs", "Yes, Add Into"), 
+                                        translate("Dialogs", "Rename"), 
+                                        translate("Dialogs", "Cancel"))
+                                    if answer==translate("Dialogs", "Yes, Add Into"):
+                                        appendingDirectories.append(_newPath)
+                                        return _newPath
+                                    elif answer==translate("Dialogs", "Rename"): 
+                                        from Core.MyObjects import MFileDialog, trForM, trForUI
+                                        newPath = MFileDialog.getExistingDirectory(Universals.MainWindow, translate("InputOutputs", "Select A Directory"),
+                                                trForM(_newPath))
+                                        if newPath!="":
+                                            return checkDestination(_oldPath, str(newPath), _isQuiet)
+                                        return False
+                                    else:
+                                        return False
                     else:
                         return False
                 else:
@@ -486,47 +598,62 @@ class InputOutputs:
         if getRealPath(_oldFileValues["path"]) != getRealPath(_newFileValues["path"]):
             return moveOrChange(_oldFileValues["path"], _newFileValues["path"])
         return _oldFileValues["path"]
-                
-    def clearEmptyDirectories(_path, _isAutoCleanSubFolder=True, _isClear=False):
+    
+    def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True, _isClear=False):
         #If directory deleted : returned True
         #If directory cleaned : returned False
         if Universals.getBoolValue("isActiveClearGeneral") or _isClear:
+            from Core import Dialogs
             clearUnneededs(_path)
             dontRemovingFilesCount = 0
             filesAndDirectories = readDirectoryAll(_path)
+            filesAndDirectoriesCount = len(filesAndDirectories)
+            if _isShowState and _isCloseState:Universals.startThreadAction()
             for nameNo, name in enumerate(filesAndDirectories):
-                if isFile(_path+"/"+name):
-                    dontRemovingFilesCount+=1
-                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                        for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
-                            try:
-                                if str(f)==name:
-                                    dontRemovingFilesCount-=1
-                                    break
-                            except:pass
-                        for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
-                            try:
-                                if checkExtension(name, ext):
-                                    dontRemovingFilesCount-=1
-                                    break
-                            except:pass
-                if isDir(_path+"/"+name):
-                    dontRemovingFilesCount+=1
-                    if _isAutoCleanSubFolder==False:
-                        break
-                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                        for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
-                            try:
-                                if str(f)==name:
-                                    dontRemovingFilesCount-=1
-                                    break
-                            except:pass
-                    if clearEmptyDirectories(_path+"/"+name, _isAutoCleanSubFolder, _isClear):
-                        dontRemovingFilesCount-=1
+                if _isShowState:isContinueThreadAction = Universals.isContinueThreadAction()
+                else: isContinueThreadAction = True
+                if isContinueThreadAction:
+                    if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, filesAndDirectoriesCount, True)
+                    if isFile(_path+"/"+name):
+                        dontRemovingFilesCount+=1
+                        if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                            for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
+                                try:
+                                    if str(f)==name:
+                                        dontRemovingFilesCount-=1
+                                        break
+                                except:pass
+                            for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
+                                try:
+                                    if checkExtension(name, ext):
+                                        dontRemovingFilesCount-=1
+                                        break
+                                except:pass
+                    if isDir(_path+"/"+name):
+                        dontRemovingFilesCount+=1
+                        if _isAutoCleanSubFolder==False:
+                            break
+                        if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                            for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
+                                try:
+                                    if str(f)==name:
+                                        dontRemovingFilesCount-=1
+                                        break
+                                except:pass
+                        if clearEmptyDirectories(_path+"/"+name, _isShowState, False, _isAutoCleanSubFolder, _isClear):
+                            dontRemovingFilesCount-=1
+                else:
+                    if _isShowState: Dialogs.showState(translate("InputOutputs", "Checked Empty Directories"), filesAndDirectoriesCount, filesAndDirectoriesCount, True)
+            if _isShowState and _isCloseState:Universals.finishThreadAction()
             if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1, True)
                 clearIgnoreds(_path)
                 removeDir(_path)
+                if _isCloseState: 
+                    Dialogs.showState(translate("InputOutputs", "Directory Deleted"), 1, 1, True)
+                    Dialogs.show(translate("InputOutputs", "Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
                 return True
+            if _isCloseState: Dialogs.showState(translate("InputOutputs", "Directories Cleaned"), 1, 1, True)
         return False
         
     def clearUnneededs(_path):
@@ -553,7 +680,7 @@ class InputOutputs:
                             if checkExtension(name, ext):
                                 removeFile(_path+"/"+name)
                         except:pass
-                
+                        
     def clearIgnoreds(_path):
         if checkSource(_path, "directory"):
             for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
@@ -585,7 +712,7 @@ class InputOutputs:
                     elif isDir(_path+"/"+f):
                         removeFileOrDir(_path+"/"+f, True)
                 removeDir(_path)
-    
+                    
     def removeOnlySubFiles(_path):
         if isWritableFileOrDir(_path):
             for f in readDirectoryAll(_path):
@@ -653,21 +780,26 @@ class InputOutputs:
             return _newPath
         else:
             return _oldPath
-    
+        
     def changeDirectories(_values):
         newFilesPath = []
+        from Core import Dialogs
         if len(_values)!=0:
+            Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),0,len(_values))
             for no in range(0,len(_values)):
                 values = {}
                 values["oldPath"] = _values[no][0]
                 values["newPath"] = moveOrChange(values["oldPath"], _values[no][1], getObjectType(_values[no][0]))
                 newFilesPath.append(values)
-                dirPath = getDirName(newFilesPath[-1])
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                    clearEmptyDirectories(dirPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
+                    clearEmptyDirectories(getDirName(values["oldPath"]), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
                 if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                    checkIcon(dirPath)
+                    checkIcon(getDirName(values["oldPath"]))
+                    checkIcon(getDirName(values["newPath"]))
+                Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
         return newFilesPath
+        
+    
         
     def activateSmartCheckIcon():
         global isSmartCheckIcon, willCheckIconDirectories
@@ -696,31 +828,41 @@ class InputOutputs:
             elif _isClear:
                 return setIconToDirectory(_path)
     
-    def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False):
+    def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False, _isAsk=True):
+        from Core import Dialogs
         _path = str(_path)
         cover = None
         imageFiles = []
-        for fileName in readDirectoryAll(_path):
-            if isFile(_path + "/" + fileName):
-                if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
-                    cover = fileName
-                if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).lower()) != 0:
-                    imageFiles.append(fileName)
-                    if cover == None:
-                        for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
-                            if str(fileName.split(".")[0]).lower()==str(coverName).lower():
-                                cover = fileName
-                                break
-        if cover == None and len(imageFiles)>0:
-            for imgFile in imageFiles:
-                cover = imgFile
-                break
-        if _isCheckDelete and cover!=None:
-            if isWritableFileOrDir(_path):
-                if eval(Universals.MySettings["isDeleteOtherImages"].title())==True: 
+        if isReadableFileOrDir(_path, True):
+            for fileName in readDirectoryAll(_path):
+                if isFile(_path + "/" + fileName):
+                    if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
+                        cover = fileName
+                    if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).lower()) != 0:
+                        imageFiles.append(fileName)
+                        if cover == None:
+                            for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
+                                if str(fileName.split(".")[0]).lower()==str(coverName).lower():
+                                    cover = fileName
+                                    break
+            if _isAsk and eval(Universals.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title())==True and len(imageFiles)>1:
+                selectedIndex = 0
+                if cover!=None:
+                    selectedIndex = imageFiles.index(cover)
+                cover = Dialogs.getItem(translate("InputOutputs", "Select A Cover"), str(translate("InputOutputs", "Please select a cover for \"%s\".")) % (Organizer.getLink(_path)), imageFiles, selectedIndex)
+                if cover!=None:
+                    cover = str(cover)
+            else:
+                if cover == None and len(imageFiles)>0:
                     for imgFile in imageFiles:
-                        if cover != imgFile:
-                            removeFile(_path + "/" + imgFile)
+                        cover = imgFile
+                        break
+            if _isCheckDelete and cover!=None:
+                if isWritableFileOrDir(_path):
+                    if eval(Universals.MySettings["isDeleteOtherImages"].title())==True: 
+                        for imgFile in imageFiles:
+                            if cover != imgFile:
+                                removeFile(_path + "/" + imgFile)
         return cover
         
     def setIconToDirectory(_path, _iconName=""):
@@ -812,11 +954,12 @@ class InputOutputs:
                             isCorrectedFileContent = False
         return iconPath, isCorrectedFileContent
 
-    def clearPackagingDirectory(_path):
+    def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
+        from Core import Dialogs
         if checkSource(_path, "directory"):
             _path = str(_path)
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenPath"):
-                clearEmptyDirectories(_path, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
+                clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
             for f in Universals.getListFromStrint(Universals.MySettings["packagerUnneededFiles"]):
                 if isFile(_path+"/"+f):
                     removeFile(_path+"/"+f)
@@ -826,6 +969,7 @@ class InputOutputs:
             dontRemovingFilesCount = 0
             filesAndDirectories = readDirectoryAll(_path)
             for nameNo, name in enumerate(filesAndDirectories):
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
                 if isFile(_path+"/"+name):
                     dontRemovingFilesCount+=1
                     for ext in Universals.getListFromStrint(Universals.MySettings["packagerUnneededFileExtensions"]):
@@ -846,17 +990,23 @@ class InputOutputs:
                     if clearPackagingDirectory(_path+"/"+name)==False:
                         dontRemovingFilesCount-=1
             if dontRemovingFilesCount==0 and Universals.getBoolValue("isPackagerDeleteEmptyDirectories"):
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Deleting Empty Directories"), 0, 1)
                 removeDir(_path)
+                if _isCloseState: 
+                    Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
+                    Dialogs.show(translate("InputOutputs", "Project Directory Deleted"), str("InputOutputs", translate("\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
                 return False
+            if _isCloseState: Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
             return True
         else:
             False
             
-    def clearCleaningDirectory(_path):
+    def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
+        from Core import Dialogs
         if checkSource(_path, "directory"):
             _path = str(_path)
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenClear"):
-                clearEmptyDirectories(_path, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))
+                clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))
             for f in Universals.getListFromStrint(Universals.MySettings["cleanerUnneededFiles"]):
                 if isFile(_path+"/"+f):
                     removeFile(_path+"/"+f)
@@ -866,6 +1016,7 @@ class InputOutputs:
             dontRemovingFilesCount = 0
             filesAndDirectories = readDirectoryAll(_path)
             for nameNo, name in enumerate(filesAndDirectories):
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
                 if isFile(_path+"/"+name):
                     dontRemovingFilesCount+=1
                     for ext in Universals.getListFromStrint(Universals.MySettings["cleanerUnneededFileExtensions"]):
@@ -883,20 +1034,28 @@ class InputOutputs:
                     except:pass
                 if isDir(_path+"/"+name):
                     dontRemovingFilesCount+=1
-                    if clearPackagingDirectory(_path+"/"+name)==False:
+                    if clearCleaningDirectory(_path+"/"+name)==False:
                         dontRemovingFilesCount-=1
             if dontRemovingFilesCount==0 and Universals.getBoolValue("isCleanerDeleteEmptyDirectories"):
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Deleting Empty Directories"), 0, 1)
                 removeDir(_path)
+                if _isCloseState: 
+                    Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
+                    Dialogs.show(translate("InputOutputs", "Project Directory Deleted"), str("InputOutputs", translate("\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
                 return False
+            if _isCloseState: Dialogs.showState(translate("InputOutputs", "Project Directory Cleaned"), 1, 1)
             return True
         else:
             False
 
     def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
-        import tarfile
+        from Core import Dialogs
         _filePath, _sourcePath = str(_filePath), str(_sourcePath)
         if isDir(_filePath):
+            Dialogs.showError(translate("InputOutputs", "Current Directory Name"),
+                        str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>Please choose another file name!")) % Organizer.getLink(_filePath))
             return False
+        import tarfile
         try:tar = tarfile.open(Universals.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
         except:tar = tarfile.open(_filePath, "w:" + _packageType)
         try:tar.add(Universals.trEncode(_sourcePath, fileSystemEncoding), arcname=_realSourceBaseName)
@@ -928,9 +1087,10 @@ class InputOutputs:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName, True)
                 else:
                     removeFileOrDir(tempfile.gettempdir()+"/"+fileName)
-                    
-    def getFileTree(_path, _subDirectoryDeep=-1, _outputType="html", _contentType="fileTree", _extInfo="no"):
+            
+    def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):   
         from Core import Organizer
+        from Core.MyObjects import trForUI, trForM
         _path = str(_path)
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True, False, Universals.getBoolValue("isShowHiddensInFileTree"))
         info = ""
@@ -1052,7 +1212,65 @@ class InputOutputs:
                             info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     info += "\n"
-        return info
+        info = trForUI(info)
+        if _outputTarget=="return":
+            return info
+        elif _outputTarget=="file":
+            from Core.MyObjects import MFileDialog
+            from Core import Dialogs
+            if _outputType=="html":
+                if _extInfo!="no":
+                    strHeader = ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \n"+
+                        "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"> \n"+
+                        "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"tr\" lang=\"tr\" dir=\"ltr\"> \n"+
+                        "<head> \n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> \n</head> \n<body> \n")
+                    strFooter = " \n</body> \n</html>"
+                    info = strHeader + info + strFooter
+                formatTypeName = translate("Tables", "HTML")
+                fileExt="html"
+            elif _outputType=="plainText":
+                formatTypeName = translate("Tables", "Plain Text")
+                fileExt="txt"
+            filePath = MFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
+                                    trForM(Variables.userDirectoryPath),trForUI(formatTypeName+" (*."+fileExt+")"))
+            if filePath!="":
+                filePath = str(filePath)
+                if _outputType=="html" and filePath[-5:]!=".html":
+                    filePath += ".html"
+                elif _outputType=="plainText" and filePath[-4:]!=".txt":
+                    filePath += ".txt"
+                writeToFile(filePath, info)
+                Dialogs.show(translate("Tables", "File Tree Created"),
+                            str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
+        elif _outputTarget=="dialog":
+            from Core.MyObjects import MDialog, MWidget, MVBoxLayout, MTextEdit, MPushButton, MObject, SIGNAL, getMyObject
+            dDialog = MDialog(Universals.MainWindow)
+            if Universals.isActivePyKDE4==True:
+                dDialog.setButtons(MDialog.NoDefault)
+            dDialog.setWindowTitle(translate("Tables", "File Tree"))
+            mainPanel = MWidget(dDialog)
+            vblMain = MVBoxLayout(mainPanel)
+            if _outputType=="html":
+                QtWebKit = getMyObject("QtWebKit")
+                wvWeb = QtWebKit.QWebView()
+                wvWeb.setHtml(trForUI(info))
+            elif _outputType=="plainText":
+                wvWeb = MTextEdit()
+                wvWeb.setPlainText(trForUI(info))
+            pbtnClose = MPushButton(translate("Tables", "OK"))
+            MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
+            vblMain.addWidget(wvWeb)
+            vblMain.addWidget(pbtnClose)
+            if Universals.isActivePyKDE4==True:
+                dDialog.setMainWidget(mainPanel)
+            else:
+                dDialog.setLayout(vblMain)
+            dDialog.setMinimumWidth(600)
+            dDialog.setMinimumHeight(400)
+            dDialog.show()
+        elif _outputTarget=="clipboard":
+            from Core.MyObjects import MApplication
+            MApplication.clipboard().setText(trForUI(info))
             
     def fixToSize(_path, _size, _clearFrom="head"):
         if isFile(_path):

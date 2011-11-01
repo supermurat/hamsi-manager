@@ -179,14 +179,14 @@ class Packager(MyDialog):
             hashType =  str(self.cbHash.currentText())
         if hashType!=None:
             if self.cbHashOutput.currentIndex()==0:
-                if InputOutputs.IA.createHashDigestFile(str(self.lePathOfPackage.text()), str(self.leHashDigestFile.text()), hashType, False):
+                if InputOutputs.createHashDigestFile(str(self.lePathOfPackage.text()), str(self.leHashDigestFile.text()), hashType, False):
                     Dialogs.show(translate("Packager", "Hash Digest File Created"),
                                 str(translate("Packager", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
                 else:
                     Dialogs.showError(translate("Packager", "Hash Digest File Is Not Created"),
                                 translate("Packager", "Hash digest file not cteated."))
             else:
-                hashDigestContent = InputOutputs.IA.getHashDigest(str(self.lePathOfPackage.text()), hashType)
+                hashDigestContent = InputOutputs.getHashDigest(str(self.lePathOfPackage.text()), hashType)
                 if hashDigestContent!=False:
                     MApplication.clipboard().setText(trForM(hashDigestContent))
                     Dialogs.show(translate("Packager", "Hash Digest Copied To Clipboard"),
@@ -202,11 +202,11 @@ class Packager(MyDialog):
             import tempfile, random
             tempDir = tempfile.gettempdir() + "/HamsiManager-" + str(random.randrange(0, 1000000))
             pathOfProject = str(self.lePathOfProject.text())
-            pathOfTempSource = tempDir+"/"+InputOutputs.IA.getBaseName(pathOfProject)
-            InputOutputs.IA.copyFileOrDir(pathOfProject, pathOfTempSource)
-            InputOutputs.IA.clearPackagingDirectory(tempDir, True, True)
-            if InputOutputs.IA.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource, InputOutputs.getBaseName(pathOfProject)):
-                InputOutputs.IA.removeFileOrDir(tempDir, True)
+            pathOfTempSource = tempDir+"/"+InputOutputs.getBaseName(pathOfProject)
+            InputOutputs.copyFileOrDir(pathOfProject, pathOfTempSource)
+            InputOutputs.clearPackagingDirectory(tempDir, True, True)
+            if InputOutputs.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource, InputOutputs.getBaseName(pathOfProject)):
+                InputOutputs.removeFileOrDir(tempDir, True)
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
                             translate("Packager", "You can now start sharing it."))
@@ -226,7 +226,7 @@ class Packager(MyDialog):
                     "This action will delete the files completely, without any chance to recover.<br>"+
                     "Are you sure you want to perform the action?")) % Organizer.getLink(str(self.lePathOfProject.text())))
             if answer==Dialogs.Yes:
-                if InputOutputs.IA.clearPackagingDirectory(str(self.lePathOfProject.text()), True, True):
+                if InputOutputs.clearPackagingDirectory(str(self.lePathOfProject.text()), True, True):
                     Dialogs.show(translate("Packager", "Project Is Cleared"),
                                 translate("Packager", "You can now pack your project."))
             Universals.isCanBeShowOnMainWindow = True
@@ -238,7 +238,7 @@ class Packager(MyDialog):
     def Pack(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            if InputOutputs.IA.makePack(str(self.lePathOfPackage.text()), 
+            if InputOutputs.makePack(str(self.lePathOfPackage.text()), 
                                 self.getPackageType(), str(self.lePathOfProject.text()), InputOutputs.getBaseName(self.lePathOfProject.text())):
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),

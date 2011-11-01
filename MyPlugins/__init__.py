@@ -86,15 +86,15 @@ class MyPlugins(MDialog):
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], -1)
         if installThisPlugin==None:
             if pluginModule.pluginDirectory=="":
-                try:InputOutputs.IA.makeDirs(pluginModule.setupDirectory)
+                try:InputOutputs.makeDirs(pluginModule.setupDirectory)
                 except:pass
                 for pluginFile in pluginModule.pluginFiles:
-                    InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, pluginModule.setupDirectory+"/"+pluginFile, "file", "only", True)
+                    InputOutputs.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, pluginModule.setupDirectory+"/"+pluginFile, "file", "only", True)
                     MyConfigure.reConfigureFile(pluginModule.setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
                 oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginModule.pluginDirectory
-                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, pluginModule.setupDirectory+"/"+pluginModule.pluginDirectory, "directory", "only", True)
+                newFilePath = InputOutputs.copyOrChange(oldFilePath, pluginModule.setupDirectory+"/"+pluginModule.pluginDirectory, "directory", "only", True)
                 if newFilePath!=oldFilePath:
                     isInstalled = True
         else:
@@ -169,15 +169,15 @@ class MyPluginsForSystem(MWidget):
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], -1)
         if pluginModule.installThisPlugin==None:
             if pluginModule.pluginDirectory=="":
-                try:InputOutputs.IA.makeDirs(pluginModule.setupDirectory)
+                try:InputOutputs.makeDirs(pluginModule.setupDirectory)
                 except:pass
                 for pluginFile in pluginModule.pluginFiles:
-                    InputOutputs.IA.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, pluginModule.setupDirectory+"/"+pluginFile, "file", "only", True)
+                    InputOutputs.copyOrChange(Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginFile, pluginModule.setupDirectory+"/"+pluginFile, "file", "only", True)
                     MyConfigure.reConfigureFile(pluginModule.setupDirectory+"/"+pluginFile, Variables.HamsiManagerDirectory)
                 isInstalled = True
             else:
                 oldFilePath = Variables.HamsiManagerDirectory+"/MyPlugins/"+_pluginName+"/"+pluginModule.pluginDirectory
-                newFilePath = InputOutputs.IA.copyOrChange(oldFilePath, pluginModule.setupDirectory+"/"+pluginModule.pluginDirectory, "directory", "only", True)
+                newFilePath = InputOutputs.copyOrChange(oldFilePath, pluginModule.setupDirectory+"/"+pluginModule.pluginDirectory, "directory", "only", True)
                 if newFilePath!=oldFilePath:
                     isInstalled = True
         else:

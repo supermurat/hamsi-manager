@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-10-25, 21:34:18 -->
+<!-- Saved: 2011-11-01, 23:50:04 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -75,7 +75,6 @@
     <Source>test.py</Source>
     <Source>Amarok/Commands.py</Source>
     <Source>Core/Variables.py</Source>
-    <Source>InputOutputs/IA.py</Source>
     <Source>Tools/Packager.py</Source>
     <Source>Tools/RunCommand.py</Source>
     <Source>Tools/FileTreeBuilder.py</Source>

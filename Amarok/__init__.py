@@ -68,9 +68,9 @@ class Amarok:
     def checkEmbeddedDB():
         global isAskEmbeddedDBConfiguration
         if Universals.getBoolValue("isReadOnlyAmarokDB"):
-            if (InputOutputs.IA.isDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok") and
-                InputOutputs.IA.isDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql") and
-                InputOutputs.IA.isFile(Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")):
+            if (InputOutputs.isDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok") and
+                InputOutputs.isDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql") and
+                InputOutputs.isFile(Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")):
                 return startReadOnlyEmbeddedDB()
             else:
                 if isAskEmbeddedDBConfiguration:
@@ -82,8 +82,8 @@ class Amarok:
                 else:
                     return False
         else:
-            if (InputOutputs.IA.isFile(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql/db.frm") and
-                InputOutputs.IA.isFile(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")):
+            if (InputOutputs.isFile(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql/db.frm") and
+                InputOutputs.isFile(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")):
                 return startEmbeddedDB()
             else:
                 if isAskEmbeddedDBConfiguration:
@@ -270,16 +270,16 @@ class ReadOnlyEmbeddedDBCore():
     def createReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
         stopReadOnlyEmbeddedDB()
         from Core import MyConfigure
-        if InputOutputs.IA.isDir(Universals.pathOfSettingsDirectory+"/Amarok"):
-            InputOutputs.IA.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok", True)
-        InputOutputs.IA.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle")
-        InputOutputs.IA.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql", )
-        InputOutputs.IA.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my-readOnly.cnf", Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
+        if InputOutputs.isDir(Universals.pathOfSettingsDirectory+"/Amarok"):
+            InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok", True)
+        InputOutputs.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle")
+        InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql", )
+        InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my-readOnly.cnf", Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
         MyConfigure.reConfigureFile(Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
-        InputOutputs.IA.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
-        InputOutputs.IA.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile0", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile0")
-        InputOutputs.IA.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile1", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile1")
-        InputOutputs.IA.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ibdata1", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ibdata1")
+        InputOutputs.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile0", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile0")
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile1", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile1")
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ibdata1", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ibdata1")
         generateReadOnlyEmbeddedD()
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("EmbeddedDBCore", "Created Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server created and generated."))
@@ -288,8 +288,8 @@ class ReadOnlyEmbeddedDBCore():
     def generateReadOnlyEmbeddedD(_isNoAlertIfSuccesfully=True):
         stopReadOnlyEmbeddedDB()
         if InputOutputs.isExist(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok"):
-            InputOutputs.IA.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok", True)
-        InputOutputs.IA.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
+            InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok", True)
+        InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("EmbeddedDBCore", "Generated Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server generated."))
         return True
