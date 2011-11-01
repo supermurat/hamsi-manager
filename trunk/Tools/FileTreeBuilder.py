@@ -144,7 +144,7 @@ class FileTreeBuilder(MyDialog):
                 outputType = "plainText"
             if self.cbContentType.currentIndex()==1:
                 contentType = "fileList"
-            InputOutputs.IA.getFileTree(str(self.lePath.text()), 
+            InputOutputs.getFileTree(str(self.lePath.text()), 
                                 self.cbSubDirectoryDeep.currentText(), 
                                 outputTarget, outputType, contentType, "title")
             if self.cbOutputTarget.currentIndex()==2:

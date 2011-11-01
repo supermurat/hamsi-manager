@@ -38,14 +38,14 @@ class FolderTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        fileAndDirectoryNames = InputOutputs.IA.readDirectory(_directoryPath, "fileAndDirectory", Universals.getBoolValue("isShowHiddensInFolderTable"))
+        fileAndDirectoryNames = InputOutputs.readDirectory(_directoryPath, "fileAndDirectory", Universals.getBoolValue("isShowHiddensInFolderTable"))
         allItemNumber = len(fileAndDirectoryNames)
         Universals.startThreadAction()
         baseNameOfDirectory = InputOutputs.getBaseName(_directoryPath)
         for dirNo,dirName in enumerate(fileAndDirectoryNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(_directoryPath + "/" + dirName, False, True):
+                if InputOutputs.isReadableFileOrDir(_directoryPath + "/" + dirName, False, True):
                     content = {}
                     content["path"] = _directoryPath + "/" + dirName
                     content["baseNameOfDirectory"] = baseNameOfDirectory
@@ -72,9 +72,9 @@ class FolderTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], True)
+                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], True)
                         self.Table.changedValueNumber += 1
                         continue
                     baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -95,7 +95,7 @@ class FolderTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.changeDirectories(changingFileDirectories)
         if Universals.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
@@ -149,6 +149,6 @@ class FolderTable():
                 if itemNo==0:
                     newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                 else:
-                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), InputOutputs.IA.getObjectType(self.Table.currentTableContentValues[rowNo]["path"]))
+                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), InputOutputs.getObjectType(self.Table.currentTableContentValues[rowNo]["path"]))
                 self.Table.item(rowNo,itemNo).setText(trForUI(newString))
           

@@ -39,18 +39,18 @@ class SubFolderTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        allFilesAndDirectories = InputOutputs.IA.readDirectoryWithSubDirectories(_directoryPath, 
+        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
                     int(Universals.MySettings["subDirectoryDeep"]), _isShowHiddens=Universals.getBoolValue("isShowHiddensInSubFolderTable"))
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
         for fileNo,fileName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(fileName, False, True):
+                if InputOutputs.isReadableFileOrDir(fileName, False, True):
                     content = {}
                     content["path"] = fileName
-                    content["baseNameOfDirectory"] = str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
-                                    str(InputOutputs.IA.getDirName(fileName)).replace(_directoryPath,""))
+                    content["baseNameOfDirectory"] = str(str(InputOutputs.getBaseName(_directoryPath)) + 
+                                    str(InputOutputs.getDirName(fileName)).replace(_directoryPath,""))
                     content["baseName"] = InputOutputs.getBaseName(fileName)
                     currentTableContentValues.append(content)
             else:
@@ -75,9 +75,9 @@ class SubFolderTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1
                         continue
                     baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -98,7 +98,7 @@ class SubFolderTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.changeDirectories(changingFileDirectories)
         if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations

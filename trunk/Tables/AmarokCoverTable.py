@@ -56,12 +56,12 @@ class AmarokCoverTable():
                         for dirPath,dirRow in directoriesAndValues.items():
                             isContinueThreadAction = Universals.isContinueThreadAction()
                             if isContinueThreadAction:
-                                if InputOutputs.IA.isReadableFileOrDir(dirPath, False, True) and InputOutputs.IA.isReadableFileOrDir(dirPath + "/.directory", False, True):
+                                if InputOutputs.isReadableFileOrDir(dirPath, False, True) and InputOutputs.isReadableFileOrDir(dirPath + "/.directory", False, True):
                                     content = {}
                                     content["path"] = dirPath
-                                    content["pathOfParentDirectory"] = InputOutputs.IA.getDirName(dirPath)
-                                    content["baseName"] = InputOutputs.IA.getBaseName(dirPath)
-                                    currentCover, isCorrectedFileContent = InputOutputs.IA.getIconFromDirectory(dirPath)
+                                    content["pathOfParentDirectory"] = InputOutputs.getDirName(dirPath)
+                                    content["baseName"] = InputOutputs.getBaseName(dirPath)
+                                    currentCover, isCorrectedFileContent = InputOutputs.getIconFromDirectory(dirPath)
                                     if currentCover==None:
                                         currentCover = ""
                                     content["currentCover"] = (currentCover)
@@ -97,9 +97,9 @@ class AmarokCoverTable():
         for rowNo in range(startRowNo,self.Table.rowCount(),rowStep):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1
                         continue
                     pathOfParentDirectory = str(self.Table.currentTableContentValues[rowNo]["pathOfParentDirectory"])
@@ -113,18 +113,18 @@ class AmarokCoverTable():
                             destinationPath = str(self.Table.item(rowNo,4).text()).strip()
                         if (str(self.Table.item(rowNo,2).text())!=sourcePath or sourcePath!=destinationPath or str(self.Table.item(rowNo,2).text())!=destinationPath) or (str(self.Table.item(rowNo,2).text())!=self.Table.currentTableContentValues[rowNo]["currentCover"] and (str(self.Table.item(rowNo,2).text())!=sourcePath and str(self.Table.item(rowNo,2).text())!=destinationPath)):
                             if str(self.Table.item(rowNo,3).text()).strip()!="":
-                                sourcePath = InputOutputs.IA.getRealPath(sourcePath, self.Table.currentTableContentValues[rowNo]["path"])
-                                if InputOutputs.IA.checkSource(sourcePath, "file"):
+                                sourcePath = InputOutputs.getRealPath(sourcePath, self.Table.currentTableContentValues[rowNo]["path"])
+                                if InputOutputs.checkSource(sourcePath, "file"):
                                     if destinationPath!="":
-                                        destinationPath = InputOutputs.IA.getRealPath(destinationPath, self.Table.currentTableContentValues[rowNo]["path"])
+                                        destinationPath = InputOutputs.getRealPath(destinationPath, self.Table.currentTableContentValues[rowNo]["path"])
                                         if sourcePath!=destinationPath:
-                                            destinationPath = InputOutputs.IA.moveOrChange(sourcePath, destinationPath)
+                                            destinationPath = InputOutputs.moveOrChange(sourcePath, destinationPath)
                                     else:
                                         destinationPath = sourcePath
-                                    InputOutputs.IA.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], destinationPath)
+                                    InputOutputs.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], destinationPath)
                                     self.Table.changedValueNumber += 1
                             else:
-                                InputOutputs.IA.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], "")
+                                InputOutputs.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], "")
                                 self.Table.changedValueNumber += 1
                     if self.Table.isChangableItem(rowNo, 0, pathOfParentDirectory):
                         pathOfParentDirectory = str(self.Table.item(rowNo,0).text())
@@ -142,7 +142,7 @@ class AmarokCoverTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.changeDirectories(changingFileDirectories)
         from Amarok import Operations
         Operations.changePaths(pathValues)
         return True
@@ -150,9 +150,9 @@ class AmarokCoverTable():
     def showDetails(self, _fileNo, _infoNo):
         directoryPathOfCover = self.Table.currentTableContentValues[_fileNo]["path"]
         coverValues = [directoryPathOfCover, 
-                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover), 
-                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover), 
-                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 4).text()), directoryPathOfCover)]
+                       InputOutputs.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover), 
+                       InputOutputs.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover), 
+                       InputOutputs.getRealPath(str(self.Table.item(_fileNo, 4).text()), directoryPathOfCover)]
         CoverDetails.CoverDetails(coverValues, self.Table.isOpenDetailsOnNewWindow.isChecked(), _infoNo)
         
     def cellClicked(self,_row,_column):

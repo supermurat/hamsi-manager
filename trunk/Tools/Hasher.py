@@ -131,14 +131,14 @@ class Hasher(MyDialog):
     
     def hash(self):
         sourceFile = str(self.lePathOfPackage.text())
-        if InputOutputs.IA.checkSource(sourceFile, "file"):
+        if InputOutputs.checkSource(sourceFile, "file"):
             hashType = str(self.cbHash.currentText())
             if hashType!=None:
-                hashDigestContent = InputOutputs.IA.getHashDigest(sourceFile, hashType)
+                hashDigestContent = InputOutputs.getHashDigest(sourceFile, hashType)
                 if hashDigestContent!=False:
                     self.teHashDigest.setText(trForM(hashDigestContent))
                     if self.cbHashOutput.currentIndex()==1:
-                        if InputOutputs.IA.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
+                        if InputOutputs.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
                                         str(translate("Hasher", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
                         else:

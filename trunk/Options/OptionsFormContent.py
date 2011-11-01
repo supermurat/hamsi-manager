@@ -956,7 +956,7 @@ class MySettings(MWidget):
         
     def clearErrorFiles(self):
         try:
-            InputOutputs.IA.clearTempFiles()
+            InputOutputs.clearTempFiles()
             Records.saveAllRecords()
             Dialogs.show(translate("Options/General", "Error Logs Deleted"), translate("Options/General", "All created by Hamsi Manager error logs and temp files is deleted."))
         except:

@@ -155,7 +155,7 @@ class MusicPlayer(MWidget):
                 _filePath = self.file
             else:
                 self.file = _filePath
-            if InputOutputs.IA.isFile(_filePath):
+            if InputOutputs.isFile(_filePath):
                 self.musicTags = Musics.readMusicFile(_filePath)
                 self.setInfoText(trForUI(("%s - %s (%s)") % (self.musicTags["artist"] , self.musicTags["title"], self.musicTags["album"])))
                 if _isPlayNow==True:

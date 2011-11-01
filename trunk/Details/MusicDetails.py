@@ -36,7 +36,7 @@ class MusicDetails(MDialog):
     musicDialogs =[]
     def __init__(self, _filePath, _isOpenDetailsOnNewWindow=True, _isPlayNow=False):
         global musicDialogs
-        if InputOutputs.IA.isFile(_filePath):
+        if InputOutputs.isFile(_filePath):
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
                 for dialog in musicDialogs:
@@ -287,7 +287,7 @@ class MusicDetails(MDialog):
             self.pbtnDeleteImage.hide()
             self.pbtnSaveAsImage.hide()
         else:
-            if InputOutputs.IA.isFile(self.leImagePath.text())==True:
+            if InputOutputs.isFile(self.leImagePath.text())==True:
                 closeAllImageDialogs()
                 Musics.writeMusicFile(self.musicValues,False,True,self.cbImageType.currentIndex(),str(str(self.leImagePath.text())))
                 self.changeFile(self.musicFile)
@@ -310,8 +310,8 @@ class MusicDetails(MDialog):
                                     InputOutputs.getDirName(self.musicValues["path"]), trForUI(str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1])))
                 if imagePath!="":
                     sourceFile = os.getenv("TMP")+"/HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1]
-                    InputOutputs.IA.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
-                    InputOutputs.IA.moveOrChange(sourceFile, str(imagePath))
+                    InputOutputs.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
+                    InputOutputs.moveOrChange(sourceFile, str(imagePath))
         except:
             error = ReportBug.ReportBug()
             error.show()  

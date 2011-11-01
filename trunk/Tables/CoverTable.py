@@ -37,25 +37,25 @@ class CoverTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        allFilesAndDirectories = InputOutputs.IA.readDirectoryWithSubDirectories(_directoryPath, 
+        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
                     int(Universals.MySettings["CoversSubDirectoryDeep"]), True, True, Universals.getBoolValue("isShowHiddensInCoverTable"))
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
         for dirNo,dirName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(dirName, False, True) and InputOutputs.IA.isReadableFileOrDir(dirName + "/.directory", False, True):
+                if InputOutputs.isReadableFileOrDir(dirName, False, True) and InputOutputs.isReadableFileOrDir(dirName + "/.directory", False, True):
                     content = {}
                     content["path"] = dirName
-                    content["baseNameOfDirectory"] = str(str(InputOutputs.IA.getBaseName(_directoryPath)) + 
-                                    str(InputOutputs.IA.getDirName(dirName)).replace(_directoryPath,""))
-                    content["baseName"] = InputOutputs.IA.getBaseName(dirName)
+                    content["baseNameOfDirectory"] = str(str(InputOutputs.getBaseName(_directoryPath)) + 
+                                    str(InputOutputs.getDirName(dirName)).replace(_directoryPath,""))
+                    content["baseName"] = InputOutputs.getBaseName(dirName)
 
-                    currentCover, isCorrectedFileContent = InputOutputs.IA.getIconFromDirectory(dirName)
+                    currentCover, isCorrectedFileContent = InputOutputs.getIconFromDirectory(dirName)
                     selectedName = None
                     if isCorrectedFileContent and currentCover!=None:
-                        selectedName = InputOutputs.IA.getBaseName(currentCover)
-                    sourceCover = InputOutputs.IA.getFirstImageInDirectory(dirName, selectedName, False, False)
+                        selectedName = InputOutputs.getBaseName(currentCover)
+                    sourceCover = InputOutputs.getFirstImageInDirectory(dirName, selectedName, False, False)
                     if currentCover==None:
                         currentCover = ""
                     if sourceCover==None:
@@ -86,9 +86,9 @@ class CoverTable():
         for rowNo in range(startRowNo,self.Table.rowCount(),rowStep):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1
                         continue
                     baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -102,18 +102,18 @@ class CoverTable():
                             destinationPath = str(self.Table.item(rowNo,4).text()).strip()
                         if (str(self.Table.item(rowNo,2).text())!=sourcePath or sourcePath!=destinationPath or str(self.Table.item(rowNo,2).text())!=destinationPath) or (str(self.Table.item(rowNo,2).text())!=self.Table.currentTableContentValues[rowNo]["currentCover"] and (str(self.Table.item(rowNo,2).text())!=sourcePath and str(self.Table.item(rowNo,2).text())!=destinationPath)):
                             if str(self.Table.item(rowNo,3).text()).strip()!="":
-                                sourcePath = InputOutputs.IA.getRealPath(sourcePath, self.Table.currentTableContentValues[rowNo]["path"])
-                                if InputOutputs.IA.checkSource(sourcePath, "file"):
+                                sourcePath = InputOutputs.getRealPath(sourcePath, self.Table.currentTableContentValues[rowNo]["path"])
+                                if InputOutputs.checkSource(sourcePath, "file"):
                                     if destinationPath!="":
-                                        destinationPath = InputOutputs.IA.getRealPath(destinationPath, self.Table.currentTableContentValues[rowNo]["path"])
+                                        destinationPath = InputOutputs.getRealPath(destinationPath, self.Table.currentTableContentValues[rowNo]["path"])
                                         if sourcePath!=destinationPath:
-                                            destinationPath = InputOutputs.IA.moveOrChange(sourcePath, destinationPath)
+                                            destinationPath = InputOutputs.moveOrChange(sourcePath, destinationPath)
                                     else:
                                         destinationPath = sourcePath
-                                    InputOutputs.IA.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], destinationPath)
+                                    InputOutputs.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], destinationPath)
                                     self.Table.changedValueNumber += 1
                             else:
-                                InputOutputs.IA.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], "")
+                                InputOutputs.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], "")
                                 self.Table.changedValueNumber += 1
                     if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
                         baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
@@ -131,15 +131,15 @@ class CoverTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        InputOutputs.IA.changeDirectories(changingFileDirectories)
+        InputOutputs.changeDirectories(changingFileDirectories)
         return True
         
     def showDetails(self, _fileNo, _infoNo):
         directoryPathOfCover = self.Table.currentTableContentValues[_fileNo]["path"]
         coverValues = [directoryPathOfCover, 
-                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover), 
-                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover), 
-                       InputOutputs.IA.getRealPath(str(self.Table.item(_fileNo, 4).text()), directoryPathOfCover)]
+                       InputOutputs.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover), 
+                       InputOutputs.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover), 
+                       InputOutputs.getRealPath(str(self.Table.item(_fileNo, 4).text()), directoryPathOfCover)]
         CoverDetails.CoverDetails(coverValues, self.Table.isOpenDetailsOnNewWindow.isChecked(), _infoNo)
         
     def cellClicked(self,_row,_column):

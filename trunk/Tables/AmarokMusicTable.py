@@ -84,7 +84,7 @@ class AmarokMusicTable():
                                     content["firstLyrics"] = musicFileRow["lyrics"]
                                     currentTableContentValues.append(content)
                                 else:
-                                    if InputOutputs.IA.isFile(musicFileRow["filePath"]) and InputOutputs.IA.isReadableFileOrDir(musicFileRow["filePath"], False, True):
+                                    if InputOutputs.isFile(musicFileRow["filePath"]) and InputOutputs.isReadableFileOrDir(musicFileRow["filePath"], False, True):
                                         tagger = Taggers.getTagger()
                                         try:
                                             tagger.loadFile(musicFileRow["filePath"])
@@ -127,10 +127,10 @@ class AmarokMusicTable():
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 changingTags.append({"path" : self.Table.currentTableContentValues[rowNo]["path"]})
-                isWritableFileOrDir = InputOutputs.IA.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True)
+                isWritableFileOrDir = InputOutputs.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True)
                 if isWritableFileOrDir:
                     if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1
                         continue
                     baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -211,7 +211,7 @@ class AmarokMusicTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.changeDirectories(changingFileDirectories)
         from Amarok import Operations
         if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("Amarok")>-1:
             Operations.changeTags(changingTags)

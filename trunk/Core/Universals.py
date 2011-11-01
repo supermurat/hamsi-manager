@@ -240,7 +240,6 @@ class Universals():
         
     def fillUIUniversals():
         global tableTypesNames, iconNameFormatLabels
-        from Core.MyObjects import translate
         tableTypesNames = [translate("Tables", "Folder Table"), 
                             translate("Tables", "File Table"), 
                             translate("Tables", "Music Table"), 
@@ -255,7 +254,6 @@ class Universals():
                             translate("Universals", "%Album%"), 
                             translate("Universals", "%Year%"), 
                             translate("Universals", "%Genre%")]
-        from InputOutputs import IA #For first import
             
     def clearAllChilds(_object, _isClearThis=False):
         childs = _object.children()
@@ -274,7 +272,6 @@ class Universals():
     def cancelThreadAction():
         global threadActionState
         from Core import Dialogs
-        from Core.MyObjects import translate
         answer = Dialogs.ask(translate("Universals", "Are You Sure?"),
                             translate("Universals", "Are you want to cancel these transactions?"))
         if answer==Dialogs.Yes:

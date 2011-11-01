@@ -81,11 +81,11 @@ class RunCommand(MDialog):
     
     def codesOfUser(_codes=""):
         if _codes=="":
-            if InputOutputs.IA.isFile(Universals.pathOfSettingsDirectory + "/codesOfUser.py")==False:
+            if InputOutputs.isFile(Universals.pathOfSettingsDirectory + "/codesOfUser.py")==False:
                 reFillCodesOfUser()
-            return InputOutputs.IA.readFromFile(Universals.pathOfSettingsDirectory + "/codesOfUser.py")
+            return InputOutputs.readFromFile(Universals.pathOfSettingsDirectory + "/codesOfUser.py")
         else:
-            InputOutputs.IA.writeToFile(Universals.pathOfSettingsDirectory + "/codesOfUser.py", _codes)
+            InputOutputs.writeToFile(Universals.pathOfSettingsDirectory + "/codesOfUser.py", _codes)
 
     def reFillCodesOfUser():
         codesOfUser("#!/usr/bin/env python\n" +

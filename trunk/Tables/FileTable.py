@@ -38,14 +38,14 @@ class FileTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        fileNames = InputOutputs.IA.readDirectory(_directoryPath, "file", Universals.getBoolValue("isShowHiddensInFileTable"))
+        fileNames = InputOutputs.readDirectory(_directoryPath, "file", Universals.getBoolValue("isShowHiddensInFileTable"))
         allItemNumber = len(fileNames)
         Universals.startThreadAction()
         baseNameOfDirectory = InputOutputs.getBaseName(_directoryPath)
         for fileNo,fileName in enumerate(fileNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(_directoryPath + "/" + fileName, False, True):
+                if InputOutputs.isReadableFileOrDir(_directoryPath + "/" + fileName, False, True):
                     content = {}
                     content["path"] = _directoryPath + "/" + fileName
                     content["baseNameOfDirectory"] = baseNameOfDirectory
@@ -72,9 +72,9 @@ class FileTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1
                         continue
                     baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -95,7 +95,7 @@ class FileTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.changeDirectories(changingFileDirectories)
         if Universals.getBoolValue("isFileTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations

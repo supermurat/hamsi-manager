@@ -32,7 +32,7 @@ class Musics:
     def readMusicFile(_filePath):
         _directoryPath = InputOutputs.getDirName(_filePath)
         isCanNoncompatible = False
-        if InputOutputs.IA.isReadableFileOrDir(_filePath):
+        if InputOutputs.isReadableFileOrDir(_filePath):
             tagger = Taggers.getTagger()
             try:
                 tagger.loadFile(_filePath)
@@ -65,7 +65,7 @@ class Musics:
             return content
     
     def writeMusicFile(_oldMusicTagsValues,_newMusicTagsValues,_isImageAction=False,_ImageType=False,_ImagePath=False):
-        if InputOutputs.IA.isWritableFileOrDir(_oldMusicTagsValues["path"]):
+        if InputOutputs.isWritableFileOrDir(_oldMusicTagsValues["path"]):
             baseNameOfDirectory = _oldMusicTagsValues["baseNameOfDirectory"]
             baseName = _oldMusicTagsValues["baseName"]
             tagger = Taggers.getTagger()

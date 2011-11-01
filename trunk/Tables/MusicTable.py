@@ -59,7 +59,7 @@ class MusicTable():
         for musicNo,musicName in enumerate(musicFileNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.IA.isReadableFileOrDir(_directoryPath+"/"+musicName, False, True):
+                if InputOutputs.isReadableFileOrDir(_directoryPath+"/"+musicName, False, True):
                     tagger = Taggers.getTagger()
                     try:
                         tagger.loadFile(_directoryPath+"/"+musicName)
@@ -116,9 +116,9 @@ class MusicTable():
                 changingTags[-1]["genre"] = self.Table.currentTableContentValues[rowNo]["genre"]
                 changingTags[-1]["firstComment"] = self.Table.currentTableContentValues[rowNo]["firstComment"]
                 changingTags[-1]["firstLyrics"] = self.Table.currentTableContentValues[rowNo]["firstLyrics"]
-                if InputOutputs.IA.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if self.Table.isRowHidden(rowNo):
-                        InputOutputs.IA.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1
                         continue
                     baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -191,7 +191,7 @@ class MusicTable():
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.IA.changeDirectories(changingFileDirectories)
+        pathValues = InputOutputs.changeDirectories(changingFileDirectories)
         if Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations

@@ -198,7 +198,7 @@ class UpdateControl(MDialog):
         
     def downloadAndInstall(self):
         try:
-            if InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory):
+            if InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True):
                 self.setFixedHeight(130)   
                 self.isDownloading=True
                 self.prgbState.setVisible(True)
@@ -220,7 +220,7 @@ class UpdateControl(MDialog):
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save As")
-            fileName = MFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.IA.getDirName(Variables.HamsiManagerDirectory)+"/"+defaultFileName)
+            fileName = MFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/"+defaultFileName)
             if fileName== "":
                 import random, tempfile
                 fileName = tempfile.gettempdir() + "/" + defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:]
@@ -257,7 +257,7 @@ class UpdateControl(MDialog):
                 request = reply.request()
                 v = request.attribute(MNetworkRequest.User)
                 fileName = Universals.trStr(v)
-                InputOutputs.IA.writeToFile(fileName, reply.readAll())
+                InputOutputs.writeToFile(fileName, reply.readAll())
                 if self.isNotInstall==False:
                     self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))
                     self.lblInfo.setText(translate("UpdateControl", "Latest release downloaded, initializing installation."))
@@ -271,15 +271,15 @@ class UpdateControl(MDialog):
         Dialogs.show(translate("UpdateControl", "Update Will Be Complete"),
                         translate("UpdateControl", "Please restart Hamsi Manager now."),
                         translate("UpdateControl", "Restart"))
-        if InputOutputs.IA.isFile(Variables.HamsiManagerDirectory+"/Update.py")==False:
-            if InputOutputs.IA.isFile(Variables.HamsiManagerDirectory+"/ConfigureUpdate.py"):
-                InputOutputs.IA.moveFileOrDir(Variables.HamsiManagerDirectory+"/ConfigureUpdate.py", Variables.HamsiManagerDirectory+"/Update.py")
+        if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Update.py")==False:
+            if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/ConfigureUpdate.py"):
+                InputOutputs.moveFileOrDir(Variables.HamsiManagerDirectory+"/ConfigureUpdate.py", Variables.HamsiManagerDirectory+"/Update.py")
         executeWithPython([Variables.HamsiManagerDirectory+"/Update.py", str(_fileName)])
         self.close()
         self.parent().close()
         
     def isUpdatable(self):
-        return InputOutputs.IA.isWritableFileOrDir(Variables.HamsiManagerDirectory, True)
+        return InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True)
         
     def isMakeUpdateControl():
         lastUpdateControlTime = Universals.getDateValue("lastUpdateControlDate")
