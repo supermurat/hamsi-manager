@@ -395,7 +395,7 @@ class OptionsForm(MDialog):
             isDontClose = False
             isSaveSearchAndReplaceTable, searchAndReplaceCategoryNo = False, 0
             defaultValues = Variables.getDefaultValues()
-            valueTypesAndValues = Variables.getValueTypesAndValues()
+            valueTypesAndValues = Variables.getValueTypesAndValues(True)
             for categoryNo, category in enumerate(self.categories):
                 for x, keyValue in enumerate(category.keysOfSettings):
                     if category.visibleKeys.count(keyValue)>0:
@@ -476,7 +476,7 @@ class OptionsForm(MDialog):
     def applySetting(self, _category, _keyValue):
         try:
             defaultValues = Variables.getDefaultValues()
-            valueTypesAndValues = Variables.getValueTypesAndValues()
+            valueTypesAndValues = Variables.getValueTypesAndValues(True)
             x = _category.keysOfSettings.index(_keyValue)
             if _category.visibleKeys.count(_keyValue)>0:
                 if _category.typesOfValues[x]=="string":
