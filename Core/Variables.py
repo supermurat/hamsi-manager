@@ -32,7 +32,10 @@ class Variables():
     intversion = 977
     settingVersion = "970"
     aboutOfHamsiManager = ""
-    executableHamsiManagerPath = str(os.getcwd() + sys.argv[0][1:])
+    if sys.argv[0][0]==".":
+        executableHamsiManagerPath = str(os.getcwd() + sys.argv[0][1:])
+    else:
+        executableHamsiManagerPath = str(sys.argv[0])
     HamsiManagerDirectory = os.path.dirname(executableHamsiManagerPath)
     userDirectoryPath = os.path.expanduser("~")
     defaultFileSystemEncoding = sys.getfilesystemencoding()
