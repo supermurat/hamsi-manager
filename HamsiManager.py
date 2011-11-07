@@ -27,12 +27,18 @@ try:
 except:pass
 Variables.checkStartupVariables()
 from Core import Universals
+Universals.printForDevelopers("Before RoutineChecks")
 from Core import RoutineChecks
+Universals.printForDevelopers("Before RoutineChecks.checkQt4Exist")
 if RoutineChecks.checkQt4Exist():
     myUniversals = ""
+    Universals.printForDevelopers("Before RoutineChecks.checkParameters")
     if RoutineChecks.checkParameters():
+        Universals.printForDevelopers("Before Settings")
         from Core import Settings
+        Universals.printForDevelopers("Before Settings.checkSettings")
         Settings.checkSettings()
+        Universals.printForDevelopers("Before Universals.fillMySettings")
         Universals.fillMySettings()
         Universals.printForDevelopers("Before MyObjects")
         from Core.MyObjects import *
@@ -118,7 +124,8 @@ if RoutineChecks.checkQt4Exist():
         if InputOutputs.isFile(Universals.themePath + "/Style.qss"):
             HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(Universals.themePath + "/Style.qss"))
         HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
-        MApplication.setStyle(Universals.MySettings["applicationStyle"])
+        if Universals.MySettings["applicationStyle"]!="":
+            MApplication.setStyle(Universals.MySettings["applicationStyle"])
         if Universals.isActivePyKDE4:
             if InputOutputs.isFile(Universals.MySettings["colorSchemes"]):
                 config = MSharedConfig.openConfig(Universals.MySettings["colorSchemes"])

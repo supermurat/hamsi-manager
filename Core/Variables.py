@@ -32,10 +32,8 @@ class Variables():
     intversion = 977
     settingVersion = "970"
     aboutOfHamsiManager = ""
-    HamsiManagerDirectory = sys.path[0]
-    if HamsiManagerDirectory=="":
-        HamsiManagerDirectory = sys.path[1]
-    executableHamsiManagerPath = str(sys.argv[0])
+    executableHamsiManagerPath = str(os.getcwd() + sys.argv[0][1:])
+    HamsiManagerDirectory = os.path.dirname(executableHamsiManagerPath)
     userDirectoryPath = os.path.expanduser("~")
     defaultFileSystemEncoding = sys.getfilesystemencoding()
     if defaultFileSystemEncoding is None:
@@ -188,11 +186,7 @@ class Variables():
             insLangCode = str(MQtCore.QLocale.system().name())
         else:
             insLangCode = "en_GB"
-        myStyle , PlayerName, myObjectsName = "Plastique", getAvailablePlayers().pop(), getMyObjectsNames()[0]
-        for stil in MQtGui.QStyleFactory.keys():
-            if stil == "Oxygen":
-                myStyle = str(stil)
-                break
+        myStyle , PlayerName, myObjectsName = "", getAvailablePlayers().pop(), getMyObjectsNames()[0]
         return {
                 "lastDirectory": str(userDirectoryPath), 
                 "isMainWindowMaximized": "False", 
@@ -335,8 +329,12 @@ class Variables():
                 "isShowHiddensInCoverTable": "False", 
                 "isShowHiddensInFileTree": "False"
                 }
+            
                 
-    def getValueTypesAndValues():
+    def getValueTypesAndValues(_isAfterDefineApplication=False):
+        myStyleContent = "str"
+        if _isAfterDefineApplication:
+            myStyleContent = ["options", getStyles()]
         return {
                 "lastDirectory": "str", 
                 "isMainWindowMaximized": "bool", 
@@ -373,7 +371,7 @@ class Variables():
                 "mplayerAudioDevice": ["options", mplayerSoundDevices], 
                 "isSaveActions": "bool", 
                 "fileSystemEncoding": ["options", getCharSets()], 
-                "applicationStyle": ["options", getStyles()], 
+                "applicationStyle": myStyleContent, 
                 "playerName": ["options", getAvailablePlayers()], 
                 "isMinimumWindowMode": "bool", 
                 "packagerUnneededFileExtensions": "list", 
@@ -506,7 +504,7 @@ class Variables():
         return charSets
         
     def getStyles():
-        styles = []
+        styles = [""]
         for stil in MQtGui.QStyleFactory.keys(): 
             styles.append(str(stil))
         return styles
