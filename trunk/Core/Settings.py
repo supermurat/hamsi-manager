@@ -57,7 +57,7 @@ class Settings():
                 
     def getUniversalSetting(_key, _defaultValue):
         mySetting = universalSetting()
-        value = Universals.trStr(mySetting.value(_key))
+        value = str(Universals.trStr(mySetting.value(_key)))
         if value == "":
             value = _defaultValue
         return value

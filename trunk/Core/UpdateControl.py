@@ -35,7 +35,7 @@ class UpdateControl(MDialog):
         if Universals.isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         if _isNotInstall==False:
-            if self.isUpdatable()==False:
+            if Variables.isUpdatable()==False:
                 _isNotInstall = True
         self.isNotInstall = _isNotInstall
         self.pnlMain = MWidget()
@@ -277,9 +277,6 @@ class UpdateControl(MDialog):
         executeWithPython([Variables.HamsiManagerDirectory+"/Update.py", str(_fileName)])
         self.close()
         self.parent().close()
-        
-    def isUpdatable(self):
-        return InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True)
         
     def isMakeUpdateControl():
         lastUpdateControlTime = Universals.getDateValue("lastUpdateControlDate")
