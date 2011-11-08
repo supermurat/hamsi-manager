@@ -396,16 +396,30 @@ class InfoScroller(MThread):
     
     def run(self):
         x = 150
+        breakCount = 0
         while 1==1:
-            if Universals!=None:
+            try:
                 if Universals.isStartingSuccessfully and Universals.isStartedCloseProcces==False:
-                    try:
-                        self.parent.info.move(x, 0)
-                        time.sleep(0.05)
-                        x-=1
-                        self.parent.info.setMinimumWidth(len(self.parent.info.text())*7)
-                        if x<=-(len(self.parent.info.text())*7):
-                            x=150
-                    except:pass #Passed for cleared objects
+                    if self.parent.parent().isVisible():
+                        try:
+                            self.parent.info.move(x, 0)
+                            time.sleep(0.05)
+                            x-=1
+                            self.parent.info.setMinimumWidth(len(self.parent.info.text())*7)
+                            if x<=-(len(self.parent.info.text())*7):
+                                x=150
+                        except:pass # Passed for cleared objects
+                    else:
+                        breakCount+=1
+                        if breakCount<5: time.sleep(1)
+                        else: break
+                else:
+                    breakCount+=1
+                    if breakCount<5: time.sleep(1)
+                    else: break
+            except:# Passed for cleared objects or starting or stoping
+                breakCount+=1
+                if breakCount<5: time.sleep(1)
+                else: break
                 
     
