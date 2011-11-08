@@ -68,6 +68,7 @@ class Searcher(MyDialog):
         self.cckbIsOnlyDigitsAndLetters = Options.MyCheckBox(self, translate("Searcher", "Only Digits And Letters"), 2, _stateChanged = self.search)
         self.cckbIsClearVowels = Options.MyCheckBox(self, translate("Searcher", "Clear Vowels"), 2, _stateChanged = self.search)
         self.cckbIsNormalizeUTF8CharsAndClearVowels = Options.MyCheckBox(self, translate("Searcher", "Normalize UTF-8 Characters And Clear Vowels"), 2, _stateChanged = self.search)
+        self.cckbIsLineWrap = Options.MyCheckBox(self, translate("Searcher", "Wrap By Width"), 0, _stateChanged = self.isLineWrap)
         pnlMain = MWidget(self)
         tabwTabs = MTabWidget()
         vblMain = MVBoxLayout(pnlMain)
@@ -113,6 +114,7 @@ class Searcher(MyDialog):
         gboxFilters.setLayout(VBox1)
         vblMain2.addWidget(gboxFilters)
         vblMain2.addWidget(self.teSearchResult, 20)
+        vblMain2.addWidget(self.cckbIsLineWrap)
         vblMain2.addStretch(1)
         vblMain2.addLayout(HBox2)
         tabwTabs.addTab(pnlMain2, translate("Searcher", "Search"))
@@ -127,6 +129,7 @@ class Searcher(MyDialog):
             self.setCentralWidget(pnlMain)
             moveToCenter(self)
         self.isRegExpChanged(False)
+        self.isLineWrap()
         self.setWindowTitle(translate("Searcher", "Searcher"))
         self.setWindowIcon(MIcon("Images:search.png"))
         self.show()
@@ -301,6 +304,12 @@ class Searcher(MyDialog):
         self.lblSearchListValues.setText(trForM(""))
         if _isSearch:
             self.search()
+            
+    def isLineWrap(self):
+        if self.cckbIsLineWrap.checkState() == Mt.Checked:
+            self.teSearchResult.setLineWrapMode(MTextEdit.WidgetWidth)
+        else:
+            self.teSearchResult.setLineWrapMode(MTextEdit.NoWrap)
     
     def selectSearchDirectoryPath(self):
         try:
