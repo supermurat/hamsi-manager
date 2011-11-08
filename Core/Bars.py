@@ -219,7 +219,7 @@ class Bars():
             elif actionName==translate("MenuBar", "My Plug-ins (System)"):
                 Execute.executeReconfigure(["--pluginPage", "--onlyRoot"])
             elif actionName==translate("MenuBar", "Update"):
-                from Core import Universals
+                from Core import Universals, UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
             elif actionName==translate("MenuBar", "Report Bug"):
                 error = ReportBug.ReportBug(True)

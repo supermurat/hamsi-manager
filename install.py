@@ -289,11 +289,11 @@ if RoutineChecks.checkQt4Exist():
                     _event.ignore()
             
         def finish(self):
+            Settings.setUniversalSetting("isUpdatable", "True")
             if InputOutputs.isFile(self.installationDirectory + "/HamsiManager.desktop"):
                 MyConfigure.reConfigureFile(self.installationDirectory + "/HamsiManager.desktop", self.installationDirectory)
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
-                    from Core import Settings
                     desktopPath = Variables.getUserDesktopPath()
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                     InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
