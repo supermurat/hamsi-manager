@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 from Core import Variables
 
 class Universals():
-    global MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue, oldRecordsDirectoryPath, Utf8Contents
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillUIUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue, oldRecordsDirectoryPath, Utf8Contents
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -52,10 +52,26 @@ class Universals():
     if Variables.executableHamsiManagerPath.find("HamsiManager")==-1 or Variables.executableHamsiManagerPath.find("./HamsiManager")!=-1:
         Variables.executableHamsiManagerPath = Variables.HamsiManagerDirectory + "/HamsiManager.py"
     
-    def __init__(self, _app, _main):
-        global MainWindow, HamsiManagerApp
+    def __init__(self):
+        pass
+        
+    def setApp(_app):
+        global HamsiManagerApp
         HamsiManagerApp = _app
-        MainWindow = _main
+        
+    def setMainWindow(_mainWindow):
+        global MainWindow
+        MainWindow = _mainWindow
+        MainWindow.StateDialog = None
+        MainWindow.StateDialogStateBar = None
+        MainWindow.StateDialogTitle = None
+        MainWindow.Menu = None
+        MainWindow.Bars = None
+        MainWindow.StatusBar = None
+        MainWindow.ToolsBar = None
+        MainWindow.TableToolsBar = None
+        MainWindow.FileManager = None
+        MainWindow.CentralWidget = None
     
     def setPathOfSettingsDirectory(_path):
         global pathOfSettingsDirectory

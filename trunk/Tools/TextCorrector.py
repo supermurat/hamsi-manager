@@ -36,7 +36,7 @@ class TextCorrector(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         self.setWindowTitle(translate("TextCorrector", "Text Corrector")) 
         self.fileValues = None
         self.isChangeSourceCharSetChanged = False

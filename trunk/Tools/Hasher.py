@@ -35,7 +35,7 @@ class Hasher(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Hasher")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "hash", None, newOrChangedKeys)
         lblPathOfPackage = MLabel(translate("Hasher", "Path Of The File : "))

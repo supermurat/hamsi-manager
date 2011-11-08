@@ -34,7 +34,7 @@ class FileTreeBuilder(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "fileTree", None, newOrChangedKeys)
         lblDirectory = MLabel(translate("FileTreeBuilder", "Directory : "))
