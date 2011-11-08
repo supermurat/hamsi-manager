@@ -31,7 +31,6 @@ Universals.printForDevelopers("Before RoutineChecks")
 from Core import RoutineChecks
 Universals.printForDevelopers("Before RoutineChecks.checkQt4Exist")
 if RoutineChecks.checkQt4Exist():
-    myUniversals = ""
     Universals.printForDevelopers("Before RoutineChecks.checkParameters")
     if RoutineChecks.checkParameters():
         Universals.printForDevelopers("Before Settings")
@@ -138,7 +137,7 @@ if RoutineChecks.checkQt4Exist():
             if RoutineChecks.isQuickMake:
                 Universals.printForDevelopers("QuickMake")
                 try:
-                    myUniversals = Universals.Universals(HamsiManagerApp, None)
+                    Universals.setApp(HamsiManagerApp)
                     Universals.fillUIUniversals()
                     from Core import QuickMake
                     quickMake = QuickMake.QuickMake()
@@ -164,8 +163,10 @@ if RoutineChecks.checkQt4Exist():
                             MMainWindow.__init__(self, None)
                             Universals.printForDevelopers("Started __init__")
                             self.setObjectName("RealMainWindow")
-                            myUniversals = Universals.Universals(HamsiManagerApp, self)
+                            Universals.setApp(HamsiManagerApp)
+                            Universals.setMainWindow(self)
                             Universals.fillUIUniversals()
+                            self.isLockedMainForm = False
                             self.Menu = None
                             self.CentralWidget = MWidget()
                             self.createMainLayout()
@@ -217,6 +218,7 @@ if RoutineChecks.checkQt4Exist():
                                 wid.setEnabled(False)
                             for wid in self.findChildren(MMenuBar):
                                 wid.setEnabled(False)
+                            self.isLockedMainForm = True
                             
                         def unlockForm(self):
                             self.CentralWidget.setEnabled(True)
@@ -226,6 +228,7 @@ if RoutineChecks.checkQt4Exist():
                                 wid.setEnabled(True)
                             for wid in self.findChildren(MMenuBar):
                                 wid.setEnabled(True)
+                            self.isLockedMainForm = False
                             
                         def closeEvent(self, _event):
                             try:

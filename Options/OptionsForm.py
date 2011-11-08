@@ -463,7 +463,8 @@ class OptionsForm(MDialog):
             Universals.saveSettings()
             if isSaveSearchAndReplaceTable:
                 self.categories[searchAndReplaceCategoryNo].searchAndReplaceTable.save()
-            Universals.MainWindow.Menu.refreshQuickOptions()
+            if Universals.MainWindow.Menu!=None:
+                Universals.MainWindow.Menu.refreshQuickOptions()
             Records.checkSize()
             if isDontClose:return False
             if isNeededRestart==True:

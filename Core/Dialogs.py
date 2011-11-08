@@ -22,8 +22,7 @@ from Core.MyObjects import *
 from Core import Universals
 
 class Dialogs():
-    global show, showError, ask, askSpecial, showState, pnlState, prgbState, lblState, Ok, Cancel, Yes, No, Continue, getItem, pbtnCancel, sleep, getText
-    pnlState, prgbState, lblState, pbtnCancel = None, None, None, None
+    global show, showError, ask, askSpecial, showState, Ok, Cancel, Yes, No, Continue, getItem, sleep, getText
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
     
     def show(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
@@ -147,71 +146,65 @@ class Dialogs():
                 
     def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
         if Universals.windowMode==Variables.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
-            return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel)
+            return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel, _connectToCancel)
         MApplication.processEvents()
-        global pnlState, prgbState, lblState, pbtnCancel
-        if pnlState==None:
-            prgbState = MProgressBar()
-            pbtnCancel = MPushButton(translate("Dialogs", "Cancel"))
-            pbtnCancel.setVisible(False)
-            if _connectToCancel==None:
-                MObject.connect(pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
-            else:
-                MObject.connect(pbtnCancel, SIGNAL("clicked()"), _connectToCancel)
+        if Universals.MainWindow.StateDialog==None:
+            Universals.MainWindow.StateDialogStateBar = MProgressBar()
             HBoxs=[]
             if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
-                Universals.MainWindow.lockForm()
-                pnlState = MDockWidget(translate("Dialogs", "Progress Bar"))
-                pnlState.setObjectName(translate("Dialogs", "Progress Bar"))
-                pnlState2 = MWidget(pnlState)
-                lblState = MLabel()
+                if Universals.MainWindow.isLockedMainForm==False:
+                    Universals.MainWindow.lockForm()
+                Universals.MainWindow.StateDialog = MDockWidget(translate("Dialogs", "Progress Bar"))
+                Universals.MainWindow.StateDialog.setObjectName(translate("Dialogs", "Progress Bar"))
+                pnlState2 = MWidget(Universals.MainWindow.StateDialog)
+                Universals.MainWindow.StateDialogTitle = MLabel()
                 HBoxs.append(MHBoxLayout(pnlState2))
-                HBoxs[0].addWidget(lblState) 
-                HBoxs[0].addWidget(prgbState) 
-                HBoxs[0].addWidget(pbtnCancel) 
-                pnlState.setWidget(pnlState2)
-                pnlState.setAllowedAreas(Mt.AllDockWidgetAreas)
-                pnlState.setFeatures(MDockWidget.AllDockWidgetFeatures)
-                Universals.MainWindow.addDockWidget(Mt.TopDockWidgetArea, pnlState)
-                pnlState.setMaximumHeight(60)
+                HBoxs[0].addWidget(Universals.MainWindow.StateDialogTitle) 
+                HBoxs[0].addWidget(Universals.MainWindow.StateDialogStateBar) 
+                Universals.MainWindow.StateDialog.setWidget(pnlState2)
+                Universals.MainWindow.StateDialog.setAllowedAreas(Mt.AllDockWidgetAreas)
+                Universals.MainWindow.StateDialog.setFeatures(MDockWidget.AllDockWidgetFeatures)
+                Universals.MainWindow.addDockWidget(Mt.TopDockWidgetArea, Universals.MainWindow.StateDialog)
+                Universals.MainWindow.StateDialog.setMaximumHeight(60)
             else:
-                pnlState = MDialog(Universals.MainWindow)
+                Universals.MainWindow.StateDialog = MDialog(Universals.MainWindow)
                 if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
-                    pnlState.setButtons(MDialog.NoDefault)
-                pnlState.setModal(True)
-                pnlState.setMinimumWidth(500) 
-                pnlMain = MWidget(pnlState)
+                    Universals.MainWindow.StateDialog.setButtons(MDialog.NoDefault)
+                Universals.MainWindow.StateDialog.setModal(True)
+                Universals.MainWindow.StateDialog.setMinimumWidth(500) 
+                pnlMain = MWidget(Universals.MainWindow.StateDialog)
                 HBoxs.append(MHBoxLayout(pnlMain))
-                HBoxs[0].addWidget(prgbState) 
-                HBoxs[0].addWidget(pbtnCancel) 
+                HBoxs[0].addWidget(Universals.MainWindow.StateDialogStateBar)
                 if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
-                    pnlState.setMainWidget(pnlMain)
+                    Universals.MainWindow.StateDialog.setMainWidget(pnlMain)
                 else:
-                    pnlState.setLayout(HBoxs[0])
-                pnlState.show()
-        prgbState.setRange(0, _maxValue)
-        prgbState.setValue(_value)
-        if pbtnCancel!=None:
+                    Universals.MainWindow.StateDialog.setLayout(HBoxs[0])
+                Universals.MainWindow.StateDialog.show()
             if _isShowCancel:
-                pbtnCancel.setVisible(True)
-            else:
-                pbtnCancel.setVisible(False)
+                pbtnCancel = MPushButton(translate("Dialogs", "Cancel"), Universals.MainWindow.StateDialog)
+                if _connectToCancel==None:
+                    MObject.connect(pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
+                else:
+                    MObject.connect(pbtnCancel, SIGNAL("clicked()"), _connectToCancel)
+                HBoxs[0].addWidget(pbtnCancel) 
+        Universals.MainWindow.StateDialogStateBar.setRange(0, _maxValue)
+        Universals.MainWindow.StateDialogStateBar.setValue(_value)
         if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
-            lblState.setText(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
+            Universals.MainWindow.StateDialog.setVisible(True)
+            Universals.MainWindow.StateDialogTitle.setText(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
         else:
-            pnlState.setWindowTitle(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
+            Universals.MainWindow.StateDialog.open()
+            Universals.MainWindow.StateDialog.setModal(True)
+            Universals.MainWindow.StateDialog.setWindowTitle(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
         if _value==_maxValue:
             if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
-                Universals.MainWindow.unlockForm()
-                Universals.MainWindow.removeDockWidget(pnlState)
+                if Universals.MainWindow.isLockedMainForm:
+                    Universals.MainWindow.unlockForm()
+                Universals.MainWindow.StateDialog.setVisible(False)
             else:
-                pnlState.setModal(False)
-                pnlState.close()
-            if pbtnCancel!=None:
-                pbtnCancel.setVisible(False)
-            pnlState.deleteLater()
-            prgbState.deleteLater()
-            pnlState, prgbState, lblState, pbtnCancel = None, None, None, None
+                Universals.MainWindow.StateDialog.setModal(False)
+                Universals.MainWindow.StateDialog.close()
+            Universals.MainWindow.StateDialog = None
     
     def sleep(_title, _value=0, _isShowCancel=False):
         import time

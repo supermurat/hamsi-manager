@@ -36,7 +36,7 @@ class Searcher(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Searcher")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "search", None, newOrChangedKeys)
         self.sourceToSearch = None

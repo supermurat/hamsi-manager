@@ -1035,7 +1035,7 @@ class StatusBar(MStatusBar):
         if Variables.isRunningAsRoot():
             lblInfo = MLabel(trForUI("<span style=\"color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+"</span>"))
             self.addWidget(lblInfo)
-        self.isLockedMainForm = False
+        self.connectionToCancel = None
         self.lblInfo = MLabel("")
         self.hideInfo()
         self.addWidget(self.lblInfo)
@@ -1053,7 +1053,6 @@ class StatusBar(MStatusBar):
         self.addWidget(self.lblTableInfo)
         self.addWidget(self.lblImportantInfo)
         self.addWidget(self.lblSelectionInfo)
-        MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
         self.fillSelectionInfo()
     
     def showInfo(self, _info):
@@ -1089,13 +1088,20 @@ class StatusBar(MStatusBar):
             else:
                 self.setSelectionInfo(translate("Tables", "Selected informations will not change"))
         
-    def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False):
+    def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
         MApplication.processEvents()
-        if self.isLockedMainForm==False:
-            self.isLockedMainForm = True
+        if Universals.MainWindow.isLockedMainForm==False:
             Universals.MainWindow.lockForm()
         self.prgbState.setVisible(True)
         if _isShowCancel:
+            if self.connectionToCancel!=None:
+                MObject.disconnect(self.pbtnCancel, SIGNAL("clicked()"), self.connectionToCancel)
+            if _connectToCancel==None:
+                MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
+                self.connectionToCancel = Universals.cancelThreadAction
+            else:
+                MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), _connectToCancel)
+                self.connectionToCancel = _connectToCancel
             self.pbtnCancel.setVisible(True)
         else:
             self.pbtnCancel.setVisible(False)
@@ -1107,8 +1113,8 @@ class StatusBar(MStatusBar):
             self.prgbState.setVisible(False)
             self.pbtnCancel.setVisible(False)
             self.prgbState.setRange(0, 100)
-            self.isLockedMainForm = False
-            Universals.MainWindow.unlockForm()
+            if Universals.MainWindow.isLockedMainForm:
+                Universals.MainWindow.unlockForm()
         
         
         

@@ -350,7 +350,7 @@ class EmbeddedDBConfigurator(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("EmbeddedDBConfigurator")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         self.pbtnBackup = MPushButton(translate("EmbeddedDBConfigurator", "Backup"))
         self.pbtnRestore = MPushButton(translate("EmbeddedDBConfigurator", "Restore"))
         self.pbtnConfigureEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Configure Embedded Database Files"))
@@ -460,7 +460,7 @@ class ReadOnlyEmbeddedDBConfigurator(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("ReadOnlyEmbeddedDBConfigurator")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         self.pbtnCreateEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Create Embedded Database Files"))
         self.pbtnGenerateEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Generate Embedded Database From Amarok"))
         self.pbtnStartEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Start Embedded Database Server"))

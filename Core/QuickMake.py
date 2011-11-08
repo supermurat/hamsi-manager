@@ -33,7 +33,7 @@ class QuickMake():
             isShowQuickMakeWindow = True
             tempWindow = MMainWindow()
             self.quickMakeWindow = QuickMakeWindow()
-            Universals.MainWindow = self.quickMakeWindow
+            Universals.setMainWindow(self.quickMakeWindow)
             isShowEmendWidgets = False
             isCorrectCommand = True
             if QuickMakeParameters[0]=="pack":
@@ -127,7 +127,7 @@ class QuickMakeWindow(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         self.setWindowTitle(_actionName)
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)

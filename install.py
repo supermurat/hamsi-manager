@@ -58,7 +58,8 @@ if RoutineChecks.checkQt4Exist():
     class Main(MMainWindow):
         def __init__(self, parent=None):
             MMainWindow.__init__(self, parent)
-            myUniversals = Universals.Universals(HamsiManagerApp, self)
+            Universals.setApp(HamsiManagerApp)
+            Universals.setMainWindow(self)
             Universals.fillUIUniversals()
             self.isInstallFinised = False
             self.pageNo, self.pageSize = 0, 5

@@ -34,7 +34,7 @@ class Cleaner(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "clear", None, newOrChangedKeys)
         lblPleaseSelect = MLabel(translate("Cleaner", "Directory"))

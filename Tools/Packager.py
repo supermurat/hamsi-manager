@@ -35,7 +35,7 @@ class Packager(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
-            Universals.MainWindow = self
+            Universals.setMainWindow(self)
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "pack", None, newOrChangedKeys)
         lblPleaseSelect = MLabel(translate("Packager", "Path Of The Directory"))
