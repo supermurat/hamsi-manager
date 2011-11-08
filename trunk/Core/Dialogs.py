@@ -201,6 +201,7 @@ class Dialogs():
                 if Universals.MainWindow.isLockedMainForm:
                     Universals.MainWindow.unlockForm()
                 Universals.MainWindow.StateDialog.setVisible(False)
+                Universals.MainWindow.removeDockWidget(Universals.MainWindow.StateDialog)
             else:
                 Universals.MainWindow.StateDialog.setModal(False)
                 Universals.MainWindow.StateDialog.close()
