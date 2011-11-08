@@ -18,7 +18,6 @@
 
 from Core import Variables
 import InputOutputs
-from Core import Execute
 from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
 pluginVersion = "0.4"

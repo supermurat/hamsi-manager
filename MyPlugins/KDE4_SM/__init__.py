@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core import Variables
-from Core import Execute
 from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/KDE4_SM", "For KDE4 Applications` Service Menus"))
 pluginVersion = "0.5"

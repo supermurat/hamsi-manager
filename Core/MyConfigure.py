@@ -42,7 +42,6 @@ class MyConfigure:
         if Variables.isAvailableKDE4():
             if _KDELocalateDir==None:
                 _KDELocalateDir = Variables.getKDE4HomePath() +"/share/locale/~langCode~/LC_MESSAGES/"
-            from Core import Execute
             if Variables.isRunningAsRoot():
                 _KDELocalateDir = "/usr/share/locale/~langCode~/LC_MESSAGES/"
             _KDELocalateDir = str(_KDELocalateDir)

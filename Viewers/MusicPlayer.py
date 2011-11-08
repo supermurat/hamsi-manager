@@ -356,7 +356,7 @@ class M_MPlayer():
     
     def runCommand(self, _command):
         if self.popen!=False:
-            from Execute import writeToPopen
+            from Core.Execute import writeToPopen
             writeToPopen(self.popen, _command)
         
     def play(self, _filePath):

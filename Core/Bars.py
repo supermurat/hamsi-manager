@@ -163,13 +163,12 @@ class Bars():
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
-                from Core import Execute, Settings
+                from Core import Settings
                 if Execute.executeHamsiManagerAsRoot(["--sDirectoryPath", Universals.pathOfSettingsDirectory]):
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
             elif actionName==translate("MenuBar", "With Root Profile (Own Settings)"):
-                from Core import Execute
                 if Execute.executeHamsiManagerAsRoot():
                     Universals.MainWindow.close()
                 else:
@@ -216,10 +215,8 @@ class Bars():
                 import MyPlugins
                 MyPlugins.MyPlugins(Universals.MainWindow)
             elif actionName==translate("MenuBar", "Reconfigure"):
-                from Core import Execute
                 Execute.executeReconfigure(["--configurePage"])
             elif actionName==translate("MenuBar", "My Plug-ins (System)"):
-                from Core import Execute
                 Execute.executeReconfigure(["--pluginPage", "--onlyRoot"])
             elif actionName==translate("MenuBar", "Update"):
                 from Core import Universals
@@ -1035,7 +1032,6 @@ class StatusBar(MStatusBar):
     
     def __init__(self, _parent):
         MStatusBar.__init__(self, _parent)
-        from Core import Execute
         if Variables.isRunningAsRoot():
             lblInfo = MLabel(trForUI("<span style=\"color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+"</span>"))
             self.addWidget(lblInfo)
