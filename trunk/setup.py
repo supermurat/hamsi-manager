@@ -21,23 +21,23 @@
 from cx_Freeze import setup, Executable
 
 includes = []
-excludes = ['_gtkagg', '_tkagg', 'bsddb', 'curses', 'email', 
-            'pywin.debugger', 'pywin.debugger.dbgcon', 'pywin.dialogs', 
-            'tcl','Tkconstants', 'Tkinter']
-packages = ['Amarok','Core','Databases','Details','InputOutputs','Languages',
-        'MyPlugins','Options','SearchEngines','Tables','Taggers','Tools','Viewers', 
-        #'pysqlite2', # For only (python<2.7)
-        'sqlite3', # For only (python>=2.7)
-        'PyKDE4', # If you want to use KDE4 (Is not requirement but however it is very better than)
-        'eyeD3', 'musicbrainz2', 
-        'hashlib', 'urllib', 'PyQt4']
+excludes = ["_gtkagg", "_tkagg", "bsddb", "curses", "email", 
+            "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs", 
+            "tcl","Tkconstants", "Tkinter"]
+packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
+        "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers", 
+        #"pysqlite2", # For only (python<2.7)
+        "sqlite3", # For only (python>=2.7)
+        "PyKDE4", # If you want to use KDE4 (Is not requirement but however it is very better than)
+        "eyeD3", "musicbrainz2", 
+        "hashlib", "tarfile", "urllib", "PyQt4"]
 path = []
 include_files = [("Amarok","Amarok"),("Languages","Languages"),("MyPlugins","MyPlugins"),("SearchEngines","SearchEngines"),("Taggers","Taggers"),("Themes","Themes")]
 
 Exe_Target = Executable(
     script = "HamsiManager.py",
     initScript = None,
-    #base = 'Win32GUI', # for windows
+    #base = "Win32GUI", # for windows
     targetName = "HamsiManager",
     compress = True,
     copyDependentFiles = False,

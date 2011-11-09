@@ -1050,6 +1050,7 @@ class InputOutputs:
 
     def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
         from Core import Dialogs
+        from Core import MyThread
         _filePath, _sourcePath = str(_filePath), str(_sourcePath)
         if isDir(_filePath):
             Dialogs.showError(translate("InputOutputs", "Current Directory Name"),
@@ -1058,8 +1059,16 @@ class InputOutputs:
         import tarfile
         try:tar = tarfile.open(Universals.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
         except:tar = tarfile.open(_filePath, "w:" + _packageType)
-        try:tar.add(Universals.trEncode(_sourcePath, fileSystemEncoding), arcname=_realSourceBaseName)
-        except:tar.add(_sourcePath, arcname=_realSourceBaseName)
+        maxMembers = len(readDirectoryWithSubDirectories(_sourcePath, -1, True, False, True))+1
+        dlgState = Dialogs.MyStateDialog(translate("InputOutputs", "Creating Tar File"))
+        infoProccess = MyThread.MyStateThread(tar, maxMembers, dlgState)
+        try:
+            myProcs = MyThread.MyThread(tar.add, infoProccess.finish, args=[Universals.trEncode(_sourcePath, fileSystemEncoding)], kwargs={"arcname":_realSourceBaseName})
+            myProcs.start()
+        except:
+            myProcs = MyThread.MyThread(tar.add, infoProccess.finish, args=[_sourcePath], kwargs={"arcname":_realSourceBaseName})
+            myProcs.start()
+        infoProccess.run()
         tar.close()
         Records.add("Packed", _filePath)
         return True
@@ -1067,13 +1076,8 @@ class InputOutputs:
     def extractPack(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         import tarfile
-        while 1==1:
-            try:
-                try:tar = tarfile.open(Universals.trEncode(_oldPath, fileSystemEncoding), "r:gz")
-                except:tar = tarfile.open(_oldPath, "r:gz")
-                break
-            except:
-                time.sleep(1)
+        try:tar = tarfile.open(Universals.trEncode(_oldPath, fileSystemEncoding), "r:gz")
+        except:tar = tarfile.open(_oldPath, "r:gz")
         try:tar.extractall(Universals.trEncode(_newPath, fileSystemEncoding), members=tar.getmembers())
         except:tar.extractall(_newPath, members=tar.getmembers())
         tar.close()
