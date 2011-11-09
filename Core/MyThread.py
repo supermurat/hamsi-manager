@@ -19,6 +19,8 @@
 
 from Core.MyObjects import *
 from Core import Universals
+from Core import Dialogs
+import time
 
 class MyThread(MThread):
     
@@ -42,4 +44,24 @@ class MyThread(MThread):
         if self.callback!=None:
             self.callback(self.data)
 
+
+class MyStateThread(MThread):
+    
+    def __init__(self, _tarFile, _maxMembers, _dlgState):
+        MThread.__init__(self, Universals.activeWindow())
+        self.isFinished = False
+        self.tarFile = _tarFile
+        self.maxMembers = _maxMembers
+        self.dlgState = _dlgState
         
+    def run(self):
+        while 1==1:
+            if self.isFinished == False:
+                self.dlgState.emit(SIGNAL("setState"), len(self.tarFile.members), self.maxMembers)
+                time.sleep(0.05)
+            else:
+                break
+            
+    def finish(self, _returnValue):
+        self.isFinished = True
+

@@ -242,8 +242,46 @@ class Dialogs():
             return None
         return selectedValue
         
-
+class MyStateDialog(MDialog):
+    
+    def __init__(self, _title="", _isShowCancel=False, _connectToCancel=None):
+        MDialog.__init__(self, Universals.MainWindow)
+        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+            self.setButtons(MDialog.NoDefault)
+        self.title = _title
+        self.StateBar = MProgressBar()
+        self.setModal(True)
+        self.setMinimumWidth(500) 
+        pnlMain = MWidget(self)
+        HBoxs=[]
+        HBoxs.append(MHBoxLayout(pnlMain))
+        HBoxs[0].addWidget(self.StateBar)
+        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+            self.setMainWidget(pnlMain)
+        else:
+            self.setLayout(HBoxs[0])
+        if _isShowCancel:
+            pbtnCancel = MPushButton(translate("Dialogs", "Cancel"), self)
+            if _connectToCancel==None:
+                MObject.connect(pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
+            else:
+                MObject.connect(pbtnCancel, SIGNAL("clicked()"), _connectToCancel)
+            HBoxs[0].addWidget(pbtnCancel)
+        self.connect(self, SIGNAL("setState"), self.setState)
+        self.setModal(True)
+        self.open()
         
+    def setTitle(self, _title):
+        self.title = _title
+    
+    def setState(self, _value=0, _maxValue=100):
+        MApplication.processEvents()
+        self.setWindowTitle(self.title + " ( "+str(_value)+" / "+str(_maxValue)+" )")
+        self.StateBar.setRange(0, _maxValue)
+        self.StateBar.setValue(_value)
+        if _value>=_maxValue:
+            self.setModal(False)
+            self.close()
         
         
         
