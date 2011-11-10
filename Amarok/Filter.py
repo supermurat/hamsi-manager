@@ -78,18 +78,18 @@ class FilterEditor(MDialog):
         self.pbtnApply = MPushButton(translate("Amarok/FilterEditor", "Apply Filter"), self)
         _parent.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
         teUsableInformations = MTextEdit("")
-        teUsableInformations.setHtml(translate("Amarok/FilterEditor", "filename: some file name (contains)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "title: some song title (contains)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "artist: some artist name (contains)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "album: some album name (contains)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "albumartist: some album artist name (contains)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "genre: some genre (contains)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "comment: some comment (contains)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "rating:5 (equals)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "rating:< (less than)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "rating:> (greater than)")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "<b>Multiple Conditions : </b>")+u"<br>"+
-                                            translate("Amarok/FilterEditor", "x:y <b>and</b> t:s (match first and second conditions)")+u"<br>"+
+        teUsableInformations.setHtml(translate("Amarok/FilterEditor", "filename: some file name (contains)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "title: some song title (contains)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "artist: some artist name (contains)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "album: some album name (contains)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "albumartist: some album artist name (contains)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "genre: some genre (contains)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "comment: some comment (contains)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "rating:5 (equals)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "rating:< (less than)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "rating:> (greater than)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "<b>Multiple Conditions : </b>")+"<br>"+
+                                            translate("Amarok/FilterEditor", "x:y <b>and</b> t:s (match first and second conditions)")+"<br>"+
                                             translate("Amarok/FilterEditor", "x:y <b>or</b> t:s (match first or second conditions)"))
         gboxUsableInformations = MGroupBox(translate("Searcher", "Conditions : "))
         vblBox1 = MVBoxLayout()
