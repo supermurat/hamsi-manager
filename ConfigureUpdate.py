@@ -41,21 +41,23 @@ QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf-8"))
 QTextCodec.setCodecForTr(QTextCodec.codecForName("utf-8"))
 
 class Update():
-    global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, getRealDirName, listDir, isWritableFileOrDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree, trDecode, trEncode
+    global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, getRealDirName, listDir, isWritableFileOrDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree, trDecode, trEncode, findExecutableBaseName
     UniSettings = QSettings(trDecode(os.path.expanduser("~")+"/.HamsiApps/universalSettings.ini", "utf-8"), QSettings.IniFormat)
     def __init__(self):
         global UniSettings
         isRun = True
         if len(sys.argv)>1:
             sourceFile = str(sys.argv[1])
+            configureUpdateFileName = findExecutableBaseName("ConfigureUpdate")
+            updateFileName = findExecutableBaseName("Update")
             if sys.argv[1]=="-ConfigureUpdate":
-                removeFileOrDir(sys.path[1]+"/Update.py")
-                copyFileOrDir(sys.path[1]+"/ConfigureUpdate.py", sys.path[1]+"/Update.py")
-                popen = os.popen("\"" + sys.executable+"\" "+sys.path[1]+ "/Update.py -ConfiguredUpdate", "w")
+                removeFileOrDir(sys.path[1]+"/"+updateFileName)
+                copyFileOrDir(sys.path[1]+"/"+configureUpdateFileName, sys.path[1]+"/" + updateFileName)
+                popen = os.popen(sys.path[1]+ "/" + updateFileName + " -ConfiguredUpdate", "w")
                 isRun = False
             elif sys.argv[1]=="-ConfiguredUpdate":
                 time.sleep(1)
-                removeFileOrDir(sys.path[1]+"/ConfigureUpdate.py")
+                removeFileOrDir(sys.path[1]+"/"+configureUpdateFileName)
                 #Best place to change the old information to the new version	
                 isRun = False
         else:
@@ -79,10 +81,15 @@ class Update():
                     except:tar.extractall(tempDir, members=tar.getmembers())
                     tar.close()
                     time.sleep(4)
+                    installFileName = findExecutableBaseName("HamsiManagerInstaller")
+                    updateFileName = findExecutableBaseName("Update")
+                    if installFileName==None: installFileName=""
+                    if updateFileName==None: updateFileName=""
                     for file in listDir(tempDir+"/HamsiManager"):
-                        if file!="Update.py" and file!="install.py":
+                        if file!=updateFileName and file!="install.py" and file!=installFileName:
                             moveFileOrDir(tempDir+"/HamsiManager/"+file,sys.path[1]+"/"+file)
-                    popen = os.popen("\"" + sys.executable+"\" " + sys.path[1] + "/ConfigureUpdate.py -ConfigureUpdate", "w")
+                    configureUpdateFileName = findExecutableBaseName("ConfigureUpdate")
+                    popen = os.popen(sys.path[1] + "/" + configureUpdateFileName + " -ConfigureUpdate", "w")
                 else:
                     parent = QMainWindow()
                     QMessageBox.critical(parent, "Access Denied!..","<b>Access Denied :</b> \"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.</b><br>" % sys.path[1])
@@ -141,6 +148,13 @@ class Update():
             try:names = listdir(trEncode(_oldPath, fileSystemEncoding))
             except:names = listdir(_oldPath)
         return names
+            
+    def findExecutableBaseName(_executableName):
+        for fName in listDir(sys.path[0]):
+            if isFile(sys.path[0]+"/"+fName):
+                if fName.split(".")[0]==_executableName and fName.find(".zip")==-1:
+                    return fName
+        return None
     
     def isWritableFileOrDir(_newPath):
         realPath = _newPath

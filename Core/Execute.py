@@ -25,7 +25,7 @@ from Core import Variables
 import InputOutputs
 
 class Execute:
-    global execute, executeAsThread, executeWithPython, writeToPopen, executeAsRoot, executeWithPythonAsRoot, executeHamsiManagerAsRoot, executeHamsiManager, executeReconfigure, executeReconfigureAsRoot, open, getCommandResult, executeStringCommand
+    global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName
         
     def getCommandResult(_command):
         if os.name=="nt":
@@ -40,58 +40,61 @@ class Execute:
             _command = "start" + _command
         return os.popen(_command)
         
-    def execute(_command):
-        return subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+    def execute(_command=[], _executableName=None):
+        if _executableName=="HamsiManager":
+            return subprocess.Popen([Variables.executableHamsiManagerPath] + _command , stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+        elif _executableName in ["Reconfigure", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
+            pathOfExecutable = findExecutablePath(_executableName)
+            if pathOfExecutable==None:
+                from Core import Dialogs
+                from Core.Universals import translate
+                Dialogs.showError(translate("Execute", "Cannot Find Executable File"),
+                    str(translate("Execute", "\"%s\" : cannot find an executable file matched this name in directory of Hamsi Manager.<br>Please make sure that it exists and retry.")) % _executableName)
+                return None
+            return subprocess.Popen([pathOfExecutable] + _command , stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+        else:
+            return subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+            
+    def findExecutableBaseName(_executableName):
+        for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
+            if fName.split(".")[0]==_executableName and fName.find(".zip")==-1:
+                return fName
+        return None
+            
+    def findExecutablePath(_executableName):
+        for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
+            if fName.split(".")[0]==_executableName and fName.find(".zip")==-1:
+                return Variables.HamsiManagerDirectory + "/" + fName
+        return None
     
-    def executeAsThread(_command):
-        roar = RunAsThread(_command)
+    def executeWithThread(_command=[], _executableName=None):
+        roar = RunWithThread(_command, _executableName)
         roar.start()
         time.sleep(1)
         return True
     
-    def open(_command):
+    def openWith(_command):
         if os.name=="nt":
             return os.startfile(_command[0])
         else:
             _command = ["xdg-open"] + _command
             return subprocess.Popen(_command)
         
-    def executeWithPython(_command):
-        return execute([sys.executable] + _command)
-        
-    def executeHamsiManager(_command=[]):
-        return execute([sys.executable, str(Variables.executableHamsiManagerPath)] + _command )
-        
-    def executeReconfigure(_command=[]):
-        return execute([sys.executable, str(Variables.HamsiManagerDirectory+"/Reconfigure.py")] + _command)
-        
-    def executeAsRoot(_command):
+    def executeAsRoot(_command=[], _executableName=None):
         if Variables.isRunableAsRoot():
-            stringCommand = ""
-            for myCommand in _command:
-                if myCommand[:2]=="--":
-                    stringCommand += "%s " % myCommand
-                else:
-                    stringCommand += "%r " % myCommand
-            return execute([Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu" , stringCommand ])
-        return False
-    
-    def executeWithPythonAsRoot(_command):
-        if Variables.isRunableAsRoot():
-            return executeAsRoot([sys.executable] + _command)
+            pathOfExecutable = None
+            if _executableName=="HamsiManager":
+                pathOfExecutable = Variables.executableHamsiManagerPath
+            elif _executableName in ["Reconfigure", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
+                pathOfExecutable = findExecutablePath(_executableName)
+            if pathOfExecutable != None:
+                _command = [pathOfExecutable] + _command
+            return execute([Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu"] + _command)
         return False
         
-    def executeHamsiManagerAsRoot(_command=[]):
+    def executeAsRootWithThread(_command=[], _executableName=None):
         if Variables.isRunableAsRoot():
-            roar = RunHamsiManagerAsRoot(_command)
-            roar.start()
-            time.sleep(1)
-            return True
-        return False
-        
-    def executeReconfigureAsRoot(_command=[]):
-        if Variables.isRunableAsRoot():
-            roar = RunReconfigureAsRoot(_command)
+            roar = RunAsRootWithThread(_command, _executableName)
             roar.start()
             time.sleep(1)
             return True
@@ -100,28 +103,22 @@ class Execute:
     def writeToPopen(_popen, _command):
         _popen.stdin.write("\n%s\n" % _command)
         
-class RunHamsiManagerAsRoot(Thread):
-    def __init__(self, _command):
+class RunAsRootWithThread(Thread):
+    def __init__(self, _command=[], _executableName=None):
         Thread.__init__(self)
         self.command = _command
+        self.executableName = _executableName
     
     def run(self):
-        executeWithPythonAsRoot([Variables.executableHamsiManagerPath] + self.command)
+        executeAsRoot(self.command, self.executableName)
         
-class RunReconfigureAsRoot(Thread):
-    def __init__(self, _command):
+class RunWithThread(Thread):
+    def __init__(self, _command=[], _executableName=None):
         Thread.__init__(self)
         self.command = _command
+        self.executableName = _executableName
     
     def run(self):
-        executeWithPythonAsRoot([Variables.HamsiManagerDirectory + "/Reconfigure.py"] + self.command)
-        
-class RunAsThread(Thread):
-    def __init__(self, _command):
-        Thread.__init__(self)
-        self.command = _command
-    
-    def run(self):
-        execute(self.command)
+        execute(self.command, self.executableName)
         
     

@@ -172,9 +172,9 @@ the Free Software Foundation; either version 2 of the License, or
                     checkAndGetOldAppNameInSystem=False, runAsRoot=False, qm=False)
     options, remainder = parser.parse_args()
     if len(remainder)==1:
-        Universals.setMySetting("lastDirectory", remainder[0])
+        Universals.setMySetting("lastDirectory", str(remainder[0]))
     if options.directory:
-        Universals.setMySetting("lastDirectory", options.directory)
+        Universals.setMySetting("lastDirectory", str(options.directory))
     if options.loggingLevel:
         Universals.loggingLevel = options.loggingLevel
     if options.sFileName:
@@ -263,7 +263,7 @@ the Free Software Foundation; either version 2 of the License, or
             for tempArg in sys.argv:
                 if tempArg.find("-runAsRoot")==-1:
                     strArgvs.append(tempArg)
-            if Execute.executeHamsiManagerAsRoot(strArgvs):
+            if Execute.executeAsRootWithThread(strArgvs, "HamsiManager"):
                 isDontRun = True
     if options.checkAndGetOldAppNameInSystem:
         from Core import OldAppName
@@ -309,7 +309,7 @@ def checkAfterRunProccess():
             OptionsForm.OptionsForm(Universals.MainWindow, "Normal", None, newOrChangedKeys)
     elif Universals.getBoolValue("isShowReconfigureWizard"):
         from Core import Execute
-        Execute.executeReconfigure()
+        Execute.execute([], "Reconfigure")
     elif UpdateControl.isMakeUpdateControl():
         UpdateControl.UpdateControl(Universals.MainWindow)
     

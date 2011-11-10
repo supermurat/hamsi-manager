@@ -311,10 +311,10 @@ class Tables(MTableWidget):
                             self.hideRow(rowNo)
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         from Core import Execute
-                        Execute.open([InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
+                        Execute.openWith([InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         from Core import Execute
-                        Execute.open([self.currentTableContentValues[self.currentItem().row()]["path"]])
+                        Execute.openWith([self.currentTableContentValues[self.currentItem().row()]["path"]])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
                         Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])

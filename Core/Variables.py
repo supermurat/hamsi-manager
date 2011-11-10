@@ -159,7 +159,7 @@ class Variables():
         if (InputOutputs.isWritableFileOrDir(HamsiManagerDirectory, True) and 
                 Settings.getUniversalSetting("isUpdatable", "False").lower()=="true" and 
                 Settings.getUniversalSetting("pathOfInstallationDirectory", "")==HamsiManagerDirectory):
-            # Only writable file-directory and installed by "install.py" and HamsiManagerDirectory==pathOfInstallationDirectory
+            # Only writable file-directory and installed by "HamsiManagerInstaller" and HamsiManagerDirectory==pathOfInstallationDirectory
             return True
         return False
         

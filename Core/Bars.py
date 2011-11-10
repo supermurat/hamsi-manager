@@ -164,12 +164,12 @@ class Bars():
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
                 from Core import Settings
-                if Execute.executeHamsiManagerAsRoot(["--sDirectoryPath", Universals.pathOfSettingsDirectory]):
+                if Execute.executeAsRootWithThread(["--sDirectoryPath", Universals.pathOfSettingsDirectory], "HamsiManager"):
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
             elif actionName==translate("MenuBar", "With Root Profile (Own Settings)"):
-                if Execute.executeHamsiManagerAsRoot():
+                if Execute.executeAsRootWithThread([], "HamsiManager"):
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
@@ -215,9 +215,9 @@ class Bars():
                 import MyPlugins
                 MyPlugins.MyPlugins(Universals.MainWindow)
             elif actionName==translate("MenuBar", "Reconfigure"):
-                Execute.executeReconfigure(["--configurePage"])
+                Execute.execute(["--configurePage"], "Reconfigure")
             elif actionName==translate("MenuBar", "My Plug-ins (System)"):
-                Execute.executeReconfigure(["--pluginPage", "--onlyRoot"])
+                Execute.execute(["--pluginPage", "--onlyRoot"], "Reconfigure")
             elif actionName==translate("MenuBar", "Update"):
                 from Core import Universals, UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)

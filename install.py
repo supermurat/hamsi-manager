@@ -256,13 +256,14 @@ if RoutineChecks.checkQt4Exist():
                     directoriesAndFiles = InputOutputs.readDirectoryWithSubDirectories(Variables.HamsiManagerDirectory)
                     self.prgbState.setRange(0,len(directoriesAndFiles))
                     self.lblActions.setText(MApplication.translate("Install", "Copying Files And Folders..."))
+                    installFileName = Execute.findExecutableBaseName("HamsiManagerInstaller")
                     for fileNo, fileName in enumerate(directoriesAndFiles):
                         MApplication.processEvents()
                         newFileName = self.installationDirectory + fileName.replace(Variables.HamsiManagerDirectory, "")
                         if InputOutputs.isDir(fileName):
                             try:InputOutputs.makeDirs(newFileName)
                             except:pass
-                        elif InputOutputs.isFile(fileName) and InputOutputs.getBaseName(fileName)!="install.py":
+                        elif InputOutputs.isFile(fileName) and InputOutputs.getBaseName(fileName)!="install.py" and InputOutputs.getBaseName(fileName)!=installFileName:
                             try:
                                 InputOutputs.copyFileOrDir(fileName, newFileName)
                             except:
@@ -270,8 +271,16 @@ if RoutineChecks.checkQt4Exist():
                                 InputOutputs.writeToFile(newFileName, fileContent)
                         self.prgbState.setValue(fileNo+1)
                     self.pageNo+=1
-                    try:InputOutputs.moveFileOrDir(self.installationDirectory+"/ConfigureUpdate.py", self.installationDirectory+"/Update.py")
-                    except:pass
+                    try:
+                        InputOutputs.moveFileOrDir(self.installationDirectory+"/ConfigureUpdate.py", self.installationDirectory+"/Update.py")
+                    except:
+                        configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
+                        updateFileName = Execute.findExecutableBaseName("Update")
+                        if configureUpdateFileName!=None:
+                            extOfFile = ""
+                            if configureUpdateFileName.find(".")!=-1:
+                                extOfFile = "." + (configureUpdateFileName.split(".")[1])
+                            InputOutputs.moveFileOrDir(self.installationDirectory+"/"+configureUpdateFileName, self.installationDirectory+"/Update" + extOfFile)
                     MyConfigure.installKDE4Languages()
                 else:
                     self.pageNo-=1
@@ -302,7 +311,8 @@ if RoutineChecks.checkQt4Exist():
             if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     if executableLink.strip()!="":
-                        InputOutputs.createSymLink(self.installationDirectory+"/HamsiManager.py", executableLink)
+                        HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
+                        InputOutputs.createSymLink(self.installationDirectory+"/"+HamsiManagerFileName, executableLink)
                         Settings.setUniversalSetting("pathOfExecutableHamsi", executableLink)
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
@@ -318,7 +328,7 @@ if RoutineChecks.checkQt4Exist():
     if Variables.isRunningAsRoot()==False and Variables.isRunableAsRoot():
         answer = Dialogs.askSpecial(MApplication.translate("Install", "Are You Want To Run As Root?"), MApplication.translate("Install", "Hamsi Manager Installer is running with user privileges.<br>Do you want to run Hamsi Manager installer with root rights?<br><b>Note: </b>The other users on your system has to inherit these permissions and install the program to a location other than their /home directories."), MApplication.translate("Install", "Yes"), MApplication.translate("Install", "No (Continue as is)"), None)
         if answer==MApplication.translate("Install", "Yes"):
-            NewApp = Execute.executeWithPythonAsRoot([Variables.HamsiManagerDirectory+"/install.py"])
+            NewApp = Execute.executeAsRootWithThread([], "HamsiManagerInstaller")
             sys.exit()
     MainWidget=Main()
     MainWidget.setWindowTitle(MApplication.translate("Install", "Hamsi Manager Installer") + " " + MApplication.applicationVersion())
