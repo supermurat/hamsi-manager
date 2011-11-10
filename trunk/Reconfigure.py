@@ -224,7 +224,8 @@ if RoutineChecks.checkQt4Exist():
             if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     if executableLink.strip()!="":
-                        InputOutputs.createSymLink(Variables.HamsiManagerDirectory+"/HamsiManager.py", executableLink)
+                        HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
+                        InputOutputs.createSymLink(Variables.HamsiManagerDirectory+"/"+HamsiManagerFileName, executableLink)
                         Settings.setUniversalSetting("pathOfExecutableHamsi", executableLink)
                         if oldPathOfExecutableHamsi!=executableLink:
                             if InputOutputs.isFile(oldPathOfExecutableHamsi):
@@ -260,7 +261,7 @@ if RoutineChecks.checkQt4Exist():
             if len(sys.argv)>1:
                 for x in sys.argv[1:]:
                     myParametres.append(x)
-            NewApp = Execute.executeReconfigureAsRoot(myParametres)
+            NewApp = Execute.executeAsRootWithThread(myParametres, "Reconfigure")
             sys.exit()
         elif isOnlyRoot:
             sys.exit()

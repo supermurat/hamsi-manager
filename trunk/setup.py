@@ -29,25 +29,58 @@ packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
         #"pysqlite2", # For only (python<2.7)
         "sqlite3", # For only (python>=2.7)
         "PyKDE4", # If you want to use KDE4 (Is not requirement but however it is very better than)
-        "eyeD3", "musicbrainz2", 
+        "eyeD3", "musicbrainz2", # not available in python 3.x
         "hashlib", "tarfile", "urllib", "PyQt4"]
 path = []
 include_files = [("Amarok","Amarok"),("Languages","Languages"),("MyPlugins","MyPlugins"),("SearchEngines","SearchEngines"),("Taggers","Taggers"),("Themes","Themes")]
 
-Exe_Target = Executable(
+MainExe = Executable(
     script = "HamsiManager.py",
     initScript = None,
     #base = "Win32GUI", # for windows
-    targetName = "HamsiManager",
+    targetName = "HamsiManager", # append ".exe" for windows
     compress = True,
     copyDependentFiles = False,
     appendScriptToExe = False,
     appendScriptToLibrary = False,
-    icon = r"Themes/Default/Images/HamsiManager-128x128.ico"
+    icon = "Themes/Default/Images/HamsiManager-128x128.ico"
+    )
+    
+ReconfigureExe = Executable(
+    script = "Reconfigure.py",
+    initScript = None,
+    #base = "Win32GUI", # for windows
+    targetName = "Reconfigure", # append ".exe" for windows
+    compress = True,
+    copyDependentFiles = False,
+    appendScriptToExe = False,
+    appendScriptToLibrary = False,
+    )
+    
+InstallExe = Executable(
+    script = "install.py",
+    initScript = None,
+    #base = "Win32GUI", # for windows
+    targetName = "HamsiManagerInstaller", # ".exe" for windows
+    compress = True,
+    copyDependentFiles = False,
+    appendScriptToExe = False,
+    appendScriptToLibrary = False,
+    )
+    
+ConfigureUpdateExe = Executable(
+    script = "ConfigureUpdate.py",
+    initScript = None,
+    #base = "Win32GUI", # for windows
+    targetName = "ConfigureUpdate", # append ".exe" for windows
+    compress = True,
+    copyDependentFiles = False,
+    appendScriptToExe = False,
+    appendScriptToLibrary = False,
     )
 
 setup(
-    version = "0.9",
+    version = "0.9.77",
     description = "No Description",
     author = "Murat Demir",
     name = "HamsiManager",
@@ -58,6 +91,6 @@ setup(
                              "include_files":include_files,
                              }
                },
-    executables = [Exe_Target]
+    executables = [MainExe, ReconfigureExe, InstallExe, ConfigureUpdateExe]
     )
 

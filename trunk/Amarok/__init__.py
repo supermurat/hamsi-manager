@@ -212,7 +212,7 @@ class EmbeddedDBCore():
             return True
         if Variables.checkMysqldSafe():
             from Core import Execute
-            Execute.executeAsThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf"])
+            Execute.executeWithThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf"])
             Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
             if _isNoAlertIfSuccesfully==False:
                 Dialogs.show(translate("EmbeddedDBCore", "Started Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server started."))
@@ -300,7 +300,7 @@ class ReadOnlyEmbeddedDBCore():
             return True
         if Variables.checkMysqldSafe():
             from Core import Execute
-            Execute.executeAsThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Universals.pathOfSettingsDirectory+"/Amarok/my.cnf"])
+            Execute.executeWithThread([Universals.MySettings["pathOfMysqldSafe"], "--defaults-file=" + Universals.pathOfSettingsDirectory+"/Amarok/my.cnf"])
             Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
             if _isNoAlertIfSuccesfully==False:
                 Dialogs.show(translate("EmbeddedDBCore", "Started Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server started."))

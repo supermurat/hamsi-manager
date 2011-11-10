@@ -157,5 +157,5 @@ def checkAndGetOldAppNameInSystem():
         answer = Dialogs.ask(translate("HamsiManager", "The Old Version Was Detected"),
                     str(translate("HamsiManager", "Executable OrganizasyonizM file was detected in your system.Are you want to delete \"%s\" and creat new Executable Hamsi Manager(\"%s\")?")) % (Organizer.getLink("/usr/bin/OrganizasyonizM") , Organizer.getLink("/usr/bin/hamsimanager")), False, "Executable OrganizasyonizM Was Detected")
         if answer==Dialogs.Yes:
-            Execute.executeHamsiManagerAsRoot(["--checkAndGetOldAppNameInSystem"])
+            Execute.executeAsRootWithThread(["--checkAndGetOldAppNameInSystem"], "HamsiManager")
     
