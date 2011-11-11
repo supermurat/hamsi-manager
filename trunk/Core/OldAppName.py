@@ -151,8 +151,8 @@ def checkAndGetOldAppNameInSystem():
     if Variables.isRunningAsRoot():
         if InputOutputs.isFile("/usr/bin/OrganizasyonizM"):
             InputOutputs.removeFile("/usr/bin/OrganizasyonizM")
-        if InputOutputs.isFile("/usr/bin/hamsimanager")==False:
-            InputOutputs.createSymLink(Variables.executableHamsiManagerPath, "/usr/bin/hamsimanager")
+            if InputOutputs.isFile("/usr/bin/hamsimanager")==False:
+                InputOutputs.createSymLink(Execute.findExecutablePath("HamsiManager"), "/usr/bin/hamsimanager")
     else:
         answer = Dialogs.ask(translate("HamsiManager", "The Old Version Was Detected"),
                     str(translate("HamsiManager", "Executable OrganizasyonizM file was detected in your system.Are you want to delete \"%s\" and creat new Executable Hamsi Manager(\"%s\")?")) % (Organizer.getLink("/usr/bin/OrganizasyonizM") , Organizer.getLink("/usr/bin/hamsimanager")), False, "Executable OrganizasyonizM Was Detected")

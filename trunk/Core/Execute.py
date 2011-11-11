@@ -21,8 +21,9 @@ import os, sys
 import subprocess
 from threading import Thread
 import time
-from Core import Variables
+from Core import Variables, Universals
 import InputOutputs
+import logging
 
 class Execute:
     global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName
@@ -30,6 +31,8 @@ class Execute:
     def getCommandResult(_command):
         if os.name=="nt":
             _command = ["start"] + _command
+        if Universals.loggingLevel==logging.DEBUG:
+            print ("Execute >>> " + str(_command))
         myPopen = subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
         po, pi = myPopen.stdin, myPopen.stdout
         po.close()
@@ -38,32 +41,38 @@ class Execute:
     def executeStringCommand(_command):
         if os.name=="nt":
             _command = "start" + _command
+        if Universals.loggingLevel==logging.DEBUG:
+            print ("Execute >>> " + str(_command))
         return os.popen(_command)
         
     def execute(_command=[], _executableName=None):
-        if _executableName=="HamsiManager":
-            return subprocess.Popen([Variables.executableHamsiManagerPath] + _command , stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
-        elif _executableName in ["Reconfigure", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
+        if _executableName in ["HamsiManager", "Reconfigure", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
             pathOfExecutable = findExecutablePath(_executableName)
             if pathOfExecutable==None:
                 from Core import Dialogs
-                from Core.Universals import translate
-                Dialogs.showError(translate("Execute", "Cannot Find Executable File"),
-                    str(translate("Execute", "\"%s\" : cannot find an executable file matched this name in directory of Hamsi Manager.<br>Please make sure that it exists and retry.")) % _executableName)
+                Dialogs.showError(Universals.translate("Execute", "Cannot Find Executable File"),
+                    str(Universals.translate("Execute", "\"%s\" : cannot find an executable file matched this name in directory of Hamsi Manager.<br>Please make sure that it exists and retry.")) % _executableName)
                 return None
+            if Universals.loggingLevel==logging.DEBUG:
+                print ("Execute >>> " + str([pathOfExecutable] + _command))
             return subprocess.Popen([pathOfExecutable] + _command , stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
         else:
+            if Universals.loggingLevel==logging.DEBUG:
+                print ("Execute >>> " + str(_command))
             return subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
             
     def findExecutableBaseName(_executableName):
         for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
-            if fName.split(".")[0]==_executableName and fName.find(".zip")==-1:
+            if fName.split(".")[0]==_executableName and fName.split(".")[-1] in ["", "py", "py3", "pyw", "exe"]:
                 return fName
         return None
             
     def findExecutablePath(_executableName):
+        fAppName = InputOutputs.getBaseName(Variables.executableAppPath)
+        if fAppName.split(".")[0]==_executableName and fAppName.split(".")[-1] in ["", "py", "py3", "pyw", "exe"]:
+            return Variables.executableAppPath
         for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
-            if fName.split(".")[0]==_executableName and fName.find(".zip")==-1:
+            if fName.split(".")[0]==_executableName and fName.split(".")[-1] in ["", "py", "py3", "pyw", "exe"]:
                 return Variables.HamsiManagerDirectory + "/" + fName
         return None
     
@@ -75,17 +84,19 @@ class Execute:
     
     def openWith(_command):
         if os.name=="nt":
-            return os.startfile(_command[0])
+            if Universals.loggingLevel==logging.DEBUG:
+                print ("Open With >>> " + str(_command))
+            return os.startfile(_command)
         else:
             _command = ["xdg-open"] + _command
+            if Universals.loggingLevel==logging.DEBUG:
+                print ("Open With >>> " + str(_command))
             return subprocess.Popen(_command)
         
     def executeAsRoot(_command=[], _executableName=None):
         if Variables.isRunableAsRoot():
             pathOfExecutable = None
-            if _executableName=="HamsiManager":
-                pathOfExecutable = Variables.executableHamsiManagerPath
-            elif _executableName in ["Reconfigure", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
+            if _executableName in ["HamsiManager", "Reconfigure", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
                 pathOfExecutable = findExecutablePath(_executableName)
             if pathOfExecutable != None:
                 _command = [pathOfExecutable] + _command

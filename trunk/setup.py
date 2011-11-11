@@ -18,7 +18,10 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import os
 from cx_Freeze import setup, Executable
+from Core import Variables
+import InputOutputs
 
 includes = []
 excludes = ["_gtkagg", "_tkagg", "bsddb", "curses", "email", 
@@ -34,11 +37,14 @@ packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
 path = []
 include_files = [("Amarok","Amarok"),("Languages","Languages"),("MyPlugins","MyPlugins"),("SearchEngines","SearchEngines"),("Taggers","Taggers"),("Themes","Themes")]
 
+exeBase = "Console" # "Win32GUI" for windows
+fileExtension = "" # ".exe" for windows
+
 MainExe = Executable(
     script = "HamsiManager.py",
     initScript = None,
-    #base = "Win32GUI", # for windows
-    targetName = "HamsiManager", # append ".exe" for windows
+    base = exeBase,
+    targetName = "HamsiManager" + fileExtension,
     compress = True,
     copyDependentFiles = False,
     appendScriptToExe = False,
@@ -49,8 +55,8 @@ MainExe = Executable(
 ReconfigureExe = Executable(
     script = "Reconfigure.py",
     initScript = None,
-    #base = "Win32GUI", # for windows
-    targetName = "Reconfigure", # append ".exe" for windows
+    base = exeBase,
+    targetName = "Reconfigure" + fileExtension,
     compress = True,
     copyDependentFiles = False,
     appendScriptToExe = False,
@@ -60,8 +66,8 @@ ReconfigureExe = Executable(
 InstallExe = Executable(
     script = "install.py",
     initScript = None,
-    #base = "Win32GUI", # for windows
-    targetName = "HamsiManagerInstaller", # ".exe" for windows
+    base = exeBase,
+    targetName = "HamsiManagerInstaller" + fileExtension,
     compress = True,
     copyDependentFiles = False,
     appendScriptToExe = False,
@@ -71,8 +77,8 @@ InstallExe = Executable(
 ConfigureUpdateExe = Executable(
     script = "ConfigureUpdate.py",
     initScript = None,
-    #base = "Win32GUI", # for windows
-    targetName = "ConfigureUpdate", # append ".exe" for windows
+    base = exeBase,
+    targetName = "ConfigureUpdate" + fileExtension,
     compress = True,
     copyDependentFiles = False,
     appendScriptToExe = False,
@@ -80,8 +86,8 @@ ConfigureUpdateExe = Executable(
     )
 
 setup(
-    version = "0.9.77",
-    description = "No Description",
+    version = Variables.version,
+    description = InputOutputs.readFromFile(os.getcwd() + "/Languages/About_en_GB", "utf-8"),
     author = "Murat Demir",
     name = "HamsiManager",
     options = {"build_exe": {"includes": includes,

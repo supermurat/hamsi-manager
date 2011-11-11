@@ -307,7 +307,7 @@ if RoutineChecks.checkQt4Exist():
                     desktopPath = Variables.getUserDesktopPath()
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                     InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
-            executableLink = str(self.leExecutableLink)
+            executableLink = str(self.leExecutableLink.text())
             if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     if executableLink.strip()!="":
