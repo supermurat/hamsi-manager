@@ -120,13 +120,25 @@ class Organizer:
     
     def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
         if _cbCharacterType==Variables.validSentenceStructureKeys[0]:
-            return string.capwords(Universals.trUnicode(_inputString))
+            if Variables.isPython3k:
+                return str(Universals.trUnicode(_inputString)).title()
+            else:
+                return string.capwords(Universals.trUnicode(_inputString))
         elif _cbCharacterType==Variables.validSentenceStructureKeys[1]:
-            return string.lower(Universals.trUnicode(_inputString))
+            if Variables.isPython3k:
+                return str(Universals.trUnicode(_inputString)).lower()
+            else:
+                return string.lower(Universals.trUnicode(_inputString))
         elif _cbCharacterType==Variables.validSentenceStructureKeys[2]:
-            return string.upper(Universals.trUnicode(_inputString))
+            if Variables.isPython3k:
+                return str(Universals.trUnicode(_inputString)).upper()
+            else:
+                return string.upper(Universals.trUnicode(_inputString))
         elif _cbCharacterType==Variables.validSentenceStructureKeys[3]:
-            return string.capitalize(Universals.trUnicode(_inputString))
+            if Variables.isPython3k:
+                return str(Universals.trUnicode(_inputString)).capitalize()
+            else:
+                return string.capitalize(Universals.trUnicode(_inputString))
         else :
             return str(Universals.trUnicode(_inputString))
     
