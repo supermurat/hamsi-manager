@@ -49,8 +49,6 @@ class Universals():
     oldRecordsDirectoryPath = pathOfSettingsDirectory + "/OldRecords"
     isRaisedAnError = False
     Utf8Contents = {}
-    if Variables.executableHamsiManagerPath.find("HamsiManager")==-1 or Variables.executableHamsiManagerPath.find("./HamsiManager")!=-1:
-        Variables.executableHamsiManagerPath = Variables.HamsiManagerDirectory + "/HamsiManager.py"
     
     def __init__(self):
         pass

@@ -22,7 +22,7 @@ import os, sys
 class Variables():
     global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
-    global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableHamsiManagerPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
+    global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableAppPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
@@ -33,10 +33,12 @@ class Variables():
     settingVersion = "970"
     aboutOfHamsiManager = ""
     if sys.argv[0][0]==".":
-        executableHamsiManagerPath = str(os.getcwd() + sys.argv[0][1:])
+        executableAppPath = str(os.getcwd() + sys.argv[0][1:])
     else:
-        executableHamsiManagerPath = str(sys.argv[0])
-    HamsiManagerDirectory = os.path.dirname(executableHamsiManagerPath)
+        executableAppPath = str(sys.argv[0])
+    if os.path.islink(executableAppPath):
+        executableAppPath = os.readlink(executableAppPath)
+    HamsiManagerDirectory = os.path.dirname(executableAppPath)
     userDirectoryPath = os.path.expanduser("~")
     defaultFileSystemEncoding = sys.getfilesystemencoding()
     if defaultFileSystemEncoding is None:

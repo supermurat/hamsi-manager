@@ -216,11 +216,10 @@ if RoutineChecks.checkQt4Exist():
                 MyConfigure.reConfigureFile(Variables.HamsiManagerDirectory + "/HamsiManager.desktop", Variables.HamsiManagerDirectory)
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
-                    from Core import Settings
                     desktopPath = Variables.getUserDesktopPath()
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
                     InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
-            executableLink = str(self.leExecutableLink)
+            executableLink = str(self.leExecutableLink.text())
             if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     if executableLink.strip()!="":

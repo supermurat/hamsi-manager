@@ -48,9 +48,10 @@ class Settings():
             checkDatabases()
         
     def saveUniversalSettings():
+        import Execute
         mySetting = universalSetting()
         keysOfUniversalSettings = ["HamsiManagerPath"]
-        values = [Variables.executableHamsiManagerPath]
+        values = [Execute.findExecutablePath("HamsiManager")]
         for x, keyValue in enumerate(keysOfUniversalSettings):
             if Universals.trStr(mySetting.value(keyValue)) != values[x]:
                 mySetting.setValue(keyValue, Universals.trQVariant(Universals.trForM(values[x])))
