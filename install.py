@@ -275,7 +275,6 @@ if RoutineChecks.checkQt4Exist():
                         InputOutputs.moveFileOrDir(self.installationDirectory+"/ConfigureUpdate.py", self.installationDirectory+"/Update.py")
                     except:
                         configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
-                        updateFileName = Execute.findExecutableBaseName("Update")
                         if configureUpdateFileName!=None:
                             extOfFile = ""
                             if configureUpdateFileName.find(".")!=-1:

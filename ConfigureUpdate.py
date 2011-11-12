@@ -18,16 +18,12 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import sys,os
+import sys, os, shutil
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from shutil import move, copytree, copy
-import time
-import tempfile, random
-from os import listdir,path,removedirs,makedirs, rmdir, remove, rename
+import time, tempfile, random, tarfile, traceback
 if sys.path[0]=="":
     sys.path.insert(0, sys.path[1])
-sys.path.insert(0,sys.path[0]+"/Core")
 try: 
     if float(sys.version[:3])<3.0: 
         reload(sys)
@@ -35,14 +31,32 @@ try:
 except:pass
 try:fileSystemEncoding = sys.getfilesystemencoding().lower()
 except:fileSystemEncoding = sys.getdefaultencoding().lower()
+if sys.argv[0][0]==".":
+    executableAppPath = str(os.getcwd() + sys.argv[0][1:])
+else:
+    executableAppPath = str(sys.argv[0])
+if os.path.islink(executableAppPath):
+    executableAppPath = os.readlink(executableAppPath)
+HamsiManagerDirectory = os.path.dirname(executableAppPath)
 isPython3k = float(sys.version[:3])>=3.0
 HamsiManagerApp = QApplication(sys.argv)
 QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf-8"))
 QTextCodec.setCodecForTr(QTextCodec.codecForName("utf-8"))
 
+def trDecode(_s, _e = "utf-8", _p = "strict"):
+    if isPython3k:
+        return _s
+    return _s.decode(_e, _p)
+    
+def trEncode(_s, _e = "utf-8", _p = "strict"):
+    if isPython3k:
+        return _s
+    return _s.encode(_e, _p)
+    
 class Update():
-    global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, getRealDirName, listDir, isWritableFileOrDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree, trDecode, trEncode, findExecutableBaseName
+    global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, getRealDirName, listDir, isWritableFileOrDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree, findExecutableBaseName
     UniSettings = QSettings(trDecode(os.path.expanduser("~")+"/.HamsiApps/universalSettings.ini", "utf-8"), QSettings.IniFormat)
+    
     def __init__(self):
         global UniSettings
         isRun = True
@@ -51,13 +65,17 @@ class Update():
             configureUpdateFileName = findExecutableBaseName("ConfigureUpdate")
             updateFileName = findExecutableBaseName("Update")
             if sys.argv[1]=="-ConfigureUpdate":
-                removeFileOrDir(sys.path[1]+"/"+updateFileName)
-                copyFileOrDir(sys.path[1]+"/"+configureUpdateFileName, sys.path[1]+"/" + updateFileName)
-                popen = os.popen(sys.path[1]+ "/" + updateFileName + " -ConfiguredUpdate", "w")
+                if updateFileName!=None:
+                    removeFileOrDir(HamsiManagerDirectory+"/"+updateFileName)
+                extOfFile = ""
+                if configureUpdateFileName.find(".")!=-1:
+                    extOfFile = "." + (configureUpdateFileName.split(".")[1])
+                copyFileOrDir(HamsiManagerDirectory+"/"+configureUpdateFileName, HamsiManagerDirectory+"/Update" + extOfFile)
+                popen = os.popen(HamsiManagerDirectory+ "/Update" + extOfFile + " -ConfiguredUpdate", "w")
                 isRun = False
             elif sys.argv[1]=="-ConfiguredUpdate":
                 time.sleep(1)
-                removeFileOrDir(sys.path[1]+"/"+configureUpdateFileName)
+                removeFileOrDir(HamsiManagerDirectory+"/"+configureUpdateFileName)
                 #Best place to change the old information to the new version	
                 isRun = False
         else:
@@ -65,9 +83,8 @@ class Update():
             sourceFile = str(selectSourceFile(parent))
         if isRun==True:
             if isFile(sourceFile):
-                if isWritableFileOrDir(sys.path[1]):
+                if isWritableFileOrDir(HamsiManagerDirectory):
                     tempDir = str(tempfile.gettempdir()) + "/HamsiManager-" + str(random.randrange(0, 1000000))
-                    import tarfile
                     intSleepTime = 0
                     while intSleepTime<6:
                         try:
@@ -87,40 +104,30 @@ class Update():
                     if updateFileName==None: updateFileName=""
                     for file in listDir(tempDir+"/HamsiManager"):
                         if file!=updateFileName and file!="install.py" and file!=installFileName:
-                            moveFileOrDir(tempDir+"/HamsiManager/"+file,sys.path[1]+"/"+file)
+                            moveFileOrDir(tempDir+"/HamsiManager/"+file,HamsiManagerDirectory+"/"+file)
                     configureUpdateFileName = findExecutableBaseName("ConfigureUpdate")
-                    popen = os.popen(sys.path[1] + "/" + configureUpdateFileName + " -ConfigureUpdate", "w")
+                    popen = os.popen(HamsiManagerDirectory + "/" + configureUpdateFileName + " -ConfigureUpdate", "w")
                 else:
                     parent = QMainWindow()
-                    QMessageBox.critical(parent, "Access Denied!..","<b>Access Denied :</b> \"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.</b><br>" % sys.path[1])
+                    QMessageBox.critical(parent, "Access Denied!..","<b>Access Denied :</b> \"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.</b><br>" % HamsiManagerDirectory)
             else:
                 parent = QMainWindow()
                 QMessageBox.critical(parent, "File Is Not Found!..","<b>File Is Not Found :</b> \"%s\" : this file is not found.<br />Please check your file and retry." % sourceFile)
                 
-    def trDecode(_s, _e = "utf-8", _p = "strict"):
-        if isPython3k:
-            return _s
-        return _s.decode(_e, _p)
-        
-    def trEncode(_s, _e = "utf-8", _p = "strict"):
-        if isPython3k:
-            return _s
-        return _s.encode(_e, _p)
-            
     def isFile(_oldPath):
         _oldPath = str(_oldPath)
-        try:return path.isfile(trEncode(_oldPath, fileSystemEncoding))
-        except:return path.isfile(_oldPath)
+        try:return os.path.isfile(trEncode(_oldPath, fileSystemEncoding))
+        except:return os.path.isfile(_oldPath)
     
     def isDir(_oldPath):
         _oldPath = str(_oldPath)
-        try:return path.isdir(trEncode(_oldPath, fileSystemEncoding))
-        except:return path.isdir(_oldPath)
+        try:return os.path.isdir(trEncode(_oldPath, fileSystemEncoding))
+        except:return os.path.isdir(_oldPath)
     
     def getDirName(_oldPath):
         _oldPath = str(_oldPath)
-        try:returnValue = path.dirname(trEncode(_oldPath, fileSystemEncoding))
-        except:returnValue = path.dirname(_oldPath)
+        try:returnValue = os.path.dirname(trEncode(_oldPath, fileSystemEncoding))
+        except:returnValue = os.path.dirname(_oldPath)
         try:return trDecode(returnValue, fileSystemEncoding)
         except:return returnValue 
     
@@ -145,14 +152,14 @@ class Update():
     def listDir(_oldPath):
         names = []
         if isDir(_oldPath):
-            try:names = listdir(trEncode(_oldPath, fileSystemEncoding))
-            except:names = listdir(_oldPath)
+            try:names = os.listdir(trEncode(_oldPath, fileSystemEncoding))
+            except:names = os.listdir(_oldPath)
         return names
             
     def findExecutableBaseName(_executableName):
-        for fName in listDir(sys.path[0]):
-            if isFile(sys.path[0]+"/"+fName):
-                if fName.split(".")[0]==_executableName and fName.find(".zip")==-1:
+        for fName in listDir(HamsiManagerDirectory):
+            if isFile(HamsiManagerDirectory+"/"+fName):
+                if fName.split(".")[0]==_executableName and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                     return fName
         return None
     
@@ -172,8 +179,8 @@ class Update():
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         print (_oldPath + " >>> " + _newPath)
         if getDirName(_oldPath)==getDirName(_newPath):
-            try:rename(trEncode(_oldPath, fileSystemEncoding),trEncode(_newPath, fileSystemEncoding))
-            except:rename(_oldPath,_newPath)
+            try:os.rename(trEncode(_oldPath, fileSystemEncoding),trEncode(_newPath, fileSystemEncoding))
+            except:os.rename(_oldPath,_newPath)
         else:
             if isDir(getDirName(_newPath))==False:
                 makeDirs(getDirName(_newPath))
@@ -183,43 +190,45 @@ class Update():
             else:
                 if isFile(_newPath):
                     removeFileOrDir(_newPath)
-                try:move(trEncode(_oldPath, fileSystemEncoding),trEncode(_newPath, fileSystemEncoding))
-                except:move(_oldPath,_newPath)
+                try:shutil.move(trEncode(_oldPath, fileSystemEncoding),trEncode(_newPath, fileSystemEncoding))
+                except:shutil.move(_oldPath,_newPath)
     
     def copyFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
+        print (_oldPath + " >>> " + _newPath)
         if isDir(getDirName(_newPath))==False:
             makeDirs(getDirName(_newPath))
         if isFile(_oldPath):
-            try:copy(trEncode(_oldPath, fileSystemEncoding),trEncode(_newPath, fileSystemEncoding))
-            except:copy(_oldPath,_newPath)
+            try:shutil.copy(trEncode(_oldPath, fileSystemEncoding),trEncode(_newPath, fileSystemEncoding))
+            except:shutil.copy(_oldPath,_newPath)
         else:
             copyDirTree(_oldPath, _newPath)
             
     def copyDirTree(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
-        try:copytree(trEncode(_oldPath, fileSystemEncoding),trEncode(_newPath, fileSystemEncoding))
-        except:copytree(_oldPath,_newPath)
+        print (_oldPath + " >>> " + _newPath)
+        try:shutil.copytree(trEncode(_oldPath, fileSystemEncoding),trEncode(_newPath, fileSystemEncoding))
+        except:shutil.copytree(_oldPath,_newPath)
         
     def makeDirs(_newPath):
-        try:makedirs(trEncode(_newPath, fileSystemEncoding))
-        except:makedirs(_newPath)
+        try:os.makedirs(trEncode(_newPath, fileSystemEncoding))
+        except:os.makedirs(_newPath)
     
     def removeFileOrDir(_path, _isDir=False):
         if _isDir==False:
-            try:remove(trEncode(_path, fileSystemEncoding))
-            except:remove(_path)
+            try:os.remove(trEncode(_path, fileSystemEncoding))
+            except:os.remove(_path)
         else:
             for fd in listDir(_path):
                 if isDir(_path+"/"+fd):
                     removeFileOrDir(_path+"/"+fd, True)
                 else:
                     removeFileOrDir(_path+"/"+fd)
-            try:rmdir(trEncode(_path, fileSystemEncoding))
-            except:rmdir(_path)
+            try:os.rmdir(trEncode(_path, fileSystemEncoding))
+            except:os.rmdir(_path)
     
     def selectSourceFile(_parent):
-        f = QFileDialog.getOpenFileName(_parent, "Please Choose the Hamsi Manager Installation File.",trDecode(getDirName(sys.path[1]), "utf-8"),"Hamsi Manager Installation File (*HamsiManager*.tar.gz)")
+        f = QFileDialog.getOpenFileName(_parent, "Please Choose the Hamsi Manager Installation File.",trDecode(getDirName(HamsiManagerDirectory), "utf-8"),"Hamsi Manager Installation File (*HamsiManager*.tar.gz)")
         if f!="":
             return str(f)
         return ""
@@ -227,10 +236,21 @@ class Update():
 try:
     apps = Update()
 except:
-    from Core import ReportBug
-    error = ReportBug.ReportBug(False, True)
-    error.show()
-sys.exit(HamsiManagerApp.exec_())
+    cla, exc, trbk = sys.exc_info()
+    excName = cla.__name__
+    try:
+        excArgs = exc.__dict__["args"]
+    except:
+        excArgs = "<no args>"
+    excTb = traceback.format_tb(trbk, 5)
+    try:
+        QMessageBox.critical(QMainWindow(), "Critical Error!..","<b>Error Details :</b> " + excName + "<br>"  + excArgs + "<br>"  + excTb + "<br>" )
+    except:pass
+    print excName
+    print excArgs
+    print excTb
+HamsiManagerApp.exec_()
+sys.exit()
         
         
     

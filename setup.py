@@ -74,16 +74,17 @@ InstallExe = Executable(
     appendScriptToLibrary = False,
     )
     
-ConfigureUpdateExe = Executable(
-    script = "ConfigureUpdate.py",
-    initScript = None,
-    base = exeBase,
-    targetName = "ConfigureUpdate" + fileExtension,
-    compress = True,
-    copyDependentFiles = False,
-    appendScriptToExe = False,
-    appendScriptToLibrary = False,
-    )
+# Update is not possible now 
+#ConfigureUpdateExe = Executable(
+#    script = "ConfigureUpdate.py",
+#    initScript = None,
+#    base = exeBase,
+#    targetName = "ConfigureUpdate" + fileExtension,
+#    compress = True,
+#    copyDependentFiles = False,
+#    appendScriptToExe = False,
+#    appendScriptToLibrary = False,
+#    )
 
 setup(
     version = Variables.version,
@@ -97,6 +98,6 @@ setup(
                              "include_files":include_files,
                              }
                },
-    executables = [MainExe, ReconfigureExe, InstallExe, ConfigureUpdateExe]
+    executables = [MainExe, ReconfigureExe, InstallExe]#, ConfigureUpdateExe]
     )
 
