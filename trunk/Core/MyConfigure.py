@@ -24,10 +24,10 @@ import InputOutputs
 from Core import Universals
 
 class MyConfigure:
-    global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent
+    global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent, getConfiguredContent
     
     def reConfigureFile(_filePath, _installationDirectory=Variables.HamsiManagerDirectory):
-        fileContent = InputOutputs.readFromFile(_filePath).replace("~InstallationDirectory~", _installationDirectory).replace("~SettingsDirectory~", Universals.pathOfSettingsDirectory).replace("~KDE4HomeDirectory~", Variables.getKDE4HomePath())
+        fileContent = getConfiguredContent(InputOutputs.readFromFile(_filePath), _installationDirectory)
         InputOutputs.writeToFile(_filePath, fileContent)
             
     def installKDE4Languages():
@@ -62,7 +62,7 @@ class MyConfigure:
             "Comment[tr]=Hamsi Manager\n" +
             "Comment=Hamsi Manager\n" +
             "Categories=Audio;AudioVideo;AudioVideoEditing;X-MandrivaLinux-Multimedia-Sound;Qt;KDE;Utility;X-KDE-Utilities-File\n" +
-            "Exec=python '~InstallationDirectory~/HamsiManager.py'\n" +
+            "Exec=~ExecuteCommandOfHamsiManager~\n" +
             "GenericName[tr]=Hamsi Manager\n" +
             "GenericName=Hamsi Manager\n" +
             "Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png\n" +
@@ -78,9 +78,18 @@ class MyConfigure:
             "X-DBUS-StartupType=\n" +
             "X-KDE-SubstituteUID=false\n" +
             "X-KDE-Username=\n")
+            
+    def getConfiguredContent(_content, _installationDirectory=Variables.HamsiManagerDirectory):
+        from Core import Execute
+        HamsiManagerExecutableFileName = Execute.findExecutableBaseName("HamsiManager")
+        if HamsiManagerExecutableFileName.find(".py")>-1:
+            executeCommandOfHamsiManager = "python '" + _installationDirectory + "/" + HamsiManagerExecutableFileName + "'"
+        else:
+            executeCommandOfHamsiManager = "'" + _installationDirectory + "/" + HamsiManagerExecutableFileName + "'"
+        return _content.replace("~InstallationDirectory~", _installationDirectory).replace("~ExecuteCommandOfHamsiManager~", executeCommandOfHamsiManager)
         
     def getConfiguredDesktopFileContent(_installationDirectory=Variables.HamsiManagerDirectory):
-        return getDesktopFileContent().replace("~InstallationDirectory~", _installationDirectory).replace("~SettingsDirectory~", Universals.pathOfSettingsDirectory).replace("~KDE4HomeDirectory~", Variables.getKDE4HomePath())
+        return getConfiguredContent(getDesktopFileContent(), _installationDirectory)
 
         
         
