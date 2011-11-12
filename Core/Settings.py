@@ -204,7 +204,7 @@ class Settings():
     def saveStateOfSettings(_file):
         from Core import MyConfigure
         newFile = makeBackUp("Settings", "SettingFiles", "random")
-        info = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
+        info = MyConfigure.getConfiguredDesktopFileContent()
         newInfo = []
         for rowNo, row in enumerate(info):
             if row [:4]=="Exec":

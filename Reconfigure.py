@@ -217,7 +217,7 @@ if RoutineChecks.checkQt4Exist():
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                     desktopPath = Variables.getUserDesktopPath()
-                    fileContent = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
+                    fileContent = MyConfigure.getConfiguredDesktopFileContent()
                     InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
             executableLink = str(self.leExecutableLink.text())
             if self.isCreateExecutableLink!=None:
@@ -233,12 +233,12 @@ if RoutineChecks.checkQt4Exist():
                                 if answer!=Dialogs.Yes:
                                     InputOutputs.removeFile(oldPathOfExecutableHamsi)
                     if InputOutputs.isDir("/usr/share/applications/"):
-                        fileContent = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
+                        fileContent = MyConfigure.getConfiguredDesktopFileContent()
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
             if Variables.isRunningAsRoot()==False:
                 if InputOutputs.isDir(Variables.userDirectoryPath + "/.local/applications/")==False:
                     InputOutputs.makeDirs(Variables.userDirectoryPath + "/.local/applications/")
-                fileContent = MyConfigure.getConfiguredDesktopFileContent(Variables.HamsiManagerDirectory)
+                fileContent = MyConfigure.getConfiguredDesktopFileContent()
                 InputOutputs.writeToFile(Variables.userDirectoryPath + "/.local/applications/HamsiManager.desktop", fileContent)
             MyConfigure.installKDE4Languages()
             self.isInstallFinised = True

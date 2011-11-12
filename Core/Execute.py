@@ -63,16 +63,16 @@ class Execute:
             
     def findExecutableBaseName(_executableName):
         for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
-            if fName.split(".")[0]==_executableName and fName.split(".")[-1] in ["", "py", "py3", "pyw", "exe"]:
+            if fName.split(".")[0]==_executableName and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                 return fName
         return None
             
     def findExecutablePath(_executableName):
         fAppName = InputOutputs.getBaseName(Variables.executableAppPath)
-        if fAppName.split(".")[0]==_executableName and fAppName.split(".")[-1] in ["", "py", "py3", "pyw", "exe"]:
+        if fAppName.split(".")[0]==_executableName and (fAppName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fAppName.split("."))==1):
             return Variables.executableAppPath
         for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
-            if fName.split(".")[0]==_executableName and fName.split(".")[-1] in ["", "py", "py3", "pyw", "exe"]:
+            if fName.split(".")[0]==_executableName and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                 return Variables.HamsiManagerDirectory + "/" + fName
         return None
     
