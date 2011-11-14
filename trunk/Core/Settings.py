@@ -48,7 +48,7 @@ class Settings():
             checkDatabases()
         
     def saveUniversalSettings():
-        import Execute
+        from Core import Execute
         mySetting = universalSetting()
         keysOfUniversalSettings = ["HamsiManagerPath"]
         values = [Execute.findExecutablePath("HamsiManager")]
