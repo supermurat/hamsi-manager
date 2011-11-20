@@ -37,7 +37,6 @@ else:
     executableAppPath = str(sys.argv[0])
 if os.path.islink(executableAppPath):
     executableAppPath = os.readlink(executableAppPath)
-HamsiManagerDirectory = os.path.dirname(executableAppPath)
 isPython3k = float(sys.version[:3])>=3.0
 HamsiManagerApp = QApplication(sys.argv)
 QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf-8"))
@@ -52,10 +51,16 @@ def trEncode(_s, _e = "utf-8", _p = "strict"):
     if isPython3k:
         return _s
     return _s.encode(_e, _p)
+        
+def trQVariant(_s):
+    if isPython3k:
+        return _s
+    return QVariant(_s)
     
 class Update():
-    global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, getRealDirName, listDir, isWritableFileOrDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree, findExecutableBaseName
+    global removeFileOrDir, UniSettings, selectSourceFile, isFile, isDir, getDirName, getRealDirName, listDir, isWritableFileOrDir, moveFileOrDir, makeDirs, copyFileOrDir, copyDirTree, findExecutableBaseName, HamsiManagerDirectory
     UniSettings = QSettings(trDecode(os.path.expanduser("~")+"/.HamsiApps/universalSettings.ini", "utf-8"), QSettings.IniFormat)
+    HamsiManagerDirectory = os.path.dirname(str(UniSettings.value("HamsiManagerPath", trQVariant(str(executableAppPath)))))
     
     def __init__(self):
         global UniSettings
@@ -81,6 +86,8 @@ class Update():
         else:
             parent = QMainWindow()
             sourceFile = str(selectSourceFile(parent))
+            if sourceFile=="":
+                isRun = False
         if isRun==True:
             if isFile(sourceFile):
                 if isWritableFileOrDir(HamsiManagerDirectory):
@@ -113,6 +120,7 @@ class Update():
             else:
                 parent = QMainWindow()
                 QMessageBox.critical(parent, "File Is Not Found!..","<b>File Is Not Found :</b> \"%s\" : this file is not found.<br />Please check your file and retry." % sourceFile)
+        return
                 
     def isFile(_oldPath):
         _oldPath = str(_oldPath)

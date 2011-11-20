@@ -131,7 +131,8 @@ if RoutineChecks.checkQt4Exist():
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                self.leInstallationDirectory = MLineEdit(trForM(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/HamsiManager"))))
+                installationDirPath = InputOutputs.getDirName(trForM(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.getDirName(Variables.HamsiManagerDirectory) + "/HamsiManager"))))
+                self.leInstallationDirectory = MLineEdit(trForM(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
                 HBox.addWidget(self.leInstallationDirectory)
@@ -154,7 +155,7 @@ if RoutineChecks.checkQt4Exist():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(MApplication.translate("Install", "Executable Link Path : "))
-                    self.leExecutableLink = MLineEdit(trForM(Settings.getUniversalSetting("pathOfExecutableHamsi", "/usr/bin/hamsi")))
+                    self.leExecutableLink = MLineEdit(trForM(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
                     self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
                     HBox1 = MHBoxLayout()
@@ -312,7 +313,7 @@ if RoutineChecks.checkQt4Exist():
                     if executableLink.strip()!="":
                         HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
                         InputOutputs.createSymLink(self.installationDirectory+"/"+HamsiManagerFileName, executableLink)
-                        Settings.setUniversalSetting("pathOfExecutableHamsi", executableLink)
+                        Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
