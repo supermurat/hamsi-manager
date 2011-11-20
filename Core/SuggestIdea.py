@@ -42,7 +42,7 @@ class SuggestIdea(MDialog):
         self.vblMain = MVBoxLayout(pnlMain)
         self.pbtnSendAndClose = MPushButton(translate("SuggestIdea", "Send And Close"))
         self.pbtnCancel = MPushButton(translate("SuggestIdea", "Cancel"))
-        self.cckbIsSendMySettings = Options.MyCheckBox(self, translate("Searcher", "Send my settings for more better default settings."), 0, _stateChanged = self.isSendMySettings)
+        self.cckbIsSendMySettings = Options.MyCheckBox(self, translate("SuggestIdea", "Send my settings for more better default settings."), 0, _stateChanged = self.isSendMySettings)
         self.connect(self.pbtnSendAndClose, SIGNAL("clicked()"), self.sendAndClose)
         self.connect(self.pbtnCancel, SIGNAL("clicked()"), self.cancel)
         lblIdea = MLabel(translate("SuggestIdea", "Idea : "))
