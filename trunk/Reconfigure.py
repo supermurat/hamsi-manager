@@ -142,7 +142,7 @@ if RoutineChecks.checkQt4Exist():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Reconfigure", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(MApplication.translate("Reconfigure", "Executable Link Path : "))
-                    self.leExecutableLink = MLineEdit(trForM(Settings.getUniversalSetting("pathOfExecutableHamsi", "/usr/bin/hamsi")))
+                    self.leExecutableLink = MLineEdit(trForM(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
                     self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
                     HBox1 = MHBoxLayout()
@@ -211,7 +211,7 @@ if RoutineChecks.checkQt4Exist():
                     self.reConfigure()
             
         def reConfigure(self):
-            oldPathOfExecutableHamsi = Settings.getUniversalSetting("pathOfExecutableHamsi", "/usr/bin/hamsi")
+            oldPathOfExecutableHamsi = Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")
             if InputOutputs.isFile(Variables.HamsiManagerDirectory + "/HamsiManager.desktop"):
                 MyConfigure.reConfigureFile(Variables.HamsiManagerDirectory + "/HamsiManager.desktop", Variables.HamsiManagerDirectory)
             if self.isCreateDesktopShortcut!=None:
@@ -225,7 +225,7 @@ if RoutineChecks.checkQt4Exist():
                     if executableLink.strip()!="":
                         HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
                         InputOutputs.createSymLink(Variables.HamsiManagerDirectory+"/"+HamsiManagerFileName, executableLink)
-                        Settings.setUniversalSetting("pathOfExecutableHamsi", executableLink)
+                        Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
                         if oldPathOfExecutableHamsi!=executableLink:
                             if InputOutputs.isFile(oldPathOfExecutableHamsi):
                                 answer = Dialogs.ask(MApplication.translate("Reconfigure", "Other Hamsi Manager Was Detected"), 
