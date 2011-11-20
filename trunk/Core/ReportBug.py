@@ -228,7 +228,7 @@ class ReportBug(MDialog):
         lblUserNotes = MLabel(translate("ReportBug", "Notes : "))
         lblName = MLabel(translate("ReportBug", "Name And Surname : "))
         lblEMailAddress = MLabel(translate("ReportBug", "E-mail Address : "))
-        lblAlert = MLabel(translate("ReportBug", "Note : Will be kept strictly confidential. It will be used solely to learn information about of your idea."))
+        lblAlert = MLabel(translate("ReportBug", "Note : Will be kept strictly confidential. It will be used solely to learn information about of your report."))
         self.teUserNotes = MTextEdit(self)
         self.leName = MLineEdit(self)
         self.leEMailAddress = MLineEdit(self)

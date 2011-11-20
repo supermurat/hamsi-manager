@@ -343,5 +343,7 @@ class Settings():
                   "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]
         if oldVersion<962:
             newSettingsKeys = newSettingsKeys + ["isResizeTableColumnsToContents"]
+        if oldVersion<990:
+            newSettingsKeys = newSettingsKeys + ["validSentenceStructureForDirectory", "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree"]
         return newSettingsKeys, changedDefaultValuesKeys
         

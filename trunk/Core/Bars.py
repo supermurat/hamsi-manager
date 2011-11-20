@@ -653,8 +653,8 @@ class MusicOptionsBar(MToolBar):
         self.cbMusicTagTypeForRead.setCurrentIndex(self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
         self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
         self.isActiveChanging = True
-        self.cbMusicTagTypeForRead.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbMusicTagTypeForWrite.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForRead.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForWrite.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
         self.addWidget(lblMusicTagTypeForRead)
         self.addWidget(self.cbMusicTagTypeForRead)
         self.addWidget(lblMusicTagTypeForWrite)
@@ -699,8 +699,8 @@ class MusicOptionsBar(MToolBar):
     def getSpecialOptions(self, _menu):
         self.cbMusicTagTypeForReadForMenu = MComboBox(self)
         self.cbMusicTagTypeForWriteForMenu = MComboBox(self)
-        self.cbMusicTagTypeForReadForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbMusicTagTypeForWriteForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForReadForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForWriteForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
         self.cbMusicTagTypeForReadForMenu.addItems(self.MusicTagTypes)
         self.cbMusicTagTypeForWriteForMenu.addItems(self.MusicTagTypes)
         self.isActiveChanging = False

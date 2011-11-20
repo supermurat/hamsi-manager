@@ -86,12 +86,12 @@ class FilterEditor(MDialog):
                                             translate("Amarok/FilterEditor", "genre: some genre (contains)")+"<br>"+
                                             translate("Amarok/FilterEditor", "comment: some comment (contains)")+"<br>"+
                                             translate("Amarok/FilterEditor", "rating:5 (equals)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "rating:< (less than)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "rating:> (greater than)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "rating:<5 (less than)")+"<br>"+
+                                            translate("Amarok/FilterEditor", "rating:>5 (greater than)")+"<br>"+
                                             translate("Amarok/FilterEditor", "<b>Multiple Conditions : </b>")+"<br>"+
                                             translate("Amarok/FilterEditor", "x:y <b>and</b> t:s (match first and second conditions)")+"<br>"+
                                             translate("Amarok/FilterEditor", "x:y <b>or</b> t:s (match first or second conditions)"))
-        gboxUsableInformations = MGroupBox(translate("Searcher", "Conditions : "))
+        gboxUsableInformations = MGroupBox(translate("Amarok/FilterEditor", "Conditions : "))
         vblBox1 = MVBoxLayout()
         vblBox1.addWidget(teUsableInformations)
         gboxUsableInformations.setLayout(vblBox1)
