@@ -23,7 +23,7 @@ import Databases
 from Core import Universals
 
 class Commands:
-    global getSQLConditionByFilter, getDirectoriesAndValues, changeFilePath, changeDirectoryPath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId, getSQLConditionPartByPartOfFilter, getSQLConditionValues
+    global getSQLConditionByFilter, getDirectoriesAndValues, changeFilePath, changeDirectoryPath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId, getSQLConditionPartByPartOfFilter, getSQLConditionValues, getOrInsertDirectory
     
     def getSQLConditionPartByPartOfFilter(_partOfFilterString = "", _isValueTable = True):
         _partOfFilterString = _partOfFilterString.strip()
@@ -699,7 +699,23 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         r = db.store_result()
         return r.fetch_row(0)[0][0]
     
+    def getOrInsertDirectory(_directory, _deviceId):
+        if _directory[-1]!="/": _directory = _directory + "/"
+        if _directory[0]!=".": _directory = "." + _directory
+        db = Amarok.checkAndGetDB()
+        sqlSelectCommand = "SELECT id FROM directories WHERE deviceid=" + _deviceId + " AND dir='" + Databases.correctForSql(_directory) + "'"
+        db.query(sqlSelectCommand)
+        r = db.store_result()
+        rows = r.fetch_row(0)
+        if len(rows)==0:
+            db.query("INSERT INTO directories(deviceid,dir) VALUES (" + _deviceId + ",'" + Databases.correctForSql(_directory) + "')")
+            db.query(sqlSelectCommand)
+            r = db.store_result()
+            rows = r.fetch_row(0)
+        return rows[0][0]
+    
     def changeFilePath(_oldPath, _newPath):
+        import InputOutputs
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         withOutDevicePointValues, withOutDeviceValues = [], []
         for devicePoint in getDevices():
@@ -719,9 +735,11 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         db = Amarok.checkAndGetDB()
         db.query("UPDATE urls SET rpath='.%s' WHERE rpath='.%s'" % (_newPath, _oldPath))
         for withOutDevice in withOutDeviceValues:
-            db.query("UPDATE urls SET rpath='.%s', deviceid = -1 WHERE deviceid = %s and rpath = '.%s' " % (withOutDevice["newPath"], withOutDevice["id"], withOutDevice["oldPath"]))
+            directoryID = getOrInsertDirectory(InputOutputs.getDirName(withOutDevice["newPath"]), "-1")
+            db.query("UPDATE urls SET rpath='.%s', directory=%s, deviceid = -1 WHERE deviceid = %s and rpath = '.%s' " % (withOutDevice["newPath"], directoryID, withOutDevice["id"], withOutDevice["oldPath"]))
         for withOutDevicePoint in withOutDevicePointValues:
-            db.query("UPDATE urls SET rpath='.%s' WHERE deviceid = %s and rpath = '.%s'" % (withOutDevicePoint["newPath"], withOutDevicePoint["id"], withOutDevicePoint["oldPath"]))
+            directoryID = getOrInsertDirectory(InputOutputs.getDirName(withOutDevicePoint["newPath"]), withOutDevicePoint["id"])
+            db.query("UPDATE urls SET rpath='.%s', directory=%s WHERE deviceid = %s and rpath = '.%s'" % (withOutDevicePoint["newPath"], directoryID, withOutDevicePoint["id"], withOutDevicePoint["oldPath"]))
         db.query("UPDATE images SET path='%s' WHERE path='%s'" % (_newPath, _oldPath))
         db.query("UPDATE lyrics SET url='.%s' WHERE url='.%s'" % (_newPath, _oldPath))
         db.query("UPDATE statistics_permanent SET url='file://%s' WHERE url='file://%s'" % (_newPathUrl, _oldPathUrl))
