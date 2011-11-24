@@ -56,28 +56,30 @@ class MyConfigure:
         return False
         
     def getDesktopFileContent():
-        return ("#!/usr/bin/env xdg-open\n" +
-            "[Desktop Entry]\n" +
-            "Encoding=UTF-8\n" +
-            "Comment[tr]=Hamsi Manager\n" +
-            "Comment=Hamsi Manager\n" +
-            "Categories=Audio;AudioVideo;AudioVideoEditing;X-MandrivaLinux-Multimedia-Sound;Qt;KDE;Utility;X-KDE-Utilities-File\n" +
-            "Exec=~ExecuteCommandOfHamsiManager~\n" +
-            "GenericName[tr]=Hamsi Manager\n" +
-            "GenericName=Hamsi Manager\n" +
-            "Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png\n" +
-            "MimeType=\n" +
-            "Name[tr]=Hamsi Manager\n" +
-            "Name=Hamsi Manager\n" +
-            "Path=~InstallationDirectory~\n" +
-            "StartupNotify=true\n" +
-            "Terminal=false\n" +
-            "TerminalOptions=\n" +
-            "Type=Application\n" +
-            "X-DBUS-ServiceName=\n" +
-            "X-DBUS-StartupType=\n" +
-            "X-KDE-SubstituteUID=false\n" +
-            "X-KDE-Username=\n")
+        return ("""#!/usr/bin/env xdg-open
+[Desktop Entry]
+Encoding=UTF-8
+Comment[tr]=Hamsi Manager
+Comment=Hamsi Manager
+Categories=Utility;Qt;KDE;System;X-KDE-Utilities-File;GTK;GNOME;FileTools;FileManager
+Exec=~ExecuteCommandOfHamsiManager~
+GenericName[tr]=Hamsi Manager
+GenericName=Hamsi Manager
+Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+MimeType=inode/directory;
+Name[tr]=Hamsi Manager
+Name=Hamsi Manager
+Path=~InstallationDirectory~
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
+X-MultipleArgs=false
+""")
             
     def getConfiguredContent(_content, _installationDirectory=Variables.HamsiManagerDirectory):
         from Core import Execute
