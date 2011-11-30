@@ -172,9 +172,11 @@ the Free Software Foundation; either version 2 of the License, or
                     checkAndGetOldAppNameInSystem=False, runAsRoot=False, qm=False)
     options, remainder = parser.parse_args()
     if len(remainder)==1:
-        Universals.setMySetting("lastDirectory", str(remainder[0]))
+        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainder[0]), Variables.defaultFileSystemEncoding))
+        except:Universals.setMySetting("lastDirectory", str(remainder[0]))
     if options.directory:
-        Universals.setMySetting("lastDirectory", str(options.directory))
+        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(options.directory), Variables.defaultFileSystemEncoding))
+        except:Universals.setMySetting("lastDirectory", str(options.directory))
     if options.loggingLevel:
         Universals.loggingLevel = options.loggingLevel
     if options.sFileName:

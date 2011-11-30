@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-11-09, 15:57:00 -->
+<!-- Saved: 2011-11-30, 00:27:55 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -107,6 +107,7 @@
     <Source>Details/HtmlDetails.py</Source>
     <Source>Tables/AmarokArtistTable.py</Source>
     <Source>setup2.py</Source>
+    <Source>MyPlugins/Explorer_CM/__init__.py</Source>
   </Sources>
   <Forms>
   </Forms>
