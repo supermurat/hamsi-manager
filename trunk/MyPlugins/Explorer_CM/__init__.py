@@ -53,7 +53,7 @@ def installThisPlugin():
             winreg.SetValueEx(hamsiKey,"",0, winreg.REG_SZ, str(translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager")))
         winreg.CreateKey(hamsiKey, "command")
         commandKey = winreg.OpenKey(hamsiKey, "command", 0, winreg.KEY_WRITE)
-        winreg.SetValueEx(commandKey,"",0, winreg.REG_SZ, "\"" + Execute.findExecutablePath("HamsiManager") + "\" %U") 
+        winreg.SetValueEx(commandKey,"",0, winreg.REG_SZ, "\"" + Execute.findExecutablePath("HamsiManager") + "\" \"%1\"") 
 
         winreg.CloseKey(commandKey)
         winreg.CloseKey(hamsiKey)
