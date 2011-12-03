@@ -317,7 +317,7 @@ def checkAfterRunProccess():
     
 def checkWindowMode(_isCheck=False):
     from Core import Dialogs, Universals 
-    from Core.MyObjects import translate
+    from Core.MyObjects import translate, MToolBar
     if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
         if Universals.windowMode == Variables.windowModeKeys[0]:
             screenSize = Variables.getScreenSize()
@@ -325,6 +325,11 @@ def checkWindowMode(_isCheck=False):
                 if screenSize.width()<1024:
                     Universals.windowMode = Variables.windowModeKeys[1]
         if Universals.windowMode == Variables.windowModeKeys[1]:
+            if len(Universals.MainWindow.findChildren(MToolBar))>0:
+                firstToolBar = Universals.MainWindow.findChildren(MToolBar)[0]
+                Universals.MainWindow.removeToolBar(Universals.MainWindow.FileManager.tbarBrowserTools)
+                Universals.MainWindow.insertToolBar(firstToolBar, Universals.MainWindow.FileManager.tbarBrowserTools)
+                Universals.MainWindow.FileManager.tbarBrowserTools.setVisible(True)
             answer = Dialogs.ask(translate("HamsiManager", "We Have A Suggestion"),
                     translate("HamsiManager", "Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?"), False)
             if answer==Dialogs.Yes: 
