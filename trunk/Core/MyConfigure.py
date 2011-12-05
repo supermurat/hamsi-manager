@@ -38,20 +38,18 @@ class MyConfigure:
             return True
         return False
             
-    def installKDE4Language(_language="tr_TR", _KDELocalateDir = None):
+    def installKDE4Language(_language="tr_TR"):
         if Variables.isAvailableKDE4():
-            if _KDELocalateDir==None:
-                _KDELocalateDir = Variables.getKDE4HomePath() +"/share/locale/~langCode~/LC_MESSAGES/"
+            KDELocalateDir = InputOutputs.joinPath(Variables.getKDE4HomePath(), "share", "locale", str(_language[:2]), "LC_MESSAGES")
             if Variables.isRunningAsRoot():
-                _KDELocalateDir = "/usr/share/locale/~langCode~/LC_MESSAGES/"
-            _KDELocalateDir = str(_KDELocalateDir)
-            _KDELocalateDir = _KDELocalateDir.replace("~langCode~", str(_language[:2]))
-            langFile = Variables.HamsiManagerDirectory+"/Languages/" + str(_language)+".mo"
-            if InputOutputs.isFile(_KDELocalateDir+"HamsiManager.mo")==False:
+                KDELocalateDir = InputOutputs.joinPath("usr", "share", "locale", str(_language[:2]), "LC_MESSAGES")
+            KDELocalateDir = str(KDELocalateDir)
+            langFile = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", str(_language)+".mo")
+            if InputOutputs.isFile(InputOutputs.joinPath(KDELocalateDir, "HamsiManager.mo"))==False:
                 if InputOutputs.isFile(langFile):
-                    if InputOutputs.isDir(_KDELocalateDir)==False:
-                        InputOutputs.makeDirs(_KDELocalateDir)
-                    InputOutputs.copyFileOrDir(langFile,_KDELocalateDir+"HamsiManager.mo")
+                    if InputOutputs.isDir(KDELocalateDir)==False:
+                        InputOutputs.makeDirs(KDELocalateDir)
+                    InputOutputs.copyFileOrDir(langFile, InputOutputs.joinPath(KDELocalateDir, "HamsiManager.mo"))
             return True
         return False
         
@@ -65,7 +63,7 @@ Categories=Utility;Qt;KDE;System;X-KDE-Utilities-File;GTK;GNOME;FileTools;FileMa
 Exec=~ExecuteCommandOfHamsiManager~
 GenericName[tr]=Hamsi Manager
 GenericName=Hamsi Manager
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 MimeType=inode/directory;
 Name[tr]=Hamsi Manager
 Name=Hamsi Manager
@@ -83,12 +81,7 @@ X-MultipleArgs=false
             
     def getConfiguredContent(_content, _installationDirectory=Variables.HamsiManagerDirectory):
         from Core import Execute
-        HamsiManagerExecutableFileName = Execute.findExecutableBaseName("HamsiManager")
-        if HamsiManagerExecutableFileName.find(".py")>-1:
-            executeCommandOfHamsiManager = "python '" + _installationDirectory + "/" + HamsiManagerExecutableFileName + "'"
-        else:
-            executeCommandOfHamsiManager = "'" + _installationDirectory + "/" + HamsiManagerExecutableFileName + "'"
-        return _content.replace("~InstallationDirectory~", _installationDirectory).replace("~ExecuteCommandOfHamsiManager~", executeCommandOfHamsiManager)
+        return _content.replace("~InstallationDirectory~", _installationDirectory).replace("~ExecuteCommandOfHamsiManager~", Execute.getExecuteCommandOfHamsiManager()).replace("~IconPath~", InputOutputs.joinPath(_installationDirectory, "Themes", "Default", "Images", "HamsiManager-128x128.png"))
         
     def getConfiguredDesktopFileContent(_installationDirectory=Variables.HamsiManagerDirectory):
         return getConfiguredContent(getDesktopFileContent(), _installationDirectory)

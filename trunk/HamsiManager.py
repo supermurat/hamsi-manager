@@ -54,10 +54,10 @@ if RoutineChecks.checkQt4Exist():
             text        = ki18n (trForUI(""))
             homePage    = trForUI("hamsiapps.com")
             bugEmail    = trForUI("Murat Demir (mopened@gmail.com)")
-            if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode):
-                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ kde4LangKode, "utf-8")
+            if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+ kde4LangKode)):
+                aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+ kde4LangKode), "utf-8")
             else:
-                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB", "utf-8")
+                aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
             description = ki18n (trForUI(aboutFileContent))
             Universals.printForDevelopers("Before MAboutData")
             aboutOfHamsiManager = MAboutData (appName, Variables.Catalog, programName, version, description,
@@ -68,11 +68,11 @@ if RoutineChecks.checkQt4Exist():
                                             "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
             aboutOfHamsiManager.addCredit(ki18n(trForUI("M\xc3\xa1rcio Moraes")), ki18n(trForUI("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)")), 
                                             "", "")
-            aboutOfHamsiManager.setProgramIconName(trForM(Universals.themePath + "/Images/HamsiManager-128x128.png"))
-            if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode):
-                aboutOfHamsiManager.addLicenseTextFile(trForM(Variables.HamsiManagerDirectory+"/Languages/License_"+ kde4LangKode))
+            aboutOfHamsiManager.setProgramIconName(trForM(InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-128x128.png")))
+            if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)):
+                aboutOfHamsiManager.addLicenseTextFile(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)))
             else:
-                aboutOfHamsiManager.addLicenseTextFile(trForM(Variables.HamsiManagerDirectory+"/Languages/License_en_GB"))
+                aboutOfHamsiManager.addLicenseTextFile(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_en_GB")))
             Universals.printForDevelopers("Before MCmdLineArgs")
             MCmdLineArgs.init(sys.argv, aboutOfHamsiManager)
             options = MCmdLineOptions()
@@ -89,26 +89,26 @@ if RoutineChecks.checkQt4Exist():
                         kde4LangKode = lcode
             kconf = MGlobal.config()
             MGlobal.locale().setLanguage(kde4LangKode, kconf)
-            if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+kde4LangKode+".qm"):
+            if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+kde4LangKode+".qm")):
                 languageFile = MTranslator()
-                languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+kde4LangKode+".qm"))
+                languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+kde4LangKode+".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
             Variables.aboutOfHamsiManager = aboutOfHamsiManager
         else:
             Universals.printForDevelopers("NotActivePyKDE4")
             HamsiManagerApp = MApplication(sys.argv)  
-            if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ Universals.MySettings["language"]):
-                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+ Universals.MySettings["language"], "utf-8")
+            if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+ Universals.MySettings["language"])):
+                aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+ Universals.MySettings["language"]), "utf-8")
             else:
-                aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB", "utf-8")
+                aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
             Variables.aboutOfHamsiManager = trForUI(aboutFileContent)
-            if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+Universals.MySettings["language"]+".qm"):
+            if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()
-                languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+Universals.MySettings["language"]+".qm"))
+                languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+Universals.MySettings["language"]+".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
-            elif InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+Universals.MySettings["language"]+".qm"):
+            elif InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()
-                languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+Universals.MySettings["language"]+".qm"))
+                languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+Universals.MySettings["language"]+".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
         Universals.printForDevelopers("Before MTextCodec setCodecFor..")
         MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
@@ -118,10 +118,10 @@ if RoutineChecks.checkQt4Exist():
         HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
         HamsiManagerApp.setOrganizationName("Hamsi Apps")
         MApplication.setQuitOnLastWindowClosed(True)
-        MDir.setSearchPaths("Images", MStringList(trForM(Universals.themePath + "/Images/")))
-        MDir.setSearchPaths("root", MStringList(trForM(Variables.HamsiManagerDirectory+"/")))
-        if InputOutputs.isFile(Universals.themePath + "/Style.qss"):
-            HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(Universals.themePath + "/Style.qss"))
+        MDir.setSearchPaths("Images", MStringList(trForM(InputOutputs.joinPath(Universals.themePath, "Images"))))
+        MDir.setSearchPaths("root", MStringList(trForM(Variables.HamsiManagerDirectory)))
+        if InputOutputs.isFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")):
+            HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")))
         HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
         if Universals.MySettings["applicationStyle"]!="":
             MApplication.setStyle(Universals.MySettings["applicationStyle"])
@@ -267,7 +267,7 @@ if RoutineChecks.checkQt4Exist():
                                     subFixForStateFile = ""
                                     if Universals.windowMode!=Variables.windowModeKeys[0]:
                                         subFixForStateFile = Universals.windowMode
-                                    InputOutputs.writeToBinaryFile(Universals.pathOfSettingsDirectory + "/LastState" + subFixForStateFile, self.saveState())
+                                    InputOutputs.writeToBinaryFile(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "LastState" + subFixForStateFile), self.saveState())
                                     Records.restoreRecordType()
                                     geometri = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
                                     Universals.setMySetting("MainWindowGeometries",geometri)
@@ -315,7 +315,7 @@ if RoutineChecks.checkQt4Exist():
                             subFixForStateFile = ""
                             if Universals.windowMode!=Variables.windowModeKeys[0]:
                                 subFixForStateFile = Universals.windowMode
-                            state.append(InputOutputs.readFromBinaryFile(Universals.pathOfSettingsDirectory + "/LastState" + subFixForStateFile))
+                            state.append(InputOutputs.readFromBinaryFile(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "LastState" + subFixForStateFile)))
                             MainWindow.restoreState(state)
                             Universals.printForDevelopers("After MainWindow.restoreState")
                         except:pass

@@ -144,7 +144,7 @@ class AmarokCopyTable():
                 if self.Table.isChangableItem(rowNo, 1, baseName, False):
                     baseName = str(self.Table.item(rowNo,1).text())
                     self.Table.changedValueNumber += 1
-                newFilePath = InputOutputs.getRealPath(str(self.Table.SubTable.leDestinationDirPath.text()) + "/" + baseNameOfDirectory + "/" + baseName)
+                newFilePath = InputOutputs.getRealPath(InputOutputs.joinPath(str(self.Table.SubTable.leDestinationDirPath.text()), baseNameOfDirectory, baseName))
                 if InputOutputs.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.isReadableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                     if InputOutputs.isWritableFileOrDir(newFilePath, False, True):
                         newFilePathCopied = InputOutputs.copyOrChange(self.Table.currentTableContentValues[rowNo]["path"], newFilePath)

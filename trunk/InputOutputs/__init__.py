@@ -30,11 +30,12 @@ from Core.Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, isAvailableName, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts
+    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, isAvailableName, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
     isSmartCheckIcon = False
+    sep = os.sep
     
     def joinPath(_a, *_b):
         return os.path.join(_a, *_b)
@@ -98,9 +99,9 @@ class InputOutputs:
     def getRealDirName(_oldPath, isGetParent=False):
         _oldPath = str(_oldPath)
         if len(_oldPath)==0: 
-            if Variables.isWindows: return "C:" + os.sep
-            return os.sep
-        if _oldPath[-1]==os.sep:
+            if Variables.isWindows: return "C:" + sep
+            return sep
+        if _oldPath[-1]==sep:
             _oldPath = _oldPath[:-1]
         if isGetParent:
             realDirName = getDirName(str(_oldPath))
@@ -110,8 +111,8 @@ class InputOutputs:
             if isDir(realDirName):
                 break
             if realDirName=="":
-                if Variables.isWindows: realDirName = "C:" + os.sep
-                else: realDirName = os.sep
+                if Variables.isWindows: realDirName = "C:" + sep
+                else: realDirName = sep
                 break
             realDirName = getDirName(realDirName)
         return realDirName
@@ -119,13 +120,13 @@ class InputOutputs:
     def getRealPath(_path, _parentPath=None):
         _path = str(_path)
         if len(_path)==0: 
-            if Variables.isWindows: return "C:" + os.sep
-            return os.sep
+            if Variables.isWindows: return "C:" + sep
+            return sep
         if _parentPath!=None:
             _parentPath = getRealPath(_parentPath)
-            if _path[:2]=="." + os.sep:
+            if _path[:2]=="." + sep:
                 _path = _parentPath + _path[1:]
-            if _path[:3]==".." + os.sep:
+            if _path[:3]==".." + sep:
                 _path = getDirName(_parentPath) + _path[2:]
         return os.path.abspath(_path)
     
@@ -887,7 +888,7 @@ class InputOutputs:
             returnValue, isChanging, isChange, isCorrectFileContent, rows = False, False, True, False, []
             if isFile(_iconName):
                 if str(_path)==str(getDirName(_iconName)):
-                    _iconName = "." + os.sep + getBaseName(_iconName)
+                    _iconName = "." + sep + getBaseName(_iconName)
                 try:
                     info = readFromFile(joinPath(_path, ".directory"))
                     if info.find("[Desktop Entry]")==-1:
@@ -1118,12 +1119,12 @@ class InputOutputs:
                 elif _extInfo=="title":
                     info += " \n <h3>%s </h3> \n" % (str(Universals.translate("Tables", "File Tree")))
                     info += " %s<br> \n" % (_path)
-                dirNumber = _path.count(os.sep)
+                dirNumber = _path.count(sep)
                 findStrings, replaceStrings = [], []
                 for x, file in enumerate(files):
                     if isDir(file):
                         findStrings.append(file)
-                        replaceStrings.append((Universals.getUtf8Data("upright") + "&nbsp;&nbsp;&nbsp;"*(file.count(os.sep)-dirNumber)) + Universals.getUtf8Data("upright+right") + "&nbsp;")
+                        replaceStrings.append((Universals.getUtf8Data("upright") + "&nbsp;&nbsp;&nbsp;"*(file.count(sep)-dirNumber)) + Universals.getUtf8Data("upright+right") + "&nbsp;")
                 findStrings.reverse()
                 replaceStrings.reverse()
                 fileList = list(range(len(files)))
@@ -1131,7 +1132,7 @@ class InputOutputs:
                     fileList[x] = file
                     for  y, fstr in enumerate(findStrings):
                         if file!=fstr:
-                            fileList[x] = fileList[x].replace(fstr + os.sep, replaceStrings[y])
+                            fileList[x] = fileList[x].replace(fstr + sep, replaceStrings[y])
                     if x>0:
                         tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
                         tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
@@ -1139,9 +1140,9 @@ class InputOutputs:
                             fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
                 for x, fileName in enumerate(fileList):
                     if x!=len(fileList)-1:
-                        info += fileName.replace(_path + os.sep, Universals.getUtf8Data("upright+right") + "&nbsp;")
+                        info += fileName.replace(_path + sep, Universals.getUtf8Data("upright+right") + "&nbsp;")
                     else:
-                        info += fileName.replace(_path + os.sep, Universals.getUtf8Data("up+right") + "&nbsp;")
+                        info += fileName.replace(_path + sep, Universals.getUtf8Data("up+right") + "&nbsp;")
                     if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
                         details = getDetails(files[x])
                         info += " ( "
@@ -1158,12 +1159,12 @@ class InputOutputs:
                 elif _extInfo=="title":
                     info += " %s \n" % (str(Universals.translate("Tables", "File Tree")))
                     info += _path + "\n"
-                dirNumber = _path.count(os.sep)
+                dirNumber = _path.count(sep)
                 findStrings, replaceStrings = [], []
                 for x, file in enumerate(files):
                     if isDir(file):
                         findStrings.append(file)
-                        replaceStrings.append((Universals.getUtf8Data("upright") + "   "*(file.count(os.sep)-dirNumber)) + Universals.getUtf8Data("upright+right") + " ")
+                        replaceStrings.append((Universals.getUtf8Data("upright") + "   "*(file.count(sep)-dirNumber)) + Universals.getUtf8Data("upright+right") + " ")
                 findStrings.reverse()
                 replaceStrings.reverse()
                 fileList = list(range(len(files)))
@@ -1171,7 +1172,7 @@ class InputOutputs:
                     fileList[x] = file
                     for  y, fstr in enumerate(findStrings):
                         if file!=fstr:
-                            fileList[x] = fileList[x].replace(fstr + os.sep, replaceStrings[y])
+                            fileList[x] = fileList[x].replace(fstr + sep, replaceStrings[y])
                     if x>0:
                         tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
                         tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
@@ -1179,9 +1180,9 @@ class InputOutputs:
                             fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
                 for x, fileName in enumerate(fileList):
                     if x!=len(fileList)-1:
-                        info += fileName.replace(_path + os.sep, Universals.getUtf8Data("upright+right") + " ")
+                        info += fileName.replace(_path + sep, Universals.getUtf8Data("upright+right") + " ")
                     else:
-                        info += fileName.replace(_path + os.sep, Universals.getUtf8Data("up+right") + " ")
+                        info += fileName.replace(_path + sep, Universals.getUtf8Data("up+right") + " ")
                     if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
                         details = getDetails(files[x])
                         info += " ( "

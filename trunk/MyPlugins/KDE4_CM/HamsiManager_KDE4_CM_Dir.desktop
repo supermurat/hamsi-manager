@@ -11,76 +11,76 @@ X-KDE-Submenu[pt_BR]=&Hamsi Manager
 
 [Desktop Action emendDirectory]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --emendDirectory %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Auto Emend
 Name[tr]=Otomatik Olarak Düzelt
 Name[pt_BR]=Corrigir automaticamente
 
 [Desktop Action emendDirectoryWithContents]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --emendDirectoryWithContents %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Auto Emend (With Contents)
 Name[tr]=Otomatik Olarak Düzelt (İçeriği İle)
 Name[pt_BR]=Corrigir automaticamente (Com conteúdos)
 
 [Desktop Action pack]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --pack %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Pack It
 Name[tr]=Paketle
 Name[pt_BR]=Empacotá-lo
 
 [Desktop Action checkIcon]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --checkIcon %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Check Directory Icon
 Name[tr]=Dizin Simgesini Kontrol Et
 Name[pt_BR]=Verificar ícone do diretório
 
 [Desktop Action clearEmptyDirectories]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --clearEmptyDirectories %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Clear Empty Directories
 Name[tr]=Boş Dizinleri Sil
 Name[pt_BR]=Apagar diretórios vazios
 
 [Desktop Action clearUnneededs]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --clearUnneededs %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Clear Unneededs
 Name[tr]=Gereksizleri Sil
 Name[pt_BR]=Apagar desnecessários
 
 [Desktop Action clearIgnoreds]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --clearIgnoreds %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Clear Ignoreds
 Name[tr]=Yok Sayılanları Sil
 Name[pt_BR]=Apagar ignorados
 
 [Desktop Action fileTree]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --fileTree %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Build File Tree
 Name[tr]=Dosya Ağacı Oluştur
 Name[pt_BR]=Construir árvore de arquivo
 
 [Desktop Action removeOnlySubFiles]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --removeOnlySubFiles %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Remove Sub Files
 Name[tr]=Alt Dosyaları Sil
 Name[pt_BR]=Remover arquivos recursivamente
 
 [Desktop Action clear]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --clear %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Clear It
 Name[tr]=Temizle
 Name[pt_BR]=Apagá-lo
 
 [Desktop Action search]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --search %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Search
 Name[tr]=Ara

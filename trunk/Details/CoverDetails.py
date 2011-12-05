@@ -23,6 +23,7 @@ from Viewers import ImageViewer
 from Core import Dialogs
 from Core import Organizer
 from Core import Universals
+import InputOutputs
 
 class CoverDetails(MDialog):
     global coverDialogs,closeAllCoverDialogs
@@ -111,9 +112,9 @@ class CoverDetails(MDialog):
             self.show()
                   
     def changeCoverValues(self, _coverValues):
-        if _coverValues[1].strip()=="/": _coverValues[1] = _coverValues[0] + "/"
-        if _coverValues[2].strip()=="/": _coverValues[2] = _coverValues[0] + "/"
-        if _coverValues[3].strip()=="/": _coverValues[3] = _coverValues[0] + "/"
+        if _coverValues[1].strip()==InputOutputs.sep: _coverValues[1] = _coverValues[0] + InputOutputs.sep
+        if _coverValues[2].strip()==InputOutputs.sep: _coverValues[2] = _coverValues[0] + InputOutputs.sep
+        if _coverValues[3].strip()==InputOutputs.sep: _coverValues[3] = _coverValues[0] + InputOutputs.sep
         self.setWindowTitle(trForUI(str(translate("ImageDetails", "Cover Details ( %s )")) % (_coverValues[0])))
         self.lePathOfCurrent.setText(trForUI(_coverValues[1]))
         self.lePathOfSource.setText(trForUI(_coverValues[2]))

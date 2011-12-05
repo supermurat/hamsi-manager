@@ -23,6 +23,7 @@ if float(sys.version[:3])>=2.6:
 else:
     from pysqlite2 import dbapi2 as sqlite
 from Core import Universals
+import InputOutputs
 from Databases import *
     
 class Databases:
@@ -32,7 +33,7 @@ class Databases:
     def getDefaultConnection():
         global defaultConnection
         if defaultConnection==None:
-            defaultConnection = sqlite.connect(Universals.pathOfSettingsDirectory + "/database.sqlite")
+            defaultConnection = sqlite.connect(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "database.sqlite"))
         return defaultConnection
     
     def getAllDatabases():

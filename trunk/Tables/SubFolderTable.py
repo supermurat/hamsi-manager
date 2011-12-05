@@ -88,7 +88,7 @@ class SubFolderTable():
                     if self.Table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(self.Table.item(rowNo,1).text())
                         self.Table.changedValueNumber += 1
-                    newFilePath = str(self.Table.currentTableContentValues[rowNo]["path"]).replace(str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"]) + "/" + str(self.Table.currentTableContentValues[rowNo]["baseName"]), "") + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = InputOutputs.joinPath(str(self.Table.currentTableContentValues[rowNo]["path"]).replace(InputOutputs.joinPath(str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"]), str(self.Table.currentTableContentValues[rowNo]["baseName"])), ""), baseNameOfDirectory, baseName)
                     if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
                         changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
                                                         InputOutputs.getRealPath(newFilePath)])

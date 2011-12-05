@@ -38,14 +38,14 @@ if RoutineChecks.checkQt4Exist():
     from Core import Execute
     defaultLangCode = str(MLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForM(Variables.HamsiManagerDirectory+"/Themes/Default/Images/")))
-    StyleFile = open(Variables.HamsiManagerDirectory+"/Themes/Default/Style.qss") 
+    MDir.setSearchPaths("Images", MStringList(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", "Default", "Images"))))
+    StyleFile = open(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", "Default", "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
-    if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+defaultLangCode+".qm"):
-            languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManagerWithQt_"+defaultLangCode+".qm"))
-    elif InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+defaultLangCode+".qm"):
-            languageFile.load(trForM(Variables.HamsiManagerDirectory+"/Languages/HamsiManager_"+defaultLangCode+".qm"))
+    if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
+            languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
+    elif InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
+            languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
     HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
@@ -114,24 +114,24 @@ if RoutineChecks.checkQt4Exist():
             HBox = MHBoxLayout()
             pnlPage.setLayout(HBox)
             if _pageNo==0:
-                if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/About_"+defaultLangCode):
-                    aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_"+defaultLangCode, "utf-8")
+                if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode)):
+                    aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
                 else:
-                    aboutFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/About_en_GB", "utf-8")
+                    aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
                 lblAbout = MLabel(trForUI(aboutFileContent))
                 lblAbout.setWordWrap(True)
                 HBox.addWidget(lblAbout)
             elif _pageNo==1:
-                if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/Languages/License_"+defaultLangCode):
-                    lisenceFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/License_"+defaultLangCode, "utf-8")
+                if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode)):
+                    lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode), "utf-8")
                 else:
-                    lisenceFileContent = InputOutputs.readFromFile(Variables.HamsiManagerDirectory+"/Languages/License_en_GB", "utf-8")
+                    lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
                 teCopying = MTextEdit()
                 teCopying.setPlainText(trForUI(lisenceFileContent))
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                installationDirPath = InputOutputs.getDirName(trForM(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.getDirName(Variables.HamsiManagerDirectory) + "/HamsiManager"))))
+                installationDirPath = InputOutputs.getDirName(trForM(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), "HamsiManager")))))
                 self.leInstallationDirectory = MLineEdit(trForM(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
@@ -225,7 +225,7 @@ if RoutineChecks.checkQt4Exist():
         def install(self):
             MApplication.processEvents()
             self.installationDirectory = str(self.leInstallationDirectory.text())
-            if self.installationDirectory[-1]=="/":
+            if self.installationDirectory[-1]==InputOutputs.sep:
                 self.installationDirectory = self.installationDirectory[:-1]
             if self.installationDirectory==Variables.HamsiManagerDirectory:
                 self.pageNo-=1
@@ -273,14 +273,14 @@ if RoutineChecks.checkQt4Exist():
                         self.prgbState.setValue(fileNo+1)
                     self.pageNo+=1
                     try:
-                        InputOutputs.moveFileOrDir(self.installationDirectory+"/ConfigureUpdate.py", self.installationDirectory+"/Update.py")
+                        InputOutputs.moveFileOrDir(InputOutputs.joinPath(self.installationDirectory, "ConfigureUpdate.py"), InputOutputs.joinPath(self.installationDirectory, "Update.py"))
                     except:
                         configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
                         if configureUpdateFileName!=None:
                             extOfFile = ""
                             if configureUpdateFileName.find(".")!=-1:
                                 extOfFile = "." + (configureUpdateFileName.split(".")[1])
-                            InputOutputs.moveFileOrDir(self.installationDirectory+"/"+configureUpdateFileName, self.installationDirectory+"/Update" + extOfFile)
+                            InputOutputs.moveFileOrDir(InputOutputs.joinPath(self.installationDirectory, configureUpdateFileName), InputOutputs.joinPath(self.installationDirectory, "Update" + extOfFile))
                     MyConfigure.installKDE4Languages()
                 else:
                     self.pageNo-=1
@@ -300,28 +300,28 @@ if RoutineChecks.checkQt4Exist():
             
         def finish(self):
             Settings.setUniversalSetting("isUpdatable", "True")
-            if InputOutputs.isFile(self.installationDirectory + "/HamsiManager.desktop"):
-                MyConfigure.reConfigureFile(self.installationDirectory + "/HamsiManager.desktop", self.installationDirectory)
+            if InputOutputs.isFile(InputOutputs.joinPath(self.installationDirectory, "HamsiManager.desktop")):
+                MyConfigure.reConfigureFile(InputOutputs.joinPath(self.installationDirectory, "HamsiManager.desktop"), self.installationDirectory)
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                     desktopPath = Variables.getUserDesktopPath()
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                    InputOutputs.writeToFile(desktopPath + "/HamsiManager.desktop", fileContent)
+                    InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
             executableLink = str(self.leExecutableLink.text())
             if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     if executableLink.strip()!="":
                         HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
-                        InputOutputs.createSymLink(self.installationDirectory+"/"+HamsiManagerFileName, executableLink)
+                        InputOutputs.createSymLink(InputOutputs.joinPath(self.installationDirectory, HamsiManagerFileName), executableLink)
                         Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
                     if InputOutputs.isDir("/usr/share/applications/"):
                         fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                         InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
             if Variables.isRunningAsRoot()==False:
-                if InputOutputs.isDir(Variables.userDirectoryPath + "/.local/applications/")==False:
-                    InputOutputs.makeDirs(Variables.userDirectoryPath + "/.local/applications/")
+                if InputOutputs.isDir(InputOutputs.joinPath(Variables.userDirectoryPath, ".local", "applications"))==False:
+                    InputOutputs.makeDirs(InputOutputs.joinPath(Variables.userDirectoryPath, ".local", "applications"))
                 fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                InputOutputs.writeToFile(Variables.userDirectoryPath + "/.local/applications/HamsiManager.desktop", fileContent)
+                InputOutputs.writeToFile(InputOutputs.joinPath(Variables.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"), fileContent)
             self.isInstallFinised = True
             self.close()
             

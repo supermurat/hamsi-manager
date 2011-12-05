@@ -59,18 +59,18 @@ class MusicTable():
         for musicNo,musicName in enumerate(musicFileNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isReadableFileOrDir(_directoryPath+"/"+musicName, False, True):
+                if InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(_directoryPath, musicName), False, True):
                     tagger = Taggers.getTagger()
                     try:
-                        tagger.loadFile(_directoryPath+"/"+musicName)
+                        tagger.loadFile(InputOutputs.joinPath(_directoryPath, musicName))
                     except:
                         Dialogs.showError(translate("InputOutputs/Musics", "Incorrect Tag"), 
                             str(translate("InputOutputs/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
-                            ) % Organizer.getLink(_directoryPath+"/"+musicName))
+                            ) % Organizer.getLink(InputOutputs.joinPath(_directoryPath, musicName)))
                     if tagger.isAvailableFile() == False:
                         isCanNoncompatible=True
                     content = {}
-                    content["path"] = _directoryPath + "/" + musicName
+                    content["path"] = InputOutputs.joinPath(_directoryPath, musicName)
                     content["baseNameOfDirectory"] = baseNameOfDirectory
                     content["baseName"] = musicName
                     content["artist"] = tagger.getArtist()
@@ -181,7 +181,7 @@ class MusicTable():
                     if self.Table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(self.Table.item(rowNo,1).text())
                         self.Table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
                     if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
                         changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
                                                         newFilePath])

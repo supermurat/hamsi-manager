@@ -22,6 +22,7 @@ import string
 import math
 from Core import Variables
 from Core import Universals
+import InputOutputs
 if Variables.isPython3k:
     from urllib.parse import unquote, quote
 else:
@@ -50,20 +51,21 @@ class Organizer:
             if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
                 _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
             preString, extString, ext2String = "", "", ""
-            if _inputString[-1]=="/":
+            if _inputString[-1]==InputOutputs.sep:
                 _inputString = _inputString[:-1]
-                ext2String = "/"
-            if _inputString.find("/")!=-1:
-                tStr = _inputString.rsplit("/", 1)
-                for ps in tStr[0].split("/"):
-                    preString += emendBaseName(ps, "directory", _isCorrectCaseSensitive) + "/"
+                ext2String = InputOutputs.sep
+            if _inputString.find(InputOutputs.sep)!=-1:
+                tStr = _inputString.rsplit(InputOutputs.sep, 1)
+                for ps in tStr[0].split(InputOutputs.sep):
+                    preString += emendBaseName(ps, "directory", _isCorrectCaseSensitive) + InputOutputs.sep
                 _inputString = tStr[1]
             if _type=="file":
                 _inputString, extString = getFileNameParts(_inputString)
             _inputString = emendBaseName(_inputString, _type, _isCorrectCaseSensitive)
             extString = emendFileExtension(extString, _isCorrectCaseSensitive)
             if extString!="": extString = "." + extString
-            _inputString = preString + _inputString
+            if preString!="":
+                _inputString = InputOutputs.joinPath(preString, _inputString)
             _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore")) + str(Universals.trDecode(extString, "utf-8", "ignore")) + str(Universals.trDecode(ext2String, "utf-8", "ignore"))
         else:
             _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
@@ -144,6 +146,8 @@ class Organizer:
     
     def getLink(_stringPath):
         _stringPath = str(_stringPath)
+        if Variables.isWindows:
+            return "<a href=\"%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
         return "<a href=\"file://%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
     
     def getCorrectedFileSize(bytes, precision=2):

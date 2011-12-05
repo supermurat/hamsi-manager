@@ -218,7 +218,7 @@ class FileManager():
                     if _isRemember:
                         self.future = []
                         self.history.append(self.currentDirectory)
-                    if _path[-1]=="/": _path = _path[:-1]
+                    if _path[-1]==InputOutputs.sep: _path = _path[:-1]
                     self.currentDirectory = trForM(_path)
                     if Universals.isActivePyKDE4==True:
                         self.dirLister.openUrl(MUrl(self.currentDirectory))
@@ -235,7 +235,7 @@ class FileManager():
                     if _isOnlyBrowser==False:
                         self.showInTable()
                     self.actBack.setEnabled(True)
-                    if str(self.currentDirectory)=="/":
+                    if str(self.currentDirectory)==InputOutputs.sep:
                         self.actUp.setEnabled(False)
                     else:
                         self.actUp.setEnabled(True)
@@ -335,7 +335,7 @@ class FileManager():
             return self.dirModel.fileInfo(_index)
     
     def leNavigatorPressed(self):
-        self.goTo(str(self.currentDirectory + "/" + self.leNavigator.text()))
+        self.goTo(str(InputOutputs.joinPath(self.currentDirectory, self.leNavigator.text())))
         self.leNavigator.setText("")
     
     def urlNavigatorUrlChanged(self, _murl):
@@ -466,7 +466,7 @@ class Bookmarks(MDialog):
     def addBookmark(self):
         try:
             currentPath = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
-            Databases.BookmarksOfDirectories.insert(currentPath.split("/")[-1], currentPath)
+            Databases.BookmarksOfDirectories.insert(InputOutputs.splitPath(currentPath)[-1], currentPath)
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:

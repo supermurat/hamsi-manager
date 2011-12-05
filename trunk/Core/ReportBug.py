@@ -389,7 +389,7 @@ class ReportBug(MDialog):
                     _errorDetails)
         if self.pathOfReportFile=="":
             import tempfile, random
-            self.pathOfReportFile = tempfile.gettempdir() + "/HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html"
+            self.pathOfReportFile = InputOutputs.joinPath(tempfile.gettempdir(), "HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html")
             InputOutputs.writeToFile(self.pathOfReportFile, htmlString)
             
     def showDetailsPage(self):
