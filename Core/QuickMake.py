@@ -319,9 +319,9 @@ class QuickMakeWindow(MyDialog):
                 if newDirName!=oldFileName:
                     fileAndDirectoryNames = InputOutputs.readDirectory(newDirName, "fileAndDirectory")
                     for fileAndDirs in fileAndDirectoryNames:
-                        objectType = InputOutputs.getObjectType(newDirName + "/" + fileAndDirs)
-                        InputOutputs.moveOrChange(newDirName + "/" + fileAndDirs, 
-                                  newDirName + "/" + Organizer.emend(fileAndDirs, objectType), objectType)
+                        objectType = InputOutputs.getObjectType(InputOutputs.joinPath(newDirName, fileAndDirs))
+                        InputOutputs.moveOrChange(InputOutputs.joinPath(newDirName, fileAndDirs), 
+                                  InputOutputs.joinPath(newDirName,  Organizer.emend(fileAndDirs, objectType)), objectType)
                     if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                         InputOutputs.checkIcon(newDirName)
                     if InputOutputs.isDir(newDirName):

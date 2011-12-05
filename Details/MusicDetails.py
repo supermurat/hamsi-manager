@@ -309,7 +309,7 @@ class MusicDetails(MDialog):
                 imagePath = MFileDialog.getSaveFileName(self,translate("MusicDetails", "Save As"),
                                     InputOutputs.getDirName(self.musicValues["path"]), trForUI(str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1])))
                 if imagePath!="":
-                    sourceFile = os.getenv("TMP")+"/HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1]
+                    sourceFile = InputOutputs.joinPath(os.getenv("TMP"), "HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1])
                     InputOutputs.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
                     InputOutputs.moveOrChange(sourceFile, str(imagePath))
         except:

@@ -117,7 +117,7 @@ class Variables():
         myObjectsNames = getMyObjectsNames()
         if myObjectsNames.count("PySide")>0:
             from PySide import QtCore
-            sets = QtCore.QSettings(trForM(userDirectoryPath + "/.HamsiApps/HamsiManager/mySettings.ini") ,QtCore.QSettings.IniFormat)
+            sets = QtCore.QSettings(trForM(os.path.join(userDirectoryPath, ".HamsiApps", "HamsiManager", "mySettings.ini")) ,QtCore.QSettings.IniFormat)
             if Universals.trStr(sets.value("NeededObjectsName"))=="PySide":
                 from PySide import QtGui
                 from PySide import QtCore
@@ -184,7 +184,7 @@ class Variables():
     def isRunableAsRoot():
         try:
             import InputOutputs
-            if InputOutputs.isFile(getLibraryDirectoryPath() + "/kde4/libexec/kdesu"):
+            if InputOutputs.isFile(os.path.join(getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")):
                 if isRunningAsRoot():
                     return False
                 return True
@@ -325,7 +325,7 @@ class Variables():
                 "colorSchemes": "", 
                 "isActiveAutoMakeIconToDirectory": "True", 
                 "isDontDeleteFileAndDirectory": "False", 
-                "pathOfDeletedFilesAndDirectories": userDirectoryPath + "/.HamsiApps/HamsiManager/Deleted", 
+                "pathOfDeletedFilesAndDirectories": os.path.join(userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"), 
                 "isReadOnlyAmarokDB": "False", 
                 "isReadOnlyAmarokDBHost": "False", 
                 "isResizeTableColumnsToContents": "False", 
@@ -571,8 +571,8 @@ class Variables():
         else:
             desktopNames = [str(MQtGui.QApplication.translate("Variables", "Desktop")), "Desktop"]
             for dirName in desktopNames:
-                if InputOutputs.isDir(userDirectoryPath + "/" + dirName):
-                    desktopPath = userDirectoryPath + "/" + dirName
+                if InputOutputs.isDir(os.path.join(userDirectoryPath, dirName)):
+                    desktopPath = os.path.join(userDirectoryPath, dirName)
                     break
                 else:
                     desktopPath = userDirectoryPath
@@ -584,7 +584,7 @@ class Variables():
                 if isAvailablePyKDE4():
                     from PyKDE4.kdecore import KStandardDirs
                     kdedirPath = str(KStandardDirs().localkdedir())
-                    if kdedirPath[-1]=="/":
+                    if kdedirPath[-1]==os.sep:
                         kdedirPath = kdedirPath[:-1]
                 else:
                     from Core import Execute
@@ -592,10 +592,10 @@ class Variables():
                 return kdedirPath
             except:pass
         import InputOutputs
-        if InputOutputs.isDir(userDirectoryPath + "/.kde4/share/config"):
-            return userDirectoryPath + "/.kde4"
+        if InputOutputs.isDir(os.path.join(userDirectoryPath, ".kde4", "share", "config")):
+            return os.path.join(userDirectoryPath, ".kde4")
         else:
-            return userDirectoryPath + "/.kde"
+            return os.path.join(userDirectoryPath, ".kde")
         
     def getLibraryDirectoryPath():
         global libPath
@@ -618,12 +618,12 @@ class Variables():
     def getSearchEnginesNames():
         import InputOutputs
         engines = []
-        for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/SearchEngines"):
+        for name in InputOutputs.readDirectoryAll(os.path.join(HamsiManagerDirectory, "SearchEngines")):
             try:
                 moduleName = name.split(".")[0]
                 moduleNameExt = name.split(".")[1]
                 if engines.count(moduleName)==0:
-                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(HamsiManagerDirectory+"/SearchEngines/"+name):
+                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(os.path.join(HamsiManagerDirectory, "SearchEngines", name)):
                         engines.append(moduleName)
             except:pass
         return engines
@@ -631,12 +631,12 @@ class Variables():
     def getTaggersNames():
         import InputOutputs
         taggers = []
-        for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Taggers"):
+        for name in InputOutputs.readDirectoryAll(os.path.join(HamsiManagerDirectory, "Taggers")):
             try:
                 moduleName = name.split(".")[0]
                 moduleNameExt = name.split(".")[1]
                 if taggers.count(moduleName)==0:
-                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(HamsiManagerDirectory+"/Taggers/"+name):
+                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(os.path.join(HamsiManagerDirectory, "Taggers", name)):
                         taggers.append(moduleName)
             except:pass
         return taggers
@@ -644,9 +644,9 @@ class Variables():
     def getMyPluginsNames():
         import InputOutputs
         plugins = []
-        for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/MyPlugins"):
+        for name in InputOutputs.readDirectoryAll(os.path.join(HamsiManagerDirectory, "MyPlugins")):
             try:
-                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(HamsiManagerDirectory+"/MyPlugins/"+name):
+                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(os.path.join(HamsiManagerDirectory, "MyPlugins", name)):
                     plugins.append(name)
             except:pass
         return plugins
@@ -654,9 +654,9 @@ class Variables():
     def getInstalledThemes():
         import InputOutputs
         themes = []
-        for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Themes"):
+        for name in InputOutputs.readDirectoryAll(os.path.join(HamsiManagerDirectory, "Themes")):
             try:
-                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(HamsiManagerDirectory+"/Themes/"+name):
+                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(os.path.join(HamsiManagerDirectory, "Themes", name)):
                     themes.append(name)
             except:pass
         return themes
@@ -666,8 +666,8 @@ class Variables():
         if installedLanguagesCodes==None:
             import InputOutputs
             languages = []
-            for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Languages"):
-                if InputOutputs.isFile(HamsiManagerDirectory+"/Languages/"+name) and name[-3:]==".qm":
+            for name in InputOutputs.readDirectoryAll(os.path.join(HamsiManagerDirectory, "Languages")):
+                if InputOutputs.isFile(os.path.join(HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
                     langCode = name[-8:-3]
                     if languages.count(langCode)==0:
                         languages.append(langCode)
@@ -681,8 +681,8 @@ class Variables():
         if installedLanguagesNames==None:
             import InputOutputs
             languages = []
-            for name in InputOutputs.readDirectoryAll(HamsiManagerDirectory+"/Languages"):
-                if InputOutputs.isFile(HamsiManagerDirectory+"/Languages/"+name) and name[-3:]==".qm":
+            for name in InputOutputs.readDirectoryAll(os.path.join(HamsiManagerDirectory, "Languages")):
+                if InputOutputs.isFile(os.path.join(HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
                     langCode = name[-8:-3]
                     if languages.count(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))==0:
                         languages.append(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))

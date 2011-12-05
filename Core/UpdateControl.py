@@ -220,10 +220,10 @@ class UpdateControl(MDialog):
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save As")
-            fileName = MFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(Variables.HamsiManagerDirectory)+"/"+defaultFileName)
+            fileName = MFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(InputOutputs.joinPath(Variables.HamsiManagerDirectory), defaultFileName))
             if fileName== "":
                 import random, tempfile
-                fileName = tempfile.gettempdir() + "/" + defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:]
+                fileName = InputOutputs.joinPath(tempfile.gettempdir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])
             self.pbtnDownloadAndInstall.setEnabled(False)
             newRequest = _request
             newRequest.setAttribute(MNetworkRequest.User,Universals.trQVariant(fileName))
@@ -274,11 +274,11 @@ class UpdateControl(MDialog):
         configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
         updateFileName = Execute.findExecutableBaseName("Update")
         if updateFileName==None:
-            if InputOutputs.isFile(Variables.HamsiManagerDirectory+"/"+configureUpdateFileName):
+            if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName)):
                 extOfFile = ""
                 if configureUpdateFileName.find(".")!=-1:
                     extOfFile = "." + (configureUpdateFileName.split(".")[1])
-                InputOutputs.moveFileOrDir(Variables.HamsiManagerDirectory+"/"+configureUpdateFileName, Variables.HamsiManagerDirectory+"/Update"+extOfFile)
+                InputOutputs.moveFileOrDir(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName), InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Update"+extOfFile))
                 updateFileName = Execute.findExecutableBaseName("HamsiManagerInstaller")
         execute([str(_fileName)], "Update")
         self.close()

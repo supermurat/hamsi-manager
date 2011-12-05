@@ -18,7 +18,7 @@
 
 
 import sys
-from os import path
+import os
 from datetime import timedelta, datetime
 from Core import Variables
 
@@ -32,7 +32,7 @@ class Universals():
     isShowVerifySettings = False
     changedDefaultValuesKeys = []
     newSettingsKeys = []
-    themePath = Variables.HamsiManagerDirectory + "/Themes/Default"
+    themePath = os.path.join(Variables.HamsiManagerDirectory, "Themes", "Default")
     isCanBeShowOnMainWindow = False
     isActivePyKDE4 = False
     isLoadedMyObjects = False
@@ -43,10 +43,10 @@ class Universals():
     tableTypesNames = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
-    pathOfSettingsDirectory = Variables.userDirectoryPath+"/.HamsiApps/HamsiManager"
+    pathOfSettingsDirectory = os.path.join(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
     fileOfSettings = "mySettings.ini"
-    recordFilePath = pathOfSettingsDirectory + "/logs.txt"
-    oldRecordsDirectoryPath = pathOfSettingsDirectory + "/OldRecords"
+    recordFilePath = os.path.join(pathOfSettingsDirectory, "logs.txt")
+    oldRecordsDirectoryPath = os.path.join(pathOfSettingsDirectory, "OldRecords")
     isRaisedAnError = False
     Utf8Contents = {}
     
@@ -74,7 +74,7 @@ class Universals():
     def setPathOfSettingsDirectory(_path):
         global pathOfSettingsDirectory
         _path = str(_path)
-        if _path[-1]=="/":
+        if _path[-1]==os.sep:
             _path = _path[:-1]
         pathOfSettingsDirectory = _path
     
@@ -161,7 +161,7 @@ class Universals():
                     else:
                         MySettings["isActivePyKDE4"] = "False"
         windowMode = MySettings["windowMode"]
-        themePath = Variables.HamsiManagerDirectory + "/Themes/" + MySettings["themeName"]
+        themePath = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", MySettings["themeName"])
         if tableType == None:
             tableType = int(MySettings["tableType"])
             if tableType<0 or tableType>=len(tableTypesNames) or tableType==3:

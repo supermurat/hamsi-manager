@@ -56,7 +56,7 @@ class AmarokCoverTable():
                         for dirPath,dirRow in directoriesAndValues.items():
                             isContinueThreadAction = Universals.isContinueThreadAction()
                             if isContinueThreadAction:
-                                if InputOutputs.isReadableFileOrDir(dirPath, False, True) and InputOutputs.isReadableFileOrDir(dirPath + "/.directory", False, True):
+                                if InputOutputs.isReadableFileOrDir(dirPath, False, True) and InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(dirPath, ".directory"), False, True):
                                     content = {}
                                     content["path"] = dirPath
                                     content["pathOfParentDirectory"] = InputOutputs.getDirName(dirPath)
@@ -132,7 +132,7 @@ class AmarokCoverTable():
                     if self.Table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(self.Table.item(rowNo,1).text())
                         self.Table.changedValueNumber += 1
-                    newFilePath = pathOfParentDirectory + "/" + baseName
+                    newFilePath = InputOutputs.joinPath(pathOfParentDirectory, baseName)
                     if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
                         changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
                                                         newFilePath])

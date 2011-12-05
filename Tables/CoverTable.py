@@ -44,7 +44,7 @@ class CoverTable():
         for dirNo,dirName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isReadableFileOrDir(dirName, False, True) and InputOutputs.isReadableFileOrDir(dirName + "/.directory", False, True):
+                if InputOutputs.isReadableFileOrDir(dirName, False, True) and InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(dirName, ".directory"), False, True):
                     content = {}
                     content["path"] = dirName
                     content["baseNameOfDirectory"] = str(str(InputOutputs.getBaseName(_directoryPath)) + 
@@ -61,7 +61,7 @@ class CoverTable():
                     if sourceCover==None:
                         sourceCover = ""
                     else:
-                        sourceCover = dirName + "/" + sourceCover
+                        sourceCover = InputOutputs.joinPath(dirName, sourceCover)
                     content["currentCover"] = (currentCover)
                     content["sourceCover"] = (sourceCover)
                     content["destinationCover"] = (sourceCover)
@@ -121,7 +121,7 @@ class CoverTable():
                     if self.Table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(self.Table.item(rowNo,1).text())
                         self.Table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
                     if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
                         changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
                                                         newFilePath])
@@ -227,7 +227,7 @@ class CoverTable():
                     for rowNo in range(self.Table.rowCount()):
                         if self.Table.checkHiddenColumn(3) and self.Table.checkHiddenColumn(4):
                             if self.Table.isChangableItem(rowNo, 3):
-                                directoryPath = InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"]))+"/"+str(self.Table.item(rowNo,0).text())+"/"+str(self.Table.item(rowNo,1).text())
+                                directoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), str(self.Table.item(rowNo,0).text()), str(self.Table.item(rowNo,1).text()))
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]
                                     self.Table.item(rowNo,3).setText(directoryAndValues["coverPath"][0].replace(directoryPath, "."))

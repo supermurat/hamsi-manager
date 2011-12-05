@@ -284,7 +284,7 @@ def checkAfterRunProccess():
         if answer==Dialogs.No: 
             from Options import OptionsForm
             OptionsForm.OptionsForm(Universals.MainWindow, _focusTo="fileSystemEncoding")
-    if Universals.getBoolValue("isMakeAutoDesign"):
+    if Universals.getBoolValue("isMakeAutoDesign") or Universals.getBoolValue("isShowWindowModeSuggestion"):
         Universals.MainWindow.TableToolsBar.setVisible(False)
         Universals.MainWindow.ToolsBar.setVisible(False)
         if Universals.isActivePyKDE4==True:

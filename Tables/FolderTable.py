@@ -45,9 +45,9 @@ class FolderTable():
         for dirNo,dirName in enumerate(fileAndDirectoryNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isReadableFileOrDir(_directoryPath + "/" + dirName, False, True):
+                if InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(_directoryPath, dirName), False, True):
                     content = {}
-                    content["path"] = _directoryPath + "/" + dirName
+                    content["path"] = InputOutputs.joinPath(_directoryPath, dirName)
                     content["baseNameOfDirectory"] = baseNameOfDirectory
                     content["baseName"] = dirName
                     currentTableContentValues.append(content)
@@ -85,7 +85,7 @@ class FolderTable():
                     if self.Table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(self.Table.item(rowNo,1).text())
                         self.Table.changedValueNumber += 1
-                    newFilePath = InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])) + "/" + baseNameOfDirectory + "/" + baseName
+                    newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
                     if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
                         changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
                                                         newFilePath])

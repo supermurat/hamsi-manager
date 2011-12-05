@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-11-30, 00:27:55 -->
+<!-- Saved: 2011-12-03, 16:25:10 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -69,8 +69,6 @@
     <Source>Viewers/__init__.py</Source>
     <Source>Viewers/MusicPlayer.py</Source>
     <Source>Viewers/ImageViewer.py</Source>
-    <Source>MyPlugins/Konqueror_Plugin/HamsiManager_Konqueror_Plugin.desktop</Source>
-    <Source>MyPlugins/Konqueror_Plugin/__init__.py</Source>
     <Source>Amarok/__init__.py</Source>
     <Source>test.py</Source>
     <Source>Amarok/Commands.py</Source>

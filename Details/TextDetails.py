@@ -99,7 +99,7 @@ class TextDetails(MDialog):
         self.infoLabels["content"] = MLabel(self.labels[1]) 
         dirPath = InputOutputs.getDirName(self.fileValues["path"])
         baseName = InputOutputs.getBaseName(self.fileValues["path"])
-        self.infoValues["path"] = MLineEdit(trForUI(dirPath + "/" + Organizer.emend(baseName, "file")))
+        self.infoValues["path"] = MLineEdit(trForUI(InputOutputs.joinPath(dirPath, Organizer.emend(baseName, "file"))))
         self.infoValues["content"] = MPlainTextEdit(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
         self.infoValues["content"].setLineWrapMode(MPlainTextEdit.NoWrap)
         self.sourceCharSet = MComboBox()

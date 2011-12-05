@@ -26,10 +26,10 @@ import InputOutputs
 import logging
 
 class Execute:
-    global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName
+    global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName, getExecuteCommandOfHamsiManager
         
     def getCommandResult(_command):
-        if os.name=="nt":
+        if Variables.isWindows:
             _command = ["start"] + _command
         if Universals.loggingLevel==logging.DEBUG:
             print ("Execute >>> " + str(_command))
@@ -39,7 +39,7 @@ class Execute:
         return pi.read()
         
     def executeStringCommand(_command):
-        if os.name=="nt":
+        if Variables.isWindows:
             _command = "start" + _command
         if Universals.loggingLevel==logging.DEBUG:
             print ("Execute >>> " + str(_command))
@@ -73,8 +73,15 @@ class Execute:
             return Variables.executableAppPath
         for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
             if fName.split(".")[0]==_executableName and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
-                return Variables.HamsiManagerDirectory + "/" + fName
+                return InputOutputs.joinPath(Variables.HamsiManagerDirectory, fName)
         return None
+        
+    def getExecuteCommandOfHamsiManager():
+        HamsiManagerExecutableFileName = findExecutableBaseName("HamsiManager")
+        if HamsiManagerExecutableFileName.find(".py")>-1:
+            executeCommandOfHamsiManager = "python '" + findExecutablePath("HamsiManager") + "'"
+        else:
+            executeCommandOfHamsiManager = "'" + findExecutablePath("HamsiManager") + "'"
     
     def executeWithThread(_command=[], _executableName=None):
         roar = RunWithThread(_command, _executableName)
@@ -83,7 +90,7 @@ class Execute:
         return True
     
     def openWith(_command):
-        if os.name=="nt":
+        if Variables.isWindows:
             if Universals.loggingLevel==logging.DEBUG:
                 print ("Open With >>> " + str(_command))
             return os.startfile(_command)
@@ -100,7 +107,7 @@ class Execute:
                 pathOfExecutable = findExecutablePath(_executableName)
             if pathOfExecutable != None:
                 _command = [pathOfExecutable] + _command
-            return execute([Variables.getLibraryDirectoryPath() + "/kde4/libexec/kdesu"] + _command)
+            return execute([InputOutputs.joinPath(Variables.getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")] + _command)
         return False
         
     def executeAsRootWithThread(_command=[], _executableName=None):

@@ -157,7 +157,7 @@ class Bars():
                     Settings.openStateOfSettings(str(f))
             elif actionName==translate("MenuBar", "Save State"):
                 from Core import Settings
-                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),Variables.userDirectoryPath + "/HamsiManager.desktop",trForUI(translate("MenuBar", "Application Runner") + " (*.desktop)"))
+                f = MFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),InputOutputs.joinPath(Variables.userDirectoryPath, "HamsiManager.desktop"),trForUI(translate("MenuBar", "Application Runner") + " (*.desktop)"))
                 if f!="":
                     Settings.saveStateOfSettings(str(f))
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 

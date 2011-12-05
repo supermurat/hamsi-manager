@@ -10,26 +10,26 @@ X-KDE-Submenu[pt_BR]=&Hamsi Manager
 
 [Desktop Action emend]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --emendFile %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Auto Emend
 Name[tr]=Otomatik Olarak Düzelt
 Name[pt_BR]=Corrigir automaticamente
 
 [Desktop Action hash]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --hash %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Hash Digest
 Name[tr]=Doğrulama Özeti
 Name[pt_BR]=Resumo Do Hash
 
 [Desktop Action textCorrector]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --textCorrector %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Correct Content
 Name[tr]=İçeriği Düzelt
 
 [Desktop Action search]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --search %U
-Icon=~InstallationDirectory~/Themes/Default/Images/HamsiManager-128x128.png
+Icon=~IconPath~
 Name=Search
 Name[tr]=Ara
