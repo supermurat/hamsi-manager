@@ -20,6 +20,7 @@
 import os
 import shutil
 import stat
+import re
 from Core import Variables
 from Core import Universals
 from Core import Records
@@ -30,7 +31,7 @@ from Core.Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, isAvailableName, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep
+    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
@@ -67,13 +68,27 @@ class InputOutputs:
             return True
         return False
         
-    def isAvailableName(_newPath):
+    def isAvailableNameForEncoding(_newPath):
         try:
             _newPath = str(_newPath)
             t = Universals.trEncode(_newPath, fileSystemEncoding)
             return True
         except:
             return False
+            
+    def getAvailableNameByName(_newPath):
+        try:
+            #FIXME: split by "sep" and check splited names...
+            _newPath = str(_newPath)
+            badchars = re.compile(r'[^A-Za-z0-9_. ]+|^\.|\.$|^ | $|^$')
+            _newPath = badchars.sub('_', _newPath)
+            if Variables.isWindows:
+                badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
+                if badnames.match(_newPath):
+                    _newPath = "_" + _newPath
+            return _newPath
+        except:
+            return _newPath
     
     def getSize(_oldPath):
         try:return os.stat(Universals.trEncode(_oldPath, fileSystemEncoding))[stat.ST_SIZE]
@@ -181,7 +196,7 @@ class InputOutputs:
     
     def moveFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
-        if getDirName(_oldPath)==getDirName(_newPath):
+        if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and getDirName(_oldPath).lower()==getDirName(_newPath).lower()):
             try:os.rename(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
             except:os.rename(_oldPath,_newPath)
         else:
@@ -369,12 +384,20 @@ class InputOutputs:
         return False
         
     def checkDestination(_oldPath, _newPath, _isQuiet=False):
-        while isAvailableName(_newPath) == False:
+        while isAvailableNameForEncoding(_newPath) == False:
             from Core import Dialogs
             _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
                                         str(translate("InputOutputs", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
             if _newPath is None:
                 return False
+#        availableNameByName = getAvailableNameByName(_newPath)
+#        while _newPath!=availableNameByName:
+#            from Core import Dialogs
+#            _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
+#                                        str(translate("InputOutputs", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
+#            if _newPath is None:
+#                return False
+#            availableNameByName = getAvailableNameByName(_newPath)
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
                 if _oldPath.lower()!=_newPath.lower() or Variables.osName=="posix": 

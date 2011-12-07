@@ -35,7 +35,7 @@ class QuickOptions(MMenu):
                                 "isActiveAutoMakeIconToDirectory", 
                                 "validSentenceStructure", "validSentenceStructureForFile", "validSentenceStructureForDirectory", 
                                 "validSentenceStructureForFileExtension", "fileExtesionIs", 
-                                "isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", 
+                                "isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", "isDecodeURLStrings", 
                                 "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars", 
                                 "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
@@ -50,6 +50,7 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Which Part Is The File Extension"), 
             translate("QuickOptions", "Emend Incorrect Chars"),  
             translate("QuickOptions", "Correct File Name By Search Table"), 
+            translate("QuickOptions", "Decode URL Strings"), 
             translate("QuickOptions", "Clear First And Last Space Chars"), 
             translate("QuickOptions", "Correct Double Space Chars"), 
             translate("Options/HiddenObjects", "Show Hidden Files And Directories"), 
@@ -68,6 +69,7 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Which part of the filename is the file extension?"), 
             translate("QuickOptions", "Are you want to emend incorrect chars?"), 
             translate("QuickOptions", "Are you want to correct file and directory names by search and replace table?"), 
+            translate("QuickOptions", "Are you want to decode URL strings? ( For Example : '%20' >>> ' ', '%26' >>> '&' ) "), 
             translate("QuickOptions", "Are you want to clear first and last space chars?"), 
             translate("QuickOptions", "Are you want to correct double space chars?"), 
             translate("Options/HiddenObjects", "Are you want to show hidden files and directories in subfolder table?"), 
@@ -76,7 +78,7 @@ class QuickOptions(MMenu):
             translate("Options/HiddenObjects", "Are you want to show hidden files in music table?"),
             translate("Options/HiddenObjects", "Are you want to show hidden directories in cover table?")]
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], ["options", 0], 
-                            ["options", 1], "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
+                            ["options", 1], "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("QuickOptions", "Title"), 
                                     translate("QuickOptions", "All Small"), 
