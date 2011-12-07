@@ -29,9 +29,9 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "0.9.90"
-    intversion = 990
-    settingVersion = "990"
+    version = "0.9.91"
+    intversion = 991
+    settingVersion = "991"
     aboutOfHamsiManager = ""
     if sys.argv[0][0]==".":
         executableAppPath = str(os.getcwd() + sys.argv[0][1:])
@@ -107,7 +107,9 @@ class Variables():
                   "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree", 
                   "isMusicTableValuesChangeInAmarokDB", "isSubFolderTableValuesChangeInAmarokDB", 
                   "isFileTableValuesChangeInAmarokDB", "isFolderTableValuesChangeInAmarokDB", 
-                  "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree"]
+                  "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
+                  "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", 
+                  "isDecodeURLStrings"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -344,7 +346,8 @@ class Variables():
                 "isShowHiddensInFileTable": "False", 
                 "isShowHiddensInMusicTable": "False", 
                 "isShowHiddensInCoverTable": "False", 
-                "isShowHiddensInFileTree": "False"
+                "isShowHiddensInFileTree": "False", 
+                "isDecodeURLStrings": "True"
                 }
             
                 
@@ -492,7 +495,8 @@ class Variables():
                 "isShowHiddensInFileTable": "bool", 
                 "isShowHiddensInMusicTable": "bool", 
                 "isShowHiddensInCoverTable": "bool", 
-                "isShowHiddensInFileTree": "bool"
+                "isShowHiddensInFileTree": "bool", 
+                "isDecodeURLStrings": "bool"
                 }
 
     def getAvailablePlayers():

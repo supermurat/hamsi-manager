@@ -164,10 +164,10 @@ class Correct(MWidget):
         self.keysOfSettings = ["isActiveCompleter", "isShowAllForCompleter",
             "validSentenceStructure", "validSentenceStructureForFile", "validSentenceStructureForDirectory", 
             "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
-            "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars"]
+            "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars", "isDecodeURLStrings"]
         self.tabsOfSettings = [None, None, None, None, 
                                 None, None, None, 
-                                None, None, None, None]
+                                None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -185,7 +185,8 @@ class Correct(MWidget):
                     translate("Options/Correct", "Emend Incorrect Chars"),  
                     translate("Options/Correct", "Correct File Name By Search Table"), 
                     translate("Options/Correct", "Clear First And Last Space Chars"), 
-                    translate("Options/Correct", "Correct Double Space Chars")]
+                    translate("Options/Correct", "Correct Double Space Chars"), 
+                    translate("Options/Correct", "Decode URL Strings")]
         self.toolTips = [translate("Options/Correct", "Are you want to activate completer for auto complete some input controls?"), 
                     translate("Options/Correct", "Are you want to show all words in all input controls?"), 
                     translate("Options/Correct", "All information (Artist name,title etc.) will be changed automatically to the format you selected."), 
@@ -196,10 +197,11 @@ class Correct(MWidget):
                     translate("Options/Correct", "Are you want to emend incorrect chars?"), 
                     translate("Options/Correct", "Are you want to correct file and directory names by search and replace table?"), 
                     translate("Options/Correct", "Are you want to clear first and last space chars?"), 
-                    translate("Options/Correct", "Are you want to correct double space chars?")]
+                    translate("Options/Correct", "Are you want to correct double space chars?"), 
+                    translate("Options/Correct", "Are you want to decode URL strings? ( For Example : '%20' >>> ' ', '%26' >>> '&' ) ")]
         self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", 
-                            "Yes/No", "Yes/No"]
+                            "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("Options/Correct", "Title"), 
                                     translate("Options/Correct", "All Small"), 
                                     translate("Options/Correct", "All Caps"), 

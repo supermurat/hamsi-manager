@@ -345,5 +345,7 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["isResizeTableColumnsToContents"]
         if oldVersion<990:
             newSettingsKeys = newSettingsKeys + ["validSentenceStructureForDirectory", "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree"]
+        if oldVersion<991:
+            newSettingsKeys = newSettingsKeys + ["isDecodeURLStrings"]
         return newSettingsKeys, changedDefaultValuesKeys
         
