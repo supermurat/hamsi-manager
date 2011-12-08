@@ -400,7 +400,9 @@ class InputOutputs:
 #            availableNameByName = getAvailableNameByName(_newPath)
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
-                if _oldPath.lower()!=_newPath.lower() or Variables.osName=="posix": 
+                if Variables.isWindows and _oldPath.lower()==_newPath.lower(): 
+                    return _newPath
+                else:
                     if isFile(_newPath):
                         if _isQuiet:
                             return _newPath
@@ -412,6 +414,7 @@ class InputOutputs:
                                 translate("Dialogs", "Rename"), 
                                 translate("Dialogs", "Cancel"))
                             if answer==translate("Dialogs", "Replace"): 
+                                removeFile(_newPath)
                                 return _newPath
                             elif answer==translate("Dialogs", "Rename"): 
                                 from Core.MyObjects import MFileDialog, trForM, trForUI
@@ -472,8 +475,6 @@ class InputOutputs:
                                         return False
                     else:
                         return False
-                else:
-                    return _newPath
             else:
                 return False
         else:
