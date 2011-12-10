@@ -135,33 +135,39 @@ class OptionsForm(MDialog):
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions"]),
-                            OptionsFormContent.Packager(self, _showType)]
+                            OptionsFormContent.Packager(self, _showType), 
+                            OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"])]
         elif _showType=="checkIcon":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon"]), 
-                            OptionsFormContent.Correct(self, _showType)]
+                            OptionsFormContent.Correct(self, _showType), 
+                            OptionsFormContent.SearchAndReplace(self, _showType)]
         elif _showType=="clearEmptyDirectories":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
-                                "ignoredFiles", "ignoredFileExtensions"])]
+                                "ignoredFiles", "ignoredFileExtensions"]), 
+                            OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"])]
         elif _showType=="clearUnneededs":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
-                                "unneededFiles", "unneededFileExtensions"])]
+                                "unneededFiles", "unneededFileExtensions"]), 
+                            OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"])]
         elif _showType=="clearIgnoreds":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "ignoredDirectories", 
-                                "ignoredFiles", "ignoredFileExtensions"])]
+                                "ignoredFiles", "ignoredFileExtensions"]), 
+                            OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"])]
         elif _showType=="emendFile":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenFileMove"]), 
-                            OptionsFormContent.Correct(self, _showType)]
+                            OptionsFormContent.Correct(self, _showType), 
+                            OptionsFormContent.SearchAndReplace(self, _showType)]
         elif _showType=="emendDirectory":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Correct(self, _showType),  
@@ -172,7 +178,9 @@ class OptionsForm(MDialog):
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions", 
-                                "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"])]
+                                "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"]), 
+                            OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]), 
+                            OptionsFormContent.SearchAndReplace(self, _showType)]
         elif _showType=="emendDirectoryWithContents":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Correct(self, _showType),  
@@ -184,11 +192,14 @@ class OptionsForm(MDialog):
                                 "unneededFiles", "unneededFileExtensions", 
                                 "ignoredDirectories", 
                                 "ignoredFiles", "ignoredFileExtensions", 
-                                "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"])]
+                                "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"]), 
+                            OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]), 
+                            OptionsFormContent.SearchAndReplace(self, _showType)]
         elif _showType=="fileTree":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"])]
         elif _showType=="removeOnlySubFiles":
-            self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"])]
+            self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
+                            OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"])]
         elif _showType=="clear":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
@@ -199,6 +210,10 @@ class OptionsForm(MDialog):
                             OptionsFormContent.Cleaner(self, _showType)]
         elif _showType=="hash":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"])]
+        elif _showType=="textCorrector":
+            self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
+                            OptionsFormContent.Correct(self, _showType, ["isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars"]), 
+                            OptionsFormContent.SearchAndReplace(self, _showType)]
         else:
             self.categories = []
     

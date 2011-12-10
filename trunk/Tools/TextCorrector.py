@@ -24,6 +24,8 @@ from Core import Dialogs
 from Core import Organizer
 from Core import Universals
 from Core import ReportBug
+import Options
+from Options import OptionsForm
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
@@ -37,6 +39,8 @@ class TextCorrector(MyDialog):
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
             Universals.setMainWindow(self)
+        newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
+        wOptionsPanel = OptionsForm.OptionsForm(None, "textCorrector", None, newOrChangedKeys)
         self.setWindowTitle(translate("TextCorrector", "Text Corrector")) 
         self.fileValues = None
         self.isChangeSourceCharSetChanged = False
@@ -56,7 +60,10 @@ class TextCorrector(MyDialog):
         self.labels = [translate("TextCorrector", "File Path : "), 
                             translate("TextCorrector", "Content : ")]
         pnlMain = MWidget(self)
-        self.vblMain = MVBoxLayout(pnlMain)
+        tabwTabs = MTabWidget()
+        pnlMain2 = MWidget(tabwTabs)
+        vblMain2 = MVBoxLayout(pnlMain2)
+        vblMain = MVBoxLayout(pnlMain)
         self.lblFilePath = MLabel(self.labels[0]) 
         self.lblFileContent = MLabel(self.labels[1])
         self.leFilePath = MLineEdit(trForUI(_filePath))
@@ -70,20 +77,23 @@ class TextCorrector(MyDialog):
         hbFilePath.addWidget(self.leFilePath)
         hbFilePath.addWidget(self.pbtnSelectFilePath)
         hbFilePath.addWidget(self.sourceCharSet)
-        self.vblMain.addLayout(hbFilePath)
-        self.vblMain.addWidget(self.lblFileContent)
-        self.vblMain.addWidget(self.pteFileContent)
+        vblMain2.addLayout(hbFilePath)
+        vblMain2.addWidget(self.lblFileContent)
+        vblMain2.addWidget(self.pteFileContent)
         hbControls = MHBoxLayout()
         hbControls.addWidget(self.charSet, 1)
         hbControls.addWidget(self.pbtnSave, 4)
         hbControls.addWidget(pbtnClose, 1)
-        self.vblMain.addLayout(hbControls, 1)
+        vblMain2.addLayout(hbControls, 1)
         self.leFilePath.setEnabled(False)
+        tabwTabs.addTab(pnlMain2, translate("Searcher", "Search"))
+        tabwTabs.addTab(wOptionsPanel, translate("Searcher", "Quick Options"))
+        vblMain.addWidget(tabwTabs)
         if MyDialogType=="MDialog":
             if Universals.isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
-                self.setLayout(self.vblMain)
+                self.setLayout(vblMain)
         elif MyDialogType=="MMainWindow":
             self.setCentralWidget(pnlMain)
             moveToCenter(self)
@@ -142,7 +152,7 @@ class TextCorrector(MyDialog):
                 newPath = InputOutputs.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
                 if newPath!=self.fileValues["path"]:
                     self.changeFile(newPath)
-                if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
+                if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
                 Records.saveAllRecords()
             else:
                 Dialogs.showError(translate("TextCorrector", "File Does Not Exist"), 
