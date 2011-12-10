@@ -16,14 +16,8 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
-import sys,os
-from Core import Variables
 from Core.MyObjects import *
-from Core import Dialogs, Universals, Records
-import InputOutputs
-import Databases
-from Core import ReportBug
+from Core import Universals
 
 class MyComboBox(MComboBox):
     

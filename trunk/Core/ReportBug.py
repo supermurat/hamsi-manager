@@ -25,6 +25,7 @@ from Core import Universals
 from Core import Dialogs
 import InputOutputs
 from Core import Records
+import Options
 import traceback
 import logging
 from Core.RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
@@ -57,25 +58,29 @@ class ReportBug(MDialog):
         errorDetails = "<b>" + str(translate("ReportBug", "Note : You can check and delete your personal informations."))+"</b><br>"
         if _isOnlyReport==False:
             Universals.isRaisedAnError = True
-            realErrorDetails = str(self.formatExceptionInfo())
-            realErrorDetails += "<hr>"
-            self.isOnlyReport=False
-            realErrorDetails += lastErrorDetails
+            self.isOnlyReport = False
             cla, error, trbk = lastErrorDetailsValues
             try:
                 excArgs = error.__dict__["args"]
             except:
                 excArgs = ""
-            try:realErrorDetails += "<p><b>" + str(translate("ReportBug", "Error : ")) + "</b>" + traceback.format_tb(trbk, 5) + "</p>"
-            except:pass
+            try:
+                tbf = ""
+                for x in traceback.format_tb(trbk, 5):
+                    tbf += str(x) + "<br>"
+            except:tbf = ""
+            realErrorDetails = "<p><b><a name='errorDetails'>" + str(translate("ReportBug", "Errors : ")) + "</a></b>" + tbf + "</p>"
             realErrorDetails += ("<p><b>" + str(translate("ReportBug", "Error Name : ")) + "</b>" + str(cla.__name__) + "<br><b>" +
                             str(translate("ReportBug", "Error : ")) + "</b>"+str(error)+"<br><b>" +
                             str(translate("ReportBug", "Error arguments : ")) + "</b>"+str(excArgs)+"</p><hr><p><b>" +
-                            str(translate("ReportBug", "Last Signal Sender (Object Name,Object Text) : ")) + "</b>\"")
-            try:realErrorDetails +=Universals.trUnicode(self.sender().objectName())+"&quot;,&quot;"
-            except:realErrorDetails +="&quot;,&quot;"
-            try:realErrorDetails +=Universals.trUnicode(self.sender().text())+"&quot;"
-            except:realErrorDetails +="&quot;"
+                            str(translate("ReportBug", "Last Signal Sender (Object Name,Object Text) : ")) + "</b>&quot;")
+            try:realErrorDetails +=Universals.trUnicode(self.sender().objectName())
+            except:pass
+            realErrorDetails +="&quot;,&quot;"
+            try:realErrorDetails +=Universals.trUnicode(self.sender().text())
+            except:pass
+            realErrorDetails +="&quot;"
+            realErrorDetails += "</p>"
             realErrorDetails = realErrorDetails.replace("\\n", "<br>").replace("\'", "&#39;")
         try:Records.saveAllRecords()
         except:pass
@@ -85,42 +90,13 @@ class ReportBug(MDialog):
             if Universals.isActivePyKDE4==True:
                 self.setButtons(MDialog.NoDefault)
         except:pass
-        try:
-            try:
-                errorDetails+="<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + Universals.MainWindow.FileManager.getCurrentDirectoryPath() + "</p>"
-            except:pass
-            errorDetails +="<hr><p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
-            import Tables
-            errorDetails += Tables.exportValues("return", "html", "no")
-        except:pass
-        try:
-            errorDetails +="</p><hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
-            for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
-                filePath = Universals.MainWindow.Table.currentTableContentValues[rowNo]["path"]
-                errorDetails +="<tr><td>" 
-                try:errorDetails += str(Universals.trUnicode(filePath, InputOutputs.fileSystemEncoding))
-                except:
-                    try:errorDetails += str(filePath) 
-                    except:errorDetails += filePath
-                errorDetails +="</td></tr>"
-            errorDetails +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3><table border=1>"
-            for rowNo in range(len(Universals.MainWindow.Table.currentTableContentValues)):
-                errorDetails +="<tr>"
-                for key, value in Universals.MainWindow.Table.currentTableContentValues[rowNo]:
-                    errorDetails +="<td>"
-                    try:errorDetails +=str(value)
-                    except:errorDetails +=value
-                    errorDetails +="</td>"
-                errorDetails +="</tr>"
-            errorDetails+="</table></p>"
-        except:pass
-        errorDetails += "<b>" + str(translate("ReportBug", "Active Dialog`s Titles : ")) + "</b>"
+        errorDetails +="<hr><b>" + str(translate("ReportBug", "Active Dialog`s Titles : ")) + "</b>"
         try:errorDetails += str(Universals.HamsiManagerApp.activeModalWidget().windowTitle())+","
-        except:errorDetails += "<br>"
+        except:pass
         try:errorDetails += str(Universals.HamsiManagerApp.activePopupWidget().windowTitle())+","
-        except:errorDetails += "<br>"
+        except:pass
         try:errorDetails += str(Universals.HamsiManagerApp.activeWindow().windowTitle())+","
-        except:errorDetails += "<br>"
+        except:pass
         errorDetails += "<br>"
         try:
             errorDetails += "<b>" + str(translate("ReportBug", "Application Version : ")) + "</b>"
@@ -214,6 +190,7 @@ class ReportBug(MDialog):
         self.connect(self.pbtnCancel, SIGNAL("clicked()"), self.cancel)
         self.pbtnShowDetailsPage = MPushButton(translate("ReportBug", "Show Details File"))
         self.pbtnCheckUpdate = MPushButton(translate("ReportBug", "Check Update"))
+        self.cckbIsSendTableContents = Options.MyCheckBox(self, translate("ReportBug", "Send Table Contents For More Details"), 0, _stateChanged = self.isSendTableContents)
         self.teErrorDetails = MTextEdit() 
         self.createErrorPage(errorDetails)
         try:
@@ -224,7 +201,8 @@ class ReportBug(MDialog):
         self.connect(self.pbtnShowDetailsPage,SIGNAL("clicked()"), self.showDetailsPage)
         self.connect(self.pbtnCheckUpdate,SIGNAL("clicked()"), self.checkUpdate)
         self.teErrorDetails.setMinimumHeight(220)
-        self.vblMain.addWidget(self.teErrorDetails, 10) 
+        self.vblMain.addWidget(self.teErrorDetails, 20) 
+        self.vblMain.addWidget(self.cckbIsSendTableContents, 1) 
         lblUserNotes = MLabel(translate("ReportBug", "Notes : "))
         lblName = MLabel(translate("ReportBug", "Name And Surname : "))
         lblEMailAddress = MLabel(translate("ReportBug", "E-mail Address : "))
@@ -339,16 +317,6 @@ class ReportBug(MDialog):
         from Core import Universals
         UpdateControl.UpdateControl(self)
         
-    def formatExceptionInfo(self, maxTBlevel=5):
-        cla, exc, trbk = sys.exc_info()
-        excName = cla.__name__
-        try:
-            excArgs = exc.__dict__["args"]
-        except:
-            excArgs = "<no args>"
-        excTb = traceback.format_tb(trbk, maxTBlevel)
-        return (excName, excArgs, excTb)
-
     def closeEvent(self, _event):
         global isClose, iSClosingInErrorReporting
         isClose=True
@@ -396,6 +364,41 @@ class ReportBug(MDialog):
         from Details import HtmlDetails
         HtmlDetails.HtmlDetails(self.pathOfReportFile)
 
+    def isSendTableContents(self):
+        try:
+            currenText = str(self.teErrorDetails.toHtml())
+            if self.cckbIsSendTableContents.checkState() == Mt.Checked:
+                settingText = "<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + Universals.MainWindow.FileManager.getCurrentDirectoryPath() + "</p>"
+                settingText += "<p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
+                try:
+                    import Tables
+                    settingText += Tables.exportValues("return", "html", "no")
+                except:pass
+                settingText += "<hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
+                try:
+                    for rowValues in Universals.MainWindow.Table.currentTableContentValues:
+                        settingText +="<tr><td>" + str(Universals.trUnicode(rowValues["path"], InputOutputs.fileSystemEncoding)) + "</td></tr>"
+                    settingText +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3>"
+                    if len(Universals.MainWindow.Table.currentTableContentValues)>0:
+                        settingText +="<table border=1><tr>"
+                        for key, value in Universals.MainWindow.Table.currentTableContentValues[0].items():
+                            settingText += "<td><b>" + key + "</b></td>"
+                        settingText +="</tr>"
+                        for rowValues in Universals.MainWindow.Table.currentTableContentValues:
+                            settingText +="<tr>"
+                            for key, value in rowValues.items():
+                                settingText += "<td>" + str(value) + "</td>"
+                            settingText +="</tr>"
+                        settingText +="</table>"
+                except:pass
+                self.teErrorDetails.setHtml(trForUI(currenText + "<br>----------------------////////----------------------<br><br><a name='tableContents'><b>" + str(translate("ReportBug", "Note : You can check and delete your personal informations.")) + "</b></a>" + settingText))
+                self.teErrorDetails.scrollToAnchor("tableContents")
+            else:
+                currenText = currenText.split("----------------------////////----------------------")[0]
+                self.teErrorDetails.setHtml(trForUI(currenText))
+        except:
+            pass
+        
         
         
         
