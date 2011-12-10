@@ -247,6 +247,9 @@ if RoutineChecks.checkQt4Exist():
                                 TextDetails.closeAllTextDialogs()
                                 CoverDetails.closeAllCoverDialogs()
                                 Universals.printForDevelopers("Closed Dialogs")
+                                Universals.printForDevelopers("Before RoutineChecks.checkBeforeCloseProccess")
+                                RoutineChecks.checkBeforeCloseProccess()
+                                Universals.printForDevelopers("After RoutineChecks.checkBeforeCloseProccess")
                                 if Universals.isRaisedAnError==False:
                                     if self.Table.checkUnSavedValues()==False:
                                         Universals.isStartedCloseProcces=False

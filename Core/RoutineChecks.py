@@ -296,7 +296,7 @@ def checkAfterRunProccess():
         try:Universals.MainWindow.PlayerBar.setVisible(False)
         except:pass
     checkWindowMode()
-    if Universals.isShowVerifySettings and Universals.changedDefaultValuesKeys==[]:
+    if Universals.isShowVerifySettings and Universals.changedDefaultValuesKeys==[] and Universals.newSettingsKeys==[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes: 
@@ -312,8 +312,6 @@ def checkAfterRunProccess():
     elif Universals.getBoolValue("isShowReconfigureWizard"):
         from Core import Execute
         Execute.execute([], "Reconfigure")
-    elif UpdateControl.isMakeUpdateControl():
-        UpdateControl.UpdateControl(Universals.MainWindow)
     
 def checkWindowMode(_isCheck=False):
     from Core import Dialogs, Universals 
@@ -357,6 +355,11 @@ def checkWindowMode(_isCheck=False):
                 except:pass
             Universals.setMySetting("isShowWindowModeSuggestion", False)
      
+def checkBeforeCloseProccess():
+    from Core import Universals, UpdateControl
+    if UpdateControl.isMakeUpdateControl():
+        UpdateControl.UpdateControl(Universals.MainWindow)
+
 def checkAfterCloseProccess():
     from Core import Records
     Records.saveAllRecords()
