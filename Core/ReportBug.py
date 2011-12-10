@@ -368,7 +368,10 @@ class ReportBug(MDialog):
         try:
             currenText = str(self.teErrorDetails.toHtml())
             if self.cckbIsSendTableContents.checkState() == Mt.Checked:
-                settingText = "<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + Universals.MainWindow.FileManager.getCurrentDirectoryPath() + "</p>"
+                currentDirectoryPath = ""
+                try:currentDirectoryPath = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+                except:pass
+                settingText = "<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + currentDirectoryPath + "</p>"
                 settingText += "<p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
                 try:
                     import Tables

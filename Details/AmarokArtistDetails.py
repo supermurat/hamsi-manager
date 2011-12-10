@@ -91,7 +91,7 @@ class AmarokArtistDetails(MDialog):
             Dialogs.showError(translate("AmarokArtistDetails", "Artist Does Not Exist"), 
                     str(translate("AmarokArtistDetails", "\"%s\" does not exist in \"id\" column of \"artist\" table.<br>Table will be refreshed automatically!<br>Please retry.")
                         ) % Organizer.getLink(trForUI(_artistId)))
-            if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
+            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
     
     def changeArtist(self, _artistId, _isNew=False):
         self.artistId = _artistId
@@ -161,7 +161,7 @@ class AmarokArtistDetails(MDialog):
             Operations.changeArtistValues([{"id" : self.artistId, "name" : str(self.infoValues["correctedArtist"].text())}])
             if self.artistName!=str(self.infoValues["correctedArtist"].text()):
                 self.changeArtist(Commands.getArtistId(str(self.infoValues["correctedArtist"].text())))
-            if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
+            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()

@@ -92,7 +92,7 @@ class MusicDetails(MDialog):
             Dialogs.showError(translate("MusicDetails", "File Does Not Exist"), 
                     str(translate("MusicDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
                         ) % Organizer.getLink(trForUI(_filePath)))
-            if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
+            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
@@ -261,7 +261,7 @@ class MusicDetails(MDialog):
             newPath = Musics.writeMusicFile(self.musicValues, newMusicValues)
             if newPath!=self.musicValues["path"]:
                 self.changeFile(newPath)
-            if hasattr(Universals.MainWindow, "FileManager"): Universals.MainWindow.FileManager.makeRefresh()
+            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
