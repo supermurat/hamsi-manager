@@ -24,7 +24,7 @@ import logging
 from Core.Universals import translate
 
 class Records():
-    global add, create, read, setTitle, showInWindow, clearRecords, recordContents, isSetedTitle, saveAllRecords,recordContents, checkSize, recordType, lastRecordType, setRecordType, restoreRecordType
+    global add, create, read, setTitle, clearRecords, recordContents, isSetedTitle, saveAllRecords,recordContents, checkSize, recordType, lastRecordType, setRecordType, restoreRecordType, getBackupRecordsList
     recordContents = ""
     isSetedTitle = False
     recordType = 0 # 0=Normal, 1=Debug
@@ -32,7 +32,7 @@ class Records():
     
     def create():
         global recordContents
-        recordContents += str(translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+        recordContents = str(translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
     
     def setTitle(_title):
         global isSetedTitle, recordContents
@@ -83,51 +83,24 @@ class Records():
                 InputOutputs.moveFileOrDir(Universals.recordFilePath, InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, str(time.strftime("%Y%m%d_%H%M%S")) + ".txt"))
         restoreRecordType()
         
-    def read(_isShowErrorDialog=True):
-        if InputOutputs.isFile(Universals.recordFilePath)==True:
-            return InputOutputs.readFromFile(Universals.recordFilePath)
+    def getBackupRecordsList():
+        if InputOutputs.isDir(Universals.oldRecordsDirectoryPath)==True:
+            return InputOutputs.readDirectory(Universals.oldRecordsDirectoryPath, "file")
         else:
-            if _isShowErrorDialog:
-                from Core import Dialogs
-                Dialogs.showError(translate("Records", "Cannot Find The Record File"), 
-                            translate("Records", "Record file not found."))
-            return False
+            return []
+        
+    def read(_recordFilePath=Universals.recordFilePath):
+        if InputOutputs.isFile(_recordFilePath)==True:
+            return InputOutputs.readFromFile(_recordFilePath)
+        else:
+            create()
+            setRecordType(1)
+            InputOutputs.addToFile(_recordFilePath, recordContents)
+            restoreRecordType()
+            return recordContents
             
     def clearRecords():
         InputOutputs.writeToFile(Universals.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
-        try:dialog.close()
-        except:pass
-        
-    def showInWindow():
-        from Core.MyObjects import MDialog, MWidget, MVBoxLayout, MHBoxLayout, MTextEdit, MTextOption, MPushButton, SIGNAL, MObject, trForUI
-        from Core import Organizer
-        global dialog
-        recordString = read()
-        if recordString != False:
-            dialog = MDialog(Universals.MainWindow)
-            if Universals.isActivePyKDE4==True:
-                dialog.setButtons(MDialog.NoDefault)
-            dialog.setWindowTitle(translate("Records", "Last Records"))
-            pnlMain = MWidget(dialog)
-            vblMain = MVBoxLayout(pnlMain)
-            info = MTextEdit()
-            info.setPlainText(trForUI(recordString))
-            info.setWordWrapMode(MTextOption.ManualWrap)
-            pbtnClose = MPushButton(translate("Records", "OK"))
-            pbtnClear = MPushButton(translate("Records", "Clear"))
-            MObject.connect(pbtnClose, SIGNAL("clicked()"), dialog.close)
-            MObject.connect(pbtnClear, SIGNAL("clicked()"), clearRecords)
-            vblMain.addWidget(info)
-            hblBox = MHBoxLayout()
-            hblBox.addWidget(pbtnClear)
-            hblBox.addWidget(pbtnClose)
-            vblMain.addLayout(hblBox)
-            if Universals.isActivePyKDE4==True:
-                dialog.setMainWidget(pnlMain)
-            else:
-                dialog.setLayout(vblMain)
-            dialog.setMinimumSize(550, 400)
-            dialog.show()
             
             
             
