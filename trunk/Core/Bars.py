@@ -284,7 +284,8 @@ class Bars():
                 if RunCommand.checkRunCommand():
                     RunCommand.RunCommand(Universals.MainWindow)
             elif actionName==translate("ToolsBar", "Show Last Actions"):
-                Records.showInWindow()
+                from Core import RecordsForm
+                RecordsForm.RecordsForm(Universals.MainWindow)
             elif actionName==translate("ToolsBar", "Remove Sub Files"):
                 answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
                         str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
