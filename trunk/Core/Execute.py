@@ -90,6 +90,7 @@ class Execute:
             executeCommandOfHamsiManager = "\"" + getPythonPath() + "\" \"" + findExecutablePath("HamsiManager") + "\""
         else:
             executeCommandOfHamsiManager = "\"" + findExecutablePath("HamsiManager") + "\""
+        return executeCommandOfHamsiManager
     
     def executeWithThread(_command=[], _executableName=None):
         roar = RunWithThread(_command, _executableName)

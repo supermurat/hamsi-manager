@@ -65,10 +65,10 @@ def installThisPlugin():
         
         
         machineReg = winreg.ConnectRegistry(None,winreg.HKEY_LOCAL_MACHINE)
-        containerKey = winreg.OpenKey(rootReg, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\CommandStore\\shell", 0, winreg.KEY_WRITE)
+        containerKey = winreg.OpenKey(machineReg, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\CommandStore\\shell", 0, winreg.KEY_WRITE)
         
-        winreg.CreateKey(directoryKey, "HamsiManager.Organize")
-        actionKey = winreg.OpenKey(directoryKey, "HamsiManager.Organize", 0, winreg.KEY_WRITE)
+        winreg.CreateKey(containerKey, "HamsiManager.Organize")
+        actionKey = winreg.OpenKey(containerKey, "HamsiManager.Organize", 0, winreg.KEY_WRITE)
         try:
             winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, Universals.trEncode(str(translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager")), Variables.defaultFileSystemEncoding))
         except:
