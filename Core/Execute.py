@@ -87,9 +87,9 @@ class Execute:
     def getExecuteCommandOfHamsiManager():
         HamsiManagerExecutableFileName = findExecutableBaseName("HamsiManager")
         if HamsiManagerExecutableFileName.find(".py")>-1 or HamsiManagerExecutableFileName.find(".py3")>-1 or HamsiManagerExecutableFileName.find(".pyw")>-1:
-            executeCommandOfHamsiManager = "'" + getPythonPath() + "' '" + findExecutablePath("HamsiManager") + "'"
+            executeCommandOfHamsiManager = "\"" + getPythonPath() + "\" \"" + findExecutablePath("HamsiManager") + "\""
         else:
-            executeCommandOfHamsiManager = "'" + findExecutablePath("HamsiManager") + "'"
+            executeCommandOfHamsiManager = "\"" + findExecutablePath("HamsiManager") + "\""
     
     def executeWithThread(_command=[], _executableName=None):
         roar = RunWithThread(_command, _executableName)
