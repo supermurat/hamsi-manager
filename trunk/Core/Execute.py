@@ -26,7 +26,7 @@ import InputOutputs
 import logging
 
 class Execute:
-    global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName, getExecuteCommandOfHamsiManager
+    global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName, getExecuteCommandOfHamsiManager, getPythonPath
         
     def getCommandResult(_command):
         if Variables.isWindows:
@@ -53,9 +53,13 @@ class Execute:
                 Dialogs.showError(Universals.translate("Execute", "Cannot Find Executable File"),
                     str(Universals.translate("Execute", "\"%s\" : cannot find an executable file matched this name in directory of Hamsi Manager.<br>Please make sure that it exists and retry.")) % _executableName)
                 return None
+            if pathOfExecutable.find(".py")>-1 or pathOfExecutable.find(".py3")>-1 or pathOfExecutable.find(".pyw")>-1:
+                pathOfExecutable = [getPythonPath(), pathOfExecutable]
+            else:
+                pathOfExecutable = [pathOfExecutable]
             if Universals.loggingLevel==logging.DEBUG:
-                print ("Execute >>> " + str([pathOfExecutable] + _command))
-            return subprocess.Popen([pathOfExecutable] + _command , stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+                print ("Execute >>> " + str(pathOfExecutable + _command))
+            return subprocess.Popen(pathOfExecutable + _command , stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
         else:
             if Universals.loggingLevel==logging.DEBUG:
                 print ("Execute >>> " + str(_command))
@@ -76,10 +80,14 @@ class Execute:
                 return InputOutputs.joinPath(Variables.HamsiManagerDirectory, fName)
         return None
         
+    def getPythonPath():
+        """Use this only if runnig .py(.py3,.pyw)"""
+        return sys.executable
+        
     def getExecuteCommandOfHamsiManager():
         HamsiManagerExecutableFileName = findExecutableBaseName("HamsiManager")
-        if HamsiManagerExecutableFileName.find(".py")>-1:
-            executeCommandOfHamsiManager = "python '" + findExecutablePath("HamsiManager") + "'"
+        if HamsiManagerExecutableFileName.find(".py")>-1 or HamsiManagerExecutableFileName.find(".py3")>-1 or HamsiManagerExecutableFileName.find(".pyw")>-1:
+            executeCommandOfHamsiManager = "'" + getPythonPath() + "' '" + findExecutablePath("HamsiManager") + "'"
         else:
             executeCommandOfHamsiManager = "'" + findExecutablePath("HamsiManager") + "'"
     
