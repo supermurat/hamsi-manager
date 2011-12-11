@@ -39,26 +39,57 @@ def installThisPlugin():
             import winreg
         else:
             import _winreg as winreg
+        executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
+        iconPath =  InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", "Default", "Images", "HamsiManager-128x128.ico")
+        
         rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
 
-        #fileKey = winreg.OpenKey(rootReg, "*\\shell", 0, winreg.KEY_WRITE)
-        directoryKey = winreg.OpenKey(rootReg, "Directory\\shell", 0, winreg.KEY_WRITE)
+        fileKey = winreg.OpenKey(rootReg, "*\\shell", 0, winreg.KEY_WRITE)
+        #directoryKey = winreg.OpenKey(rootReg, "Directory\\shell", 0, winreg.KEY_WRITE)
         #directoryBackKey = winreg.OpenKey(rootReg, "Directory\\Background\\shell", 0, winreg.KEY_WRITE)
 
-        winreg.CreateKey(directoryKey, "HamsiManager")
-        hamsiKey = winreg.OpenKey(directoryKey, "HamsiManager", 0, winreg.KEY_WRITE)
+        winreg.CreateKey(fileKey, "Hamsi Manager")
+        hamsiKey = winreg.OpenKey(fileKey, "Hamsi Manager", 0, winreg.KEY_WRITE)
         try:
-            winreg.SetValueEx(hamsiKey,"",0, winreg.REG_SZ, Universals.trEncode(str(translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager")), Variables.defaultFileSystemEncoding))
+            winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(iconPath), Variables.defaultFileSystemEncoding))
         except:
-            winreg.SetValueEx(hamsiKey,"",0, winreg.REG_SZ, str(translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager")))
-        winreg.CreateKey(hamsiKey, "command")
-        commandKey = winreg.OpenKey(hamsiKey, "command", 0, winreg.KEY_WRITE)
-        winreg.SetValueEx(commandKey,"",0, winreg.REG_SZ, "\"" + Execute.findExecutablePath("HamsiManager") + "\" \"%1\"") 
-
-        winreg.CloseKey(commandKey)
+            winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, str(iconPath))
+        winreg.SetValueEx(hamsiKey,"SubCommands",0, winreg.REG_SZ, "HamsiManager.Organize")
+        winreg.SetValueEx(hamsiKey,"Position",0, winreg.REG_SZ, "Top")
         winreg.CloseKey(hamsiKey)
-        winreg.CloseKey(directoryKey)
+        winreg.CloseKey(fileKey)
         winreg.CloseKey(rootReg)
+        
+        
+        
+        
+        
+        machineReg = winreg.ConnectRegistry(None,winreg.HKEY_LOCAL_MACHINE)
+        containerKey = winreg.OpenKey(rootReg, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\CommandStore\\shell", 0, winreg.KEY_WRITE)
+        
+        winreg.CreateKey(directoryKey, "HamsiManager.Organize")
+        actionKey = winreg.OpenKey(directoryKey, "HamsiManager.Organize", 0, winreg.KEY_WRITE)
+        try:
+            winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, Universals.trEncode(str(translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager")), Variables.defaultFileSystemEncoding))
+        except:
+            winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, str(translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager")))
+        try:
+            winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(iconPath), Variables.defaultFileSystemEncoding))
+        except:
+            winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, str(iconPath))
+        
+        winreg.CreateKey(actionKey, "Command")
+        commandKey = winreg.OpenKey(actionKey, "Command", 0, winreg.KEY_WRITE)
+        try:
+            winreg.SetValueEx(commandKey,"",0, winreg.REG_SZ, Universals.trEncode(str(executeCommandOfHamsiManager + " \"%1\""), Variables.defaultFileSystemEncoding))
+        except:
+            winreg.SetValueEx(commandKey,"",0, winreg.REG_SZ, str(executeCommandOfHamsiManager + " \"%1\""))
+        
+        winreg.CloseKey(actionKey)
+        winreg.CloseKey(commandKey)
+        winreg.CloseKey(containerKey)
+        winreg.CloseKey(machineReg)
+        
 
         #if isAlreadyInstalled:
         #    return "AlreadyInstalled"
