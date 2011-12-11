@@ -45,9 +45,6 @@ def installThisPlugin():
         rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
 
         fileKey = winreg.OpenKey(rootReg, "*\\shell", 0, winreg.KEY_WRITE)
-        #directoryKey = winreg.OpenKey(rootReg, "Directory\\shell", 0, winreg.KEY_WRITE)
-        #directoryBackKey = winreg.OpenKey(rootReg, "Directory\\Background\\shell", 0, winreg.KEY_WRITE)
-
         winreg.CreateKey(fileKey, "Hamsi Manager")
         hamsiKey = winreg.OpenKey(fileKey, "Hamsi Manager", 0, winreg.KEY_WRITE)
         try:
@@ -55,9 +52,33 @@ def installThisPlugin():
         except:
             winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, str(iconPath))
         winreg.SetValueEx(hamsiKey,"SubCommands",0, winreg.REG_SZ, "HamsiManager.Organize")
-        winreg.SetValueEx(hamsiKey,"Position",0, winreg.REG_SZ, "Top")
         winreg.CloseKey(hamsiKey)
         winreg.CloseKey(fileKey)
+        
+        directoryKey = winreg.OpenKey(rootReg, "Directory\\shell", 0, winreg.KEY_WRITE)
+        winreg.CreateKey(directoryKey, "Hamsi Manager")
+        hamsiKey = winreg.OpenKey(directoryKey, "Hamsi Manager", 0, winreg.KEY_WRITE)
+        try:
+            winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(iconPath), Variables.defaultFileSystemEncoding))
+        except:
+            winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, str(iconPath))
+        winreg.SetValueEx(hamsiKey,"SubCommands",0, winreg.REG_SZ, "HamsiManager.Organize")
+        winreg.CloseKey(hamsiKey)
+        winreg.CloseKey(directoryKey)
+        
+        directoryBackKey = winreg.OpenKey(rootReg, "Directory\\Background\\shell", 0, winreg.KEY_WRITE)
+        winreg.CreateKey(directoryBackKey, "Hamsi Manager")
+        hamsiKey = winreg.OpenKey(directoryBackKey, "Hamsi Manager", 0, winreg.KEY_WRITE)
+        try:
+            winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(iconPath), Variables.defaultFileSystemEncoding))
+        except:
+            winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, str(iconPath))
+        winreg.SetValueEx(hamsiKey,"SubCommands",0, winreg.REG_SZ, "HamsiManager.Organize")
+        winreg.CloseKey(hamsiKey)
+        winreg.CloseKey(directoryBackKey)
+        
+        
+        
         winreg.CloseKey(rootReg)
         
         
