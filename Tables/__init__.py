@@ -639,7 +639,7 @@ class Tables(MTableWidget):
             elif _formatType=="plainText":
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
-            filePath = MFileDialog.getSaveFileName(Universals.MainWindow.Table.parent(),translate("Tables", "Save As"),
+            filePath = QFileDialog.getSaveFileName(Universals.MainWindow.Table.parent(),translate("Tables", "Save As"),
                                     trForM(Variables.userDirectoryPath),trForUI(formatTypeName+" (*."+fileExt+")"))
             if filePath!="":
                 filePath = str(filePath)

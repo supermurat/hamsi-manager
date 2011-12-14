@@ -258,7 +258,7 @@ class Packager(MyDialog):
     def selectProjectPath(self):
         try:
             self.cbPackageType.setEnabled(True)
-            ProjectPath = MFileDialog.getExistingDirectory(self,
+            ProjectPath = QFileDialog.getExistingDirectory(self,
                             translate("Packager", "Please Select Project Folder"),self.lePathOfProject.text())
             if ProjectPath!="":
                 self.lePathOfProject.setText(ProjectPath)  
@@ -295,7 +295,7 @@ class Packager(MyDialog):
                 packageExtension = self.cbPackageType.currentText()
             else:
                 packageExtension = ".tar"   
-            PathOfPackage = MFileDialog.getSaveFileName(self,
+            PathOfPackage = QFileDialog.getSaveFileName(self,
                         translate("Packager", "Please Select The Pack To Be Created"),self.lePathOfPackage.text(),
                         str(translate("Packager", "Archive Files (*%s)")) % (packageExtension))
             if PathOfPackage!="":

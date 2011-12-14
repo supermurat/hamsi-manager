@@ -50,7 +50,7 @@ if RoutineChecks.checkQt4Exist():
             version     = Variables.version
             license     = MAboutData.License_GPL_V3
             copyright   = ki18n (trForUI("Murat Demir (mopened@gmail.com)"))
-            kde4LangKode = str(KLocale(Variables.Catalog).language())+"_"+str(KLocale(Variables.Catalog).country()).upper()
+            kde4LangKode = str(MLocale(Variables.Catalog).language())+"_"+str(MLocale(Variables.Catalog).country()).upper()
             text        = ki18n (trForUI(""))
             homePage    = trForUI("hamsiapps.com")
             bugEmail    = trForUI("Murat Demir (mopened@gmail.com)")

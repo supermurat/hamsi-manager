@@ -98,7 +98,7 @@ class Cleaner(MyDialog):
 
     def selectProjectPath(self):
         try:
-            ProjectPath = MFileDialog.getExistingDirectory(self,
+            ProjectPath = QFileDialog.getExistingDirectory(self,
                             translate("Cleaner", "Please Select Directory"),self.lePathOfProject.text())
             if ProjectPath!="":
                 self.lePathOfProject.setText(ProjectPath)

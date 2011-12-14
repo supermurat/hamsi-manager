@@ -298,13 +298,13 @@ class OptionsForm(MDialog):
         if requestInfos[0]=="file":
             if requestInfos[1]=="image":
                 directory = InputOutputs.getRealDirName(leValue.text())
-                filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Image"),
+                filePath = QFileDialog.getOpenFileName(self,translate("Options", "Choose Image"),
                                             directory,trForUI(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG))
                 if filePath!="":
                     leValue.setText(filePath)   
             if requestInfos[1]=="executable":
                 directory = InputOutputs.getRealDirName(leValue.text())
-                filePath = MFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
+                filePath = QFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
                                             directory, trForUI(translate("Options", "Executable Files") + " (*)"))
                 if filePath!="":
                     leValue.setText(filePath)  
@@ -315,7 +315,7 @@ class OptionsForm(MDialog):
         if requestInfos[0]=="directory":  
             if requestInfos[1]=="exist":
                 directory = InputOutputs.getRealPath(leValue.text())
-                dirPath = MFileDialog.getExistingDirectory(self,translate("Options", "Choose Image"),
+                dirPath = QFileDialog.getExistingDirectory(self,translate("Options", "Choose Image"),
                                                 directory)
                 if dirPath!="":
                     leValue.setText(dirPath)

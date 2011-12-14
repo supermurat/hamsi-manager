@@ -155,7 +155,7 @@ class Hasher(MyDialog):
     def selectPackagePath(self):
         try:
             self.teHashDigest.setText("")
-            PathOfPackage = MFileDialog.getOpenFileName(self,
+            PathOfPackage = QFileDialog.getOpenFileName(self,
                         translate("Hasher", "Please Select The Pack To Be Created"), self.lePathOfPackage.text(),
                         translate("Hasher", "All Files (*.*)"))
             if PathOfPackage!="":
