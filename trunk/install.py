@@ -36,10 +36,10 @@ if RoutineChecks.checkQt4Exist():
     import InputOutputs
     from Core import Dialogs
     from Core import Execute
-    defaultLangCode = str(MLocale().name())
+    defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", "Default", "Images"))))
-    StyleFile = open(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", "Default", "Style.qss"))
+    MDir.setSearchPaths("Images", MStringList(trForM(InputOutputs.joinPath(Universals.themePath, "Images"))))
+    StyleFile = open(InputOutputs.joinPath(Universals.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
     if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
@@ -177,7 +177,7 @@ if RoutineChecks.checkQt4Exist():
                 self.leExecutableLink.setEnabled(True)
         
         def selectInstallationDirectory(self):
-            dizin = MFileDialog.getExistingDirectory(self,MApplication.translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
+            dizin = QFileDialog.getExistingDirectory(self,MApplication.translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
             if dizin!="":
                 self.leInstallationDirectory.setText(dizin)
             

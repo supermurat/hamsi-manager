@@ -306,7 +306,7 @@ class MusicDetails(MDialog):
     def saveAsImage(self):
         try:
             if self.lstwImages.currentRow()!=-1:
-                imagePath = MFileDialog.getSaveFileName(self,translate("MusicDetails", "Save As"),
+                imagePath = QFileDialog.getSaveFileName(self,translate("MusicDetails", "Save As"),
                                     InputOutputs.getDirName(self.musicValues["path"]), trForUI(str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1])))
                 if imagePath!="":
                     sourceFile = InputOutputs.joinPath(os.getenv("TMP"), "HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1])
@@ -330,7 +330,7 @@ class MusicDetails(MDialog):
         
     def selectImage(self):
         try:
-            imagePath = MFileDialog.getOpenFileName(self,translate("MusicDetails", "Choose Image"),
+            imagePath = QFileDialog.getOpenFileName(self,translate("MusicDetails", "Choose Image"),
                 InputOutputs.getDirName(self.musicValues["path"]),trForUI(str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG))
             if imagePath!="":
                 self.leImagePath.setText(imagePath)

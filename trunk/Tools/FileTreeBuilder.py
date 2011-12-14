@@ -158,7 +158,7 @@ class FileTreeBuilder(MyDialog):
     
     def selectPath(self):
         try:
-            dirPath = MFileDialog.getExistingDirectory(self,
+            dirPath = QFileDialog.getExistingDirectory(self,
                             translate("FileTreeBuilder", "Please Select"),self.lePath.text())
             if dirPath!="":
                 self.lePath.setText(dirPath)

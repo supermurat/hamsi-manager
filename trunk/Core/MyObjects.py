@@ -61,7 +61,7 @@ elif Variables.MyObjectName=="PySide":
         else:
             exec (obj + " = QtNetwork." + obj)
             
-if Variables.MyObjectName=="PyQt4" and "isActivePyKDE4" in Universals.MySettings.keys():
+if Variables.MyObjectName=="PyQt4": #PySide not using with PyKDE4
     if Universals.isActivePyKDE4==True:
         try:
             from PyKDE4 import kdeui
@@ -82,22 +82,17 @@ if Variables.MyObjectName=="PyQt4" and "isActivePyKDE4" in Universals.MySettings
                     exec ("M"+obj[1:]+" = kio." + obj)
                 else:
                     exec (obj + " = kio." + obj)
-            #this PyKDE4 objects different from PyQt4 objects
-            QMessageBox = QtGui.QMessageBox
-            QDirModel = QtGui.QDirModel
-            QIcon = QtGui.QIcon
-            MFileDialog = QtGui.QFileDialog 
-            MLocale = QtCore.QLocale
-            KFileDialog = kio.KFileDialog
-            KLocale = kdecore.KLocale
         except:
             Universals.isActivePyKDE4 = False
 else:
-    #PySide not using with PyKDE4
     Universals.isActivePyKDE4 = False
-    QMessageBox = QtGui.QMessageBox
-    QDirModel = QtGui.QDirModel
-    QIcon = QtGui.QIcon
+    
+#this PyKDE4 objects different from PyQt4 objects
+QLocale = QtCore.QLocale
+QFileDialog = QtGui.QFileDialog 
+QMessageBox = QtGui.QMessageBox
+QDirModel = QtGui.QDirModel
+QIcon = QtGui.QIcon
     
 if MStringList is None:
     def MStringList(_s):

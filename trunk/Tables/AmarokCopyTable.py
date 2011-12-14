@@ -306,7 +306,7 @@ class AmarokCopyTable():
                 
     def selectDestinationDir(self):
         try:
-            destinationDirPath = MFileDialog.getExistingDirectory(self.Table,
+            destinationDirPath = QFileDialog.getExistingDirectory(self.Table,
                             translate("AmarokCopyTable", "Please Select Destination Directory"),self.leDestinationDirPath.text())
             if destinationDirPath!="":
                 self.leDestinationDirPath.setText(destinationDirPath)

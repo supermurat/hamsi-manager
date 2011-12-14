@@ -220,7 +220,7 @@ class UpdateControl(MDialog):
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save As")
-            fileName = MFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(InputOutputs.joinPath(Variables.HamsiManagerDirectory), defaultFileName))
+            fileName = QFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(InputOutputs.joinPath(Variables.HamsiManagerDirectory), defaultFileName))
             if fileName== "":
                 import random, tempfile
                 fileName = InputOutputs.joinPath(tempfile.gettempdir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])

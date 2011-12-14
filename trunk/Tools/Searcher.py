@@ -313,7 +313,7 @@ class Searcher(MyDialog):
     
     def selectSearchDirectoryPath(self):
         try:
-            SearchPath = MFileDialog.getExistingDirectory(self,
+            SearchPath = QFileDialog.getExistingDirectory(self,
                             translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
             if SearchPath!="":
                 self.lePathToSeach.setText(SearchPath)
@@ -326,7 +326,7 @@ class Searcher(MyDialog):
 
     def selectSearchFilePath(self):
         try:
-            SearchPath = MFileDialog.getOpenFileName(self,
+            SearchPath = QFileDialog.getOpenFileName(self,
                         translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
                         translate("Searcher", "All Files (*.*)"))
             if SearchPath!="":
