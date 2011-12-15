@@ -21,7 +21,7 @@ from Core import Universals
 import InputOutputs
 from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
-pluginVersion = "0.4"
+pluginVersion = "0.5"
 pluginFiles = []
 pluginDirectory = ""
 setupDirectory = ""
@@ -196,3 +196,26 @@ def installThisPlugin():
     if pluginString=="":
         return "AlreadyInstalled"
     return True
+
+def uninstallThisPlugin():
+    isAlreadyuninstalled = True
+    if Variables.isRunningAsRoot():
+        destinationPath = "/usr/share/apps/krusader/"
+    else:
+        destinationPath = Variables.getKDE4HomePath() +"/share/apps/krusader/"
+    if InputOutputs.isFile(InputOutputs.joinPath(destinationPath, "useractions.xml")):
+        import xml.etree.ElementTree as ET
+        doc = ET.parse(InputOutputs.joinPath(destinationPath, "useractions.xml"))
+        KrusaderUserActions = doc.getroot()
+        actions = doc.findall("action")
+        for act in doc.findall("action"):
+            if act.get("name").find("hamsimanager")!=-1:
+                KrusaderUserActions.remove(act)
+                isAlreadyuninstalled = False
+        actions = doc.findall("action")
+        doc.write(InputOutputs.joinPath(destinationPath, "useractions.xml"))
+    if isAlreadyuninstalled:
+        return "AlreadyUninstalled"
+    return True
+    
+    
