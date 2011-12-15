@@ -81,7 +81,8 @@ X-MultipleArgs=false
             
     def getConfiguredContent(_content, _installationDirectory=Variables.HamsiManagerDirectory):
         from Core import Execute
-        return _content.replace("~InstallationDirectory~", _installationDirectory).replace("~ExecuteCommandOfHamsiManager~", Execute.getExecuteCommandOfHamsiManager()).replace("~IconPath~", InputOutputs.joinPath(Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory), "Images", "HamsiManager-128x128.png"))
+        return _content.replace("~InstallationDirectory~", _installationDirectory).replace("~ExecuteCommandOfHamsiManager~", Execute.getExecuteCommandOfHamsiManager()).replace("~IconPath~", InputOutputs.joinPath(Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory), "Images", "HamsiManager-128x128.png")).replace("~ThemePath~", Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory))
+        
         
     def getConfiguredDesktopFileContent(_installationDirectory=Variables.HamsiManagerDirectory):
         return getConfiguredContent(getDesktopFileContent(), _installationDirectory)

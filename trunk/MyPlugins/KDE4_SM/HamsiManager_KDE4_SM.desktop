@@ -18,7 +18,7 @@ Name[pt_BR]=Organizar com Hamsi Manager
 
 [Desktop Action copyPath]
 Exec=~ExecuteCommandOfHamsiManager~ --qm --copyPath %U
-Icon=~IconPath~
+Icon=~ThemePath~/Images/copyPath.png
 Name=Copy Path To Clipboard
 Name[tr]=Yolunu Panoya Kopyala
 Name[pt_BR]=Copiar caminho para a área de transferência
