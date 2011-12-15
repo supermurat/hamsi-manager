@@ -57,8 +57,8 @@ class MyPlugins(MDialog):
     
     def fillPlugins(self):
         self.lstwPluginList.clear()
-        self.myPluginsNames = Variables.getMyPluginsNames()
-        for plugin in self.myPluginsNames:
+        self.myPluginsNames = []
+        for plugin in Variables.getMyPluginsNames():
             pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], -1)
             if pluginModule.isInstallable():
                 installedVersion = Settings.getUniversalSetting(trForM(pluginModule.pluginName), "")
@@ -69,6 +69,7 @@ class MyPlugins(MDialog):
                 else:
                     details = translate("MyPlugins", "Installed")
                 self.lstwPluginList.addItem(trForUI(pluginModule.pluginName) + "\n\t" + details)
+                self.myPluginsNames.append(plugin)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
             self.pbtnInstall.setEnabled(False)
@@ -140,8 +141,8 @@ class MyPluginsForSystem(MWidget):
     
     def fillPlugins(self):
         self.lstwPluginList.clear()
-        self.myPluginsNames = Variables.getMyPluginsNames()
-        for plugin in self.myPluginsNames:
+        self.myPluginsNames = []
+        for plugin in Variables.getMyPluginsNames():
             pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], -1)
             if pluginModule.isInstallable():
                 installedVersion = Settings.getUniversalSetting(trForM(pluginModule.pluginName), "")
@@ -152,6 +153,7 @@ class MyPluginsForSystem(MWidget):
                 else:
                     details = translate("MyPlugins", "Installed")
                 self.lstwPluginList.addItem(trForUI(pluginModule.pluginName) + "\n\t" + details)
+                self.myPluginsNames.append(plugin)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
             self.pbtnInstall.setEnabled(False)

@@ -67,8 +67,11 @@ class Tagger():
         self.tag.update()
         
     def isAvailableFile(self):
-        try:return eyeD3.isMp3File(self.filePath)
-        except:return False
+        try:
+            return eyeD3.isMp3File(Universals.trEncode(self.filePath, InputOutputs.fileSystemEncoding))
+        except:
+            try:return eyeD3.isMp3File(self.filePath)
+            except:return False
         
     def getCorrectedValues(self, _value):
         if _value == None or _value == "None" or _value == "None/None":

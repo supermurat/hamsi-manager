@@ -45,7 +45,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_emendDirectory\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Auto Emend Directory")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "emendDirectory.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --emendDirectory %aCurrent%</command>\n"+
@@ -54,7 +54,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_emendDirectoryWithContents\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Auto Emend Directory (With Contents)")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager (With Contents)")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "emendDirectoryWithContents.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager (With Contents)")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --emendDirectoryWithContents %aCurrent%</command>\n"+
@@ -63,7 +63,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_emendFile\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Auto Emend File")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "emendFile.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --emendFile %aCurrent%</command>\n"+
@@ -72,7 +72,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_pack\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Pack It")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Pack it with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "pack.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Pack it with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --pack %aCurrent%</command>\n"+
@@ -81,7 +81,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_checkIcon\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Check Directory Icon")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Check directory icon with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "checkIcon.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Check directory icon with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --checkIcon %aCurrent%</command>\n"+
@@ -90,7 +90,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_clearEmptyDirectories\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Clear Empty Directories")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Clear empty directories with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "clearEmptyDirectories.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Clear empty directories with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --clearEmptyDirectories %aCurrent%</command>\n"+
@@ -99,7 +99,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_clearUnneededs\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Clear Unneededs")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Clear unneededs with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "clearUnneededs.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Clear unneededs with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --clearUnneededs %aCurrent%</command>\n"+
@@ -108,7 +108,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_clearIgnoreds\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Clear Ignoreds")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Clear ignoreds with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "clearIgnoreds.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Clear ignoreds with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --clearIgnoreds %aCurrent%</command>\n"+
@@ -117,7 +117,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_copyPath\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Copy Path To Clipboard")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Copy path to clipboard with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Copy path to clipboard with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --copyPath %aCurrent%</command>\n"+
@@ -126,7 +126,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_fileTree\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Build File Tree")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Build file tree with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "fileTree.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Build file tree with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --fileTree %aCurrent%</command>\n"+
@@ -135,7 +135,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_removeOnlySubFiles\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Remove Sub Files")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Remove sub files with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "removeOnlySubFiles.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Remove sub files with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --removeOnlySubFiles %aCurrent%</command>\n"+
@@ -144,7 +144,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_pack\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Clear It")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Clear it with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "pack.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Clear it with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --clear %aCurrent%</command>\n"+
@@ -153,7 +153,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_hash\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Hash Digest")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Get hash digest with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "hash.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Get hash digest with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --hash %aCurrent%</command>\n"+
@@ -162,7 +162,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_textCorrector\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Correct Content")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Correct content with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "textCorrector.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Correct content with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --textCorrector %aCurrent%</command>\n"+
@@ -171,7 +171,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_search\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Search")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Search with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + iconPath + "</icon>\n"+
+                "  <icon>" + InputOutputs.joinPath(Universals.themePath, "Images", "search.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Search with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --search %aCurrent%</command>\n"+

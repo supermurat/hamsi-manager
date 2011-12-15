@@ -81,12 +81,16 @@ class InputOutputs:
         newPath = ""
         for pathPart in _newPath.split(sep):
             if pathPart!="":
-                badchars = re.compile(r'[^A-Za-z0-9_. ]+|^\.|\.$|^ | $|^$')
+                badchars = re.compile(r'[/]')
                 pathPart = badchars.sub('_', pathPart)
+                if pathPart in [".", ".."]:
+                    pathPart = "_" + pathPart
                 if Variables.isWindows:
+                    badchars = re.compile(r'[^A-Za-z0-9_. ]+|^\.|\.$|^ | $|^$')
+                    pathPart = badchars.sub('_', pathPart)
                     badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
                     if badnames.match(pathPart):
-                        pathPart += "_" + pathPart
+                        pathPart = "_" + pathPart
                 newPath = joinPath(newPath, pathPart)
             else:
                 newPath += sep
