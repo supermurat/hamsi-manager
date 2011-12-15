@@ -28,7 +28,7 @@ from Core import MyConfigure
 from Core import ReportBug
 
 class MyPlugins(MDialog):
-    global installPlugin
+    global installPlugin, uninstallPlugin
     
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
@@ -36,14 +36,17 @@ class MyPlugins(MDialog):
             self.setButtons(MDialog.NoDefault)
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))
+        self.pbtnUninstall = MPushButton(translate("MyPlugins", "Uninstall The Selected Plug-in"))
         pbtnClose = MPushButton(translate("MyPlugins", "Close"))
         self.fillPlugins()
         self.connect(self.pbtnInstall,SIGNAL("clicked()"),self.installThis)
+        self.connect(self.pbtnUninstall,SIGNAL("clicked()"),self.uninstallThis)
         self.connect(pbtnClose,SIGNAL("clicked()"),self.close)
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
         HBox1 = MHBoxLayout()
         HBox1.addWidget(self.pbtnInstall)
+        HBox1.addWidget(self.pbtnUninstall)
         HBox1.addWidget(pbtnClose)
         vblMain.addWidget(self.lstwPluginList)
         vblMain.addStretch(1)
@@ -82,10 +85,18 @@ class MyPlugins(MDialog):
             error = ReportBug.ReportBug()
             error.show()
     
+    def uninstallThis(self):
+        try:
+            uninstallPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
+            self.fillPlugins()
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+    
     def installPlugin(_pluginName, _isQuiet=False):
         isInstalled = False
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], -1)
-        if installThisPlugin==None:
+        if pluginModule.installThisPlugin==None:
             if pluginModule.pluginDirectory=="":
                 try:InputOutputs.makeDirs(pluginModule.setupDirectory)
                 except:pass
@@ -113,11 +124,39 @@ class MyPlugins(MDialog):
             if _isQuiet==False:
                 Dialogs.showError(translate("MyPlugins", "Plug-in Installation Failed"), 
                          str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (pluginModule.pluginName))
+    
+    def uninstallPlugin(_pluginName, _isQuiet=False):
+        isUninstalled = False
+        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "uninstallThisPlugin", "setupDirectory", "pluginVersion"], -1)
+        if pluginModule.uninstallThisPlugin==None:
+            if pluginModule.pluginDirectory=="":
+                for pluginFile in pluginModule.pluginFiles:
+                    if InputOutputs.isFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile)):
+                        InputOutputs.removeFileOrDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
+                isUninstalled = True
+            else:
+                if InputOutputs.isDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory)):
+                    InputOutputs.removeFileOrDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory))
+                isUninstalled = True
+        else:
+            isUninstalled = pluginModule.uninstallThisPlugin()
+        if isUninstalled:
+            Settings.setUniversalSetting(trForM(pluginModule.pluginName), str(""))
+            if _isQuiet==False:
+                Dialogs.show(translate("MyPlugins", "Plug-in Uninstallation Is Complete"), 
+                         str(translate("MyPlugins", "\"%s\" is uninstalled on your system.")) % (pluginModule.pluginName))
+        elif isUninstalled=="AlreadyUninstalled":
+            if _isQuiet==False:
+                Dialogs.show(translate("MyPlugins", "Plug-in Already Uninstalled"), 
+                         str(translate("MyPlugins", "\"%s\" already uninstalled on your system.")) % (pluginModule.pluginName))
+        else:
+            if _isQuiet==False:
+                Dialogs.showError(translate("MyPlugins", "Plug-in Uninstallation Failed"), 
+                         str(translate("MyPlugins", "\"%s\" failed to uninstall on your system.")) % (pluginModule.pluginName))
 
  
 
 class MyPluginsForSystem(MWidget):
-    global installPlugin
     
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
@@ -160,13 +199,13 @@ class MyPluginsForSystem(MWidget):
     
     def installThis(self):
         try:
-            installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
+            self.installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
             error = ReportBug.ReportBug()
             error.show()
     
-    def installPlugin(_pluginName, _isQuiet=False):
+    def installPlugin(self, _pluginName, _isQuiet=False):
         isInstalled = False
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], -1)
         if pluginModule.installThisPlugin==None:

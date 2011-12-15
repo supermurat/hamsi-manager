@@ -161,6 +161,33 @@ def installThisPlugin():
     #    return "AlreadyInstalled"
     return True
     
+
+def uninstallThisPlugin():
+    if Variables.isPython3k:
+        import winreg
+    else:
+        import _winreg as winreg
+    executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
+    iconPath =  InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico")
+    
+    actionsValues = [{"object": "*",
+                        "key": "HamsiManager"}, 
+                    {"object": "Directory",
+                        "key": "HamsiManager"}
+                    ]
+    rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
+    for object in actionsValues:
+        mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
+        winreg.DeleteKey(mainKey, object["key"])
+        winreg.CloseKey(mainKey)
+        mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
+        winreg.DeleteKey(mainContextMenusKey, object["key"])
+        winreg.CloseKey(mainContextMenusKey)
+    winreg.CloseKey(rootReg)
+    
+    #if isAlreadyuninstalled:
+    #    return "Alreadyuninstalled"
+    return True
     
     
     

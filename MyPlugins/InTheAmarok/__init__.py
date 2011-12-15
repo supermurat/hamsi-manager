@@ -23,6 +23,8 @@ pluginVersion = "0.4"
 pluginFiles = []
 pluginDirectory = "HamsiManagerInTheAmarok"
 installThisPlugin = None
+uninstallThisPlugin = None
+
 if Variables.isRunningAsRoot():
     setupDirectory = "/usr/share/apps/amarok/scripts"
 else:
