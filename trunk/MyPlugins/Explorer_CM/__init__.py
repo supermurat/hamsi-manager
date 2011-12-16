@@ -171,16 +171,47 @@ def uninstallThisPlugin():
     iconPath =  InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico")
     
     actionsValues = [{"object": "*",
-                        "key": "HamsiManager"}, 
+                        "key": "HamsiManager", 
+                        "actions": [{"key": "Organize"}, 
+                                    {"key": "copyPath"}, 
+                                    {"key": "emendFile"}, 
+                                    {"key": "hash"}, 
+                                    {"key": "textCorrector"}, 
+                                    {"key": "search"}
+                                ]}, 
                     {"object": "Directory",
-                        "key": "HamsiManager"}
+                        "key": "HamsiManager", 
+                        "actions": [{"key": "Organize"}, 
+                                    {"key": "copyPath"}, 
+                                    {"key": "emendDirectory"}, 
+                                    {"key": "emendDirectoryWithContents"}, 
+                                    {"key": "pack"}, 
+                                    {"key": "checkIcon"}, 
+                                    {"key": "clearEmptyDirectories"}, 
+                                    {"key": "clearUnneededs"}, 
+                                    {"key": "clearIgnoreds"}, 
+                                    {"key": "fileTree"}, 
+                                    {"key": "removeOnlySubFiles"}, 
+                                    {"key": "clear"}, 
+                                    {"key": "search"}
+                                ]}
                     ]
     rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
     for object in actionsValues:
-        mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
+        mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_ALL_ACCESS)
         winreg.DeleteKey(mainKey, object["key"])
         winreg.CloseKey(mainKey)
-        mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
+        mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_ALL_ACCESS)
+        for action in object["actions"]:
+            actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_ALL_ACCESS)
+            winreg.DeleteKey(actionKey, "command")
+            winreg.CloseKey(actionKey)
+            shellKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell", 0, winreg.KEY_ALL_ACCESS)
+            winreg.DeleteKey(shellKey, action["key"])
+            winreg.CloseKey(shellKey)
+        objectKey = winreg.OpenKey(mainContextMenusKey, object["key"], 0, winreg.KEY_ALL_ACCESS)
+        winreg.DeleteKey(objectKey, "Shell")
+        winreg.CloseKey(objectKey)
         winreg.DeleteKey(mainContextMenusKey, object["key"])
         winreg.CloseKey(mainContextMenusKey)
     winreg.CloseKey(rootReg)
