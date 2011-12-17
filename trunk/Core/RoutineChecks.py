@@ -358,7 +358,9 @@ def checkWindowMode(_isCheck=False):
 def checkBeforeCloseProccess():
     from Core import Universals, UpdateControl
     if UpdateControl.isMakeUpdateControl():
-        UpdateControl.UpdateControl(Universals.MainWindow)
+        UpdateControl.UpdateControl(Universals.MainWindow, _isCloseParent=True)
+        return False
+    return True
 
 def checkAfterCloseProccess():
     from Core import Records

@@ -29,7 +29,7 @@ from datetime import timedelta, datetime
 
 class UpdateControl(MDialog):
     global isMakeUpdateControl
-    def __init__(self,_parent, _isNotInstall=False):
+    def __init__(self,_parent, _isNotInstall=False, _isCloseParent=False):
         MDialog.__init__(self, _parent)
         QtWebKit = getMyObject("QtWebKit")
         if Universals.isActivePyKDE4==True:
@@ -60,7 +60,9 @@ class UpdateControl(MDialog):
         self.pbtnCheckForDeveloperVersion = MPushButton(translate("UpdateControl", "Check For Developer Version"))
         self.pbtnCheckForDeveloperVersion.setVisible(False)
         self.connect(self.pbtnCheckForDeveloperVersion,SIGNAL("clicked()"),self.checkForDeveloperVersion)
-        self.connect(self.pbtnCancel,SIGNAL("clicked()"),self.close)
+        self.connect(self.pbtnCancel,SIGNAL("clicked()"), self.close)
+        if _isCloseParent:
+            self.connect(self.pbtnCancel,SIGNAL("clicked()"), self.parent().close)
         self.connect(self.pbtnDownloadAndInstall,SIGNAL("clicked()"),self.downloadAndInstall)
         self.connect(self.pbtnShowDetails,SIGNAL("toggled(bool)"),self.showDetails)
         self.connect(self.wvWeb,SIGNAL("loadProgress(int)"),self.loading)
