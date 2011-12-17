@@ -77,7 +77,7 @@ class RecordsForm(MDialog):
             self.setRecordsFile(InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, recordFilePath))
             
     def clear(self):
-        answer = Dialogs.ask(translate("RecordsForm", "Are You Sure"),
+        answer = Dialogs.ask(translate("RecordsForm", "Are You Sure?"),
                         translate("RecordsForm", "Are you sure you want to remove this record file?"))
         if answer==Dialogs.Yes:
             if self.cbRecordsList.currentIndex()==0:

@@ -54,7 +54,7 @@ def installThisPlugin():
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.ico"), 
                                             "command" : executeCommandOfHamsiManager + " --qm --copyPath \"%1\""}, 
                                     {"key": "emendFile", 
-                                            "title": translate("MyPlugins/Explorer_CM", "Auto Emend"), 
+                                            "title": translate("MyPlugins/Explorer_CM", "Auto Emend File"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "emendFile.ico"), 
                                             "command" : executeCommandOfHamsiManager + " --qm --emendFile \"%1\""}, 
                                     {"key": "hash", 
@@ -83,11 +83,11 @@ def installThisPlugin():
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.ico"), 
                                             "command" : executeCommandOfHamsiManager + " --qm --copyPath \"%1\""}, 
                                     {"key": "emendDirectory", 
-                                            "title": translate("MyPlugins/Explorer_CM", "Auto Emend"), 
+                                            "title": translate("MyPlugins/Explorer_CM", "Auto Emend Directory"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "emendDirectory.ico"), 
                                             "command" : executeCommandOfHamsiManager + " --qm --emendDirectory \"%1\""}, 
                                     {"key": "emendDirectoryWithContents", 
-                                            "title": translate("MyPlugins/Explorer_CM", "Auto Emend (With Contents)"), 
+                                            "title": translate("MyPlugins/Explorer_CM", "Auto Emend Directory (With Contents)"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "emendDirectoryWithContents.ico"), 
                                             "command" : executeCommandOfHamsiManager + " --qm --emendDirectoryWithContents \"%1\""}, 
                                     {"key": "pack", 
@@ -198,21 +198,26 @@ def uninstallThisPlugin():
                     ]
     rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
     for object in actionsValues:
-        mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_ALL_ACCESS)
-        winreg.DeleteKey(mainKey, object["key"])
+        mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
+        try:winreg.DeleteKey(mainKey, object["key"])
+        except:pass
         winreg.CloseKey(mainKey)
-        mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_ALL_ACCESS)
+        mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
         for action in object["actions"]:
-            actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteKey(actionKey, "command")
+            actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
+            try:winreg.DeleteKey(actionKey, "command")
+            except:pass
             winreg.CloseKey(actionKey)
-            shellKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell", 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteKey(shellKey, action["key"])
+            shellKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell", 0, winreg.KEY_WRITE)
+            try:winreg.DeleteKey(shellKey, action["key"])
+            except:pass
             winreg.CloseKey(shellKey)
-        objectKey = winreg.OpenKey(mainContextMenusKey, object["key"], 0, winreg.KEY_ALL_ACCESS)
-        winreg.DeleteKey(objectKey, "Shell")
+        objectKey = winreg.OpenKey(mainContextMenusKey, object["key"], 0, winreg.KEY_WRITE)
+        try:winreg.DeleteKey(objectKey, "Shell")
+        except:pass
         winreg.CloseKey(objectKey)
-        winreg.DeleteKey(mainContextMenusKey, object["key"])
+        try:winreg.DeleteKey(mainContextMenusKey, object["key"])
+        except:pass
         winreg.CloseKey(mainContextMenusKey)
     winreg.CloseKey(rootReg)
     
