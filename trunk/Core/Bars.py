@@ -1073,6 +1073,7 @@ class StatusBar(MStatusBar):
     
     def setTableInfo(self, _info):
         self.lblTableInfo.setText(trForUI(_info))
+        Universals.MainWindow.setWindowTitle("Hamsi Manager "+ MApplication.applicationVersion() + " - " + trForUI(_info))
     
     def setImportantInfo(self, _info):
         self.lblImportantInfo.setText(trForUI("<span style=\"color: #FF0000\">" + _info + "</span>"))

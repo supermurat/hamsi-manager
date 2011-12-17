@@ -367,6 +367,8 @@ class FileManager():
         try:
             if Universals.tableType in [0, 1, 2, 3, 4]:
                 Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
+            else:
+                Universals.MainWindow.StatusBar.setTableInfo(Universals.tableTypesNames[Universals.tableType] + trForUI(" : ~ "))
         except:
             error = ReportBug.ReportBug()
             error.show()
