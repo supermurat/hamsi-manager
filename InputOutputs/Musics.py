@@ -29,7 +29,7 @@ import Taggers
 class Musics:
     global readMusicFile, writeMusicFile
     
-    def readMusicFile(_filePath):
+    def readMusicFile(_filePath, _isAlertWhenNotAvailable=True):
         _directoryPath = InputOutputs.getDirName(_filePath)
         isCanNoncompatible = False
         if InputOutputs.isReadableFileOrDir(_filePath):
@@ -59,7 +59,7 @@ class Musics:
             content["sampleFreq"] = tagger.getSampleFreq()
             content["bitRateString"] = tagger.getBitRateString()
             content["images"] = tagger.getImages()
-            if isCanNoncompatible == True:
+            if isCanNoncompatible and _isAlertWhenNotAvailable:
                 Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
                     translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
             return content

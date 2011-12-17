@@ -52,7 +52,7 @@ def installThisPlugin():
                                     {"key": "copyPath", 
                                             "title": translate("MyPlugins/Explorer_CM", "Copy Path To Clipboard"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " --directory \"%1\""}, 
+                                            "command" : executeCommandOfHamsiManager + " --qm --copyPath \"%1\""}, 
                                     {"key": "emendFile", 
                                             "title": translate("MyPlugins/Explorer_CM", "Auto Emend"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "emendFile.ico"), 
