@@ -247,14 +247,16 @@ if RoutineChecks.checkQt4Exist():
                                 TextDetails.closeAllTextDialogs()
                                 CoverDetails.closeAllCoverDialogs()
                                 Universals.printForDevelopers("Closed Dialogs")
-                                Universals.printForDevelopers("Before RoutineChecks.checkBeforeCloseProccess")
-                                RoutineChecks.checkBeforeCloseProccess()
-                                Universals.printForDevelopers("After RoutineChecks.checkBeforeCloseProccess")
                                 if Universals.isRaisedAnError==False:
                                     if self.Table.checkUnSavedValues()==False:
                                         Universals.isStartedCloseProcces=False
                                         Universals.printForDevelopers("Close ignored")
                                         _event.ignore() 
+                                Universals.printForDevelopers("Before RoutineChecks.checkBeforeCloseProccess")
+                                if RoutineChecks.checkBeforeCloseProccess()==False:
+                                    _event.ignore()
+                                    return None
+                                Universals.printForDevelopers("After RoutineChecks.checkBeforeCloseProccess")
                                 if Universals.isActivePyKDE4==True:
                                     Universals.printForDevelopers("Before Save KDE Configs")
                                     kconf = MGlobal.config()
