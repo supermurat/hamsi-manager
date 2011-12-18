@@ -32,9 +32,10 @@ class FolderTable():
         self.keyName = "directory"
         self.hiddenTableColumnsSettingKey = "hiddenFolderTableColumns"
         self.refreshColumns()
-        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("FolderTable", "Change In Amarok"), None, "isFolderTableValuesChangeInAmarokDB")
-        self.cckbChangeInAmarokDB.setToolTip(translate("FolderTable", "Are you want to change file and directory paths in Amarok database?"))
-        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
+        if Universals.isActiveAmarok:
+            self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("FolderTable", "Change In Amarok"), None, "isFolderTableValuesChangeInAmarokDB")
+            self.cckbChangeInAmarokDB.setToolTip(translate("FolderTable", "Are you want to change file and directory paths in Amarok database?"))
+            self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -63,7 +64,7 @@ class FolderTable():
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
         Universals.startThreadAction()
-        if Universals.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
+        if Universals.isActiveAmarok and Universals.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -96,7 +97,7 @@ class FolderTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.changeDirectories(changingFileDirectories)
-        if Universals.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
+        if Universals.isActiveAmarok and Universals.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changePaths(pathValues)

@@ -32,9 +32,10 @@ class SubFolderTable():
         self.keyName = "subfolder"
         self.hiddenTableColumnsSettingKey = "hiddenSubFolderTableColumns"
         self.refreshColumns()
-        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("SubFolderTable", "Change In Amarok"), None, "isSubFolderTableValuesChangeInAmarokDB")
-        self.cckbChangeInAmarokDB.setToolTip(translate("SubFolderTable", "Are you want to change file paths in Amarok database?"))
-        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
+        if Universals.isActiveAmarok:
+            self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("SubFolderTable", "Change In Amarok"), None, "isSubFolderTableValuesChangeInAmarokDB")
+            self.cckbChangeInAmarokDB.setToolTip(translate("SubFolderTable", "Are you want to change file paths in Amarok database?"))
+            self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
 
         
     def readContents(self, _directoryPath):
@@ -65,7 +66,7 @@ class SubFolderTable():
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
-        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if Universals.isActiveAmarok and Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -99,7 +100,7 @@ class SubFolderTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.changeDirectories(changingFileDirectories)
-        if Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if Universals.isActiveAmarok and Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changePaths(pathValues, "file")

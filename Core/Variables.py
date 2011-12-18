@@ -225,7 +225,7 @@ class Variables():
                 "hiddenAmarokCopyTableColumns": str([]),
                 "isPlayNow": "False", 
                 "MainWindowGeometries": str([50, 50, 850, 533]), 
-                "tableType": "2", 
+                "tableType": "1", 
                 "activeTabNoOfSpecialTools": "0", 
                 "unneededFiles": str(['Thumbs.db']), 
                 "ignoredFiles": str(['.directory']), 

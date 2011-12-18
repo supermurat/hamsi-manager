@@ -45,9 +45,10 @@ class MusicTable():
         self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.isPlayNow)
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnVerifyTableValues)
-        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("MusicTable", "Change In Amarok"), None, "isMusicTableValuesChangeInAmarokDB")
-        self.cckbChangeInAmarokDB.setToolTip(translate("MusicTable", "Are you want to change file paths and tags in Amarok database?"))
-        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.cckbChangeInAmarokDB)
+        if Universals.isActiveAmarok:
+            self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("MusicTable", "Change In Amarok"), None, "isMusicTableValuesChangeInAmarokDB")
+            self.cckbChangeInAmarokDB.setToolTip(translate("MusicTable", "Are you want to change file paths and tags in Amarok database?"))
+            self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.cckbChangeInAmarokDB)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -97,7 +98,7 @@ class MusicTable():
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
         changingTags=[]
-        if Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
+        if Universals.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -192,7 +193,7 @@ class MusicTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.changeDirectories(changingFileDirectories)
-        if Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
+        if Universals.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changeTags(changingTags)

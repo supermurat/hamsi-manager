@@ -32,9 +32,10 @@ class FileTable():
         self.keyName = "file"
         self.hiddenTableColumnsSettingKey = "hiddenFileTableColumns"
         self.refreshColumns()
-        self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("FileTable", "Change In Amarok"), None, "isFileTableValuesChangeInAmarokDB")
-        self.cckbChangeInAmarokDB.setToolTip(translate("FileTable", "Are you want to change file paths in Amarok database?"))
-        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
+        if Universals.isActiveAmarok:
+            self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("FileTable", "Change In Amarok"), None, "isFileTableValuesChangeInAmarokDB")
+            self.cckbChangeInAmarokDB.setToolTip(translate("FileTable", "Are you want to change file paths in Amarok database?"))
+            self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -62,7 +63,7 @@ class FileTable():
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
-        if Universals.getBoolValue("isFileTableValuesChangeInAmarokDB"):
+        if Universals.isActiveAmarok and Universals.getBoolValue("isFileTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -96,7 +97,7 @@ class FileTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.changeDirectories(changingFileDirectories)
-        if Universals.getBoolValue("isFileTableValuesChangeInAmarokDB"):
+        if Universals.isActiveAmarok and Universals.getBoolValue("isFileTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changePaths(pathValues, "file")

@@ -60,7 +60,7 @@ if RoutineChecks.checkQt4Exist():
             MMainWindow.__init__(self, parent)
             Universals.setApp(HamsiManagerApp)
             Universals.setMainWindow(self)
-            Universals.fillUIUniversals()
+            Universals.fillRemainderUniversals()
             self.isInstallFinised = False
             self.pageNo, self.pageSize = 0, 5
             self.vblMain = MVBoxLayout()

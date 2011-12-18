@@ -31,9 +31,10 @@ class CoverTable():
         self.keyName = "cover"
         self.hiddenTableColumnsSettingKey = "hiddenCoverTableColumns"
         self.refreshColumns()
-        pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
-        MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
-        self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnGetFromAmarok)
+        if Universals.isActiveAmarok:
+            pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
+            MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
+            self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnGetFromAmarok)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []

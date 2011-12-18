@@ -18,7 +18,7 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os
+import os, sys
 from cx_Freeze import setup, Executable
 from Core import Variables
 import InputOutputs
@@ -27,18 +27,35 @@ includes = []
 excludes = ["_gtkagg", "_tkagg", "bsddb", "curses", "email", 
             "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs", 
             "tcl","Tkconstants", "Tkinter"]
-packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
-        "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers", 
-        #"pysqlite2", # For only (python<2.7)
-        "sqlite3", # For only (python>=2.7)
-        "PyKDE4", # If you want to use KDE4 (Is not requirement but however it is very better than)
-        "eyeD3", "musicbrainz2", # not available in python 3.x
-        "hashlib", "tarfile", "urllib", "PyQt4"]
 path = []
 include_files = [("Amarok","Amarok"),("Languages","Languages"),("MyPlugins","MyPlugins"),("SearchEngines","SearchEngines"),("Taggers","Taggers"),("Themes","Themes")]
+            
+packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
+        "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers",
+        "hashlib", "tarfile", "urllib", "PyQt4", 
+        "sqlite3",
+        "PyKDE4", "_mysql", 
+        "eyeD3", "musicbrainz2"]
+        
+if float(sys.version[:3])<2.7:
+    packages.remove("sqlite3")
+    packages.append("pysqlite2")
+    
+if float(sys.version[:3])>=3.0:
+    packages.remove("eyeD3")
+    packages.remove("musicbrainz2")
+    
+if os.name=="nt":
+    packages.remove("PyKDE4")
+    packages.remove("_mysql")
+    
 
-exeBase = "Console" # "Win32GUI" for windows
-fileExtension = "" # ".exe" for windows
+exeBase = "Console"
+fileExtension = ""
+
+if os.name=="nt":
+    exeBase = "Win32GUI"
+    fileExtension = ".exe"
 
 MainExe = Executable(
     script = "HamsiManager.py",
