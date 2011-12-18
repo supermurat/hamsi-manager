@@ -265,7 +265,7 @@ if RoutineChecks.checkQt4Exist():
         elif isOnlyRoot:
             sys.exit()
     MainWidget=Main()
-    MainWidget.setWindowTitle(MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool") + " " + MApplication.applicationVersion())
+    MainWidget.setWindowTitle(MApplication.translate("Reconfigure", "Hamsi Manager Configure Tool") + " " + Variables.version)
     MainWidget.setGeometry(300, 300, 650, 350)
     MainWidget.show()
     Universals.isStartingSuccessfully = True

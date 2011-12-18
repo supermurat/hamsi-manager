@@ -331,7 +331,7 @@ if RoutineChecks.checkQt4Exist():
             NewApp = Execute.executeAsRootWithThread([], "HamsiManagerInstaller")
             sys.exit()
     MainWidget=Main()
-    MainWidget.setWindowTitle(MApplication.translate("Install", "Hamsi Manager Installer") + " " + MApplication.applicationVersion())
+    MainWidget.setWindowTitle(MApplication.translate("Install", "Hamsi Manager Installer") + " " + Variables.version)
     MainWidget.setGeometry(300, 300, 650, 350)
     MainWidget.show()
     Universals.isStartingSuccessfully = True

@@ -160,16 +160,12 @@ the Free Software Foundation; either version 2 of the License, or
     dgroup = OptionGroup(parser, "Dangerous Options",
                     "Caution: use these options at your own risk.  "
                     "It is believed that some of them bite.")
-    dgroup.add_option('--checkAndGetOldAppNameInSystem', help='Are you want to check and get old app name in system?', 
-                      action='store_const', const=True)
-    optionList.append("checkAndGetOldAppNameInSystem")
     dgroup.add_option('--runAsRoot', help='Are you want to run as root?', 
                       action='store_const', const=True)
     optionList.append("runAsRoot")
     parser.add_option_group(qmgroup)
     parser.add_option_group(dgroup)
-    parser.set_defaults(loggingLevel=logging.WARNING, 
-                    checkAndGetOldAppNameInSystem=False, runAsRoot=False, qm=False)
+    parser.set_defaults(loggingLevel=logging.WARNING, runAsRoot=False, qm=False)
     options, remainder = parser.parse_args()
     if len(remainder)==1:
         try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainder[0]), Variables.defaultFileSystemEncoding))
@@ -267,10 +263,6 @@ the Free Software Foundation; either version 2 of the License, or
                     strArgvs.append(tempArg)
             if Execute.executeAsRootWithThread(strArgvs, "HamsiManager"):
                 isDontRun = True
-    if options.checkAndGetOldAppNameInSystem:
-        from Core import OldAppName
-        OldAppName.checkAndGetOldAppNameInSystem()
-        isDontRun = True
     if isDontRun:
         return False
     return True

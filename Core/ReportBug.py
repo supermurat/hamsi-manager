@@ -100,7 +100,7 @@ class ReportBug(MDialog):
         errorDetails += "<br>"
         try:
             errorDetails += "<b>" + str(translate("ReportBug", "Application Version : ")) + "</b>"
-            errorDetails += str(Universals.HamsiManagerApp.applicationVersion())+"<br>"
+            errorDetails += str(Variables.version)+"<br>"
         except:
             errorDetails += "<br>"
         try:

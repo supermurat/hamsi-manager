@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-12-10, 18:31:01 -->
+<!-- Saved: 2011-12-18, 18:29:31 -->
 <!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -57,7 +57,6 @@
     <Source>Core/FileManager.py</Source>
     <Source>Core/RoutineChecks.py</Source>
     <Source>Core/Dialogs.py</Source>
-    <Source>Core/OldAppName.py</Source>
     <Source>Core/Organizer.py</Source>
     <Source>Core/__init__.py</Source>
     <Source>Reconfigure.py</Source>
