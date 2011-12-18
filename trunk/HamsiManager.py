@@ -307,7 +307,7 @@ if RoutineChecks.checkQt4Exist():
                     MainWindow=Main()
                     Universals.printForDevelopers("After Main")
                     if str(MainWindow.windowTitle()) == "":
-                        MainWindow.setWindowTitle("Hamsi Manager "+ MApplication.applicationVersion())
+                        MainWindow.setWindowTitle("Hamsi Manager "+ Variables.version)
                     if Universals.isActivePyKDE4==True:
                         Universals.printForDevelopers("Before MGlobal.config")
                         kconf = MGlobal.config()

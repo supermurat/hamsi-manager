@@ -42,7 +42,9 @@ class Amarok:
     dbConnection = None
     
     def isUsable():
-        return isLoadedMysql
+        if Variables.isWindows:
+            return False
+        return True
     
     def getMySQLModule():
         if isLoadedMysql: return mdb
