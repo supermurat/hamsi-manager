@@ -125,9 +125,10 @@ class OptionsForm(MDialog):
                             OptionsFormContent.Player(self, _showType), 
                             OptionsFormContent.Packager(self, _showType), 
                             OptionsFormContent.Cleaner(self, _showType), 
-                            OptionsFormContent.Amarok(self, _showType), 
                             OptionsFormContent.HiddenObjects(self, _showType), 
                             OptionsFormContent.MySettings(self, _showType, [])]
+            if Universals.isActiveAmarok:
+                self.categories.insert(len(self.categories)-2, OptionsFormContent.Amarok(self, _showType))
         elif _showType=="pack":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories", 

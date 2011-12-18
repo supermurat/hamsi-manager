@@ -37,9 +37,12 @@ except:pass
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
 class Amarok:
-    global getMySQLModule, checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType
+    global getMySQLModule, checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType, isUsable
     isAskEmbeddedDBConfiguration = True
     dbConnection = None
+    
+    def isUsable():
+        return isLoadedMysql
     
     def getMySQLModule():
         if isLoadedMysql: return mdb

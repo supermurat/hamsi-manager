@@ -332,16 +332,6 @@ def checkWindowMode(_isCheck=False):
                     translate("HamsiManager", "Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?"), False)
             if answer==Dialogs.Yes: 
                 try:
-                    if Universals.MainWindow.MusicOptionsBar!=None:
-                        Universals.MainWindow.MusicOptionsBar.setVisible(False)
-                    if Universals.MainWindow.AmarokMusicOptionsBar!=None:
-                        Universals.MainWindow.AmarokMusicOptionsBar.setVisible(False)
-                    if Universals.MainWindow.AmarokCopyOptionsBar!=None:
-                        Universals.MainWindow.AmarokCopyOptionsBar.setVisible(False)
-                    if Universals.MainWindow.SubDirectoryOptionsBar!=None:
-                        Universals.MainWindow.SubDirectoryOptionsBar.setVisible(False)
-                    if Universals.MainWindow.CoverOptionsBar!=None:
-                        Universals.MainWindow.CoverOptionsBar.setVisible(False)
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:
                         Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.Places)
                     if Universals.MainWindow.Browser!=None and Universals.MainWindow.TreeBrowser!=None:

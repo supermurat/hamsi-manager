@@ -138,7 +138,7 @@ if RoutineChecks.checkQt4Exist():
                 Universals.printForDevelopers("QuickMake")
                 try:
                     Universals.setApp(HamsiManagerApp)
-                    Universals.fillUIUniversals()
+                    Universals.fillRemainderUniversals()
                     from Core import QuickMake
                     quickMake = QuickMake.QuickMake()
                     if RoutineChecks.isQuickMake:
@@ -165,7 +165,7 @@ if RoutineChecks.checkQt4Exist():
                             self.setObjectName("RealMainWindow")
                             Universals.setApp(HamsiManagerApp)
                             Universals.setMainWindow(self)
-                            Universals.fillUIUniversals()
+                            Universals.fillRemainderUniversals()
                             self.isLockedMainForm = False
                             self.Menu = None
                             self.CentralWidget = MWidget()
@@ -289,7 +289,7 @@ if RoutineChecks.checkQt4Exist():
                                 Universals.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 Universals.saveSettings()
                                 Settings.saveUniversalSettings()
-                                if Universals.getBoolValue("amarokIsUseHost")==False:
+                                if Universals.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
                                     import Amarok
                                     Amarok.stopEmbeddedDB()
                                 Universals.printForDevelopers("After Save Configs")
