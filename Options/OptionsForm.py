@@ -120,7 +120,6 @@ class OptionsForm(MDialog):
                             OptionsFormContent.Correct(self, _showType), 
                             OptionsFormContent.SearchAndReplace(self, _showType), 
                             OptionsFormContent.ClearGeneral(self, _showType),
-                            OptionsFormContent.Cover(self, _showType),
                             OptionsFormContent.Advanced(self, _showType), 
                             OptionsFormContent.Player(self, _showType), 
                             OptionsFormContent.Packager(self, _showType), 
@@ -129,6 +128,8 @@ class OptionsForm(MDialog):
                             OptionsFormContent.MySettings(self, _showType, [])]
             if Universals.isActiveAmarok:
                 self.categories.insert(len(self.categories)-2, OptionsFormContent.Amarok(self, _showType))
+            if Universals.isActiveDirectoryCover:
+                self.categories.insert(5, OptionsFormContent.Cover(self, _showType))
         elif _showType=="pack":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories", 
@@ -140,9 +141,10 @@ class OptionsForm(MDialog):
                             OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"])]
         elif _showType=="checkIcon":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
-                            OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon"]), 
                             OptionsFormContent.Correct(self, _showType), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
+            if Universals.isActiveDirectoryCover:
+                self.categories.insert(1, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon"]))
         elif _showType=="clearEmptyDirectories":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
@@ -165,15 +167,14 @@ class OptionsForm(MDialog):
                             OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"])]
         elif _showType=="emendFile":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
-                            OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
-                                "isAutoMakeIconToDirectoryWhenFileMove"]), 
                             OptionsFormContent.Correct(self, _showType), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
+            if Universals.isActiveDirectoryCover:
+                self.categories.insert(1, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
+                                "isAutoMakeIconToDirectoryWhenFileMove"]))
         elif _showType=="emendDirectory":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Correct(self, _showType),  
-                            OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
-                                "isAutoMakeIconToDirectoryWhenMoveOrChange"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions", 
@@ -182,12 +183,12 @@ class OptionsForm(MDialog):
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"]), 
                             OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
+            if Universals.isActiveDirectoryCover:
+                self.categories.insert(2, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
+                                "isAutoMakeIconToDirectoryWhenMoveOrChange"]))
         elif _showType=="emendDirectoryWithContents":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Correct(self, _showType),  
-                            OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
-                                "isAutoMakeIconToDirectoryWhenMoveOrChange", 
-                                "isAutoMakeIconToDirectoryWhenFileMove"]), 
                             OptionsFormContent.ClearGeneral(self, _showType, ["isActiveClearGeneral", "isDeleteEmptyDirectories",
                                 "unneededDirectoriesIfIsEmpty", "unneededDirectories", 
                                 "unneededFiles", "unneededFileExtensions", 
@@ -196,6 +197,10 @@ class OptionsForm(MDialog):
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"]), 
                             OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
+            if Universals.isActiveDirectoryCover:
+                self.categories.insert(2, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
+                                "isAutoMakeIconToDirectoryWhenMoveOrChange", 
+                                "isAutoMakeIconToDirectoryWhenFileMove"]))
         elif _showType=="fileTree":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"])]
         elif _showType=="removeOnlySubFiles":

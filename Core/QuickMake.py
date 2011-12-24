@@ -322,7 +322,7 @@ class QuickMakeWindow(MyDialog):
                         objectType = InputOutputs.getObjectType(InputOutputs.joinPath(newDirName, fileAndDirs))
                         InputOutputs.moveOrChange(InputOutputs.joinPath(newDirName, fileAndDirs), 
                                   InputOutputs.joinPath(newDirName,  Organizer.emend(fileAndDirs, objectType)), objectType)
-                    if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                    if Universals.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                         InputOutputs.checkIcon(newDirName)
                     if InputOutputs.isDir(newDirName):
                         InputOutputs.completeSmartCheckIcon()

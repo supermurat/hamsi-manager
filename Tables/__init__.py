@@ -143,8 +143,14 @@ class Tables(MTableWidget):
             from Tables import SubFolderTable
             self.SubTable = SubFolderTable.SubFolderTable(self)
         elif Universals.tableType==4:
-            from Tables import CoverTable
-            self.SubTable = CoverTable.CoverTable(self)
+            if Universals.isActiveDirectoryCover:
+                from Tables import CoverTable
+                self.SubTable = CoverTable.CoverTable(self)
+            else:
+                Dialogs.showError(translate("Tables", "Directory Cover Not Usable"), translate("Tables", "Any icon can not set to any directory. This feature is not usable in your system."))
+                Universals.tableType = 1
+                from Tables import FileTable
+                self.SubTable = FileTable.FileTable(self)
         elif Universals.tableType==5:
             import Amarok
             if Amarok.checkAmarok(True,  False):
@@ -432,7 +438,7 @@ class Tables(MTableWidget):
                 from Core import Records
                 isGoUpDirectoryWithFileTable = False
                 if Universals.tableType in [0, 1, 2, 3]:
-                    if Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                    if Universals.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                         InputOutputs.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 if Universals.tableType in [0, 1, 2, 3, 4]:
                     if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):

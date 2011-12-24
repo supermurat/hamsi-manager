@@ -530,6 +530,8 @@ class Cover(MWidget):
         if self.visibleKeys.count("isActiveAutoMakeIconToDirectory")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")], SIGNAL("currentIndexChanged(int)"), self.activeAutoMakeIconToDirectory)
             self.activeAutoMakeIconToDirectory()
+        if Universals.isActiveAmarok==False:
+            self.tabwTabs.setTabEnabled(1, False)
             
     def activeAutoMakeIconToDirectory(self):
         if self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")].currentIndex()==1:
@@ -850,6 +852,8 @@ class HiddenObjects(MWidget):
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
+        if Universals.isActiveDirectoryCover==False:
+            self.visibleKeys.remove("isShowHiddensInCoverTable")
         _parent.createOptions(self)
 
 class MySettings(MWidget):

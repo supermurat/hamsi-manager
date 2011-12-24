@@ -140,6 +140,9 @@ def installThisPlugin():
         winreg.CreateKey(rootReg, object["object"] + "\\ContextMenus")
         mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
         for action in object["actions"]:
+            if action["key"]=="checkIcon":
+                if Universals.isActiveDirectoryCover==False:
+                    continue
             winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"])
             actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
             try:winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, Universals.trEncode(str(action["title"]), Variables.defaultFileSystemEncoding))
@@ -204,14 +207,16 @@ def uninstallThisPlugin():
         winreg.CloseKey(mainKey)
         mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
         for action in object["actions"]:
-            actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
-            try:winreg.DeleteKey(actionKey, "command")
+            try:
+                actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
+                try:winreg.DeleteKey(actionKey, "command")
+                except:pass
+                winreg.CloseKey(actionKey)
+                shellKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell", 0, winreg.KEY_WRITE)
+                try:winreg.DeleteKey(shellKey, action["key"])
+                except:pass
+                winreg.CloseKey(shellKey)
             except:pass
-            winreg.CloseKey(actionKey)
-            shellKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell", 0, winreg.KEY_WRITE)
-            try:winreg.DeleteKey(shellKey, action["key"])
-            except:pass
-            winreg.CloseKey(shellKey)
         objectKey = winreg.OpenKey(mainContextMenusKey, object["key"], 0, winreg.KEY_WRITE)
         try:winreg.DeleteKey(objectKey, "Shell")
         except:pass

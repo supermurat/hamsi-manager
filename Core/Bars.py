@@ -540,10 +540,11 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Clear Empty Directories"),self)
         self.clearEmptyDirectories.setObjectName(translate("ToolsBar", "Clear Empty Directories"))
         self.clearEmptyDirectories.setToolTip(translate("ToolsBar", "Clears the folder contents based on the criteria set."))
-        self.actCheckIcon = MAction(MIcon("Images:checkIcon.png"),
+        if Universals.isActiveDirectoryCover:
+            self.actCheckIcon = MAction(MIcon("Images:checkIcon.png"),
                                                 translate("ToolsBar", "Check Icon"),self)
-        self.actCheckIcon.setObjectName(translate("ToolsBar", "Check Icon"))
-        self.actCheckIcon.setToolTip(translate("ToolsBar", "Checks the icon for the folder you are currently in."))
+            self.actCheckIcon.setObjectName(translate("ToolsBar", "Check Icon"))
+            self.actCheckIcon.setToolTip(translate("ToolsBar", "Checks the icon for the folder you are currently in."))
         self.actHash = MAction(MIcon("Images:hash.png"),
                                                 translate("ToolsBar", "Hash"),self)
         self.actHash.setObjectName(translate("ToolsBar", "Hash"))
@@ -600,7 +601,8 @@ class ToolsBar(MToolBar):
         self.addSeparator()
         self.addAction(self.clearEmptyDirectories)
         self.addAction(self.actRemoveOnlySubFiles)
-        self.addAction(self.actCheckIcon)
+        if Universals.isActiveDirectoryCover:
+            self.addAction(self.actCheckIcon)
         if Universals.windowMode==Variables.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
         else:
@@ -621,7 +623,8 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addSeparator()
         Universals.MainWindow.Menu.mTools.addAction(self.clearEmptyDirectories)
         Universals.MainWindow.Menu.mTools.addAction(self.actRemoveOnlySubFiles)
-        Universals.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
+        if Universals.isActiveDirectoryCover:
+            Universals.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTools)
 
 class PlayerBar(MToolBar):
