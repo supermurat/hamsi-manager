@@ -102,7 +102,9 @@ class InputOutputs:
         
     def getDetails(_oldPath):
         try:return os.stat(Universals.trEncode(_oldPath, fileSystemEncoding))
-        except:return os.stat(_oldPath)
+        except:
+            try:return os.stat(_oldPath)
+            except:return None
     
     def getObjectType(_oldPath):
         objectType="file"
@@ -1175,13 +1177,16 @@ class InputOutputs:
                         info += fileName.replace(_path + sep, Universals.getUtf8Data("up+right") + "&nbsp;")
                     if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
                         details = getDetails(files[x])
-                        info += " ( "
-                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
-                            info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                            info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
-                        info += " )"
+                        if details is not None:
+                            info += " ( "
+                            if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                                info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
+                                if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                                info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                            info += " )"
+                        else:
+                            info += " ( " + str(Universals.translate("InputOutputs", "inaccessible")) + " ) "
                     info += "<br> \n"
             elif _outputType=="plainText":
                 if _extInfo=="no":
@@ -1215,13 +1220,16 @@ class InputOutputs:
                         info += fileName.replace(_path + sep, Universals.getUtf8Data("up+right") + " ")
                     if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
                         details = getDetails(files[x])
-                        info += " ( "
-                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
-                            info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                            info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
-                        info += " )"
+                        if details is not None:
+                            info += " ( "
+                            if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                                info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
+                                if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                                info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                            info += " )"
+                        else:
+                            info += " ( " + str(Universals.translate("InputOutputs", "inaccessible")) + " ) "
                     info += "\n"
         elif _contentType=="fileList":
             if _outputType=="html":
@@ -1234,13 +1242,16 @@ class InputOutputs:
                     info += fileName
                     if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
                         details = getDetails(files[x])
-                        info += " ( "
-                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
-                            info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                            info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
-                        info += " )"
+                        if details is not None:
+                            info += " ( "
+                            if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                                info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
+                                if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                                info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                            info += " )"
+                        else:
+                            info += " ( " + str(Universals.translate("InputOutputs", "inaccessible")) + " ) "
                     info += "<br> \n"
             elif _outputType=="plainText":
                 if _extInfo=="no":
@@ -1252,13 +1263,16 @@ class InputOutputs:
                     info += fileName
                     if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
                         details = getDetails(files[x])
-                        info += " ( "
-                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
-                            info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                            info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
-                        info += " )"
+                        if details is not None:
+                            info += " ( "
+                            if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                                info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
+                                if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                                info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                            info += " )"
+                        else:
+                            info += " ( " + str(Universals.translate("InputOutputs", "inaccessible")) + " ) "
                     info += "\n"
         info = trForUI(info)
         if _outputTarget=="return":
