@@ -54,7 +54,7 @@ class Searcher(MyDialog):
         self.pbtnSearch = MPushButton(translate("Searcher", "Search"))
         self.connect(self.pbtnSearch,SIGNAL("clicked()"),self.search)
         lblSearch = MLabel(translate("Searcher", "Search : "))
-        lblSearchList = MLabel(trForM("Search List : "))
+        lblSearchList = MLabel(translate("Searcher", "Search List : "))
         self.lblSearchListValues = MLabel(trForM(""))
         self.lblSearchListValues.setWordWrap(True)
         self.leSearch = MLineEdit(trForM(""))

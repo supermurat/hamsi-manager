@@ -1,6 +1,1 @@
-Hamsi Manager Başta Müzik dosyalarınız olmak üzere tüm dosya ve dizinlerinizi organize etmeniz, isimlendirmeniz, temizlemeniz, düzenlemeniz ve değiştirmeniz için geliştirilen bir uygulamadır.İlk başlarda kişisel işlerde kullanmak için düşünülmüştü.Daha sonra bunun bir ihtiyaç olabileceği görüldü ve herkesin kullanabileceği bir yapıya kavuşturuldu.Hamsi Manager en baştan beri tamamen açık kaynak kodlu kütüphaneler ile geliştirilmiştir.Hamsi Manager tamamen açık kaynak kodlu olup GPLV3 ile lisanslanmıştır.
-
-Başlıca İşlevleri:
--Sisteminizdeki karakter hatalarını gidermek
--mp3`lerinizi,dosyalarınızı ve dizinlerinizi rahatlıkla bulup incelemeniz için gerekli organizasyon ve düzenlemeleri yapmak
--Sisteminizdeki gereksiz dosyaları (Sizin belirlediniz kriterlere sahip dosyaları) ve dizinleri (Boş dizinleri vs.) siler.Böylece sisteminiz hafifler ve gereksiz kalabalık ortadan kalkmış olur. 
+Hamsi Manager ekstra işlemler için geliştirilen bir dosya yöneticisidir. Genel anlamda bir işlemi birden çok dosyaya tek seferde uygulamanız için düşünülmüş bir ortam olmasının yanında, bir dosya ile ilgili bir kaç işlemi tek seferde ve sonraki zamanlarda tekrar tekrar yapmak içinde kullanabilirsiniz. Tüm bunları yaparken size olabildiğince fazla seçenek sunar. Tamamen kişiselleştirilebilir bir ortam oluşturmayı hedeflemiş ve bunu kullanım kolaylığı ile birleştirmeyi amaç edinmiştir. GPLv3 lisansı altında dağıtılan ve tamamen Açık Kaynak Kodlu kütüphaneler ile geliştirilen bir projedir.

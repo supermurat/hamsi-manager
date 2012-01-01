@@ -1109,7 +1109,7 @@ class InputOutputs:
         dlgState = Dialogs.MyStateDialog(translate("InputOutputs", "Creating Tar File"))
         infoProccess = MyThread.MyStateThread(tar, maxMembers, dlgState)
         try:
-            myProcs = MyThread.MyThread(tar.add, infoProccess.finish, args=[Universals.trEncode(_sourcePath, fileSystemEncoding)], kwargs={"arcname":_realSourceBaseName})
+            myProcs = MyThread.MyThread(tar.add, infoProccess.finish, args=[Universals.trEncode(_sourcePath, fileSystemEncoding)], kwargs={"arcname":Universals.trEncode(_realSourceBaseName, fileSystemEncoding)})
             myProcs.start()
         except:
             myProcs = MyThread.MyThread(tar.add, infoProccess.finish, args=[_sourcePath], kwargs={"arcname":_realSourceBaseName})
