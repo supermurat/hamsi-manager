@@ -1,7 +1,1 @@
-Este programa está licenciado sob a GPLv3
-
-Ele basicamente faz o seguinte:
-
--Corrige os erros de caracteres/codificação em seu sistema, bem como altera a codificação de um arquivo para outro (UTF-8, ISO-8859-9, CP 1254, etc).
--Organiza tudo para que você possa localizar seus arquivos, pastas e mp3s com facilidade.
--Exclui os arquivos desnecessários (com base em seus critérios) e pastas (como pastas vazias) para que o seu sistema torne-se organizado.
+Hamsi Manager is a file manager developed for extra treatments. You can perform a process to multiple files at once. You can perform multiple processes to multiple files at once or over and over again the next time. Offers you more options as possible, all the while. Aimed to create a fully customizable environment and it aims to combine with ease of use. Distributed under the GPLv3 license and is a project developed with entirely Open Source libraries.
