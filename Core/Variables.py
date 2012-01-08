@@ -29,9 +29,9 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "0.9.95"
-    intversion = 995
-    settingVersion = "991"
+    version = "1.0"
+    intversion = 1000
+    settingVersion = "1000"
     aboutOfHamsiManager = ""
     if sys.argv[0][0]==".":
         executableAppPath = str(os.getcwd() + sys.argv[0][1:])
