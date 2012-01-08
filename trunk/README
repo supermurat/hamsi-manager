@@ -1,23 +1,18 @@
 Hamsi Manager
-File - Directory - MP3 - OGG Manager
 
-Hamsi Manager is a file manager,renamer,id3 tagger,information changer ,.... tool.
-Hamsi Manager for developers,users,music listeners,....
-Hamsi Manager lisansed with GPLV3. Hamsi Manager is an open source project.
-
-It basically does the following:
--Corrects the character/encoding errors in your system as well as change file encoding from one to another (UTF-8, ISO-8859-9,CP 1254 etc.)
--Arranges everything for you to find your mp3s, files and folders easily
--Deletes the unneeded files (based on your criteria) and folders (such as empty folders) so that your system becomes uncluttered.
+Hamsi Manager is a file manager developed for extra treatments. You can perform a process to multiple files at once. You can perform multiple processes to multiple files at once or over and over again the next time. Offers you more options as possible, all the while. Aimed to create a fully customizable environment and it aims to combine with ease of use. Distributed under the GPLv3 license and is a project developed with entirely Open Source libraries.
 
 System Requirements : 
-* Python 2.5 or 2.6 ( 2.4 and earlier not tested) http://www.python.org/download
-* PyQt4 http://www.riverbankcomputing.co.uk/software/pyqt/download
-* PyKDE4 (Is not requirement but however it is very better than) http://techbase.kde.org/Development/Languages/Python
+    Python 2.5+, 3.X ( Some requirements not support Python 3 ) http://www.python.org/download/
+    PyQt4 (Qt4) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.nokia.com/products
+    * PyKDE4 (Is not requirement but however it is very better than) http://techbase.kde.org/Development/Languages/Python
+    * python-eyed3 (For some features) http://eyed3.nicfit.net/
+    * python-musicbrainz2 (For some features) http://musicbrainz.org/doc/PythonMusicbrainz
+    * python-mysql (For some features) http://sourceforge.net/projects/mysql-python/
 
 Installation Steps :
-* Double click to "install.py" or write "python ./install.py" to console(Konsole,Terminal...).
-* You can install with "Hamsi Manager Installer". (Graphical User Interface (GUI))
+    * Double click to "install.py" or write "python ./install.py" to console (Konsole,Terminal...).
+    * You can install with "Hamsi Manager Installer". (Graphical User Interface (GUI))
 
 Run : 
 * Double click to "HamsiManager.py" or write "python ./HamsiManager.py" to console(Konsole,Terminal...).
