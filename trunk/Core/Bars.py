@@ -385,6 +385,7 @@ class Bars():
                 Universals.tableType = _tableType
                 self.refreshBars()
                 Universals.MainWindow.FileManager.makeRefresh()
+                MApplication.processEvents()
                 return True
             else:
                 return False
@@ -453,6 +454,7 @@ class Bars():
                 if actsFileReNamerTypes[x].isChecked():
                     Universals.setMySetting("fileReNamerType", typeName)
             Universals.MainWindow.FileManager.makeRefresh()
+            MApplication.processEvents()
         except:
             error = ReportBug.ReportBug()
             error.show()
