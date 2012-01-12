@@ -103,15 +103,16 @@ class Operations:
                             Records.add(str(Universals.translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
                             currentArtistName = ""
                             tagger = Taggers.getTagger()
-                            try:
-                                tagger.loadFileForWrite(musicFilePath, False)
-                                currentArtistName = tagger.getArtist()
-                                tagger.correctForMusicTagType()
-                            except: 
-                                tagger.loadFileForWrite(musicFilePath)
-                            tagger.setArtist(artistName)
-                            tagger.update()
-                            Records.add(str(Universals.translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
+                            if tagger is not None:
+                                try:
+                                    tagger.loadFileForWrite(musicFilePath, False)
+                                    currentArtistName = tagger.getArtist()
+                                    tagger.correctForMusicTagType()
+                                except: 
+                                    tagger.loadFileForWrite(musicFilePath)
+                                tagger.setArtist(artistName)
+                                tagger.update()
+                                Records.add(str(Universals.translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
             else:
                 allItemNumber = x+1
             Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)

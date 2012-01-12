@@ -156,8 +156,13 @@ class MusicPlayer(MWidget):
             else:
                 self.file = _filePath
             if InputOutputs.isFile(_filePath):
-                self.musicTags = Musics.readMusicFile(_filePath, False)
-                self.setInfoText(trForUI(("%s - %s (%s)") % (self.musicTags["artist"] , self.musicTags["title"], self.musicTags["album"])))
+                import Taggers
+                if Taggers.getTagger(True)!=None:
+                    self.musicTags = Musics.readMusicFile(_filePath, False)
+                    self.setInfoText(trForUI(("%s - %s (%s)") % (self.musicTags["artist"] , self.musicTags["title"], self.musicTags["album"])))
+                else:
+                    self.musicTags = None
+                    self.setInfoText(trForUI("- - -"))
                 if _isPlayNow==True:
                     if self.Player.play(_filePath):
                         self.tbPause.setEnabled(True)
