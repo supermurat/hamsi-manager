@@ -169,7 +169,7 @@ class Tagger():
     def setAlbum(self, _value):
         self.tag.setAlbum(self.correctValuesForMusicTagType(_value))
         
-    def setTrackNum(self, _value, _numberOfTracks):
+    def setTrackNum(self, _value, _numberOfTracks=1):
         track = []
         track_temp=_value
         if track_temp.find("/")!=-1:
