@@ -186,7 +186,13 @@ def installThisPlugin():
     except:
         if InputOutputs.isDir(destinationPath)==False:
             InputOutputs.makeDirs(destinationPath)
-        pluginStrings = InputOutputs.readFromFile("/usr/share/apps/krusader/useraction_examples.xml")
+        if InputOutputs.isFile("/usr/share/apps/krusader/useraction_examples.xml"):
+            pluginStrings = InputOutputs.readFromFile("/usr/share/apps/krusader/useraction_examples.xml")
+        else:
+            pluginStrings = ("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
+                            "<!DOCTYPE KrusaderUserActions>\n" +
+                            "<KrusaderUserActions>\n" +
+                            "</KrusaderUserActions>\n")
     pluginString = ""
     for pstr in myPluginStrings:
         if pluginStrings.find(pstr.split("\n")[0])==-1:

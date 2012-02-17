@@ -78,7 +78,7 @@ class Musics:
                 if _newMusicTagsValues["album"]!=_oldMusicTagsValues["album"]:
                     tagger.setAlbum(str(_newMusicTagsValues["album"]))
                 if _newMusicTagsValues["trackNum"]!=_oldMusicTagsValues["trackNum"]:
-                    tagger.setTrackNum(int(_newMusicTagsValues["trackNum"]))
+                    tagger.setTrackNum(_newMusicTagsValues["trackNum"])
                 if _newMusicTagsValues["year"]!=_oldMusicTagsValues["year"]:
                     tagger.setDate(str(_newMusicTagsValues["year"]))
                 if _newMusicTagsValues["genre"]!=_oldMusicTagsValues["genre"]:

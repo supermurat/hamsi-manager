@@ -33,6 +33,7 @@ class MusicPlayer(MWidget):
         MWidget.__init__(self, _parent)
         self.Player = None
         self.PlayerName = None
+        self.info = None
         self.file = _file
         self.type = _type
         self.tbPause = MToolButton(self)
@@ -130,8 +131,9 @@ class MusicPlayer(MWidget):
             Universals.MainWindow.StatusBar.showMessage(_info)
         else:
             MApplication.processEvents()
-            self.info.setText(_info)
-            self.info.setMinimumWidth(len(self.info.text())*7)
+            if self.info!=None:
+                self.info.setText(_info)
+                self.info.setMinimumWidth(len(self.info.text())*7)
             
     def play(self, _filePath="", _isPlayNow=True):
         try:
@@ -400,31 +402,32 @@ class InfoScroller(MThread):
         self.parent = _parent
     
     def run(self):
-        x = 150
-        breakCount = 0
-        while 1==1:
-            try:
-                if Universals.isStartingSuccessfully and Universals.isStartedCloseProcces==False:
-                    if self.parent.parent().isVisible():
-                        try:
-                            self.parent.info.move(x, 0)
-                            time.sleep(0.05)
-                            x-=1
-                            self.parent.info.setMinimumWidth(len(self.parent.info.text())*7)
-                            if x<=-(len(self.parent.info.text())*7):
-                                x=150
-                        except:pass # Passed for cleared objects
+        if self.parent.info!=None:
+            x = 150
+            breakCount = 0
+            while 1==1:
+                try:
+                    if Universals.isStartingSuccessfully and Universals.isStartedCloseProcces==False:
+                        if self.parent.parent().isVisible():
+                            try:
+                                self.parent.info.move(x, 0)
+                                time.sleep(0.05)
+                                x-=1
+                                self.parent.info.setMinimumWidth(len(self.parent.info.text())*7)
+                                if x<=-(len(self.parent.info.text())*7):
+                                    x=150
+                            except:pass # Passed for cleared objects
+                        else:
+                            breakCount+=1
+                            if breakCount<5: time.sleep(1)
+                            else: break
                     else:
                         breakCount+=1
                         if breakCount<5: time.sleep(1)
                         else: break
-                else:
+                except:# Passed for cleared objects or starting or stoping
                     breakCount+=1
                     if breakCount<5: time.sleep(1)
                     else: break
-            except:# Passed for cleared objects or starting or stoping
-                breakCount+=1
-                if breakCount<5: time.sleep(1)
-                else: break
                 
     
