@@ -211,7 +211,7 @@
         <translation>Amarok Veritabanındaki Etiketler Değiştiriliyor</translation>
     </message>
     <message>
-        <location filename="Amarok/Operations.py" line="117"/>
+        <location filename="Amarok/Operations.py" line="118"/>
         <source>Writing Music Tags</source>
         <translation>Müzik Etiketleri Yazılıyor</translation>
     </message>
@@ -221,7 +221,7 @@
         <translation>Dosya güncellenecek</translation>
     </message>
     <message>
-        <location filename="Amarok/Operations.py" line="114"/>
+        <location filename="Amarok/Operations.py" line="115"/>
         <source>Artist</source>
         <translation>Sanatçı</translation>
     </message>
@@ -345,27 +345,27 @@
 <context>
     <name>AmarokCopyOptionsBar</name>
     <message>
-        <location filename="Core/Bars.py" line="827"/>
+        <location filename="Core/Bars.py" line="829"/>
         <source>Music options</source>
         <translation>Müzik Seçenekleri</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="902"/>
+        <location filename="Core/Bars.py" line="904"/>
         <source>Read From : </source>
         <translation>Şuradan Oku : </translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="904"/>
+        <location filename="Core/Bars.py" line="906"/>
         <source>Write To : </source>
         <translation>Şuraya Yaz : </translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="846"/>
+        <location filename="Core/Bars.py" line="848"/>
         <source>You can select the ID3 tag source to read.</source>
         <translation>Okumak için ID3 etiket kaynağını seçebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="847"/>
+        <location filename="Core/Bars.py" line="849"/>
         <source>You can select the ID3 tag target to write.</source>
         <translation>Yazmak için ID3 etiket hedefini seçebilirsiniz.</translation>
     </message>
@@ -514,27 +514,27 @@
 <context>
     <name>AmarokMusicOptionsBar</name>
     <message>
-        <location filename="Core/Bars.py" line="737"/>
+        <location filename="Core/Bars.py" line="739"/>
         <source>Music options</source>
         <translation>Müzik Seçenekleri</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="806"/>
+        <location filename="Core/Bars.py" line="808"/>
         <source>Read From : </source>
         <translation>Şuradan Oku : </translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="808"/>
+        <location filename="Core/Bars.py" line="810"/>
         <source>Write To : </source>
         <translation>Şuraya Yaz : </translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="750"/>
+        <location filename="Core/Bars.py" line="752"/>
         <source>You can select the ID3 tag source to read.</source>
         <translation>Okumak için ID3 etiket kaynağını seçebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="751"/>
+        <location filename="Core/Bars.py" line="753"/>
         <source>You can select the ID3 tag target to write.</source>
         <translation>Yazmak için ID3 etiket hedefini seçebilirsiniz.</translation>
     </message>
@@ -605,22 +605,22 @@
 <context>
     <name>Bookmarks</name>
     <message>
-        <location filename="Core/FileManager.py" line="429"/>
+        <location filename="Core/FileManager.py" line="431"/>
         <source>Bookmarks</source>
         <translation>Yer İmlerim</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="430"/>
+        <location filename="Core/FileManager.py" line="432"/>
         <source>Delete</source>
         <translation>Sil</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="431"/>
+        <location filename="Core/FileManager.py" line="433"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="432"/>
+        <location filename="Core/FileManager.py" line="434"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
@@ -628,22 +628,22 @@
 <context>
     <name>BookmarksMenu</name>
     <message>
-        <location filename="Core/FileManager.py" line="384"/>
+        <location filename="Core/FileManager.py" line="386"/>
         <source>Bookmarks</source>
         <translation>Yer İmleri</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="401"/>
+        <location filename="Core/FileManager.py" line="403"/>
         <source>Edit Bookmarks</source>
         <translation>Yer İmlerimi Düzenle</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="411"/>
+        <location filename="Core/FileManager.py" line="413"/>
         <source>Cannot Find Folder</source>
         <translation>Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="411"/>
+        <location filename="Core/FileManager.py" line="413"/>
         <source>&quot;%s&quot; cannot be found.&lt;br&gt;Delete this folder from the bookmarks?</source>
         <translation>&quot;%s&quot; dizini bulunamıyor.&lt;br&gt;Bu dizin yer imlerimden silinsin mi?</translation>
     </message>
@@ -714,22 +714,22 @@
 <context>
     <name>CoverOptionsBar</name>
     <message>
-        <location filename="Core/Bars.py" line="980"/>
+        <location filename="Core/Bars.py" line="982"/>
         <source>Cover Options</source>
         <translation>Kapak Seçenekleri</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="981"/>
+        <location filename="Core/Bars.py" line="983"/>
         <source>You can select sub directory deep.&lt;br&gt;&lt;font color=blue&gt;You can select &quot;-1&quot; for all sub directories.&lt;/font&gt;</source>
         <translation>Alt dizin derinliğini seçebilirsiniz.&lt;br&gt;&lt;font color=blue&gt;Tüm alt dizinler için &quot;-1&quot; değerini seçebilirsiniz.&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="1029"/>
+        <location filename="Core/Bars.py" line="1031"/>
         <source>Deep</source>
         <translation>Derinlik</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="1026"/>
+        <location filename="Core/Bars.py" line="1028"/>
         <source>Label Deep</source>
         <translation>Derinlik Etiketi</translation>
     </message>
@@ -1080,12 +1080,12 @@
         <translation>Yer İmlerime Ekle</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="257"/>
+        <location filename="Core/FileManager.py" line="259"/>
         <source>Cannot open file</source>
         <translation>Dosya Açılamıyor</translation>
     </message>
     <message>
-        <location filename="Core/FileManager.py" line="257"/>
+        <location filename="Core/FileManager.py" line="259"/>
         <source>&quot;%s&quot; cannot be opened. Please make sure you selected a text file.</source>
         <translation>&quot;%s&quot; dosyası açılamıyor.Lütfen metin dosyası seçtiğinizden emin olunuz.</translation>
     </message>
@@ -2040,7 +2040,7 @@
         <translation>Görünüm</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="611"/>
+        <location filename="Core/Bars.py" line="613"/>
         <source>Tools</source>
         <translation>Araçlar</translation>
     </message>
@@ -2200,12 +2200,12 @@
         <translation>Hızlı Seçenekler</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="520"/>
+        <location filename="Core/Bars.py" line="522"/>
         <source>Special Options</source>
         <translation>Özel Seçenekler</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="522"/>
+        <location filename="Core/Bars.py" line="524"/>
         <source>Table Tools</source>
         <translation>Tablo Araçları</translation>
     </message>
@@ -2376,27 +2376,27 @@
 <context>
     <name>MusicOptionsBar</name>
     <message>
-        <location filename="Core/Bars.py" line="647"/>
+        <location filename="Core/Bars.py" line="649"/>
         <source>Music options</source>
         <translation>Müzik Seçenekleri</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="716"/>
+        <location filename="Core/Bars.py" line="718"/>
         <source>Read From : </source>
         <translation>Şuradan Oku : </translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="718"/>
+        <location filename="Core/Bars.py" line="720"/>
         <source>Write To : </source>
         <translation>Şuraya Yaz : </translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="705"/>
+        <location filename="Core/Bars.py" line="707"/>
         <source>You can select the ID3 tag source you want to read.&lt;br&gt;&lt;font color=blue&gt;ID3 V2 is recommended.&lt;/font&gt;</source>
         <translation>Okumak için istediğiniz ID3 etiket kaynağını seçiniz.&lt;br&gt;&lt;font color=blue&gt;ID3 V2 öneriliyor.&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="706"/>
+        <location filename="Core/Bars.py" line="708"/>
         <source>You can select the ID3 tag target you want to write.&lt;br&gt;&lt;font color=blue&gt;ID3 V2 is recommended.&lt;/font&gt;</source>
         <translation>Yazmak için istediğiniz ID3 etiket hedefini seçiniz.&lt;br&gt;&lt;font color=blue&gt;ID3 V2 öneriliyor.&lt;/font&gt;</translation>
     </message>
@@ -2595,89 +2595,99 @@
 <context>
     <name>MyPlugins/Explorer_CM</name>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="25"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="27"/>
         <source>Windows Explorer`s Context Menus</source>
         <translation>Windows Explorer`ın İçerik Menüsü</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="78"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="80"/>
         <source>Organize With Hamsi Manager</source>
         <translation>Hamsi Manager ile Düzenle</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="82"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="84"/>
         <source>Copy Path To Clipboard</source>
         <translation>Yolu Panoya Kopyala</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="61"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="63"/>
         <source>Hash Digest</source>
         <translation>Doğrulama Özeti</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="65"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="67"/>
         <source>Correct Content</source>
         <translation>İçeriğini Düzelt</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="126"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="128"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="94"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="96"/>
         <source>Pack It</source>
         <translation>Paketle</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="98"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="100"/>
         <source>Check Directory Icon</source>
         <translation>Dizinin Simgesini Kontrol Et</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="102"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="104"/>
         <source>Clear Empty Directories</source>
         <translation>Boş Dizinleri Sil</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="106"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="108"/>
         <source>Clear Unneededs</source>
         <translation>Gereksizleri Temizle</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="110"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="112"/>
         <source>Clear Ignoreds</source>
         <translation>Yok Sayılanları Sil</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="114"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="116"/>
         <source>Build File Tree</source>
         <translation>Dosya Ağacı Oluştur</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="118"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="120"/>
         <source>Remove Sub Files</source>
         <translation>Alt Dosyaları Sil</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="122"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="124"/>
         <source>Clear It</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="57"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="59"/>
         <source>Auto Emend File</source>
         <translation>Dosyayı Otomatik Olarak Düzelt</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="86"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="88"/>
         <source>Auto Emend Directory</source>
         <translation>Dizini Otomatik Olarak Düzelt</translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="90"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="92"/>
         <source>Auto Emend Directory (With Contents)</source>
         <translation>Dizini Otomatik Olarak Düzelt (İçeriği İle)</translation>
+    </message>
+    <message>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="245"/>
+        <source>Access Denied</source>
+        <translation>Erişim Engellendi</translation>
+    </message>
+    <message>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="245"/>
+        <source>Please run Hamsi Manager as Administrator and try again.</source>
+        <translation>Lütfen Hamsi Manager`ı Yönetici olarak çalıştırıp tekrar deneyiniz.</translation>
     </message>
 </context>
 <context>
@@ -4608,47 +4618,47 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="39"/>
+        <location filename="Viewers/MusicPlayer.py" line="40"/>
         <source>Pause / Continue</source>
         <translation>Duraklat / Devam Et</translation>
     </message>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="44"/>
+        <location filename="Viewers/MusicPlayer.py" line="45"/>
         <source>Mute</source>
         <translation>Sesi Kapat / Aç</translation>
     </message>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="49"/>
+        <location filename="Viewers/MusicPlayer.py" line="50"/>
         <source>Play</source>
         <translation>Oynat</translation>
     </message>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="53"/>
+        <location filename="Viewers/MusicPlayer.py" line="54"/>
         <source>Stop</source>
         <translation>Durdur</translation>
     </message>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="229"/>
+        <location filename="Viewers/MusicPlayer.py" line="236"/>
         <source>We could not find the Phonon(PyQt4) module installed on your system.&lt;br&gt;Please choose another player from the options or &lt;br&gt;check your Phonon installation.</source>
         <translation>Sisteminizde phonon(PyQt4) modülünü tespit edemedik.&lt;br&gt;Lütfen seçeneklerden başka bir oynatıcı seçniz &lt;br&gt;veya phonon kurulumunuzu kontrol ediniz.</translation>
     </message>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="282"/>
+        <location filename="Viewers/MusicPlayer.py" line="289"/>
         <source>We could not find the Phonon(PySide) module installed on your system.&lt;br&gt;Please choose another player from the options or &lt;br&gt;check your Phonon installation.</source>
         <translation>Sisteminizde phonon(PySide) modülünü tespit edemedik.&lt;br&gt;Lütfen seçeneklerden başka bir oynatıcı seçniz &lt;br&gt;veya phonon kurulumunuzu kontrol ediniz.</translation>
     </message>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="180"/>
+        <location filename="Viewers/MusicPlayer.py" line="187"/>
         <source>Please Select The File You Want To Play And Click The Play Button.</source>
         <translation>Çalmak istediğiniz Müziği Seçip Çal Butonuna Basınız.</translation>
     </message>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="70"/>
+        <location filename="Viewers/MusicPlayer.py" line="71"/>
         <source>The Selected Files Are Played Here Instead Of The Details Window.</source>
         <translation>Seçilen Müzikler Detay Penceresi Yerine Burada Çalınır.</translation>
     </message>
     <message>
-        <location filename="Viewers/MusicPlayer.py" line="282"/>
+        <location filename="Viewers/MusicPlayer.py" line="289"/>
         <source>Phonon Is Not Installed On Your System.</source>
         <translation>Sisteminizde Phonon Mevcut Değil.</translation>
     </message>
@@ -4656,7 +4666,7 @@
 <context>
     <name>PlayerBar</name>
     <message>
-        <location filename="Core/Bars.py" line="635"/>
+        <location filename="Core/Bars.py" line="637"/>
         <source>Player Bar</source>
         <translation>Oynatıcı Çubuğu</translation>
     </message>
@@ -6082,12 +6092,12 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <location filename="Core/Bars.py" line="1039"/>
+        <location filename="Core/Bars.py" line="1041"/>
         <source>Hamsi Manager running as root</source>
         <translation>Hamsi Manager root olarak çalıştırılıyor</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="1047"/>
+        <location filename="Core/Bars.py" line="1049"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
@@ -6095,22 +6105,22 @@
 <context>
     <name>SubDirectoryOptionsBar</name>
     <message>
-        <location filename="Core/Bars.py" line="921"/>
+        <location filename="Core/Bars.py" line="923"/>
         <source>Sub Directory Options</source>
         <translation>Alt Dizin Seçenekleri</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="922"/>
+        <location filename="Core/Bars.py" line="924"/>
         <source>You can select sub directory deep.&lt;br&gt;&lt;font color=blue&gt;You can select &quot;-1&quot; for all sub directories.&lt;/font&gt;</source>
         <translation>Alt dizin derinliğini seçebilirsiniz.&lt;br&gt;&lt;font color=blue&gt;Tüm alt dizinler için &quot;-1&quot; değerini seçebilirsiniz.&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="969"/>
+        <location filename="Core/Bars.py" line="971"/>
         <source>Deep</source>
         <translation>Derinlik</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="966"/>
+        <location filename="Core/Bars.py" line="968"/>
         <source>Label Deep</source>
         <translation>Derinlik Etiketi</translation>
     </message>
@@ -6239,7 +6249,7 @@
 <context>
     <name>TableToolsBar</name>
     <message>
-        <location filename="Core/Bars.py" line="468"/>
+        <location filename="Core/Bars.py" line="470"/>
         <source>Table Tools</source>
         <translation>Tablo Araçları</translation>
     </message>
@@ -6247,12 +6257,12 @@
 <context>
     <name>Tables</name>
     <message>
-        <location filename="Core/Bars.py" line="472"/>
+        <location filename="Core/Bars.py" line="474"/>
         <source>Ignore Selection</source>
         <translation>Seçimi Göz Ardı Et</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="478"/>
+        <location filename="Core/Bars.py" line="480"/>
         <source>Change Selected</source>
         <translation>Seçilenleri Değiştir</translation>
     </message>
@@ -6437,17 +6447,17 @@
         <translation>Bu tabloda hiç bir şey değişmedi.Lütfen seçtiğiniz kriterleri kontrol ediniz.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="1088"/>
+        <location filename="Core/Bars.py" line="1090"/>
         <source>All informations will be change</source>
         <translation>Bütün bilgiler değişecek</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="1091"/>
+        <location filename="Core/Bars.py" line="1093"/>
         <source>Selected informations will change only</source>
         <translation>Seçilen bilgiler değişecek</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="1093"/>
+        <location filename="Core/Bars.py" line="1095"/>
         <source>Selected informations will not change</source>
         <translation>Seçilen bilgiler değişmeyecek</translation>
     </message>
@@ -6674,57 +6684,57 @@
 <context>
     <name>ToolsBar</name>
     <message>
-        <location filename="Core/Bars.py" line="538"/>
+        <location filename="Core/Bars.py" line="540"/>
         <source>Tools</source>
         <translation>Araçlar</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="493"/>
+        <location filename="Core/Bars.py" line="495"/>
         <source>Personal Computer</source>
         <translation>Kişisel Bilgisayar</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="494"/>
+        <location filename="Core/Bars.py" line="496"/>
         <source>Web Server</source>
         <translation>Web Sunucu</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="495"/>
+        <location filename="Core/Bars.py" line="497"/>
         <source>Removable Media</source>
         <translation>Taşınabilir Medya</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="503"/>
+        <location filename="Core/Bars.py" line="505"/>
         <source>Renames files and folders in &quot;%s&quot; format.</source>
         <translation>Dosya ve dizinlerinizi &quot;%s&quot; formatında isimlendirir.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="562"/>
+        <location filename="Core/Bars.py" line="564"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="542"/>
+        <location filename="Core/Bars.py" line="544"/>
         <source>Clears the folder contents based on the criteria set.</source>
         <translation>Ayarlanmış kriterlere göre dizin içeriğini temizler.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="546"/>
+        <location filename="Core/Bars.py" line="548"/>
         <source>Check Icon</source>
         <translation>Simgeyi Kontrol Et</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="547"/>
+        <location filename="Core/Bars.py" line="549"/>
         <source>Checks the icon for the folder you are currently in.</source>
         <translation>İçerisinde bulunduğunuz dizinin simgesini kontrol eder.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="554"/>
+        <location filename="Core/Bars.py" line="556"/>
         <source>Pack</source>
         <translation>Paketle</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="589"/>
+        <location filename="Core/Bars.py" line="591"/>
         <source>Packs the current folder.</source>
         <translation>İçinde bulunduğunuz dizini paketler.</translation>
     </message>
@@ -6749,22 +6759,22 @@
         <translation>İçerisinde bulunduğunuz dizin tanımlı ayarlara göre temizlendi.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="558"/>
+        <location filename="Core/Bars.py" line="560"/>
         <source>File Tree</source>
         <translation>Dosya Ağacı</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="559"/>
+        <location filename="Core/Bars.py" line="561"/>
         <source>Get file tree of current folder.</source>
         <translation>Mevcut dizinin dosya ağacını oluştur.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="570"/>
+        <location filename="Core/Bars.py" line="572"/>
         <source>Remove Sub Files</source>
         <translation>Alt Dosyaları Sil</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="571"/>
+        <location filename="Core/Bars.py" line="573"/>
         <source>Remove only all sub files.Do not will remove directory and subfolders.</source>
         <translation>Sadece tüm alt dosyaları sil.Bu dizin ve alt dizinleri silinmez.</translation>
     </message>
@@ -6789,12 +6799,12 @@
         <translation>&quot;%s&quot; içerisindeki tüm dosyalar silindi.&lt;br&gt;Not:Bu dizin ve alt dizinleri silinmedi.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="541"/>
+        <location filename="Core/Bars.py" line="543"/>
         <source>Clear Empty Directories</source>
         <translation>Boş Dizinleri Sil</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="563"/>
+        <location filename="Core/Bars.py" line="565"/>
         <source>Clears the current folder.</source>
         <translation>İçinde bulunduğunuz dizini temizler.</translation>
     </message>
@@ -6809,27 +6819,27 @@
         <translation>Ayarladığınız kriterlere göre &quot;%s&quot; dizinindeki boş dizinleri silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="578"/>
+        <location filename="Core/Bars.py" line="580"/>
         <source>Run Command</source>
         <translation>Komut Çalıştır</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="579"/>
+        <location filename="Core/Bars.py" line="581"/>
         <source>You can coding some things.</source>
         <translation>Birşeyler kodlayabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="550"/>
+        <location filename="Core/Bars.py" line="552"/>
         <source>Hash</source>
         <translation>Doğrula</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="551"/>
+        <location filename="Core/Bars.py" line="553"/>
         <source>Hash manager</source>
         <translation>Doğrulama yöneticisi</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="588"/>
+        <location filename="Core/Bars.py" line="590"/>
         <source>Amarok Embedded Database Configurator</source>
         <translation>Amarok Gömülü Veritabanı Yapılandırıcısı</translation>
     </message>
@@ -6839,22 +6849,22 @@
         <translation>Amarok Modülü Kullanılabilir Değil</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="566"/>
+        <location filename="Core/Bars.py" line="568"/>
         <source>Text Corrector</source>
         <translation>Metin Düzeltici</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="583"/>
+        <location filename="Core/Bars.py" line="585"/>
         <source>Show Last Actions</source>
         <translation>Son Eylemleri Göster</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="567"/>
+        <location filename="Core/Bars.py" line="569"/>
         <source>Corrects text files.</source>
         <translation>Metin dosyalarını düzeltir.</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="584"/>
+        <location filename="Core/Bars.py" line="586"/>
         <source>You can see last actions.</source>
         <translation>Son eylemleri görebilirsiniz.</translation>
     </message>
@@ -6869,22 +6879,22 @@
         <translation>Amarok Veritabanını Geri Yükle</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="574"/>
+        <location filename="Core/Bars.py" line="576"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="484"/>
+        <location filename="Core/Bars.py" line="486"/>
         <source>Table Types</source>
         <translation>Tablo Tipleri</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="498"/>
+        <location filename="Core/Bars.py" line="500"/>
         <source>File Renamer Types</source>
         <translation>Dosya İsimlendirme Tipleri</translation>
     </message>
     <message>
-        <location filename="Core/Bars.py" line="575"/>
+        <location filename="Core/Bars.py" line="577"/>
         <source>Special search tool</source>
         <translation>Özel arama aracı</translation>
     </message>

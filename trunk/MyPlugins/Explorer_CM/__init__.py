@@ -19,7 +19,9 @@
 import os
 from Core import Variables
 from Core import Universals
+from Core import Dialogs
 from Core import Execute
+from Core import ReportBug
 import InputOutputs
 from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/Explorer_CM", "Windows Explorer`s Context Menus"))
@@ -129,35 +131,46 @@ def installThisPlugin():
                                 ]}
                     ]
     rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
-    for object in actionsValues:
-        mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
-        winreg.CreateKey(mainKey, object["key"])
-        hamsiKey = winreg.OpenKey(mainKey, object["key"], 0, winreg.KEY_WRITE)
-        winreg.SetValueEx(hamsiKey,"MUIVerb",0, winreg.REG_SZ, object["title"])
-        winreg.SetValueEx(hamsiKey,"ExtendedSubCommandsKey",0, winreg.REG_SZ, object["object"] + "\\ContextMenus\\" + object["key"])
-        try:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(object["icon"]), Variables.defaultFileSystemEncoding))
-        except:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, str(object["icon"]))
-        winreg.CreateKey(rootReg, object["object"] + "\\ContextMenus")
-        mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
-        for action in object["actions"]:
-            if action["key"]=="checkIcon":
-                if Universals.isActiveDirectoryCover==False:
-                    continue
-            winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"])
-            actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
-            try:winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, Universals.trEncode(str(action["title"]), Variables.defaultFileSystemEncoding))
-            except:winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, str(action["title"]))
-            try:winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(action["icon"]), Variables.defaultFileSystemEncoding))
-            except:winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, str(action["icon"]))
-            winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"] + "\\command")
-            actionCommandKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"] + "\\command", 0, winreg.KEY_WRITE)
-            try:winreg.SetValueEx(actionCommandKey,"",0, winreg.REG_SZ, Universals.trEncode(str(action["command"]), Variables.defaultFileSystemEncoding))
-            except:winreg.SetValueEx(actionCommandKey,"",0, winreg.REG_SZ, str(action["command"]))
-            winreg.CloseKey(actionCommandKey)
-            winreg.CloseKey(actionKey)
-        winreg.CloseKey(mainContextMenusKey)
-        winreg.CloseKey(hamsiKey)
-        winreg.CloseKey(mainKey)
+    try:
+        for object in actionsValues:
+            mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
+            winreg.CreateKey(mainKey, object["key"])
+            hamsiKey = winreg.OpenKey(mainKey, object["key"], 0, winreg.KEY_WRITE)
+            winreg.SetValueEx(hamsiKey,"MUIVerb",0, winreg.REG_SZ, object["title"])
+            winreg.SetValueEx(hamsiKey,"ExtendedSubCommandsKey",0, winreg.REG_SZ, object["object"] + "\\ContextMenus\\" + object["key"])
+            try:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(object["icon"]), Variables.defaultFileSystemEncoding))
+            except:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, str(object["icon"]))
+            winreg.CreateKey(rootReg, object["object"] + "\\ContextMenus")
+            mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
+            for action in object["actions"]:
+                if action["key"]=="checkIcon":
+                    if Universals.isActiveDirectoryCover==False:
+                        continue
+                winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"])
+                actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
+                try:winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, Universals.trEncode(str(action["title"]), Variables.defaultFileSystemEncoding))
+                except:winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, str(action["title"]))
+                try:winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(action["icon"]), Variables.defaultFileSystemEncoding))
+                except:winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, str(action["icon"]))
+                winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"] + "\\command")
+                actionCommandKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"] + "\\command", 0, winreg.KEY_WRITE)
+                try:winreg.SetValueEx(actionCommandKey,"",0, winreg.REG_SZ, Universals.trEncode(str(action["command"]), Variables.defaultFileSystemEncoding))
+                except:winreg.SetValueEx(actionCommandKey,"",0, winreg.REG_SZ, str(action["command"]))
+                winreg.CloseKey(actionCommandKey)
+                winreg.CloseKey(actionKey)
+            winreg.CloseKey(mainContextMenusKey)
+            winreg.CloseKey(hamsiKey)
+            winreg.CloseKey(mainKey)
+    except WindowsError:
+        winreg.CloseKey(rootReg)
+        cla, error, trbk = sys.exc_info()
+        if str(error).find("[Error 5]")!=-1:
+            Dialogs.showError(translate("MyPlugins/Explorer_CM", "Access Denied"), 
+                         translate("MyPlugins/Explorer_CM", "Please run Hamsi Manager as Administrator and try again."))
+        else:
+            error = ReportBug.ReportBug()
+            error.show()
+        return False
     winreg.CloseKey(rootReg)
     
     #if isAlreadyInstalled:
@@ -200,30 +213,41 @@ def uninstallThisPlugin():
                                 ]}
                     ]
     rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
-    for object in actionsValues:
-        mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
-        try:winreg.DeleteKey(mainKey, object["key"])
-        except:pass
-        winreg.CloseKey(mainKey)
-        mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
-        for action in object["actions"]:
-            try:
-                actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
-                try:winreg.DeleteKey(actionKey, "command")
-                except:pass
-                winreg.CloseKey(actionKey)
-                shellKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell", 0, winreg.KEY_WRITE)
-                try:winreg.DeleteKey(shellKey, action["key"])
-                except:pass
-                winreg.CloseKey(shellKey)
+    try:
+        for object in actionsValues:
+            mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
+            try:winreg.DeleteKey(mainKey, object["key"])
             except:pass
-        objectKey = winreg.OpenKey(mainContextMenusKey, object["key"], 0, winreg.KEY_WRITE)
-        try:winreg.DeleteKey(objectKey, "Shell")
-        except:pass
-        winreg.CloseKey(objectKey)
-        try:winreg.DeleteKey(mainContextMenusKey, object["key"])
-        except:pass
-        winreg.CloseKey(mainContextMenusKey)
+            winreg.CloseKey(mainKey)
+            mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
+            for action in object["actions"]:
+                try:
+                    actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
+                    try:winreg.DeleteKey(actionKey, "command")
+                    except:pass
+                    winreg.CloseKey(actionKey)
+                    shellKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell", 0, winreg.KEY_WRITE)
+                    try:winreg.DeleteKey(shellKey, action["key"])
+                    except:pass
+                    winreg.CloseKey(shellKey)
+                except:pass
+            objectKey = winreg.OpenKey(mainContextMenusKey, object["key"], 0, winreg.KEY_WRITE)
+            try:winreg.DeleteKey(objectKey, "Shell")
+            except:pass
+            winreg.CloseKey(objectKey)
+            try:winreg.DeleteKey(mainContextMenusKey, object["key"])
+            except:pass
+            winreg.CloseKey(mainContextMenusKey)
+    except WindowsError:
+        winreg.CloseKey(rootReg)
+        cla, error, trbk = sys.exc_info()
+        if str(error).find("[Error 5]")!=-1:
+            Dialogs.showError(translate("MyPlugins/Explorer_CM", "Access Denied"), 
+                         translate("MyPlugins/Explorer_CM", "Please run Hamsi Manager as Administrator and try again."))
+        else:
+            error = ReportBug.ReportBug()
+            error.show()
+        return False
     winreg.CloseKey(rootReg)
     
     #if isAlreadyuninstalled:
