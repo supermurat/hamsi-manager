@@ -29,8 +29,8 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "1.0"
-    intversion = 1000
+    version = "1.0.1"
+    intversion = 1001
     settingVersion = "1000"
     aboutOfHamsiManager = ""
     if sys.argv[0][0]==".":
