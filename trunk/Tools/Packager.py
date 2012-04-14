@@ -199,8 +199,8 @@ class Packager(MyDialog):
     def ClearAndPack(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            import tempfile, random
-            tempDir = InputOutputs.joinPath(tempfile.gettempdir(), "HamsiManager-" + str(random.randrange(0, 1000000)))
+            import random
+            tempDir = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-" + str(random.randrange(0, 1000000)))
             pathOfProject = str(self.lePathOfProject.text())
             pathOfTempSource = InputOutputs.joinPath(tempDir, InputOutputs.getBaseName(pathOfProject))
             InputOutputs.copyFileOrDir(pathOfProject, pathOfTempSource)

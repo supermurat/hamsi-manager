@@ -224,8 +224,8 @@ class UpdateControl(MDialog):
                 fileDialogTitle = translate("UpdateControl", "Save As")
             fileName = QFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(InputOutputs.joinPath(Variables.HamsiManagerDirectory, defaultFileName)))
             if fileName== "":
-                import random, tempfile
-                fileName = InputOutputs.joinPath(tempfile.gettempdir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])
+                import random
+                fileName = InputOutputs.joinPath(InputOutputs.getTempDir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])
             self.pbtnDownloadAndInstall.setEnabled(False)
             newRequest = _request
             newRequest.setAttribute(MNetworkRequest.User,Universals.trQVariant(fileName))

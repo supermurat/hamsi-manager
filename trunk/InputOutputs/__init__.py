@@ -21,6 +21,7 @@ import os
 import shutil
 import stat
 import re
+import tempfile
 from Core import Variables
 from Core import Universals
 from Core import Records
@@ -31,7 +32,7 @@ from Core.Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep
+    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
@@ -179,6 +180,11 @@ class InputOutputs:
         _oldPath = str(_oldPath)
         try:returnValue = os.path.basename(Universals.trEncode(_oldPath, fileSystemEncoding))
         except:returnValue = os.path.basename(_oldPath)
+        try:return Universals.trDecode(returnValue, fileSystemEncoding)
+        except:return returnValue
+        
+    def getTempDir():
+        returnValue = tempfile.gettempdir()
         try:return Universals.trDecode(returnValue, fileSystemEncoding)
         except:return returnValue
     
@@ -1146,13 +1152,13 @@ class InputOutputs:
         Records.add("Extracted", _oldPath, _newPath)
         
     def clearTempFiles():
-        import tempfile
-        for fileName in readDirectoryAll(tempfile.gettempdir()):
+        tempDirPath = getTempDir()
+        for fileName in readDirectoryAll(tempDirPath):
             if fileName[:15] == "HamsiManager":
-                if isDir(joinPath(tempfile.gettempdir(), fileName)):
-                    removeFileOrDir(joinPath(tempfile.gettempdir(), fileName), True)
+                if isDir(joinPath(tempDirPath, fileName)):
+                    removeFileOrDir(joinPath(tempDirPath, fileName), True)
                 else:
-                    removeFileOrDir(joinPath(tempfile.gettempdir(), fileName))
+                    removeFileOrDir(joinPath(tempDirPath, fileName))
             
     def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):   
         from Core import Organizer
