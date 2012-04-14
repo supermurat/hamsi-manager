@@ -45,6 +45,8 @@ if RoutineChecks.checkQt4Exist():
         import InputOutputs
         if Universals.isActivePyKDE4==True:
             Universals.printForDevelopers("ActivePyKDE4")
+            MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
+            MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
             appName     = "HamsiManager"
             programName = ki18n ("Hamsi Manager")
             version     = Variables.version
@@ -96,6 +98,8 @@ if RoutineChecks.checkQt4Exist():
             Variables.aboutOfHamsiManager = aboutOfHamsiManager
         else:
             Universals.printForDevelopers("NotActivePyKDE4")
+            MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
+            MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
             HamsiManagerApp = MApplication(sys.argv)  
             if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+ Universals.MySettings["language"])):
                 aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+ Universals.MySettings["language"]), "utf-8")
@@ -111,8 +115,6 @@ if RoutineChecks.checkQt4Exist():
                 languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+Universals.MySettings["language"]+".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
         Universals.printForDevelopers("Before MTextCodec setCodecFor..")
-        MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
-        MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
         HamsiManagerApp.setApplicationName("HamsiManager")
         HamsiManagerApp.setApplicationVersion(Variables.version)
         HamsiManagerApp.setOrganizationDomain("hamsiapps.com")

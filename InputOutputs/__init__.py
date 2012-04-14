@@ -39,10 +39,26 @@ class InputOutputs:
     sep = os.sep
     
     def joinPath(_a, *_b):
-        return os.path.join(_a, *_b)
+        _a = str(_a)
+        c = []
+        for x in _b:
+            try:c.append(Universals.trEncode(str(x), fileSystemEncoding))
+            except:c.append(str(x))
+        c = tuple(c)
+        try:returnValue = os.path.join(Universals.trEncode(_a, fileSystemEncoding), *c)
+        except:returnValue = os.path.join(_a, *c)
+        try:return Universals.trDecode(returnValue, fileSystemEncoding)
+        except:return returnValue
     
     def splitPath(_a):
-        return os.path.split(_a)
+        _a = str(_a)
+        try:returnValue = os.path.split(Universals.trEncode(_a, fileSystemEncoding))
+        except:returnValue = os.path.split(_a)
+        c = []
+        for x in returnValue:
+            try:c.append(Universals.trDecode(x, fileSystemEncoding))
+            except:c.append(x)
+        return c
     
     def isFile(_oldPath):
         _oldPath = str(_oldPath)

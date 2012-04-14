@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 from Core import Variables
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trEncode, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -32,7 +32,6 @@ class Universals():
     isShowVerifySettings = False
     changedDefaultValuesKeys = []
     newSettingsKeys = []
-    themePath = os.path.join(Variables.HamsiManagerDirectory, "Themes", "Default")
     isCanBeShowOnMainWindow = False
     isActivePyKDE4 = False
     isActiveAmarok = False
@@ -44,13 +43,25 @@ class Universals():
     tableTypesNames = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     tableType = None
     iconNameFormatLabels = Variables.iconNameFormatKeys
-    pathOfSettingsDirectory = os.path.join(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
     fileOfSettings = "mySettings.ini"
-    recordFilePath = os.path.join(pathOfSettingsDirectory, "logs.txt")
-    oldRecordsDirectoryPath = os.path.join(pathOfSettingsDirectory, "OldRecords")
     isRaisedAnError = False
     Utf8Contents = {}
     isActiveDirectoryCover = True
+    if Variables.isPython3k:
+        themePath = os.path.join(Variables.HamsiManagerDirectory, "Themes", "Default")
+        pathOfSettingsDirectory = os.path.join(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
+        recordFilePath = os.path.join(pathOfSettingsDirectory, "logs.txt")
+        oldRecordsDirectoryPath = os.path.join(pathOfSettingsDirectory, "OldRecords")
+    else:
+        try:themePath = os.path.join(Variables.HamsiManagerDirectory, "Themes", "Default").decode(Variables.defaultFileSystemEncoding)
+        except:themePath = os.path.join(Variables.HamsiManagerDirectory, "Themes", "Default")
+        try:pathOfSettingsDirectory = os.path.join(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager").decode(Variables.defaultFileSystemEncoding)
+        except:pathOfSettingsDirectory = os.path.join(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
+        try:recordFilePath = os.path.join(pathOfSettingsDirectory, "logs.txt").decode(Variables.defaultFileSystemEncoding)
+        except:recordFilePath = os.path.join(pathOfSettingsDirectory, "logs.txt")
+        try:oldRecordsDirectoryPath = os.path.join(pathOfSettingsDirectory, "OldRecords").decode(Variables.defaultFileSystemEncoding)
+        except:oldRecordsDirectoryPath = os.path.join(pathOfSettingsDirectory, "OldRecords")
+        
     if Variables.isWindows:
         isActiveDirectoryCover = False
     
@@ -110,10 +121,26 @@ class Universals():
             return _s
         return _s.decode(_e, _p)
         
+    def trDecodeList(_s, _e = "utf-8", _p = "strict"):
+        if Variables.isPython3k:
+            return _s
+        sList =[]
+        for x in _s:
+            sList.append(trDecode(x, _e, _p))
+        return sList
+        
     def trEncode(_s, _e = "utf-8", _p = "strict"):
         if Variables.isPython3k:
             return _s
         return _s.encode(_e, _p)
+        
+    def trEncodeList(_s, _e = "utf-8", _p = "strict"):
+        if Variables.isPython3k:
+            return _s
+        sList =[]
+        for x in _s:
+            sList.append(trEncode(x, _e, _p))
+        return sList
         
     def getUtf8Data(_key):
         global Utf8Contents

@@ -39,12 +39,20 @@ class Variables():
         executableAppPath = str(sys.argv[0])
     if os.path.islink(executableAppPath):
         executableAppPath = os.readlink(executableAppPath)
-    HamsiManagerDirectory = os.path.dirname(executableAppPath)
     userDirectoryPath = os.path.expanduser("~")
     defaultFileSystemEncoding = sys.getfilesystemencoding()
     if defaultFileSystemEncoding is None:
         defaultFileSystemEncoding = sys.getdefaultencoding()
     defaultFileSystemEncoding = defaultFileSystemEncoding.lower()
+    if isPython3k:
+        HamsiManagerDirectory = os.path.dirname(executableAppPath)
+    else:
+        try:HamsiManagerDirectory = os.path.dirname(executableAppPath).decode(defaultFileSystemEncoding)
+        except:HamsiManagerDirectory = os.path.dirname(executableAppPath)
+        try:executableAppPath = executableAppPath.decode(defaultFileSystemEncoding)
+        except:pass
+        try:userDirectoryPath = userDirectoryPath.decode(defaultFileSystemEncoding)
+        except:pass
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
     fileExtesionIsKeys = ["After The First Point", "After The Last Point"]
@@ -119,7 +127,9 @@ class Variables():
         myObjectsNames = getMyObjectsNames()
         if myObjectsNames.count("PySide")>0:
             from PySide import QtCore
-            sets = QtCore.QSettings(trForM(os.path.join(userDirectoryPath, ".HamsiApps", "HamsiManager", "mySettings.ini")) ,QtCore.QSettings.IniFormat)
+            try:mySettingsPath = Universals.trDecode(os.path.join(userDirectoryPath, ".HamsiApps", "HamsiManager", "mySettings.ini"), defaultFileSystemEncoding)
+            except:mySettingsPath = os.path.join(userDirectoryPath, ".HamsiApps", "HamsiManager", "mySettings.ini")
+            sets = QtCore.QSettings(trForM(mySettingsPath) ,QtCore.QSettings.IniFormat)
             if Universals.trStr(sets.value("NeededObjectsName"))=="PySide":
                 from PySide import QtGui
                 from PySide import QtCore
@@ -186,7 +196,7 @@ class Variables():
     def isRunableAsRoot():
         try:
             import InputOutputs
-            if InputOutputs.isFile(os.path.join(getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")):
+            if InputOutputs.isFile(InputOutputs.joinPath(getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")):
                 if isRunningAsRoot():
                     return False
                 return True
@@ -575,8 +585,8 @@ class Variables():
         else:
             desktopNames = [str(MQtGui.QApplication.translate("Variables", "Desktop")), "Desktop"]
             for dirName in desktopNames:
-                if InputOutputs.isDir(os.path.join(userDirectoryPath, dirName)):
-                    desktopPath = os.path.join(userDirectoryPath, dirName)
+                if InputOutputs.isDir(InputOutputs.joinPath(userDirectoryPath, dirName)):
+                    desktopPath = InputOutputs.joinPath(userDirectoryPath, dirName)
                     break
                 else:
                     desktopPath = userDirectoryPath
