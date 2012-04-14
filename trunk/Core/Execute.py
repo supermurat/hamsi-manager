@@ -33,7 +33,9 @@ class Execute:
             _command = ["start"] + _command
         if Universals.loggingLevel==logging.DEBUG:
             print ("Execute >>> " + str(_command))
-        myPopen = subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
+        try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+        except:correctedCommand = _command
+        myPopen = subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
         po, pi = myPopen.stdin, myPopen.stdout
         po.close()
         return pi.read()
@@ -43,7 +45,9 @@ class Execute:
             _command = "start" + _command
         if Universals.loggingLevel==logging.DEBUG:
             print ("Execute >>> " + str(_command))
-        return os.popen(_command)
+        try:correctedCommand = Universals.trEncode(_command, InputOutputs.fileSystemEncoding)
+        except:correctedCommand = _command
+        return os.popen(correctedCommand)
         
     def execute(_command=[], _executableName=None):
         if _executableName in ["HamsiManager", "Reconfigure", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
@@ -59,11 +63,15 @@ class Execute:
                 pathOfExecutable = [pathOfExecutable]
             if Universals.loggingLevel==logging.DEBUG:
                 print ("Execute >>> " + str(pathOfExecutable + _command))
-            return subprocess.Popen(pathOfExecutable + _command , stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+            try:correctedCommand = Universals.trEncodeList(pathOfExecutable + _command, InputOutputs.fileSystemEncoding)
+            except:correctedCommand = pathOfExecutable + _command
+            return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
         else:
             if Universals.loggingLevel==logging.DEBUG:
                 print ("Execute >>> " + str(_command))
-            return subprocess.Popen(_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+            try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+            except:correctedCommand = _command
+            return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
             
     def findExecutableBaseName(_executableName):
         for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
@@ -82,7 +90,8 @@ class Execute:
         
     def getPythonPath():
         """Use this only if runnig .py(.py3,.pyw)"""
-        return sys.executable
+        try:return Universals.trDecode(sys.executable, InputOutputs.fileSystemEncoding)
+        except:return sys.executable
         
     def getExecuteCommandOfHamsiManager():
         HamsiManagerExecutableFileName = findExecutableBaseName("HamsiManager")
@@ -102,12 +111,16 @@ class Execute:
         if Variables.isWindows:
             if Universals.loggingLevel==logging.DEBUG:
                 print ("Open With >>> " + str(_command))
-            return os.startfile(_command)
+            try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+            except:correctedCommand = _command
+            return os.startfile(correctedCommand)
         else:
             _command = ["xdg-open"] + _command
             if Universals.loggingLevel==logging.DEBUG:
                 print ("Open With >>> " + str(_command))
-            return subprocess.Popen(_command)
+            try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+            except:correctedCommand = _command
+            return subprocess.Popen(correctedCommand)
         
     def executeAsRoot(_command=[], _executableName=None):
         if Variables.isRunableAsRoot():
