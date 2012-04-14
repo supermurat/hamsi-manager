@@ -356,8 +356,8 @@ class ReportBug(MDialog):
                     str(translate("ReportBug", "Thank you for sending us your error report. You have already contributed a lot to make the next release even better..<br>")), 
                     _errorDetails)
         if self.pathOfReportFile=="":
-            import tempfile, random
-            self.pathOfReportFile = InputOutputs.joinPath(tempfile.gettempdir(), "HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html")
+            import random
+            self.pathOfReportFile = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html")
             InputOutputs.writeToFile(self.pathOfReportFile, htmlString)
             
     def showDetailsPage(self):
