@@ -105,7 +105,7 @@ InstallExe = Executable(
 
 setup(
     version = Variables.version,
-    description = InputOutputs.readFromFile(Variables.HamsiManagerDirectory + "/Languages/About_en_GB", "utf-8"),
+    description = InputOutputs.readFromFile(os.getcwd() + "/Languages/About_en_GB", "utf-8"),
     author = "Murat Demir",
     name = "HamsiManager",
     options = {"build_exe": {"includes": includes,
