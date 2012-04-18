@@ -217,8 +217,11 @@ if RoutineChecks.checkQt4Exist():
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                     desktopPath = Variables.getUserDesktopPath()
-                    fileContent = MyConfigure.getConfiguredDesktopFileContent()
-                    InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
+                    if Variables.isWindows:
+                        MyConfigure.createShortCutFile(InputOutputs.joinPath(desktopPath, "Hamsi Manager.lnk"))
+                    else:
+                        fileContent = MyConfigure.getConfiguredDesktopFileContent()
+                        InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
             executableLink = str(self.leExecutableLink.text())
             if self.isCreateExecutableLink!=None:
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:

@@ -48,6 +48,7 @@ if float(sys.version[:3])>=3.0:
 if os.name=="nt":
     packages.remove("PyKDE4")
     packages.remove("_mysql")
+    packages.append("win32com")
     
 
 exeBase = "Console"
