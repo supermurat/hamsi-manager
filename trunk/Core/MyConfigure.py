@@ -24,7 +24,7 @@ import InputOutputs
 from Core import Universals
 
 class MyConfigure:
-    global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent, getConfiguredContent
+    global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent, getConfiguredContent, createShortCutFile
     
     def reConfigureFile(_filePath, _installationDirectory=Variables.HamsiManagerDirectory):
         fileContent = getConfiguredContent(InputOutputs.readFromFile(_filePath), _installationDirectory)
@@ -52,6 +52,16 @@ class MyConfigure:
                     InputOutputs.copyFileOrDir(langFile, InputOutputs.joinPath(KDELocalateDir, "HamsiManager.mo"))
             return True
         return False
+        
+    def createShortCutFile(_destinationPath, _installationDirectory=Variables.HamsiManagerDirectory):
+        from Core import Execute
+        from win32com.client import Dispatch         
+        shell = Dispatch('WScript.Shell')
+        shortcut = shell.CreateShortCut(_destinationPath)
+        shortcut.Targetpath = Execute.getExecuteCommandOfHamsiManager()
+        shortcut.WorkingDirectory = _installationDirectory
+        shortcut.IconLocation = InputOutputs.joinPath(Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory), "Images", "HamsiManager-128x128.ico")
+        shortcut.save()
         
     def getDesktopFileContent():
         return ("""#!/usr/bin/env xdg-open
