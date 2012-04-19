@@ -33,7 +33,7 @@ include_files = [("Amarok","Amarok"),("Languages","Languages"),("MyPlugins","MyP
 packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
         "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers",
         "hashlib", "tarfile", "urllib", "PyQt4", 
-        "sqlite3",
+        "sqlite3", "ctypes", 
         "PyKDE4", "_mysql", 
         "eyeD3", "musicbrainz2"]
         
