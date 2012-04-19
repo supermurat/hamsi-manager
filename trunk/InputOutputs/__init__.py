@@ -22,6 +22,7 @@ import shutil
 import stat
 import re
 import tempfile
+import ctypes
 from Core import Variables
 from Core import Universals
 from Core import Records
@@ -32,7 +33,7 @@ from Core.Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir
+    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
@@ -83,6 +84,19 @@ class InputOutputs:
             return True
         elif isDir(_oldPath):
             return True
+        return False
+        
+    def isHidden(_path, _name=None):
+        if _name==None:
+            _name = getBaseName(_path)
+        if _name.startswith('.'):
+            return True
+        if Variables.isWindows:
+            import win32api, win32con
+            try:attr = win32api.GetFileAttributes(Universals.trEncode(_path, fileSystemEncoding))
+            except:attr = win32api.GetFileAttributes(_path)
+            if attr & win32con.FILE_ATTRIBUTE_HIDDEN:
+                return True
         return False
         
     def isAvailableNameForEncoding(_newPath):
@@ -524,7 +538,7 @@ class InputOutputs:
         appendingDirectories=[]
         fileAndDirectoryNames,fileNames,directoryNames,musicFileNames=[],[],[],[]
         for name in listDir(_path):
-            if _isShowHiddens or name[:1] != ".":
+            if _isShowHiddens or isHidden(joinPath(_path, name), name)==False:
                 try:fileAndDirectoryNames.append(Universals.trDecode(name, fileSystemEncoding))
                 except:fileAndDirectoryNames.append(name)
         for name in fileAndDirectoryNames:
