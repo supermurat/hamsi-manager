@@ -27,7 +27,7 @@ from Core.MyObjects import *
 from Core import ReportBug
 
 class Tables(MTableWidget):
-    global clickedContextMenuColumns, checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, exportValues, askHiddenColumn, isAskIncorrectFileExtension
+    global checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, exportValues, askHiddenColumn, isAskIncorrectFileExtension
     isAskShowHiddenColumn, isAskIncorrectFileExtension = True, True
     def __init__(self, _parent):
         global layouts,widgets
@@ -105,7 +105,6 @@ class Tables(MTableWidget):
         self.mContextMenuColumns.setTitle(translate("Tables", "Show Fields"))
         self.mContextMenuOpenWith = MMenu()
         self.mContextMenuOpenWith.setTitle(translate("Tables", "Open With"))
-        self.clickedContextMenuColumns = []
         self.refreshForColumns()
         self.mContextMenuActionNames = [translate("Tables", "Cut"),
                             translate("Tables", "Copy"),
@@ -342,13 +341,6 @@ class Tables(MTableWidget):
                 sc.append(item.column())
         return sc
     
-    def clickedContextMenuColumns(_value):
-        try:
-            self.refreshShowedAndHiddenColumns()
-        except:
-            error = ReportBug.ReportBug()
-            error.show()
-    
     def refreshShowedAndHiddenColumns(self):
         self.hiddenTableColumns = []
         for x, act in enumerate(self.mContextMenuColumnsActions):
@@ -385,7 +377,7 @@ class Tables(MTableWidget):
             if self.hiddenTableColumns.count(str(key))==0:
                 act.setChecked(True)
             self.mContextMenuColumns.addAction(act)
-            MObject.connect(act,SIGNAL("triggered(bool)"), clickedContextMenuColumns)
+            MObject.connect(act,SIGNAL("triggered(bool)"), self.refreshShowedAndHiddenColumns)
         self.refreshShowedAndHiddenColumns()
         
     def refresh(self, _path = ""):
