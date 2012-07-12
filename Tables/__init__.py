@@ -483,29 +483,30 @@ class Tables(MTableWidget):
             _item.setToolTip(_item.currentText)
             _item.setBackground(MBrush(MColor(142,199,255)))
         
-    def checkUnSavedValues(self):
-        isClose=True
-        for rowNo in range(self.rowCount()):
+    def checkUnSavedValues(self, _isForceToCheck=False):
+        if Universals.getBoolValue("checkUnSavedValues") or _isForceToCheck:
+            isClose=True
+            for rowNo in range(self.rowCount()):
+                if isClose==False:
+                    break
+                if self.isRowHidden(rowNo):
+                    isClose=False
+                    break
+                for columnNo in range(len(self.tableColumns)):
+                    if self.isColumnHidden(columnNo)==False:
+                        if self.item(rowNo,columnNo)!=None:
+                            if self.item(rowNo,columnNo).background()==MBrush(MColor(142,199,255)):
+                                isClose=False
+                                break
+                        else:break
             if isClose==False:
-                break
-            if self.isRowHidden(rowNo):
-                isClose=False
-                break
-            for columnNo in range(len(self.tableColumns)):
-                if self.isColumnHidden(columnNo)==False:
-                    if self.item(rowNo,columnNo)!=None:
-                        if self.item(rowNo,columnNo).background()==MBrush(MColor(142,199,255)):
-                            isClose=False
-                            break
-                    else:break
-        if isClose==False:
-            answer = Dialogs.ask(translate("Tables", "There Are Unsaved Information"),
-                        translate("Tables", "Do you want to save these information?"),
-                        True, "There Are Unsaved Information")
-            if answer==Dialogs.Yes:
-                self.save()
-            elif answer==Dialogs.Cancel:
-                return False
+                answer = Dialogs.ask(translate("Tables", "There Are Unsaved Values"),
+                            translate("Tables", "Do you want to save these values?<br>If you click to Yes : Table will be saved without any other question or option.<br>If you click to No : Application will be closed without doing any process.<br>If you click to Cancel : Application won't be closed."),
+                            True)
+                if answer==Dialogs.Yes:
+                    self.save()
+                elif answer==Dialogs.Cancel:
+                    return False
         return True
         
     def checkFileExtensions(self, _columnNo, _fileNameKeyOrDestinationColumnNo, _isCheckFile=False):

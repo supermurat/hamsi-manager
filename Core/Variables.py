@@ -17,15 +17,16 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import os, sys
+import os, sys, platform
 
 class Variables():
     global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
-    global osName, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableAppPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
+    global osName, machineType, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableAppPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
+    machineType = platform.machine()
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
@@ -117,7 +118,7 @@ class Variables():
                   "isFileTableValuesChangeInAmarokDB", "isFolderTableValuesChangeInAmarokDB", 
                   "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
                   "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", 
-                  "isDecodeURLStrings"]
+                  "isDecodeURLStrings", "checkUnSavedValues"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -357,7 +358,8 @@ class Variables():
                 "isShowHiddensInMusicTable": "False", 
                 "isShowHiddensInCoverTable": "False", 
                 "isShowHiddensInFileTree": "False", 
-                "isDecodeURLStrings": "True"
+                "isDecodeURLStrings": "True", 
+                "checkUnSavedValues": "False"
                 }
             
                 
@@ -506,7 +508,8 @@ class Variables():
                 "isShowHiddensInMusicTable": "bool", 
                 "isShowHiddensInCoverTable": "bool", 
                 "isShowHiddensInFileTree": "bool", 
-                "isDecodeURLStrings": "bool"
+                "isDecodeURLStrings": "bool", 
+                "checkUnSavedValues": "bool"
                 }
 
     def getAvailablePlayers():
