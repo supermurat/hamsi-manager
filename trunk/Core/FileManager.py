@@ -241,7 +241,7 @@ class FileManager():
                         self.actUp.setEnabled(True)
                 elif InputOutputs.isFile(_path):
                     isOpened = False
-                    for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                    for ext in Universals.getListValue("musicExtensions"):
                         if str(_path).split(".")[-1].lower() == str(ext).lower():
                             if Universals.tableType==2 and Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
                                 Universals.MainWindow.PlayerBar.Player.play(str(_path))

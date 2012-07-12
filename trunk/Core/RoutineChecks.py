@@ -332,7 +332,7 @@ def checkWindowMode(_isCheck=False):
                         Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.DirOperator)
                     try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
                     except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
-                    geometries = Universals.getListFromStrint(Universals.MySettings["MainWindowGeometries"])
+                    geometries = Universals.getListValue("MainWindowGeometries")
                     Universals.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
                 except:pass
             Universals.setMySetting("isShowWindowModeSuggestion", False)

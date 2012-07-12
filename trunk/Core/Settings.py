@@ -94,7 +94,7 @@ class Settings():
         elif _valueTypesAndValue=="list":
             try:
                 value = "['"
-                for x, ext in enumerate(Universals.getListFromStrint(_value)):
+                for x, ext in enumerate(Universals.getListFromListString(_value)):
                     if ext!="":
                         if x!=0:
                             value += "','"
@@ -117,7 +117,7 @@ class Settings():
         elif _valueTypesAndValue[0]=="intList":
             try:
                 value = "['"
-                for x, ext in enumerate(Universals.getListFromStrint(_value)):
+                for x, ext in enumerate(Universals.getListFromListString(_value)):
                     if ext!="":
                         if _valueTypesAndValue[1].index(int(ext))!=-1:
                             if x!=0:

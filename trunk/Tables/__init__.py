@@ -99,7 +99,7 @@ class Tables(MTableWidget):
         self.hblBox.addWidget(self.pbtnShowDetails, 1)
         self.hblBox.addWidget(self.pbtnSave, 2)
         self.setSubTable()
-        self.hiddenTableColumns = Universals.getListFromStrint(Universals.MySettings[self.SubTable.hiddenTableColumnsSettingKey])
+        self.hiddenTableColumns = Universals.getListValue(self.SubTable.hiddenTableColumnsSettingKey)
         _parent.MainLayout.addLayout(self.hblBox)
         self.mContextMenuColumns = MMenu()
         self.mContextMenuColumns.setTitle(translate("Tables", "Show Fields"))
@@ -218,12 +218,12 @@ class Tables(MTableWidget):
                         if Universals.tableType!=2:
                             isImage = False
                             isMusic = False
-                            for fileExt in Universals.getListFromStrint(Universals.MySettings["imageExtensions"]):
+                            for fileExt in Universals.getListValue("imageExtensions"):
                                 if InputOutputs.checkExtension(filePath, fileExt):
                                     isImage = True
                                     break
                             if isImage==False:
-                                for fileExt in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                                for fileExt in Universals.getListValue("musicExtensions"):
                                     if InputOutputs.checkExtension(filePath, fileExt):
                                         isMusic = True
                                         break
