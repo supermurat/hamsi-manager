@@ -16,7 +16,7 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os, sys
+import os, sys, platform
 from Core import Variables
 from Core import Universals
 from Core import Dialogs
@@ -32,7 +32,8 @@ setupDirectory = ""
 
 def isInstallable():
     if Variables.isWindows:
-        return True
+        if platform.release()=="7":
+            return True
     return False
 
 def installThisPlugin():
