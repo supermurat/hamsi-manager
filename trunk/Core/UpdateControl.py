@@ -103,10 +103,10 @@ class UpdateControl(MDialog):
         else:
             self.setLayout(self.vblMain)
         self.show()
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"])))
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName))
     
     def checkForDeveloperVersion(self):
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&m=develop&l=" + str(Universals.MySettings["language"])))
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&m=develop&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName))
     
     def remindMeLaterAndClose(self):
         Universals.setMySetting("remindMeLaterForUpdate", self.cbRemindMeLater.value())
@@ -222,19 +222,20 @@ class UpdateControl(MDialog):
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save As")
-            fileName = QFileDialog.getSaveFileName(self, fileDialogTitle,InputOutputs.getDirName(InputOutputs.joinPath(Variables.HamsiManagerDirectory, defaultFileName)))
-            if fileName== "":
-                import random
-                fileName = InputOutputs.joinPath(InputOutputs.getTempDir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])
-            self.pbtnDownloadAndInstall.setEnabled(False)
-            newRequest = _request
-            newRequest.setAttribute(MNetworkRequest.User,Universals.trQVariant(fileName))
-            networkManager = self.wvWeb.page().networkAccessManager()
-            reply = networkManager.get(newRequest)
-            self.isFileExist = True
-            self.connect(reply,SIGNAL("downloadProgress(qint64,qint64)"),self.downloading)
-            self.connect(reply,SIGNAL("finished()"),self.downloaded)
-            self.connect(reply,SIGNAL("error(QNetworkReply::NetworkError)"),self.errorOccurred)
+            fileName = QFileDialog.getSaveFileName(self, fileDialogTitle, InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), defaultFileName))
+            if self.isNotInstall==False or fileName != "":
+                if fileName == "":
+                    import random
+                    fileName = InputOutputs.joinPath(InputOutputs.getTempDir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])
+                self.pbtnDownloadAndInstall.setEnabled(False)
+                newRequest = _request
+                newRequest.setAttribute(MNetworkRequest.User,Universals.trQVariant(fileName))
+                networkManager = self.wvWeb.page().networkAccessManager()
+                reply = networkManager.get(newRequest)
+                self.isFileExist = True
+                self.connect(reply,SIGNAL("downloadProgress(qint64,qint64)"),self.downloading)
+                self.connect(reply,SIGNAL("finished()"),self.downloaded)
+                self.connect(reply,SIGNAL("error(QNetworkReply::NetworkError)"),self.errorOccurred)
         except:
             error = ReportBug.ReportBug()
             error.show()  
@@ -264,6 +265,10 @@ class UpdateControl(MDialog):
                     self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))
                     self.lblInfo.setText(translate("UpdateControl", "Latest release downloaded, initializing installation."))
                     self.install(fileName)
+                else:
+                    Dialogs.show(translate("UpdateControl", "The New Version Downloaded"), 
+                                translate("UpdateControl", "New version of Hamsi Manager downloaded, you can install it manually."))
+                    self.close()
         except:
             error = ReportBug.ReportBug()
             error.show()  

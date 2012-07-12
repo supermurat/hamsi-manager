@@ -35,9 +35,9 @@ class General(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["isSaveActions", "maxRecordFileSize", 
+        self.keysOfSettings = ["checkUnSavedValues", "isSaveActions", "maxRecordFileSize", 
                                 "updateInterval", "language"]
-        self.tabsOfSettings = [None, None, None, None]
+        self.tabsOfSettings = [None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -45,15 +45,17 @@ class General(MWidget):
             self.visibleKeys = _visibleKeys
         self.neededRestartSettingKeys = ["language"]
         self.valuesOfOptionsKeys = []
-        self.labels = [translate("Options/General", "Save Actions"), 
+        self.labels = [translate("Options/General", "Check Unsaved Values"), 
+                    translate("Options/General", "Save Actions"), 
                     translate("Options/General", "Record File Size"), 
                     translate("Options/General", "Update Interval (in days)"), 
                     translate("Options/General", "Application Language")]
-        self.toolTips = [translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
+        self.toolTips = [translate("Options/General", "Are you want to check unsaved values in tables while Hamsi Manager was closing."), 
+                    translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
                     translate("Options/General", "You can select record file size.(Kilobytes)"), 
                     translate("Options/General", "Which interval (in days) do you want to set to check the updates?"), 
                     translate("Options/General", "You can select Hamsi Manager`s language.")]
-        self.typesOfValues = ["Yes/No", ["number", 2], 
+        self.typesOfValues = ["Yes/No", "Yes/No", ["number", 2], 
                                 ["number", 1], ["options", 0]]
         self.valuesOfOptions = [Variables.getInstalledLanguagesNames(), 
                                 ["1", "30"], ["10", "100000"]]
