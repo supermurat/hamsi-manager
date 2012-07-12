@@ -39,6 +39,7 @@ class Searcher(MyDialog):
             Universals.setMainWindow(self)
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "search", None, newOrChangedKeys)
+        self.isMultipleSource = False
         self.sourceToSearch = None
         self.tmrSearchAfter = None
         lblPleaseSelect = MLabel(translate("Searcher", "Directory Or File : "))
@@ -144,17 +145,21 @@ class Searcher(MyDialog):
     def setSourceToSearch(self, _isReload=True):
         try:
             if self.sourceToSearch == None or _isReload==True:
-                pathToSearch = str(self.lePathToSeach.text())
-                if InputOutputs.checkSource(pathToSearch):
-                    if InputOutputs.isReadableFileOrDir(pathToSearch):
-                        if InputOutputs.isFile(pathToSearch):
-                            self.sourceToSearch = InputOutputs.readFromFile(pathToSearch)
-                            self.sourceToSearchType = "file"
-                            return True
-                        elif InputOutputs.isDir(pathToSearch):
-                            self.sourceToSearch = InputOutputs.getFileTree(pathToSearch, -1, "return", "plainText", "fileList")
-                            self.sourceToSearchType = "dir"
-                            return True
+                sourceToSearch = ""
+                self.isMultipleSource = False
+                pathToSearchs = str(self.lePathToSeach.text())
+                if InputOutputs.isExist(pathToSearchs)==False and pathToSearchs.find(";")!=-1:
+                    self.isMultipleSource = True
+                for pathToSearch in Universals.getListFromListString(pathToSearchs, ";"):
+                    if InputOutputs.checkSource(pathToSearch):
+                        if InputOutputs.isReadableFileOrDir(pathToSearch):
+                            if InputOutputs.isFile(pathToSearch):
+                                sourceToSearch += InputOutputs.readFromFile(pathToSearch) + "\n"
+                            elif InputOutputs.isDir(pathToSearch):
+                                sourceToSearch += InputOutputs.getFileTree(pathToSearch, -1, "return", "plainText", "fileList") + "\n"
+                self.sourceToSearch = sourceToSearch
+                if sourceToSearch!="":
+                    return True
                 return False
             else:
                 return True
@@ -326,11 +331,13 @@ class Searcher(MyDialog):
 
     def selectSearchFilePath(self):
         try:
-            SearchPath = QFileDialog.getOpenFileName(self,
+            SearchPaths = QFileDialog.getOpenFileNames(self,
                         translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
                         translate("Searcher", "All Files (*.*)"))
-            if SearchPath!="":
-                self.lePathToSeach.setText(SearchPath)
+                        
+            SearchPaths = list(SearchPaths)
+            if SearchPaths!=[]:
+                self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
                 if self.setSourceToSearch(True):
                     self.search()
         except:

@@ -331,7 +331,7 @@ if RoutineChecks.checkQt4Exist():
                     if Universals.getBoolValue("isMainWindowMaximized"):
                         MainWindow.showMaximized()
                     else:
-                        geometries = Universals.getListFromStrint(Universals.MySettings["MainWindowGeometries"])
+                        geometries = Universals.getListValue("MainWindowGeometries")
                         MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
                         MainWindow.show()
                     Universals.printForDevelopers("Before RoutineChecks.checkAfterRunProccess")

@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 from Core import Variables
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromStrint, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStrintFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -101,8 +101,7 @@ class Universals():
             except: return _s
             
     def trForM(_s):
-        _s = str(_s)
-        return _s
+        return str(_s)
         
     def trStr(_s):
         if Variables.isPython3k:
@@ -204,20 +203,26 @@ class Universals():
             from Core import MyConfigure
             MyConfigure.installKDE4Languages()
     
-    def getListFromStrint(_listString):
-        listString = eval(str(_listString))
+    def getListFromListString(_listString, _splitter=None):
+        if _splitter is None:
+            listString = eval(str(_listString))
+        else:
+            listString = str(_listString).split(_splitter)
         if len(listString)==1:
             if listString[0].strip()=="":
                 return []
         return listString
         
-    def getStrintFromList(_list):
-        listString = ""
-        for x, value in enumerate(_list):
-            if value!=0:
-                listString += ";"
-            listString += value
-        return listString
+    def getStringFromList(_list, _splitter=None):
+        if _splitter is None:
+            return str(_list)
+        else:
+            listString = ""
+            for x, value in enumerate(_list):
+                if x!=0:
+                    listString += _splitter
+                listString += value
+            return listString
         
     def getValue(_key, _valueList = None, _defaultValue = ""):
         try:
@@ -246,6 +251,9 @@ class Universals():
         if str(MySettings[_key]).title()=="True" or str(MySettings[_key]).title()=="1":
             return True
         return False
+    
+    def getListValue(_key):
+        return getListFromListString(MySettings[_key])
      
     def setMySetting(_key, _value):
         global MySettings

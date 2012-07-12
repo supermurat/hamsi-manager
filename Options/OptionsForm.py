@@ -339,7 +339,7 @@ class OptionsForm(MDialog):
             self.categories[categoryNo].values[keyNo].setPlainText(trForUI(self.defaultValues[keyValue]))
         elif typeOfValue=="list":
             value = ""
-            for y, info in enumerate(Universals.getListFromStrint(self.defaultValues[keyValue])):
+            for y, info in enumerate(Universals.getListFromListString(self.defaultValues[keyValue])):
                 if y!=0:
                     value += ";"
                 value += str(info)
@@ -372,7 +372,7 @@ class OptionsForm(MDialog):
         elif _typeOfValue=="richtext":
             toolTips += self.defaultValues[_keyValue]
         elif _typeOfValue=="list":
-            for y, info in enumerate(Universals.getListFromStrint(self.defaultValues[_keyValue])):
+            for y, info in enumerate(Universals.getListFromListString(self.defaultValues[_keyValue])):
                 if y!=0:
                     toolTips += ";"
                 toolTips += str(info)
@@ -462,7 +462,7 @@ class OptionsForm(MDialog):
                                         category.values[x].setText(trForUI(emendedValue))
                                     elif category.typesOfValues[x]=="list":
                                         value = ""
-                                        for y, info in enumerate(Universals.getListFromStrint(emendedValue)):
+                                        for y, info in enumerate(Universals.getListFromListString(emendedValue)):
                                             if y!=0:
                                                 value += ";"
                                             value += str(info)
@@ -543,7 +543,7 @@ class OptionsForm(MDialog):
                                 _category.values[x].setText(trForUI(emendedValue))
                             elif _category.typesOfValues[x]=="list":
                                 value = ""
-                                for y, info in enumerate(Universals.getListFromStrint(emendedValue)):
+                                for y, info in enumerate(Universals.getListFromListString(emendedValue)):
                                     if y!=0:
                                         value += ";"
                                     value += str(info)
@@ -590,7 +590,7 @@ class OptionsForm(MDialog):
                     typeOfValue = "list"
                     _category.values.append(MLineEdit())
                     value = ""
-                    for y, info in enumerate(Universals.getListFromStrint(Universals.MySettings[keyValue])):
+                    for y, info in enumerate(Universals.getListValue(keyValue)):
                         if y!=0:
                             value += ";"
                         value += str(info)

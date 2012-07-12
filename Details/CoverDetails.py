@@ -131,13 +131,13 @@ class CoverDetails(MDialog):
         
     def sourceClicked(self):
         imagePath = QFileDialog.getOpenFileName(self,translate("ImageDetails", "Choose Image"),
-                                    self.lePathOfSource.text(),trForUI(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStrintFromList(Universals.getListFromStrint(Universals.MySettings["imageExtensions"])).replace(";", " *.")))
+                                    self.lePathOfSource.text(),trForUI(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")))
         if imagePath!="":
             self.lePathOfSource.setText(imagePath)
         
     def destinationClicked(self):
         imagePath = QFileDialog.getSaveFileName(self,translate("ImageDetails", "Save As"),
-                                    self.lePathOfDestination.text(),trForUI(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStrintFromList(Universals.getListFromStrint(Universals.MySettings["imageExtensions"])).replace(";", " *.")))
+                                    self.lePathOfDestination.text(),trForUI(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")))
         if imagePath!="":
             self.lePathOfDestination.setText(imagePath)
         

@@ -33,7 +33,11 @@ from Core.Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted, getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon, setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden
+    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories
+    global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
+    global readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
+    global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
+    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
@@ -546,7 +550,7 @@ class InputOutputs:
                 directoryNames.append(name)
             else:
                 fileNames.append(name)
-                for ext in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                for ext in Universals.getListValue("musicExtensions"):
                     try:
                         if name.split(".")[-1].lower() == str(ext).lower():
                             musicFileNames.append(name)
@@ -704,13 +708,13 @@ class InputOutputs:
                     if isFile(joinPath(_path, name)):
                         dontRemovingFilesCount+=1
                         if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                            for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
+                            for f in Universals.getListValue("ignoredFiles"):
                                 try:
                                     if str(f)==name:
                                         dontRemovingFilesCount-=1
                                         break
                                 except:pass
-                            for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
+                            for ext in Universals.getListValue("ignoredFileExtensions"):
                                 try:
                                     if checkExtension(name, ext):
                                         dontRemovingFilesCount-=1
@@ -721,7 +725,7 @@ class InputOutputs:
                         if _isAutoCleanSubFolder==False:
                             break
                         if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                            for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
+                            for f in Universals.getListValue("ignoredDirectories"):
                                 try:
                                     if str(f)==name:
                                         dontRemovingFilesCount-=1
@@ -745,24 +749,24 @@ class InputOutputs:
         
     def clearUnneededs(_path):
         if checkSource(_path, "directory"):
-            for f in Universals.getListFromStrint(Universals.MySettings["unneededFiles"]):
+            for f in Universals.getListValue("unneededFiles"):
                 try:
                     if isFile(joinPath(_path, str(f))):
                         removeFile(joinPath(_path, str(f)))
                 except:pass
-            for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectoriesIfIsEmpty"]):
+            for f in Universals.getListValue("unneededDirectoriesIfIsEmpty"):
                 try:
                     if isDirEmpty(joinPath(_path, str(f))) and f.strip()!="":
                         removeDir(joinPath(_path, str(f)))
                 except:pass
-            for f in Universals.getListFromStrint(Universals.MySettings["unneededDirectories"]):
+            for f in Universals.getListValue("unneededDirectories"):
                 try:
                     if isDir(joinPath(_path, str(f))) and f.strip()!="":
                         removeFileOrDir(joinPath(_path, str(f)), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(joinPath(_path, name)):
-                    for ext in Universals.getListFromStrint(Universals.MySettings["unneededFileExtensions"]):
+                    for ext in Universals.getListValue("unneededFileExtensions"):
                         try:
                             if checkExtension(name, ext):
                                 removeFile(joinPath(_path, name))
@@ -770,19 +774,19 @@ class InputOutputs:
                         
     def clearIgnoreds(_path):
         if checkSource(_path, "directory"):
-            for f in Universals.getListFromStrint(Universals.MySettings["ignoredFiles"]):
+            for f in Universals.getListValue("ignoredFiles"):
                 try:
                     if isFile(joinPath(_path, str(f))):
                         removeFile(joinPath(_path, str(f)))
                 except:pass
-            for f in Universals.getListFromStrint(Universals.MySettings["ignoredDirectories"]):
+            for f in Universals.getListValue("ignoredDirectories"):
                 try:
                     if isDir(joinPath(_path, str(f))) and f.strip()!="":
                         removeFileOrDir(joinPath(_path, str(f)), True)
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(joinPath(_path, name)):
-                    for ext in Universals.getListFromStrint(Universals.MySettings["ignoredFileExtensions"]):
+                    for ext in Universals.getListValue("ignoredFileExtensions"):
                         try:
                             if checkExtension(name, ext):
                                 removeFile(joinPath(_path, name))
@@ -925,10 +929,10 @@ class InputOutputs:
                 if isFile(joinPath(_path, fileName)):
                     if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
                         cover = fileName
-                    if Universals.getListFromStrint(Universals.MySettings["imageExtensions"]).count((fileName.split(".")[-1]).lower()) != 0:
+                    if Universals.getListValue("imageExtensions").count((fileName.split(".")[-1]).lower()) != 0:
                         imageFiles.append(fileName)
                         if cover == None:
-                            for coverName in Universals.getListFromStrint(Universals.MySettings["priorityIconNames"]):
+                            for coverName in Universals.getListValue("priorityIconNames"):
                                 if str(fileName.split(".")[0]).lower()==str(coverName).lower():
                                     cover = fileName
                                     break
@@ -1047,10 +1051,10 @@ class InputOutputs:
             _path = str(_path)
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenPath"):
                 clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
-            for f in Universals.getListFromStrint(Universals.MySettings["packagerUnneededFiles"]):
+            for f in Universals.getListValue("packagerUnneededFiles"):
                 if isFile(joinPath(_path, f)):
                     removeFile(joinPath(_path, f))
-            for d in Universals.getListFromStrint(Universals.MySettings["packagerUnneededDirectories"]):
+            for d in Universals.getListValue("packagerUnneededDirectories"):
                 if isExist(joinPath(_path, d)):
                     removeFileOrDir(joinPath(_path, d), True)
             dontRemovingFilesCount = 0
@@ -1059,7 +1063,7 @@ class InputOutputs:
                 if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
                 if isFile(joinPath(_path, name)):
                     dontRemovingFilesCount+=1
-                    for ext in Universals.getListFromStrint(Universals.MySettings["packagerUnneededFileExtensions"]):
+                    for ext in Universals.getListValue("packagerUnneededFileExtensions"):
                         try:
                             if checkExtension(name, ext):
                                 removeFile(joinPath(_path, name))
@@ -1094,10 +1098,10 @@ class InputOutputs:
             _path = str(_path)
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenClear"):
                 clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))
-            for f in Universals.getListFromStrint(Universals.MySettings["cleanerUnneededFiles"]):
+            for f in Universals.getListValue("cleanerUnneededFiles"):
                 if isFile(joinPath(_path, f)):
                     removeFile(joinPath(_path, f))
-            for d in Universals.getListFromStrint(Universals.MySettings["cleanerUnneededDirectories"]):
+            for d in Universals.getListValue("cleanerUnneededDirectories"):
                 if isExist(joinPath(_path, d)):
                     removeFileOrDir(joinPath(_path, d), True)
             dontRemovingFilesCount = 0
@@ -1106,7 +1110,7 @@ class InputOutputs:
                 if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
                 if isFile(joinPath(_path, name)):
                     dontRemovingFilesCount+=1
-                    for ext in Universals.getListFromStrint(Universals.MySettings["cleanerUnneededFileExtensions"]):
+                    for ext in Universals.getListValue("cleanerUnneededFileExtensions"):
                         try:
                             if checkExtension(name, ext):
                                 removeFile(joinPath(_path, name))

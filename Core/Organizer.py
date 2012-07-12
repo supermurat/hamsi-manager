@@ -225,7 +225,7 @@ class Organizer:
                                 newString+=" "+_splitPointer+" "+str(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text())
                         newString = emend(newString[2:])
                         if newString!="":
-                            for uzanti in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                            for uzanti in Universals.getListValue("musicExtensions"):
                                 if newString.split(".")[-1].lower() == str(uzanti) :
                                     newString = newString[:-len(newString.split(".")[-1])-1]
                             if _SpecialTools.btChange.isChecked()==True:
@@ -239,7 +239,7 @@ class Organizer:
                 for rowNo in range(Universals.MainWindow.Table.rowCount()):
                     newString = str(Universals.MainWindow.Table.item(rowNo,changerColumns[0]).text())
                     if newString!="-----":
-                        for uzanti in Universals.getListFromStrint(Universals.MySettings["musicExtensions"]):
+                        for uzanti in Universals.getListValue("musicExtensions"):
                             if newString.split(".")[-1].lower() == str(uzanti) :
                                 newString = newString[:-len(newString.split(".")[-1])-1]
                         newStrings = ["","","","","","","",""]
