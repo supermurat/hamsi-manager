@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2011-12-18, 18:29:31 -->
-<!-- Copyright (C) 2011 Murat Demir, mopened@gmail.com -->
+<!-- Saved: 2012-07-12, 15:36:50 -->
+<!-- Copyright (C) 2012 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
   <ProgLanguage mixed="1">Python</ProgLanguage>
@@ -111,10 +111,8 @@
   </Forms>
   <Translations>
     <Translation>Languages/HamsiManagerWithQt_tr_TR.ts</Translation>
-    <Translation>Languages/HamsiManager_pt_BR.qm</Translation>
     <Translation>Languages/HamsiManager_tr_TR.qm</Translation>
     <Translation>Languages/HamsiManager_untranslated.ts</Translation>
-    <Translation>Languages/HamsiManager_pt_BR.ts</Translation>
     <Translation>Languages/HamsiManager_tr_TR.ts</Translation>
     <Translation>Languages/HamsiManagerWithQt_tr_TR.qm</Translation>
     <Translation>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/languages/HamsiManagerInTheAmarok_pt_BR.qm</Translation>
