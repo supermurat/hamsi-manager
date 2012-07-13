@@ -40,6 +40,7 @@ class Searcher(MyDialog):
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "search", None, newOrChangedKeys)
         self.isMultipleSource = False
+        self.sourceToSearchCache = {}
         self.sourceToSearch = None
         self.tmrSearchAfter = None
         lblPleaseSelect = MLabel(translate("Searcher", "Directory Or File : "))
@@ -154,7 +155,7 @@ class Searcher(MyDialog):
         if self.setSourceToSearch():
             self.search()
     
-    def setSourceToSearch(self, _isReload=True):
+    def setSourceToSearch(self, _isReload=True, _isLoadFromCache=False):
         try:
             if self.sourceToSearch == None or _isReload==True:
                 sourceToSearch = ""
@@ -163,12 +164,19 @@ class Searcher(MyDialog):
                 if InputOutputs.isExist(pathToSearchs)==False and pathToSearchs.find(";")!=-1:
                     self.isMultipleSource = True
                 for pathToSearch in Universals.getListFromListString(pathToSearchs, ";"):
-                    if InputOutputs.checkSource(pathToSearch):
-                        if InputOutputs.isReadableFileOrDir(pathToSearch):
-                            if InputOutputs.isFile(pathToSearch):
-                                sourceToSearch += InputOutputs.readFromFile(pathToSearch) + "\n"
-                            elif InputOutputs.isDir(pathToSearch):
-                                sourceToSearch += InputOutputs.getFileTree(pathToSearch, -1, "return", "plainText", "fileList") + "\n"
+                    if pathToSearch in self.sourceToSearchCache and _isLoadFromCache:
+                        sourceToSearch += self.sourceToSearchCache[pathToSearch]
+                    else:
+                        if InputOutputs.checkSource(pathToSearch):
+                            if InputOutputs.isReadableFileOrDir(pathToSearch):
+                                if InputOutputs.isFile(pathToSearch):
+                                    sts = InputOutputs.readFromFile(pathToSearch) + "\n"
+                                    sourceToSearch += sts
+                                    self.sourceToSearchCache[pathToSearch] = sts
+                                elif InputOutputs.isDir(pathToSearch):
+                                    sts = InputOutputs.getFileTree(pathToSearch, -1, "return", "plainText", "fileList") + "\n"
+                                    sourceToSearch += sts
+                                    self.sourceToSearchCache[pathToSearch] = sts
                 self.sourceToSearch = sourceToSearch
                 if sourceToSearch!="":
                     return True
@@ -334,7 +342,7 @@ class Searcher(MyDialog):
                             translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
             if SearchPath!="":
                 self.lePathToSeach.setText(SearchPath)
-                if self.setSourceToSearch(True):
+                if self.setSourceToSearch(True, True):
                     self.search()
         except:
             from Core import ReportBug
@@ -349,7 +357,7 @@ class Searcher(MyDialog):
                 SearchPaths = Universals.getListFromListString(self.lePathToSeach.text(), ";")
                 SearchPaths.append(SearchPath)
                 self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
-                if self.setSourceToSearch(True):
+                if self.setSourceToSearch(True, True):
                     self.search()
         except:
             from Core import ReportBug
@@ -366,7 +374,7 @@ class Searcher(MyDialog):
             SearchPaths = list(SearchPaths)
             if SearchPaths!=[]:
                 self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
-                if self.setSourceToSearch(True):
+                if self.setSourceToSearch(True, True):
                     self.search()
         except:
             from Core import ReportBug
@@ -383,7 +391,7 @@ class Searcher(MyDialog):
             if SearchPaths!=[]:
                 SearchPaths = Universals.getListFromListString(self.lePathToSeach.text(), ";") + SearchPaths
                 self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
-                if self.setSourceToSearch(True):
+                if self.setSourceToSearch(True, True):
                     self.search()
         except:
             from Core import ReportBug
