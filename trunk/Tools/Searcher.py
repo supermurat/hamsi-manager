@@ -49,6 +49,10 @@ class Searcher(MyDialog):
         self.pbtnSelectSeachFilePath = MPushButton(translate("Searcher", "Select File"))
         self.connect(self.pbtnSelectSeachDirectoryPath,SIGNAL("clicked()"),self.selectSearchDirectoryPath)
         self.connect(self.pbtnSelectSeachFilePath,SIGNAL("clicked()"),self.selectSearchFilePath)
+        self.pbtnAddSeachDirectoryPath = MPushButton(translate("Searcher", "Add Directory"))
+        self.pbtnAddSeachFilePath = MPushButton(translate("Searcher", "Add File"))
+        self.connect(self.pbtnAddSeachDirectoryPath,SIGNAL("clicked()"),self.addSearchDirectoryPath)
+        self.connect(self.pbtnAddSeachFilePath,SIGNAL("clicked()"),self.addSearchFilePath)
         self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
         self.pbtnReloadSourceToSearch = MPushButton(translate("Searcher", "(Re)Load"))
         self.connect(self.pbtnReloadSourceToSearch,SIGNAL("clicked()"),self.reloadSourceToSearch)
@@ -70,6 +74,11 @@ class Searcher(MyDialog):
         self.cckbIsClearVowels = Options.MyCheckBox(self, translate("Searcher", "Clear Vowels"), 2, _stateChanged = self.search)
         self.cckbIsNormalizeUTF8CharsAndClearVowels = Options.MyCheckBox(self, translate("Searcher", "Normalize UTF-8 Characters And Clear Vowels"), 2, _stateChanged = self.search)
         self.cckbIsLineWrap = Options.MyCheckBox(self, translate("Searcher", "Wrap By Width"), 0, _stateChanged = self.isLineWrap)
+        self.pbtnEditValuePathToSeach = MPushButton(translate("Options", "*"))
+        self.pbtnEditValuePathToSeach.setObjectName(trForUI(translate("Options", "Edit Values With Advanced Value Editor") + "Path To Seach"))
+        self.pbtnEditValuePathToSeach.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
+        self.pbtnEditValuePathToSeach.setFixedWidth(25)
+        MObject.connect(self.pbtnEditValuePathToSeach, SIGNAL("clicked()"), self.pbtnEditValuePathToSeachClicked)
         pnlMain = MWidget(self)
         tabwTabs = MTabWidget()
         vblMain = MVBoxLayout(pnlMain)
@@ -77,10 +86,13 @@ class Searcher(MyDialog):
         vblMain2 = MVBoxLayout(pnlMain2)
         HBox = MHBoxLayout()
         HBox.addWidget(self.lePathToSeach)
+        HBox.addWidget(self.pbtnEditValuePathToSeach)
         HBox1 = MHBoxLayout()
         HBox1.addWidget(self.pbtnReloadSourceToSearch)
         HBox1.addWidget(self.pbtnSelectSeachDirectoryPath)
+        HBox1.addWidget(self.pbtnAddSeachDirectoryPath)
         HBox1.addWidget(self.pbtnSelectSeachFilePath)
+        HBox1.addWidget(self.pbtnAddSeachFilePath)
         HBox3 = MHBoxLayout()
         HBox3.addWidget(lblSearch, 1)
         HBox3.addWidget(self.leSearch, 20)
@@ -328,6 +340,22 @@ class Searcher(MyDialog):
             from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
+    
+    def addSearchDirectoryPath(self):
+        try:
+            SearchPath = QFileDialog.getExistingDirectory(self,
+                            translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
+            if SearchPath!="":
+                SearchPaths = Universals.getListFromListString(self.lePathToSeach.text(), ";")
+                SearchPaths.append(SearchPath)
+                self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
+                if self.setSourceToSearch(True):
+                    self.search()
+        except:
+            from Core import ReportBug
+            error = ReportBug.ReportBug()
+            error.show() 
+
 
     def selectSearchFilePath(self):
         try:
@@ -344,7 +372,71 @@ class Searcher(MyDialog):
             from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
+
+    def addSearchFilePath(self):
+        try:
+            SearchPaths = QFileDialog.getOpenFileNames(self,
+                        translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
+                        translate("Searcher", "All Files (*.*)"))
+                        
+            SearchPaths = list(SearchPaths)
+            if SearchPaths!=[]:
+                SearchPaths = Universals.getListFromListString(self.lePathToSeach.text(), ";") + SearchPaths
+                self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
+                if self.setSourceToSearch(True):
+                    self.search()
+        except:
+            from Core import ReportBug
+            error = ReportBug.ReportBug()
+            error.show() 
     
+    def pbtnEditValuePathToSeachClicked(self):
+        aved = AdvancedValueEditorDialog(self)
     
+class AdvancedValueEditorDialog(MDialog):
+    def __init__(self, _parent):
+        MDialog.__init__(self, _parent)
+        if Universals.isActivePyKDE4==True:
+            self.setButtons(MDialog.NoDefault)
+        self.setWindowTitle(translate("AdvancedValueEditorDialog", "Advanced Value Editor"))
+        currentValuePathToSeach = str(self.parent().lePathToSeach.text())
+        if Universals.isActivePyKDE4==True:
+            self.EditorWidgetPathToSeach = MEditListBox(self)
+            self.EditorWidgetPathToSeach.setItems([trForUI(x) for x in currentValuePathToSeach.split(";")])
+        else:
+            self.EditorWidgetPathToSeach = MTextEdit(self)
+            self.EditorWidgetPathToSeach.setText(trForUI(currentValuePathToSeach.replace(";", "\n")))
+        pnlMain = MWidget(self)
+        vblMain = MVBoxLayout(pnlMain)
+        pbtnCancel = MPushButton(translate("AdvancedValueEditorDialog", "Cancel"))
+        pbtnApply = MPushButton(translate("AdvancedValueEditorDialog", "Apply"))
+        MObject.connect(pbtnCancel, SIGNAL("clicked()"), self.close)
+        MObject.connect(pbtnApply, SIGNAL("clicked()"), self.apply)
+        vblMain.addWidget(MLabel(translate("AdvancedValueEditorDialog", "Search List : ")))
+        vblMain.addWidget(self.EditorWidgetPathToSeach)
+        hblBox = MHBoxLayout()
+        hblBox.addWidget(pbtnApply)
+        hblBox.addWidget(pbtnCancel)
+        vblMain.addLayout(hblBox)
+        if Universals.isActivePyKDE4==True:
+            self.setMainWidget(pnlMain)
+        else:
+            self.setLayout(vblMain)
+        self.setMinimumSize(550, 400)
+        self.show()
+        
+    def apply(self):
+        valuePathToSeach = ""
+        if Universals.isActivePyKDE4==True:
+            for y, info in enumerate(self.EditorWidgetPathToSeach.items()):
+                if y!=0:
+                    valuePathToSeach += ";"
+                valuePathToSeach += str(info)
+        else:
+            valuePathToSeach = str(self.EditorWidgetPathToSeach.toPlainText()).replace("\n", ";")
+        self.parent().lePathToSeach.setText(trForUI(valuePathToSeach))
+        self.close()
+        
+        
     
                 

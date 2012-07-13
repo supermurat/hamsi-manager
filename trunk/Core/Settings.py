@@ -347,5 +347,7 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["validSentenceStructureForDirectory", "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree"]
         if oldVersion<991:
             newSettingsKeys = newSettingsKeys + ["isDecodeURLStrings"]
+        if oldVersion<1001:
+            newSettingsKeys = newSettingsKeys + ["checkUnSavedValues"]
         return newSettingsKeys, changedDefaultValuesKeys
         

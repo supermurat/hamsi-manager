@@ -32,7 +32,7 @@ class Variables():
     Catalog = "HamsiManager" 
     version = "1.0.2"
     intversion = 1002
-    settingVersion = "1000"
+    settingVersion = "1001"
     aboutOfHamsiManager = ""
     if sys.argv[0][0]==".":
         executableAppPath = str(os.getcwd() + sys.argv[0][1:])
