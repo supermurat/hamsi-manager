@@ -712,12 +712,12 @@ class EditDialog(MDialog):
         self.keyValue = self.requestInfos[1]
         self.keyNo = int(self.requestInfos[2])
         if self.typeOfValue=="string":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
             self.EditorWidget = MTextEdit(self)
             self.EditorWidget.setText(trForUI(currentValue))
         elif self.typeOfValue=="richtext":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].plainText())
             self.EditorWidget = MTextEdit(self)
             self.EditorWidget.setAcceptRichText(True)
@@ -731,19 +731,19 @@ class EditDialog(MDialog):
                 self.EditorWidget = MTextEdit(self)
                 self.EditorWidget.setText(trForUI(currentValue.replace(";", "\n")))
         elif self.typeOfValue=="options":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].currentIndex())
         elif self.typeOfValue=="number":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].value())
         elif self.typeOfValue=="Yes/No":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             if self.parent().categories[self.categoryNo].values[self.keyNo].currentIndex()==1:
                 currentValue = True
             else:
                 currentValue = False
         elif self.typeOfValue=="file":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
@@ -765,11 +765,11 @@ class EditDialog(MDialog):
         
     def apply(self):
         if self.typeOfValue=="string":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             newValue = "" #NotUsed
             self.parent().categories[self.categoryNo].values[self.keyNo].setText(trForUI(newValue))
         elif self.typeOfValue=="richtext":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             newValue = "" #NotUsed
             self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(trForUI(newValue))
         elif self.typeOfValue=="list":
@@ -783,22 +783,22 @@ class EditDialog(MDialog):
                 value = str(self.EditorWidget.toPlainText()).replace("\n", ";")
             self.parent().categories[self.categoryNo].values[self.keyNo].setText(trForUI(value))
         elif self.typeOfValue=="options":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             newValue = "" #NotUsed
             self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(self.parent().categories[self.categoryNo].valuesOfOptionsKeys[self.parent().categories[self.categoryNo].typesOfValues[self.keyNo][1]].index(newValue))
         elif self.typeOfValue=="number":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             newValue = "" #NotUsed
             self.parent().categories[self.categoryNo].values[self.keyNo].setValue(int(newValue)) 
         elif self.typeOfValue=="Yes/No":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             newValue = "" #NotUsed
             if eval(newValue.title())==True:
                 self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(1)
             else:
                 self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(0)
         elif self.typeOfValue=="file":
-            #This Is Not Used (For only next)
+            #This Is Not Used (For only future)
             newValue = "" #NotUsed
             self.parent().categories[self.categoryNo].values[self.keyNo].setText(newValue)
         self.close()
