@@ -1,0 +1,23 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Encoding=UTF-8
+Comment[tr]=Hamsi Manager
+Comment=Hamsi Manager
+Categories=Utility;Qt;KDE;System;X-KDE-Utilities-File;GTK;GNOME;FileTools;FileManager
+Exec=~ExecuteCommandOfHamsiManager~
+GenericName[tr]=Hamsi Manager
+GenericName=Hamsi Manager
+Icon=~IconPath~
+MimeType=inode/directory;
+Name[tr]=Hamsi Manager
+Name=Hamsi Manager
+Path=~InstallationDirectory~
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
+X-MultipleArgs=false
