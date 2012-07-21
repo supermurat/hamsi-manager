@@ -1339,7 +1339,7 @@ class InputOutputs:
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = QFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
-                                    trForM(Variables.userDirectoryPath),trForUI(formatTypeName+" (*."+fileExt+")"))
+                                    trForM(joinPath(Variables.userDirectoryPath, getBaseName(_path) + "." + fileExt)),trForUI(formatTypeName+" (*."+fileExt+")"))
             if filePath!="":
                 filePath = str(filePath)
                 if _outputType=="html" and filePath[-5:]!=".html":

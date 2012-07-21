@@ -66,10 +66,6 @@ if RoutineChecks.checkQt4Exist():
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.addCredit(ki18n(trForUI("Tolga Balc\xc4\xb1")), ki18n(trForUI("Translate to English. (Voluntary) (V0.7.x)")), 
-                                            "tbalci@gmail.com", "http://www.brighthub.com/members/paladin.aspx")
-            aboutOfHamsiManager.addCredit(ki18n(trForUI("M\xc3\xa1rcio Moraes")), ki18n(trForUI("Translate to Brazilian Portuguese. (Voluntary) (V0.8.7 - ~)")), 
-                                            "", "")
             aboutOfHamsiManager.setProgramIconName(trForM(InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-128x128.png")))
             if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)):
                 aboutOfHamsiManager.addLicenseTextFile(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)))
