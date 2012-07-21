@@ -1,0 +1,18 @@
+Hamsi Manager ekstra işlemler için geliştirilen bir dosya yöneticisidir. Genel anlamda bir işlemi birden çok dosyaya tek seferde uygulamanız için düşünülmüş bir ortam olmasının yanında, bir dosya ile ilgili bir kaç işlemi tek seferde ve sonraki zamanlarda tekrar tekrar yapmak içinde kullanabilirsiniz. Tüm bunları yaparken size olabildiğince fazla seçenek sunar. Tamamen kişiselleştirilebilir bir ortam oluşturmayı hedeflemiş ve bunu kullanım kolaylığı ile birleştirmeyi amaç edinmiştir. GPLv3 lisansı altında dağıtılan ve tamamen Açık Kaynak Kodlu kütüphaneler ile geliştirilen bir projedir.
+
+Sistem Gereksinimleri : 
+    Python 2.5+, 3.X (Bazı gereksinimler Python 3 için henüz destek vermiyor) http://www.python.org/download/
+    PyQt4 (Qt4) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.nokia.com/products
+    * PyKDE4 (Bu bir gereksinim değildir fakat daha iyi bir masaüstü entegrasyonu sunmaktadır) http://techbase.kde.org/Development/Languages/Python
+    * python-eyed3 (Bazı özellikler için) http://eyed3.nicfit.net/
+    * python-musicbrainz2 (Bazı özellikler için) http://musicbrainz.org/doc/PythonMusicbrainz
+    * python-mysql (Bazı özellikler için) http://sourceforge.net/projects/mysql-python/
+
+Kurulum Basamakları :
+* "install.py" dosyasına çifttıklayınız veya konsola(Konsole,Terminal...) "python ./install.py" yazınız.
+* "Hamsi Manager Kurulum Aracı" ile kurulumu gerçekleştirebilirsiniz.(Grafiksel Kullanıcı Arayüzü (GUI))
+
+Çalıştırılması :
+* "HamsiManager.py" dosyasına çifttıklayınız veya konsola(Konsole,Terminal...) "python ./HamsiManager.py" yazınız.
+
+Daha detaylı türkçe bilgi için lütfen "http://hamsiapps.com/HamsiManager" adresini ziyaret ediniz.

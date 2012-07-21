@@ -1,0 +1,44 @@
+
+M = K (in PyKDE4) (Example : MLabel = KLabel)
+M = Q (in PyQt4)  (Example : MLabel = QLabel)
+
+Objects` Prefix =	Objacts` Name
+
+lbl				= 	MLabel
+le				=	MLineEdit
+pbtn			=	MPushButton
+lstw			=	MListWidget
+pnl				=	MWidget
+vbl				=	MVBoxLayout
+hbl				=	MHBoxLayout
+prgb			=	MProgressBar
+m				=	MMenu
+cb				=	MComboBox
+wv				=	MWebView
+sa				=	MScrollArea
+tb				=	MToolButton
+sld				=	MSlider
+sci				=	QsciScintilla
+tbox			=	MToolBox
+tbar			=	MToolBar
+gbox			=	MGroupBox
+trv				=	MTreeView
+lstv			=	MListView
+act				=	MAction
+te				=	MTextEdit
+fnt				=	MFont
+tabw			=	MTabWidget
+cckb			=	MCheckBox
+sp				=	MSpinBox
+pmap			=	MPixmap
+mbox			=	MMessageBox
+actg			=	MActionGroup
+d				=	MDialog
+scra			=	MScrollArea
+icn				=	QIcon
+fpv				=	MFilePlacesView
+fpm				=	MFilePlacesModel
+dck				=	MDockWidget
+dop				=	MDirOperator
+cmp				=	MCompleter
+tw				=	MTableWidget

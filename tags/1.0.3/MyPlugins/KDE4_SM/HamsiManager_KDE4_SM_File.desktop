@@ -1,0 +1,36 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=KonqPopupMenu/Plugin,all/allfiles
+ExcludeServiceTypes=kdedevice/*
+Encoding=UTF-8
+Actions=emend;hash;textCorrector;search
+X-KDE-Submenu=&Hamsi Manager
+X-KDE-Submenu[tr]=&Hamsi Manager
+X-KDE-Submenu[pt_BR]=&Hamsi Manager
+Icon=~IconPath~
+
+[Desktop Action emend]
+Exec=~ExecuteCommandOfHamsiManager~ --qm --emendFile %U
+Icon=~ThemePath~/Images/emendFile.png
+Name=Auto Emend
+Name[tr]=Otomatik Olarak Düzelt
+Name[pt_BR]=Corrigir automaticamente
+
+[Desktop Action hash]
+Exec=~ExecuteCommandOfHamsiManager~ --qm --hash %U
+Icon=~ThemePath~/Images/hash.png
+Name=Hash Digest
+Name[tr]=Doğrulama Özeti
+Name[pt_BR]=Resumo Do Hash
+
+[Desktop Action textCorrector]
+Exec=~ExecuteCommandOfHamsiManager~ --qm --textCorrector %U
+Icon=~ThemePath~/Images/textCorrector.png
+Name=Correct Content
+Name[tr]=İçeriği Düzelt
+
+[Desktop Action search]
+Exec=~ExecuteCommandOfHamsiManager~ --qm --search %U
+Icon=~ThemePath~/Images/search.png
+Name=Search
+Name[tr]=Ara
