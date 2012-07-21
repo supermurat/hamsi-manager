@@ -237,7 +237,7 @@ and `tracks`.`id` IN (
             `images`.`path`,
             `statistics`.`rating`
             FROM `tracks`
-            LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+            INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
             LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
             LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
             LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
@@ -301,7 +301,7 @@ SELECT `tracks`.`id`, (
 `tracks`.`tracknumber`, 
 `tracks`.`comment`
 FROM `tracks`
-LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
 LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
 """
         Universals.printForDevelopers("Query - getAllMusicFileValues : " + query)
@@ -363,7 +363,7 @@ SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     `images`.`path`,
     `statistics`.`rating`
     FROM `tracks`
-    LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+    INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
     LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
     LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
@@ -440,7 +440,7 @@ SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
     `genres`.`name` AS 'genrename',
     `images`.`path`
     FROM `tracks`
-    LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+    INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
     LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
     LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
@@ -503,7 +503,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
         , "")
     , char(1000)) AS 'filePath'
     FROM `tracks`
-    LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+    INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
     WHERE `tracks`.`artist`=""" + _artistId
         Universals.printForDevelopers("Query - getAllMusicFilePathsByArtistId : " + query)
@@ -549,7 +549,7 @@ SELECT * FROM (
     `tracks`.`tracknumber`, 
     `tracks`.`comment`
     FROM `tracks`
-    LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+    INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
     LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
 ) as `valueTable` WHERE `valueTable`.`filePath` = '%s'
 """ % Databases.correctForSql(_path)
@@ -621,7 +621,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         `images`.`path`,
         `statistics`.`rating`
         FROM `tracks`
-        LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
+        INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
         LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
         LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
         LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
