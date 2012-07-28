@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="tr_TR" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="tr_TR">
+<context>
+    <name>AdvancedValueEditorDialog</name>
+    <message>
+        <location filename="Tools/Searcher.py" line="409"/>
+        <source>Advanced Value Editor</source>
+        <translation>Gelişmiş Değer Editörü</translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="419"/>
+        <source>Cancel</source>
+        <translation>İptal</translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="420"/>
+        <source>Apply</source>
+        <translation>Uygula</translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="423"/>
+        <source>Search List : </source>
+        <translation>Arama Listesi : </translation>
+    </message>
+</context>
 <context>
     <name>Amarok</name>
     <message>
@@ -829,27 +853,27 @@
         <translation>Tümüne Hayır</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="393"/>
+        <location filename="InputOutputs/__init__.py" line="397"/>
         <source>Continue</source>
         <translation>Devam Et</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="410"/>
+        <location filename="InputOutputs/__init__.py" line="414"/>
         <source>Retry</source>
         <translation>Tekrar Dene</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="465"/>
+        <location filename="InputOutputs/__init__.py" line="469"/>
         <source>Replace</source>
         <translation>Değiştir</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="516"/>
+        <location filename="InputOutputs/__init__.py" line="520"/>
         <source>Rename</source>
         <translation>Yeniden İsimlendir</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="513"/>
+        <location filename="InputOutputs/__init__.py" line="517"/>
         <source>Yes, Add Into</source>
         <translation>Evet, İçerisine Ekle</translation>
     </message>
@@ -1568,92 +1592,92 @@
 <context>
     <name>InputOutputs</name>
     <message>
-        <location filename="InputOutputs/__init__.py" line="406"/>
+        <location filename="InputOutputs/__init__.py" line="410"/>
         <source>Access Denied</source>
         <translation>Erişim Engellendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1130"/>
+        <location filename="InputOutputs/__init__.py" line="1134"/>
         <source>Empty Directories Deleted</source>
         <translation>Boş Dizinler Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="460"/>
+        <location filename="InputOutputs/__init__.py" line="464"/>
         <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the current one?</source>
         <translation>&quot;%s&quot; isimli bir dosya zaten var.&lt;br&gt;Mevcut dosya ile değiştirilsin mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="480"/>
+        <location filename="InputOutputs/__init__.py" line="484"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;&quot;%s&quot; Add this file to the current folder?</source>
         <translation>&quot;%s&quot; : isimli bir dizin mevcut.&lt;br&gt;&quot;%s&quot; Dosyası mevcut dizine eklensin mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="423"/>
+        <location filename="InputOutputs/__init__.py" line="427"/>
         <source>Cannot Find File</source>
         <translation>Dosya Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="427"/>
+        <location filename="InputOutputs/__init__.py" line="431"/>
         <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; isimli bir dizin bulunamadı.&lt;br&gt;Lütfen dizinin varlığını kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="423"/>
+        <location filename="InputOutputs/__init__.py" line="427"/>
         <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; isimli bir dosya bulunamadı.&lt;br&gt;Lütfen dosyanın varlığını kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="460"/>
+        <location filename="InputOutputs/__init__.py" line="464"/>
         <source>Current File Name</source>
         <translation>Mevcut Dosya Adı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="886"/>
+        <location filename="InputOutputs/__init__.py" line="890"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation>Dosyaların Dizini Değiştiriliyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1106"/>
+        <location filename="InputOutputs/__init__.py" line="1110"/>
         <source>Checking Empty Directories</source>
         <translation>Boş Dizinler Kontrol Ediliyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1127"/>
+        <location filename="InputOutputs/__init__.py" line="1131"/>
         <source>Deleting Empty Directories</source>
         <translation>Boş Dizinler Siliniyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1143"/>
+        <location filename="InputOutputs/__init__.py" line="1147"/>
         <source>Current Directory Name</source>
         <translation>Mevcut Dizin Adı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="427"/>
+        <location filename="InputOutputs/__init__.py" line="431"/>
         <source>Cannot Find Directory</source>
         <translation>Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1143"/>
+        <location filename="InputOutputs/__init__.py" line="1147"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation>&quot;%s&quot; isimli bir dosya var.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="398"/>
+        <location filename="InputOutputs/__init__.py" line="402"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dizini değiştirmeye yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="406"/>
+        <location filename="InputOutputs/__init__.py" line="410"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dosyayı değiştirmeye yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="431"/>
+        <location filename="InputOutputs/__init__.py" line="435"/>
         <source>Cannot Find File Or Directory</source>
         <translation>Dosya Yada Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="431"/>
+        <location filename="InputOutputs/__init__.py" line="435"/>
         <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Lütfen böyle bir dosya yada dizinin varlığından emin olup tekrar deneyiniz.</translation>
     </message>
@@ -1673,102 +1697,102 @@
         <translation>&quot;%s&quot; : böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="741"/>
+        <location filename="InputOutputs/__init__.py" line="745"/>
         <source>Directory Deleted</source>
         <translation>Dizin Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1131"/>
+        <location filename="InputOutputs/__init__.py" line="1135"/>
         <source>Project Directory Deleted</source>
         <translation>Proje Dizini Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1133"/>
+        <location filename="InputOutputs/__init__.py" line="1137"/>
         <source>Project Directory Cleaned</source>
         <translation>Proje Dizini Temizlendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="365"/>
+        <location filename="InputOutputs/__init__.py" line="369"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dizini okumaya yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="373"/>
+        <location filename="InputOutputs/__init__.py" line="377"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dosyayı okumaya yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="741"/>
+        <location filename="InputOutputs/__init__.py" line="745"/>
         <source>&quot;%s&quot; deleted.Because this directory is empty.</source>
         <translation>&quot;%s&quot; silindi.Çünkü bu dizin boştu.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="939"/>
+        <location filename="InputOutputs/__init__.py" line="943"/>
         <source>Select A Cover</source>
         <translation>Bir Kapak Seçiniz</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="939"/>
+        <location filename="InputOutputs/__init__.py" line="943"/>
         <source>Please select a cover for &quot;%s&quot;.</source>
         <translation>Lütfen &quot;%s&quot; dizini için bir kapak seçiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="736"/>
+        <location filename="InputOutputs/__init__.py" line="740"/>
         <source>Cleaning Empty Directories</source>
         <translation>Boş Dizinler Temizleniyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="743"/>
+        <location filename="InputOutputs/__init__.py" line="747"/>
         <source>Directories Cleaned</source>
         <translation>Dizinler Temizlendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="445"/>
+        <location filename="InputOutputs/__init__.py" line="449"/>
         <source>Unavailable Name</source>
         <translation>Geçersiz İsim</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="438"/>
+        <location filename="InputOutputs/__init__.py" line="442"/>
         <source>&quot;%s&quot; : can not encoded by %s.&lt;br&gt;Please review and correct the name!&lt;br&gt;You can correct your file system encoding name in Options/Advanced, If you want.&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation>&quot;%s&quot; dosyası %s ile kodlanamadı.&lt;br&gt;Lütfen isme tekrar gözatıp düzeltiniz!&lt;br&gt;Eğer isterseniz dosya sistemi kodlaması adını Seçenekler/Gelişmiş`ten düzeltebilirsiniz.&lt;br&gt;Bu işlemi iptal etmek için iptal butonuna tıklayabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="489"/>
+        <location filename="InputOutputs/__init__.py" line="493"/>
         <source>Select A New Name For File</source>
         <translation>Dosya İçin Yeni Bir İsim Seçiniz</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="489"/>
+        <location filename="InputOutputs/__init__.py" line="493"/>
         <source>All Files</source>
         <translation>Tüm Dosyalar</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="508"/>
+        <location filename="InputOutputs/__init__.py" line="512"/>
         <source>&quot;%s&quot; : there already exists a directory with the same name.&lt;br&gt;Add your files to the current directory?</source>
         <translation>&quot;%s&quot; : bu isimde zaten bir dizin mevcut.&lt;br&gt;Dosyalarınızı mevcut dizine ekleyelim mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="518"/>
+        <location filename="InputOutputs/__init__.py" line="522"/>
         <source>Select A Directory</source>
         <translation>Bir Dizin Seçiniz</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="733"/>
+        <location filename="InputOutputs/__init__.py" line="737"/>
         <source>Checked Empty Directories</source>
         <translation>Boş Dizinler Kontrol Edildi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1150"/>
+        <location filename="InputOutputs/__init__.py" line="1154"/>
         <source>Creating Tar File</source>
         <translation>Tar Dosyası Oluşturuluyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="445"/>
+        <location filename="InputOutputs/__init__.py" line="449"/>
         <source>&quot;%s&quot; : this file path is not valid.&lt;br&gt;Please review and correct the path of file!&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation>&quot;%s&quot; dosyasının dosya yolu uygun değil.&lt;br&gt;Lütfen dosya yoluna tekrar gözatıp düzeltiniz!&lt;br&gt;Bu işlemi iptal etmek için iptal butonuna tıklayabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1316"/>
+        <location filename="InputOutputs/__init__.py" line="1320"/>
         <source>inaccessible</source>
         <translation>erişilemiyor</translation>
     </message>
@@ -2999,7 +3023,7 @@
         <translation>*</translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="640"/>
+        <location filename="Tools/Searcher.py" line="79"/>
         <source>Edit Values With Advanced Value Editor</source>
         <translation>Değerleri Gelişmiş Değer Editörü İle Düzenle</translation>
     </message>
@@ -3925,12 +3949,12 @@
     <message>
         <location filename="Options/OptionsFormContent.py" line="48"/>
         <source>Check Unsaved Values</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydedilmemiş Değerleri Kontrol Et</translation>
     </message>
     <message>
         <location filename="Options/OptionsFormContent.py" line="53"/>
-        <source>Are you want to check unsaved values in tables while Hamsi Manager was closing.</source>
-        <translation type="unfinished"></translation>
+        <source>Are you want to check unsaved values in tables while Hamsi Manager was closing?</source>
+        <translation>Hamsi Manager kapatılırken, kaydedilmemiş değerleri kontrol etmek ister misiniz?</translation>
     </message>
 </context>
 <context>
@@ -5323,12 +5347,12 @@
         <translation>&quot;%s&quot; modülü olmadan uygulama çalışmayacaktır.</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="357"/>
+        <location filename="HamsiManager.py" line="353"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation>Kritik bir hata oluştu.Detaylara bakmak istiyorsanız &quot;%s&quot; dosyasına bakabilirsiniz.Eğer Mümkünse bu hatanın detaylarını bize göndermenizi rica ederiz.</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="358"/>
+        <location filename="HamsiManager.py" line="354"/>
         <source>Thanks in advance for your interest.</source>
         <translation>İlginiz için şimdiden teşekkür ederiz.</translation>
     </message>
@@ -5710,124 +5734,134 @@
 <context>
     <name>Searcher</name>
     <message>
-        <location filename="Tools/Searcher.py" line="44"/>
+        <location filename="Tools/Searcher.py" line="46"/>
         <source>Directory Or File : </source>
         <translation>Dizin Veya Dosya : </translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="45"/>
+        <location filename="Tools/Searcher.py" line="47"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="47"/>
+        <location filename="Tools/Searcher.py" line="49"/>
         <source>Select Directory</source>
         <translation>Dizin Seç</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="48"/>
+        <location filename="Tools/Searcher.py" line="50"/>
         <source>Select File</source>
         <translation>Dosya Seç</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="52"/>
+        <location filename="Tools/Searcher.py" line="58"/>
         <source>(Re)Load</source>
         <translation>(Yeniden) Yükle</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="120"/>
+        <location filename="Tools/Searcher.py" line="134"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="56"/>
+        <location filename="Tools/Searcher.py" line="62"/>
         <source>Search : </source>
         <translation>Ara : </translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="64"/>
+        <location filename="Tools/Searcher.py" line="70"/>
         <source>Regular Expression (RegExp)</source>
         <translation>Düzenli İfade (RegExp)</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="65"/>
+        <location filename="Tools/Searcher.py" line="71"/>
         <source>Case Insensitive</source>
         <translation>Büyük/Küçük Harf Duyarsız</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="66"/>
+        <location filename="Tools/Searcher.py" line="72"/>
         <source>Normalize UTF-8 Characters</source>
         <translation>UTF-8 Karakterleri Normalleştir</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="67"/>
+        <location filename="Tools/Searcher.py" line="73"/>
         <source>Clear Digits</source>
         <translation>Rakamları Sil</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="68"/>
+        <location filename="Tools/Searcher.py" line="74"/>
         <source>Only Digits And Letters</source>
         <translation>Sadece Rakamlar Ve Harfler</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="69"/>
+        <location filename="Tools/Searcher.py" line="75"/>
         <source>Clear Vowels</source>
         <translation>Sesli Harfleri Sil</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="70"/>
+        <location filename="Tools/Searcher.py" line="76"/>
         <source>Normalize UTF-8 Characters And Clear Vowels</source>
         <translation>UTF-8 Karakterleri Normalleştir Ve Sesli Harfleri Sil</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="71"/>
+        <location filename="Tools/Searcher.py" line="77"/>
         <source>Wrap By Width</source>
         <translation>Genişliğe göre alt satıra geç</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="113"/>
+        <location filename="Tools/Searcher.py" line="127"/>
         <source>Filters : </source>
         <translation>Filtreler : </translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="121"/>
+        <location filename="Tools/Searcher.py" line="135"/>
         <source>Quick Options</source>
         <translation>Hızlı Seçenekler</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="133"/>
+        <location filename="Tools/Searcher.py" line="147"/>
         <source>Searcher</source>
         <translation>Arayıcı</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="263"/>
+        <location filename="Tools/Searcher.py" line="288"/>
         <source>Incorrect Syntax</source>
         <translation>Hatalı Sözdizimi</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="263"/>
+        <location filename="Tools/Searcher.py" line="288"/>
         <source>Search value is not correct for Regular Expression (RegExp). Please check it and try again.</source>
         <translation>Arama değeri Düzenli Ifade (RegExp) olarak geçerli değil. Lütfen kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="316"/>
+        <location filename="Tools/Searcher.py" line="354"/>
         <source>Please Select Directory</source>
         <translation>Lütfen Bir Dizin Seçiniz</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="329"/>
+        <location filename="Tools/Searcher.py" line="386"/>
         <source>Please Select A Text File To Search</source>
         <translation>Lütfen Aramak İçin Bir Metin Dosyası Seçiniz</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="329"/>
+        <location filename="Tools/Searcher.py" line="386"/>
         <source>All Files (*.*)</source>
         <translation>Tüm Dosyalar (*.*)</translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="57"/>
+        <location filename="Tools/Searcher.py" line="63"/>
         <source>Search List : </source>
         <translation>Arama Listesi : </translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="53"/>
+        <source>Add Directory</source>
+        <translation>Dizin Ekle</translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="54"/>
+        <source>Add File</source>
+        <translation>Dosya Ekle</translation>
     </message>
 </context>
 <context>
@@ -6276,22 +6310,22 @@
         <translation>Seçilenleri Değiştir</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="290"/>
+        <location filename="Core/Universals.py" line="298"/>
         <source>Folder Table</source>
         <translation>Dizin Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="291"/>
+        <location filename="Core/Universals.py" line="299"/>
         <source>File Table</source>
         <translation>Dosya Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="292"/>
+        <location filename="Core/Universals.py" line="300"/>
         <source>Music Table</source>
         <translation>Müzik Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="293"/>
+        <location filename="Core/Universals.py" line="301"/>
         <source>Subfolder Table</source>
         <translation>Altdizin Tablosu</translation>
     </message>
@@ -6416,17 +6450,17 @@
         <translation>Düz Metin</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1353"/>
+        <location filename="InputOutputs/__init__.py" line="1357"/>
         <source>File Tree</source>
         <translation>Dosya Ağacı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1346"/>
+        <location filename="InputOutputs/__init__.py" line="1350"/>
         <source>File Tree Created</source>
         <translation>Dosya Ağacı Oluşturuldu</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1346"/>
+        <location filename="InputOutputs/__init__.py" line="1350"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation>Dosya ağacı &quot;%s&quot; dosyasında oluşturuldu.</translation>
     </message>
@@ -6496,7 +6530,7 @@
         <translation>Konsol</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="295"/>
+        <location filename="Core/Universals.py" line="303"/>
         <source>Cover Table</source>
         <translation>Kapak Tablosu</translation>
     </message>
@@ -6511,32 +6545,32 @@
         <translation>&quot;%s&quot;: dosya uzantısı kaynak dosyanın uzantısından farklı.&lt;br&gt;Kaynak dosyanın uzantısını ayarlamak ister misiniz?&lt;br&gt;&lt;b&gt;Kaynak dosya : &lt;/b&gt;&quot;%s&quot;</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="297"/>
+        <location filename="Core/Universals.py" line="305"/>
         <source>Amarok Cover Table</source>
         <translation>Amarok Kapak Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="298"/>
+        <location filename="Core/Universals.py" line="306"/>
         <source>Amarok Music Table</source>
         <translation>Amarok Müzik Tablosu</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1313"/>
+        <location filename="InputOutputs/__init__.py" line="1317"/>
         <source>Last Modified : </source>
         <translation>Son Değişim : </translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1280"/>
+        <location filename="InputOutputs/__init__.py" line="1284"/>
         <source>File List</source>
         <translation>Dosya Listesi</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="299"/>
+        <location filename="Core/Universals.py" line="307"/>
         <source>Amarok Artist Table</source>
         <translation>Amarok Sanatçı Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="300"/>
+        <location filename="Core/Universals.py" line="308"/>
         <source>Amarok Copy Table</source>
         <translation>Amarok Kopyalama Tablosu</translation>
     </message>
@@ -6553,12 +6587,12 @@
     <message>
         <location filename="Tables/__init__.py" line="503"/>
         <source>There Are Unsaved Values</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydedilmemiş Değerler Var</translation>
     </message>
     <message>
         <location filename="Tables/__init__.py" line="503"/>
         <source>Do you want to save these values?&lt;br&gt;If you click to Yes : Table will be saved without any other question or option.&lt;br&gt;If you click to No : Application will be closed without doing any process.&lt;br&gt;If you click to Cancel : Application won&apos;t be closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu değerleri kaydetmek ister misiniz?&lt;br&gt;Eğer Evet&apos;e tıklarsanız : Başka bir soru veya seçenek olmadan tablo kaydedilecektir.&lt;br&gt;Eğer Hayır&apos;a tıklarsanız : Hiç bir işlem yapılmadan uygulama kapatılacaktır.&lt;br&gt;Eğer İptal&apos;e tıklarsanız : Uygulama kapatılmayacaktır.</translation>
     </message>
 </context>
 <context>
@@ -6911,32 +6945,32 @@
 <context>
     <name>Universals</name>
     <message>
-        <location filename="Core/Universals.py" line="323"/>
+        <location filename="Core/Universals.py" line="331"/>
         <source>Are You Sure?</source>
         <translation>Emin Misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="323"/>
+        <location filename="Core/Universals.py" line="331"/>
         <source>Are you want to cancel these transactions?</source>
         <translation>Bu işlemleri iptal etmek ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="301"/>
+        <location filename="Core/Universals.py" line="309"/>
         <source>%Artist%</source>
         <translation>%Sanatçı%</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="302"/>
+        <location filename="Core/Universals.py" line="310"/>
         <source>%Album%</source>
         <translation>%Albüm%</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="303"/>
+        <location filename="Core/Universals.py" line="311"/>
         <source>%Year%</source>
         <translation>%Yıl%</translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="304"/>
+        <location filename="Core/Universals.py" line="312"/>
         <source>%Genre%</source>
         <translation>%Tarz%</translation>
     </message>
@@ -7091,12 +7125,12 @@
     <message>
         <location filename="Core/UpdateControl.py" line="269"/>
         <source>The New Version Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni Sürüm İndirildi</translation>
     </message>
     <message>
         <location filename="Core/UpdateControl.py" line="269"/>
         <source>New version of Hamsi Manager downloaded, you can install it manually.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hamsi Manager&apos;ın yeni sürümü indirildi, elle kurulum yapabilirsiniz.</translation>
     </message>
 </context>
 <context>
