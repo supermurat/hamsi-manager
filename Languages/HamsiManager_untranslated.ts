@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="2.0">
 <context>
+    <name>AdvancedValueEditorDialog</name>
+    <message>
+        <location filename="Tools/Searcher.py" line="409"/>
+        <source>Advanced Value Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="419"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="420"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="423"/>
+        <source>Search List : </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Amarok</name>
     <message>
         <location filename="Amarok/__init__.py" line="96"/>
@@ -829,27 +852,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="393"/>
+        <location filename="InputOutputs/__init__.py" line="397"/>
         <source>Continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="410"/>
+        <location filename="InputOutputs/__init__.py" line="414"/>
         <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="465"/>
+        <location filename="InputOutputs/__init__.py" line="469"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="516"/>
+        <location filename="InputOutputs/__init__.py" line="520"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="513"/>
+        <location filename="InputOutputs/__init__.py" line="517"/>
         <source>Yes, Add Into</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1568,47 +1591,47 @@
 <context>
     <name>InputOutputs</name>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1106"/>
+        <location filename="InputOutputs/__init__.py" line="1110"/>
         <source>Checking Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1127"/>
+        <location filename="InputOutputs/__init__.py" line="1131"/>
         <source>Deleting Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1130"/>
+        <location filename="InputOutputs/__init__.py" line="1134"/>
         <source>Empty Directories Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="460"/>
+        <location filename="InputOutputs/__init__.py" line="464"/>
         <source>Current File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1143"/>
+        <location filename="InputOutputs/__init__.py" line="1147"/>
         <source>Current Directory Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="423"/>
+        <location filename="InputOutputs/__init__.py" line="427"/>
         <source>Cannot Find File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="427"/>
+        <location filename="InputOutputs/__init__.py" line="431"/>
         <source>Cannot Find Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="406"/>
+        <location filename="InputOutputs/__init__.py" line="410"/>
         <source>Access Denied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="886"/>
+        <location filename="InputOutputs/__init__.py" line="890"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1628,147 +1651,147 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="398"/>
+        <location filename="InputOutputs/__init__.py" line="402"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="406"/>
+        <location filename="InputOutputs/__init__.py" line="410"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="423"/>
+        <location filename="InputOutputs/__init__.py" line="427"/>
         <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="427"/>
+        <location filename="InputOutputs/__init__.py" line="431"/>
         <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="431"/>
+        <location filename="InputOutputs/__init__.py" line="435"/>
         <source>Cannot Find File Or Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="431"/>
+        <location filename="InputOutputs/__init__.py" line="435"/>
         <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="460"/>
+        <location filename="InputOutputs/__init__.py" line="464"/>
         <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the current one?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="480"/>
+        <location filename="InputOutputs/__init__.py" line="484"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;&quot;%s&quot; Add this file to the current folder?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1143"/>
+        <location filename="InputOutputs/__init__.py" line="1147"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="741"/>
+        <location filename="InputOutputs/__init__.py" line="745"/>
         <source>Directory Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1131"/>
+        <location filename="InputOutputs/__init__.py" line="1135"/>
         <source>Project Directory Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1133"/>
+        <location filename="InputOutputs/__init__.py" line="1137"/>
         <source>Project Directory Cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="365"/>
+        <location filename="InputOutputs/__init__.py" line="369"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="373"/>
+        <location filename="InputOutputs/__init__.py" line="377"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="741"/>
+        <location filename="InputOutputs/__init__.py" line="745"/>
         <source>&quot;%s&quot; deleted.Because this directory is empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="939"/>
+        <location filename="InputOutputs/__init__.py" line="943"/>
         <source>Select A Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="939"/>
+        <location filename="InputOutputs/__init__.py" line="943"/>
         <source>Please select a cover for &quot;%s&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="736"/>
+        <location filename="InputOutputs/__init__.py" line="740"/>
         <source>Cleaning Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="743"/>
+        <location filename="InputOutputs/__init__.py" line="747"/>
         <source>Directories Cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="445"/>
+        <location filename="InputOutputs/__init__.py" line="449"/>
         <source>Unavailable Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="438"/>
+        <location filename="InputOutputs/__init__.py" line="442"/>
         <source>&quot;%s&quot; : can not encoded by %s.&lt;br&gt;Please review and correct the name!&lt;br&gt;You can correct your file system encoding name in Options/Advanced, If you want.&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="489"/>
+        <location filename="InputOutputs/__init__.py" line="493"/>
         <source>Select A New Name For File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="489"/>
+        <location filename="InputOutputs/__init__.py" line="493"/>
         <source>All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="508"/>
+        <location filename="InputOutputs/__init__.py" line="512"/>
         <source>&quot;%s&quot; : there already exists a directory with the same name.&lt;br&gt;Add your files to the current directory?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="518"/>
+        <location filename="InputOutputs/__init__.py" line="522"/>
         <source>Select A Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="733"/>
+        <location filename="InputOutputs/__init__.py" line="737"/>
         <source>Checked Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1150"/>
+        <location filename="InputOutputs/__init__.py" line="1154"/>
         <source>Creating Tar File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="445"/>
+        <location filename="InputOutputs/__init__.py" line="449"/>
         <source>&quot;%s&quot; : this file path is not valid.&lt;br&gt;Please review and correct the path of file!&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1316"/>
+        <location filename="InputOutputs/__init__.py" line="1320"/>
         <source>inaccessible</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2999,7 +3022,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="640"/>
+        <location filename="Tools/Searcher.py" line="79"/>
         <source>Edit Values With Advanced Value Editor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3929,7 +3952,7 @@
     </message>
     <message>
         <location filename="Options/OptionsFormContent.py" line="53"/>
-        <source>Are you want to check unsaved values in tables while Hamsi Manager was closing.</source>
+        <source>Are you want to check unsaved values in tables while Hamsi Manager was closing?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5208,7 +5231,7 @@
 <context>
     <name>ReportBug</name>
     <message>
-        <location filename="HamsiManager.py" line="358"/>
+        <location filename="HamsiManager.py" line="354"/>
         <source>Thanks in advance for your interest.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5313,7 +5336,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="357"/>
+        <location filename="HamsiManager.py" line="353"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5710,123 +5733,133 @@
 <context>
     <name>Searcher</name>
     <message>
-        <location filename="Tools/Searcher.py" line="44"/>
+        <location filename="Tools/Searcher.py" line="46"/>
         <source>Directory Or File : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="45"/>
+        <location filename="Tools/Searcher.py" line="47"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="47"/>
+        <location filename="Tools/Searcher.py" line="49"/>
         <source>Select Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="48"/>
+        <location filename="Tools/Searcher.py" line="50"/>
         <source>Select File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="52"/>
+        <location filename="Tools/Searcher.py" line="58"/>
         <source>(Re)Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="120"/>
+        <location filename="Tools/Searcher.py" line="134"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="56"/>
+        <location filename="Tools/Searcher.py" line="62"/>
         <source>Search : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="64"/>
+        <location filename="Tools/Searcher.py" line="70"/>
         <source>Regular Expression (RegExp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="65"/>
+        <location filename="Tools/Searcher.py" line="71"/>
         <source>Case Insensitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="66"/>
+        <location filename="Tools/Searcher.py" line="72"/>
         <source>Normalize UTF-8 Characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="67"/>
+        <location filename="Tools/Searcher.py" line="73"/>
         <source>Clear Digits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="68"/>
+        <location filename="Tools/Searcher.py" line="74"/>
         <source>Only Digits And Letters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="69"/>
+        <location filename="Tools/Searcher.py" line="75"/>
         <source>Clear Vowels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="70"/>
+        <location filename="Tools/Searcher.py" line="76"/>
         <source>Normalize UTF-8 Characters And Clear Vowels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="71"/>
+        <location filename="Tools/Searcher.py" line="77"/>
         <source>Wrap By Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="113"/>
+        <location filename="Tools/Searcher.py" line="127"/>
         <source>Filters : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="121"/>
+        <location filename="Tools/Searcher.py" line="135"/>
         <source>Quick Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="133"/>
+        <location filename="Tools/Searcher.py" line="147"/>
         <source>Searcher</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="263"/>
+        <location filename="Tools/Searcher.py" line="288"/>
         <source>Incorrect Syntax</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="263"/>
+        <location filename="Tools/Searcher.py" line="288"/>
         <source>Search value is not correct for Regular Expression (RegExp). Please check it and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="316"/>
+        <location filename="Tools/Searcher.py" line="354"/>
         <source>Please Select Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="329"/>
+        <location filename="Tools/Searcher.py" line="386"/>
         <source>Please Select A Text File To Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="329"/>
+        <location filename="Tools/Searcher.py" line="386"/>
         <source>All Files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Searcher.py" line="57"/>
+        <location filename="Tools/Searcher.py" line="63"/>
         <source>Search List : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="53"/>
+        <source>Add Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tools/Searcher.py" line="54"/>
+        <source>Add File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6266,22 +6299,22 @@
 <context>
     <name>Tables</name>
     <message>
-        <location filename="Core/Universals.py" line="290"/>
+        <location filename="Core/Universals.py" line="298"/>
         <source>Folder Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="291"/>
+        <location filename="Core/Universals.py" line="299"/>
         <source>File Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="292"/>
+        <location filename="Core/Universals.py" line="300"/>
         <source>Music Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="293"/>
+        <location filename="Core/Universals.py" line="301"/>
         <source>Subfolder Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6381,17 +6414,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1353"/>
+        <location filename="InputOutputs/__init__.py" line="1357"/>
         <source>File Tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1346"/>
+        <location filename="InputOutputs/__init__.py" line="1350"/>
         <source>File Tree Created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1346"/>
+        <location filename="InputOutputs/__init__.py" line="1350"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6496,7 +6529,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="295"/>
+        <location filename="Core/Universals.py" line="303"/>
         <source>Cover Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6511,32 +6544,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="297"/>
+        <location filename="Core/Universals.py" line="305"/>
         <source>Amarok Cover Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="298"/>
+        <location filename="Core/Universals.py" line="306"/>
         <source>Amarok Music Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1313"/>
+        <location filename="InputOutputs/__init__.py" line="1317"/>
         <source>Last Modified : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1280"/>
+        <location filename="InputOutputs/__init__.py" line="1284"/>
         <source>File List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="299"/>
+        <location filename="Core/Universals.py" line="307"/>
         <source>Amarok Artist Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="300"/>
+        <location filename="Core/Universals.py" line="308"/>
         <source>Amarok Copy Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6911,32 +6944,32 @@
 <context>
     <name>Universals</name>
     <message>
-        <location filename="Core/Universals.py" line="323"/>
+        <location filename="Core/Universals.py" line="331"/>
         <source>Are You Sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="323"/>
+        <location filename="Core/Universals.py" line="331"/>
         <source>Are you want to cancel these transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="301"/>
+        <location filename="Core/Universals.py" line="309"/>
         <source>%Artist%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="302"/>
+        <location filename="Core/Universals.py" line="310"/>
         <source>%Album%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="303"/>
+        <location filename="Core/Universals.py" line="311"/>
         <source>%Year%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="304"/>
+        <location filename="Core/Universals.py" line="312"/>
         <source>%Genre%</source>
         <translation type="unfinished"></translation>
     </message>
