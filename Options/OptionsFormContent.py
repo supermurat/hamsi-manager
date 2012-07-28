@@ -50,7 +50,7 @@ class General(MWidget):
                     translate("Options/General", "Record File Size"), 
                     translate("Options/General", "Update Interval (in days)"), 
                     translate("Options/General", "Application Language")]
-        self.toolTips = [translate("Options/General", "Are you want to check unsaved values in tables while Hamsi Manager was closing."), 
+        self.toolTips = [translate("Options/General", "Are you want to check unsaved values in tables while Hamsi Manager was closing?"), 
                     translate("Options/General", "If you want to save the actions you performed select \"Yes\"."), 
                     translate("Options/General", "You can select record file size.(Kilobytes)"), 
                     translate("Options/General", "Which interval (in days) do you want to set to check the updates?"), 
