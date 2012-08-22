@@ -96,11 +96,14 @@ class InputOutputs:
         if _name.startswith('.'):
             return True
         if Variables.isWindows:
-            import win32api, win32con
-            try:attr = win32api.GetFileAttributes(Universals.trEncode(_path, fileSystemEncoding))
-            except:attr = win32api.GetFileAttributes(_path)
-            if attr & win32con.FILE_ATTRIBUTE_HIDDEN:
-                return True
+            try:
+                import win32api, win32con
+                try:attr = win32api.GetFileAttributes(Universals.trEncode(_path, fileSystemEncoding))
+                except:attr = win32api.GetFileAttributes(_path)
+                if attr & win32con.FILE_ATTRIBUTE_HIDDEN:
+                    return True
+            except:
+                return False
         return False
         
     def isAvailableNameForEncoding(_newPath):
