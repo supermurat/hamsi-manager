@@ -287,7 +287,7 @@ def checkAfterRunProccess():
             except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
         try:Universals.MainWindow.PlayerBar.setVisible(False)
         except:pass
-    checkWindowMode()
+    checkAndCorrectWindowMode()
     if Universals.isShowVerifySettings and Universals.changedDefaultValuesKeys==[] and Universals.newSettingsKeys==[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
@@ -306,14 +306,18 @@ def checkAfterRunProccess():
         Execute.execute([], "Reconfigure")
     
 def checkWindowMode(_isCheck=False):
-    from Core import Dialogs, Universals 
-    from Core.MyObjects import translate, MToolBar
+    from Core import Universals
     if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
         if Universals.windowMode == Variables.windowModeKeys[0]:
             screenSize = Variables.getScreenSize()
             if screenSize!=None:
                 if screenSize.width()<1024:
                     Universals.windowMode = Variables.windowModeKeys[1]
+    
+def checkAndCorrectWindowMode(_isCheck=False):
+    from Core import Dialogs, Universals 
+    from Core.MyObjects import translate, MToolBar
+    if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
         if Universals.windowMode == Variables.windowModeKeys[1]:
             if len(Universals.MainWindow.findChildren(MToolBar))>0:
                 firstToolBar = Universals.MainWindow.findChildren(MToolBar)[0]
