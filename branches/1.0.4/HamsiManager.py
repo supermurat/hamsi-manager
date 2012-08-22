@@ -132,6 +132,7 @@ if RoutineChecks.checkQt4Exist():
             MApplication.setPalette(plt)
         Universals.printForDevelopers("Before RoutineChecks.checkMyModules")
         if RoutineChecks.checkMyModules(HamsiManagerApp):
+            RoutineChecks.checkWindowMode()
             if RoutineChecks.isQuickMake:
                 Universals.printForDevelopers("QuickMake")
                 try:
