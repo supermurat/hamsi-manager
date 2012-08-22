@@ -449,6 +449,8 @@ class Tables(MTableWidget):
                     Universals.MainWindow.Bars.changeTableTypeByType(1)
                 else:
                     Universals.MainWindow.FileManager.makeRefresh("", False)
+                    if Universals.tableType in [5, 6, 7, 8]:
+                        self.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
         except:
             error = ReportBug.ReportBug()
             error.show()    

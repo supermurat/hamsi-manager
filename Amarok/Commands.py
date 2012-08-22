@@ -23,7 +23,8 @@ import Databases
 from Core import Universals
 
 class Commands:
-    global getSQLConditionByFilter, getDirectoriesAndValues, changeFilePath, changeDirectoryPath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother, getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId, getSQLConditionPartByPartOfFilter, getSQLConditionValues, getOrInsertDirectory
+    global getSQLConditionByFilter, getDirectoriesAndValues, changeFilePath, changeDirectoryPath, getDevices, changeTag, getOrInsertArtist, getOrInsertAlbum, getOrInsertYear, getOrInsertGenre, getAllMusicFileValues, getMusicFileValues, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValue, changeArtistWithAnother
+    global getArtistId, deleteArtist, getAllMusicFilePathsByArtistId, getArtistName, getAllMusicFileValuesWithNamesByArtistId, getSQLConditionPartByPartOfFilter, getSQLConditionValues, getOrInsertDirectory, changeAlbumWithAnother, deleteAlbum
     
     def getSQLConditionPartByPartOfFilter(_partOfFilterString = "", _isValueTable = True):
         _partOfFilterString = _partOfFilterString.strip()
@@ -826,13 +827,44 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
     def changeArtistWithAnother(_currentArtistId, _artistWillBeSelectedId):
         db = Amarok.checkAndGetDB()
         db.query("UPDATE `tracks` SET `artist`=%s WHERE `artist`=%s" % (_artistWillBeSelectedId, _currentArtistId))
-        db.query("UPDATE `albums` SET `artist`=%s WHERE `artist`=%s" % (_artistWillBeSelectedId, _currentArtistId))
         db.commit()
+        try:
+            db = Amarok.checkAndGetDB()
+            db.query("UPDATE `albums` SET `artist`=%s WHERE `artist`=%s" % (_artistWillBeSelectedId, _currentArtistId))
+            db.commit()
+        except Amarok.getMySQLModule().IntegrityError as error:
+            db = Amarok.checkAndGetDB()
+            db.query("SELECT * FROM `albums` WHERE `name` IN (SELECT `name` FROM `albums` WHERE `artist`=%s) AND `artist`=%s" % (_artistWillBeSelectedId, _currentArtistId))
+            r = db.store_result()
+            rows = r.fetch_row(0)
+            if len(rows)>0:
+                currentAlbumId = rows[0][0]
+                
+                db = Amarok.checkAndGetDB()
+                db.query("SELECT * FROM `albums` WHERE `name` IN (SELECT `name` FROM `albums` WHERE `artist`=%s) AND `artist`=%s" % (_currentArtistId, _artistWillBeSelectedId))
+                r = db.store_result()
+                rows = r.fetch_row(0)
+                if len(rows)>0:
+                    albumWillBeSelectedId = rows[0][0]
+                    
+                    changeAlbumWithAnother(currentAlbumId, albumWillBeSelectedId)
+                    deleteAlbum(currentAlbumId)
         return True
+        
+    def changeAlbumWithAnother(_currentAlbumId, _albumWillBeSelectedId):
+        db = Amarok.checkAndGetDB()
+        db.query("UPDATE `tracks` SET `album`=%s WHERE `album`=%s" % (_albumWillBeSelectedId, _currentAlbumId))
+        db.commit()
         
     def deleteArtist(_artistId):
         db = Amarok.checkAndGetDB()
         db.query("DELETE FROM `artists` WHERE `id`=%s" % (_artistId))
+        db.commit()
+        return True
+        
+    def deleteAlbum(_albumId):
+        db = Amarok.checkAndGetDB()
+        db.query("DELETE FROM `albums` WHERE `id`=%s" % (_albumId))
         db.commit()
         return True
         
