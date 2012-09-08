@@ -166,7 +166,9 @@ class ReportBug(MDialog):
                 errorDetails += str(kdecore.versionString()) + "<br>"
             except:
                 errorDetails += "<br>"
-            for keyName in Universals.MySettings:
+            settingKeys = list(Universals.MySettings.keys())
+            settingKeys.sort()
+            for keyName in settingKeys:
                 if Variables.willNotReportSettings.count(keyName)==0:
                     errorDetails += "<b>" + str(keyName) + " : " + "</b>"
                     errorDetails += str(Universals.MySettings[keyName]) + "<br>"
