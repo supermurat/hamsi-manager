@@ -250,17 +250,36 @@ class InputOutputs:
             fileName = _fileName
         return fileName, fileExtension.lower()
     
-    def moveFileOrDir(_oldPath, _newPath):
+    def moveFileOrDir(_oldPath, _newPath, _isQuiet=True):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
-        if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and getDirName(_oldPath).lower()==getDirName(_newPath).lower()):
-            try:os.rename(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
-            except:os.rename(_oldPath,_newPath)
-        else:
-            if isDir(getDirName(_newPath))==False:
-                makeDirs(getDirName(_newPath))
-            try:shutil.move(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
-            except:shutil.move(_oldPath,_newPath)
-        Records.add("Moved", _oldPath, _newPath)
+        try:
+            if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and getDirName(_oldPath).lower()==getDirName(_newPath).lower()):
+                try:os.rename(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
+                except:os.rename(_oldPath,_newPath)
+            else:
+                if isDir(getDirName(_newPath))==False:
+                    makeDirs(getDirName(_newPath))
+                try:shutil.move(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
+                except:shutil.move(_oldPath,_newPath)
+            Records.add("Moved", _oldPath, _newPath)
+        except:
+            if _isQuiet==False:
+                from Core import Dialogs
+                answer = Dialogs.askSpecial(translate("InputOutputs", "An Error Has Occurred"), 
+                        str(translate("InputOutputs", "\"%s\" > \"%s\" : an unknown error has occurred.<br>Please check it and try again.")) % (Organizer.getLink(_oldPath), Organizer.getLink(_newPath)), 
+                            translate("Dialogs", "Cancel"), 
+                            translate("Dialogs", "Show Error Details"), 
+                            translate("Dialogs", "Retry"))
+                if answer==translate("Dialogs", "Retry"):
+                    moveFileOrDir(_oldPath,_newPath, _isQuiet)
+                if answer==translate("Dialogs", "Show Error Details"):
+                    from Core import  ReportBug
+                    error = ReportBug.ReportBug()
+                    error.show()   
+            else:
+                from Core import  ReportBug
+                error = ReportBug.ReportBug()
+                error.show()   
     
     def copyFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
@@ -832,7 +851,7 @@ class InputOutputs:
                         moveOrChange(joinPath(_oldPath, name), joinPath(_newPath, name), getObjectType(joinPath(_oldPath, name)), _actionType, _isQuiet)
                     isChange = False
             if isChange==True:
-                moveFileOrDir(_oldPath,_newPath)
+                moveFileOrDir(_oldPath,_newPath, _isQuiet)
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                     if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):

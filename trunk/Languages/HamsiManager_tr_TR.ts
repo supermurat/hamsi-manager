@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="tr_TR">
+<!DOCTYPE TS><TS version="2.0" language="tr_TR" sourcelanguage="">
 <context>
     <name>AdvancedValueEditorDialog</name>
     <message>
@@ -843,39 +842,44 @@
         <translation>İşlem Çubuğu</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="570"/>
+        <location filename="Tables/__init__.py" line="572"/>
         <source>Yes To All</source>
         <translation>Tümüne Evet</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="545"/>
+        <location filename="Tables/__init__.py" line="547"/>
         <source>No To All</source>
         <translation>Tümüne Hayır</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="397"/>
+        <location filename="InputOutputs/__init__.py" line="419"/>
         <source>Continue</source>
         <translation>Devam Et</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="414"/>
+        <location filename="InputOutputs/__init__.py" line="436"/>
         <source>Retry</source>
         <translation>Tekrar Dene</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="469"/>
+        <location filename="InputOutputs/__init__.py" line="491"/>
         <source>Replace</source>
         <translation>Değiştir</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="520"/>
+        <location filename="InputOutputs/__init__.py" line="542"/>
         <source>Rename</source>
         <translation>Yeniden İsimlendir</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="517"/>
+        <location filename="InputOutputs/__init__.py" line="539"/>
         <source>Yes, Add Into</source>
         <translation>Evet, İçerisine Ekle</translation>
+    </message>
+    <message>
+        <location filename="InputOutputs/__init__.py" line="275"/>
+        <source>Show Error Details</source>
+        <translation>Hata Detaylarını Göster</translation>
     </message>
 </context>
 <context>
@@ -1380,12 +1384,12 @@
         <translation>Hamsi Manager&apos;e yeni seçenekler ve yeni özellikler eklendi. Bazı ayarların varsayılan değerleri değiştirildi. Yeni seçenekleri değiştirmek veya doğrulamak istermisiniz?</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="323"/>
+        <location filename="Core/RoutineChecks.py" line="327"/>
         <source>We Have A Suggestion</source>
         <translation>Bir Önerimiz Var</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="323"/>
+        <location filename="Core/RoutineChecks.py" line="327"/>
         <source>Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?</source>
         <translation>Ekran boyutunuz çok küçük.Hamsi Manager`ın arayüzünü ekran boyutunuza göre yeniden düzenlememizi ister misiniz?</translation>
     </message>
@@ -1592,92 +1596,92 @@
 <context>
     <name>InputOutputs</name>
     <message>
-        <location filename="InputOutputs/__init__.py" line="410"/>
+        <location filename="InputOutputs/__init__.py" line="432"/>
         <source>Access Denied</source>
         <translation>Erişim Engellendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1134"/>
+        <location filename="InputOutputs/__init__.py" line="1156"/>
         <source>Empty Directories Deleted</source>
         <translation>Boş Dizinler Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="464"/>
+        <location filename="InputOutputs/__init__.py" line="486"/>
         <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the current one?</source>
         <translation>&quot;%s&quot; isimli bir dosya zaten var.&lt;br&gt;Mevcut dosya ile değiştirilsin mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="484"/>
+        <location filename="InputOutputs/__init__.py" line="506"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;&quot;%s&quot; Add this file to the current folder?</source>
         <translation>&quot;%s&quot; : isimli bir dizin mevcut.&lt;br&gt;&quot;%s&quot; Dosyası mevcut dizine eklensin mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="427"/>
+        <location filename="InputOutputs/__init__.py" line="449"/>
         <source>Cannot Find File</source>
         <translation>Dosya Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="431"/>
+        <location filename="InputOutputs/__init__.py" line="453"/>
         <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; isimli bir dizin bulunamadı.&lt;br&gt;Lütfen dizinin varlığını kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="427"/>
+        <location filename="InputOutputs/__init__.py" line="449"/>
         <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; isimli bir dosya bulunamadı.&lt;br&gt;Lütfen dosyanın varlığını kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="464"/>
+        <location filename="InputOutputs/__init__.py" line="486"/>
         <source>Current File Name</source>
         <translation>Mevcut Dosya Adı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="890"/>
+        <location filename="InputOutputs/__init__.py" line="912"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation>Dosyaların Dizini Değiştiriliyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1110"/>
+        <location filename="InputOutputs/__init__.py" line="1132"/>
         <source>Checking Empty Directories</source>
         <translation>Boş Dizinler Kontrol Ediliyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1131"/>
+        <location filename="InputOutputs/__init__.py" line="1153"/>
         <source>Deleting Empty Directories</source>
         <translation>Boş Dizinler Siliniyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1147"/>
+        <location filename="InputOutputs/__init__.py" line="1169"/>
         <source>Current Directory Name</source>
         <translation>Mevcut Dizin Adı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="431"/>
+        <location filename="InputOutputs/__init__.py" line="453"/>
         <source>Cannot Find Directory</source>
         <translation>Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1147"/>
+        <location filename="InputOutputs/__init__.py" line="1169"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation>&quot;%s&quot; isimli bir dosya var.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="402"/>
+        <location filename="InputOutputs/__init__.py" line="424"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dizini değiştirmeye yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="410"/>
+        <location filename="InputOutputs/__init__.py" line="432"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dosyayı değiştirmeye yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="435"/>
+        <location filename="InputOutputs/__init__.py" line="457"/>
         <source>Cannot Find File Or Directory</source>
         <translation>Dosya Yada Dizin Bulunamadı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="435"/>
+        <location filename="InputOutputs/__init__.py" line="457"/>
         <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation>&quot;%s&quot; böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Lütfen böyle bir dosya yada dizinin varlığından emin olup tekrar deneyiniz.</translation>
     </message>
@@ -1697,104 +1701,114 @@
         <translation>&quot;%s&quot; : böyle bir dosya yada dizin bulunamadı.&lt;br&gt;Bir üst dizini Hamsi Manager ile organize etmek ister misiniz?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="745"/>
+        <location filename="InputOutputs/__init__.py" line="767"/>
         <source>Directory Deleted</source>
         <translation>Dizin Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1135"/>
+        <location filename="InputOutputs/__init__.py" line="1157"/>
         <source>Project Directory Deleted</source>
         <translation>Proje Dizini Silindi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1137"/>
+        <location filename="InputOutputs/__init__.py" line="1159"/>
         <source>Project Directory Cleaned</source>
         <translation>Proje Dizini Temizlendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="369"/>
+        <location filename="InputOutputs/__init__.py" line="391"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dizini okumaya yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="377"/>
+        <location filename="InputOutputs/__init__.py" line="399"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation>&quot;%s&quot; : bu dosyayı okumaya yetkiniz yok.Lütfen izinlerinizi kontrol edip tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="745"/>
+        <location filename="InputOutputs/__init__.py" line="767"/>
         <source>&quot;%s&quot; deleted.Because this directory is empty.</source>
         <translation>&quot;%s&quot; silindi.Çünkü bu dizin boştu.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="943"/>
+        <location filename="InputOutputs/__init__.py" line="965"/>
         <source>Select A Cover</source>
         <translation>Bir Kapak Seçiniz</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="943"/>
+        <location filename="InputOutputs/__init__.py" line="965"/>
         <source>Please select a cover for &quot;%s&quot;.</source>
         <translation>Lütfen &quot;%s&quot; dizini için bir kapak seçiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="740"/>
+        <location filename="InputOutputs/__init__.py" line="762"/>
         <source>Cleaning Empty Directories</source>
         <translation>Boş Dizinler Temizleniyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="747"/>
+        <location filename="InputOutputs/__init__.py" line="769"/>
         <source>Directories Cleaned</source>
         <translation>Dizinler Temizlendi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="449"/>
+        <location filename="InputOutputs/__init__.py" line="471"/>
         <source>Unavailable Name</source>
         <translation>Geçersiz İsim</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="442"/>
+        <location filename="InputOutputs/__init__.py" line="464"/>
         <source>&quot;%s&quot; : can not encoded by %s.&lt;br&gt;Please review and correct the name!&lt;br&gt;You can correct your file system encoding name in Options/Advanced, If you want.&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation>&quot;%s&quot; dosyası %s ile kodlanamadı.&lt;br&gt;Lütfen isme tekrar gözatıp düzeltiniz!&lt;br&gt;Eğer isterseniz dosya sistemi kodlaması adını Seçenekler/Gelişmiş`ten düzeltebilirsiniz.&lt;br&gt;Bu işlemi iptal etmek için iptal butonuna tıklayabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="493"/>
+        <location filename="InputOutputs/__init__.py" line="515"/>
         <source>Select A New Name For File</source>
         <translation>Dosya İçin Yeni Bir İsim Seçiniz</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="493"/>
+        <location filename="InputOutputs/__init__.py" line="515"/>
         <source>All Files</source>
         <translation>Tüm Dosyalar</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="512"/>
+        <location filename="InputOutputs/__init__.py" line="534"/>
         <source>&quot;%s&quot; : there already exists a directory with the same name.&lt;br&gt;Add your files to the current directory?</source>
         <translation>&quot;%s&quot; : bu isimde zaten bir dizin mevcut.&lt;br&gt;Dosyalarınızı mevcut dizine ekleyelim mi?</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="522"/>
+        <location filename="InputOutputs/__init__.py" line="544"/>
         <source>Select A Directory</source>
         <translation>Bir Dizin Seçiniz</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="737"/>
+        <location filename="InputOutputs/__init__.py" line="759"/>
         <source>Checked Empty Directories</source>
         <translation>Boş Dizinler Kontrol Edildi</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1154"/>
+        <location filename="InputOutputs/__init__.py" line="1176"/>
         <source>Creating Tar File</source>
         <translation>Tar Dosyası Oluşturuluyor</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="449"/>
+        <location filename="InputOutputs/__init__.py" line="471"/>
         <source>&quot;%s&quot; : this file path is not valid.&lt;br&gt;Please review and correct the path of file!&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation>&quot;%s&quot; dosyasının dosya yolu uygun değil.&lt;br&gt;Lütfen dosya yoluna tekrar gözatıp düzeltiniz!&lt;br&gt;Bu işlemi iptal etmek için iptal butonuna tıklayabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1320"/>
+        <location filename="InputOutputs/__init__.py" line="1342"/>
         <source>inaccessible</source>
         <translation>erişilemiyor</translation>
+    </message>
+    <message>
+        <location filename="InputOutputs/__init__.py" line="268"/>
+        <source>An Error Has Occurred</source>
+        <translation>Bir Hata Oluştu</translation>
+    </message>
+    <message>
+        <location filename="InputOutputs/__init__.py" line="268"/>
+        <source>&quot;%s&quot; &gt; &quot;%s&quot; : an unknown error has occurred.&lt;br&gt;Please check it and try again.</source>
+        <translation>&quot;%s&quot; &gt; &quot;%s&quot; : tanımlanamayan bir hata oluştu.&lt;br&gt;Lütfen kontrol edip tekrar deneyiniz.</translation>
     </message>
 </context>
 <context>
@@ -5252,127 +5266,127 @@
         <translation>Son Sinyali Gönderen (Nesne Adı,Nesne Metni) :</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="374"/>
+        <location filename="Core/ReportBug.py" line="376"/>
         <source>Contents Directory : </source>
         <translation>İçerik Dizini : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="380"/>
+        <location filename="Core/ReportBug.py" line="382"/>
         <source>File Information : </source>
         <translation>Dosya Bilgileri : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="384"/>
+        <location filename="Core/ReportBug.py" line="386"/>
         <source>File Details : </source>
         <translation>Dosya Detayları : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="244"/>
+        <location filename="Core/ReportBug.py" line="246"/>
         <source>Please Report This Bug!..</source>
         <translation>Lütfen Hatayı Bildiriniz!..</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="251"/>
+        <location filename="Core/ReportBug.py" line="253"/>
         <source>I Have A Suggestion!</source>
         <translation>Bir Önerimiz Var!</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="350"/>
+        <location filename="Core/ReportBug.py" line="352"/>
         <source>Report Bug</source>
         <translation>Hatayı Bildir</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="191"/>
+        <location filename="Core/ReportBug.py" line="193"/>
         <source>Show Details File</source>
         <translation>Detay Dosyasını Göster</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="261"/>
+        <location filename="Core/ReportBug.py" line="263"/>
         <source>Last Directory</source>
         <translation>Son Dizini</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="264"/>
+        <location filename="Core/ReportBug.py" line="266"/>
         <source>Settings</source>
         <translation>Ayarları</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="251"/>
+        <location filename="Core/ReportBug.py" line="253"/>
         <source>Ignore</source>
         <translation>Görmezden Gel</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="251"/>
+        <location filename="Core/ReportBug.py" line="253"/>
         <source>&lt;b&gt;Please check the following: ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;If you have received this error when you were checking the last folder, reset the &quot;Last Directory&quot;,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;If you have received this error due to your changed settings, reset the &quot;Settings&quot;,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;If you continue to receive this error even after resetting the settings, reset &quot;All&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;You can enable Hamsi Manager to run as normal.&lt;br&gt;Please take a moment to send us the error report.&lt;/b&gt;</source>
         <translation>&lt;b&gt;Bu hatayı ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;Girmiş olduğunuz son dizini okuma sırasında alıyorsanız &quot;Son Dizini&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;Son yapmış olduğunuz ayarlar neticesinde alıyorsanız &quot;Ayarları&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;Ayarları sıfırladıktan sonrada almaya devam ediyorsanız &quot;Hepsini&quot; sıfırlayarak,&lt;br&gt;&lt;br&gt;&lt;b&gt;Hamsi Manager`in açılmasını sağlayabilirsiniz.&lt;br&gt;Lütfen hatayı bize bildiriniz.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="267"/>
+        <location filename="Core/ReportBug.py" line="269"/>
         <source>All</source>
         <translation>Hepsini</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="375"/>
+        <location filename="Core/ReportBug.py" line="377"/>
         <source>Table Contents : </source>
         <translation>Tablo İçeriği : </translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="363"/>
+        <location filename="Core/RoutineChecks.py" line="367"/>
         <source>Missing Module</source>
         <translation>Eksik Modül</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="367"/>
+        <location filename="Core/RoutineChecks.py" line="371"/>
         <source>Error In Module</source>
         <translation>Modülde Hata Var</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="369"/>
+        <location filename="Core/RoutineChecks.py" line="373"/>
         <source>&quot;%s&quot; is not in this module.Please download and install Hamsi Manager again.</source>
         <translation>&quot;%s&quot; modülde mevcut değil.Lütfen Hamsi Manager`i tekrar indirip kurunuz.</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="371"/>
+        <location filename="Core/RoutineChecks.py" line="375"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="378"/>
+        <location filename="Core/RoutineChecks.py" line="382"/>
         <source>Critical Error!</source>
         <translation>Kritik Hata!</translation>
     </message>
     <message>
-        <location filename="Core/RoutineChecks.py" line="365"/>
+        <location filename="Core/RoutineChecks.py" line="369"/>
         <source>Application will not work without the module &quot;%s&quot;.</source>
         <translation>&quot;%s&quot; modülü olmadan uygulama çalışmayacaktır.</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="353"/>
+        <location filename="HamsiManager.py" line="354"/>
         <source>A critical error has occurred.If you want to look into details &quot;%s&quot; you can see the file.If possible, we ask you to send us this error details.</source>
         <translation>Kritik bir hata oluştu.Detaylara bakmak istiyorsanız &quot;%s&quot; dosyasına bakabilirsiniz.Eğer Mümkünse bu hatanın detaylarını bize göndermenizi rica ederiz.</translation>
     </message>
     <message>
-        <location filename="HamsiManager.py" line="354"/>
+        <location filename="HamsiManager.py" line="355"/>
         <source>Thanks in advance for your interest.</source>
         <translation>İlginiz için şimdiden teşekkür ederiz.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="350"/>
+        <location filename="Core/ReportBug.py" line="352"/>
         <source>&lt;b&gt;Error description :&lt;/b&gt; &lt;br&gt;(Be can null)&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Please write what you did before you received the error here.</source>
         <translation>&lt;b&gt;Hata Açıklaması :&lt;/b&gt; &lt;br&gt;(Boş bırakabilirsiniz)&lt;br&gt;&lt;b&gt;Not:&lt;/b&gt;Hatayı almadan önce yaptığınız son işlemi bu alanda belirtmeniz önemle rica olunur.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="350"/>
+        <location filename="Core/ReportBug.py" line="352"/>
         <source>&lt;b&gt;Name and Surname :&lt;/b&gt; (Be can null)</source>
         <translation>&lt;b&gt;Adınız ve Soyadınız :&lt;/b&gt; (Boş bırakabilirsiniz)</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="350"/>
+        <location filename="Core/ReportBug.py" line="352"/>
         <source>&lt;b&gt;E-mail address :&lt;/b&gt; (Be can null)&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Will be kept strictly confidential. It will be used solely to report you back once the problem is solved..</source>
         <translation>&lt;b&gt;Mail Adresiniz :&lt;/b&gt; (Boş bırakabilirsiniz)&lt;br&gt;&lt;b&gt;Not:&lt;/b&gt;Problem çözülünce size haber vermek için kullanılacaktır..</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="350"/>
+        <location filename="Core/ReportBug.py" line="352"/>
         <source>Thank you for sending us your error report. You have already contributed a lot to make the next release even better..&lt;br&gt;</source>
         <translation>Göndermiş olduğunuz hata bildirimi için teşekkür ederiz.&lt;br&gt;</translation>
     </message>
@@ -5387,7 +5401,7 @@
         <translation>Uygulama Versiyonu : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="176"/>
+        <location filename="Core/ReportBug.py" line="178"/>
         <source>Table Type No : </source>
         <translation>Tablo Tarzı Numarası : </translation>
     </message>
@@ -5417,87 +5431,87 @@
         <translation>Parametrelerim : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="192"/>
+        <location filename="Core/ReportBug.py" line="194"/>
         <source>Check Update</source>
         <translation>Güncellemeleri Kontrol Et</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="199"/>
+        <location filename="Core/ReportBug.py" line="201"/>
         <source>I cannot send the error details due to some character errors.&lt;br&gt;To see the details, please click on the &quot;Show details file&quot; button.</source>
         <translation>Bazı karakter hatalarından ötürü hata detaylarını gönderemiyorum.&lt;br&gt;Detayları görmek için, lütfen &quot;Detay Dosyasını Göster&quot; butonuna tıklayınız.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="397"/>
+        <location filename="Core/ReportBug.py" line="399"/>
         <source>Note : You can check and delete your personal informations.</source>
         <translation>Not : Kişisel bilgilerinizi kontrol edip silebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="187"/>
+        <location filename="Core/ReportBug.py" line="189"/>
         <source>Send And Close</source>
         <translation>Gönder Ve Kapat</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="188"/>
+        <location filename="Core/ReportBug.py" line="190"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="206"/>
+        <location filename="Core/ReportBug.py" line="208"/>
         <source>Notes : </source>
         <translation>Notlar : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="207"/>
+        <location filename="Core/ReportBug.py" line="209"/>
         <source>Name And Surname : </source>
         <translation>Adınız Ve Soyadınız : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="208"/>
+        <location filename="Core/ReportBug.py" line="210"/>
         <source>E-mail Address : </source>
         <translation>E-posta Adresiniz : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="232"/>
+        <location filename="Core/ReportBug.py" line="234"/>
         <source>Contact Informations : </source>
         <translation>İletişim Bilgileri : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="298"/>
+        <location filename="Core/ReportBug.py" line="300"/>
         <source>Sending Your Report</source>
         <translation>Bildiriminiz Gönderiliyor</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="300"/>
+        <location filename="Core/ReportBug.py" line="302"/>
         <source>Report Received Successfully</source>
         <translation>Bildiriminiz Başarıyla Alındı</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="300"/>
+        <location filename="Core/ReportBug.py" line="302"/>
         <source>Thank you for sending us your report. You have contributed a lot to make the next release even better.</source>
         <translation>Bize bildirimde bulunduğunuz için teşekkür ederiz. Bir sonraki sürümü daha iyi yapmamız için katkıda bulundunuz.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="303"/>
+        <location filename="Core/ReportBug.py" line="305"/>
         <source>Report Sending Canceled</source>
         <translation>Bildirim Gönderimi İptal Edildi</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="303"/>
+        <location filename="Core/ReportBug.py" line="305"/>
         <source>Report sending canceled successfully.</source>
         <translation>Bildirim gönderimi başarıyla iptal edildi.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="305"/>
+        <location filename="Core/ReportBug.py" line="307"/>
         <source>An Error Has Occurred.</source>
         <translation>Bir Hata Oluştu.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="305"/>
+        <location filename="Core/ReportBug.py" line="307"/>
         <source>An unknown error has occurred. Please try again.</source>
         <translation>Bilinmeyen bir hata oluştu. Lütfen tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="209"/>
+        <location filename="Core/ReportBug.py" line="211"/>
         <source>Note : Will be kept strictly confidential. It will be used solely to learn information about of your report.</source>
         <translation>Kesinlikle gizli tutulacaktır. Bu sadece sizin bildiriminiz hakkında bilgi edinmek için kullanılacaktır.</translation>
     </message>
@@ -5507,7 +5521,7 @@
         <translation>Hatalar : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="193"/>
+        <location filename="Core/ReportBug.py" line="195"/>
         <source>Send Table Contents For More Details</source>
         <translation>Daha Fazla Detay İçin Tablo İçeriğini Gönder</translation>
     </message>
@@ -6395,72 +6409,72 @@
         <translation>Sistemden Sil</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="563"/>
+        <location filename="Tables/__init__.py" line="565"/>
         <source>Hidden Field</source>
         <translation>Gizli Alan</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="563"/>
+        <location filename="Tables/__init__.py" line="565"/>
         <source>&quot;%s&quot;: you have hidden this field in the table.&lt;br&gt;Do you want to activate this field and perform the action?</source>
         <translation>&quot;%s&quot; alanını tabloda gizlediniz.&lt;br&gt;Bu alanı aktifleştirip ilgili işlemi gerçekleştirmek istiyormusunuz?</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="567"/>
+        <location filename="Tables/__init__.py" line="569"/>
         <source>Action Cancelled</source>
         <translation>İşlem İptal Edildi</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="567"/>
+        <location filename="Tables/__init__.py" line="569"/>
         <source>You have cancelled the action.&lt;br&gt;You can make the necessary changes and reperform the action.</source>
         <translation>İşlemi iptal ettiniz.&lt;br&gt;Gerekli düzenlemeleri yapıp işlemi tekrarlayabilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="656"/>
+        <location filename="Tables/__init__.py" line="658"/>
         <source>Table Contents</source>
         <translation>Tablo İçeriği</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="641"/>
+        <location filename="Tables/__init__.py" line="643"/>
         <source>Save As</source>
         <translation>Farklı Kaydet</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="650"/>
+        <location filename="Tables/__init__.py" line="652"/>
         <source>Table Exported</source>
         <translation>Tablo Aktarıldı</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="666"/>
+        <location filename="Tables/__init__.py" line="668"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="650"/>
+        <location filename="Tables/__init__.py" line="652"/>
         <source>Table contents are exported to file: &quot;%s&quot;.</source>
         <translation>Tablo içeriği: &quot;%s&quot; dosyasına aktarıldı.</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="636"/>
+        <location filename="Tables/__init__.py" line="638"/>
         <source>HTML</source>
         <translation>HTML</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="639"/>
+        <location filename="Tables/__init__.py" line="641"/>
         <source>Plain Text</source>
         <translation>Düz Metin</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1357"/>
+        <location filename="InputOutputs/__init__.py" line="1379"/>
         <source>File Tree</source>
         <translation>Dosya Ağacı</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1350"/>
+        <location filename="InputOutputs/__init__.py" line="1372"/>
         <source>File Tree Created</source>
         <translation>Dosya Ağacı Oluşturuldu</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1350"/>
+        <location filename="InputOutputs/__init__.py" line="1372"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation>Dosya ağacı &quot;%s&quot; dosyasında oluşturuldu.</translation>
     </message>
@@ -6535,12 +6549,12 @@
         <translation>Kapak Tablosu</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="536"/>
+        <location filename="Tables/__init__.py" line="538"/>
         <source>Incorrect File Extension</source>
         <translation>Hatalı Dosya Uzantısı</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="536"/>
+        <location filename="Tables/__init__.py" line="538"/>
         <source>&quot;%s&quot;: the file extension is different from the source file extension.&lt;br&gt;Do you want to set the source file extension?&lt;br&gt;&lt;b&gt;Source file : &lt;/b&gt;&quot;%s&quot;</source>
         <translation>&quot;%s&quot;: dosya uzantısı kaynak dosyanın uzantısından farklı.&lt;br&gt;Kaynak dosyanın uzantısını ayarlamak ister misiniz?&lt;br&gt;&lt;b&gt;Kaynak dosya : &lt;/b&gt;&quot;%s&quot;</translation>
     </message>
@@ -6555,12 +6569,12 @@
         <translation>Amarok Müzik Tablosu</translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1317"/>
+        <location filename="InputOutputs/__init__.py" line="1339"/>
         <source>Last Modified : </source>
         <translation>Son Değişim : </translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1284"/>
+        <location filename="InputOutputs/__init__.py" line="1306"/>
         <source>File List</source>
         <translation>Dosya Listesi</translation>
     </message>
@@ -6585,12 +6599,12 @@
         <translation>Hiçbir dizine simge eklenemiyor. Bu özellik sisteminizde kullanılamaz.</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="503"/>
+        <location filename="Tables/__init__.py" line="505"/>
         <source>There Are Unsaved Values</source>
         <translation>Kaydedilmemiş Değerler Var</translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="503"/>
+        <location filename="Tables/__init__.py" line="505"/>
         <source>Do you want to save these values?&lt;br&gt;If you click to Yes : Table will be saved without any other question or option.&lt;br&gt;If you click to No : Application will be closed without doing any process.&lt;br&gt;If you click to Cancel : Application won&apos;t be closed.</source>
         <translation>Bu değerleri kaydetmek ister misiniz?&lt;br&gt;Eğer Evet&apos;e tıklarsanız : Başka bir soru veya seçenek olmadan tablo kaydedilecektir.&lt;br&gt;Eğer Hayır&apos;a tıklarsanız : Hiç bir işlem yapılmadan uygulama kapatılacaktır.&lt;br&gt;Eğer İptal&apos;e tıklarsanız : Uygulama kapatılmayacaktır.</translation>
     </message>
