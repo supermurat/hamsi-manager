@@ -314,3 +314,26 @@ class AmarokCopyTable():
             from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show() 
+          
+    def getValueByRowAndColumn(self, _rowNo, _columnNo):
+        if _columnNo==0:
+            return self.Table.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+        elif _columnNo==1:
+            return self.Table.currentTableContentValues[_rowNo]["baseName"]
+        elif _columnNo==2:
+            return self.Table.currentTableContentValues[_rowNo]["artist"]
+        elif _columnNo==3:
+            return self.Table.currentTableContentValues[_rowNo]["title"]
+        elif _columnNo==4:
+            return self.Table.currentTableContentValues[_rowNo]["album"]
+        elif _columnNo==5:
+            return self.Table.currentTableContentValues[_rowNo]["trackNum"]
+        elif _columnNo==6:
+            return self.Table.currentTableContentValues[_rowNo]["year"]
+        elif _columnNo==7:
+            return self.Table.currentTableContentValues[_rowNo]["genre"]
+        elif _columnNo==8:
+            return self.Table.currentTableContentValues[_rowNo]["firstComment"]
+        elif _columnNo==9:
+            return self.Table.currentTableContentValues[_rowNo]["firstLyrics"]
+        return ""        

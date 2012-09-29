@@ -155,5 +155,11 @@ class SubFolderTable():
                 else:
                     newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
                 self.Table.item(rowNo,itemNo).setText(trForUI(newString))
-
+          
+    def getValueByRowAndColumn(self, _rowNo, _columnNo):
+        if _columnNo==0:
+            return self.Table.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+        elif _columnNo==1:
+            return self.Table.currentTableContentValues[_rowNo]["baseName"]
+        return ""
           

@@ -224,6 +224,19 @@ class AmarokCoverTable():
                 else:
                     newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
                 self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+          
+    def getValueByRowAndColumn(self, _rowNo, _columnNo):
+        if _columnNo==0:
+            return self.Table.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+        elif _columnNo==1:
+            return self.Table.currentTableContentValues[_rowNo]["baseName"]
+        elif _columnNo==2:
+            return InputOutputs.getShortPath(self.Table.currentTableContentValues[_rowNo]["currentCover"], self.Table.currentTableContentValues[_rowNo]["path"])
+        elif _columnNo==3:
+            return InputOutputs.getShortPath(self.Table.currentTableContentValues[_rowNo]["sourceCover"], self.Table.currentTableContentValues[_rowNo]["path"])
+        elif _columnNo==4:
+            return InputOutputs.getShortPath(self.Table.currentTableContentValues[_rowNo]["destinationCover"], self.Table.currentTableContentValues[_rowNo]["path"])
+        return ""
 
 
 

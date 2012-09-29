@@ -241,4 +241,16 @@ class CoverTable():
             from Core import ReportBug
             error = ReportBug.ReportBug()
             error.show()
-        
+          
+    def getValueByRowAndColumn(self, _rowNo, _columnNo):
+        if _columnNo==0:
+            return self.Table.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+        elif _columnNo==1:
+            return self.Table.currentTableContentValues[_rowNo]["baseName"]
+        elif _columnNo==2:
+            return self.Table.currentTableContentValues[_rowNo]["currentCover"].replace(self.Table.currentTableContentValues[_rowNo]["path"], ".")
+        elif _columnNo==3:
+            return self.Table.currentTableContentValues[_rowNo]["sourceCover"].replace(self.Table.currentTableContentValues[_rowNo]["path"], ".")
+        elif _columnNo==4:
+            return self.Table.currentTableContentValues[_rowNo]["destinationCover"].replace(self.Table.currentTableContentValues[_rowNo]["path"], ".")
+        return ""

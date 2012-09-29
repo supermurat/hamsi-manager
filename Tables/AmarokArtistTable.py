@@ -139,4 +139,10 @@ class AmarokArtistTable():
                 elif itemNo==1:
                     newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()))
                 self.Table.item(rowNo,itemNo).setText(trForUI(newString))
-                
+          
+    def getValueByRowAndColumn(self, _rowNo, _columnNo):
+        if _columnNo==0:
+            return self.Table.currentTableContentValues[_rowNo]["name"]
+        elif _columnNo==1:
+            return self.Table.currentTableContentValues[_rowNo]["name"]
+        return ""

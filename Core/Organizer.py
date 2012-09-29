@@ -31,7 +31,7 @@ else:
 class Organizer:
     """Music tags, filenames, Turkish characters etc. will be arranged through this class
     """
-    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName, getCorrectedFileSize, getCorrectedTime, getFileNameParts, emendBaseName, emendFileExtension, replaceList
+    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName, getCorrectedFileSize, getCorrectedTime, getFileNameParts, emendBaseName, emendFileExtension, replaceList, correctCharacterEncodingTable
     
     def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
         _inputString = str(_inputString)
@@ -607,5 +607,31 @@ class Organizer:
                         myString += correctCaseSensitive(newString[informationSectionY:], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                     Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
             
-            
+    def correctCharacterEncodingTable(_SpecialTools):
+        from Core.MyObjects import trForUI, translate
+        import Tables
+        Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
+        sourceEncoding = str(_SpecialTools.characterEncoding.cbSourceEncoding.currentText())
+        destinationEncoding = str(_SpecialTools.characterEncoding.cbDestinationEncoding.currentText())
+        sourceValues = str(_SpecialTools.characterEncoding.cbSourceValues.currentText())
+        isUseRealValues = (sourceValues == translate("Options", "Real Values"))
+        if _SpecialTools.characterEncoding.columns.currentIndex()==0:
+            columns = list(range(0,Universals.MainWindow.Table.columnCount()))
+        else:
+            columns = [_SpecialTools.characterEncoding.columns.currentIndex()-1]
+        for columnNo in columns:
+            if Tables.checkHiddenColumn(columnNo,False)==False:
+                continue
+            for rowNo in range(Universals.MainWindow.Table.rowCount()):
+                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
+                    if isUseRealValues:
+                        newString = Universals.MainWindow.Table.SubTable.getValueByRowAndColumn(rowNo, columnNo)
+                    else:
+                        newString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                    myString = ""
+                    try:myString = Universals.trDecode(newString, sourceEncoding, "ignore")
+                    except:pass
+                    try:myString = str(Universals.trEncode(newString, destinationEncoding, "ignore"))
+                    except:pass
+                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
             
