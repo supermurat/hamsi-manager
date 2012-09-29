@@ -117,7 +117,11 @@ class Tagger():
     def getTrackNum(self):
         try:
             if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
-                return self.getCorrectedValues(str(self.tag.getTrackNum()[0])+"/"+str(self.tag.getTrackNum()[1]))
+                trackNum = self.tag.getTrackNum()
+                if trackNum[1] is not None:
+                    return self.getCorrectedValues(str(trackNum[0])+"/"+str(trackNum[1]))
+                else:
+                    return self.getCorrectedValues(trackNum[0])
             else:
                 return self.getCorrectedValues(self.tag.getTrackNum()[0])
         except:return ""
@@ -169,29 +173,14 @@ class Tagger():
     def setAlbum(self, _value):
         self.tag.setAlbum(self.correctValuesForMusicTagType(_value))
         
-    def setTrackNum(self, _value, _numberOfTracks=1):
-        track = []
-        track_temp=_value
-        if track_temp.find("/")!=-1:
-            track_temp2 = track_temp.split("/")
-            try:    track.append(int(track_temp2[0]))
-            except: track.append(None)
-            try:    track.append(int(track_temp2[1]))
-            except: track.append(_numberOfTracks)
-        elif track_temp=="":
-            track.append(None)
-            track.append(None)
+    def setTrackNum(self, _value):
+        if _value.find("/")!=-1:
+            if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
+                self.tag.setTrackNum(_value.split("/"))
+            else:
+                self.tag.setTrackNum([_value.split("/")[0], None])
         else:
-            try:    track.append(int(track_temp))
-            except: track.append(None)    
-            track.append(_numberOfTracks)
-        if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
-            self.tag.setTrackNum(track)
-        else:
-            try:self.tag.setTrackNum(track.split("/")[0])
-            except:
-                try:self.tag.setTrackNum(track[0])
-                except:self.tag.setTrackNum(track)
+            self.tag.setTrackNum([_value, None])
                     
     def setDate(self, _value):
         if len(_value)==4:

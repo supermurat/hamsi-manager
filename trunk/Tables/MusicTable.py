@@ -147,8 +147,8 @@ class MusicTable():
                         self.Table.changedValueNumber += 1
                     if self.Table.isChangableItem(rowNo, 5, self.Table.currentTableContentValues[rowNo]["trackNum"], True, isCheckLike):
                         value = str(self.Table.item(rowNo,5).text())
-                        tagger.setTrackNum(value, len(self.Table.currentTableContentValues))
-                        changingTags[-1]["trackNum"] = value.split("/")[0]
+                        tagger.setTrackNum(value)
+                        changingTags[-1]["trackNum"] = value
                         Records.add(str(translate("MusicTable", "Track No")), str(self.Table.currentTableContentValues[rowNo]["trackNum"]), value)
                         self.Table.changedValueNumber += 1
                     if self.Table.isChangableItem(rowNo, 6, self.Table.currentTableContentValues[rowNo]["year"], True, isCheckLike):
@@ -259,11 +259,7 @@ class MusicTable():
                     newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["album"])
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["album"])
                 elif itemNo==5:
-                    newString_temp = str(self.Table.currentTableContentValues[rowNo]["trackNum"]).split("/")
-                    if newString_temp[0]=="None":
-                        newString_temp[0]=str(rowNo+1)
-                    newString = newString_temp[0]
-                    newString += "/"+str(len(self.Table.currentTableContentValues))
+                    newString = str(self.Table.currentTableContentValues[rowNo]["trackNum"])
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["trackNum"])
                 elif itemNo==6:
                     newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["year"])
