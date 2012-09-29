@@ -11,7 +11,7 @@ X-KDE-Submenu[pt_BR]=&Hamsi Manager
 Icon=~IconPath~
 
 [Desktop Action Organize]
-Exec=~ExecuteCommandOfHamsiManager~ --directory %U
+Exec=~ExecuteCommandOfHamsiManager~ -t 1 --directory %U
 Icon=~IconPath~
 Name=Organize with Hamsi Manager
 Name[tr]=Hamsi Manager ile Düzenle

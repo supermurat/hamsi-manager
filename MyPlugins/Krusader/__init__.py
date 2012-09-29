@@ -21,7 +21,7 @@ from Core import Universals
 import InputOutputs
 from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
-pluginVersion = "0.5"
+pluginVersion = "0.6"
 pluginFiles = []
 pluginDirectory = ""
 setupDirectory = ""
@@ -39,7 +39,7 @@ def installThisPlugin():
                 "  <icon>" + iconPath + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "You can continue to edit the folder you select with Hamsi Manager")) + ".</description>\n"+
-                "  <command>" + executeCommandOfHamsiManager + " --directory %aCurrent%</command>\n"+
+                "  <command>" + executeCommandOfHamsiManager + " -t 1 --directory %aCurrent%</command>\n"+
                 "  <defaultshortcut>Ctrl+O</defaultshortcut>\n"+
                 " </action>\n"), 
                 (" <action name=\"hamsimanager_emendDirectory\" >\n"+

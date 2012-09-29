@@ -456,23 +456,24 @@ class Tables(MTableWidget):
             error.show()    
         
     def isChangableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
-        if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
-            if _isCheckLike and _checkLikeThis!=None:
-                if str(_checkLikeThis)!=str(self.item(_rowNo, _columnNo).text()):
+        if self.item(_rowNo, _columnNo).isNeverChange == False:
+            if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+                if _isCheckLike and _checkLikeThis!=None:
+                    if str(_checkLikeThis)!=str(self.item(_rowNo, _columnNo).text()):
+                        if isCanBeEmpty==False:
+                            if str(self.item(_rowNo, _columnNo).text()).strip()!="":
+                                return True
+                            return False
+                        else:
+                            return True
+                    return False
+                else:
                     if isCanBeEmpty==False:
                         if str(self.item(_rowNo, _columnNo).text()).strip()!="":
                             return True
                         return False
                     else:
                         return True
-                return False
-            else:
-                if isCanBeEmpty==False:
-                    if str(self.item(_rowNo, _columnNo).text()).strip()!="":
-                        return True
-                    return False
-                else:
-                    return True
         return False
         
     def createTableWidgetItem(self, _value, _currentValue=None):
@@ -481,7 +482,7 @@ class Tables(MTableWidget):
         return item
     
     def itemChanged(self, _item):
-        if _item.text()!=_item.currentText:
+        if _item.text()!=_item.currentText and _item.isNeverChange==False:
             _item.setToolTip(_item.currentText)
             _item.setBackground(MBrush(MColor(142,199,255)))
         
@@ -684,7 +685,7 @@ class MyTableWidgetItem(MTableWidgetItem):
     def __init__(self, _value):
         MTableWidgetItem.__init__(self, trForUI(_value))
         self.currentText = trForUI(_value)
-            
+        self.isNeverChange = False
                 
     
     
