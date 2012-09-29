@@ -25,7 +25,7 @@ from Core import ReportBug
 import InputOutputs
 from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/Explorer_CM", "Windows Explorer`s Context Menus"))
-pluginVersion = "0.1"
+pluginVersion = "0.2"
 pluginFiles = []
 pluginDirectory = ""
 setupDirectory = ""
@@ -51,7 +51,7 @@ def installThisPlugin():
                         "actions": [{"key": "Organize", 
                                             "title": translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " \"%1\""}, 
+                                            "command" : executeCommandOfHamsiManager + " -t 1 \"%1\""}, 
                                     {"key": "copyPath", 
                                             "title": translate("MyPlugins/Explorer_CM", "Copy Path To Clipboard"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.ico"), 
@@ -80,7 +80,7 @@ def installThisPlugin():
                         "actions": [{"key": "Organize", 
                                             "title": translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " --directory \"%1\""}, 
+                                            "command" : executeCommandOfHamsiManager + " -t 1 --directory \"%1\""}, 
                                     {"key": "copyPath", 
                                             "title": translate("MyPlugins/Explorer_CM", "Copy Path To Clipboard"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.ico"), 
