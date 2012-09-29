@@ -43,6 +43,7 @@ class SpecialTools(MWidget):
         self.fill = Fill(self.tabwTabs)
         self.clear = Clear(self.tabwTabs)
         self.characterState = CharacterState(self.tabwTabs)
+        self.characterEncoding = CharacterEncoding(self.tabwTabs)
         self.pbtnAdvancedSelections = MPushButton("Simple")
         self.pbtnApply = MPushButton(translate("SpecialTools", "Apply"))
         self.pbtnApply.setIcon(MIcon("Images:apply.png"))
@@ -68,7 +69,7 @@ class SpecialTools(MWidget):
         self.tabwTabs.addTab(self.fill, translate("SpecialTools", "Fill"))
         self.tabwTabs.addTab(self.clear, translate("SpecialTools", "Clear"))
         self.tabwTabs.addTab(self.characterState, translate("SpecialTools", "Character State"))
-        self.tabwTabs.setCurrentIndex(int(Universals.MySettings["activeTabNoOfSpecialTools"]))
+        self.tabwTabs.addTab(self.characterEncoding, translate("SpecialTools", "Character Encoding"))
         HBox0 = MHBoxLayout()
         HBox0.addWidget(self.tbAddToBefore)
         HBox0.addWidget(self.btChange)
@@ -115,12 +116,14 @@ class SpecialTools(MWidget):
         _parent.dckSpecialTools.setAllowedAreas(Mt.AllDockWidgetAreas)
         _parent.dckSpecialTools.setFeatures(MDockWidget.AllDockWidgetFeatures)
         _parent.addDockWidget(Mt.BottomDockWidgetArea,_parent.dckSpecialTools)
-        MObject.connect(self.pbtnApply, SIGNAL("clicked()"), self.apply)
-        MObject.connect(self.pbtnAdvancedSelections, SIGNAL("clicked()"), self.showOrHideAdvancedSelections)
-        MObject.connect(self.tabwTabs, SIGNAL("currentChanged(int)"), self.tabChanged)
         self.cbInformationSectionX.setEnabled(False)
         self.cbInformationSectionY.setEnabled(False)
         self.cbInformationSection.setFixedWidth(175)
+        self.tabwTabs.setCurrentIndex(int(Universals.MySettings["activeTabNoOfSpecialTools"]))
+        self.tabChanged(int(Universals.MySettings["activeTabNoOfSpecialTools"]))
+        MObject.connect(self.pbtnApply, SIGNAL("clicked()"), self.apply)
+        MObject.connect(self.pbtnAdvancedSelections, SIGNAL("clicked()"), self.showOrHideAdvancedSelections)
+        MObject.connect(self.tabwTabs, SIGNAL("currentChanged(int)"), self.tabChanged)
         MObject.connect(self.cbInformationSection, SIGNAL("currentIndexChanged(int)"), self.InformationSectionChanged)
         self.refreshForColumns()
         self.reFillCompleters()
@@ -140,6 +143,7 @@ class SpecialTools(MWidget):
         self.fill.columns.clear()
         self.clear.columns.clear()
         self.characterState.columns.clear()
+        self.characterEncoding.columns.clear()
         try:
             for btn in self.specialActions.pbtnAddObjects:
                 btn.setVisible(False)
@@ -149,11 +153,13 @@ class SpecialTools(MWidget):
         self.searchAndReplace.columns.addItem(translate("SpecialTools", "All"))
         self.clear.columns.addItem(translate("SpecialTools", "All"))
         self.characterState.columns.addItem(translate("SpecialTools", "All"))
+        self.characterEncoding.columns.addItem(translate("SpecialTools", "All"))
         for columnName in Universals.MainWindow.Table.tableColumns:
             self.searchAndReplace.columns.addItem(columnName)
             self.fill.columns.addItem(columnName)
             self.clear.columns.addItem(columnName)
             self.characterState.columns.addItem(columnName)
+            self.characterEncoding.columns.addItem(columnName)
             tb = MToolButton()
             tb.setText(columnName)
             tb.setObjectName(columnName)
@@ -177,15 +183,18 @@ class SpecialTools(MWidget):
             self.showAdvancedSelections()
         
     def changeTypeChanged(self):
-        self.tbAddToBefore.setChecked(False)
-        self.btChange.setChecked(False)
-        self.tbAddToAfter.setChecked(False)
+        self.clearChangeTypes()
         if self.sender().toolTip()==translate("SpecialTools", "Add In Front"):
             self.tbAddToBefore.setChecked(True)
         elif self.sender().toolTip()==translate("SpecialTools", "Change"):
             self.btChange.setChecked(True)
         elif self.sender().toolTip()==translate("SpecialTools", "Append"):
             self.tbAddToAfter.setChecked(True)
+    
+    def clearChangeTypes(self):
+        self.tbAddToBefore.setChecked(False)
+        self.btChange.setChecked(False)
+        self.tbAddToAfter.setChecked(False)
     
     def tabChanged(self, _index):
         Universals.setMySetting("activeTabNoOfSpecialTools", str(_index))
@@ -196,20 +205,27 @@ class SpecialTools(MWidget):
             self.cbInformationSection.setEnabled(False)
         elif _index==1:
             self.cbInformationSection.setEnabled(True)
-            self.changeTypeChanged()
+            self.clearChangeTypes()
             self.btChange.setChecked(True)
         elif _index==2:
             self.cbInformationSection.setCurrentIndex(0)
             self.cbInformationSection.setEnabled(False)
         elif _index==3:
             self.cbInformationSection.setEnabled(True)
-            self.changeTypeChanged()
+            self.clearChangeTypes()
             self.btChange.setChecked(True)
             self.tbAddToBefore.setEnabled(False)
             self.tbAddToAfter.setEnabled(False)
         elif _index==4:
             self.cbInformationSection.setEnabled(True)
-            self.changeTypeChanged()
+            self.clearChangeTypes()
+            self.btChange.setChecked(True)
+            self.tbAddToBefore.setEnabled(False)
+            self.tbAddToAfter.setEnabled(False)
+        elif _index==5:
+            self.cbInformationSection.setCurrentIndex(0)
+            self.cbInformationSection.setEnabled(False)
+            self.clearChangeTypes()
             self.btChange.setChecked(True)
             self.tbAddToBefore.setEnabled(False)
             self.tbAddToAfter.setEnabled(False)
@@ -235,6 +251,7 @@ class SpecialTools(MWidget):
         self.searchAndReplace.showAdvancedSelections()
         self.clear.showAdvancedSelections()
         self.characterState.showAdvancedSelections()
+        self.characterEncoding.showAdvancedSelections()
     
     def hideAdvancedSelections(self):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Advance"))
@@ -248,6 +265,7 @@ class SpecialTools(MWidget):
         self.searchAndReplace.hideAdvancedSelections()
         self.clear.hideAdvancedSelections()
         self.characterState.hideAdvancedSelections()
+        self.characterEncoding.hideAdvancedSelections()
         
     def apply(self):
         try:
@@ -270,6 +288,8 @@ class SpecialTools(MWidget):
                 Organizer.clearTable(self)
             elif self.tabwTabs.currentIndex()==4:
                 Organizer.correctCaseSensitiveTable(self)
+            elif self.tabwTabs.currentIndex()==5:
+                Organizer.correctCharacterEncodingTable(self)
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -281,6 +301,7 @@ class SpecialTools(MWidget):
             self.fill.checkCompleters()
             self.clear.checkCompleters()
             self.characterState.checkCompleters()
+            self.characterEncoding.checkCompleters()
     
     def reFillCompleters(self):
         if Universals.getBoolValue("isActiveCompleter"):
@@ -289,6 +310,7 @@ class SpecialTools(MWidget):
             self.fill.reFillCompleters()
             self.clear.reFillCompleters()
             self.characterState.reFillCompleters()
+            self.characterEncoding.reFillCompleters()
     
 class SpecialActions(MWidget):
     def __init__(self, _parent):
@@ -922,6 +944,54 @@ class CharacterState(MWidget):
     
     def reFillCompleters(self):
         setCompleter(self.leSearch, self.cckbCorrectText.text())
+        
+        
+class CharacterEncoding(MWidget):
+    def __init__(self, _parent):
+        MWidget.__init__(self, _parent)
+        self.cckbCorrectText = MCheckBox(translate("SpecialTools", "Character Encoding"))
+        lblColumns = MLabel(translate("SpecialTools", "Column: "))
+        lblSourceValues = MLabel(translate("SpecialTools", "Source Values: "))
+        lblSourceEncoding = MLabel(translate("SpecialTools", "Source Encoding: "))
+        lblDestinationEncoding = MLabel(translate("SpecialTools", "Destination Encoding: "))
+        self.columns = MComboBox()
+        self.cbSourceEncoding = MComboBox()
+        self.cbSourceEncoding.addItems(Variables.getCharSets())
+        self.cbDestinationEncoding = MComboBox()
+        self.cbDestinationEncoding.addItems(Variables.getCharSets())
+        self.cbSourceEncoding.setCurrentIndex(self.cbSourceEncoding.findText(Universals.MySettings["fileSystemEncoding"]))
+        self.cbDestinationEncoding.setCurrentIndex(self.cbDestinationEncoding.findText(Universals.MySettings["fileSystemEncoding"]))
+        self.cbSourceValues = MComboBox()
+        self.cbSourceValues.addItems([translate("Options", "Real Values"), 
+                            translate("Options", "Table Contents")])
+        HBoxs = []
+        HBoxs.append(MHBoxLayout())
+        HBoxs[0].addWidget(lblColumns)
+        HBoxs[0].addWidget(self.columns)
+        HBoxs[0].addWidget(lblSourceValues)
+        HBoxs[0].addWidget(self.cbSourceValues)
+        HBoxs.append(MHBoxLayout())
+        HBoxs[1].addWidget(lblSourceEncoding)
+        HBoxs[1].addWidget(self.cbSourceEncoding)
+        HBoxs[1].addWidget(lblDestinationEncoding)
+        HBoxs[1].addWidget(self.cbDestinationEncoding)
+        vblCharacterEncoding = MVBoxLayout()
+        vblCharacterEncoding.addLayout(HBoxs[0])
+        vblCharacterEncoding.addLayout(HBoxs[1])
+        self.setLayout(vblCharacterEncoding)
+        lblColumns.setFixedWidth(60)
+        
+    def showAdvancedSelections(self):
+        pass
+    
+    def hideAdvancedSelections(self):
+        pass
+    
+    def checkCompleters(self):
+        pass
+    
+    def reFillCompleters(self):
+        pass
             
             
 class SearchAndReplaceListEditDialog(MDialog):
