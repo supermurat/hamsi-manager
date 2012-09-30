@@ -245,19 +245,10 @@ class FileManager():
                         if str(_path).split(".")[-1].lower() == str(ext).lower():
                             if Universals.tableType==2 and Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
                                 Universals.MainWindow.PlayerBar.Player.play(str(_path))
-                            else:
-                                import Taggers
-                                if Taggers.getTagger(True)!=None:
-                                    from Details import MusicDetails
-                                    MusicDetails.MusicDetails(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
                             isOpened = True
                     if isOpened==False:
-                        try:
-                            from Details import TextDetails
-                            TextDetails.TextDetails(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
-                        except:
-                            Dialogs.showError(translate("FileManager", "Cannot open file"), 
-                                         str(translate("FileManager", "\"%s\" cannot be opened. Please make sure you selected a text file.")) % Organizer.getLink(str(_path)))
+                        from Details import Details
+                        Details(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
         except:
             error = ReportBug.ReportBug()
             error.show()

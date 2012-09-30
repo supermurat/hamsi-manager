@@ -20,7 +20,7 @@
 from Core import Organizer
 import InputOutputs
 from Core.MyObjects import *
-from Details import TextDetails
+from Details import Details
 from Core import Dialogs
 import Options
 from time import gmtime
@@ -107,7 +107,7 @@ class SubFolderTable():
         return True
         
     def showDetails(self, _fileNo, _infoNo):
-        TextDetails.TextDetails(self.Table.currentTableContentValues[_fileNo]["path"],self.Table.isOpenDetailsOnNewWindow.isChecked())
+        Details(self.Table.currentTableContentValues[_fileNo]["path"],self.Table.isOpenDetailsOnNewWindow.isChecked())
         
     def cellClicked(self,_row,_column):
         cellLenght = len(self.Table.currentItem().text())*8
