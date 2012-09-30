@@ -163,13 +163,14 @@ the Free Software Foundation; either version 2 of the License, or
     dgroup.add_option('--runAsRoot', help='Are you want to run as root?', 
                       action='store_const', const=True)
     optionList.append("runAsRoot")
+    optionList.append("+[optionalFileOrDirectory]")
     parser.add_option_group(qmgroup)
     parser.add_option_group(dgroup)
     parser.set_defaults(loggingLevel=logging.WARNING, runAsRoot=False, qm=False)
-    options, remainder = parser.parse_args()
-    if len(remainder)==1:
-        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainder[0]), Variables.defaultFileSystemEncoding))
-        except:Universals.setMySetting("lastDirectory", str(remainder[0]))
+    options, remainderParameters = parser.parse_args()
+    if len(remainderParameters)==1:
+        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainderParameters[0]), Variables.defaultFileSystemEncoding))
+        except:Universals.setMySetting("lastDirectory", str(remainderParameters[0]))
     if options.directory:
         try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(options.directory), Variables.defaultFileSystemEncoding))
         except:Universals.setMySetting("lastDirectory", str(options.directory))
@@ -254,6 +255,7 @@ the Free Software Foundation; either version 2 of the License, or
             QuickMakeParameters.append("search")
             QuickMakeParameters.append(options.search)
             isQuickMake = True
+        QuickMakeParameters.append(remainderParameters)
     if options.runAsRoot:
         from Core import Execute
         if Variables.isRunningAsRoot()==False:
