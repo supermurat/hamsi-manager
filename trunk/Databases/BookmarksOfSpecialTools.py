@@ -68,7 +68,7 @@ class BookmarksOfSpecialTools:
         return cur.fetchall()
     
     def checkValues(_bookmark, _value, _type):
-        if len(_bookmark)==0 or len(_value)==0:
+        if len(_value)==0:
             return False
         return True
     
