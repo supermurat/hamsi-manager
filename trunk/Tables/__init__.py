@@ -211,34 +211,7 @@ class Tables(MTableWidget):
         try:
             rowNo = self.currentRow()
             if rowNo!=-1:
-                isOpenedDetails = False
-                if "path" in self.currentTableContentValues[rowNo].keys():
-                    filePath = self.currentTableContentValues[rowNo]["path"]
-                    if InputOutputs.isExist(filePath):
-                        if Universals.tableType!=2:
-                            isImage = False
-                            isMusic = False
-                            for fileExt in Universals.getListValue("imageExtensions"):
-                                if InputOutputs.checkExtension(filePath, fileExt):
-                                    isImage = True
-                                    break
-                            if isImage==False:
-                                for fileExt in Universals.getListValue("musicExtensions"):
-                                    if InputOutputs.checkExtension(filePath, fileExt):
-                                        isMusic = True
-                                        break
-                            if isImage:
-                                from Details import ImageDetails
-                                ImageDetails.ImageDetails(filePath, _isOpenDetailsOnNewWindow = self.isOpenDetailsOnNewWindow.isChecked())
-                                isOpenedDetails = True
-                            elif isMusic:
-                                import Taggers
-                                if Taggers.getTagger(True)!=None:
-                                    from Details import MusicDetails
-                                    MusicDetails.MusicDetails(filePath, self.isOpenDetailsOnNewWindow.isChecked())
-                                isOpenedDetails = True
-                if isOpenedDetails==False:
-                    self.SubTable.showDetails(rowNo, self.currentColumn())
+                self.SubTable.showDetails(rowNo, self.currentColumn())
         except:
             error = ReportBug.ReportBug()
             error.show()

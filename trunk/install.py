@@ -272,15 +272,16 @@ if RoutineChecks.checkQt4Exist():
                                 InputOutputs.writeToFile(newFileName, fileContent)
                         self.prgbState.setValue(fileNo+1)
                     self.pageNo+=1
-                    try:
+                    if InputOutputs.isFile(InputOutputs.joinPath(self.installationDirectory, "ConfigureUpdate.py")):
                         InputOutputs.moveFileOrDir(InputOutputs.joinPath(self.installationDirectory, "ConfigureUpdate.py"), InputOutputs.joinPath(self.installationDirectory, "Update.py"))
-                    except:
+                    else:
                         configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
                         if configureUpdateFileName!=None:
-                            extOfFile = ""
-                            if configureUpdateFileName.find(".")!=-1:
-                                extOfFile = "." + (configureUpdateFileName.split(".")[1])
-                            InputOutputs.moveFileOrDir(InputOutputs.joinPath(self.installationDirectory, configureUpdateFileName), InputOutputs.joinPath(self.installationDirectory, "Update" + extOfFile))
+                            if InputOutputs.isFile(InputOutputs.joinPath(self.installationDirectory, configureUpdateFileName)):
+                                extOfFile = ""
+                                if configureUpdateFileName.find(".")!=-1:
+                                    extOfFile = "." + (configureUpdateFileName.split(".")[1])
+                                InputOutputs.moveFileOrDir(InputOutputs.joinPath(self.installationDirectory, configureUpdateFileName), InputOutputs.joinPath(self.installationDirectory, "Update" + extOfFile))
                     MyConfigure.installKDE4Languages()
                 else:
                     self.pageNo-=1

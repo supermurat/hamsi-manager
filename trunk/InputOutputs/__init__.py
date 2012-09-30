@@ -37,7 +37,7 @@ class InputOutputs:
     global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
     global readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
-    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden
+    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
@@ -106,6 +106,23 @@ class InputOutputs:
                 return False
         return False
         
+    def isBinary(_path):
+        _path = str(_path)
+        try:f = open(Universals.trEncode(_path, fileSystemEncoding), 'rb')
+        except:f = open(_path, 'rb')
+        try:
+            CHUNKSIZE = 1024
+            while 1:
+                chunk = f.read(CHUNKSIZE)
+                if '\0' in chunk: # found null byte
+                    return True
+                if len(chunk) < CHUNKSIZE:
+                    break # done
+        finally:
+            f.close()
+        return False
+
+    
     def isAvailableNameForEncoding(_newPath):
         try:
             _newPath = str(_newPath)

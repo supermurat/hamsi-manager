@@ -77,6 +77,10 @@ class Execute:
         for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
             if fName.split(".")[0]==_executableName and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                 return fName
+        if _executableName=="HamsiManager":
+            for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
+                if fName.split(".")[0].find("Hamsi")>-1 and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
+                    return fName
         return None
             
     def findExecutablePath(_executableName):

@@ -286,7 +286,6 @@ class UpdateControl(MDialog):
                 if configureUpdateFileName.find(".")!=-1:
                     extOfFile = "." + (configureUpdateFileName.split(".")[1])
                 InputOutputs.moveFileOrDir(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName), InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Update"+extOfFile))
-                updateFileName = Execute.findExecutableBaseName("HamsiManagerInstaller")
         execute([str(_fileName)], "Update")
         self.close()
         self.parent().close()
