@@ -45,7 +45,7 @@ class Searcher(MyDialog):
         self.tmrSearchAfter = None
         lblPleaseSelect = MLabel(translate("Searcher", "Directory Or File : "))
         self.pbtnClose = MPushButton(translate("Searcher", "Close"))
-        self.lePathToSeach = MLineEdit(trForM(_directory))
+        self.lePathToSeach = MLineEdit(trForM(Universals.getStringFromList(_directory, ";")))
         self.pbtnSelectSeachDirectoryPath = MPushButton(translate("Searcher", "Select Directory"))
         self.pbtnSelectSeachFilePath = MPushButton(translate("Searcher", "Select File"))
         self.connect(self.pbtnSelectSeachDirectoryPath,SIGNAL("clicked()"),self.selectSearchDirectoryPath)

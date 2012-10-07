@@ -392,7 +392,8 @@ class QuickMakeWindow(MyDialog):
         try:
             if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1])):
                 from Tools import Searcher
-                self.newDialog = Searcher.Searcher(InputOutputs.getRealPath(QuickMakeParameters[1]))
+                searchList = [InputOutputs.getRealPath(QuickMakeParameters[1])] + QuickMakeParameters[2]
+                self.newDialog = Searcher.Searcher(searchList)
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()    
