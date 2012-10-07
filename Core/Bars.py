@@ -278,7 +278,7 @@ class Bars():
                 FileTreeBuilder.FileTreeBuilder(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
             elif actionName==translate("ToolsBar", "Search"):
                 from Tools import Searcher
-                Searcher.Searcher(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                Searcher.Searcher([Universals.MainWindow.FileManager.getCurrentDirectoryPath()])
             elif actionName==translate("ToolsBar", "Run Command"):
                 from Tools import RunCommand
                 if RunCommand.checkRunCommand():

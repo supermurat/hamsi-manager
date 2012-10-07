@@ -217,12 +217,15 @@ class Universals():
         if _splitter is None:
             return str(_list)
         else:
-            listString = ""
-            for x, value in enumerate(_list):
-                if x!=0:
-                    listString += _splitter
-                listString += value
-            return listString
+            if isinstance(_list, (list, tuple, dict)):
+                listString = ""
+                for x, value in enumerate(_list):
+                    if x!=0:
+                        listString += _splitter
+                    listString += value
+                return listString
+            else:
+                return str(_list)
         
     def getValue(_key, _valueList = None, _defaultValue = ""):
         try:
