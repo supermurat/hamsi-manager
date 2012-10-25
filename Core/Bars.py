@@ -279,10 +279,10 @@ class Bars():
             elif actionName==translate("ToolsBar", "Search"):
                 from Tools import Searcher
                 Searcher.Searcher([Universals.MainWindow.FileManager.getCurrentDirectoryPath()])
-            elif actionName==translate("ToolsBar", "Run Command"):
-                from Tools import RunCommand
-                if RunCommand.checkRunCommand():
-                    RunCommand.RunCommand(Universals.MainWindow)
+            elif actionName==translate("ToolsBar", "Script Manager"):
+                from Tools import ScriptManager
+                if ScriptManager.checkScriptManager():
+                    ScriptManager.ScriptManager(Universals.MainWindow)
             elif actionName==translate("ToolsBar", "Show Last Actions"):
                 from Core import RecordsForm
                 RecordsForm.RecordsForm(Universals.MainWindow)
@@ -575,10 +575,10 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Search"),self)
         self.actSearch.setObjectName(translate("ToolsBar", "Search"))
         self.actSearch.setToolTip(translate("ToolsBar", "Special search tool"))
-        self.actRunCommand = MAction(MIcon("Images:runCommand.png"),
-                                                translate("ToolsBar", "Run Command"),self)
-        self.actRunCommand.setObjectName(translate("ToolsBar", "Run Command"))
-        self.actRunCommand.setToolTip(translate("ToolsBar", "You can coding some things."))
+        self.actScriptManager = MAction(MIcon("Images:scriptManager.png"),
+                                                translate("ToolsBar", "Script Manager"),self)
+        self.actScriptManager.setObjectName(translate("ToolsBar", "Script Manager"))
+        self.actScriptManager.setToolTip(translate("ToolsBar", "You can coding some things."))
         if Universals.getBoolValue("isSaveActions"):
             self.actLastActions = MAction(MIcon("Images:lastActions.png"),
                                                     translate("ToolsBar", "Show Last Actions"),self)
@@ -595,7 +595,7 @@ class ToolsBar(MToolBar):
         self.addAction(self.actClear)
         self.addAction(self.actTextCorrector)
         self.addAction(self.actSearch)
-        self.addAction(self.actRunCommand)
+        self.addAction(self.actScriptManager)
         if Universals.getBoolValue("isSaveActions"):
             self.addAction(self.actLastActions)
         if Universals.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
@@ -617,7 +617,7 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actClear)
         Universals.MainWindow.Menu.mTools.addAction(self.actTextCorrector)
         Universals.MainWindow.Menu.mTools.addAction(self.actSearch)
-        Universals.MainWindow.Menu.mTools.addAction(self.actRunCommand)
+        Universals.MainWindow.Menu.mTools.addAction(self.actScriptManager)
         if Universals.getBoolValue("isSaveActions"):
             Universals.MainWindow.Menu.mTools.addAction(self.actLastActions)
         if Universals.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:

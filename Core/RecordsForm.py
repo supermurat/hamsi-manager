@@ -26,7 +26,7 @@ import InputOutputs
 import Options
 
 class RecordsForm(MDialog):
-    global checkRecordsForm, codesOfUser, reFillCodesOfUser
+    
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
         if Universals.isActivePyKDE4==True:
@@ -64,30 +64,42 @@ class RecordsForm(MDialog):
         self.show()
         
     def setRecordsFile(self, _filePath=None):
-        if _filePath is None:
-            self.teRecords.setPlainText(trForUI(Records.read()))
-        else:
-            self.teRecords.setPlainText(trForUI(Records.read(_filePath)))
+        try:
+            if _filePath is None:
+                self.teRecords.setPlainText(trForUI(Records.read()))
+            else:
+                self.teRecords.setPlainText(trForUI(Records.read(_filePath)))
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
             
     def getFromRecordList(self, _index = None):
-        if self.cbRecordsList.currentIndex()==0:
-            self.setRecordsFile()
-        else:
-            recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
-            self.setRecordsFile(InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, recordFilePath))
-            
-    def clear(self):
-        answer = Dialogs.ask(translate("RecordsForm", "Are You Sure?"),
-                        translate("RecordsForm", "Are you sure you want to remove this record file?"))
-        if answer==Dialogs.Yes:
+        try:
             if self.cbRecordsList.currentIndex()==0:
-                Records.clearRecords()
+                self.setRecordsFile()
             else:
                 recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
-                InputOutputs.removeFile(InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, recordFilePath))
-                self.recordsList = [translate("RecordsForm", "Current Records")] + Records.getBackupRecordsList()
-                self.cbRecordsList.clear()
-                self.cbRecordsList.addItems(self.recordsList)
-            self.setRecordsFile()
+                self.setRecordsFile(InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, recordFilePath))
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+            
+    def clear(self):
+        try:
+            answer = Dialogs.ask(translate("RecordsForm", "Are You Sure?"),
+                            translate("RecordsForm", "Are you sure you want to remove this record file?"))
+            if answer==Dialogs.Yes:
+                if self.cbRecordsList.currentIndex()==0:
+                    Records.clearRecords()
+                else:
+                    recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
+                    InputOutputs.removeFile(InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, recordFilePath))
+                    self.recordsList = [translate("RecordsForm", "Current Records")] + Records.getBackupRecordsList()
+                    self.cbRecordsList.clear()
+                    self.cbRecordsList.addItems(self.recordsList)
+                self.setRecordsFile()
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
         
         

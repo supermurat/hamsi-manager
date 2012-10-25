@@ -31,8 +31,8 @@ class Variables():
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
     version = "1.0.8"
-    intversion = 1080
-    settingVersion = "1080"
+    intversion = 1081
+    settingVersion = "1081"
     aboutOfHamsiManager = ""
     if sys.argv[0][0]==".":
         executableAppPath = str(os.getcwd() + sys.argv[0][1:])
@@ -118,7 +118,7 @@ class Variables():
                   "isFileTableValuesChangeInAmarokDB", "isFolderTableValuesChangeInAmarokDB", 
                   "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
                   "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", 
-                  "isDecodeURLStrings", "checkUnSavedValues"]
+                  "isDecodeURLStrings", "isCheckUnSavedValues", "isAutoSaveScripts"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -359,7 +359,8 @@ class Variables():
                 "isShowHiddensInCoverTable": "False", 
                 "isShowHiddensInFileTree": "False", 
                 "isDecodeURLStrings": "True", 
-                "checkUnSavedValues": "False"
+                "isCheckUnSavedValues": "False", 
+                "isAutoSaveScripts": "True"
                 }
             
                 
@@ -509,7 +510,8 @@ class Variables():
                 "isShowHiddensInCoverTable": "bool", 
                 "isShowHiddensInFileTree": "bool", 
                 "isDecodeURLStrings": "bool", 
-                "checkUnSavedValues": "bool"
+                "isCheckUnSavedValues": "bool", 
+                "isAutoSaveScripts": "bool"
                 }
 
     def getAvailablePlayers():
