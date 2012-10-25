@@ -2177,12 +2177,12 @@
         <translation>Durumu Aç</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="78"/>
+        <location filename="Tools/ScriptManager.py" line="78"/>
         <source>Qsci Is Not Installed</source>
         <translation>Qsci Kurulu Değil</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="78"/>
+        <location filename="Tools/ScriptManager.py" line="78"/>
         <source>Qsci is not installed on your systems.&lt;br&gt;Please install Qsci on your system and try again.</source>
         <translation>Qsci sisteminizde kurulu değil.&lt;br&gt;Lütfen Qsci`yi sisteminize kurunuz ve tekrar deneyiniz.</translation>
     </message>
@@ -5527,59 +5527,59 @@
     </message>
 </context>
 <context>
-    <name>RunCommand</name>
+    <name>ScriptManager</name>
     <message>
-        <location filename="Tools/RunCommand.py" line="41"/>
+        <location filename="Tools/ScriptManager.py" line="41"/>
         <source>Run</source>
         <translation>Çalıştır</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="42"/>
+        <location filename="Tools/ScriptManager.py" line="42"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="43"/>
+        <location filename="Tools/ScriptManager.py" line="43"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="117"/>
+        <location filename="Tools/ScriptManager.py" line="117"/>
         <source>Error details: &lt;br&gt; &quot;%s&quot;</source>
         <translation>Hata Detayları :&lt;br&gt; &quot;%s&quot;</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="123"/>
+        <location filename="Tools/ScriptManager.py" line="123"/>
         <source>Do you wish to save your codes so that you can continue later?</source>
         <translation>Yazdığınız kodlar daha sonra devam edebilmeniz için kaydedilsin mi?</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="132"/>
+        <location filename="Tools/ScriptManager.py" line="132"/>
         <source>Your codes will be deleted and the default codes will be installed. Do you wish to clear the current codes?</source>
         <translation>Your codes will be deleted and the default codes will be installed. Do you wish to clear the current codes?</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="40"/>
+        <location filename="Tools/ScriptManager.py" line="40"/>
         <source>Run And Close</source>
         <translation>Çalıştır ve Kapat</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="62"/>
-        <source>Run Command</source>
-        <translation>Komut Çalıştır</translation>
+        <location filename="Tools/ScriptManager.py" line="62"/>
+        <source>Script Manager</source>
+        <translation>Betik Yöneticisi</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="117"/>
+        <location filename="Tools/ScriptManager.py" line="117"/>
         <source>Error: Failed To Run The Query</source>
         <translation>Hata : Sorgu Çalıştırılamadı</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="123"/>
+        <location filename="Tools/ScriptManager.py" line="123"/>
         <source>Do You Wish To Save Your Codes?</source>
         <translation>Kodlarınız Kaydedilsin Mi?</translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="132"/>
+        <location filename="Tools/ScriptManager.py" line="132"/>
         <source>Your Codes Will Be Deleted!..</source>
         <translation>Kodlarınız Silinecek!..</translation>
     </message>
@@ -6877,8 +6877,8 @@
     </message>
     <message>
         <location filename="Core/Bars.py" line="580"/>
-        <source>Run Command</source>
-        <translation>Komut Çalıştır</translation>
+        <source>Script Manager</source>
+        <translation>Betik Yöneticisi</translation>
     </message>
     <message>
         <location filename="Core/Bars.py" line="581"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2012-07-22, 00:25:05 -->
+<!-- Saved: 2012-10-24, 19:24:41 -->
 <!-- Copyright (C) 2012 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -73,7 +73,6 @@
     <Source>Amarok/Commands.py</Source>
     <Source>Core/Variables.py</Source>
     <Source>Tools/Packager.py</Source>
-    <Source>Tools/RunCommand.py</Source>
     <Source>Tools/FileTreeBuilder.py</Source>
     <Source>Tools/Cleaner.py</Source>
     <Source>Tools/Hasher.py</Source>
@@ -106,6 +105,7 @@
     <Source>setup2.py</Source>
     <Source>MyPlugins/Explorer_CM/__init__.py</Source>
     <Source>Core/RecordsForm.py</Source>
+    <Source>Tools/ScriptManager.py</Source>
   </Sources>
   <Forms>
   </Forms>

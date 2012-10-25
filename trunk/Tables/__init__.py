@@ -460,7 +460,7 @@ class Tables(MTableWidget):
             _item.setBackground(MBrush(MColor(142,199,255)))
         
     def checkUnSavedValues(self, _isForceToCheck=False):
-        if Universals.getBoolValue("checkUnSavedValues") or _isForceToCheck:
+        if Universals.getBoolValue("isCheckUnSavedValues") or _isForceToCheck:
             isClose=True
             for rowNo in range(self.rowCount()):
                 if isClose==False:

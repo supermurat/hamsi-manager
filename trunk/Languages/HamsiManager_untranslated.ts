@@ -2112,12 +2112,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="78"/>
+        <location filename="Tools/ScriptManager.py" line="78"/>
         <source>Qsci Is Not Installed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="78"/>
+        <location filename="Tools/ScriptManager.py" line="78"/>
         <source>Qsci is not installed on your systems.&lt;br&gt;Please install Qsci on your system and try again.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5527,59 +5527,59 @@
     </message>
 </context>
 <context>
-    <name>RunCommand</name>
+    <name>ScriptManager</name>
     <message>
-        <location filename="Tools/RunCommand.py" line="40"/>
+        <location filename="Tools/ScriptManager.py" line="40"/>
         <source>Run And Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="41"/>
+        <location filename="Tools/ScriptManager.py" line="41"/>
         <source>Run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="42"/>
+        <location filename="Tools/ScriptManager.py" line="42"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="43"/>
+        <location filename="Tools/ScriptManager.py" line="43"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="62"/>
-        <source>Run Command</source>
+        <location filename="Tools/ScriptManager.py" line="62"/>
+        <source>Script Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="117"/>
+        <location filename="Tools/ScriptManager.py" line="117"/>
         <source>Error: Failed To Run The Query</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="123"/>
+        <location filename="Tools/ScriptManager.py" line="123"/>
         <source>Do You Wish To Save Your Codes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="123"/>
+        <location filename="Tools/ScriptManager.py" line="123"/>
         <source>Do you wish to save your codes so that you can continue later?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="132"/>
+        <location filename="Tools/ScriptManager.py" line="132"/>
         <source>Your Codes Will Be Deleted!..</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="132"/>
+        <location filename="Tools/ScriptManager.py" line="132"/>
         <source>Your codes will be deleted and the default codes will be installed. Do you wish to clear the current codes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/RunCommand.py" line="117"/>
+        <location filename="Tools/ScriptManager.py" line="117"/>
         <source>Error details: &lt;br&gt; &quot;%s&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6877,7 +6877,7 @@
     </message>
     <message>
         <location filename="Core/Bars.py" line="580"/>
-        <source>Run Command</source>
+        <source>Script Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -35,7 +35,7 @@ class General(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["checkUnSavedValues", "isSaveActions", "maxRecordFileSize", 
+        self.keysOfSettings = ["isCheckUnSavedValues", "isSaveActions", "maxRecordFileSize", 
                                 "updateInterval", "language"]
         self.tabsOfSettings = [None, None, None, None, None]
         self.tabNames = []

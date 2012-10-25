@@ -67,7 +67,8 @@ MainExe = Executable(
     copyDependentFiles = False,
     appendScriptToExe = False,
     appendScriptToLibrary = False,
-    icon = "Themes/Default/Images/HamsiManager-128x128.ico"
+    icon = "Themes/Default/Images/HamsiManager-128x128.ico", 
+    shortcutName = "Hamsi Manager"
     )
     
 ReconfigureExe = Executable(

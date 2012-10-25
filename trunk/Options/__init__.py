@@ -27,10 +27,11 @@ class MyComboBox(MComboBox):
         self.settingKey = _settingKey
         self.currentIndexChanged = _currentIndexChanged
         self.addItems(_items)
-        if _settingKey is not None:
-            self.setCurrentIndex(_items.index(Universals.MySettings[self.settingKey]))
-        else:
-            self.setCurrentIndex(_defaultItemIndex)
+        if len(_items)>0:
+            if _settingKey is not None:
+                self.setCurrentIndex(_items.index(Universals.MySettings[self.settingKey]))
+            else:
+                self.setCurrentIndex(_defaultItemIndex)
         if _currentIndexChanged is not None or _settingKey is not None:
             MObject.connect(self, SIGNAL("currentIndexChanged(int)"), self.cbMCurrentIndexChanged)
             
@@ -39,6 +40,39 @@ class MyComboBox(MComboBox):
             Universals.setMySetting(self.settingKey, self.items[self.currentIndex()])
         if self.currentIndexChanged is not None:
             self.currentIndexChanged()
+
+class MyListWidget(MListWidget):
+    
+    def __init__(self, _parent, _items, _defaultItemIndex=0, _settingKey = None, _currentRowChanged = None):
+        MListWidget.__init__(self, _parent)
+        self.items = _items
+        self.settingKey = _settingKey
+        self.currentRowChanged = _currentRowChanged
+        self.addItems(_items)
+        if len(_items)>0:
+            if _settingKey is not None:
+                self.setCurrentRow(_items.index(Universals.MySettings[self.settingKey]))
+            else:
+                self.setCurrentRow(_defaultItemIndex)
+        if _currentRowChanged is not None or _settingKey is not None:
+            MObject.connect(self, SIGNAL("currentRowChanged(int)"), self.cbMCurrentRowChanged)
+            
+    def cbMCurrentRowChanged(self, _index = None):
+        if self.settingKey is not None:
+            Universals.setMySetting(self.settingKey, self.items[self.currentRow()])
+        if self.currentRowChanged is not None:
+            self.currentRowChanged()
+    
+    def refresh(self, _items, _defaultItemIndex=0):
+        self.clear()
+        self.items = _items
+        self.addItems(_items)
+        if len(_items)>0:
+            if self.settingKey is not None:
+                self.setCurrentRow(_items.index(Universals.MySettings[self.settingKey]))
+            else:
+                self.setCurrentRow(_defaultItemIndex)
+    
         
 class MyCheckBox(MCheckBox):
     
