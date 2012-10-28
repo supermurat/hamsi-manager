@@ -70,7 +70,8 @@ class Organizer:
                 _inputString = InputOutputs.joinPath(preString, _inputString)
             _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore")) + str(Universals.trDecode(extString, "utf-8", "ignore")) + str(Universals.trDecode(ext2String, "utf-8", "ignore"))
         else:
-            _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
+            if Universals.getBoolValue("isCorrectValueWithSearchAndReplaceTable"):
+                _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
             if _isCorrectCaseSensitive:
                 _inputString = makeCorrectCaseSensitive(_inputString, Universals.MySettings["validSentenceStructure"])
         if _isRichText==False:
@@ -180,13 +181,13 @@ class Organizer:
         import Databases
         newString = _oldString
         for info in Databases.SearchAndReplaceTable.fetchAll():
-            if info[3]==1:
+            if info[4]==1:
                 isCaseInsensitive, isRegExp = False, False
-                if info[4]==1:
-                    isCaseInsensitive = True
                 if info[5]==1:
+                    isCaseInsensitive = True
+                if info[6]==1:
                     isRegExp = True
-                newString = searchAndReplace(newString, [info[1]], [info[2]], isCaseInsensitive, isRegExp)
+                newString = searchAndReplace(newString, [info[2]], [info[3]], isCaseInsensitive, isRegExp)
         return newString
     
     def applySpecialCommand(_splitPointer, _whereIsSplitPointer, _command, _SpecialTools):

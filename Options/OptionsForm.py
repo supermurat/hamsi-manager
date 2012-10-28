@@ -218,7 +218,7 @@ class OptionsForm(MDialog):
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"])]
         elif _showType=="textCorrector":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
-                            OptionsFormContent.Correct(self, _showType, ["isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars"]), 
+                            OptionsFormContent.Correct(self, _showType, ["isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", "isCorrectValueWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars"]), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
         else:
             self.categories = []

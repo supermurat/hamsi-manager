@@ -166,10 +166,10 @@ class Correct(MWidget):
         self.keysOfSettings = ["isActiveCompleter", "isShowAllForCompleter",
             "validSentenceStructure", "validSentenceStructureForFile", "validSentenceStructureForDirectory", 
             "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
-            "isCorrectFileNameWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars", "isDecodeURLStrings"]
+            "isCorrectFileNameWithSearchAndReplaceTable", "isCorrectValueWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars", "isDecodeURLStrings"]
         self.tabsOfSettings = [None, None, None, None, 
                                 None, None, None, 
-                                None, None, None, None, None]
+                                None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -186,6 +186,7 @@ class Correct(MWidget):
                     translate("Options/Correct", "Which Part Is The File Extension"), 
                     translate("Options/Correct", "Emend Incorrect Chars"),  
                     translate("Options/Correct", "Correct File Name By Search Table"), 
+                    translate("Options/Correct", "Correct Value By Search Table"), 
                     translate("Options/Correct", "Clear First And Last Space Chars"), 
                     translate("Options/Correct", "Correct Double Space Chars"), 
                     translate("Options/Correct", "Decode URL Strings")]
@@ -198,11 +199,12 @@ class Correct(MWidget):
                     translate("Options/Correct", "Which part of the filename is the file extension?"), 
                     translate("Options/Correct", "Are you want to emend incorrect chars?"), 
                     translate("Options/Correct", "Are you want to correct file and directory names by search and replace table?"), 
+                    translate("Options/Correct", "Are you want to correct values by search and replace table?"), 
                     translate("Options/Correct", "Are you want to clear first and last space chars?"), 
                     translate("Options/Correct", "Are you want to correct double space chars?"), 
                     translate("Options/Correct", "Are you want to decode URL strings? ( For Example : '%20' >>> ' ', '%26' >>> '&' ) ")]
         self.typesOfValues = ["Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], ["options", 0], 
-                            ["options", 1], "Yes/No", "Yes/No", 
+                            ["options", 1], "Yes/No", "Yes/No", "Yes/No", 
                             "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("Options/Correct", "Title"), 
                                     translate("Options/Correct", "All Small"), 
@@ -259,25 +261,27 @@ class SearchAndReplace(MWidget):
             MObject.connect(self,SIGNAL("cellClicked(int,int)"),self.clicked)
             MObject.connect(self,SIGNAL("itemChanged(QTableWidgetItem *)"),self.itemChanged)
             self.clear()
-            self.setColumnCount(6)
+            self.setColumnCount(7)
             self.setHorizontalHeaderLabels(["id", 
+                            translate("Options/SearchAndReplace", "Label"), 
                             translate("Options/SearchAndReplace", "Search"), 
                             translate("Options/SearchAndReplace", "Replace"), 
                             translate("Options/SearchAndReplace", "Active"), 
                             translate("Options/SearchAndReplace", "C.Sens."), 
                             translate("Options/SearchAndReplace", "RegExp")])
             self.hideColumn(0)
-            self.setColumnWidth(1,135)
-            self.setColumnWidth(2,135)
-            self.setColumnWidth(3,50)
+            self.setColumnWidth(1,90)
+            self.setColumnWidth(2,100)
+            self.setColumnWidth(3,100)
             self.setColumnWidth(4,50)
             self.setColumnWidth(5,50)
+            self.setColumnWidth(6,50)
             self.searchAndReplaceTableValues = Databases.SearchAndReplaceTable.fetchAll()
             self.setRowCount(len(self.searchAndReplaceTableValues)+1)
             self.isShowChanges=False
             for rowNo, info in enumerate(self.searchAndReplaceTableValues):
                 for columnNo in range(self.columnCount()):
-                    if columnNo>2:
+                    if columnNo>3:
                         if info[columnNo] == 1:
                             checkState = Mt.Checked
                         else:
@@ -289,15 +293,16 @@ class SearchAndReplace(MWidget):
                         self.setItem(rowNo, columnNo, MTableWidgetItem(trForUI(info[columnNo])))
             self.setItem(len(self.searchAndReplaceTableValues), 1, MTableWidgetItem(""))
             self.setItem(len(self.searchAndReplaceTableValues), 2, MTableWidgetItem(""))
+            self.setItem(len(self.searchAndReplaceTableValues), 3, MTableWidgetItem(""))
             twiItem = MTableWidgetItem(" ")
             twiItem.setCheckState(Mt.Checked)
-            self.setItem(len(self.searchAndReplaceTableValues), 3, twiItem)
+            self.setItem(len(self.searchAndReplaceTableValues), 4, twiItem)
             twiItem1 = MTableWidgetItem(" ")
             twiItem1.setCheckState(Mt.Checked)
-            self.setItem(len(self.searchAndReplaceTableValues), 4, twiItem1)
+            self.setItem(len(self.searchAndReplaceTableValues), 5, twiItem1)
             twiItem2 = MTableWidgetItem(" ")
             twiItem2.setCheckState(Mt.Unchecked)
-            self.setItem(len(self.searchAndReplaceTableValues), 5, twiItem2)
+            self.setItem(len(self.searchAndReplaceTableValues), 6, twiItem2)
             self.isShowChanges=True
             self.mMenu = MMenu()
             self.namesOfButtons = [translate("Options/SearchAndReplace", "Cut"),
@@ -351,26 +356,27 @@ class SearchAndReplace(MWidget):
                         self.isShowChanges = False
                         self.setItem(self.rowCount()-1, 1, MTableWidgetItem(""))
                         self.setItem(self.rowCount()-1, 2, MTableWidgetItem(""))
+                        self.setItem(self.rowCount()-1, 3, MTableWidgetItem(""))
                         twiItem = MTableWidgetItem(" ")
                         twiItem.setCheckState(Mt.Checked)
-                        self.setItem(self.rowCount()-1, 3, twiItem)
+                        self.setItem(self.rowCount()-1, 4, twiItem)
                         twiItem1 = MTableWidgetItem(" ")
                         twiItem1.setCheckState(Mt.Checked)
-                        self.setItem(self.rowCount()-1, 4, twiItem1)
+                        self.setItem(self.rowCount()-1, 5, twiItem1)
                         twiItem2 = MTableWidgetItem(" ")
                         twiItem2.setCheckState(Mt.Unchecked)
-                        self.setItem(self.rowCount()-1, 5, twiItem2)
+                        self.setItem(self.rowCount()-1, 6, twiItem2)
                         self.isShowChanges = True
                 except:pass
         
         def save(self):
             for rowNo in range(self.rowCount()):
                 checkStateActive, checkStateCaseSensitive, checkStateRegExp = 0, 0, 0
-                if self.item(rowNo, 3).checkState() == Mt.Checked:
-                    checkStateActive = 1
                 if self.item(rowNo, 4).checkState() == Mt.Checked:
-                    checkStateCaseSensitive = 1
+                    checkStateActive = 1
                 if self.item(rowNo, 5).checkState() == Mt.Checked:
+                    checkStateCaseSensitive = 1
+                if self.item(rowNo, 6).checkState() == Mt.Checked:
                     checkStateRegExp = 1
                 try:
                     temp = self.item(rowNo, 0).text()
@@ -378,10 +384,10 @@ class SearchAndReplace(MWidget):
                         Databases.SearchAndReplaceTable.delete(str(self.item(rowNo, 0).text()))
                     else:
                         if str(self.item(rowNo, 1).text()).strip()!="":
-                            Databases.SearchAndReplaceTable.update(str(self.item(rowNo, 0).text()), str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
+                            Databases.SearchAndReplaceTable.update(str(self.item(rowNo, 0).text()), str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), str(self.item(rowNo, 3).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
                 except:
                     if str(self.item(rowNo, 1).text()).strip()!="":
-                        insertedId = Databases.SearchAndReplaceTable.insert(str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
+                        insertedId = Databases.SearchAndReplaceTable.insert(str(self.item(rowNo, 1).text()), str(self.item(rowNo, 2).text()), str(self.item(rowNo, 3).text()), checkStateActive, checkStateCaseSensitive, checkStateRegExp)
                         self.setItem(rowNo, 0, MTableWidgetItem(str(insertedId)))
         
 class ClearGeneral(MWidget):
