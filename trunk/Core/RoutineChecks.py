@@ -306,6 +306,7 @@ def checkAfterRunProccess():
     elif Universals.getBoolValue("isShowReconfigureWizard"):
         from Core import Execute
         Execute.execute([], "Reconfigure")
+        Universals.setMySetting("isShowReconfigureWizard", "False")
     
 def checkWindowMode(_isCheck=False):
     from Core import Universals

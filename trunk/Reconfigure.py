@@ -93,7 +93,7 @@ if RoutineChecks.checkQt4Exist():
             self.hblButtons = MHBoxLayout()
             self.buttons = [MPushButton(MApplication.translate("Reconfigure", "Back")), 
                             MPushButton(MApplication.translate("Reconfigure", "Forward")), 
-                            MPushButton(MApplication.translate("Reconfigure", "Reconfigure"))]
+                            MPushButton(MApplication.translate("Reconfigure", "Configure"))]
             self.hblButtons.addStretch(5)
             for btnNo, btn in enumerate(self.buttons):
                 if btnNo==len(self.buttons)-1 or btnNo==0:
@@ -150,6 +150,11 @@ if RoutineChecks.checkQt4Exist():
                     HBox1.addWidget(self.leExecutableLink, 10)
                     VBox.addLayout(HBox1)
                 else:
+                    self.wAvailableModules = MWidget(self)
+                    VBox.addWidget(self.wAvailableModules)
+                    self.vblAvailableModules = MVBoxLayout()
+                    self.checkAvailableModules()
+                    VBox.addStretch(1)
                     self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Reconfigure", "Create Desktop Shortcut."))
                     self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
                     VBox.addWidget(self.isCreateDesktopShortcut)
@@ -170,6 +175,68 @@ if RoutineChecks.checkQt4Exist():
                 self.leExecutableLink.setEnabled(False)
             else:
                 self.leExecutableLink.setEnabled(True)
+        
+        def checkAvailableModules(self):
+            eyeD3IsAvailable = False
+            mysqlIsAvailable = False
+            musicbrainzIsAvailable = False
+            scintillaIsAvailable = False
+            pywin32IsAvailable = False
+            try:
+                import eyeD3
+                eyeD3IsAvailable = True
+            except:pass
+            try:
+                import _mysql as mdb
+                mysqlIsAvailable = True
+            except:pass
+            try:
+                from musicbrainz2 import webservice, model, utils
+                from musicbrainz2.webservice import Query, ArtistFilter, WebServiceError, ReleaseFilter, TrackFilter
+                musicbrainzIsAvailable = True
+            except:pass
+            try:
+                from PyQt4.Qsci import QsciScintilla
+                scintillaIsAvailable = True
+            except:pass
+            if Variables.isWindows:
+                try:
+                    import win32api, win32con
+                    pywin32IsAvailable = True
+                except:pass
+                
+            Universals.clearAllChilds(self.wAvailableModules)
+                
+            if eyeD3IsAvailable==False:
+                lblEyeD3 = MLabel(MApplication.translate("Reconfigure", "<a href='http://eyed3.nicfit.net/'>'eyeD3'</a> (python-eyed3) named module is NOT installed in your system."))
+                lblEyeD3.setOpenExternalLinks(True)
+                self.vblAvailableModules.addWidget(lblEyeD3)
+            if mysqlIsAvailable==False:
+                lblMysql = MLabel(MApplication.translate("Reconfigure", "<a href='https://sourceforge.net/projects/mysql-python/'>'MySQL'</a> (python-mysql) named module is NOT installed on your system."))
+                lblMysql.setOpenExternalLinks(True)
+                self.vblAvailableModules.addWidget(lblMysql)
+            if musicbrainzIsAvailable==False:
+                lblMusicbrainz = MLabel(MApplication.translate("Reconfigure", "<a href='http://musicbrainz.org/doc/python-musicbrainz2'>'Music Brainz'</a> (python-musicbrainz2) named module is NOT installed on your system."))
+                lblMusicbrainz.setOpenExternalLinks(True)
+                self.vblAvailableModules.addWidget(lblMusicbrainz)
+            if scintillaIsAvailable==False:
+                lblScintilla = MLabel(MApplication.translate("Reconfigure", "<a href='http://www.riverbankcomputing.com/software/qscintilla/download'>'QScintilla'</a> (python-qt4-qscintilla) named module is NOT installed on your system."))
+                lblScintilla.setOpenExternalLinks(True)
+                self.vblAvailableModules.addWidget(lblScintilla)
+            if Variables.isWindows:
+                if pywin32IsAvailable==False:
+                    lblPywin32 = MLabel(MApplication.translate("Reconfigure", "<a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module is NOT installed on your system."))
+                    lblPywin32.setOpenExternalLinks(True)
+                    self.vblAvailableModules.addWidget(lblPywin32)
+            
+            if eyeD3IsAvailable==False or mysqlIsAvailable==False or musicbrainzIsAvailable==False or scintillaIsAvailable==False or (Variables.isWindows and (mysqlIsAvailable==False)):
+                lblAlert = MLabel(MApplication.translate("Reconfigure", "<b>You have to install above modules to use some features.</b>"))
+                self.vblAvailableModules.addWidget(lblAlert)
+                btnCheckAvailableModules = MPushButton(MApplication.translate("Reconfigure", "Check Again"))
+                self.vblAvailableModules.addWidget(btnCheckAvailableModules)
+                self.connect(btnCheckAvailableModules, SIGNAL("clicked()"), self.checkAvailableModules)
+                    
+            self.wAvailableModules.setLayout(self.vblAvailableModules)
             
         def pageChanged(self, _isRunningManual=False):
             if _isRunningManual==False:

@@ -335,7 +335,6 @@ if RoutineChecks.checkQt4Exist():
                     RoutineChecks.checkAfterRunProccess()
                     Universals.printForDevelopers("After RoutineChecks.checkAfterRunProccess")
                     Universals.setMySetting("isMakeAutoDesign", "False")
-                    Universals.setMySetting("isShowReconfigureWizard", "False")
                     Universals.isStartingSuccessfully = True
                     Universals.isCanBeShowOnMainWindow = True
                 except:
