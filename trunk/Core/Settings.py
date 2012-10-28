@@ -349,5 +349,14 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["isDecodeURLStrings"]
         if oldVersion<1081:
             newSettingsKeys = newSettingsKeys + ["isCheckUnSavedValues"]
+        if oldVersion<1082:
+            con = sqlite.connect(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "database.sqlite"))
+            cur = con.cursor()
+            cur.execute(str("ALTER TABLE searchAndReplaceTable RENAME TO tmpSearchAndReplaceTable;"))
+            cur.execute(str("CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'label' TEXT,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER);"))
+            cur.execute(str("INSERT INTO searchAndReplaceTable(label,searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp) SELECT searching,searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp FROM tmpSearchAndReplaceTable;"))
+            cur.execute(str("DROP TABLE tmpSearchAndReplaceTable;"))
+            con.commit()
+            newSettingsKeys = newSettingsKeys + ["isCorrectValueWithSearchAndReplaceTable"]
         return newSettingsKeys, changedDefaultValuesKeys
         

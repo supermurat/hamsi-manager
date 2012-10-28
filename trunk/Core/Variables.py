@@ -31,8 +31,8 @@ class Variables():
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
     version = "1.0.8"
-    intversion = 1081
-    settingVersion = "1081"
+    intversion = 1082
+    settingVersion = "1082"
     aboutOfHamsiManager = ""
     if sys.argv[0][0]==".":
         executableAppPath = str(os.getcwd() + sys.argv[0][1:])
@@ -84,7 +84,7 @@ class Variables():
                   "CoverOptionsBarButtonStyle", "AmarokMusicOptionsBarButtonStyle", "AmarokCopyOptionsBarButtonStyle", 
                   "language", "isShowQuickMakeWindow", "isChangeExistIcon", 
                   "isClearFirstAndLastSpaceChars", "isEmendIncorrectChars", "validSentenceStructureForFile", "validSentenceStructureForDirectory", 
-                  "validSentenceStructureForFileExtension", "isCorrectFileNameWithSearchAndReplaceTable", 
+                  "validSentenceStructureForFileExtension", "isCorrectFileNameWithSearchAndReplaceTable", "isCorrectValueWithSearchAndReplaceTable",  
                   "isCorrectDoubleSpaceChars", "fileExtesionIs", "settingsVersion", "subDirectoryDeep", 
                   "maxRecordFileSize", "themeName", 
                   "unneededDirectories", "ignoredDirectories", 
@@ -281,6 +281,7 @@ class Variables():
                 "validSentenceStructureForDirectory": "Don`t Change", 
                 "validSentenceStructureForFileExtension": "All Small", 
                 "isCorrectFileNameWithSearchAndReplaceTable": "True", 
+                "isCorrectValueWithSearchAndReplaceTable": "True", 
                 "isCorrectDoubleSpaceChars": "True", 
                 "fileExtesionIs": "After The Last Point", 
                 "settingsVersion": settingVersion,
@@ -432,6 +433,7 @@ class Variables():
                 "validSentenceStructureForDirectory": ["options", validSentenceStructureKeys], 
                 "validSentenceStructureForFileExtension": ["options", validSentenceStructureKeys], 
                 "isCorrectFileNameWithSearchAndReplaceTable": "bool", 
+                "isCorrectValueWithSearchAndReplaceTable": "bool", 
                 "isCorrectDoubleSpaceChars": "bool", 
                 "fileExtesionIs": ["options", fileExtesionIsKeys], 
                 "settingsVersion": ["options", [settingVersion]],
