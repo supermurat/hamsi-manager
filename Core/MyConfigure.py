@@ -42,7 +42,7 @@ class MyConfigure:
         if Variables.isAvailableKDE4():
             KDELocalateDir = InputOutputs.joinPath(Variables.getKDE4HomePath(), "share", "locale", str(_language[:2]), "LC_MESSAGES")
             if Variables.isRunningAsRoot():
-                KDELocalateDir = InputOutputs.joinPath("usr", "share", "locale", str(_language[:2]), "LC_MESSAGES")
+                KDELocalateDir = InputOutputs.joinPath("/usr", "share", "locale", str(_language[:2]), "LC_MESSAGES")
             KDELocalateDir = str(KDELocalateDir)
             langFile = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", str(_language)+".mo")
             if InputOutputs.isFile(InputOutputs.joinPath(KDELocalateDir, "HamsiManager.mo"))==False:
