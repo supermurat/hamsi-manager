@@ -47,21 +47,11 @@ class Universals():
     isRaisedAnError = False
     Utf8Contents = {}
     isActiveDirectoryCover = True
-    if Variables.isPython3k:
-        themePath = os.path.join(Variables.HamsiManagerDirectory, "Themes", "Default")
-        pathOfSettingsDirectory = os.path.join(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
-        recordFilePath = os.path.join(pathOfSettingsDirectory, "logs.txt")
-        oldRecordsDirectoryPath = os.path.join(pathOfSettingsDirectory, "OldRecords")
-    else:
-        try:themePath = os.path.join(Variables.HamsiManagerDirectory, "Themes", "Default").decode(Variables.defaultFileSystemEncoding)
-        except:themePath = os.path.join(Variables.HamsiManagerDirectory, "Themes", "Default")
-        try:pathOfSettingsDirectory = os.path.join(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager").decode(Variables.defaultFileSystemEncoding)
-        except:pathOfSettingsDirectory = os.path.join(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
-        try:recordFilePath = os.path.join(pathOfSettingsDirectory, "logs.txt").decode(Variables.defaultFileSystemEncoding)
-        except:recordFilePath = os.path.join(pathOfSettingsDirectory, "logs.txt")
-        try:oldRecordsDirectoryPath = os.path.join(pathOfSettingsDirectory, "OldRecords").decode(Variables.defaultFileSystemEncoding)
-        except:oldRecordsDirectoryPath = os.path.join(pathOfSettingsDirectory, "OldRecords")
-        
+    themePath = Variables.joinPath(Variables.HamsiManagerDirectory, "Themes", "Default")
+    pathOfSettingsDirectory = Variables.joinPath(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
+    recordFilePath = Variables.joinPath(pathOfSettingsDirectory, "logs.txt")
+    oldRecordsDirectoryPath = Variables.joinPath(pathOfSettingsDirectory, "OldRecords")
+    
     if Variables.isWindows:
         isActiveDirectoryCover = False
     
@@ -179,7 +169,7 @@ class Universals():
         newSettingVersion = str(MySettings["settingsVersion"])
         if _isCheckUpdate:
             if newSettingVersion!=settingVersion:
-                newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion)
+                newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion, newSettingVersion)
                 isShowVerifySettings = True
         if _isActiveKDE4!=False:
             InputOutputs.fileSystemEncoding = MySettings["fileSystemEncoding"]

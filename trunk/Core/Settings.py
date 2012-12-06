@@ -70,7 +70,7 @@ class Settings():
     def reFillSettings(_makeBackUp=False):
         if _makeBackUp==True:
             makeBackUp("Settings")
-        mySetting = Variables.MQtCore.QSettings(Universals.trForM(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, Universals.fileOfSettings)), Variables.MQtCore.QSettings.IniFormat)
+        mySetting = setting()
         defaultValues = Variables.getDefaultValues()
         for keyValue in Variables.keysOfSettings:
             mySetting.setValue(keyValue, Universals.trQVariant(Universals.trForM(defaultValues[keyValue])))
@@ -223,12 +223,12 @@ class Settings():
                 Universals.HamsiManagerApp.closeAllWindows()
                 break
         
-    def updateOldSettings(_oldVersion):
+    def updateOldSettings(_oldVersion, _newVersion):
         newSettingsKeys, changedDefaultValuesKeys = [], []
         try:
             oldVersion = int(_oldVersion)
         except:
-            oldVersion = 807
+            oldVersion = _newVersion
         if oldVersion<810:
             con = sqlite.connect(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
             cur = con.cursor()

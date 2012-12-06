@@ -710,7 +710,7 @@ class InputOutputs:
     def addToFile(_path, _contents=""):
         _path = str(_path)
         try:f = open(Universals.trEncode(_path, fileSystemEncoding), "a")
-        except:f = open(_path, "w")
+        except:f = open(_path, "a")
         f.write(_contents)
         f.close()
         Records.add("Added", _path)

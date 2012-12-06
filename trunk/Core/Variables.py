@@ -23,6 +23,7 @@ class Variables():
     global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
     global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, machineType, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableAppPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
+    global joinPath, trEncode, trDecode #TODO: think about me:)
     MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
@@ -34,26 +35,6 @@ class Variables():
     intversion = 1082
     settingVersion = "1082"
     aboutOfHamsiManager = ""
-    if sys.argv[0][0]==".":
-        executableAppPath = str(os.getcwd() + sys.argv[0][1:])
-    else:
-        executableAppPath = str(sys.argv[0])
-    if os.path.islink(executableAppPath):
-        executableAppPath = os.readlink(executableAppPath)
-    userDirectoryPath = os.path.expanduser("~")
-    defaultFileSystemEncoding = sys.getfilesystemencoding()
-    if defaultFileSystemEncoding is None:
-        defaultFileSystemEncoding = sys.getdefaultencoding()
-    defaultFileSystemEncoding = defaultFileSystemEncoding.lower()
-    if isPython3k:
-        HamsiManagerDirectory = os.path.dirname(executableAppPath)
-    else:
-        try:HamsiManagerDirectory = os.path.dirname(executableAppPath).decode(defaultFileSystemEncoding)
-        except:HamsiManagerDirectory = os.path.dirname(executableAppPath)
-        try:executableAppPath = executableAppPath.decode(defaultFileSystemEncoding)
-        except:pass
-        try:userDirectoryPath = userDirectoryPath.decode(defaultFileSystemEncoding)
-        except:pass
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
     fileExtesionIsKeys = ["After The First Point", "After The Last Point"]
@@ -126,15 +107,15 @@ class Variables():
         from Core import Universals
         global MQtGui, MQtCore, isQt4Exist, MyObjectName
         myObjectsNames = getMyObjectsNames()
-        if myObjectsNames.count("PySide")>0:
-            from PySide import QtCore
-            try:mySettingsPath = Universals.trDecode(os.path.join(userDirectoryPath, ".HamsiApps", "HamsiManager", "mySettings.ini"), defaultFileSystemEncoding)
-            except:mySettingsPath = os.path.join(userDirectoryPath, ".HamsiApps", "HamsiManager", "mySettings.ini")
-            sets = QtCore.QSettings(trForM(mySettingsPath) ,QtCore.QSettings.IniFormat)
-            if Universals.trStr(sets.value("NeededObjectsName"))=="PySide":
-                from PySide import QtGui
-                from PySide import QtCore
-                MyObjectName = "PySide"
+        #TODO: Clear PySide or done it, but it not necessary so you can delete every codes about PySide EXCEPT Phonon Module
+#        if myObjectsNames.count("PySide")>0:
+#            from PySide import QtCore
+#            mySettingsPath = joinPath(userDirectoryPath, ".HamsiApps", "HamsiManager", "mySettings.ini")
+#            sets = QtCore.QSettings(trForM(mySettingsPath) ,QtCore.QSettings.IniFormat)
+#            if Universals.trStr(sets.value("NeededObjectsName"))=="PySide":
+#                from PySide import QtGui
+#                from PySide import QtCore
+#                MyObjectName = "PySide"
         if MyObjectName=="" and myObjectsNames.count("PyQt4")>0:
             from PyQt4 import QtGui
             from PyQt4 import QtCore
@@ -145,22 +126,66 @@ class Variables():
         MQtGui, MQtCore = QtGui, QtCore
         if MQtGui!=None and MQtCore!=None:
             isQt4Exist=True
+            MQtCore.QTextCodec.setCodecForCStrings(MQtCore.QTextCodec.codecForName("utf-8"))
+            MQtCore.QTextCodec.setCodecForTr(MQtCore.QTextCodec.codecForName("utf-8"))
             return True
         return False
     
     def checkStartupVariables():
-        if checkMyObjects():
-            checkEncoding()
+        global executableAppPath, userDirectoryPath, HamsiManagerDirectory, executableAppPath
+        checkEncoding()
+        if sys.argv[0][0]==".":
+            executableAppPath = str(os.getcwd() + sys.argv[0][1:])
+        else:
+            executableAppPath = str(sys.argv[0])
+        if os.path.islink(executableAppPath):
+            executableAppPath = os.readlink(executableAppPath)
+        userDirectoryPath = os.path.expanduser("~")
+        if isPython3k:
+            HamsiManagerDirectory = os.path.dirname(executableAppPath)
+        else:
+            try:HamsiManagerDirectory = os.path.dirname(executableAppPath).decode(defaultFileSystemEncoding)
+            except:HamsiManagerDirectory = os.path.dirname(executableAppPath)
+            try:executableAppPath = executableAppPath.decode(defaultFileSystemEncoding)
+            except:pass
+            try:userDirectoryPath = userDirectoryPath.decode(defaultFileSystemEncoding)
+            except:pass
+        checkMyObjects()
 
-    def checkEncoding(_isSetUTF8=False):
+    def checkEncoding():
         global defaultFileSystemEncoding
+        defaultFileSystemEncoding = sys.getfilesystemencoding()
+        if defaultFileSystemEncoding is None:
+            defaultFileSystemEncoding = sys.getdefaultencoding()
+        defaultFileSystemEncoding = defaultFileSystemEncoding.lower()
         from encodings import aliases
         if defaultFileSystemEncoding=="iso-8859-1": 
             defaultFileSystemEncoding = "latin-1"
-        if _isSetUTF8:
-            defaultFileSystemEncoding = "utf-8"
         if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.items()].count(defaultFileSystemEncoding)==0:
             defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
+        
+        
+    def joinPath(_a, *_b):
+        _a = str(_a)
+        c = []
+        for x in _b:
+            try:c.append(trEncode(str(x), defaultFileSystemEncoding))
+            except:c.append(str(x))
+        c = tuple(c)
+        try:returnValue = os.path.join(trEncode(_a, defaultFileSystemEncoding), *c)
+        except:returnValue = os.path.join(_a, *c)
+        try:return trDecode(returnValue, defaultFileSystemEncoding)
+        except:return returnValue
+        
+    def trDecode(_s, _e = "utf-8", _p = "strict"):
+        if isPython3k:
+            return _s
+        return _s.decode(_e, _p)
+        
+    def trEncode(_s, _e = "utf-8", _p = "strict"):
+        if isPython3k:
+            return _s
+        return _s.encode(_e, _p)
         
     def isAvailablePyKDE4():
         try:
@@ -339,7 +364,7 @@ class Variables():
                 "colorSchemes": "", 
                 "isActiveAutoMakeIconToDirectory": "True", 
                 "isDontDeleteFileAndDirectory": "False", 
-                "pathOfDeletedFilesAndDirectories": os.path.join(userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"), 
+                "pathOfDeletedFilesAndDirectories": joinPath(userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"), 
                 "isReadOnlyAmarokDB": "False", 
                 "isReadOnlyAmarokDBHost": "False", 
                 "isResizeTableColumnsToContents": "False", 
