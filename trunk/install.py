@@ -163,9 +163,10 @@ if RoutineChecks.checkQt4Exist():
                     HBox1.addWidget(self.leExecutableLink)
                     VBox.addLayout(HBox1)
                 else:
-                    self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Install", "Create Desktop Shortcut."))
-                    self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
-                    VBox.addWidget(self.isCreateDesktopShortcut)
+                    if Variables.isWindows == False:
+                        self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Install", "Create Desktop Shortcut."))
+                        self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
+                        VBox.addWidget(self.isCreateDesktopShortcut)
                 VBox.addStretch(10)
                 HBox.addLayout(VBox)
             return pnlPage
@@ -308,8 +309,8 @@ if RoutineChecks.checkQt4Exist():
                     desktopPath = Variables.getUserDesktopPath()
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                     InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
-            executableLink = str(self.leExecutableLink.text())
             if self.isCreateExecutableLink!=None:
+                executableLink = str(self.leExecutableLink.text())
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:
                     if executableLink.strip()!="":
                         HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")

@@ -115,8 +115,12 @@ class Execute:
         if Variables.isWindows:
             if Universals.loggingLevel==logging.DEBUG:
                 print ("Open With >>> " + str(_command))
-            try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
-            except:correctedCommand = _command
+            try:_command = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+            except:_command = _command
+            correctedCommand = ""
+            for x, commandPart in enumerate(_command):
+                if x>0 : correctedCommand += " "
+                correctedCommand += commandPart
             return os.startfile(correctedCommand)
         else:
             _command = ["xdg-open"] + _command

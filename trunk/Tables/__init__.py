@@ -114,8 +114,9 @@ class Tables(MTableWidget):
         for actName in self.mContextMenuActionNames:
             self.mContextMenu.addAction(actName).setObjectName(actName)
         self.mContextMenuOpenWithNames = [translate("Tables", "File Manager"),
-                            translate("Tables", "Default Application"),
-                            translate("Tables", "Konsole")]
+                            translate("Tables", "Default Application")]
+        if Variables.isWindows == False:
+            self.mContextMenuOpenWithNames.append(translate("Tables", "Konsole"))
         for actName in self.mContextMenuOpenWithNames:
             self.mContextMenuOpenWith.addAction(actName).setObjectName(actName)
         self.mContextMenu.addMenu(self.mContextMenuColumns)
@@ -293,7 +294,7 @@ class Tables(MTableWidget):
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         from Core import Execute
                         Execute.openWith([self.currentTableContentValues[self.currentItem().row()]["path"]])
-                    elif selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
+                    elif Variables.isWindows == False and selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
                         Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
         except:
