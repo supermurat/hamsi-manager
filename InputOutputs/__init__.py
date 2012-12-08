@@ -37,7 +37,7 @@ class InputOutputs:
     global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
     global readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
-    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary
+    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
@@ -356,12 +356,23 @@ class InputOutputs:
             return True
         return False
         
+    def onRMTreeError( _func, _path, _excInfo):
+        try:os.chmod(Universals.trEncode(getDirName(_path), fileSystemEncoding), stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+        except:os.chmod(getDirName(_path), stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+        Records.add("CHmod Changed To Remove", getDirName(_path))
+        try:os.chmod(Universals.trEncode(_path, fileSystemEncoding), stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+        except:os.chmod(_path, stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+        Records.add("CHmod Changed To Remove", _path)
+        try:os.unlink(Universals.trEncode(_path, fileSystemEncoding))
+        except:os.unlink(_path)
+        Records.add("Removed", _path)
+
     def removeDir(_oldPath):
         if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
             moveToPathOfDeleted(_oldPath)
         else:
-            try:os.rmdir(Universals.trEncode(_oldPath, fileSystemEncoding))
-            except:os.rmdir(_oldPath)
+            try:shutil.rmtree(Universals.trEncode(_oldPath, fileSystemEncoding), ignore_errors=False, onerror = onRMTreeError)
+            except:shutil.rmtree(_oldPath, ignore_errors=False, onerror = onRMTreeError)
         Records.add("Removed", _oldPath)
         return True
         
@@ -836,11 +847,6 @@ class InputOutputs:
             if _isDir==False:
                 removeFile(_path)
             else:
-                for f in readDirectoryAll(_path):
-                    if isFile(joinPath(_path, f)):
-                        removeFileOrDir(joinPath(_path, f))
-                    elif isDir(joinPath(_path, f)):
-                        removeFileOrDir(joinPath(_path, f), True)
                 removeDir(_path)
                     
     def removeOnlySubFiles(_path):
