@@ -106,7 +106,7 @@ if RoutineChecks.checkQt4Exist():
             self.setCentralWidget(self.CentralWidget)
         
         def checkUpdate(self):
-            from Core import Universals
+            from Core import UpdateControl
             UpdateControl.UpdateControl(self, True)
         
         def createPage(self, _pageNo):
