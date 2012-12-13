@@ -303,6 +303,9 @@ class Bars():
                 self.changeTableType(_action)
             elif _action.parent().objectName()==translate("ToolsBar", "File Renamer Types"):
                 self.changeReNamerType(_action)
+            elif _action.parent().objectName()==translate("MenuBar", "Scripts"):
+                from Core import Scripts
+                Scripts.runScriptFile(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, actionName))
             Records.saveAllRecords()
         except:
             error = ReportBug.ReportBug()
@@ -578,7 +581,7 @@ class ToolsBar(MToolBar):
         self.actScriptManager = MAction(MIcon("Images:scriptManager.png"),
                                                 translate("ToolsBar", "Script Manager"),self)
         self.actScriptManager.setObjectName(translate("ToolsBar", "Script Manager"))
-        self.actScriptManager.setToolTip(translate("ToolsBar", "You can coding some things."))
+        self.actScriptManager.setToolTip(translate("ToolsBar", "You can do what you want."))
         if Universals.getBoolValue("isSaveActions"):
             self.actLastActions = MAction(MIcon("Images:lastActions.png"),
                                                     translate("ToolsBar", "Show Last Actions"),self)
@@ -628,6 +631,25 @@ class ToolsBar(MToolBar):
         if Universals.isActiveDirectoryCover:
             Universals.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTools)
+        self.createScriptsMenu(_parent)
+    
+    def createScriptsMenu(self, _parent):
+        Universals.MainWindow.Menu.mScripts = MMenu(translate("MenuBar", "Scripts"), self)
+        Universals.MainWindow.Menu.mScripts.setObjectName(translate("MenuBar", "Scripts"))
+        from Core import Scripts
+        _parent.scriptList = Scripts.getScriptList()
+        for scriptName in _parent.scriptList:
+            actScript = MAction(trForUI(scriptName), Universals.MainWindow.Menu.mScripts)
+            actScript.setObjectName(trForUI(scriptName))
+            actScript.setToolTip(trForUI(str(translate("ToolsBar", "Execute \"%s\"")) % scriptName))
+            Universals.MainWindow.Menu.mScripts.addAction(actScript)
+        actScriptManager = MAction(MIcon("Images:scriptManager.png"),
+                                                translate("ToolsBar", "Script Manager"),self)
+        actScriptManager.setObjectName(translate("ToolsBar", "Script Manager"))
+        actScriptManager.setToolTip(translate("ToolsBar", "You can do what you want."))
+        Universals.MainWindow.Menu.mScripts.addAction(actScriptManager)
+        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mScripts)
+    
 
 class PlayerBar(MToolBar):
     def __init__(self, _parent):

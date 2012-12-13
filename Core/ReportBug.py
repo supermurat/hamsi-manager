@@ -316,7 +316,7 @@ class ReportBug(MDialog):
         self.close()
         
     def checkUpdate(self):
-        from Core import Universals
+        from Core import UpdateControl
         UpdateControl.UpdateControl(self)
         
     def closeEvent(self, _event):

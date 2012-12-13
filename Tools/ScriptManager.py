@@ -22,58 +22,10 @@ import sys
 from Core import Dialogs
 from Core import Universals
 from Core import ReportBug
+from Core import Scripts
 import InputOutputs
 import Options
 
-   
-
-class Scripts():
-    global pathOfScripsDirectory, createDefaultScript, createNewScript, getScript, getScriptList, getNextScriptFilePath, saveScript, clearScript
-    pathOfScripsDirectory = InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "Scripts")
-    
-    def createDefaultScript(_filePath):
-        defaultCodes = ("#!/usr/bin/env python\n" +
-                        "# -*- codding: utf-8 -*-\n"+
-                        "\n"+
-                        "#You can type and execute the commands you wish to run here.\n"+
-                        "#You can get detailed information from our official website.\n"+
-                        "from Core import Dialogs\nDialogs.show(\"This is an example\",\"You can develop the examples as you wish.\")"+
-                        "\n\n\n\n\n\n\n\n\n")
-        InputOutputs.writeToFile(_filePath, defaultCodes)
-        
-    def getNextScriptFilePath():
-        i = 1
-        while True:
-            nextScriptFilePath = InputOutputs.joinPath(pathOfScripsDirectory, translate("Scripts", "Script") + "-" + str(i) + ".py")
-            if InputOutputs.isFile(nextScriptFilePath)==False:
-                return nextScriptFilePath
-            i = i + 1
-    
-    def createNewScript():
-        filePath = getNextScriptFilePath()
-        createDefaultScript(filePath)
-        return InputOutputs.getBaseName(filePath)
-    
-    def getScript(_filePath):
-        return InputOutputs.readFromFile(_filePath)
-    
-    def getScriptList():
-        if InputOutputs.isDir(pathOfScripsDirectory)==False:
-            InputOutputs.makeDirs(pathOfScripsDirectory)
-            createNewScript()
-        scriptList = InputOutputs.readDirectory(pathOfScripsDirectory, "file")
-        if len(scriptList)==0:
-            createNewScript()
-            scriptList = InputOutputs.readDirectory(pathOfScripsDirectory, "file")
-        return scriptList
-    
-    def saveScript(_filePath, _codes):
-        InputOutputs.writeToFile(_filePath, _codes)
-    
-    def clearScript(_filePath):
-        createDefaultScript(_filePath)
-
-        
 class ScriptManager(MDialog):
     global checkScriptManager
     def __init__(self, _parent):
@@ -157,7 +109,7 @@ class ScriptManager(MDialog):
         try:
             if self.checkForSave():
                 self.currentScriptFileName = self.scriptList[self.lwScriptList.currentRow()]
-                codes = getScript(InputOutputs.joinPath(pathOfScripsDirectory, self.currentScriptFileName))
+                codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
                 self.sciCommand.setText(trForUI(codes))
         except:
             error = ReportBug.ReportBug()
@@ -173,22 +125,7 @@ class ScriptManager(MDialog):
         
     def runScript(self):
         try:
-            try:
-                exec (str(self.sciCommand.text()))
-                return True
-            except Exception as error:
-                import traceback
-                cla, error, trbk = sys.exc_info()
-                errorName = cla.__name__
-                try:
-                    excArgs = error.__dict__["args"]
-                except KeyError:
-                    excArgs = "<no args>"
-                errorDetail = traceback.format_tb(trbk, 5)
-                errorDetails = str(errorName)+"\n"+str(error)+"\n"+str(excArgs)+"\n"+str(errorDetail[0])
-                Dialogs.showError(translate("ScriptManager", "Error: Failed To Run The Query"),
-                            str(translate("ScriptManager", "Error details: <br> \"%s\"")) % (errorDetails))
-                return False
+            return Scripts.runScript(str(self.sciCommand.text()))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -196,7 +133,7 @@ class ScriptManager(MDialog):
     def checkForSave(self):
         try:
             if self.currentScriptFileName is not None:
-                codes = getScript(InputOutputs.joinPath(pathOfScripsDirectory, self.currentScriptFileName))
+                codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
                 if str(codes)!=str(self.sciCommand.text()):
                     if self.cckbIsAutoSaveScripts.checkState() == Mt.Checked:
                         self.save()
@@ -214,8 +151,8 @@ class ScriptManager(MDialog):
     
     def save(self):
         try:
-            codes = getScript(InputOutputs.joinPath(pathOfScripsDirectory, self.currentScriptFileName))
-            saveScript(InputOutputs.joinPath(pathOfScripsDirectory, self.currentScriptFileName), str(self.sciCommand.text()))
+            codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
+            Scripts.saveScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName), str(self.sciCommand.text()))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -225,7 +162,7 @@ class ScriptManager(MDialog):
             answer = Dialogs.ask(translate("ScriptManager", "Your Codes Will Be Deleted!.."), 
                                 translate("ScriptManager", "Your codes will be deleted and the default codes will be installed. Do you wish to clear the current codes?"))
             if answer==Dialogs.Yes:
-                clearScript(InputOutputs.joinPath(pathOfScripsDirectory, self.currentScriptFileName))
+                Scripts.clearScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -235,7 +172,7 @@ class ScriptManager(MDialog):
             answer = Dialogs.ask(translate("ScriptManager", "Your Script Will Be Deleted!.."), 
                                 translate("ScriptManager", "Your script will be deleted. Are you sure you want to delete current script?"))
             if answer==Dialogs.Yes:
-                InputOutputs.removeFile(InputOutputs.joinPath(pathOfScripsDirectory, self.currentScriptFileName))
+                InputOutputs.removeFile(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
                 self.refreshScriptList()
         except:
             error = ReportBug.ReportBug()
@@ -243,7 +180,7 @@ class ScriptManager(MDialog):
         
     def create(self):
         try:
-            newScriptFileName = createNewScript()
+            newScriptFileName = Scripts.createNewScript()
             self.refreshScriptList()
             self.lwScriptList.setCurrentRow(self.scriptList.index(newScriptFileName))
         except:
@@ -252,7 +189,7 @@ class ScriptManager(MDialog):
         
     def refreshScriptList(self):
         try:
-            self.scriptList = getScriptList()
+            self.scriptList = Scripts.getScriptList()
             self.lwScriptList.refresh(self.scriptList)
             scriptFileName = None
             if len(self.scriptList)>0:
