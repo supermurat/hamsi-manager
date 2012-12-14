@@ -49,6 +49,8 @@ if os.name=="nt":
     packages.remove("PyKDE4")
     packages.remove("_mysql")
     packages.append("win32com")
+    packages.append("win32api")
+    packages.append("win32con")
     
 
 exeBase = "Console"

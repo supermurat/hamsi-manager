@@ -614,6 +614,9 @@ class Variables():
         elif isAvailableKDE4():
             from Core import Execute
             desktopPath = Execute.getCommandResult(["kde4-config", "--userpath", "desktop"])[:-2]
+        elif isWindows:
+            from win32com.shell import shell, shellcon
+            desktopPath = shell.SHGetFolderPath (0, shellcon.CSIDL_DESKTOP, 0, 0)
         else:
             desktopNames = [str(MQtGui.QApplication.translate("Variables", "Desktop")), "Desktop"]
             for dirName in desktopNames:

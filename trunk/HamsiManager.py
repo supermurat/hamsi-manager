@@ -29,8 +29,8 @@ Variables.checkStartupVariables()
 from Core import Universals
 Universals.printForDevelopers("Before RoutineChecks")
 from Core import RoutineChecks
-Universals.printForDevelopers("Before RoutineChecks.checkQt4Exist")
-if RoutineChecks.checkQt4Exist():
+Universals.printForDevelopers("Before RoutineChecks.checkMandatoryModules")
+if RoutineChecks.checkMandatoryModules():
     Universals.printForDevelopers("Before RoutineChecks.checkParameters")
     if RoutineChecks.checkParameters():
         Universals.printForDevelopers("Before Settings")
