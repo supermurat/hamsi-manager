@@ -28,7 +28,7 @@ except:pass
 Variables.checkStartupVariables()
 from Core import Universals
 from Core import RoutineChecks
-if RoutineChecks.checkQt4Exist():
+if RoutineChecks.checkMandatoryModules():
     from Core import Settings
     Universals.fillMySettings(False, False, False)
     Universals.isActivePyKDE4 = False
@@ -307,8 +307,11 @@ if RoutineChecks.checkQt4Exist():
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                     desktopPath = Variables.getUserDesktopPath()
-                    fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                    InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
+                    if Variables.isWindows:
+                        MyConfigure.createShortCutFile(InputOutputs.joinPath(desktopPath, "Hamsi Manager.lnk"))
+                    else:
+                        fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
+                        InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
             if self.isCreateExecutableLink!=None:
                 executableLink = str(self.leExecutableLink.text())
                 if self.isCreateExecutableLink.checkState()==Mt.Checked:

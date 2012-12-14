@@ -387,8 +387,30 @@ def checkMyModules(_HamsiManagerApp):
         sys.exit(_HamsiManagerApp.exec_())
     return False
     
-def checkQt4Exist():
+def checkMandatoryModules():
     if Variables.isQt4Exist:
+        if Variables.isWindows:
+            pywin32IsAvailable = False
+            try:
+                import win32api, win32con, win32com
+                pywin32IsAvailable = True
+            except:pass
+            if pywin32IsAvailable == False:
+                from PyQt4 import QtGui, QtCore
+                app = QtGui.QApplication(sys.argv)
+                w = QtGui.QWidget()
+                l = QtGui.QVBoxLayout(w)
+                qbtn = QtGui.QPushButton('Quit', w)
+                qbtn.clicked.connect(QtCore.QCoreApplication.instance().quit)
+                lblAlert = QtGui.QLabel(Universals.trDecode("<br><b><a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system.</b><br><br>You have to install it on your system to run Hamsi Manager.<br><br>", "utf-8"), w)
+                lblAlert.setOpenExternalLinks(True)
+                l.addWidget(lblAlert)
+                l.addWidget(qbtn)
+                w.setLayout(l)
+                w.setWindowTitle('Critical Error!')
+                w.show()
+                w.setMinimumWidth(400)
+                sys.exit(app.exec_())
         return True
     else:
         try:
@@ -396,7 +418,7 @@ def checkQt4Exist():
             HamsiManagerApp=qt.QApplication(sys.argv)
             panel = qt.QWidget()
             panel.vblMain = qt.QVBoxLayout(panel)
-            lblInfo = qt.QLabel(Universals.trDecode("<br><b>PyQt4 or PySide is not installed:</b><br>You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager.", "utf-8"),panel)
+            lblInfo = qt.QLabel(Universals.trDecode("<br><b>PyQt4 is not installed:</b><br>You have to install \"PyQt4\" on your system to run Hamsi Manager.", "utf-8"),panel)
             pbtnClose = qt.QPushButton("OK",panel)
             panel.connect(pbtnClose,SIGNAL("clicked()"),HamsiManagerApp.quit)
             hbox0 = qt.QHBoxLayout()
@@ -424,7 +446,7 @@ def checkQt4Exist():
                 window.set_title("Critical Error!")
                 button = gtk.Button("OK")
                 label = gtk.Label("PyQt4 is not installed.")
-                label2 = gtk.Label("You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager.")
+                label2 = gtk.Label("You have to install \"PyQt4\" on your system to run Hamsi Manager.")
                 label2.set_line_wrap(True)
                 button.connect("clicked", gtk.main_quit, None)
                 vbox = gtk.VBox(False,5)
@@ -455,7 +477,7 @@ def checkQt4Exist():
                     title = MainWindow.title("Critical Error!")
                     lbl1 = Tkinter.Label(text="PyQt4 is not installed.")
                     lbl1.pack()
-                    lbl2 = Tkinter.Label(text="You have to have \"PyQt4\" or \"PySide\" installed")
+                    lbl2 = Tkinter.Label(text="You have to install \"PyQt4\"")
                     lbl2.pack()
                     lbl3 = Tkinter.Label(text="on your system to run HamsiManager.")
                     lbl3.pack()
@@ -464,7 +486,7 @@ def checkQt4Exist():
                     Tkinter.mainloop()
                 except:
                     print ("Critical Error!")
-                    print ("You have to have \"PyQt4\" or \"PySide\" installed on your system to run Hamsi Manager.")
+                    print ("You have to install \"PyQt4\" on your system to run Hamsi Manager.")
         return False    
         
         

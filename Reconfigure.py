@@ -28,7 +28,7 @@ except:pass
 Variables.checkStartupVariables()
 from Core import Universals
 from Core import RoutineChecks
-if RoutineChecks.checkQt4Exist():
+if RoutineChecks.checkMandatoryModules():
     from Core import Settings
     Universals.fillMySettings(False, False, False)
     Universals.isActivePyKDE4 = False
@@ -201,7 +201,7 @@ if RoutineChecks.checkQt4Exist():
             except:pass
             if Variables.isWindows:
                 try:
-                    import win32api, win32con
+                    import win32api, win32con, win32com
                     pywin32IsAvailable = True
                 except:pass
                 
