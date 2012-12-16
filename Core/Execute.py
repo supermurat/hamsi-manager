@@ -26,7 +26,7 @@ import InputOutputs
 import logging
 
 class Execute:
-    global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName, getExecuteCommandOfHamsiManager, getPythonPath
+    global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName, getExecuteCommandOfHamsiManager, getPythonPath, getExecuteCommandOfHamsiManagerAsList
         
     def getCommandResult(_command):
         if Variables.isWindows:
@@ -94,16 +94,27 @@ class Execute:
         
     def getPythonPath():
         """Use this only if runnig .py(.py3,.pyw)"""
-        try:return Universals.trDecode(sys.executable, InputOutputs.fileSystemEncoding)
-        except:return sys.executable
+        try:pathOfPython = Universals.trDecode(sys.executable, InputOutputs.fileSystemEncoding)
+        except:pathOfPython = sys.executable
+        if Variables.isWindows:
+            pathOfPythonWindows = pathOfPython.replace("python.exe", "pythonw.exe")
+            if InputOutputs.isFile(pathOfPythonWindows):
+                pathOfPython = pathOfPythonWindows
+        return pathOfPython
         
     def getExecuteCommandOfHamsiManager():
         HamsiManagerExecutableFileName = findExecutableBaseName("HamsiManager")
         if HamsiManagerExecutableFileName.find(".py")>-1 or HamsiManagerExecutableFileName.find(".py3")>-1 or HamsiManagerExecutableFileName.find(".pyw")>-1:
-            executeCommandOfHamsiManager = "\"" + getPythonPath() + "\" \"" + findExecutablePath("HamsiManager") + "\""
+            return "\"" + getPythonPath() + "\" \"" + findExecutablePath("HamsiManager") + "\""
         else:
-            executeCommandOfHamsiManager = "\"" + findExecutablePath("HamsiManager") + "\""
-        return executeCommandOfHamsiManager
+            return "\"" + findExecutablePath("HamsiManager") + "\""
+        
+    def getExecuteCommandOfHamsiManagerAsList():
+        HamsiManagerExecutableFileName = findExecutableBaseName("HamsiManager")
+        if HamsiManagerExecutableFileName.find(".py")>-1 or HamsiManagerExecutableFileName.find(".py3")>-1 or HamsiManagerExecutableFileName.find(".pyw")>-1:
+            return [getPythonPath(), findExecutablePath("HamsiManager")]
+        else:
+            return [findExecutablePath("HamsiManager")]
     
     def executeWithThread(_command=[], _executableName=None):
         roar = RunWithThread(_command, _executableName)

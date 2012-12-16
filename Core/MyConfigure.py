@@ -58,7 +58,12 @@ class MyConfigure:
         from win32com.client import Dispatch         
         shell = Dispatch('WScript.Shell')
         shortcut = shell.CreateShortCut(_destinationPath)
-        shortcut.Targetpath = Execute.getExecuteCommandOfHamsiManager()
+        targetPath = Execute.getExecuteCommandOfHamsiManagerAsList()
+        if len(targetPath)>1:
+            shortcut.Targetpath = targetPath[0]
+            shortcut.Arguments = targetPath[1]
+        else:
+            shortcut.Targetpath = targetPath
         shortcut.WorkingDirectory = _installationDirectory
         shortcut.IconLocation = InputOutputs.joinPath(Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory), "Images", "HamsiManager-128x128.ico")
         shortcut.save()
