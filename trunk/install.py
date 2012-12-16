@@ -163,10 +163,9 @@ if RoutineChecks.checkMandatoryModules():
                     HBox1.addWidget(self.leExecutableLink)
                     VBox.addLayout(HBox1)
                 else:
-                    if Variables.isWindows == False:
-                        self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Install", "Create Desktop Shortcut."))
-                        self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
-                        VBox.addWidget(self.isCreateDesktopShortcut)
+                    self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Install", "Create Desktop Shortcut."))
+                    self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
+                    VBox.addWidget(self.isCreateDesktopShortcut)
                 VBox.addStretch(10)
                 HBox.addLayout(VBox)
             return pnlPage

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2012-12-14, 00:05:49 -->
+<!-- Saved: 2012-12-15, 00:44:09 -->
 <!-- Copyright (C) 2012 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -128,7 +128,6 @@
   </Interfaces>
   <Others>
     <Other>Themes</Other>
-    <Other>Core/Scripts</Other>
   </Others>
   <MainScript>HamsiManager.py</MainScript>
   <Vcs>
