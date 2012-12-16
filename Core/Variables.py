@@ -20,11 +20,11 @@
 import os, sys, platform
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getMyObjectsNames, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
-    global MQtGui, MQtCore, MyObjectName, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
+    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
+    global MQtGui, MQtCore, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, machineType, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableAppPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath
     global joinPath, trEncode, trDecode #TODO: think about me:)
-    MQtGui, MQtCore, isQt4Exist, MyObjectName = None, None, False, ""
+    MQtGui, MQtCore, isQt4Exist = None, None, False
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     machineType = platform.machine()
@@ -59,7 +59,7 @@ class Variables():
                   "applicationStyle", "playerName", "isMinimumWindowMode", 
                   "packagerUnneededFileExtensions", "packagerUnneededFiles", "packagerUnneededDirectories", 
                   "lastUpdateControlDate", "updateInterval", 
-                  "NeededObjectsName", "isActivePyKDE4", "isCloseOnCleanAndPackage", 
+                  "isActivePyKDE4", "isCloseOnCleanAndPackage", 
                   "TableToolsBarButtonStyle", "ToolsBarButtonStyle", "PlayerBarButtonStyle", 
                   "MusicOptionsBarButtonStyle", "SubDirectoryOptionsBarButtonStyle", 
                   "CoverOptionsBarButtonStyle", "AmarokMusicOptionsBarButtonStyle", "AmarokCopyOptionsBarButtonStyle", 
@@ -105,24 +105,9 @@ class Variables():
     
     def checkMyObjects():
         from Core import Universals
-        global MQtGui, MQtCore, isQt4Exist, MyObjectName
-        myObjectsNames = getMyObjectsNames()
-        #TODO: Clear PySide or done it, but it not necessary so you can delete every codes about PySide EXCEPT Phonon Module
-#        if myObjectsNames.count("PySide")>0:
-#            from PySide import QtCore
-#            mySettingsPath = joinPath(userDirectoryPath, ".HamsiApps", "HamsiManager", "mySettings.ini")
-#            sets = QtCore.QSettings(trForM(mySettingsPath) ,QtCore.QSettings.IniFormat)
-#            if Universals.trStr(sets.value("NeededObjectsName"))=="PySide":
-#                from PySide import QtGui
-#                from PySide import QtCore
-#                MyObjectName = "PySide"
-        if MyObjectName=="" and myObjectsNames.count("PyQt4")>0:
-            from PyQt4 import QtGui
-            from PyQt4 import QtCore
-            MyObjectName = "PyQt4"
-        if MyObjectName=="":
-            isQt4Exist = False
-            return False
+        global MQtGui, MQtCore, isQt4Exist
+        from PyQt4 import QtGui
+        from PyQt4 import QtCore
         MQtGui, MQtCore = QtGui, QtCore
         if MQtGui!=None and MQtCore!=None:
             isQt4Exist=True
@@ -241,7 +226,7 @@ class Variables():
             insLangCode = str(MQtCore.QLocale.system().name())
         else:
             insLangCode = "en_GB"
-        myStyle , PlayerName, myObjectsName = "", getAvailablePlayers().pop(), getMyObjectsNames()[0]
+        myStyle , PlayerName = "", getAvailablePlayers().pop()
         return {
                 "lastDirectory": str(userDirectoryPath), 
                 "isMainWindowMaximized": "False", 
@@ -286,7 +271,6 @@ class Variables():
                 "packagerUnneededDirectories": str(['.eric4project', '.svn', '.git', 'CVS', '.bzr', '.cache', '.settings']), 
                 "lastUpdateControlDate": datetime.now().strftime("%Y %m %d %H %M %S"), 
                 "updateInterval": "7", 
-                "NeededObjectsName": myObjectsName, 
                 "isActivePyKDE4": str(isAvailablePyKDE4()), 
                 "isCloseOnCleanAndPackage": "True", 
                 "TableToolsBarButtonStyle": "0", 
@@ -438,7 +422,6 @@ class Variables():
                 "packagerUnneededDirectories": "list", 
                 "lastUpdateControlDate": "date", 
                 "updateInterval": ["int", list(range(0, 32))], 
-                "NeededObjectsName": ["options", getMyObjectsNames()], 
                 "isActivePyKDE4": "bool", 
                 "isCloseOnCleanAndPackage": "bool", 
                 "TableToolsBarButtonStyle": ["int", list(range(0, 4))], 
@@ -593,18 +576,6 @@ class Variables():
             return MQtGui.QDesktopWidget().screenGeometry()
         else:
             return None
-        
-    def getMyObjectsNames():
-        myObjectsName = []
-        try:
-            import PyQt4
-            myObjectsName.append("PyQt4")
-        except:pass
-#        try:
-#            import PySide
-#            myObjectsName.append("PySide")
-#        except:pass
-        return myObjectsName
         
     def getUserDesktopPath():
         import InputOutputs

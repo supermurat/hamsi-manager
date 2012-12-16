@@ -21,6 +21,7 @@
 import os, sys
 from cx_Freeze import setup, Executable
 from Core import Variables
+Variables.checkStartupVariables()
 import InputOutputs
 
 includes = []

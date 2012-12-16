@@ -22,70 +22,47 @@ from Core import Universals
 
 MStringList = None
 
-if Variables.MyObjectName=="PyQt4" or Variables.MyObjectName=="":
-    from PyQt4 import QtGui
-    for obj in dir(QtGui):
-        if obj[0]=="Q":
-            exec ("M"+obj[1:]+" = QtGui." + obj)
-        else:
-            exec (obj + " = QtGui." + obj)
-    from PyQt4 import QtCore
-    for obj in dir(QtCore):
-        if obj[0]=="Q":
-            exec ("M"+obj[1:]+" = QtCore." + obj)
-        else:
-            exec (obj + " = QtCore." + obj)
-    from PyQt4 import QtNetwork
-    for obj in dir(QtNetwork):
-        if obj[0]=="Q":
-            exec ("M"+obj[1:]+" = QtNetwork." + obj)
-        else:
-            exec (obj + " = QtNetwork." + obj)
-elif Variables.MyObjectName=="PySide":
-    from PySide import QtGui
-    for obj in dir(QtGui):
-        if obj[0]=="Q":
-            exec ("M"+obj[1:]+" = QtGui." + obj)
-        else:
-            exec (obj + " = QtGui." + obj)
-    from PySide import QtCore
-    for obj in dir(QtCore):
-        if obj[0]=="Q":
-            exec ("M"+obj[1:]+" = QtCore." + obj)
-        else:
-            exec (obj + " = QtCore." + obj)
-    from PySide import QtNetwork
-    for obj in dir(QtNetwork):
-        if obj[0]=="Q":
-            exec ("M"+obj[1:]+" = QtNetwork." + obj)
-        else:
-            exec (obj + " = QtNetwork." + obj)
+from PyQt4 import QtGui
+for obj in dir(QtGui):
+    if obj[0]=="Q":
+        exec ("M"+obj[1:]+" = QtGui." + obj)
+    else:
+        exec (obj + " = QtGui." + obj)
+from PyQt4 import QtCore
+for obj in dir(QtCore):
+    if obj[0]=="Q":
+        exec ("M"+obj[1:]+" = QtCore." + obj)
+    else:
+        exec (obj + " = QtCore." + obj)
+from PyQt4 import QtNetwork
+for obj in dir(QtNetwork):
+    if obj[0]=="Q":
+        exec ("M"+obj[1:]+" = QtNetwork." + obj)
+    else:
+        exec (obj + " = QtNetwork." + obj)
             
-if Variables.MyObjectName=="PyQt4": #PySide not using with PyKDE4
-    if Universals.isActivePyKDE4==True:
-        try:
-            from PyKDE4 import kdeui
-            for obj in dir(kdeui):
-                if obj[0]=="K":
-                    exec ("M"+obj[1:]+" = kdeui." + obj)
-                else:
-                    exec (obj + " = kdeui." + obj)
-            from PyKDE4 import kdecore
-            for obj in dir(kdecore):
-                if obj[0]=="K":
-                    exec ("M"+obj[1:]+" = kdecore." + obj)
-                else:
-                    exec (obj + " = kdecore." + obj)
-            from PyKDE4 import kio
-            for obj in dir(kio):
-                if obj[0]=="K":
-                    exec ("M"+obj[1:]+" = kio." + obj)
-                else:
-                    exec (obj + " = kio." + obj)
-        except:
-            Universals.isActivePyKDE4 = False
-else:
-    Universals.isActivePyKDE4 = False
+if Universals.isActivePyKDE4==True:
+    try:
+        from PyKDE4 import kdeui
+        for obj in dir(kdeui):
+            if obj[0]=="K":
+                exec ("M"+obj[1:]+" = kdeui." + obj)
+            else:
+                exec (obj + " = kdeui." + obj)
+        from PyKDE4 import kdecore
+        for obj in dir(kdecore):
+            if obj[0]=="K":
+                exec ("M"+obj[1:]+" = kdecore." + obj)
+            else:
+                exec (obj + " = kdecore." + obj)
+        from PyKDE4 import kio
+        for obj in dir(kio):
+            if obj[0]=="K":
+                exec ("M"+obj[1:]+" = kio." + obj)
+            else:
+                exec (obj + " = kio." + obj)
+    except:
+        Universals.isActivePyKDE4 = False
     
 #this PyKDE4 objects different from PyQt4 objects
 QLocale = QtCore.QLocale
@@ -110,11 +87,7 @@ def trForM(_s):
     return _s
     
 def getMyObject(_objectName):
-    MyObject = None
-    if Variables.MyObjectName=="PySide":
-        MyObject = __import__("PySide." + _objectName, globals(), locals(), [_objectName], -1)
-    elif Variables.MyObjectName=="PyQt4" or Variables.MyObjectName=="":
-        MyObject = __import__("PyQt4." + _objectName, globals(), locals(), [_objectName], -1)
+    MyObject = __import__("PyQt4." + _objectName, globals(), locals(), [_objectName], -1)
     return MyObject
             
 def getMyDialog():
