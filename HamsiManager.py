@@ -342,6 +342,7 @@ if RoutineChecks.checkMandatoryModules():
                     Universals.printForDevelopers("Before HamsiManagerApp.exec_")
                     res = HamsiManagerApp.exec_()
                     Universals.printForDevelopers("Shutting down, result %d" % res)
+                    sys.exit(res)
                 except Exception as err:
                     from Core import ReportBug
                     error = ReportBug.ReportBug()

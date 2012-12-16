@@ -54,6 +54,8 @@ class MyConfigure:
         return False
         
     def createShortCutFile(_destinationPath, _installationDirectory=Variables.HamsiManagerDirectory):
+        if InputOutputs.isFile(_destinationPath):
+            InputOutputs.removeFileOrDir(_destinationPath)
         from Core import Execute
         from win32com.client import Dispatch         
         shell = Dispatch('WScript.Shell')
@@ -63,7 +65,7 @@ class MyConfigure:
             shortcut.Targetpath = targetPath[0]
             shortcut.Arguments = targetPath[1]
         else:
-            shortcut.Targetpath = targetPath
+            shortcut.Targetpath = targetPath[0]
         shortcut.WorkingDirectory = _installationDirectory
         shortcut.IconLocation = InputOutputs.joinPath(Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory), "Images", "HamsiManager-128x128.ico")
         shortcut.save()
