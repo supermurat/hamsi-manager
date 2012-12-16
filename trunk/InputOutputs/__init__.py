@@ -712,7 +712,7 @@ class InputOutputs:
     def writeToBinaryFile(_path, _contents=""):
         _path = str(_path)
         try:f = open(Universals.trEncode(_path, fileSystemEncoding), "wb")
-        except:f = open(_path, "w")
+        except:f = open(_path, "wb")
         f.write(_contents)
         f.flush()
         f.close()
