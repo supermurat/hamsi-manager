@@ -136,30 +136,11 @@ class ReportBug(MDialog):
                     errorDetails += "<br>"
             except:
                 errorDetails += "<br>"
-            if Variables.MyObjectName == "PyQt4":
-                try:
-                    errorDetails += "<b>PyQt4 (Qt) Version : </b>"
-                    errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
-                except:
-                    errorDetails += "<br>"
-                try:
-                    from PySide import QtCore
-                    errorDetails += "<b>PySide (Qt) Version : </b>"
-                    errorDetails += str(QtCore.qVersion()) + " (" + QtCore.QT_VERSION_STR +")<br>"
-                except:
-                    errorDetails += "<br>"
-            elif Variables.MyObjectName == "PySide":
-                try:
-                    errorDetails += "<b>PySide (Qt) Version : </b>"
-                    errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
-                except:
-                    errorDetails += "<br>"
-                try:
-                    from PyQt4 import QtCore
-                    errorDetails += "<b>PyQt4 (Qt) Version : </b>"
-                    errorDetails += str(QtCore.qVersion()) + " (" + QtCore.QT_VERSION_STR +")<br>"
-                except:
-                    errorDetails += "<br>"
+            try:
+                errorDetails += "<b>PyQt4 (Qt) Version : </b>"
+                errorDetails += str(PYQT_VERSION_STR) + " ("+ str(MT_VERSION_STR) + ")<br>"
+            except:
+                errorDetails += "<br>"
             try:
                 from PyKDE4 import kdecore
                 errorDetails += "<b>PyKDE4 Version : </b>"
