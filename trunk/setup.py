@@ -19,8 +19,17 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import os, sys
+
+HamsiManagerDirectory = os.getcwd()
+sys.path.insert(0,HamsiManagerDirectory)
+try:
+    from Core import Variables
+except:
+    HamsiManagerDirectory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(HamsiManagerDirectory)))))
+    sys.path.insert(0,HamsiManagerDirectory)
+    from Core import Variables
+
 from cx_Freeze import setup, Executable
-from Core import Variables
 Variables.checkStartupVariables()
 import InputOutputs
 
@@ -28,8 +37,13 @@ includes = []
 excludes = ["_gtkagg", "_tkagg", "bsddb", "curses", "email", 
             "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs", 
             "tcl","Tkconstants", "Tkinter"]
-path = []
-include_files = [("Amarok","Amarok"),("Languages","Languages"),("MyPlugins","MyPlugins"),("SearchEngines","SearchEngines"),("Taggers","Taggers"),("Themes","Themes")]
+path = sys.path + [HamsiManagerDirectory]
+include_files = [(os.path.join(HamsiManagerDirectory, "Amarok"), "Amarok"),
+                (os.path.join(HamsiManagerDirectory, "Languages"), "Languages"),
+                (os.path.join(HamsiManagerDirectory, "MyPlugins"), "MyPlugins"),
+                (os.path.join(HamsiManagerDirectory, "SearchEngines"), "SearchEngines"),
+                (os.path.join(HamsiManagerDirectory, "Taggers"), "Taggers"),
+                (os.path.join(HamsiManagerDirectory, "Themes"), "Themes")]
             
 packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
         "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers",
@@ -56,42 +70,44 @@ if os.name=="nt":
 
 exeBase = "Console"
 fileExtension = ""
+iconExtension = ".png"
 
 if os.name=="nt":
     exeBase = "Win32GUI"
     fileExtension = ".exe"
+    iconExtension = ".ico"
 
 MainExe = Executable(
-    script = "HamsiManager.py",
+    script = os.path.join(HamsiManagerDirectory, "HamsiManager.py"),
     initScript = None,
     base = exeBase,
     targetName = "HamsiManager" + fileExtension,
     compress = True,
-    copyDependentFiles = False,
+    copyDependentFiles = True,
     appendScriptToExe = False,
     appendScriptToLibrary = False,
-    icon = "Themes/Default/Images/HamsiManager-128x128.ico", 
+    icon = os.path.join(HamsiManagerDirectory, "Themes/Default/Images/HamsiManager-128x128" + iconExtension), 
     shortcutName = "Hamsi Manager"
     )
     
 ReconfigureExe = Executable(
-    script = "Reconfigure.py",
+    script = os.path.join(HamsiManagerDirectory, "Reconfigure.py"),
     initScript = None,
     base = exeBase,
     targetName = "Reconfigure" + fileExtension,
     compress = True,
-    copyDependentFiles = False,
+    copyDependentFiles = True,
     appendScriptToExe = False,
     appendScriptToLibrary = False,
     )
     
 InstallExe = Executable(
-    script = "install.py",
+    script = os.path.join(HamsiManagerDirectory, "install.py"),
     initScript = None,
     base = exeBase,
     targetName = "HamsiManagerInstaller" + fileExtension,
     compress = True,
-    copyDependentFiles = False,
+    copyDependentFiles = True,
     appendScriptToExe = False,
     appendScriptToLibrary = False,
     )
@@ -110,7 +126,7 @@ InstallExe = Executable(
 
 setup(
     version = Variables.version,
-    description = InputOutputs.readFromFile(os.getcwd() + "/Languages/About_en_GB", "utf-8"),
+    description = InputOutputs.readFromFile(os.path.join(HamsiManagerDirectory, "Languages/About_en_GB"), "utf-8"),
     author = "Murat Demir",
     name = "HamsiManager",
     options = {"build_exe": {"includes": includes,
