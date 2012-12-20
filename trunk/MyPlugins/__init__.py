@@ -27,13 +27,19 @@ import sys
 from Core import MyConfigure
 from Core import ReportBug
 
-class MyPlugins(MDialog):
+MyDialog, MyDialogType, MyParent = getMyDialog()
+
+class MyPlugins(MyDialog):
     global installPlugin, uninstallPlugin
     
-    def __init__(self, _parent):
-        MDialog.__init__(self, _parent)
-        if Universals.isActivePyKDE4==True:
-            self.setButtons(MDialog.NoDefault)
+    def __init__(self):
+        MyDialog.__init__(self, MyParent)
+        if MyDialogType=="MDialog":
+            if Universals.isActivePyKDE4==True:
+                self.setButtons(MyDialog.NoDefault)
+        elif MyDialogType=="MMainWindow":
+            self.setObjectName("Searcher")
+            Universals.setMainWindow(self)
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))
         self.pbtnUninstall = MPushButton(translate("MyPlugins", "Uninstall The Selected Plug-in"))
@@ -51,12 +57,20 @@ class MyPlugins(MDialog):
         vblMain.addWidget(self.lstwPluginList)
         vblMain.addStretch(1)
         vblMain.addLayout(HBox1)
-        if Universals.isActivePyKDE4==True:
-            self.setMainWidget(pnlMain)
-        else:
-            self.setLayout(vblMain)
-        self.setWindowTitle(translate("MyPlugins", "My Plug-ins"))
+        if MyDialogType=="MDialog":
+            if Universals.isActivePyKDE4==True:
+                self.setMainWidget(pnlMain)
+            else:
+                self.setLayout(vblMain)
+        elif MyDialogType=="MMainWindow":
+            self.setCentralWidget(pnlMain)
+            moveToCenter(self)
+        self.setWindowTitle(translate("MyPlugins", "My Plugins"))
+        self.setWindowIcon(MIcon("Images:hamsi.png"))
         self.show()
+                        
+    def closeEvent(self, _event):
+        MApplication.setQuitOnLastWindowClosed(True)
     
     def fillPlugins(self):
         self.lstwPluginList.clear()
@@ -160,7 +174,7 @@ class MyPluginsForSystem(MWidget):
     
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        lblHeader = MLabel(trForUI("<b>" + translate("MyPlugins", "My Plug-ins") + "</b>"))
+        lblHeader = MLabel(trForUI("<b>" + translate("MyPlugins", "My Plugins") + "</b>"))
         lblNote = MLabel(translate("MyPlugins", "You can manage plugins in your system"))
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))

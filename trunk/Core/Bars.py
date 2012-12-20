@@ -88,9 +88,10 @@ class MenuBar(MMenuBar):
         actOptions = self.mSettings.addAction(translate("MenuBar", "Options"))
         actOptions.setObjectName(translate("MenuBar", "Options"))
         actOptions.setIcon(MIcon("Images:options.png"))
-        self.mSettings.addAction(translate("MenuBar", "My Plug-ins")).setObjectName(translate("MenuBar", "My Plug-ins"))
-        self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
-        self.mSettings.addAction(translate("MenuBar", "My Plug-ins (System)")).setObjectName(translate("MenuBar", "My Plug-ins (System)"))
+        self.mSettings.addAction(translate("MenuBar", "My Plugins")).setObjectName(translate("MenuBar", "My Plugins"))
+        if Variables.isBuilt == False:
+            self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
+        self.mSettings.addAction(translate("MenuBar", "My Plugins (System)")).setObjectName(translate("MenuBar", "My Plugins (System)"))
         if Universals.isActivePyKDE4==True:
             actReportBug = MAction(translate("MenuBar", "Report Bug"), self.mHelpMenu)
             actReportBug.setObjectName(translate("MenuBar", "Report Bug"))
@@ -211,13 +212,13 @@ class Bars():
             elif actionName==translate("MenuBar", "Options"):
                 from Options import OptionsForm
                 OptionsForm.OptionsForm(Universals.MainWindow)
-            elif actionName==translate("MenuBar", "My Plug-ins"):
+            elif actionName==translate("MenuBar", "My Plugins"):
                 import MyPlugins
-                MyPlugins.MyPlugins(Universals.MainWindow)
+                MyPlugins.MyPlugins()
             elif actionName==translate("MenuBar", "Reconfigure"):
-                Execute.execute(["--configurePage"], "Reconfigure")
-            elif actionName==translate("MenuBar", "My Plug-ins (System)"):
-                Execute.execute(["--pluginPage", "--onlyRoot"], "Reconfigure")
+                Execute.execute(["--configurePage"], "Reconfigure")#TODO: PUT IN Reconfigure Module into HamsiManager.py Before Version 1.2
+            elif actionName==translate("MenuBar", "My Plugins (System)"):
+                Execute.execute(["--qm", "--plugins", "--runAsRoot"], "HamsiManager")
             elif actionName==translate("MenuBar", "Update"):
                 from Core import Universals, UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
