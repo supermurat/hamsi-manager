@@ -97,6 +97,9 @@ the Free Software Foundation; either version 2 of the License, or
     qmgroup.add_option('--qm', help='Are you want to run Quick Make by some parametres?', 
                       action='store_const', const=True)
     optionList.append("qm")
+    qmgroup.add_option('--plugins',
+                      help='Show plugins', action='store_const', const=True)
+    optionList.append("plugins")
     qmgroup.add_option('--pack',
                       help='The directory path. '
                       'Example : /home/yourname/someDirectory')
@@ -166,7 +169,7 @@ the Free Software Foundation; either version 2 of the License, or
     optionList.append("+[optionalFileOrDirectory]")
     parser.add_option_group(qmgroup)
     parser.add_option_group(dgroup)
-    parser.set_defaults(loggingLevel=logging.WARNING, runAsRoot=False, qm=False)
+    parser.set_defaults(loggingLevel=logging.WARNING, runAsRoot=False, qm=False, plugins=False)
     options, remainderParameters = parser.parse_args()
     if len(remainderParameters)==1:
         try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainderParameters[0]), Variables.defaultFileSystemEncoding))
@@ -192,10 +195,13 @@ the Free Software Foundation; either version 2 of the License, or
     if options.qm:
         if options.qmw:
             if options.qmw.lower()=="false" or options.qmw=="0":
-                Universals.setMySetting("isActivePyKDE4", False)
+                Universals.setMySetting("isShowQuickMakeWindow", False)
             else:
-                Universals.setMySetting("isActivePyKDE4", True)
-        if options.pack:
+                Universals.setMySetting("isShowQuickMakeWindow", True)
+        if options.plugins:
+            QuickMakeParameters.append("plugins")
+            isQuickMake = True
+        elif options.pack:
             QuickMakeParameters.append("pack")
             QuickMakeParameters.append(options.pack)
             isQuickMake = True
@@ -261,7 +267,7 @@ the Free Software Foundation; either version 2 of the License, or
         if Variables.isRunningAsRoot()==False:
             strArgvs = []
             for tempArg in sys.argv:
-                if tempArg.find("-runAsRoot")==-1:
+                if tempArg.find("-runAsRoot")==-1 and tempArg.find(Execute.findExecutablePath("HamsiManager"))==-1:
                     strArgvs.append(tempArg)
             if Execute.executeAsRootWithThread(strArgvs, "HamsiManager"):
                 isDontRun = True
@@ -303,9 +309,9 @@ def checkAfterRunProccess():
             from Options import OptionsForm
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
             OptionsForm.OptionsForm(Universals.MainWindow, "Normal", None, newOrChangedKeys)
-    elif Universals.getBoolValue("isShowReconfigureWizard"):
+    elif Universals.getBoolValue("isShowReconfigureWizard") and Variables.isBuilt == False:
         from Core import Execute
-        Execute.execute([], "Reconfigure")
+        Execute.execute([], "Reconfigure")#TODO: PUT IN Reconfigure Module into HamsiManager.py Before Version 1.2
         Universals.setMySetting("isShowReconfigureWizard", "False")
     
 def checkWindowMode(_isCheck=False):

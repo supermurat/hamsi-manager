@@ -28,7 +28,7 @@ from Core import ReportBug
 
 class QuickMake():
     def __init__(self):
-        if len(QuickMakeParameters)>1:
+        if len(QuickMakeParameters)>1 or (len(QuickMakeParameters)==1 and QuickMakeParameters[0]=="plugins"):
             answer = None
             isShowQuickMakeWindow = True
             tempWindow = MMainWindow()
@@ -36,7 +36,11 @@ class QuickMake():
             Universals.setMainWindow(self.quickMakeWindow)
             isShowEmendWidgets = False
             isCorrectCommand = True
-            if QuickMakeParameters[0]=="pack":
+            if QuickMakeParameters[0]=="plugins":
+                isShowQuickMakeWindow = False
+                makeThisAction = self.quickMakeWindow.plugins
+                actionName = translate("QuickMake", "My Plugins")
+            elif QuickMakeParameters[0]=="pack":
                 isShowQuickMakeWindow = False
                 makeThisAction = self.quickMakeWindow.pack
                 actionName = translate("QuickMake", "Pack It Now")
@@ -207,6 +211,14 @@ class QuickMakeWindow(MyDialog):
             if self.checkSource(InputOutputs.getRealPath(QuickMakeParameters[1]), "directory"):
                 from Tools import Packager
                 self.newDialog = Packager.Packager(InputOutputs.getRealPath(QuickMakeParameters[1]))
+        except:
+            self.error = ReportBug.ReportBug()
+            self.error.show()   
+        
+    def plugins(self):
+        try:
+            import MyPlugins
+            self.newDialog = MyPlugins.MyPlugins()
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()   

@@ -79,7 +79,7 @@ class Execute:
                 return fName
         if _executableName=="HamsiManager":
             for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
-                if fName.split(".")[0].find("Hamsi")>-1 and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
+                if (fName.split(".")[0].find("Hamsi")>-1 or fName.split(".")[0].find("hamsi")>-1) and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                     return fName
         return None
             

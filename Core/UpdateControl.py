@@ -103,10 +103,11 @@ class UpdateControl(MDialog):
         else:
             self.setLayout(self.vblMain)
         self.show()
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName))
+        print "http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName + "&buildType=" + Variables.getBuildType()
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName + "&buildType=" + Variables.getBuildType()))
     
     def checkForDeveloperVersion(self):
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&m=develop&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName))
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&m=develop&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName + "&buildType=" + Variables.getBuildType()))
     
     def remindMeLaterAndClose(self):
         Universals.setMySetting("remindMeLaterForUpdate", self.cbRemindMeLater.value())
