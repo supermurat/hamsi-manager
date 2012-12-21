@@ -103,7 +103,6 @@ class UpdateControl(MDialog):
         else:
             self.setLayout(self.vblMain)
         self.show()
-        print "http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName + "&buildType=" + Variables.getBuildType()
         self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(Variables.intversion) + "&l=" + str(Universals.MySettings["language"]) + "&machineType=" + Variables.machineType + "&os=" + Variables.osName + "&buildType=" + Variables.getBuildType()))
     
     def checkForDeveloperVersion(self):
@@ -201,18 +200,18 @@ class UpdateControl(MDialog):
         
     def downloadAndInstall(self):
         try:
-            if InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True):
-                self.setFixedHeight(130)   
-                self.isDownloading=True
-                self.prgbState.setVisible(True)
-                self.lblInfo.setVisible(False)
-                self.setWindowTitle(translate("UpdateControl", "Downloading Latest Release..."))
-                self.request = MNetworkRequest(MUrl(self.updateInformations[1]))
-                self.willDownload(self.request)
-            else:
-                from Core import Organizer
-                Dialogs.showError(translate("UpdateControl", "Access Denied"),
-                        str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(realPath))
+            if Variables.isBuilt == False:
+                if InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True) == False:
+                    from Core import Organizer
+                    Dialogs.showError(translate("UpdateControl", "Access Denied"),
+                            str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(realPath))
+            self.setFixedHeight(130)   
+            self.isDownloading=True
+            self.prgbState.setVisible(True)
+            self.lblInfo.setVisible(False)
+            self.setWindowTitle(translate("UpdateControl", "Downloading Latest Release..."))
+            self.request = MNetworkRequest(MUrl(self.updateInformations[1]))
+            self.willDownload(self.request)
         except:
             error = ReportBug.ReportBug()
             error.show()  
@@ -275,21 +274,28 @@ class UpdateControl(MDialog):
             error.show()  
         
     def install(self, _fileName):
-        from Core.Execute import execute
-        Dialogs.show(translate("UpdateControl", "Update Will Be Complete"),
-                        translate("UpdateControl", "Please restart Hamsi Manager now."),
-                        translate("UpdateControl", "Restart"))
-        configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
-        updateFileName = Execute.findExecutableBaseName("Update")
-        if updateFileName==None:
-            if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName)):
-                extOfFile = ""
-                if configureUpdateFileName.find(".")!=-1:
-                    extOfFile = "." + (configureUpdateFileName.split(".")[1])
-                InputOutputs.moveFileOrDir(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName), InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Update"+extOfFile))
-        execute([str(_fileName)], "Update")
-        self.close()
-        self.parent().close()
+        if Variables.isBuilt == False:
+            from Core.Execute import execute
+            Dialogs.show(translate("UpdateControl", "Update Will Be Complete"),
+                            translate("UpdateControl", "Please restart Hamsi Manager now."),
+                            translate("UpdateControl", "Restart"))
+            configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
+            updateFileName = Execute.findExecutableBaseName("Update")
+            if updateFileName==None:
+                if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName)):
+                    extOfFile = ""
+                    if configureUpdateFileName.find(".")!=-1:
+                        extOfFile = "." + (configureUpdateFileName.split(".")[1])
+                    InputOutputs.moveFileOrDir(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName), InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Update"+extOfFile))
+            execute([str(_fileName)], "Update")
+            self.close()
+            self.parent().close()
+        else:
+            from Core.Execute import openWith
+            openWith([str(_fileName)])
+            self.close()
+            self.parent().close()
+            
         
     def isMakeUpdateControl():
         lastUpdateControlTime = Universals.getDateValue("lastUpdateControlDate")

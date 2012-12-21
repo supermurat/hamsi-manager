@@ -254,9 +254,9 @@ except:
     try:
         QMessageBox.critical(QMainWindow(), "Critical Error!..","<b>Error Details :</b> " + excName + "<br>"  + excArgs + "<br>"  + excTb + "<br>" )
     except:pass
-    print excName
-    print excArgs
-    print excTb
+    print (excName)
+    print (excArgs)
+    print (excTb)
 HamsiManagerApp.exec_()
 sys.exit()
         

@@ -182,14 +182,19 @@ class Variables():
             return False
                    
     def isUpdatable():
-        import InputOutputs
-        from Core import Settings, Execute
-        if (InputOutputs.isWritableFileOrDir(HamsiManagerDirectory, True) and 
-                Settings.getUniversalSetting("isUpdatable", "False").lower()=="true" and 
-                Settings.getUniversalSetting("pathOfInstallationDirectory", "")==HamsiManagerDirectory and
-                Execute.findExecutableBaseName("Update")!=None):
-            # Only writable file-directory and installed by "HamsiManagerInstaller" and HamsiManagerDirectory==pathOfInstallationDirectory and if exist executable "Update" file.
-            return True
+        if isBuilt == False:
+            import InputOutputs
+            from Core import Settings, Execute
+            if (InputOutputs.isWritableFileOrDir(HamsiManagerDirectory, True) and 
+                    Settings.getUniversalSetting("isUpdatable", "False").lower()=="true" and 
+                    Settings.getUniversalSetting("pathOfInstallationDirectory", "")==HamsiManagerDirectory and
+                    Execute.findExecutableBaseName("Update")!=None):
+                # Only writable file-directory and installed by "HamsiManagerInstaller" and HamsiManagerDirectory==pathOfInstallationDirectory and if exist executable "Update" file.
+                return True
+        else:
+            buildType = getBuildType()
+            if buildType in ["rpm", "msi"]:
+                return True
         return False
         
     def isAvailableKDE4():
@@ -227,19 +232,19 @@ class Variables():
         if InputOutputs.isFile(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt")):
             firstRow = InputOutputs.readLinesFromFile(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))[0]
             if firstRow.find("bdist_rpm")>-1:
-                return "rmp"
+                return "rpm"
             elif firstRow.find("bdist_msi")>-1:
                 return "msi"
             elif firstRow.find("bdist")>-1:
                 return "bdist"
-            elif firstRow.find("install")>-1:
-                return "install"
             elif firstRow.find("install_exe")>-1:
                 return "install_exe"
-            elif firstRow.find("build")>-1:
-                return "build"
+            elif firstRow.find("install")>-1:
+                return "install"
             elif firstRow.find("build_exe")>-1:
                 return "build_exe"
+            elif firstRow.find("build")>-1:
+                return "build"
         return str(None)
 
     def getDefaultValues():
