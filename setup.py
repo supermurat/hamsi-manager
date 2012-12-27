@@ -72,11 +72,15 @@ if os.name=="posix":
     data_files.append((InputOutputs.joinPath("/", "usr", "share", "pixmaps"), [InputOutputs.joinPath(HamsiManagerDirectory, "Themes", "Default", "Images", "hamsi.png")]))
     
 packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
-        "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers",
+        "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers", 
         "hashlib", "tarfile", "urllib", "PyQt4", 
         "sqlite3", "ctypes", 
         "PyKDE4", "_mysql", 
         "eyeD3", "musicbrainz2"]
+
+exeBase = "Console"
+fileExtension = ""
+iconExtension = ".png"
 
 if float(sys.version[:3])<2.7:
     packages.remove("sqlite3")
@@ -89,16 +93,9 @@ if float(sys.version[:3])>=3.0:
 if os.name=="nt":
     packages.remove("PyKDE4")
     packages.remove("_mysql")
-    packages.append("win32com")
+    includes.append("win32com")
     packages.append("win32api")
     packages.append("win32con")
-    
-
-exeBase = "Console"
-fileExtension = ""
-iconExtension = ".png"
-
-if os.name=="nt":
     exeBase = "Win32GUI"
     fileExtension = ".exe"
     iconExtension = ".ico"
