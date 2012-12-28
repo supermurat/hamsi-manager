@@ -238,15 +238,15 @@ class Universals():
                 return MySettings[_key]
     
     def getDateValue(_key):
-        return datetime.strptime(MySettings[_key], "%Y %m %d %H %M %S")
+        return datetime.strptime(getValue(_key), "%Y %m %d %H %M %S")
     
     def getBoolValue(_key):
-        if str(MySettings[_key]).title()=="True" or str(MySettings[_key]).title()=="1":
+        if str(getValue(_key)).title()=="True" or str(getValue(_key)).title()=="1":
             return True
         return False
     
     def getListValue(_key):
-        return getListFromListString(MySettings[_key])
+        return getListFromListString(getValue(_key))
      
     def setMySetting(_key, _value):
         global MySettings
