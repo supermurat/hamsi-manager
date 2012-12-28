@@ -267,7 +267,7 @@ the Free Software Foundation; either version 2 of the License, or
         if Variables.isRunningAsRoot()==False:
             strArgvs = []
             for tempArg in sys.argv:
-                if tempArg.find("-runAsRoot")==-1 and tempArg.find(Execute.findExecutablePath("HamsiManager"))==-1:
+                if tempArg.find("-runAsRoot")==-1 and tempArg.find(Execute.findExecutablePath("HamsiManager"))==-1 and tempArg != "./" + Execute.findExecutableBaseName("HamsiManager") and tempArg != Execute.findExecutableBaseName("HamsiManager"):
                     strArgvs.append(tempArg)
             if Execute.executeAsRootWithThread(strArgvs, "HamsiManager"):
                 isDontRun = True
