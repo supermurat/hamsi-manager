@@ -23,7 +23,7 @@ from threading import Thread
 import time
 from Core import Variables, Universals
 import InputOutputs
-import logging
+from Core import Records
 
 class Execute:
     global execute, executeWithThread, writeToPopen, executeAsRoot, executeAsRootWithThread, openWith, getCommandResult, executeStringCommand, findExecutablePath, findExecutableBaseName, getExecuteCommandOfHamsiManager, getPythonPath, getExecuteCommandOfHamsiManagerAsList
@@ -31,8 +31,7 @@ class Execute:
     def getCommandResult(_command):
         if Variables.isWindows:
             _command = ["start"] + _command
-        if Universals.loggingLevel==logging.DEBUG:
-            print ("Execute >>> " + str(_command))
+        Records.add("Execute >>> " + str(_command))
         try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
         except:correctedCommand = _command
         myPopen = subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
@@ -43,8 +42,7 @@ class Execute:
     def executeStringCommand(_command):
         if Variables.isWindows:
             _command = "start" + _command
-        if Universals.loggingLevel==logging.DEBUG:
-            print ("Execute >>> " + str(_command))
+        Records.add("Execute >>> " + str(_command))
         try:correctedCommand = Universals.trEncode(_command, InputOutputs.fileSystemEncoding)
         except:correctedCommand = _command
         return os.popen(correctedCommand)
@@ -61,14 +59,12 @@ class Execute:
                 pathOfExecutable = [getPythonPath(), pathOfExecutable]
             else:
                 pathOfExecutable = [pathOfExecutable]
-            if Universals.loggingLevel==logging.DEBUG:
-                print ("Execute >>> " + str(pathOfExecutable + _command))
+            Records.add("Execute >>> " + str(pathOfExecutable + _command))
             try:correctedCommand = Universals.trEncodeList(pathOfExecutable + _command, InputOutputs.fileSystemEncoding)
             except:correctedCommand = pathOfExecutable + _command
             return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
         else:
-            if Universals.loggingLevel==logging.DEBUG:
-                print ("Execute >>> " + str(_command))
+            Records.add("Execute >>> " + str(_command))
             try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
             except:correctedCommand = _command
             return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
@@ -120,8 +116,7 @@ class Execute:
     
     def openWith(_command):
         if Variables.isWindows:
-            if Universals.loggingLevel==logging.DEBUG:
-                print ("Open With >>> " + str(_command))
+            Records.add("Open With >>> " + str(_command))
             try:_command = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
             except:_command = _command
             correctedCommand = ""
@@ -131,8 +126,7 @@ class Execute:
             return os.startfile(correctedCommand)
         else:
             _command = ["xdg-open"] + _command
-            if Universals.loggingLevel==logging.DEBUG:
-                print ("Open With >>> " + str(_command))
+            Records.add("Open With >>> " + str(_command))
             try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
             except:correctedCommand = _command
             return subprocess.Popen(correctedCommand)

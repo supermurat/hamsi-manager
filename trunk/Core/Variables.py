@@ -297,7 +297,7 @@ class Variables():
                 "packagerUnneededFiles": str(['.directory', '.project', '.bzrignore']), 
                 "packagerUnneededDirectories": str(['.eric4project', '.svn', '.git', 'CVS', '.bzr', '.cache', '.settings']), 
                 "lastUpdateControlDate": datetime.now().strftime("%Y %m %d %H %M %S"), 
-                "updateInterval": "7", 
+                "updateInterval": "14", 
                 "isActivePyKDE4": str(isAvailablePyKDE4()), 
                 "isCloseOnCleanAndPackage": "True", 
                 "TableToolsBarButtonStyle": "0", 
