@@ -70,10 +70,12 @@ class Execute:
             return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
             
     def findExecutableBaseName(_executableName):
-        for fName in InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file"):
+        fileList = InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file")
+        for fName in fileList:
             if fName.split(".")[0]==_executableName and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                 return fName
-            elif _executableName=="HamsiManager":
+        if _executableName=="HamsiManager":
+            for fName in fileList:
                 if (fName.split(".")[0].find("Hamsi")>-1 or fName.split(".")[0].find("hamsi")>-1) and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                     return fName
         return None
