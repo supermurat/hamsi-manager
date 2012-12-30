@@ -643,7 +643,7 @@ class ToolsBar(MToolBar):
         for scriptName in _parent.scriptList:
             actScript = MAction(trForUI(scriptName), Universals.MainWindow.Menu.mScripts)
             actScript.setObjectName(trForUI(scriptName))
-            actScript.setToolTip(trForUI(str(translate("ToolsBar", "Execute \"%s\"")) % scriptName))
+            actScript.setToolTip(trForUI(str(translate("ToolsBar", "Execute \"%s\" Named Script")) % scriptName))
             Universals.MainWindow.Menu.mScripts.addAction(actScript)
         actScriptManager = MAction(MIcon("Images:scriptManager.png"),
                                                 translate("ToolsBar", "Script Manager"),self)

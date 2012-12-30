@@ -186,7 +186,7 @@ class Correct(MWidget):
                     translate("Options/Correct", "Which Part Is The File Extension"), 
                     translate("Options/Correct", "Emend Incorrect Chars"),  
                     translate("Options/Correct", "Correct File Name By Search Table"), 
-                    translate("Options/Correct", "Correct Value By Search Table"), 
+                    translate("Options/Correct", "Correct Values By Search Table"), 
                     translate("Options/Correct", "Clear First And Last Space Chars"), 
                     translate("Options/Correct", "Correct Double Space Chars"), 
                     translate("Options/Correct", "Decode URL Strings")]
