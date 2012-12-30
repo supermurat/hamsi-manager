@@ -50,7 +50,7 @@ class QuickOptions(MMenu):
             translate("QuickOptions", "Which Part Is The File Extension"), 
             translate("QuickOptions", "Emend Incorrect Chars"),  
             translate("QuickOptions", "Correct File Name By Search Table"), 
-            translate("QuickOptions", "Correct Value By Search Table"), 
+            translate("QuickOptions", "Correct Values By Search Table"), 
             translate("QuickOptions", "Decode URL Strings"), 
             translate("QuickOptions", "Clear First And Last Space Chars"), 
             translate("QuickOptions", "Correct Double Space Chars"), 
