@@ -37,7 +37,7 @@ import InputOutputs
 includes = []
 excludes = ["_gtkagg", "_tkagg", "bsddb", "curses", "email", 
             "pywin.debugger", "pywin.debugger.dbgcon", "pywin.dialogs", 
-            "tcl","Tkconstants", "Tkinter"]
+            "tcl","Tkconstants", "Tkinter", "PySide"]
 path = sys.path + [HamsiManagerDirectory]
 
 
