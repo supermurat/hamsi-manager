@@ -132,20 +132,18 @@ class InputOutputs:
             return False
             
     def getAvailableNameByName(_newPath):
-        _newPath = str(_newPath)
+        _newPath = getRealPath(str(_newPath))
         newPath = ""
         isFirstPart = True
         for pathPart in _newPath.split(sep):
             if pathPart!="":
                 badchars = re.compile(r'[/]')
                 pathPart = badchars.sub('_', pathPart)
-                if pathPart in [".", ".."]:
-                    pathPart = "_" + pathPart
                 if Variables.isWindows:
                     if isFirstPart :
                         pathPart += sep
                     else:
-                        badchars = re.compile(r'[^A-Za-z0-9_. \w\s]+|^\.|\.$|^ | $|^$', re.U)
+                        badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|^\.|\.$|^ | $|^$', re.U)
                         pathPart = re.sub(badchars,'_', Universals.trUnicode(pathPart), re.U)
                         badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
                         if badnames.match(pathPart):
