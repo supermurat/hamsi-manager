@@ -227,7 +227,7 @@ class Dialogs():
             selectedValue, isSelected = MInputDialog.getItem(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI(str(_detail)), [trForUI(str(x)) for x in _itemList], _currentItem, False)
         if isSelected==False:
             return None
-        return selectedValue
+        return str(selectedValue)
     
     def getText(_title="Hamsi Cover", _detail="", _default=""):
         if _detail=="": 
@@ -240,7 +240,7 @@ class Dialogs():
             selectedValue, isSelected = MInputDialog.getText(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI(str(_detail)), MLineEdit.Normal, trForUI(_default))
         if isSelected==False:
             return None
-        return selectedValue
+        return str(selectedValue)
         
 class MyStateDialog(MDialog):
     
