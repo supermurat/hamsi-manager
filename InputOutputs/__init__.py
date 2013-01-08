@@ -143,7 +143,7 @@ class InputOutputs:
                     if isFirstPart :
                         pathPart += sep
                     else:
-                        badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|^\.|\.$|^ | $|^$', re.U)
+                        badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|\.$|^ | $|^$', re.U)
                         pathPart = re.sub(badchars,'_', Universals.trUnicode(pathPart), re.U)
                         badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
                         if badnames.match(pathPart):
@@ -984,8 +984,6 @@ class InputOutputs:
                 if cover!=None:
                     selectedIndex = imageFiles.index(cover)
                 cover = Dialogs.getItem(translate("InputOutputs", "Select A Cover"), str(translate("InputOutputs", "Please select a cover for \"%s\".")) % (Organizer.getLink(_path)), imageFiles, selectedIndex)
-                if cover!=None:
-                    cover = str(cover)
             else:
                 if cover == None and len(imageFiles)>0:
                     for imgFile in imageFiles:
