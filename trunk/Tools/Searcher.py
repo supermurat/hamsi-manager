@@ -194,11 +194,19 @@ class Searcher(MyDialog):
             searchValueList = [searchValue]
             if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked or self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
                 clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', Universals.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
-                clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore")).replace(Universals.getUtf8Data("little+I"), "i")
+                clearedSearchValue = str(Universals.trEncode(clearedSearchValue, "utf-8", "ignore"))
+                clearedSearchValues = [clearedSearchValue]
+                t = clearedSearchValue.replace(Universals.getUtf8Data("little+I"), "i")
+                if t not in clearedSearchValues:
+                    clearedSearchValues.append(t)
+                t = clearedSearchValue.replace("i", Universals.getUtf8Data("little+I"))
+                if t not in clearedSearchValues:
+                    clearedSearchValues.append(t)
             
             if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked:
-                if clearedSearchValue not in searchValueList:
-                    searchValueList.append(clearedSearchValue)
+                for csValue in clearedSearchValues:
+                    if csValue not in searchValueList:
+                        searchValueList.append(csValue)
             
             if self.cckbIsClearDigits.checkState() == Mt.Checked:
                 clearedSearchValue1 = ""
@@ -228,12 +236,13 @@ class Searcher(MyDialog):
                     searchValueList.append(clearedSearchValue3)
             
             if self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
-                clearedSearchValue4 = ""
-                for char in clearedSearchValue:
-                    if char not in vowels:
-                        clearedSearchValue4+=char
-                if clearedSearchValue4 not in searchValueList:
-                    searchValueList.append(clearedSearchValue4)
+                for csValue in clearedSearchValues:
+                    clearedSearchValue4 = ""
+                    for char in csValue:
+                        if char not in vowels:
+                            clearedSearchValue4+=char
+                    if clearedSearchValue4 not in searchValueList:
+                        searchValueList.append(clearedSearchValue4)
             return searchValueList
         else:
             return []
