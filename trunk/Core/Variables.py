@@ -1,6 +1,6 @@
 ## This file is part of HamsiManager.
 ## 
-## Copyright (c) 2010 - 2012 Murat Demir <mopened@gmail.com>      
+## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -31,9 +31,9 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "1.0.8"
-    intversion = 1082
-    settingVersion = "1082"
+    version = "1.0.9"
+    intversion = 1090
+    settingVersion = "1090"
     aboutOfHamsiManager = ""
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]

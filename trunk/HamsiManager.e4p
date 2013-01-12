@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2012-12-15, 00:44:09 -->
-<!-- Copyright (C) 2012 Murat Demir, mopened@gmail.com -->
+<!-- Saved: 2013-01-12, 23:30:46 -->
+<!-- Copyright (C) 2013 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
   <ProgLanguage mixed="1">Python</ProgLanguage>
   <ProjectType>Qt4</ProjectType>
-  <Description>Hamsi Manager</Description>
-  <Version>0.9.XX</Version>
+  <Description>Hamsi Manager is a file manager which was developed for extra operations. You can perform a process to multiple files at once. You can perform multiple processes to multiple files at once or over and over again the next time. Offers you more options as possible, all the while. Aimed to create a fully customizable environment and it aims to combine with ease of use. Distributed under the GPLv3 license and is a project developed with entirely Open Source libraries.</Description>
+  <Version>1.1</Version>
   <Author>Murat Demir</Author>
   <Email>mopened@gmail.com</Email>
   <TranslationPattern>Languages/HamsiManager_%language%.ts</TranslationPattern>
