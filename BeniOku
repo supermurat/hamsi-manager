@@ -1,18 +1,41 @@
+Hamsi Manager
+
 Hamsi Manager ekstra işlemler için geliştirilen bir dosya yöneticisidir. Genel anlamda bir işlemi birden çok dosyaya tek seferde uygulamanız için düşünülmüş bir ortam olmasının yanında, bir dosya ile ilgili bir kaç işlemi tek seferde ve sonraki zamanlarda tekrar tekrar yapmak içinde kullanabilirsiniz. Tüm bunları yaparken size olabildiğince fazla seçenek sunar. Tamamen kişiselleştirilebilir bir ortam oluşturmayı hedeflemiş ve bunu kullanım kolaylığı ile birleştirmeyi amaç edinmiştir. GPLv3 lisansı altında dağıtılan ve tamamen Açık Kaynak Kodlu kütüphaneler ile geliştirilen bir projedir.
 
 Sistem Gereksinimleri : 
-    Python 2.5+, 3.X (Bazı gereksinimler Python 3 için henüz destek vermiyor) http://www.python.org/download/
-    PyQt4 (Qt4) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.nokia.com/products
-    * PyKDE4 (Bu bir gereksinim değildir fakat daha iyi bir masaüstü entegrasyonu sunmaktadır) http://techbase.kde.org/Development/Languages/Python
-    * python-eyed3 (Bazı özellikler için) http://eyed3.nicfit.net/
-    * python-musicbrainz2 (Bazı özellikler için) http://musicbrainz.org/doc/PythonMusicbrainz
-    * python-mysql (Bazı özellikler için) http://sourceforge.net/projects/mysql-python/
-
-Kurulum Basamakları :
-* "install.py" dosyasına çifttıklayınız veya konsola(Konsole,Terminal...) "python ./install.py" yazınız.
-* "Hamsi Manager Kurulum Aracı" ile kurulumu gerçekleştirebilirsiniz.(Grafiksel Kullanıcı Arayüzü (GUI))
-
-Çalıştırılması :
-* "HamsiManager.py" dosyasına çifttıklayınız veya konsola(Konsole,Terminal...) "python ./HamsiManager.py" yazınız.
+    -Python 2.5+, 3.X (Bazı gereksinimler Python 3 için henüz destek vermiyor) http://www.python.org/download/
+    -PyQt4 (Qt4) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.digia.com/
+    -* PyKDE4 (Daha iyi bir masaüstü ortamı desteği için) http://techbase.kde.org/Development/Languages/Python
+    -* PyQt4.Qsci (Qt4 - QsciScintilla) (Bazı özellikler için) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.digia.com/
+    -* python-eyed3 (Bazı özellikler için) http://eyed3.nicfit.net/
+    -* python-musicbrainz2 (Bazı özellikler için) http://musicbrainz.org/doc/PythonMusicbrainz
+    -* python-mysql (Bazı özellikler için) http://sourceforge.net/projects/mysql-python/
+	-* pywin32 (Windows`ta, bazı özellikler için) https://sourceforge.net/projects/pywin32/
+    -* cx_freeze (setup.py ile kurulum ve dağıtım için (.rpm, .msi, .exe, ...)) http://cx-freeze.sourceforge.net/
+    Note 1: Dağıtılan rpm paketleri gerekli tüm paketlerin kurulumunu önerecektir
+    Note 2: Dağıtılan msi ve exe paketleri herhangi bir gereksinim duymuyor
+    
+Kurulum Basamakları (Kaynak Koddan) :
+    Hamsi Manager Kurulum Aracı ile
+    #python install.py
+    
+    setup.py dosyası ile (cx_freeze ile) :
+    #python setup.py install
+    
+Dağıtım Basamakları (Kaynak Koddan) (cx_freeze ile) :
+    Linux için rpm paketi yapımı :
+    #python setup.py bdist_rpm
+    
+    Windows için msi kurulum paketi yapımı:
+    #python setup.py bdist_msi
+    
+    Dağıtım için paket yapımı :
+    #python setup.py bdist
+    
+    Derlemek için :
+    #python setup.py build
+    
+Çalıştırmak (Kaynak Kodu): 
+    #python HamsiManager.py
 
 Daha detaylı türkçe bilgi için lütfen "http://hamsiapps.com/HamsiManager" adresini ziyaret ediniz.
