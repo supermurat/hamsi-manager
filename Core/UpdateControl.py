@@ -260,7 +260,7 @@ class UpdateControl(MDialog):
                 request = reply.request()
                 v = request.attribute(MNetworkRequest.User)
                 fileName = Universals.trStr(v)
-                InputOutputs.writeToFile(fileName, reply.readAll())
+                InputOutputs.writeToBinaryFile(fileName, reply.readAll())
                 if self.isNotInstall==False:
                     self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))
                     self.lblInfo.setText(translate("UpdateControl", "Latest release downloaded, initializing installation."))
