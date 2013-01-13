@@ -133,17 +133,18 @@ class ScriptManager(MDialog):
     def checkForSave(self):
         try:
             if self.currentScriptFileName is not None:
-                codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
-                if str(codes)!=str(self.sciCommand.text()):
-                    if self.cckbIsAutoSaveScripts.checkState() == Mt.Checked:
-                        self.save()
-                    else:
-                        answer = Dialogs.ask(translate("ScriptManager", "Do You Wish To Save Your Codes?"), 
-                                        translate("ScriptManager", "Do you wish to save your codes so that you can continue later?"), True)
-                        if answer==Dialogs.Yes:
+                if InputOutputs.isFile(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName)):
+                    codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
+                    if str(codes)!=str(self.sciCommand.text()):
+                        if self.cckbIsAutoSaveScripts.checkState() == Mt.Checked:
                             self.save()
-                        elif answer==Dialog.Cancel:
-                            return False
+                        else:
+                            answer = Dialogs.ask(translate("ScriptManager", "Do You Wish To Save Your Codes?"), 
+                                            translate("ScriptManager", "Do you wish to save your codes so that you can continue later?"), True)
+                            if answer==Dialogs.Yes:
+                                self.save()
+                            elif answer==Dialog.Cancel:
+                                return False
             return True
         except:
             error = ReportBug.ReportBug()
