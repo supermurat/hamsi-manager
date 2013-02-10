@@ -81,6 +81,10 @@ class Execute:
             for fName in fileList:
                 if (fName.lower().split(".")[0].find("hamsi")>-1) and (fName.lower().split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                     return fName
+            if Variables.isWindows:
+                return "hamsi.exe"
+            else:
+                return "hamsi"
         return None
             
     def findExecutablePath(_executableName):
