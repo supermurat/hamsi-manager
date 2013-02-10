@@ -116,7 +116,7 @@ class MyPlugins(MyDialog):
                 except:pass
                 for pluginFile in pluginModule.pluginFiles:
                     InputOutputs.copyOrChange(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
-                    MyConfigure.reConfigureFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), Variables.HamsiManagerDirectory)
+                    MyConfigure.reConfigureFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
                 isInstalled = True
             else:
                 oldFilePath = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
@@ -228,7 +228,7 @@ class MyPluginsForSystem(MWidget):
                 except:pass
                 for pluginFile in pluginModule.pluginFiles:
                     InputOutputs.copyOrChange(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
-                    MyConfigure.reConfigureFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), Variables.HamsiManagerDirectory)
+                    MyConfigure.reConfigureFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
                 isInstalled = True
             else:
                 oldFilePath = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)

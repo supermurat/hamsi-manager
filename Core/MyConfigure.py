@@ -27,7 +27,8 @@ class MyConfigure:
     global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent, getConfiguredContent, createShortCutFile
     
     def reConfigureFile(_filePath, _installationDirectory=Variables.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):
-        fileContent = getConfiguredContent(InputOutputs.readFromFile(_filePath), _installationDirectory, _executeCommandOfHamsiManager)
+        fileContent = getConfiguredContent(InputOutputs.readFromFile(_filePath), _executeCommandOfHamsiManager)
+        fileContent = fileContent.replace(Variables.HamsiManagerDirectory, _installationDirectory)
         InputOutputs.writeToFile(_filePath, fileContent)
             
     def installKDE4Languages():
@@ -96,15 +97,17 @@ X-KDE-Username=
 X-MultipleArgs=false
 """)
             
-    def getConfiguredContent(_content, _installationDirectory=Variables.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):
+    def getConfiguredContent(_content, _executeCommandOfHamsiManager=None):
         if _executeCommandOfHamsiManager is None:
             from Core import Execute
             _executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
-        return _content.replace("~InstallationDirectory~", _installationDirectory).replace("~ExecuteCommandOfHamsiManager~", _executeCommandOfHamsiManager).replace("~IconPath~", InputOutputs.joinPath(Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory), "Images", "hamsi.png")).replace("~ThemePath~", Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory))
+        return _content.replace("~InstallationDirectory~", Variables.HamsiManagerDirectory).replace("~ExecuteCommandOfHamsiManager~", _executeCommandOfHamsiManager).replace("~IconPath~", InputOutputs.joinPath(Universals.themePath, "Images", "hamsi.png")).replace("~ThemePath~", Universals.themePath)
         
         
-    def getConfiguredDesktopFileContent(_installationDirectory=None, _executeCommandOfHamsiManager=None):
-        return getConfiguredContent(getDesktopFileContent(), _installationDirectory, _executeCommandOfHamsiManager)
+    def getConfiguredDesktopFileContent(_installationDirectory=Variables.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):
+        fileContent = getConfiguredContent(getDesktopFileContent(), _executeCommandOfHamsiManager)
+        fileContent = fileContent.replace(Variables.HamsiManagerDirectory, _installationDirectory)
+        return fileContent
 
         
         

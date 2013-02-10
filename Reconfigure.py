@@ -291,7 +291,7 @@ if RoutineChecks.checkMandatoryModules():
             try:
                 oldPathOfExecutableHamsi = Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")
                 if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "HamsiManager.desktop")):
-                    MyConfigure.reConfigureFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "HamsiManager.desktop"), Variables.HamsiManagerDirectory)
+                    MyConfigure.reConfigureFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "HamsiManager.desktop"))
                 if self.isCreateDesktopShortcut!=None:
                     if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                         desktopPath = Variables.getUserDesktopPath()
