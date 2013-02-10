@@ -291,7 +291,8 @@ if RoutineChecks.checkMandatoryModules():
             try:
                 oldPathOfExecutableHamsi = Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")
                 if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "HamsiManager.desktop")):
-                    MyConfigure.reConfigureFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "HamsiManager.desktop"))
+                    if InputOutputs.isWritableFileOrDir(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "HamsiManager.desktop")):
+                        MyConfigure.reConfigureFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "HamsiManager.desktop"))
                 if self.isCreateDesktopShortcut!=None:
                     if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                         desktopPath = Variables.getUserDesktopPath()
@@ -300,22 +301,23 @@ if RoutineChecks.checkMandatoryModules():
                         else:
                             fileContent = MyConfigure.getConfiguredDesktopFileContent()
                             InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
-                executableLink = str(self.leExecutableLink.text())
-                if self.isCreateExecutableLink!=None:
-                    if self.isCreateExecutableLink.checkState()==Mt.Checked:
-                        if executableLink.strip()!="":
-                            HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
-                            InputOutputs.createSymLink(InputOutputs.joinPath(Variables.HamsiManagerDirectory, HamsiManagerFileName), executableLink)
-                            Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
-                            if oldPathOfExecutableHamsi!=executableLink:
-                                if InputOutputs.isFile(oldPathOfExecutableHamsi):
-                                    answer = Dialogs.ask(MApplication.translate("Reconfigure", "Other Hamsi Manager Was Detected"), 
-                                        str(MApplication.translate("Reconfigure", "Other Hamsi Manager executable file was detected. Are you want to delete old executable file? You can delete this old executable file : \"%s\"")) % (oldPathOfExecutableHamsi))
-                                    if answer!=Dialogs.Yes:
-                                        InputOutputs.removeFile(oldPathOfExecutableHamsi)
-                        if InputOutputs.isDir("/usr/share/applications/"):
-                            fileContent = MyConfigure.getConfiguredDesktopFileContent()
-                            InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
+                if Variables.isRunningAsRoot():
+                    executableLink = str(self.leExecutableLink.text())
+                    if self.isCreateExecutableLink!=None:
+                        if self.isCreateExecutableLink.checkState()==Mt.Checked:
+                            if executableLink.strip()!="":
+                                HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
+                                InputOutputs.createSymLink(InputOutputs.joinPath(Variables.HamsiManagerDirectory, HamsiManagerFileName), executableLink)
+                                Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
+                                if oldPathOfExecutableHamsi!=executableLink:
+                                    if InputOutputs.isFile(oldPathOfExecutableHamsi):
+                                        answer = Dialogs.ask(MApplication.translate("Reconfigure", "Other Hamsi Manager Was Detected"), 
+                                            str(MApplication.translate("Reconfigure", "Other Hamsi Manager executable file was detected. Are you want to delete old executable file? You can delete this old executable file : \"%s\"")) % (oldPathOfExecutableHamsi))
+                                        if answer!=Dialogs.Yes:
+                                            InputOutputs.removeFile(oldPathOfExecutableHamsi)
+                            if InputOutputs.isDir("/usr/share/applications/"):
+                                fileContent = MyConfigure.getConfiguredDesktopFileContent()
+                                InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
                 if Variables.isRunningAsRoot()==False:
                     if InputOutputs.isDir(InputOutputs.joinPath(Variables.userDirectoryPath, ".local", "applications"))==False:
                         InputOutputs.makeDirs(InputOutputs.joinPath(Variables.userDirectoryPath, ".local", "applications"))
