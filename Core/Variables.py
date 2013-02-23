@@ -104,7 +104,6 @@ class Variables():
                   "amarokDBPass", "amarokDBDB"]
     
     def checkMyObjects():
-        from Core import Universals
         global MQtGui, MQtCore, isQt4Exist
         from PyQt4 import QtGui
         from PyQt4 import QtCore
@@ -137,7 +136,6 @@ class Variables():
             except:pass
         try:isBuilt = os.path.isfile(trEncode(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"), defaultFileSystemEncoding))
         except:isBuilt = os.path.isfile(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
-        checkMyObjects()
 
     def checkEncoding():
         global defaultFileSystemEncoding
