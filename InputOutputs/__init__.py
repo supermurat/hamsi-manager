@@ -463,12 +463,12 @@ class InputOutputs:
                     return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
         return False
         
-    def checkSource(_oldPath, _objectType="fileOrDirectory"):
+    def checkSource(_oldPath, _objectType="fileAndDirectory"):
         if _objectType=="file" and isFile(_oldPath):
             return _oldPath
         elif _objectType=="directory" and isDir(_oldPath):
             return _oldPath
-        elif _objectType=="fileOrDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
+        elif _objectType=="fileAndDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
             return _oldPath
         if _objectType=="file":
             from Core import Dialogs
@@ -585,7 +585,7 @@ class InputOutputs:
                 return False
         return False
         
-    def readDirectory(_path, _objectType="fileOrDirectory", _isShowHiddens=False):
+    def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=False):
         global appendingDirectories
         appendingDirectories=[]
         fileAndDirectoryNames,fileNames,directoryNames,musicFileNames=[],[],[],[]
