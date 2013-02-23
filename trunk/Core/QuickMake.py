@@ -180,7 +180,7 @@ class QuickMakeWindow(MyDialog):
     def closeEvent(self, _event):
         MApplication.setQuitOnLastWindowClosed(True)
     
-    def checkSource(self, _oldPath, _objectType="fileOrDirectory"):
+    def checkSource(self, _oldPath, _objectType="fileAndDirectory"):
         if _objectType=="file" and InputOutputs.isFile(_oldPath)==False:
             answer = Dialogs.ask(translate("QuickMake", "Cannot Find File"),
                     str(translate("InputOutputs", "\"%s\" : cannot find a file with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(_oldPath))

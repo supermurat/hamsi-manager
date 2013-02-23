@@ -80,6 +80,10 @@ class CoverTable():
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
+        isNewDirectoriesSame = True
+        isMovedToNewDirectory = False
+        currentDirectoryPath = ""
+        newDirectoryPath = ""
         startRowNo,rowStep=0,1
         Universals.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
@@ -119,6 +123,13 @@ class CoverTable():
                     if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
                         baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
                         self.Table.changedValueNumber += 1
+                        isMovedToNewDirectory = True
+                        currentDirectoryPath = InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])
+                        newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
+                        self.Table.setNewDirectory(newDirectoryPath)
+                        if rowNo>0:
+                            if str(self.Table.item(rowNo-1,0).text()) != baseNameOfDirectory:
+                                isNewDirectoriesSame = False
                     if self.Table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(self.Table.item(rowNo,1).text())
                         self.Table.changedValueNumber += 1
@@ -133,6 +144,16 @@ class CoverTable():
                 break
         Universals.finishThreadAction()
         InputOutputs.changeDirectories(changingFileDirectories)
+        if self.Table.rowCount() == len(changingFileDirectories) and isMovedToNewDirectory and isNewDirectoriesSame:
+            otherFileNames = InputOutputs.readDirectory(currentDirectoryPath, "fileAndDirectory", True)
+            if len(otherFileNames)>0:
+                answer = Dialogs.ask(translate("InputOutputs/Musics", "There Are More Files"),
+                                    str(translate("InputOutputs/Musics", "\"%s\" : there are more files in this directory.<br>Are you want to move all found files into new directory?<br>New Directory : \"%s\"")) % (Organizer.getLink(currentDirectoryPath), Organizer.getLink(newDirectoryPath)))
+                if answer==Dialogs.Yes:
+                    changingOtherFileDirectories=[]
+                    for fileName in otherFileNames:
+                        changingOtherFileDirectories.append([InputOutputs.joinPath(currentDirectoryPath, fileName), InputOutputs.joinPath(newDirectoryPath, fileName)])
+                    InputOutputs.changeDirectories(changingOtherFileDirectories)
         return True
         
     def showDetails(self, _fileNo, _infoNo):
@@ -184,7 +205,7 @@ class CoverTable():
                 elif itemNo==2:
                     newString = trForUI(self.Table.currentTableContentValues[rowNo]["currentCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
-                    item = self.Table.createTableWidgetItem(newString)
+                    item = self.Table.createTableWidgetItem(newString, newString)
                 elif itemNo==3:
                     newString = trForUI(self.Table.currentTableContentValues[rowNo]["sourceCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")

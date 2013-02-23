@@ -32,6 +32,8 @@ class Tables(MTableWidget):
     def __init__(self, _parent):
         global layouts,widgets
         MTableWidget.__init__(self, _parent)
+        self.currentDirectoryPath = ""
+        self.newDirectoryPath = ""
         self.currentTableContentValues = []
         self.changedValueNumber = 0
         self.history = []
@@ -354,13 +356,28 @@ class Tables(MTableWidget):
             MObject.connect(act,SIGNAL("triggered(bool)"), self.refreshShowedAndHiddenColumns)
         self.refreshShowedAndHiddenColumns()
         
-    def refresh(self, _path = ""):
-        global isShowChanges, isAskShowHiddenColumn, isAskIncorrectFileExtension
+    def setCurrentDirectory(self, _path):
         if _path=="":
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None:
                 _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
             else:
                 _path = Variables.userDirectoryPath
+        self.currentDirectoryPath = _path
+        self.newDirectoryPath = _path
+    
+    def setNewDirectory(self, _path):
+        if _path=="":
+            _path = self.currentDirectoryPath
+        if _path=="":
+            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None:
+                _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+            else:
+                _path = Variables.userDirectoryPath
+        self.newDirectoryPath = _path
+        
+    def refresh(self, _path = ""):
+        global isShowChanges, isAskShowHiddenColumn, isAskIncorrectFileExtension
+        self.setCurrentDirectory(_path)
         isAskShowHiddenColumn, isAskIncorrectFileExtension = True, True
         isShowChanges=False
         self.clear()
@@ -371,7 +388,7 @@ class Tables(MTableWidget):
             for x in range(len(self.tableColumns)):
                 self.setColumnWidth(x,columnWidth)
         from Core import MyThread
-        myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [_path])
+        myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [self.currentDirectoryPath])
         myProcs.run()
 
     def continueRefresh(self, _returned=None):
@@ -389,8 +406,7 @@ class Tables(MTableWidget):
         try:
             from Core import Records
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
-            if Universals.tableType!=4:
-                InputOutputs.activateSmartCheckIcon()
+            InputOutputs.activateSmartCheckIcon()
             from Core import MyThread
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
@@ -403,13 +419,14 @@ class Tables(MTableWidget):
             if _returned:
                 from Core import Records
                 isGoUpDirectoryWithFileTable = False
-                if Universals.tableType in [0, 1, 2, 3]:
-                    if Universals.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                        InputOutputs.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 if Universals.tableType in [0, 1, 2, 3, 4]:
                     if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                        if InputOutputs.clearEmptyDirectories(Universals.MainWindow.FileManager.getCurrentDirectoryPath(), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                        if InputOutputs.clearEmptyDirectories(self.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                             isGoUpDirectoryWithFileTable = True
+                if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
+                    if Universals.tableType in [0, 1, 2, 3]:
+                        if Universals.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                            InputOutputs.checkIcon(self.newDirectoryPath)
                 InputOutputs.completeSmartCheckIcon()
                 Records.saveAllRecords()
                 if self.changedValueNumber==0:
@@ -419,12 +436,14 @@ class Tables(MTableWidget):
                     if Universals.getBoolValue("isShowTransactionDetails"):
                         Dialogs.show(translate("Tables", "Transaction Details"), 
                                      str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-                if isGoUpDirectoryWithFileTable:
-                    Universals.MainWindow.Bars.changeTableTypeByType(1)
+                if isGoUpDirectoryWithFileTable and self.currentDirectoryPath == self.newDirectoryPath:
+                    Universals.MainWindow.FileManager.goUp()
+                elif isGoUpDirectoryWithFileTable and self.currentDirectoryPath != self.newDirectoryPath:
+                    Universals.MainWindow.FileManager.makeRefresh(self.newDirectoryPath)
                 else:
-                    Universals.MainWindow.FileManager.makeRefresh("", False)
+                    Universals.MainWindow.FileManager.makeRefresh("")
                     if Universals.tableType in [5, 6, 7, 8]:
-                        self.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                        self.refresh(self.newDirectoryPath)
         except:
             error = ReportBug.ReportBug()
             error.show()    

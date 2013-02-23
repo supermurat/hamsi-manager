@@ -98,6 +98,10 @@ class MusicTable():
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
         changingTags=[]
+        isNewDirectoriesSame = True
+        isMovedToNewDirectory = False
+        currentDirectoryPath = ""
+        newDirectoryPath = ""
         if Universals.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
@@ -179,6 +183,13 @@ class MusicTable():
                     if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
                         baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
                         self.Table.changedValueNumber += 1
+                        isMovedToNewDirectory = True
+                        currentDirectoryPath = InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])
+                        newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
+                        self.Table.setNewDirectory(newDirectoryPath)
+                        if rowNo>0:
+                            if str(self.Table.item(rowNo-1,0).text()) != baseNameOfDirectory:
+                                isNewDirectoriesSame = False
                     if self.Table.isChangableItem(rowNo, 1, baseName, False):
                         baseName = str(self.Table.item(rowNo,1).text())
                         self.Table.changedValueNumber += 1
@@ -193,6 +204,16 @@ class MusicTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.changeDirectories(changingFileDirectories)
+        if self.Table.rowCount() == len(changingFileDirectories) and isMovedToNewDirectory and isNewDirectoriesSame:
+            otherFileNames = InputOutputs.readDirectory(currentDirectoryPath, "fileAndDirectory", True)
+            if len(otherFileNames)>0:
+                answer = Dialogs.ask(translate("InputOutputs/Musics", "There Are More Files"),
+                                    str(translate("InputOutputs/Musics", "\"%s\" : there are more files in this directory.<br>Are you want to move all found files into new directory?<br>New Directory : \"%s\"")) % (Organizer.getLink(currentDirectoryPath), Organizer.getLink(newDirectoryPath)))
+                if answer==Dialogs.Yes:
+                    changingOtherFileDirectories=[]
+                    for fileName in otherFileNames:
+                        changingOtherFileDirectories.append([InputOutputs.joinPath(currentDirectoryPath, fileName), InputOutputs.joinPath(newDirectoryPath, fileName)])
+                    pathValues += InputOutputs.changeDirectories(changingOtherFileDirectories)
         if Universals.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
