@@ -166,6 +166,11 @@ class Universals():
             value = trStr(sets.value(keyValue, trQVariant(trForM(defaultValues[keyValue]))))
             if keyValue not in MySettings.keys() or _setAgain:
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
+        for keyValue in sets.allKeys():
+            keyValue = str(keyValue)
+            value = trStr(sets.value(keyValue, trQVariant(trForM(""))))
+            if keyValue not in MySettings.keys():
+                MySettings[keyValue] = str(Settings.emendValue(keyValue, value, "", "str"))
         newSettingVersion = str(MySettings["settingsVersion"])
         if _isCheckUpdate:
             if newSettingVersion!=settingVersion:
@@ -240,8 +245,9 @@ class Universals():
     def getDateValue(_key):
         return datetime.strptime(getValue(_key), "%Y %m %d %H %M %S")
     
-    def getBoolValue(_key):
-        if str(getValue(_key)).title()=="True" or str(getValue(_key)).title()=="1":
+    def getBoolValue(_key, _defaultValue = ""):
+        value = str(getValue(_key, None, _defaultValue)).title()
+        if value=="True" or value=="1" or value=="2":
             return True
         return False
     

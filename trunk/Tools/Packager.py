@@ -22,6 +22,7 @@ from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
 import InputOutputs
+import Options
 from Options import OptionsForm
 from Core import Organizer
 
@@ -44,14 +45,11 @@ class Packager(MyDialog):
         lblHash = MLabel(translate("Packager", "Hash : "))
         lblHashOutput = MLabel(translate("Packager", "Hash Output : "))
         lblHashDigestFile = MLabel(translate("Packager", "Hash Digest File : "))
-        self.cbPackageType = MComboBox()
-        self.cbPackageType.addItems([translate("Packager", "Archive Without Compression"),
-                                    ".tar.gz", ".tar.bz2", ".amarokscript.tar.gz"])
-        self.cbPackageType.setCurrentIndex(1)
-        self.cbHash = MComboBox()
-        self.cbHash.addItems([translate("Packager", "No Hash")] + Variables.getHashTypes())
-        self.cbHashOutput = MComboBox()
-        self.cbHashOutput.addItems([translate("Packager", "File"), translate("Packager", "Clipboard")])
+        self.cbPackageType = Options.MyComboBox(self, 
+                                    [translate("Packager", "Archive Without Compression"), ".tar.gz", ".tar.bz2", ".amarokscript.tar.gz"], 
+                                    1, "PackagerPackageType", self.packageTypeChanged)
+        self.cbHash = Options.MyComboBox(self, [translate("Packager", "No Hash")] + Variables.getHashTypes(), 0, "PackagerHash", self.hashChanged)
+        self.cbHashOutput = Options.MyComboBox(self, [translate("Packager", "File"), translate("Packager", "Clipboard")], 0, "PackagerHashOutput", self.hashOutputChanged)
         self.leHashDigestFile = MLineEdit(trForM(_directory))
         self.pbtnClearAndPack = MPushButton(translate("Packager", "Clear And Pack"))
         self.pbtnClear = MPushButton(translate("Packager", "Clear"))
@@ -65,15 +63,12 @@ class Packager(MyDialog):
         self.packageTypeChanged()
         self.pbtnSelectProjectPath = MPushButton(translate("Packager", "Browse"))
         self.pbtnSelectPackagePath = MPushButton(translate("Packager", "Browse"))
-        self.connect(self.cbPackageType, SIGNAL("currentIndexChanged(int)"), self.packageTypeChanged)
         self.connect(self.pbtnSelectProjectPath,SIGNAL("clicked()"),self.selectProjectPath)
         self.connect(self.pbtnSelectPackagePath,SIGNAL("clicked()"),self.selectPackagePath)
         self.connect(self.pbtnClearAndPack,SIGNAL("clicked()"),self.ClearAndPack)
         self.connect(self.pbtnClear,SIGNAL("clicked()"),self.Clear)
         self.connect(self.pbtnPack,SIGNAL("clicked()"),self.Pack)
         self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
-        self.connect(self.cbHash,SIGNAL("currentIndexChanged(int)"),self.hashChanged)
-        self.connect(self.cbHashOutput,SIGNAL("currentIndexChanged(int)"),self.hashOutputChanged)
         self.connect(self.lePathOfProject,SIGNAL("textChanged(const QString&)"),self.pathOfProjectChanged)
         self.connect(self.lePathOfPackage,SIGNAL("textChanged(const QString&)"),self.pathOfPackageChanged)
         pnlMain = MWidget(self)

@@ -22,6 +22,7 @@ from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
 import InputOutputs
+import Options
 from Options import OptionsForm
 from Core import Organizer
 
@@ -44,10 +45,10 @@ class Hasher(MyDialog):
         lblHashDigestFile = MLabel(translate("Hasher", "Hash Digest File : "))
         lblHashDigest = MLabel(translate("Hasher", "Hash Digest : "))
         self.teHashDigest = MTextEdit("")
-        self.cbHash = MComboBox()
-        self.cbHash.addItems(Variables.getHashTypes())
-        self.cbHashOutput = MComboBox()
-        self.cbHashOutput.addItems([translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")])
+        self.cbHash = Options.MyComboBox(self, Variables.getHashTypes(), 0, "HasherHash", self.pathOfPackageChanged)
+        self.cbHashOutput = Options.MyComboBox(self, 
+                                [translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")], 
+                                0, "HasherHashOutput", self.hashOutputChanged)
         self.leHashDigestFile = MLineEdit(trForM(_file))
         self.pbtnHash = MPushButton(translate("Hasher", "Hash"))
         self.pbtnClose = MPushButton(translate("Hasher", "Close"))
@@ -58,8 +59,6 @@ class Hasher(MyDialog):
         self.connect(self.pbtnSelectPackagePath,SIGNAL("clicked()"),self.selectPackagePath)
         self.connect(self.pbtnHash,SIGNAL("clicked()"),self.hash)
         self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
-        self.connect(self.cbHash,SIGNAL("currentIndexChanged(int)"),self.pathOfPackageChanged)
-        self.connect(self.cbHashOutput,SIGNAL("currentIndexChanged(int)"),self.hashOutputChanged)
         self.connect(self.lePathOfPackage,SIGNAL("textChanged(const QString&)"),self.pathOfPackageChanged)
         self.teHashDigest.setMaximumHeight(80)
         pnlMain = MWidget(self)

@@ -29,9 +29,11 @@ class MyComboBox(MComboBox):
         self.addItems(_items)
         if len(_items)>0:
             if _settingKey is not None:
-                self.setCurrentIndex(_items.index(Universals.MySettings[self.settingKey]))
-            else:
-                self.setCurrentIndex(_defaultItemIndex)
+                item = Universals.getValue(_settingKey, _items)
+                item = trForM(item)
+                if item in _items:
+                    _defaultItemIndex = _items.index(item)
+            self.setCurrentIndex(_defaultItemIndex)
         if _currentIndexChanged is not None or _settingKey is not None:
             MObject.connect(self, SIGNAL("currentIndexChanged(int)"), self.cbMCurrentIndexChanged)
             
@@ -39,7 +41,7 @@ class MyComboBox(MComboBox):
         if self.settingKey is not None:
             Universals.setMySetting(self.settingKey, self.items[self.currentIndex()])
         if self.currentIndexChanged is not None:
-            self.currentIndexChanged()
+            self.currentIndexChanged(_index)
 
 class MyListWidget(MListWidget):
     
@@ -81,7 +83,7 @@ class MyCheckBox(MCheckBox):
         self.settingKey = _settingKey
         self.stateChanged = _stateChanged
         if _settingKey is not None:
-            if Universals.getBoolValue(_settingKey):
+            if Universals.getBoolValue(_settingKey, _defaultState):
                 self.setCheckState(Mt.Checked)
             else:
                 self.setCheckState(Mt.Unchecked)

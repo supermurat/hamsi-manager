@@ -43,22 +43,22 @@ class FileTreeBuilder(MyDialog):
         lblContentType = MLabel(translate("FileTreeBuilder", "Content Type : "))
         lblSubDirectoryDeepDetails = translate("FileTreeBuilder", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
         lblSubDirectoryDeep = MLabel(translate("FileTreeBuilder", "Deep : "))
-        self.cbSubDirectoryDeep = MComboBox(self)
-        for x in range(-1, 10):
-            self.cbSubDirectoryDeep.addItem(str(x))
-        self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(Universals.MySettings["subDirectoryDeep"]))
+        self.cbSubDirectoryDeep = Options.MyComboBox(self, 
+                                    [ str(x) for x in range(-1, 10) ], 
+                                    0, "subDirectoryDeep")
         self.cbSubDirectoryDeep.setToolTip(lblSubDirectoryDeepDetails)
-        self.cbOutputType = MComboBox()
-        self.cbOutputType.addItems([translate("FileTreeBuilder", "HTML"),
-                                    translate("FileTreeBuilder", "Plain Text")])
-        self.cbOutputTarget = MComboBox()
-        self.cbOutputTarget.addItems([translate("FileTreeBuilder", "File"),
+        self.cbOutputType = Options.MyComboBox(self, 
+                                    [translate("FileTreeBuilder", "HTML"),
+                                    translate("FileTreeBuilder", "Plain Text")], 0, "FileTreeBuilderOutputType")
+        self.cbOutputTarget = Options.MyComboBox(self, 
+                                    [translate("FileTreeBuilder", "File"),
                                     translate("FileTreeBuilder", "Dialog"),
-                                    translate("FileTreeBuilder", "Clipboard")])
-        self.cbOutputTarget.setCurrentIndex(1)
-        self.cbContentType = MComboBox()
-        self.cbContentType.addItems([translate("FileTreeBuilder", "File Tree"),
-                                    translate("FileTreeBuilder", "File List (With Full Path)")])
+                                    translate("FileTreeBuilder", "Clipboard")], 
+                                    0, "FileTreeBuilderOutputTarget")
+        self.cbContentType = Options.MyComboBox(self, 
+                                    [translate("FileTreeBuilder", "File Tree"),
+                                    translate("FileTreeBuilder", "File List (With Full Path)")], 
+                                    0, "FileTreeBuilderContentType")
         self.cckbIsShowHiddens = Options.MyCheckBox(self, translate("FileTreeBuilder", "Show Hidden Files / Directories"), None, "isShowHiddensInFileTree")
         self.cckbFileSize = Options.MyCheckBox(self, translate("FileTreeBuilder", "File Size"), None, "isAppendFileSizeToFileTree")
         self.cckbLastModified = Options.MyCheckBox(self, translate("FileTreeBuilder", "Last Modified"), None, "isAppendLastModifiedToFileTree")
