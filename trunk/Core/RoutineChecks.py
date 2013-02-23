@@ -394,6 +394,7 @@ def checkMyModules(_HamsiManagerApp):
     return False
     
 def checkMandatoryModules():
+    Variables.checkMyObjects()
     if Variables.isQt4Exist:
         if Variables.isWindows:
             pywin32IsAvailable = False

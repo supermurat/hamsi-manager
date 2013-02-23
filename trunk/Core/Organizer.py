@@ -50,8 +50,6 @@ class Organizer:
             _inputString = unquote(_inputString)
         _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore"))
         if _type=="file" or _type=="directory":
-            if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
-                _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
             preString, extString, ext2String = "", "", ""
             if _inputString[-1]==InputOutputs.sep:
                 _inputString = _inputString[:-1]
@@ -59,10 +57,14 @@ class Organizer:
             if _inputString.find(InputOutputs.sep)!=-1:
                 tStr = _inputString.rsplit(InputOutputs.sep, 1)
                 for ps in tStr[0].split(InputOutputs.sep):
+                    if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
+                        ps = searchAndReplaceFromSearchAndReplaceTable(ps)
                     preString += emendBaseName(ps, "directory", _isCorrectCaseSensitive) + InputOutputs.sep
                 _inputString = tStr[1]
             if _type=="file":
                 _inputString, extString = getFileNameParts(_inputString)
+            if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
+                _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
             _inputString = emendBaseName(_inputString, _type, _isCorrectCaseSensitive)
             extString = emendFileExtension(extString, _isCorrectCaseSensitive)
             if extString!="": extString = "." + extString
@@ -222,13 +224,13 @@ class Organizer:
                     if Universals.MainWindow.Table.isChangableItem(rowNo, changingColumns[0]):
                         newString=""
                         for changerColumnNo in changerColumns:
-                            if str(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text()) != "-----":
-                                newString+=" "+_splitPointer+" "+str(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text())
+                            valueOfField = str(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text())
+                            if Universals.MainWindow.Table.tableColumnsKey[changerColumnNo] == "File Name":
+                                valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
+                            if valueOfField != "-----":
+                                newString+=" "+_splitPointer+" "+valueOfField
                         newString = emend(newString[2:])
                         if newString!="":
-                            for uzanti in Universals.getListValue("musicExtensions"):
-                                if newString.split(".")[-1].lower() == str(uzanti) :
-                                    newString = newString[:-len(newString.split(".")[-1])-1]
                             if _SpecialTools.btChange.isChecked()==True:
                                 pass
                             elif _SpecialTools.tbAddToBefore.isChecked()==True:
@@ -238,11 +240,11 @@ class Organizer:
                             Universals.MainWindow.Table.item(rowNo,changingColumns[0]).setText(trForUI(newString.strip()))
             else:
                 for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                    newString = str(Universals.MainWindow.Table.item(rowNo,changerColumns[0]).text())
+                    valueOfField = str(Universals.MainWindow.Table.item(rowNo,changerColumns[0]).text())
+                    if Universals.MainWindow.Table.tableColumnsKey[changerColumns[0]] == "File Name":
+                        valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
+                    newString = valueOfField
                     if newString!="-----":
-                        for uzanti in Universals.getListValue("musicExtensions"):
-                            if newString.split(".")[-1].lower() == str(uzanti) :
-                                newString = newString[:-len(newString.split(".")[-1])-1]
                         newStrings = ["","","","","","","",""]
                         newString = newString.split(_splitPointer)
                         for stringNo in range(0,len(newString)):
