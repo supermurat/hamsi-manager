@@ -89,10 +89,10 @@ class MenuBar(MMenuBar):
         actOptions.setObjectName(translate("MenuBar", "Options"))
         actOptions.setIcon(MIcon("Images:options.png"))
         self.mSettings.addAction(translate("MenuBar", "My Plugins")).setObjectName(translate("MenuBar", "My Plugins"))
-        if Variables.isBuilt == False:
-            self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
+        self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
         if Variables.isRunableAsRoot():
             self.mSettings.addAction(translate("MenuBar", "My Plugins (System)")).setObjectName(translate("MenuBar", "My Plugins (System)"))
+            self.mSettings.addAction(translate("MenuBar", "Reconfigure (System)")).setObjectName(translate("MenuBar", "Reconfigure (System)"))
         if Universals.isActivePyKDE4==True:
             actReportBug = MAction(translate("MenuBar", "Report Bug"), self.mHelpMenu)
             actReportBug.setObjectName(translate("MenuBar", "Report Bug"))
@@ -217,9 +217,12 @@ class Bars():
                 import MyPlugins
                 MyPlugins.MyPlugins()
             elif actionName==translate("MenuBar", "Reconfigure"):
-                Execute.execute(["--configurePage"], "Reconfigure")#TODO: PUT IN Reconfigure Module into HamsiManager.py Before Version 1.2
+                from Tools import Configurator
+                Configurator.Configurator("configurePage")
             elif actionName==translate("MenuBar", "My Plugins (System)"):
                 Execute.execute(["--qm", "--plugins", "--runAsRoot"], "HamsiManager")
+            elif actionName==translate("MenuBar", "Reconfigure (System)"):
+                Execute.execute(["--qm", "--configurator", "--runAsRoot"], "HamsiManager")
             elif actionName==translate("MenuBar", "Update"):
                 from Core import Universals, UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
