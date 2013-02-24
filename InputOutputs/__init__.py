@@ -845,7 +845,8 @@ class InputOutputs:
             if _isDir==False:
                 removeFile(_path)
             else:
-                removeDir(_path)
+                if isWritableFileOrDir(_path):
+                    removeDir(_path)
                     
     def removeOnlySubFiles(_path):
         if isWritableFileOrDir(_path):
