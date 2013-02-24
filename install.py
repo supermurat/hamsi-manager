@@ -279,16 +279,6 @@ if RoutineChecks.checkMandatoryModules():
                                         InputOutputs.writeToBinaryFile(newFileName, fileContent)
                                 self.prgbState.setValue(fileNo+1)
                             self.pageNo+=1
-                            configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
-                            if configureUpdateFileName!=None:
-                                if InputOutputs.isFile(InputOutputs.joinPath(self.installationDirectory, configureUpdateFileName)):
-                                    extOfFile = ""
-                                    if configureUpdateFileName.find(".")!=-1:
-                                        extOfFile = "." + (configureUpdateFileName.split(".")[1])
-                                    updateFilePath = InputOutputs.joinPath(self.installationDirectory, "Update" + extOfFile)
-                                    if InputOutputs.isFile(updateFilePath):
-                                        InputOutputs.removeFileOrDir(updateFilePath)
-                                    InputOutputs.moveFileOrDir(InputOutputs.joinPath(self.installationDirectory, configureUpdateFileName), updateFilePath)
                             MyConfigure.installKDE4Languages()
                         else:
                             self.pageNo-=1
@@ -317,7 +307,6 @@ if RoutineChecks.checkMandatoryModules():
             
         def finish(self):
             try:
-                Settings.setUniversalSetting("isUpdatable", "True")
                 if InputOutputs.isFile(InputOutputs.joinPath(self.installationDirectory, "HamsiManager.desktop")):
                     MyConfigure.reConfigureFile(InputOutputs.joinPath(self.installationDirectory, "HamsiManager.desktop"), self.installationDirectory)
                 if self.isCreateDesktopShortcut!=None:

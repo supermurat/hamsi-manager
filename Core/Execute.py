@@ -48,7 +48,7 @@ class Execute:
         return os.popen(correctedCommand)
         
     def execute(_command=[], _executableName=None):
-        if _executableName in ["HamsiManager", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
+        if _executableName in ["HamsiManager", "HamsiManagerInstaller"]:
             pathOfExecutable = findExecutablePath(_executableName)
             if pathOfExecutable==None:
                 from Core import Dialogs
@@ -143,7 +143,7 @@ class Execute:
     def executeAsRoot(_command=[], _executableName=None):
         if Variables.isRunableAsRoot():
             pathOfExecutable = None
-            if _executableName in ["HamsiManager", "HamsiManagerInstaller", "ConfigureUpdate", "Update"]:
+            if _executableName in ["HamsiManager", "HamsiManagerInstaller"]:
                 pathOfExecutable = findExecutablePath(_executableName)
             if pathOfExecutable != None:
                 _command = [pathOfExecutable] + _command

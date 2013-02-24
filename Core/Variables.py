@@ -180,16 +180,7 @@ class Variables():
             return False
                    
     def isUpdatable():
-        if isBuilt == False:
-            import InputOutputs
-            from Core import Settings, Execute
-            if (InputOutputs.isWritableFileOrDir(HamsiManagerDirectory, True) and 
-                    Settings.getUniversalSetting("isUpdatable", "False").lower()=="true" and 
-                    Settings.getUniversalSetting("pathOfInstallationDirectory", "")==HamsiManagerDirectory and
-                    Execute.findExecutableBaseName("Update")!=None):
-                # Only writable file-directory and installed by "HamsiManagerInstaller" and HamsiManagerDirectory==pathOfInstallationDirectory and if exist executable "Update" file.
-                return True
-        else:
+        if isBuilt:
             buildType = getBuildType()
             if buildType in ["rpm", "msi"]:
                 return True

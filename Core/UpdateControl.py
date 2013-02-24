@@ -261,40 +261,23 @@ class UpdateControl(MDialog):
                 v = request.attribute(MNetworkRequest.User)
                 fileName = Universals.trStr(v)
                 InputOutputs.writeToBinaryFile(fileName, reply.readAll())
-                if self.isNotInstall==False:
-                    self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))
-                    self.lblInfo.setText(translate("UpdateControl", "Latest release downloaded, initializing installation."))
-                    self.install(fileName)
-                else:
-                    Dialogs.show(translate("UpdateControl", "The New Version Downloaded"), 
-                                translate("UpdateControl", "New version of Hamsi Manager downloaded, you can install it manually."))
-                    self.close()
+                self.install(fileName)
         except:
             error = ReportBug.ReportBug()
             error.show()  
         
     def install(self, _fileName):
-        if Variables.isBuilt == False:
-            from Core.Execute import execute
-            Dialogs.show(translate("UpdateControl", "Update Will Be Complete"),
-                            translate("UpdateControl", "Please restart Hamsi Manager now."),
-                            translate("UpdateControl", "Restart"))
-            configureUpdateFileName = Execute.findExecutableBaseName("ConfigureUpdate")
-            updateFileName = Execute.findExecutableBaseName("Update")
-            if updateFileName==None:
-                if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName)):
-                    extOfFile = ""
-                    if configureUpdateFileName.find(".")!=-1:
-                        extOfFile = "." + (configureUpdateFileName.split(".")[1])
-                    InputOutputs.moveFileOrDir(InputOutputs.joinPath(Variables.HamsiManagerDirectory, configureUpdateFileName), InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Update"+extOfFile))
-            execute([str(_fileName)], "Update")
-            self.close()
-            self.parent().close()
-        else:
+        if self.isNotInstall==False and Variables.isBuilt:
+            self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))
+            self.lblInfo.setText(translate("UpdateControl", "Latest release downloaded, initializing installation."))
             from Core.Execute import openWith
             openWith([str(_fileName)])
             self.close()
             self.parent().close()
+        else:
+            Dialogs.show(translate("UpdateControl", "The New Version Downloaded"), 
+                        translate("UpdateControl", "New version of Hamsi Manager downloaded, you can install it manually."))
+            self.close()
             
         
     def isMakeUpdateControl():
