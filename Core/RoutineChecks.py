@@ -97,8 +97,9 @@ the Free Software Foundation; either version 2 of the License, or
     qmgroup.add_option('--qm', help='Are you want to run Quick Make by some parametres?', 
                       action='store_const', const=True)
     optionList.append("qm")
-    qmgroup.add_option('--plugins',
-                      help='Show plugins', action='store_const', const=True)
+    qmgroup.add_option('--configurator', help='Open Hamsi Manager Configurator', action='store_const', const=True)
+    optionList.append("configurator")
+    qmgroup.add_option('--plugins', help='Show plugins', action='store_const', const=True)
     optionList.append("plugins")
     qmgroup.add_option('--pack',
                       help='The directory path. '
@@ -198,7 +199,10 @@ the Free Software Foundation; either version 2 of the License, or
                 Universals.setMySetting("isShowQuickMakeWindow", False)
             else:
                 Universals.setMySetting("isShowQuickMakeWindow", True)
-        if options.plugins:
+        if options.configurator:
+            QuickMakeParameters.append("configurator")
+            isQuickMake = True
+        elif options.plugins:
             QuickMakeParameters.append("plugins")
             isQuickMake = True
         elif options.pack:
@@ -310,8 +314,8 @@ def checkAfterRunProccess():
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
             OptionsForm.OptionsForm(Universals.MainWindow, "Normal", None, newOrChangedKeys)
     elif Universals.getBoolValue("isShowReconfigureWizard") and Variables.isBuilt == False:
-        from Core import Execute
-        Execute.execute([], "Reconfigure")#TODO: PUT IN Reconfigure Module into HamsiManager.py Before Version 1.2
+        from Tools import Configurator
+        Configurator.Configurator()
         Universals.setMySetting("isShowReconfigureWizard", "False")
     
 def checkWindowMode(_isCheck=False):

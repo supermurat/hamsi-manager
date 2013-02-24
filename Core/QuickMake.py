@@ -28,7 +28,7 @@ from Core import ReportBug
 
 class QuickMake():
     def __init__(self):
-        if len(QuickMakeParameters)>1 or (len(QuickMakeParameters)==1 and QuickMakeParameters[0]=="plugins"):
+        if len(QuickMakeParameters)>1 or (len(QuickMakeParameters)==1 and (QuickMakeParameters[0]=="plugins" or QuickMakeParameters[0]=="configurator")):
             answer = None
             isShowQuickMakeWindow = True
             tempWindow = MMainWindow()
@@ -36,7 +36,11 @@ class QuickMake():
             Universals.setMainWindow(self.quickMakeWindow)
             isShowEmendWidgets = False
             isCorrectCommand = True
-            if QuickMakeParameters[0]=="plugins":
+            if QuickMakeParameters[0]=="configurator":
+                isShowQuickMakeWindow = False
+                makeThisAction = self.quickMakeWindow.configurator
+                actionName = translate("QuickMake", "Hamsi Manager Configurator")
+            elif QuickMakeParameters[0]=="plugins":
                 isShowQuickMakeWindow = False
                 makeThisAction = self.quickMakeWindow.plugins
                 actionName = translate("QuickMake", "My Plugins")
@@ -214,6 +218,14 @@ class QuickMakeWindow(MyDialog):
         except:
             self.error = ReportBug.ReportBug()
             self.error.show()   
+        
+    def configurator(self):
+        try:
+            from Tools import Configurator
+            self.newDialog = Configurator.Configurator()
+        except:
+            self.error = ReportBug.ReportBug()
+            self.error.show()    
         
     def plugins(self):
         try:
