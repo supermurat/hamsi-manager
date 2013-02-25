@@ -340,7 +340,8 @@ class InputOutputs:
       
     def listDir(_oldPath):
         names = []
-        if checkSource(_oldPath, "directory"):
+        _oldPath = checkSource(_oldPath, "directory")
+        if _oldPath is not None:
             try:names = os.listdir(Universals.trEncode(_oldPath, fileSystemEncoding))
             except:names = os.listdir(_oldPath)
             names.sort(key=trSort)
@@ -463,26 +464,36 @@ class InputOutputs:
                     return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
         return False
         
-    def checkSource(_oldPath, _objectType="fileAndDirectory"):
+    def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
+        _oldPath = getRealPath(str(_oldPath))
         if _objectType=="file" and isFile(_oldPath):
             return _oldPath
         elif _objectType=="directory" and isDir(_oldPath):
             return _oldPath
         elif _objectType=="fileAndDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
             return _oldPath
-        if _objectType=="file":
-            from Core import Dialogs
-            Dialogs.showError(translate("InputOutputs", "Cannot Find File"),
-                    str(translate("InputOutputs", "\"%s\" : cannot find a file with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
-        elif _objectType=="directory":
-            from Core import Dialogs
-            Dialogs.showError(translate("InputOutputs", "Cannot Find Directory"),
-                    str(translate("InputOutputs", "\"%s\" : cannot find a folder with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
-        else:
-            from Core import Dialogs
-            Dialogs.showError(translate("InputOutputs", "Cannot Find File Or Directory"),
-                    str(translate("InputOutputs", "\"%s\" : cannot find a file or directory with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
-        return False
+        if Variables.isWindows:
+            _oldPath = "\\\\?\\" + _oldPath # for wrong name such as "C:\Temp \test.txt", "C:\Temp\test.txt "
+            if _objectType=="file" and isFile(_oldPath):
+                return _oldPath
+            elif _objectType=="directory" and isDir(_oldPath):
+                return _oldPath
+            elif _objectType=="fileAndDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
+                return _oldPath
+        if _isShowAlert:
+            if _objectType=="file":
+                from Core import Dialogs
+                Dialogs.showError(translate("InputOutputs", "Cannot Find File"),
+                        str(translate("InputOutputs", "\"%s\" : cannot find a file with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+            elif _objectType=="directory":
+                from Core import Dialogs
+                Dialogs.showError(translate("InputOutputs", "Cannot Find Directory"),
+                        str(translate("InputOutputs", "\"%s\" : cannot find a folder with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+            else:
+                from Core import Dialogs
+                Dialogs.showError(translate("InputOutputs", "Cannot Find File Or Directory"),
+                        str(translate("InputOutputs", "\"%s\" : cannot find a file or directory with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+        return None
         
     def checkDestination(_oldPath, _newPath, _isQuiet=False):
         while isAvailableNameForEncoding(_newPath) == False:
@@ -796,7 +807,8 @@ class InputOutputs:
         return False
         
     def clearUnneededs(_path):
-        if checkSource(_path, "directory"):
+        _path = checkSource(_path, "directory")
+        if _path is not None:
             for f in Universals.getListValue("unneededFiles"):
                 try:
                     if isFile(joinPath(_path, str(f))):
@@ -821,7 +833,8 @@ class InputOutputs:
                         except:pass
                         
     def clearIgnoreds(_path):
-        if checkSource(_path, "directory"):
+        _path = checkSource(_path, "directory")
+        if _path is not None:
             for f in Universals.getListValue("ignoredFiles"):
                 try:
                     if isFile(joinPath(_path, str(f))):
@@ -859,7 +872,8 @@ class InputOutputs:
     def moveOrChange(_oldPath, _newPath, _objectType="file", _actionType="auto", _isQuiet=False):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         isChange=False
-        if checkSource(_oldPath, _objectType):
+        _oldPath = checkSource(_oldPath, _objectType)
+        if _oldPath is not None:
             isChange=True
             _newPath = checkDestination(_oldPath, _newPath, _isQuiet)
         if isChange==True and _newPath:
@@ -894,7 +908,8 @@ class InputOutputs:
     def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQuiet=False):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         isChange=False
-        if checkSource(_oldPath, _objectType):
+        _oldPath = checkSource(_oldPath, _objectType)
+        if _oldPath is not None:
             isChange=True
             _newPath = checkDestination(_oldPath, _newPath, _isQuiet)
         if isChange==True and _newPath:
@@ -1089,8 +1104,8 @@ class InputOutputs:
 
     def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
         from Core import Dialogs
-        if checkSource(_path, "directory"):
-            _path = str(_path)
+        _path = checkSource(_path, "directory")
+        if _path is not None:
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenPath"):
                 clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
             for f in Universals.getListValue("packagerUnneededFiles"):
@@ -1136,8 +1151,8 @@ class InputOutputs:
             
     def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
         from Core import Dialogs
-        if checkSource(_path, "directory"):
-            _path = str(_path)
+        _path = checkSource(_path, "directory")
+        if _path is not None:
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenClear"):
                 clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))
             for f in Universals.getListValue("cleanerUnneededFiles"):

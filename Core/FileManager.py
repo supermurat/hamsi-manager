@@ -212,9 +212,9 @@ class FileManager():
 
     def goTo(self, _path, _isRemember = True, _isOnlyBrowser = False):
         try:
-            _path = InputOutputs.getRealPath(str(_path))
-            if InputOutputs.isReadableFileOrDir(_path):
-                if InputOutputs.isDir(_path):
+            _path = InputOutputs.checkSource(str(_path), "directory")
+            if _path is not None:
+                if InputOutputs.isReadableFileOrDir(_path):
                     if _isRemember:
                         self.future = []
                         self.history.append(self.currentDirectory)
@@ -298,12 +298,16 @@ class FileManager():
             if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
                 self.goTo(_newDirectoryPath, False)
             else:
-                if InputOutputs.checkSource(str(self.currentDirectory), "directory")!=False:
-                    self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
-                    if _isOnlyBrowser==False:
-                        self.showInTable()
+                sourcePath = InputOutputs.checkSource(str(self.currentDirectory), "directory")
+                if sourcePath is not None:
+                    if self.currentDirectory != trForM(sourcePath):
+                        self.goTo(sourcePath, False)
+                    else:
+                        self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
+                        if _isOnlyBrowser==False:
+                            self.showInTable()
                 else:
-                    self.goTo(InputOutputs.getRealDirName(str(self.currentDirectory)), False, _isOnlyBrowser)
+                    self.goTo(InputOutputs.getRealDirName(str(self.currentDirectory)), False)
         except:
             error = ReportBug.ReportBug()
             error.show()
