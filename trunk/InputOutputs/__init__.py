@@ -465,7 +465,7 @@ class InputOutputs:
         return False
         
     def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
-        _oldPath = getRealPath(str(_oldPath))
+        _oldPath = str(_oldPath)
         if _objectType=="file" and isFile(_oldPath):
             return _oldPath
         elif _objectType=="directory" and isDir(_oldPath):
@@ -474,6 +474,15 @@ class InputOutputs:
             return _oldPath
         if Variables.isWindows:
             _oldPath = "\\\\?\\" + _oldPath # for wrong name such as "C:\Temp \test.txt", "C:\Temp\test.txt "
+            if _objectType=="file" and isFile(_oldPath):
+                return _oldPath
+            elif _objectType=="directory" and isDir(_oldPath):
+                return _oldPath
+            elif _objectType=="fileAndDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
+                return _oldPath
+        _rPath = getRealPath(str(_oldPath))
+        if _rPath!=_oldPath:
+            _oldPath = _rPath
             if _objectType=="file" and isFile(_oldPath):
                 return _oldPath
             elif _objectType=="directory" and isDir(_oldPath):
