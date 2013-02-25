@@ -167,7 +167,8 @@ class Searcher(MyDialog):
                     if pathToSearch in self.sourceToSearchCache and _isLoadFromCache:
                         sourceToSearch += self.sourceToSearchCache[pathToSearch]
                     else:
-                        if InputOutputs.checkSource(pathToSearch):
+                        pathToSearch = InputOutputs.checkSource(pathToSearch)
+                        if pathToSearch is not None:
                             if InputOutputs.isReadableFileOrDir(pathToSearch):
                                 if InputOutputs.isFile(pathToSearch):
                                     sts = InputOutputs.readFromFile(pathToSearch) + "\n"

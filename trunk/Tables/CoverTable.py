@@ -108,7 +108,8 @@ class CoverTable():
                         if (str(self.Table.item(rowNo,2).text())!=sourcePath or sourcePath!=destinationPath or str(self.Table.item(rowNo,2).text())!=destinationPath) or (str(self.Table.item(rowNo,2).text())!=self.Table.currentTableContentValues[rowNo]["currentCover"] and (str(self.Table.item(rowNo,2).text())!=sourcePath and str(self.Table.item(rowNo,2).text())!=destinationPath)):
                             if str(self.Table.item(rowNo,3).text()).strip()!="":
                                 sourcePath = InputOutputs.getRealPath(sourcePath, self.Table.currentTableContentValues[rowNo]["path"])
-                                if InputOutputs.checkSource(sourcePath, "file"):
+                                sourcePath = InputOutputs.checkSource(sourcePath, "file")
+                                if sourcePath is not None:
                                     if destinationPath!="":
                                         destinationPath = InputOutputs.getRealPath(destinationPath, self.Table.currentTableContentValues[rowNo]["path"])
                                         if sourcePath!=destinationPath:

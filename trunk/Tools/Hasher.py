@@ -130,7 +130,8 @@ class Hasher(MyDialog):
     
     def hash(self):
         sourceFile = str(self.lePathOfPackage.text())
-        if InputOutputs.checkSource(sourceFile, "file"):
+        sourceFile = InputOutputs.checkSource(sourceFile, "file")
+        if sourceFile is not None:
             hashType = str(self.cbHash.currentText())
             if hashType!=None:
                 hashDigestContent = InputOutputs.getHashDigest(sourceFile, hashType)

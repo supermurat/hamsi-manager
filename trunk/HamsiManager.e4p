@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2013-01-12, 23:30:46 -->
+<!-- Saved: 2013-02-25, 23:42:38 -->
 <!-- Copyright (C) 2013 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -16,7 +16,6 @@
   <Sources>
     <Source>HamsiManager.py</Source>
     <Source>install.py</Source>
-    <Source>ConfigureUpdate.py</Source>
     <Source>HamsiManager.desktop</Source>
     <Source>SearchEngines/__init__.py</Source>
     <Source>InputOutputs/Musics.py</Source>
@@ -59,7 +58,6 @@
     <Source>Core/Dialogs.py</Source>
     <Source>Core/Organizer.py</Source>
     <Source>Core/__init__.py</Source>
-    <Source>Reconfigure.py</Source>
     <Source>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/main.js</Source>
     <Source>MyPlugins/InTheAmarok/HamsiManagerInTheAmarok/script.spec</Source>
     <Source>Tables/CoverTable.py</Source>
@@ -69,7 +67,6 @@
     <Source>Viewers/MusicPlayer.py</Source>
     <Source>Viewers/ImageViewer.py</Source>
     <Source>Amarok/__init__.py</Source>
-    <Source>test.py</Source>
     <Source>Amarok/Commands.py</Source>
     <Source>Core/Variables.py</Source>
     <Source>Tools/Packager.py</Source>
@@ -85,7 +82,6 @@
     <Source>SearchEngines/MusicBrainzEngine.py</Source>
     <Source>Taggers/__init__.py</Source>
     <Source>Taggers/EyeD3Tagger.py</Source>
-    <Source>test2.py</Source>
     <Source>setup.py</Source>
     <Source>Tables/AmarokCoverTable.py</Source>
     <Source>Tables/AmarokMusicTable.py</Source>
@@ -102,11 +98,11 @@
     <Source>Options/OptionsFormContent.py</Source>
     <Source>Details/HtmlDetails.py</Source>
     <Source>Tables/AmarokArtistTable.py</Source>
-    <Source>setup2.py</Source>
     <Source>MyPlugins/Explorer_CM/__init__.py</Source>
     <Source>Core/RecordsForm.py</Source>
     <Source>Tools/ScriptManager.py</Source>
     <Source>Core/Scripts.py</Source>
+    <Source>Tools/Configurator.py</Source>
   </Sources>
   <Forms>
   </Forms>
