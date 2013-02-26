@@ -29,32 +29,33 @@ class Details():
     
     def __init__(self,_filePath, _isOpenDetailsOnNewWindow):
         try:
-            if InputOutputs.isFile(_filePath):
+            _path = InputOutputs.checkSource(_filePath, "file")
+            if _path is not None:
                 isOpened = False
-                type = mimetypes.guess_type(_filePath)
+                type = mimetypes.guess_type(_path)
                 if type[0] != None:
                     if type[0].split("/")[0] == "text":
                         from Details import TextDetails
-                        TextDetails.TextDetails(_filePath,_isOpenDetailsOnNewWindow)
+                        TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
                         isOpened = True
                     elif type[0].split("/")[0] == "audio":
                         import Taggers
                         if Taggers.getTagger(True)!=None:
                             from Details import MusicDetails
-                            MusicDetails.MusicDetails(_filePath,_isOpenDetailsOnNewWindow)
+                            MusicDetails.MusicDetails(_path,_isOpenDetailsOnNewWindow)
                             isOpened = True
                     elif type[0].split("/")[0] == "image":
                         from Details import ImageDetails
-                        ImageDetails.ImageDetails(_filePath, "file", _isOpenDetailsOnNewWindow)    
+                        ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)    
                         isOpened = True  
                 else:
-                    if InputOutputs.isBinary(_filePath)==false:
+                    if InputOutputs.isBinary(_path)==false:
                         from Details import TextDetails
-                        TextDetails.TextDetails(_filePath,_isOpenDetailsOnNewWindow)
+                        TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
                         isOpened = True
                 if isOpened == False:
                     Dialogs.showError(translate("Details", "File Is Not Supported"), 
-                             str(translate("Details", "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(str(_filePath)))
+                             str(translate("Details", "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(str(_path)))
             elif InputOutputs.isDir(_filePath):
                 Dialogs.showError(translate("Details", "Directories Is Not Supported"), 
                              str(translate("Details", "\"%s\" couldn't opened. Directories is not supported to show details.")) % Organizer.getLink(str(_filePath)))

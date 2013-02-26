@@ -157,7 +157,8 @@ class MusicPlayer(MWidget):
                 _filePath = self.file
             else:
                 self.file = _filePath
-            if InputOutputs.isFile(_filePath):
+            _filePath = InputOutputs.checkSource(_filePath, "file")
+            if _filePath is not None:
                 import Taggers
                 if Taggers.getTagger(True)!=None:
                     self.musicTags = Musics.readMusicFile(_filePath, False)
