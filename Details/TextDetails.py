@@ -31,7 +31,8 @@ class TextDetails(MDialog):
     
     def __init__(self,_filePath,_isOpenDetailsOnNewWindow):
         global textDialogs
-        if InputOutputs.isFile(_filePath):
+        _filePath = InputOutputs.checkSource(_filePath, "file")
+        if _filePath is not None:
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
                 for dialog in textDialogs:
