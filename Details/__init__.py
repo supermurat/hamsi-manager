@@ -47,9 +47,13 @@ class Details():
                     elif type[0].split("/")[0] == "image":
                         from Details import ImageDetails
                         ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)    
-                        isOpened = True  
+                        isOpened = True
+                    elif InputOutputs.isBinary(_path)==False:
+                        from Details import TextDetails
+                        TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
+                        isOpened = True
                 else:
-                    if InputOutputs.isBinary(_path)==false:
+                    if InputOutputs.isBinary(_path)==False:
                         from Details import TextDetails
                         TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
                         isOpened = True
