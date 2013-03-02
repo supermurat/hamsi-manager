@@ -25,6 +25,7 @@ import InputOutputs
 from Core import Organizer
 from Core.MyObjects import *
 from Core import ReportBug
+from Options import TableQuickOptions
 
 class Tables(MTableWidget):
     global checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, exportValues, askHiddenColumn, isAskIncorrectFileExtension
@@ -49,22 +50,13 @@ class Tables(MTableWidget):
         self.pbtnSave.setObjectName("pbtnSave")
         self.pbtnSave.setIcon(MIcon("Images:save.png"))
         self.pbtnShowDetails = MPushButton(translate("Tables", "See Details"))
+        self.pbtnTableQuickOptions = MPushButton(translate("Tables", "Options"))
+        self.mTableQuickOptions = TableQuickOptions.TableQuickOptions(self)
+        self.pbtnTableQuickOptions.setMenu(self.mTableQuickOptions)
         self.tbCorrect = MToolButton()
         self.tbCorrect.setToolTip(translate("Tables", "Re Correct"))
         self.tbCorrect.setIcon(MIcon("Images:correct.png"))
         self.tbCorrect.setAutoRaise(True)
-        self.tbIsRunOnDoubleClick = MToolButton()
-        self.tbIsRunOnDoubleClick.setToolTip(translate("Tables", "Show Details Upon Double Click"))
-        self.tbIsRunOnDoubleClick.setIcon(MIcon("Images:runOnDoubleClick.png"))
-        self.tbIsRunOnDoubleClick.setCheckable(True)
-        self.tbIsRunOnDoubleClick.setAutoRaise(True)
-        self.isOpenDetailsOnNewWindow = MToolButton()
-        self.isOpenDetailsOnNewWindow.setToolTip(translate("Tables", "Show Details In New Window"))
-        self.isOpenDetailsOnNewWindow.setIcon(MIcon("Images:openDetailsOnNewWindow.png"))
-        self.isOpenDetailsOnNewWindow.setCheckable(True)
-        self.isOpenDetailsOnNewWindow.setAutoRaise(True)
-        self.tbIsRunOnDoubleClick.setChecked(Universals.getBoolValue("isRunOnDoubleClick"))
-        self.isOpenDetailsOnNewWindow.setChecked(Universals.getBoolValue("isOpenDetailsInNewWindow"))
         MObject.connect(self.pbtnShowDetails, SIGNAL("clicked()"), self.showDetails)
         self.actRefresh = MToolButton()
         self.actRefresh.setToolTip(translate("Tables", "Refresh"))
@@ -91,12 +83,11 @@ class Tables(MTableWidget):
         _parent.MainLayout.addWidget(self, 10)
         self.mContextMenu = MMenu(self)
         self.hblBox = MHBoxLayout()
+        self.hblBox.addWidget(self.pbtnTableQuickOptions)
         self.hblBox.addWidget(self.actRefresh)
         self.hblBox.addWidget(self.tbGoBack)
         self.hblBox.addWidget(self.tbCreateHistoryPoint)
         self.hblBox.addWidget(self.tbGoForward)
-        self.hblBox.addWidget(self.tbIsRunOnDoubleClick)
-        self.hblBox.addWidget(self.isOpenDetailsOnNewWindow)
         self.hblBox.addWidget(self.tbCorrect)
         self.hblBox.addWidget(self.pbtnShowDetails, 1)
         self.hblBox.addWidget(self.pbtnSave, 2)
@@ -122,6 +113,7 @@ class Tables(MTableWidget):
         for actName in self.mContextMenuOpenWithNames:
             self.mContextMenuOpenWith.addAction(actName).setObjectName(actName)
         self.mContextMenu.addMenu(self.mContextMenuColumns)
+        self.mContextMenu.addAction(translate("Tables", "Open Details")).setObjectName(translate("Tables", "Open Details"))
         self.mContextMenu.addMenu(self.mContextMenuOpenWith)
         self.checkActionsStates()
     
@@ -290,6 +282,8 @@ class Tables(MTableWidget):
                         self.createHistoryPoint()
                         for rowNo in self.getSelectedRows():
                             self.hideRow(rowNo)
+                    elif selectedItem.objectName()==translate("Tables", "Open Details"):
+                        self.showDetails()
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         from Core import Execute
                         Execute.openWith([InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
@@ -673,14 +667,15 @@ class Tables(MTableWidget):
         elif _actionType=="clipboard":
             MApplication.clipboard().setText(trForUI(info))
             
+
+            
+            
 class MyTableWidgetItem(MTableWidgetItem):
     
     def __init__(self, _value):
         MTableWidgetItem.__init__(self, trForUI(_value))
         self.currentText = trForUI(_value)
         self.isNeverChange = False
-                
-    
-    
-    
-    
+
+
+

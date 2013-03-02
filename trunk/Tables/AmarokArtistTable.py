@@ -100,8 +100,7 @@ class AmarokArtistTable():
         return True
         
     def showDetails(self, _fileNo, _infoNo):
-        AmarokArtistDetails.AmarokArtistDetails(self.Table.currentTableContentValues[_fileNo]["id"],
-                                      self.Table.isOpenDetailsOnNewWindow.isChecked())
+        AmarokArtistDetails.AmarokArtistDetails(self.Table.currentTableContentValues[_fileNo]["id"], Universals.getBoolValue("isOpenDetailsInNewWindow"))
     
     def cellClicked(self,_row,_column):
         cellLenght = len(self.Table.currentItem().text())*8
@@ -109,7 +108,7 @@ class AmarokArtistTable():
             self.Table.setColumnWidth(_column,cellLenght)
         
     def cellDoubleClicked(self,_row,_column):
-        if self.Table.tbIsRunOnDoubleClick.isChecked()==True:
+        if Universals.getBoolValue("isRunOnDoubleClick"):
             self.showDetails(_row, _column)
        
     def refreshColumns(self):

@@ -163,7 +163,7 @@ class CoverTable():
                        InputOutputs.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover), 
                        InputOutputs.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover), 
                        InputOutputs.getRealPath(str(self.Table.item(_fileNo, 4).text()), directoryPathOfCover)]
-        CoverDetails.CoverDetails(coverValues, self.Table.isOpenDetailsOnNewWindow.isChecked(), _infoNo)
+        CoverDetails.CoverDetails(coverValues, Universals.getBoolValue("isOpenDetailsInNewWindow"), _infoNo)
         
     def cellClicked(self,_row,_column):
         cellLenght = len(self.Table.currentItem().text())*8
@@ -172,7 +172,7 @@ class CoverTable():
     
     def cellDoubleClicked(self,_row,_column):
         try:
-            if self.Table.tbIsRunOnDoubleClick.isChecked()==True:
+            if Universals.getBoolValue("isRunOnDoubleClick"):
                 self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("CoverTable", "Cannot Open File"), 

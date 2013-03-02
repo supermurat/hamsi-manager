@@ -219,8 +219,7 @@ class AmarokMusicTable():
         return True
         
     def showDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"],
-                                      self.Table.isOpenDetailsOnNewWindow.isChecked(), self.isPlayNow.isChecked())
+        MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"], Universals.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
     
     def cellClicked(self,_row,_column):
         cellLenght = len(self.Table.currentItem().text())*8
@@ -237,7 +236,7 @@ class AmarokMusicTable():
             if _column==8 or _column==9:
                 self.showDetails(_row, _column)
             else:
-                if self.Table.tbIsRunOnDoubleClick.isChecked()==True:
+                if Universals.getBoolValue("isRunOnDoubleClick"):
                     self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("AmarokMusicTable", "Cannot Open Music File"), 

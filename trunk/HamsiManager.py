@@ -275,8 +275,6 @@ if RoutineChecks.checkMandatoryModules():
                                 Universals.setMySetting("isMainWindowMaximized",self.isMaximized())
                                 Universals.setMySetting("isShowAdvancedSelections",self.SpecialTools.isShowAdvancedSelections)
                                 if Universals.tableType==2:
-                                    Universals.setMySetting("isRunOnDoubleClick",self.Table.tbIsRunOnDoubleClick.isChecked())
-                                    Universals.setMySetting("isOpenDetailsInNewWindow",self.Table.isOpenDetailsOnNewWindow.isChecked())
                                     Universals.setMySetting("isPlayNow",self.Table.SubTable.isPlayNow.isChecked())
                                 Universals.setMySetting("isChangeSelected",Universals.isChangeSelected)
                                 Universals.setMySetting("isChangeAll",Universals.isChangeAll)
