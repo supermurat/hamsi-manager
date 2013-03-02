@@ -50,13 +50,13 @@ class Packager(MyDialog):
                                     1, "PackagerPackageType", self.packageTypeChanged)
         self.cbHash = Options.MyComboBox(self, [translate("Packager", "No Hash")] + Variables.getHashTypes(), 0, "PackagerHash", self.hashChanged)
         self.cbHashOutput = Options.MyComboBox(self, [translate("Packager", "File"), translate("Packager", "Clipboard")], 0, "PackagerHashOutput", self.hashOutputChanged)
-        self.leHashDigestFile = MLineEdit(trForM(_directory))
+        self.leHashDigestFile = MLineEdit(trForUI(_directory))
         self.pbtnClearAndPack = MPushButton(translate("Packager", "Clear And Pack"))
         self.pbtnClear = MPushButton(translate("Packager", "Clear"))
         self.pbtnPack = MPushButton(translate("Packager", "Pack"))
         self.pbtnClose = MPushButton(translate("Packager", "Close"))
-        self.lePathOfProject = MLineEdit(trForM(_directory))
-        self.lePathOfPackage = MLineEdit(trForM(_directory))
+        self.lePathOfProject = MLineEdit(trForUI(_directory))
+        self.lePathOfPackage = MLineEdit(trForUI(_directory))
         self.pbtnClearAndPack.setToolTip(translate("Packager", "Do not will cleared directory you selected but unnecessary files and directories package will not."))
         self.pbtnClear.setToolTip(translate("Packager", "Directory you selected will is cleared"))
         self.pbtnPack.setToolTip(translate("Packager", "Directory you selected will is packed. (Do not will Cleared)"))
@@ -183,7 +183,7 @@ class Packager(MyDialog):
             else:
                 hashDigestContent = InputOutputs.getHashDigest(str(self.lePathOfPackage.text()), hashType)
                 if hashDigestContent!=False:
-                    MApplication.clipboard().setText(trForM(hashDigestContent))
+                    MApplication.clipboard().setText(trForUI(hashDigestContent))
                     Dialogs.show(translate("Packager", "Hash Digest Copied To Clipboard"),
                                 str(translate("Packager", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:
@@ -253,10 +253,9 @@ class Packager(MyDialog):
     def selectProjectPath(self):
         try:
             self.cbPackageType.setEnabled(True)
-            ProjectPath = QFileDialog.getExistingDirectory(self,
-                            translate("Packager", "Please Select Project Folder"),self.lePathOfProject.text())
-            if ProjectPath!="":
-                self.lePathOfProject.setText(ProjectPath)  
+            ProjectPath = Dialogs.getExistingDirectory(translate("Packager", "Please Select Project Folder"),self.lePathOfProject.text())
+            if ProjectPath is not None:
+                self.lePathOfProject.setText(trForUI(ProjectPath))  
             self.packageTypeChanged()
         except:
             from Core import ReportBug
@@ -290,11 +289,10 @@ class Packager(MyDialog):
                 packageExtension = self.cbPackageType.currentText()
             else:
                 packageExtension = ".tar"   
-            PathOfPackage = QFileDialog.getSaveFileName(self,
-                        translate("Packager", "Please Select The Pack To Be Created"),self.lePathOfPackage.text(),
+            PathOfPackage = Dialogs.getSaveFileName(translate("Packager", "Please Select The Pack To Be Created"),self.lePathOfPackage.text(),
                         str(translate("Packager", "Archive Files (*%s)")) % (packageExtension))
-            if PathOfPackage!="":
-                self.lePathOfPackage.setText(PathOfPackage)    
+            if PathOfPackage is not None:
+                self.lePathOfPackage.setText(trForUI(PathOfPackage))    
         except:
             from Core import ReportBug
             error = ReportBug.ReportBug()

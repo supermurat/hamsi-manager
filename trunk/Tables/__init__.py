@@ -585,7 +585,7 @@ class Tables(MTableWidget):
             info +="</tr> \n"
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.isRowHidden(rowNo)==False:
-                    info +=" \n<tr> \n<td>" + str (rowNo) + "</td> \n"
+                    info +=" \n<tr> \n<td>" + str (rowNo + 1) + "</td> \n"
                     for columnNo in range(Universals.MainWindow.Table.columnCount()):
                         if Universals.MainWindow.Table.isColumnHidden(columnNo)==False:
                             info +="<td>"
@@ -605,7 +605,7 @@ class Tables(MTableWidget):
                     info +="\t"
             info +="\n"
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                info += str(rowNo)+"\t"
+                info += str(rowNo + 1)+"\t"
                 if Universals.MainWindow.Table.isRowHidden(rowNo)==False:
                     for columnNo in range(Universals.MainWindow.Table.columnCount()):
                         if Universals.MainWindow.Table.isColumnHidden(columnNo)==False:
@@ -628,10 +628,9 @@ class Tables(MTableWidget):
             elif _formatType=="plainText":
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
-            filePath = QFileDialog.getSaveFileName(Universals.MainWindow.Table.parent(),translate("Tables", "Save As"),
-                                    trForM(Variables.userDirectoryPath),trForUI(formatTypeName+" (*."+fileExt+")"))
-            if filePath!="":
-                filePath = str(filePath)
+            filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
+                                    Variables.userDirectoryPath, formatTypeName+" (*."+fileExt+")")
+            if filePath is not None:
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
                 elif _formatType=="plainText" and filePath[-4:]!=".txt":

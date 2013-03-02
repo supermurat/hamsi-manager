@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 from Core import Variables
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForM, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, isChangeAll, isChangeSelected, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -90,7 +90,7 @@ class Universals():
             try:return _s.decode("utf-8")
             except: return _s
             
-    def trForM(_s):
+    def trForUI(_s):
         return str(_s)
         
     def trStr(_s):
@@ -152,7 +152,7 @@ class Universals():
     def trQVariant(_s):
         if Variables.isPython3k:
             return _s
-        return Variables.MQtCore.QVariant(_s)
+        return Variables.MQtCore.QVariant(trForUI(_s))
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActiveKDE4=None):
         global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType, isChangeAll, isChangeSelected
@@ -163,12 +163,12 @@ class Universals():
         defaultValues = Variables.getDefaultValues()
         valueTypesAndValues = Variables.getValueTypesAndValues()
         for keyValue in Variables.keysOfSettings:
-            value = trStr(sets.value(keyValue, trQVariant(trForM(defaultValues[keyValue]))))
+            value = trStr(sets.value(keyValue, trQVariant(defaultValues[keyValue])))
             if keyValue not in MySettings.keys() or _setAgain:
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
         for keyValue in sets.allKeys():
             keyValue = str(keyValue)
-            value = trStr(sets.value(keyValue, trQVariant(trForM(""))))
+            value = trStr(sets.value(keyValue, trQVariant("")))
             if keyValue not in MySettings.keys():
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, "", "str"))
         newSettingVersion = str(MySettings["settingsVersion"])
@@ -228,7 +228,7 @@ class Universals():
         except:
             from Core import Settings
             sets = Settings.setting()
-            MySettings[_key] = str(trStr(sets.value(_key, trQVariant(trForM(_defaultValue)))))
+            MySettings[_key] = str(trStr(sets.value(_key, trQVariant(_defaultValue))))
             if _valueList != None:
                 if MySettings[_key] in _valueList:
                     return MySettings[_key]
@@ -266,7 +266,7 @@ class Universals():
         else:
             keys = [_key]
         for value in keys:
-            sets.setValue(value,trQVariant(trForM(MySettings[value])))
+            sets.setValue(value,trQVariant(MySettings[value]))
 
     def activeWindow():
         from Core.MyObjects import MApplication

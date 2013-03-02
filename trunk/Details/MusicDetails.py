@@ -149,14 +149,18 @@ class MusicDetails(MDialog):
         MObject.connect(self.lstwImages, SIGNAL("doubleClicked(QModelIndex)"),self.openImageDetails)
         self.lstwImages.clear()
         for image in self.musicValues["images"]:
-            pixmImage = MPixmap()
-            pixmImage.loadFromData(image[3])
-            icnImage = QIcon(pixmImage)
-            icnImage.actualSize(MSize(98,98))
-            item = MListWidgetItem(icnImage,image[1]+"\n("+image[2]+")")
-            item.setSizeHint(MSize(1,100))
-            self.lstwImages.addItem(item)
-        
+            try:
+                if len(image)==4:
+                    pixmImage = MPixmap()
+                    pixmImage.loadFromData(image[3])
+                    icnImage = QIcon(pixmImage)
+                    icnImage.actualSize(MSize(98,98))
+                    item = MListWidgetItem(icnImage, image[1] + "\n(" + image[2] + ")")
+                    item.setSizeHint(MSize(1,100))
+                    self.lstwImages.addItem(item)
+            except:
+                error = ReportBug.ReportBug()
+                error.show()  
         HBOXs = []
         HBOXs.append(MHBoxLayout())
         HBOXs[-1].addWidget(self.infoLabels["baseNameOfDirectory"])
@@ -276,64 +280,76 @@ class MusicDetails(MDialog):
             error.show()  
         
     def addImage(self):
-        if self.isActiveAddImage==False:
-            self.isActiveAddImage=True
-            self.pbtnAddImage.setText(translate("MusicDetails", "OK"))
-            self.pbtnSelectImage.show()
-            self.leImagePath.show()
-            self.lblImagePath.show()
-            self.lblImageType.show()
-            self.cbImageType.show()
-            self.pbtnCancelAddImage.show()
-            self.pbtnDeleteImage.hide()
-            self.pbtnSaveAsImage.hide()
-        else:
-            if InputOutputs.isFile(self.leImagePath.text())==True:
-                closeAllImageDialogs()
-                Musics.writeMusicFile(self.musicValues,False,True,self.cbImageType.currentIndex(),str(str(self.leImagePath.text())))
-                self.changeFile(self.musicFile)
-                self.cancelAddImage()
+        try:
+            if self.isActiveAddImage==False:
+                self.isActiveAddImage=True
+                self.pbtnAddImage.setText(translate("MusicDetails", "OK"))
+                self.pbtnSelectImage.show()
+                self.leImagePath.show()
+                self.lblImagePath.show()
+                self.lblImageType.show()
+                self.cbImageType.show()
+                self.pbtnCancelAddImage.show()
+                self.pbtnDeleteImage.hide()
+                self.pbtnSaveAsImage.hide()
             else:
-                Dialogs.showError(translate("MusicDetails", "Image Does Not Exist"),
-                    str(translate("MusicDetails", "\"%s\" does not exist.")
-                        ) % Organizer.getLink(trForUI(self.leImagePath.text())))
+                if InputOutputs.isFile(self.leImagePath.text())==True:
+                    closeAllImageDialogs()
+                    Musics.writeMusicFile(self.musicValues,False,True,self.cbImageType.currentIndex(),str(self.leImagePath.text()))
+                    self.changeFile(self.musicFile)
+                    self.cancelAddImage()
+                else:
+                    Dialogs.showError(translate("MusicDetails", "Image Does Not Exist"),
+                        str(translate("MusicDetails", "\"%s\" does not exist.")
+                            ) % Organizer.getLink(trForUI(self.leImagePath.text())))
+        except:
+            error = ReportBug.ReportBug()
+            error.show()  
     
     def deleteImage(self):
-        if self.lstwImages.currentRow()!=-1:
-            closeAllImageDialogs()
-            Musics.writeMusicFile(self.musicValues,False,True,self.musicValues["images"][self.lstwImages.currentRow()][0],False)
-            self.changeFile(self.musicFile)
+        try:
+            if self.lstwImages.currentRow()!=-1:
+                closeAllImageDialogs()
+                Musics.writeMusicFile(self.musicValues,False,True,self.musicValues["images"][self.lstwImages.currentRow()][0],False)
+                self.changeFile(self.musicFile)
+        except:
+            error = ReportBug.ReportBug()
+            error.show()  
     
     def saveAsImage(self):
         try:
             if self.lstwImages.currentRow()!=-1:
-                imagePath = QFileDialog.getSaveFileName(self,translate("MusicDetails", "Save As"),
-                                    InputOutputs.getDirName(self.musicValues["path"]), trForUI(str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1])))
-                if imagePath!="":
+                imagePath = Dialogs.getSaveFileName(translate("MusicDetails", "Save As"),
+                                    InputOutputs.getDirName(self.musicValues["path"]), str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1]))
+                if imagePath is not None:
                     sourceFile = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1])
                     InputOutputs.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
-                    InputOutputs.moveOrChange(sourceFile, str(imagePath))
+                    InputOutputs.moveOrChange(sourceFile, imagePath)
         except:
             error = ReportBug.ReportBug()
             error.show()  
             
     def cancelAddImage(self):
-        self.isActiveAddImage=False
-        self.pbtnAddImage.setText(translate("MusicDetails", "Append"))
-        self.pbtnSelectImage.hide()
-        self.leImagePath.hide()
-        self.lblImagePath.hide()
-        self.lblImageType.hide()
-        self.cbImageType.hide()
-        self.pbtnCancelAddImage.hide()
-        self.pbtnDeleteImage.show()
-        self.pbtnSaveAsImage.show()
+        try:
+            self.isActiveAddImage=False
+            self.pbtnAddImage.setText(translate("MusicDetails", "Append"))
+            self.pbtnSelectImage.hide()
+            self.leImagePath.hide()
+            self.lblImagePath.hide()
+            self.lblImageType.hide()
+            self.cbImageType.hide()
+            self.pbtnCancelAddImage.hide()
+            self.pbtnDeleteImage.show()
+            self.pbtnSaveAsImage.show()
+        except:
+            error = ReportBug.ReportBug()
+            error.show()  
         
     def selectImage(self):
         try:
-            imagePath = QFileDialog.getOpenFileName(self,translate("MusicDetails", "Choose Image"),
-                InputOutputs.getDirName(self.musicValues["path"]),trForUI(str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG))
-            if imagePath!="":
+            imagePath = Dialogs.getOpenFileName(translate("MusicDetails", "Choose Image"),
+                InputOutputs.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG)
+            if imagePath is not None:
                 self.leImagePath.setText(imagePath)
         except:
             error = ReportBug.ReportBug()

@@ -537,12 +537,11 @@ class InputOutputs:
                             if answer==translate("Dialogs", "Replace"): 
                                 removeFile(_newPath)
                                 return _newPath
-                            elif answer==translate("Dialogs", "Rename"): 
-                                from Core.MyObjects import QFileDialog, trForM, trForUI
-                                newPath = QFileDialog.getSaveFileName(Universals.MainWindow, translate("InputOutputs", "Select A New Name For File"),
-                                                        trForM(_newPath),trForUI(translate("InputOutputs", "All Files") + " (*)"))
-                                if newPath!="":
-                                    return checkDestination(_oldPath, str(newPath), _isQuiet)
+                            elif answer==translate("Dialogs", "Rename"):
+                                newPath = Dialogs.getSaveFileName(translate("InputOutputs", "Select A New Name For File"),
+                                                        _newPath, translate("InputOutputs", "All Files") + " (*)")
+                                if newPath is not None:
+                                    return checkDestination(_oldPath, newPath, _isQuiet)
                                 return False
                             else:
                                 return False
@@ -556,12 +555,11 @@ class InputOutputs:
                                 translate("Dialogs", "Cancel"))
                             if answer==translate("Dialogs", "Yes, Add Into"): 
                                 return joinPath(_newPath, getBaseName(_newPath))
-                            elif answer==translate("Dialogs", "Rename"): 
-                                from Core.MyObjects import QFileDialog, trForM, trForUI
-                                newPath = QFileDialog.getSaveFileName(Universals.MainWindow, translate("InputOutputs", "Select A New Name For File"),
-                                                        trForM(_newPath),trForUI(translate("InputOutputs", "All Files") + " (*)"))
-                                if newPath!="":
-                                    return checkDestination(_oldPath, str(newPath), _isQuiet)
+                            elif answer==translate("Dialogs", "Rename"):
+                                newPath = Dialogs.getSaveFileName(translate("InputOutputs", "Select A New Name For File"),
+                                                        _newPath, translate("InputOutputs", "All Files") + " (*)")
+                                if newPath is not None:
+                                    return checkDestination(_oldPath, newPath, _isQuiet)
                                 return False
                             else:
                                 return False
@@ -585,12 +583,10 @@ class InputOutputs:
                                     if answer==translate("Dialogs", "Yes, Add Into"):
                                         appendingDirectories.append(_newPath)
                                         return _newPath
-                                    elif answer==translate("Dialogs", "Rename"): 
-                                        from Core.MyObjects import QFileDialog, trForM, trForUI
-                                        newPath = QFileDialog.getExistingDirectory(Universals.MainWindow, translate("InputOutputs", "Select A Directory"),
-                                                trForM(_newPath))
-                                        if newPath!="":
-                                            return checkDestination(_oldPath, str(newPath), _isQuiet)
+                                    elif answer==translate("Dialogs", "Rename"):
+                                        newPath = Dialogs.getExistingDirectory(translate("InputOutputs", "Select A Directory"), _newPath)
+                                        if newPath is not None:
+                                            return checkDestination(_oldPath, newPath, _isQuiet)
                                         return False
                                     else:
                                         return False
@@ -1253,7 +1249,7 @@ class InputOutputs:
             
     def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):   
         from Core import Organizer
-        from Core.MyObjects import trForUI, trForM
+        from Core.MyObjects import trForUI
         _path = str(_path)
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True, False, Universals.getBoolValue("isShowHiddensInFileTree"))
         info = ""
@@ -1391,7 +1387,6 @@ class InputOutputs:
         if _outputTarget=="return":
             return info
         elif _outputTarget=="file":
-            from Core.MyObjects import QFileDialog
             from Core import Dialogs
             if _outputType=="html":
                 if _extInfo!="no":
@@ -1406,10 +1401,10 @@ class InputOutputs:
             elif _outputType=="plainText":
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
-            filePath = QFileDialog.getSaveFileName(Universals.MainWindow,translate("Tables", "Save As"),
-                                    trForM(joinPath(Variables.userDirectoryPath, getBaseName(_path) + "." + fileExt)),trForUI(formatTypeName+" (*."+fileExt+")"))
-            if filePath!="":
-                filePath = str(filePath)
+            filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
+                                               joinPath(Variables.userDirectoryPath, getBaseName(_path) + "." + fileExt),
+                                               formatTypeName + " (*."+fileExt+")")
+            if filePath is not None:
                 if _outputType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
                 elif _outputType=="plainText" and filePath[-4:]!=".txt":

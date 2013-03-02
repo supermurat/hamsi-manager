@@ -130,15 +130,15 @@ class CoverDetails(MDialog):
         self.wDestination.changeCoverValues(str(self.lePathOfDestination.text()))
         
     def sourceClicked(self):
-        imagePath = QFileDialog.getOpenFileName(self,translate("ImageDetails", "Choose Image"),
-                                    self.lePathOfSource.text(),trForUI(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")))
-        if imagePath!="":
+        imagePath = Dialogs.getOpenFileName(translate("ImageDetails", "Choose Image"),
+                                    self.lePathOfSource.text(),str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *."))
+        if imagePath is not None:
             self.lePathOfSource.setText(imagePath)
         
     def destinationClicked(self):
-        imagePath = QFileDialog.getSaveFileName(self,translate("ImageDetails", "Save As"),
-                                    self.lePathOfDestination.text(),trForUI(str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")))
-        if imagePath!="":
+        imagePath = Dialogs.getSaveFileName(translate("ImageDetails", "Save As"),
+                                    self.lePathOfDestination.text(),str(translate("ImageDetails", "Images (*.%s)") % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")))
+        if imagePath is not None:
             self.lePathOfDestination.setText(imagePath)
         
     def closeAllCoverDialogs():

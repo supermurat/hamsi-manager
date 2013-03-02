@@ -45,7 +45,7 @@ class Searcher(MyDialog):
         self.tmrSearchAfter = None
         lblPleaseSelect = MLabel(translate("Searcher", "Directory Or File : "))
         self.pbtnClose = MPushButton(translate("Searcher", "Close"))
-        self.lePathToSeach = MLineEdit(trForM(Universals.getStringFromList(_directory, ";")))
+        self.lePathToSeach = MLineEdit(trForUI(Universals.getStringFromList(_directory, ";")))
         self.pbtnSelectSeachDirectoryPath = MPushButton(translate("Searcher", "Select Directory"))
         self.pbtnSelectSeachFilePath = MPushButton(translate("Searcher", "Select File"))
         self.connect(self.pbtnSelectSeachDirectoryPath,SIGNAL("clicked()"),self.selectSearchDirectoryPath)
@@ -61,9 +61,9 @@ class Searcher(MyDialog):
         self.connect(self.pbtnSearch,SIGNAL("clicked()"),self.search)
         lblSearch = MLabel(translate("Searcher", "Search : "))
         lblSearchList = MLabel(translate("Searcher", "Search List : "))
-        self.lblSearchListValues = MLabel(trForM(""))
+        self.lblSearchListValues = MLabel(trForUI(""))
         self.lblSearchListValues.setWordWrap(True)
-        self.leSearch = MLineEdit(trForM(""))
+        self.leSearch = MLineEdit(trForUI(""))
         self.teSearchResult = MTextEdit()
         self.teSearchResult.setText(trForUI(""))
         self.connect(self.leSearch,SIGNAL("textChanged(const QString&)"), self.searchAfter)
@@ -170,7 +170,7 @@ class Searcher(MyDialog):
                         pathToSearch = InputOutputs.checkSource(pathToSearch)
                         if pathToSearch is not None:
                             if InputOutputs.isReadableFileOrDir(pathToSearch):
-                                if InputOutputs.isFile(pathToSearch):
+                                if InputOutputs.isFile(pathToSearch) and InputOutputs.isBinary(pathToSearch)==False:
                                     sts = InputOutputs.readFromFile(pathToSearch) + "\n"
                                     sourceToSearch += sts
                                     self.sourceToSearchCache[pathToSearch] = sts
@@ -336,7 +336,7 @@ class Searcher(MyDialog):
             self.cckbIsOnlyDigitsAndLetters.setEnabled(True)
             self.cckbIsClearVowels.setEnabled(True)
             self.cckbIsNormalizeUTF8CharsAndClearVowels.setEnabled(True)
-        self.lblSearchListValues.setText(trForM(""))
+        self.lblSearchListValues.setText(trForUI(""))
         if _isSearch:
             self.search()
             
@@ -348,10 +348,9 @@ class Searcher(MyDialog):
     
     def selectSearchDirectoryPath(self):
         try:
-            SearchPath = QFileDialog.getExistingDirectory(self,
-                            translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
-            if SearchPath!="":
-                self.lePathToSeach.setText(SearchPath)
+            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
+            if SearchPath is not None:
+                self.lePathToSeach.setText(trForUI(SearchPath))
                 if self.setSourceToSearch(True, True):
                     self.search()
         except:
@@ -361,9 +360,8 @@ class Searcher(MyDialog):
     
     def addSearchDirectoryPath(self):
         try:
-            SearchPath = QFileDialog.getExistingDirectory(self,
-                            translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
-            if SearchPath!="":
+            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
+            if SearchPath is not None:
                 SearchPaths = Universals.getListFromListString(self.lePathToSeach.text(), ";")
                 SearchPaths.append(SearchPath)
                 self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
@@ -377,12 +375,9 @@ class Searcher(MyDialog):
 
     def selectSearchFilePath(self):
         try:
-            SearchPaths = QFileDialog.getOpenFileNames(self,
-                        translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
+            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
                         translate("Searcher", "All Files (*.*)"))
-                        
-            SearchPaths = list(SearchPaths)
-            if SearchPaths!=[]:
+            if SearchPaths is not None:
                 self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
                 if self.setSourceToSearch(True, True):
                     self.search()
@@ -393,12 +388,9 @@ class Searcher(MyDialog):
 
     def addSearchFilePath(self):
         try:
-            SearchPaths = QFileDialog.getOpenFileNames(self,
-                        translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
+            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
                         translate("Searcher", "All Files (*.*)"))
-                        
-            SearchPaths = list(SearchPaths)
-            if SearchPaths!=[]:
+            if SearchPaths is not None:
                 SearchPaths = Universals.getListFromListString(self.lePathToSeach.text(), ";") + SearchPaths
                 self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
                 if self.setSourceToSearch(True, True):

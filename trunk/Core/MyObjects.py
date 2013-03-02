@@ -82,10 +82,6 @@ def trForUI(_s):
     _s = str(_s)
     return _s
     
-def trForM(_s):
-    _s = str(_s)
-    return _s
-    
 def getMyObject(_objectName):
     MyObject = __import__("PyQt4." + _objectName, globals(), locals(), [_objectName], -1)
     return MyObject

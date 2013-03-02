@@ -49,10 +49,10 @@ class Hasher(MyDialog):
         self.cbHashOutput = Options.MyComboBox(self, 
                                 [translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")], 
                                 0, "HasherHashOutput", self.hashOutputChanged)
-        self.leHashDigestFile = MLineEdit(trForM(_file))
+        self.leHashDigestFile = MLineEdit(trForUI(_file))
         self.pbtnHash = MPushButton(translate("Hasher", "Hash"))
         self.pbtnClose = MPushButton(translate("Hasher", "Close"))
-        self.lePathOfPackage = MLineEdit(trForM(_file))
+        self.lePathOfPackage = MLineEdit(trForUI(_file))
         self.pbtnHash.setToolTip(translate("Hasher", "Hash the selected file"))
         self.pbtnSelectProjectPath = MPushButton(translate("Hasher", "Browse"))
         self.pbtnSelectPackagePath = MPushButton(translate("Hasher", "Browse"))
@@ -136,7 +136,7 @@ class Hasher(MyDialog):
             if hashType!=None:
                 hashDigestContent = InputOutputs.getHashDigest(sourceFile, hashType)
                 if hashDigestContent!=False:
-                    self.teHashDigest.setText(trForM(hashDigestContent))
+                    self.teHashDigest.setText(trForUI(hashDigestContent))
                     if self.cbHashOutput.currentIndex()==1:
                         if InputOutputs.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
@@ -145,7 +145,7 @@ class Hasher(MyDialog):
                             Dialogs.showError(translate("Hasher", "Hash Digest File Is Not Created"),
                                         translate("Hasher", "Hash digest file not cteated."))
                     elif self.cbHashOutput.currentIndex()==2:
-                            MApplication.clipboard().setText(trForM(hashDigestContent))
+                            MApplication.clipboard().setText(trForUI(hashDigestContent))
                             Dialogs.show(translate("Hasher", "Hash Digest Copied To Clipboard"),
                                         str(translate("Hasher", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:
@@ -155,11 +155,10 @@ class Hasher(MyDialog):
     def selectPackagePath(self):
         try:
             self.teHashDigest.setText("")
-            PathOfPackage = QFileDialog.getOpenFileName(self,
-                        translate("Hasher", "Please Select The Pack To Be Created"), self.lePathOfPackage.text(),
+            PathOfPackage = Dialogs.getOpenFileName(translate("Hasher", "Please Select The Pack To Be Created"), self.lePathOfPackage.text(),
                         translate("Hasher", "All Files (*.*)"))
-            if PathOfPackage!="":
-                self.lePathOfPackage.setText(PathOfPackage)    
+            if PathOfPackage is not None:
+                self.lePathOfPackage.setText(trForUI(PathOfPackage))    
         except:
             from Core import ReportBug
             error = ReportBug.ReportBug()

@@ -30,7 +30,7 @@ class MyComboBox(MComboBox):
         if len(_items)>0:
             if _settingKey is not None:
                 item = Universals.getValue(_settingKey, _items)
-                item = trForM(item)
+                item = trForUI(item)
                 if item in _items:
                     _defaultItemIndex = _items.index(item)
             self.setCurrentIndex(_defaultItemIndex)

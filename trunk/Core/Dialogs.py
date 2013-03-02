@@ -22,7 +22,7 @@ from Core.MyObjects import *
 from Core import Universals
 
 class Dialogs():
-    global show, showError, ask, askSpecial, showState, Ok, Cancel, Yes, No, Continue, getItem, sleep, getText
+    global show, showError, ask, askSpecial, showState, Ok, Cancel, Yes, No, Continue, getItem, sleep, getText, getSaveFileName, getOpenFileName, getOpenFileNames, getExistingDirectory
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
     
     def show(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
@@ -241,6 +241,34 @@ class Dialogs():
         if isSelected==False:
             return None
         return str(selectedValue)
+        
+    def getSaveFileName(_caption, _directory, _filter):
+        filePath = QFileDialog.getSaveFileName(Universals.activeWindow(), trForUI(_caption),
+                                    trForUI(_directory), trForUI(_filter))
+        if filePath=="":
+            return None
+        return str(filePath)
+        
+    def getOpenFileName(_caption, _directory, _filter):
+        filePath = QFileDialog.getOpenFileName(Universals.activeWindow(), trForUI(_caption),
+                                    trForUI(_directory), trForUI(_filter))
+        if filePath=="":
+            return None
+        return str(filePath)
+        
+    def getOpenFileNames(_caption, _directory, _filter):
+        filePaths = QFileDialog.getOpenFileNames(Universals.activeWindow(), trForUI(_caption),
+                                    trForUI(_directory), trForUI(_filter))
+        if filePaths==[]:
+            return None
+        return list(filePaths)
+        
+    def getExistingDirectory(_caption, _directory):
+        filePath = QFileDialog.getExistingDirectory(Universals.activeWindow(), trForUI(_caption),
+                                    trForUI(_directory))
+        if filePath=="":
+            return None
+        return str(filePath)
         
 class MyStateDialog(MDialog):
     

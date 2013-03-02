@@ -40,7 +40,7 @@ class Cleaner(MyDialog):
         lblPleaseSelect = MLabel(translate("Cleaner", "Directory"))
         self.pbtnClear = MPushButton(translate("Cleaner", "Clear"))
         self.pbtnClose = MPushButton(translate("Cleaner", "Close"))
-        self.lePathOfProject = MLineEdit(trForM(_directory))
+        self.lePathOfProject = MLineEdit(trForUI(_directory))
         self.pbtnClear.setToolTip(translate("Cleaner", "Directory you selected will is cleared"))
         self.pbtnSelectProjectPath = MPushButton(translate("Cleaner", "Browse"))
         self.connect(self.pbtnSelectProjectPath,SIGNAL("clicked()"),self.selectProjectPath)
@@ -98,10 +98,9 @@ class Cleaner(MyDialog):
 
     def selectProjectPath(self):
         try:
-            ProjectPath = QFileDialog.getExistingDirectory(self,
-                            translate("Cleaner", "Please Select Directory"),self.lePathOfProject.text())
-            if ProjectPath!="":
-                self.lePathOfProject.setText(ProjectPath)
+            ProjectPath = Dialogs.getExistingDirectory(translate("Cleaner", "Please Select Directory"),self.lePathOfProject.text())
+            if ProjectPath is not None:
+                self.lePathOfProject.setText(trForUI(ProjectPath))
         except:
             from Core import ReportBug
             error = ReportBug.ReportBug()

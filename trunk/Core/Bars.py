@@ -153,15 +153,15 @@ class Bars():
             actionName = _action.objectName()
             if actionName==translate("MenuBar", "Open State"):
                 from Core import Settings
-                f = QFileDialog.getOpenFileName(Universals.activeWindow(),translate("MenuBar", "Open State"),
-                                    Variables.userDirectoryPath,trForUI(translate("MenuBar", "Application Runner") + " (*.desktop)"))
-                if f!="":
-                    Settings.openStateOfSettings(str(f))
+                f = Dialogs.getOpenFileName(translate("MenuBar", "Open State"),
+                                    Variables.userDirectoryPath,translate("MenuBar", "Application Runner") + " (*.desktop)")
+                if f is not None:
+                    Settings.openStateOfSettings(f)
             elif actionName==translate("MenuBar", "Save State"):
                 from Core import Settings
-                f = QFileDialog.getSaveFileName(Universals.activeWindow(),translate("MenuBar", "Save State"),InputOutputs.joinPath(Variables.userDirectoryPath, "HamsiManager.desktop"),trForUI(translate("MenuBar", "Application Runner") + " (*.desktop)"))
-                if f!="":
-                    Settings.saveStateOfSettings(str(f))
+                f = Dialogs.getSaveFileName(translate("MenuBar", "Save State"), InputOutputs.joinPath(Variables.userDirectoryPath, "HamsiManager.desktop"),translate("MenuBar", "Application Runner") + " (*.desktop)")
+                if f is not None:
+                    Settings.saveStateOfSettings(f)
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):

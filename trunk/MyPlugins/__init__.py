@@ -78,7 +78,7 @@ class MyPlugins(MyDialog):
         for plugin in Variables.getMyPluginsNames():
             pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], -1)
             if pluginModule.isInstallable():
-                installedVersion = Settings.getUniversalSetting(trForM(pluginModule.pluginName), "")
+                installedVersion = Settings.getUniversalSetting(trForUI(pluginModule.pluginName), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
                 elif installedVersion != pluginModule.pluginVersion:
@@ -126,7 +126,7 @@ class MyPlugins(MyDialog):
         else:
             isInstalled = pluginModule.installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(trForM(pluginModule.pluginName), str(pluginModule.pluginVersion))
+            Settings.setUniversalSetting(trForUI(pluginModule.pluginName), str(pluginModule.pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginModule.pluginName))
@@ -155,7 +155,7 @@ class MyPlugins(MyDialog):
         else:
             isUninstalled = pluginModule.uninstallThisPlugin()
         if isUninstalled:
-            Settings.setUniversalSetting(trForM(pluginModule.pluginName), str(""))
+            Settings.setUniversalSetting(trForUI(pluginModule.pluginName), str(""))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Uninstallation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is uninstalled on your system.")) % (pluginModule.pluginName))
@@ -198,7 +198,7 @@ class MyPluginsForSystem(MWidget):
         for plugin in Variables.getMyPluginsNames():
             pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], -1)
             if pluginModule.isInstallable():
-                installedVersion = Settings.getUniversalSetting(trForM(pluginModule.pluginName), "")
+                installedVersion = Settings.getUniversalSetting(trForUI(pluginModule.pluginName), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
                 elif installedVersion != pluginModule.pluginVersion:
@@ -238,7 +238,7 @@ class MyPluginsForSystem(MWidget):
         else:
             isInstalled = pluginModule.installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(trForM(pluginModule.pluginName), str(pluginModule.pluginVersion))
+            Settings.setUniversalSetting(trForUI(pluginModule.pluginName), str(pluginModule.pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginModule.pluginName))
