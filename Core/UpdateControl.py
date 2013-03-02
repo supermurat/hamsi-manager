@@ -218,13 +218,13 @@ class UpdateControl(MDialog):
           
     def willDownload(self, _request):
         try:
-            defaultFileName = str(MFileInfo(trForM(Universals.trStr(_request.url()))).fileName())
+            defaultFileName = str(MFileInfo(trForUI(Universals.trStr(_request.url()))).fileName())
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save As")
-            fileName = QFileDialog.getSaveFileName(self, fileDialogTitle, InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), defaultFileName))
-            if self.isNotInstall==False or fileName != "":
-                if fileName == "":
+            fileName = Dialogs.getSaveFileName(fileDialogTitle, InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), defaultFileName))
+            if self.isNotInstall==False or fileName is not None:
+                if fileName is None:
                     import random
                     fileName = InputOutputs.joinPath(InputOutputs.getTempDir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])
                 self.pbtnDownloadAndInstall.setEnabled(False)

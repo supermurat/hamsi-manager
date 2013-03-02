@@ -60,7 +60,7 @@ class FileManager():
         self.lstvFileManager = MListView()
         self.trvFileManager.setModel(self.dirModel)
         self.lstvFileManager.setModel(self.dirModel)
-        self.currentDirectory = trForM(InputOutputs.getRealDirName(Universals.MySettings["lastDirectory"]))
+        self.currentDirectory = trForUI(InputOutputs.getRealDirName(Universals.MySettings["lastDirectory"]))
         if InputOutputs.isDir(str(self.currentDirectory))==False:
             self.currentDirectory = MDir.homePath()
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndex)
@@ -219,7 +219,7 @@ class FileManager():
                         self.future = []
                         self.history.append(self.currentDirectory)
                     if _path[-1]==InputOutputs.sep: _path = _path[:-1]
-                    self.currentDirectory = trForM(_path)
+                    self.currentDirectory = trForUI(_path)
                     if Universals.isActivePyKDE4==True:
                         self.dirLister.openUrl(MUrl(self.currentDirectory))
                         self.isGoToFromUrlNavigator = False
@@ -281,7 +281,7 @@ class FileManager():
 
     def goUp(self):
         try:
-            self.goTo(trForM(InputOutputs.getDirName(self.currentDirectory)))
+            self.goTo(trForUI(InputOutputs.getDirName(self.currentDirectory)))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -300,7 +300,7 @@ class FileManager():
             else:
                 sourcePath = InputOutputs.checkSource(str(self.currentDirectory), "directory")
                 if sourcePath is not None:
-                    if self.currentDirectory != trForM(sourcePath):
+                    if self.currentDirectory != trForUI(sourcePath):
                         self.goTo(sourcePath, False)
                     else:
                         self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
@@ -402,7 +402,7 @@ class BookmarksMenu(MMenu):
             for info in Databases.BookmarksOfDirectories.fetchAll():
                 if info[1]==str(_action.objectName()):
                     if InputOutputs.isDir(str(info[2]))==True:
-                        Universals.MainWindow.FileManager.goTo(trForM(info[2]))
+                        Universals.MainWindow.FileManager.goTo(trForUI(info[2]))
                         return
                     else:
                         answer = Dialogs.ask(translate("BookmarksMenu", "Cannot Find Folder"), 

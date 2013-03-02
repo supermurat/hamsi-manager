@@ -38,14 +38,14 @@ if RoutineChecks.checkMandatoryModules():
     from Core import Execute
     defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForM(InputOutputs.joinPath(Universals.themePath, "Images"))))
+    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(Universals.themePath, "Images"))))
     StyleFile = open(InputOutputs.joinPath(Universals.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
     if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
-            languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
+            languageFile.load(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
     elif InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
-            languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
+            languageFile.load(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
     HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
@@ -131,8 +131,8 @@ if RoutineChecks.checkMandatoryModules():
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                installationDirPath = InputOutputs.getDirName(trForM(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), "HamsiManager")))))
-                self.leInstallationDirectory = MLineEdit(trForM(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
+                installationDirPath = InputOutputs.getDirName(trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), "HamsiManager")))))
+                self.leInstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
                 HBox.addWidget(self.leInstallationDirectory)
@@ -155,7 +155,7 @@ if RoutineChecks.checkMandatoryModules():
                     self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(MApplication.translate("Install", "Executable Link Path : "))
-                    self.leExecutableLink = MLineEdit(trForM(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
+                    self.leExecutableLink = MLineEdit(trForUI(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
                     self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
                     HBox1 = MHBoxLayout()
@@ -177,9 +177,9 @@ if RoutineChecks.checkMandatoryModules():
                 self.leExecutableLink.setEnabled(True)
         
         def selectInstallationDirectory(self):
-            dizin = QFileDialog.getExistingDirectory(self,MApplication.translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
-            if dizin!="":
-                self.leInstallationDirectory.setText(dizin)
+            insDir = Dialogs.getExistingDirectory(MApplication.translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
+            if insDir is not None:
+                self.leInstallationDirectory.setText(trForUI(insDir))
             
         def pageChanged(self, _isRunningManual=False):
             try:

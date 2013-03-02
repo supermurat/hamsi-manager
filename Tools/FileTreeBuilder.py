@@ -64,7 +64,7 @@ class FileTreeBuilder(MyDialog):
         self.cckbLastModified = Options.MyCheckBox(self, translate("FileTreeBuilder", "Last Modified"), None, "isAppendLastModifiedToFileTree")
         pbtnBuild = MPushButton(translate("FileTreeBuilder", "Build"))
         pbtnClose = MPushButton(translate("FileTreeBuilder", "Close"))
-        self.lePath = MLineEdit(trForM(_directory))
+        self.lePath = MLineEdit(trForUI(_directory))
         pbtnSelectPath = MPushButton(translate("FileTreeBuilder", "Browse"))
         self.connect(pbtnSelectPath,SIGNAL("clicked()"),self.selectPath)
         self.connect(pbtnBuild,SIGNAL("clicked()"), self.build)
@@ -158,10 +158,9 @@ class FileTreeBuilder(MyDialog):
     
     def selectPath(self):
         try:
-            dirPath = QFileDialog.getExistingDirectory(self,
-                            translate("FileTreeBuilder", "Please Select"),self.lePath.text())
-            if dirPath!="":
-                self.lePath.setText(dirPath)
+            dirPath = Dialogs.getExistingDirectory(translate("FileTreeBuilder", "Please Select"),self.lePath.text())
+            if dirPath is not None:
+                self.lePath.setText(trForUI(dirPath))
         except:
             from Core import ReportBug
             error = ReportBug.ReportBug()

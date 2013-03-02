@@ -304,16 +304,16 @@ class OptionsForm(MDialog):
         if requestInfos[0]=="file":
             if requestInfos[1]=="image":
                 directory = InputOutputs.getRealDirName(leValue.text())
-                filePath = QFileDialog.getOpenFileName(self,translate("Options", "Choose Image"),
-                                            directory,trForUI(str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG))
-                if filePath!="":
-                    leValue.setText(filePath)   
+                filePath = Dialogs.getOpenFileName(translate("Options", "Choose Image"),
+                                            directory, str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG)
+                if filePath is not None:
+                    leValue.setText(trForUI(filePath))   
             if requestInfos[1]=="executable":
                 directory = InputOutputs.getRealDirName(leValue.text())
-                filePath = QFileDialog.getOpenFileName(self,translate("Options", "Choose Executable File"),
-                                            directory, trForUI(translate("Options", "Executable Files") + " (*)"))
-                if filePath!="":
-                    leValue.setText(filePath)  
+                filePath = Dialogs.getOpenFileName(translate("Options", "Choose Executable File"),
+                                            directory, translate("Options", "Executable Files") + " (*)")
+                if filePath is not None:
+                    leValue.setText(trForUI(filePath))  
                     
     def pbtnDirectoryClicked(self):
         requestInfos = str(self.sender().objectName()).split("_")
@@ -321,10 +321,10 @@ class OptionsForm(MDialog):
         if requestInfos[0]=="directory":  
             if requestInfos[1]=="exist":
                 directory = InputOutputs.getRealPath(leValue.text())
-                dirPath = QFileDialog.getExistingDirectory(self,translate("Options", "Choose Image"),
+                dirPath = Dialogs.getExistingDirectory(self,translate("Options", "Choose Image"),
                                                 directory)
-                if dirPath!="":
-                    leValue.setText(dirPath)
+                if dirPath is not None:
+                    leValue.setText(trForUI(dirPath))
                 
     def pbtnDefaultValueClicked(self):
         requestInfos = str(self.sender().objectName()).split("_")

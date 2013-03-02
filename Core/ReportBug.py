@@ -243,7 +243,7 @@ class ReportBug(MDialog):
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
                     from Core import Settings
-                    Settings.setting().setValue("lastDirectory", Universals.trQVariant(trForM(Variables.userDirectoryPath)))
+                    Settings.setting().setValue("lastDirectory", Universals.trQVariant(Variables.userDirectoryPath))
                 elif answer==translate("ReportBug", "Settings"):
                     from Core import Settings
                     Settings.reFillSettings(True)

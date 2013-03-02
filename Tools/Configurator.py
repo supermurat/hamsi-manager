@@ -137,7 +137,7 @@ class Configurator(MyDialog):
                 self.isCreateExecutableLink = MCheckBox(MApplication.translate("Reconfigure", "Add To The System"))
                 self.isCreateExecutableLink.setCheckState(Mt.Checked)
                 lblExecutableLink = MLabel(MApplication.translate("Reconfigure", "Executable Link Path : "))
-                self.leExecutableLink = MLineEdit(trForM(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
+                self.leExecutableLink = MLineEdit(trForUI(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
                 self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                 VBox.addWidget(self.isCreateExecutableLink)
                 HBox1 = MHBoxLayout()

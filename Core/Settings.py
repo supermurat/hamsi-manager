@@ -27,7 +27,7 @@ class Settings():
     global getSettings, setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting
     
     def getSettings(_settingsFilePath):
-        return Variables.MQtCore.QSettings(Universals.trForM(_settingsFilePath) ,Variables.MQtCore.QSettings.IniFormat)
+        return Variables.MQtCore.QSettings(Universals.trForUI(_settingsFilePath) ,Variables.MQtCore.QSettings.IniFormat)
         
     def setting():
         return getSettings(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, Universals.fileOfSettings))
@@ -54,7 +54,7 @@ class Settings():
         values = [Execute.findExecutablePath("HamsiManager")]
         for x, keyValue in enumerate(keysOfUniversalSettings):
             if Universals.trStr(mySetting.value(keyValue)) != values[x]:
-                mySetting.setValue(keyValue, Universals.trQVariant(Universals.trForM(values[x])))
+                mySetting.setValue(keyValue, Universals.trQVariant(values[x]))
                 
     def getUniversalSetting(_key, _defaultValue):
         mySetting = universalSetting()
@@ -65,7 +65,7 @@ class Settings():
     
     def setUniversalSetting(_key, _value):
         mySetting = universalSetting()
-        mySetting.setValue(_key, Universals.trQVariant(Universals.trForM(_value)))
+        mySetting.setValue(_key, Universals.trQVariant(_value))
 
     def reFillSettings(_makeBackUp=False):
         if _makeBackUp==True:
@@ -73,7 +73,7 @@ class Settings():
         mySetting = setting()
         defaultValues = Variables.getDefaultValues()
         for keyValue in Variables.keysOfSettings:
-            mySetting.setValue(keyValue, Universals.trQVariant(Universals.trForM(defaultValues[keyValue])))
+            mySetting.setValue(keyValue, Universals.trQVariant(defaultValues[keyValue]))
     
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
         if _valueTypesAndValue==None:

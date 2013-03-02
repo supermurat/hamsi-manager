@@ -75,7 +75,7 @@ class HtmlDetails(MDialog):
             self.wvWeb.setHtml(trForUI(_file))
         else:
             self.setWindowTitle(trForUI(str(translate("HtmlDetails", "Html Details ( %s )")) % (_file)))
-            self.wvWeb.setUrl(MUrl(trForM(_file)))
+            self.wvWeb.setUrl(MUrl(trForUI(_file)))
                   
     def closeAllHtmlDialogs():
         for dialog in htmlDialogs:

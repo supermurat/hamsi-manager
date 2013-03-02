@@ -243,7 +243,7 @@ class M_Phonon():
             self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, Universals.MainWindow)
             Phonon.createPath(self.m_media, self.audioOutput)
         self.m_media.setCurrentSource(
-            Phonon.MediaSource(trForM(_filePath)))
+            Phonon.MediaSource(trForUI(_filePath)))
         self.m_media.play()
         self.paused = False
         return True
@@ -294,7 +294,7 @@ class M_Phonon_PySide():
             self.m_media = Phonon.MediaObject()
             self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory)
             Phonon.createPath(self.m_media, self.audioOutput)
-        self.m_media.setCurrentSource(Phonon.MediaSource(trForM(_filePath)))
+        self.m_media.setCurrentSource(Phonon.MediaSource(trForUI(_filePath)))
         self.m_media.play()
         self.paused = False
         return True

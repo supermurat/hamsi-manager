@@ -64,11 +64,11 @@ if RoutineChecks.checkMandatoryModules():
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.setProgramIconName(trForM(InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-128x128.png")))
+            aboutOfHamsiManager.setProgramIconName(trForUI(InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-128x128.png")))
             if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)):
-                aboutOfHamsiManager.addLicenseTextFile(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)))
+                aboutOfHamsiManager.addLicenseTextFile(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)))
             else:
-                aboutOfHamsiManager.addLicenseTextFile(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_en_GB")))
+                aboutOfHamsiManager.addLicenseTextFile(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_en_GB")))
             Universals.printForDevelopers("Before MCmdLineArgs")
             MCmdLineArgs.init(sys.argv, aboutOfHamsiManager)
             options = MCmdLineOptions()
@@ -87,7 +87,7 @@ if RoutineChecks.checkMandatoryModules():
             MGlobal.locale().setLanguage(kde4LangKode, kconf)
             if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+kde4LangKode+".qm")):
                 languageFile = MTranslator()
-                languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+kde4LangKode+".qm")))
+                languageFile.load(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+kde4LangKode+".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
             Variables.aboutOfHamsiManager = aboutOfHamsiManager
         else:
@@ -100,11 +100,11 @@ if RoutineChecks.checkMandatoryModules():
             Variables.aboutOfHamsiManager = trForUI(aboutFileContent)
             if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()
-                languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+Universals.MySettings["language"]+".qm")))
+                languageFile.load(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+Universals.MySettings["language"]+".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
             elif InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+Universals.MySettings["language"]+".qm")):
                 languageFile = MTranslator()
-                languageFile.load(trForM(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+Universals.MySettings["language"]+".qm")))
+                languageFile.load(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+Universals.MySettings["language"]+".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
         Universals.printForDevelopers("Before MTextCodec setCodecFor..")
         HamsiManagerApp.setApplicationName("HamsiManager")
@@ -112,8 +112,8 @@ if RoutineChecks.checkMandatoryModules():
         HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
         HamsiManagerApp.setOrganizationName("Hamsi Apps")
         MApplication.setQuitOnLastWindowClosed(True)
-        MDir.setSearchPaths("Images", MStringList(trForM(InputOutputs.joinPath(Universals.themePath, "Images"))))
-        MDir.setSearchPaths("root", MStringList(trForM(Variables.HamsiManagerDirectory)))
+        MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(Universals.themePath, "Images"))))
+        MDir.setSearchPaths("root", MStringList(trForUI(Variables.HamsiManagerDirectory)))
         if InputOutputs.isFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")):
             HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")))
         HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))

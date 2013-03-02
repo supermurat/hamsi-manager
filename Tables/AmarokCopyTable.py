@@ -301,10 +301,9 @@ class AmarokCopyTable():
                 
     def selectDestinationDir(self):
         try:
-            destinationDirPath = QFileDialog.getExistingDirectory(self.Table,
-                            translate("AmarokCopyTable", "Please Select Destination Directory"),self.leDestinationDirPath.text())
-            if destinationDirPath!="":
-                self.leDestinationDirPath.setText(destinationDirPath)
+            destinationDirPath = Dialogs.getExistingDirectory(translate("AmarokCopyTable", "Please Select Destination Directory"),self.leDestinationDirPath.text())
+            if destinationDirPath is not None:
+                self.leDestinationDirPath.setText(trForUI(destinationDirPath))
         except:
             from Core import ReportBug
             error = ReportBug.ReportBug()

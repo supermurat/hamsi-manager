@@ -128,11 +128,10 @@ class TextCorrector(MyDialog):
 
     def selectFilePath(self):
         try:
-            filePath = QFileDialog.getOpenFileName(self,
-                        translate("TextCorrector", "Please Select A Text File To Correct"), self.leFilePath.text(),
+            filePath = Dialogs.getOpenFileName(translate("TextCorrector", "Please Select A Text File To Correct"), self.leFilePath.text(),
                         translate("TextCorrector", "All Files (*)"))
-            if filePath!="":
-                self.leFilePath.setText(filePath)
+            if filePath is not None:
+                self.leFilePath.setText(trForUI(filePath))
                 self.isChangeSourceCharSetChanged = False
                 self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(Universals.MySettings["fileSystemEncoding"]))
                 self.fillValues()

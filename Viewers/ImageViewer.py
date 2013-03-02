@@ -74,7 +74,7 @@ class ImageViewer(MWidget):
         if _valueType=="data":
             self.pmapImage.loadFromData(_image)
         else:
-            self.pmapImage.load(trForM(_image))
+            self.pmapImage.load(trForUI(_image))
         self.lblImage.setPixmap(self.pmapImage)
         self.width = self.pmapImage.width()
         self.height = self.pmapImage.height()
