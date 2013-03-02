@@ -174,6 +174,7 @@ class QuickOptions(MMenu):
                         self.values[-1].setChecked(Universals.isChangeAll)
                     self.addAction(self.values[-1])
                     MObject.connect(self.values[-1], SIGNAL("changed()"), self.valueChanged)
+                    self.values[-1].setStatusTip(self.toolTips[x])
                 self.values[-1].setObjectName(self.keysOfSettings[x])
                 self.values[-1].setToolTip(self.toolTips[x])
             else:

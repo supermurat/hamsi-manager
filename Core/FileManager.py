@@ -248,7 +248,7 @@ class FileManager():
                             isOpened = True
                     if isOpened==False:
                         from Details import Details
-                        Details(str(_path),Universals.MainWindow.Table.isOpenDetailsOnNewWindow.isChecked())
+                        Details(str(_path),Universals.getBoolValue("isOpenDetailsInNewWindow"))
         except:
             error = ReportBug.ReportBug()
             error.show()

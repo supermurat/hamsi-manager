@@ -29,43 +29,56 @@ class Details():
     
     def __init__(self,_filePath, _isOpenDetailsOnNewWindow):
         try:
-            _path = InputOutputs.checkSource(_filePath, "file")
-            if _path is not None:
-                isOpened = False
-                type = mimetypes.guess_type(_path)
-                if type[0] != None:
-                    if type[0].split("/")[0] == "text":
-                        from Details import TextDetails
-                        TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
-                        isOpened = True
-                    elif type[0].split("/")[0] == "audio":
-                        import Taggers
-                        if Taggers.getTagger(True)!=None:
-                            from Details import MusicDetails
-                            MusicDetails.MusicDetails(_path,_isOpenDetailsOnNewWindow)
-                            isOpened = True
-                    elif type[0].split("/")[0] == "image":
-                        from Details import ImageDetails
-                        ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)    
-                        isOpened = True
-                    elif InputOutputs.isBinary(_path)==False:
-                        from Details import TextDetails
-                        TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
-                        isOpened = True
-                else:
-                    if InputOutputs.isBinary(_path)==False:
-                        from Details import TextDetails
-                        TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
-                        isOpened = True
-                if isOpened == False:
-                    Dialogs.showError(translate("Details", "File Is Not Supported"), 
-                             str(translate("Details", "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(str(_path)))
-            elif InputOutputs.isDir(_filePath):
-                Dialogs.showError(translate("Details", "Directories Is Not Supported"), 
-                             str(translate("Details", "\"%s\" couldn't opened. Directories is not supported to show details.")) % Organizer.getLink(str(_filePath)))
+            if Universals.getBoolValue("isForceOpenWithDefaultApplication"):
+                _path = InputOutputs.checkSource(_filePath)
+                from Core import Execute
+                Execute.openWith([_path])
             else:
-                Dialogs.showError(translate("Details", "File Is Not Exist"), 
-                             str(translate("Details", "\"%s\" couldn't opened. This file is not exist.")) % Organizer.getLink(str(_filePath)))
+                _path = InputOutputs.checkSource(_filePath, "file")
+                if _path is not None:
+                    isOpened = False
+                    type = mimetypes.guess_type(_path)
+                    if type[0] != None:
+                        if type[0].split("/")[0] == "text":
+                            from Details import TextDetails
+                            TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
+                            isOpened = True
+                        elif type[0].split("/")[0] == "audio":
+                            import Taggers
+                            if Taggers.getTagger(True)!=None:
+                                from Details import MusicDetails
+                                MusicDetails.MusicDetails(_path,_isOpenDetailsOnNewWindow)
+                                isOpened = True
+                        elif type[0].split("/")[0] == "image":
+                            from Details import ImageDetails
+                            ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)    
+                            isOpened = True
+                        elif InputOutputs.isBinary(_path)==False:
+                            from Details import TextDetails
+                            TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
+                            isOpened = True
+                    else:
+                        if InputOutputs.isBinary(_path)==False:
+                            from Details import TextDetails
+                            TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
+                            isOpened = True
+                    if isOpened == False:
+                        if Universals.getBoolValue("isRunOnDoubleClick"):
+                            from Core import Execute
+                            Execute.openWith([_path])
+                        else:
+                            Dialogs.showError(translate("Details", "File Is Not Supported"), 
+                                 str(translate("Details", "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(str(_path)))
+                elif InputOutputs.isDir(_filePath):
+                    if Universals.getBoolValue("isRunOnDoubleClick"):
+                        from Core import Execute
+                        Execute.openWith([_filePath])
+                    else:
+                        Dialogs.showError(translate("Details", "Directories Is Not Supported"), 
+                                 str(translate("Details", "\"%s\" couldn't opened. Directories is not supported to show details.")) % Organizer.getLink(str(_filePath)))
+                else:
+                    Dialogs.showError(translate("Details", "File Is Not Exist"), 
+                                 str(translate("Details", "\"%s\" couldn't opened. This file is not exist.")) % Organizer.getLink(str(_filePath)))
         except:
             Dialogs.showError(translate("Details", "File Couldn't Opened"), 
                          str(translate("Details", "\"%s\" couldn't opened. This file may is not supported.")) % Organizer.getLink(str(_filePath)))

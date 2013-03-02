@@ -32,10 +32,6 @@ class FileTable():
         self.keyName = "file"
         self.hiddenTableColumnsSettingKey = "hiddenFileTableColumns"
         self.refreshColumns()
-        if Universals.isActiveAmarok:
-            self.cckbChangeInAmarokDB = Options.MyCheckBox(_table, translate("FileTable", "Change In Amarok"), None, "isFileTableValuesChangeInAmarokDB")
-            self.cckbChangeInAmarokDB.setToolTip(translate("FileTable", "Are you want to change file paths in Amarok database?"))
-            self.Table.hblBox.insertWidget(self.Table.hblBox.count()-2, self.cckbChangeInAmarokDB)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
@@ -106,7 +102,7 @@ class FileTable():
         return True
         
     def showDetails(self, _fileNo, _infoNo):
-        Details(self.Table.currentTableContentValues[_fileNo]["path"],self.Table.isOpenDetailsOnNewWindow.isChecked())
+        Details(self.Table.currentTableContentValues[_fileNo]["path"], Universals.getBoolValue("isOpenDetailsInNewWindow"))
     
     def cellClicked(self,_row,_column):
         cellLenght = len(self.Table.currentItem().text())*8
@@ -115,7 +111,7 @@ class FileTable():
         
     def cellDoubleClicked(self,_row,_column):
         try:
-            if self.Table.tbIsRunOnDoubleClick.isChecked()==True:
+            if Universals.getBoolValue("isRunOnDoubleClick"):
                 self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("FileTable", "Cannot Open File"), 
