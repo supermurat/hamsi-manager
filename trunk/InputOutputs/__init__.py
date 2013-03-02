@@ -816,7 +816,7 @@ class InputOutputs:
         return False
         
     def clearUnneededs(_path):
-        _path = checkSource(_path, "directory")
+        _path = checkSource(_path, "directory", False)
         if _path is not None:
             for f in Universals.getListValue("unneededFiles"):
                 try:
@@ -842,7 +842,7 @@ class InputOutputs:
                         except:pass
                         
     def clearIgnoreds(_path):
-        _path = checkSource(_path, "directory")
+        _path = checkSource(_path, "directory", False)
         if _path is not None:
             for f in Universals.getListValue("ignoredFiles"):
                 try:
@@ -969,7 +969,9 @@ class InputOutputs:
         global isSmartCheckIcon, willCheckIconDirectories
         isSmartCheckIcon = False
         for iconDir in willCheckIconDirectories:
-            checkIcon(iconDir)
+            iconDir = checkSource(iconDir, "directory", False)
+            if iconDir is not None:
+                checkIcon(iconDir)
         willCheckIconDirectories = []
     
     def checkIcon(_path, _isClear=False):
@@ -1113,7 +1115,7 @@ class InputOutputs:
 
     def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
         from Core import Dialogs
-        _path = checkSource(_path, "directory")
+        _path = checkSource(_path, "directory", False)
         if _path is not None:
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenPath"):
                 clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
@@ -1160,7 +1162,7 @@ class InputOutputs:
             
     def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
         from Core import Dialogs
-        _path = checkSource(_path, "directory")
+        _path = checkSource(_path, "directory", False)
         if _path is not None:
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenClear"):
                 clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))

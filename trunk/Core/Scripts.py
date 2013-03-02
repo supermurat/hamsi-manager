@@ -54,7 +54,10 @@ class Scripts():
         return InputOutputs.getBaseName(filePath)
     
     def getScript(_filePath):
-        return InputOutputs.readFromFile(_filePath)
+        _filePath = InputOutputs.checkSource(_filePath, "file", False)
+        if _filePath is not None:
+            return InputOutputs.readFromFile(_filePath)
+        return None
     
     def getScriptList():
         if InputOutputs.isDir(pathOfScripsDirectory)==False:
@@ -78,10 +81,13 @@ class Scripts():
     def runScript(_content, _isShowAlertIsSuccessfully=True):
         try:
             try:
-                exec (_content)
-                if _isShowAlertIsSuccessfully:
-                    Dialogs.show(translate("ScriptManager", "Script Has Run Successfully"), translate("ScriptManager", "Script which you selected has run successfully."))
-                return True
+                if _content is not None:
+                    exec (_content)
+                    if _isShowAlertIsSuccessfully:
+                        Dialogs.show(translate("ScriptManager", "Script Has Run Successfully"), translate("ScriptManager", "Script which you selected has run successfully."))
+                    return True
+                else:
+                    Dialogs.showError(translate("ScriptManager", "Script Is Not Available"), translate("ScriptManager", "Script content is not available or Script file couldn`t read."))
             except Exception as error:
                 import traceback
                 cla, error, trbk = sys.exc_info()
