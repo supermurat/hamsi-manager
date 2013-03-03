@@ -38,7 +38,7 @@ iSClosingInErrorReporting = False
 class ReportBug(MDialog):
     global isClose
     isClose=False
-    def __init__(self, _isOnlyReport=False, _hideFixMe=False):
+    def __init__(self, _isOnlyReport=False, _hideFixMe=False, _isCloseAppAfterReport=True):
         global errorDetails, isClose
         lastErrorDetails = str(sys.exc_info())
         lastErrorDetailsValues = sys.exc_info()
@@ -49,6 +49,7 @@ class ReportBug(MDialog):
             isShowFixMe = True
         try:MDialog.__init__(self, MainWindow)
         except:MDialog.__init__(self, None)
+        self.isCloseAppAfterReport = _isCloseAppAfterReport
         self.namMain = None
         self.nrqPost = None
         self.nrpBack = None
@@ -305,7 +306,7 @@ class ReportBug(MDialog):
         isClose=True
         try:
             self.close()
-            if self.isOnlyReport==False and Universals.loggingLevel!=logging.DEBUG:
+            if self.isCloseAppAfterReport and self.isOnlyReport==False and Universals.loggingLevel!=logging.DEBUG:
                 iSClosingInErrorReporting = True
                 self.parent().close()
         except:pass

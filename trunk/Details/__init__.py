@@ -80,7 +80,11 @@ class Details():
                     Dialogs.showError(translate("Details", "File Is Not Exist"), 
                                  str(translate("Details", "\"%s\" couldn't opened. This file is not exist.")) % Organizer.getLink(str(_filePath)))
         except:
-            Dialogs.showError(translate("Details", "File Couldn't Opened"), 
-                         str(translate("Details", "\"%s\" couldn't opened. This file may is not supported.")) % Organizer.getLink(str(_filePath)))
+            answer = Dialogs.askSpecial(translate("Details", "File Couldn't Opened"),
+                        str(translate("Details", "\"%s\" couldn't opened. This file may is not supported. <br>If you think this is a bug, please report us.")) % Organizer.getLink(str(_filePath)), 
+                        translate("QuickMake", "Report This Bug"), translate("QuickMake", "OK"), None)
+            if answer==translate("QuickMake", "Report This Bug"):
+                self.error = ReportBug.ReportBug(_isCloseAppAfterReport=False)
+                self.error.show()
         
  

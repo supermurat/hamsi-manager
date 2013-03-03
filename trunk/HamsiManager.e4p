@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2013-02-25, 23:42:38 -->
+<!-- Saved: 2013-03-03, 01:31:33 -->
 <!-- Copyright (C) 2013 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -103,6 +103,7 @@
     <Source>Tools/ScriptManager.py</Source>
     <Source>Core/Scripts.py</Source>
     <Source>Tools/Configurator.py</Source>
+    <Source>Options/TableQuickOptions.py</Source>
   </Sources>
   <Forms>
   </Forms>
