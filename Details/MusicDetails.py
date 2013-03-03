@@ -149,18 +149,14 @@ class MusicDetails(MDialog):
         MObject.connect(self.lstwImages, SIGNAL("doubleClicked(QModelIndex)"),self.openImageDetails)
         self.lstwImages.clear()
         for image in self.musicValues["images"]:
-            try:
-                if len(image)==4:
-                    pixmImage = MPixmap()
-                    pixmImage.loadFromData(image[3])
-                    icnImage = QIcon(pixmImage)
-                    icnImage.actualSize(MSize(98,98))
-                    item = MListWidgetItem(icnImage, image[1] + "\n(" + image[2] + ")")
-                    item.setSizeHint(MSize(1,100))
-                    self.lstwImages.addItem(item)
-            except:
-                error = ReportBug.ReportBug()
-                error.show()  
+            if len(image)==4:
+                pixmImage = MPixmap()
+                pixmImage.loadFromData(image[3])
+                icnImage = QIcon(pixmImage)
+                icnImage.actualSize(MSize(98,98))
+                item = MListWidgetItem(icnImage, image[1] + "\n(" + image[2] + ")")
+                item.setSizeHint(MSize(1,100))
+                self.lstwImages.addItem(item)
         HBOXs = []
         HBOXs.append(MHBoxLayout())
         HBOXs[-1].addWidget(self.infoLabels["baseNameOfDirectory"])
