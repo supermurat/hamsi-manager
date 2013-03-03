@@ -444,7 +444,7 @@ class Tables(MTableWidget):
         
     def isChangableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
         if self.item(_rowNo, _columnNo).isNeverChange == False:
-            if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.isChangeSelected or Universals.isChangeAll==True:
+            if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.getBoolValue("isChangeSelected") or Universals.getBoolValue("isChangeAll"):
                 if _isCheckLike and _checkLikeThis!=None:
                     if str(_checkLikeThis)!=str(self.item(_rowNo, _columnNo).text()):
                         if isCanBeEmpty==False:

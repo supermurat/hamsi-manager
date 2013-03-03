@@ -236,16 +236,6 @@ class Bars():
             elif actionName==translate("MenuBar", "About Hamsi Manager"):
                 if Universals.isActivePyKDE4==False:
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Variables.aboutOfHamsiManager)
-            if actionName==translate("Tables", "Ignore Selection"):
-                Universals.isChangeAll = _action.isChecked()
-                if _action.isChecked():
-                    Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(False)
-                else:
-                    Universals.MainWindow.TableToolsBar.isChangeSelected.setEnabled(True)
-                Universals.MainWindow.StatusBar.fillSelectionInfo()
-            elif actionName==translate("Tables", "Change Selected"):
-                Universals.isChangeSelected = _action.isChecked()
-                Universals.MainWindow.StatusBar.fillSelectionInfo()
             elif actionName==translate("ToolsBar", "Check Icon"):
                 Universals.MainWindow.setEnabled(False)
                 InputOutputs.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
@@ -476,20 +466,6 @@ class TableToolsBar(MToolBar):
         _parent.addToolBar(Mt.TopToolBarArea,self)
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
-        self.isChangeAll = MAction(MIcon("Images:changeAll.png"),
-                        translate("Tables", "Ignore Selection"),self)
-        self.isChangeAll.setObjectName(translate("Tables", "Ignore Selection"))
-        self.isChangeAll.setToolTip(translate("Tables", "Ignore Selection"))
-        self.isChangeAll.setCheckable(True)
-        self.isChangeAll.setChecked(Universals.isChangeAll)
-        self.isChangeSelected = MAction(MIcon("Images:changeSelected.png"),
-                        translate("Tables", "Change Selected"),self)
-        self.isChangeSelected.setObjectName(translate("Tables", "Change Selected"))
-        self.isChangeSelected.setToolTip(translate("Tables", "Change Selected"))
-        self.isChangeSelected.setCheckable(True)
-        self.isChangeSelected.setChecked(Universals.isChangeSelected)
-        if self.isChangeAll.isChecked():
-            self.isChangeSelected.setEnabled(False)
         actgActionGroupTableTypes = MActionGroup(self)
         actgActionGroupTableTypes.setObjectName(translate("ToolsBar", "Table Types"))
         for x, name in enumerate(Universals.tableTypesNames):
@@ -518,9 +494,6 @@ class TableToolsBar(MToolBar):
         if Variables.fileReNamerTypeNamesKeys.count(str(Universals.MySettings["fileReNamerType"]))==0:
             actsFileReNamerTypes[0].setChecked(True)
         self.addActions(actgActionGroupReNamerTypes.actions())
-        self.addSeparator()
-        self.addAction(self.isChangeAll)
-        self.addAction(self.isChangeSelected)
         if Universals.windowMode==Variables.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
         else:
@@ -534,9 +507,6 @@ class TableToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTableTools.addActions(actgActionGroupTableTypes.actions())
         Universals.MainWindow.Menu.mTableTools.addSeparator()
         Universals.MainWindow.Menu.mTableTools.addActions(actgActionGroupReNamerTypes.actions())
-        Universals.MainWindow.Menu.mTableTools.addSeparator()
-        Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeAll)
-        Universals.MainWindow.Menu.mTableTools.addAction(self.isChangeSelected)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mTools.menuAction(), Universals.MainWindow.Menu.mTableTools)
         #Universals.MainWindow.Menu.mView.addActions(actgActionGroupTableTypes.actions())
  
@@ -1113,13 +1083,13 @@ class StatusBar(MStatusBar):
         self.lblSelectionInfo.setText(trForUI("<span style=\"color: #FF0000\">" + _info + "</span>"))
             
     def fillSelectionInfo(self):
-        if Universals.isChangeAll:
-            self.setSelectionInfo(translate("Tables", "All informations will be change"))
+        if Universals.getBoolValue("isChangeAll"):
+            self.setSelectionInfo(translate("Tables", "All informations will be changed"))
         else:
-            if Universals.isChangeSelected:
-                self.setSelectionInfo(translate("Tables", "Selected informations will change only"))
+            if Universals.getBoolValue("isChangeSelected"):
+                self.setSelectionInfo(translate("Tables", "Just selected informations will be changed"))
             else:
-                self.setSelectionInfo(translate("Tables", "Selected informations will not change"))
+                self.setSelectionInfo(translate("Tables", "Just unselected informations will be changed"))
         
     def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
         MApplication.processEvents()

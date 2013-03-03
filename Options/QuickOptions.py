@@ -170,8 +170,7 @@ class QuickOptions(MMenu):
                 elif self.typesOfValues[x]=="Yes/No":
                     self.values.append(MAction(self.labels[x],self))
                     self.values[-1].setCheckable(True)
-                    if Universals.getBoolValue(keyValue):
-                        self.values[-1].setChecked(Universals.isChangeAll)
+                    self.values[-1].setChecked(Universals.getBoolValue(keyValue))
                     self.addAction(self.values[-1])
                     MObject.connect(self.values[-1], SIGNAL("changed()"), self.valueChanged)
                     self.values[-1].setStatusTip(self.toolTips[x])

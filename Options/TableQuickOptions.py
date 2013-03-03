@@ -28,33 +28,38 @@ from Core import ReportBug
 class TableQuickOptions(MMenu):
     def __init__(self, _parent=None):
         MDialog.__init__(self, _parent)
-        self.setTitle(translate("MenuBar", "Quick Options"))
-        self.setObjectName(translate("MenuBar", "Quick Options"))
+        self.setTitle(translate("MenuBar", "Table Quick Options"))
+        self.setObjectName(translate("MenuBar", "Table Quick Options"))
         self.values, self.hiddenKeys = [], []
-        self.keysOfSettings = ["isRunOnDoubleClick", "isOpenDetailsInNewWindow", 
+        self.keysOfSettings = ["isChangeAll", "isChangeSelected", 
+                               "isRunOnDoubleClick", "isOpenDetailsInNewWindow", 
                                "isOpenWithDefaultApplication", 
                                "isForceOpenWithDefaultApplication", 
                                "isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB"]
-        self.labels = [translate("QuickOptions", "Show Details On Double Click"), 
-                       translate("QuickOptions", "Show Details In New Window"), 
-                       translate("QuickOptions", "Open With Default Application"), 
-                       translate("QuickOptions", "Force To Open With Default Application"), 
-                       translate("QuickOptions", "Change In Amarok"), 
-                       translate("QuickOptions", "Change In Amarok"), 
-                       translate("QuickOptions", "Change In Amarok"), 
-                       translate("QuickOptions", "Change In Amarok")]
-        self.toolTips = [translate("QuickOptions", "Are you want to open details on double click?"), 
-                         translate("QuickOptions", "Are you want to open details in new window?"), 
-                         translate("QuickOptions", "Are you want to open selected files and directories (Which are not supported by Hamsi Manager) with default application?"), 
-                         translate("QuickOptions", "Are you want to force to open selected files and directories with default application instead of Hamsi Manager`s Details Window?"), 
-                         translate("QuickOptions", "Are you want to change file paths in Amarok database?"), 
-                         translate("QuickOptions", "Are you want to change file and directory paths in Amarok database?"), 
-                         translate("QuickOptions", "Are you want to change file paths and tags in Amarok database?"), 
-                         translate("QuickOptions", "Are you want to change file paths in Amarok database?")]
-        self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
+        self.labels = [translate("TableQuickOptions", "Ignore Selection"), 
+                       translate("TableQuickOptions", "Change Just Selected Cells"), 
+                       translate("TableQuickOptions", "Show Details On Double Click"), 
+                       translate("TableQuickOptions", "Show Details In New Window"), 
+                       translate("TableQuickOptions", "Open With Default Application"), 
+                       translate("TableQuickOptions", "Force To Open With Default Application"), 
+                       translate("TableQuickOptions", "Change In Amarok"), 
+                       translate("TableQuickOptions", "Change In Amarok"), 
+                       translate("TableQuickOptions", "Change In Amarok"), 
+                       translate("TableQuickOptions", "Change In Amarok")]
+        self.toolTips = [translate("TableQuickOptions", "Are you want to change all cells?"), 
+                         translate("TableQuickOptions", "Are you want to change just selected cells?"), 
+                         translate("TableQuickOptions", "Are you want to open details on double click?"), 
+                         translate("TableQuickOptions", "Are you want to open details in new window?"), 
+                         translate("TableQuickOptions", "Are you want to open selected files and directories (Which are not supported by Hamsi Manager) with default application?"), 
+                         translate("TableQuickOptions", "Are you want to force to open selected files and directories with default application instead of Hamsi Manager`s Details Window?"), 
+                         translate("TableQuickOptions", "Are you want to change file paths in Amarok database?"), 
+                         translate("TableQuickOptions", "Are you want to change file and directory paths in Amarok database?"), 
+                         translate("TableQuickOptions", "Are you want to change file paths and tags in Amarok database?"), 
+                         translate("TableQuickOptions", "Are you want to change file paths in Amarok database?")]
+        self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
         if Universals.isActiveAmarok == False:
@@ -102,6 +107,14 @@ class TableQuickOptions(MMenu):
             actED = self.getActionByKey("isOpenWithDefaultApplication")
             if actED != None:
                 actED.setEnabled(True)
+        if Universals.getBoolValue("isChangeAll"):
+            actED = self.getActionByKey("isChangeSelected")
+            if actED != None:
+                actED.setEnabled(False)
+        else:
+            actED = self.getActionByKey("isChangeSelected")
+            if actED != None:
+                actED.setEnabled(True)
             
     def getActionByKey(self, _key):
         for act in self.values:
@@ -132,8 +145,7 @@ class TableQuickOptions(MMenu):
                 elif self.typesOfValues[x]=="Yes/No":
                     self.values.append(MAction(self.labels[x],self))
                     self.values[-1].setCheckable(True)
-                    if Universals.getBoolValue(keyValue):
-                        self.values[-1].setChecked(Universals.isChangeAll)
+                    self.values[-1].setChecked(Universals.getBoolValue(keyValue))
                     self.addAction(self.values[-1])
                     MObject.connect(self.values[-1], SIGNAL("changed()"), self.valueChanged)
                     self.values[-1].setStatusTip(self.toolTips[x])
@@ -160,6 +172,7 @@ class TableQuickOptions(MMenu):
                 selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][valueIndex]
             Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
             self.checkEnableStates()
+            Universals.MainWindow.StatusBar.fillSelectionInfo()
         except:
             error = ReportBug.ReportBug()
             error.show()
