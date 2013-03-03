@@ -37,11 +37,14 @@ class InputOutputs:
     global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
     global readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
-    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError
+    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError, checkEmptyDirectories, activateSmartCheckEmptyDirectories, completeSmartCheckEmptyDirectories, isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
+    willCheckEmptyDirectories = []
+    willCheckEmptyDirectoriesSubDirectoryStatus = []
     isSmartCheckIcon = False
+    isSmartCheckEmptyDirectories = False
     sep = os.sep
     
     def joinPath(_a, *_b):
@@ -754,61 +757,60 @@ class InputOutputs:
             return moveOrChange(_oldFileValues["path"], _newFileValues["path"])
         return _oldFileValues["path"]
     
-    def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True, _isClear=False):
+    def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True):
         #If directory deleted : returned True
         #If directory cleaned : returned False
-        if Universals.getBoolValue("isActiveClearGeneral") or _isClear:
-            from Core import Dialogs
-            clearUnneededs(_path)
-            dontRemovingFilesCount = 0
-            filesAndDirectories = readDirectoryAll(_path)
-            filesAndDirectoriesCount = len(filesAndDirectories)
-            if _isShowState and _isCloseState:Universals.startThreadAction()
-            for nameNo, name in enumerate(filesAndDirectories):
-                if _isShowState:isContinueThreadAction = Universals.isContinueThreadAction()
-                else: isContinueThreadAction = True
-                if isContinueThreadAction:
-                    if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, filesAndDirectoriesCount, True)
-                    if isFile(joinPath(_path, name)):
-                        dontRemovingFilesCount+=1
-                        if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                            for f in Universals.getListValue("ignoredFiles"):
-                                try:
-                                    if str(f)==name:
-                                        dontRemovingFilesCount-=1
-                                        break
-                                except:pass
-                            for ext in Universals.getListValue("ignoredFileExtensions"):
-                                try:
-                                    if checkExtension(name, ext):
-                                        dontRemovingFilesCount-=1
-                                        break
-                                except:pass
-                    if isDir(joinPath(_path, name)):
-                        dontRemovingFilesCount+=1
-                        if _isAutoCleanSubFolder==False:
-                            break
-                        if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                            for f in Universals.getListValue("ignoredDirectories"):
-                                try:
-                                    if str(f)==name:
-                                        dontRemovingFilesCount-=1
-                                        break
-                                except:pass
-                        if clearEmptyDirectories(joinPath(_path, name), _isShowState, False, _isAutoCleanSubFolder, _isClear):
-                            dontRemovingFilesCount-=1
-                else:
-                    if _isShowState: Dialogs.showState(translate("InputOutputs", "Checked Empty Directories"), filesAndDirectoriesCount, filesAndDirectoriesCount, True)
-            if _isShowState and _isCloseState:Universals.finishThreadAction()
-            if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
-                if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1, True)
-                clearIgnoreds(_path)
-                removeDir(_path)
-                if _isCloseState: 
-                    Dialogs.showState(translate("InputOutputs", "Directory Deleted"), 1, 1, True)
-                    Dialogs.show(translate("InputOutputs", "Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
-                return True
-            if _isCloseState: Dialogs.showState(translate("InputOutputs", "Directories Cleaned"), 1, 1, True)
+        from Core import Dialogs
+        clearUnneededs(_path)
+        dontRemovingFilesCount = 0
+        filesAndDirectories = readDirectoryAll(_path)
+        filesAndDirectoriesCount = len(filesAndDirectories)
+        if _isShowState and _isCloseState:Universals.startThreadAction()
+        for nameNo, name in enumerate(filesAndDirectories):
+            if _isShowState:isContinueThreadAction = Universals.isContinueThreadAction()
+            else: isContinueThreadAction = True
+            if isContinueThreadAction:
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, filesAndDirectoriesCount, True)
+                if isFile(joinPath(_path, name)):
+                    dontRemovingFilesCount+=1
+                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                        for f in Universals.getListValue("ignoredFiles"):
+                            try:
+                                if str(f)==name:
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                        for ext in Universals.getListValue("ignoredFileExtensions"):
+                            try:
+                                if checkExtension(name, ext):
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                if isDir(joinPath(_path, name)):
+                    dontRemovingFilesCount+=1
+                    if _isAutoCleanSubFolder==False:
+                        break
+                    if Universals.getBoolValue("isDeleteEmptyDirectories"):
+                        for f in Universals.getListValue("ignoredDirectories"):
+                            try:
+                                if str(f)==name:
+                                    dontRemovingFilesCount-=1
+                                    break
+                            except:pass
+                    if clearEmptyDirectories(joinPath(_path, name), _isShowState, False, _isAutoCleanSubFolder):
+                        dontRemovingFilesCount-=1
+            else:
+                if _isShowState: Dialogs.showState(translate("InputOutputs", "Checked Empty Directories"), filesAndDirectoriesCount, filesAndDirectoriesCount, True)
+        if _isShowState and _isCloseState:Universals.finishThreadAction()
+        if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
+            if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1, True)
+            clearIgnoreds(_path)
+            removeDir(_path)
+            if _isCloseState: 
+                Dialogs.showState(translate("InputOutputs", "Directory Deleted"), 1, 1, True)
+                Dialogs.show(translate("InputOutputs", "Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
+            return True
+        if _isCloseState: Dialogs.showState(translate("InputOutputs", "Directories Cleaned"), 1, 1, True)
         return False
         
     def clearUnneededs(_path):
@@ -884,7 +886,7 @@ class InputOutputs:
         if isChange==True and _newPath:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
-                    if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
+                    if checkEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                         return _oldPath
             for tDir in appendingDirectories:
                 if _newPath==tDir:
@@ -895,7 +897,7 @@ class InputOutputs:
                 moveFileOrDir(_oldPath,_newPath, _isQuiet)
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
-                    if clearEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
+                    if checkEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                         return _newPath
             if isDir(_newPath)==True and _actionType=="auto":
                 if Universals.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
@@ -920,7 +922,7 @@ class InputOutputs:
         if isChange==True and _newPath:
             if _objectType=="directory" and _actionType=="auto":
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
-                    if clearEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
+                    if checkEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
                         return _oldPath
             for tDir in appendingDirectories:
                 if _newPath==tDir:
@@ -947,14 +949,38 @@ class InputOutputs:
                 values["newPath"] = moveOrChange(values["oldPath"], _values[no][1], getObjectType(_values[no][0]))
                 newFilesPath.append(values)
                 if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                    clearEmptyDirectories(getDirName(values["oldPath"]), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
+                    checkEmptyDirectories(getDirName(values["oldPath"]), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
                 if Universals.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                     checkIcon(getDirName(values["oldPath"]))
                     checkIcon(getDirName(values["newPath"]))
                 Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
         return newFilesPath
         
+    def activateSmartCheckEmptyDirectories():
+        global isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus
+        isSmartCheckEmptyDirectories = True
+        willCheckEmptyDirectories = []
+        willCheckEmptyDirectoriesSubDirectoryStatus = []
     
+    def completeSmartCheckEmptyDirectories(_isShowState=False, _isCloseState=False):
+        global isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus
+        isSmartCheckEmptyDirectories = False
+        for x in range(0, len(willCheckEmptyDirectories)):
+            clearEmptyDirectories(willCheckEmptyDirectories[x], _isShowState, _isCloseState, willCheckEmptyDirectoriesSubDirectoryStatus[x])
+        willCheckEmptyDirectories = []
+        willCheckEmptyDirectoriesSubDirectoryStatus = []
+    
+    def checkEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True, _isClear=False):
+        global isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus
+        if Universals.getBoolValue("isActiveClearGeneral") or _isClear:
+            if isSmartCheckEmptyDirectories:
+                if willCheckEmptyDirectories.count(_path)==0:
+                    willCheckEmptyDirectories.append(_path)
+                    willCheckEmptyDirectoriesSubDirectoryStatus.append(_isAutoCleanSubFolder)
+            else:
+                _path = checkSource(_path, "directory", False)
+                if _path is not None:
+                    return clearEmptyDirectories(_path, _isShowState, _isCloseState, _isAutoCleanSubFolder)
         
     def activateSmartCheckIcon():
         global isSmartCheckIcon, willCheckIconDirectories
@@ -1114,7 +1140,7 @@ class InputOutputs:
         _path = checkSource(_path, "directory", False)
         if _path is not None:
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenPath"):
-                clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
+                checkEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
             for f in Universals.getListValue("packagerUnneededFiles"):
                 if isFile(joinPath(_path, f)):
                     removeFile(joinPath(_path, f))
@@ -1161,7 +1187,7 @@ class InputOutputs:
         _path = checkSource(_path, "directory", False)
         if _path is not None:
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenClear"):
-                clearEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))
+                checkEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))
             for f in Universals.getListValue("cleanerUnneededFiles"):
                 if isFile(joinPath(_path, f)):
                     removeFile(joinPath(_path, f))

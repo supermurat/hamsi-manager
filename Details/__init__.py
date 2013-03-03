@@ -63,14 +63,14 @@ class Details():
                             TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
                             isOpened = True
                     if isOpened == False:
-                        if Universals.getBoolValue("isRunOnDoubleClick"):
+                        if Universals.getBoolValue("isOpenWithDefaultApplication"):
                             from Core import Execute
                             Execute.openWith([_path])
                         else:
                             Dialogs.showError(translate("Details", "File Is Not Supported"), 
                                  str(translate("Details", "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(str(_path)))
                 elif InputOutputs.isDir(_filePath):
-                    if Universals.getBoolValue("isRunOnDoubleClick"):
+                    if Universals.getBoolValue("isOpenWithDefaultApplication"):
                         from Core import Execute
                         Execute.openWith([_filePath])
                     else:
