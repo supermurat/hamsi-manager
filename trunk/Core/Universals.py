@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 from Core import Variables
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -339,7 +339,27 @@ class Universals():
         if loggingLevel==logging.DEBUG:
             print (str(_message))
         
-    
+    def getLastPathByEvent(_keyPath, _defaultPath):
+        from Core import Settings
+        sets = Settings.settingForPaths()
+        return str(trStr(sets.value(_keyPath, trQVariant(_defaultPath))))
+        
+    def setLastPathByEvent(_keyPath, _path):
+        from Core import Settings
+        sets = Settings.settingForPaths()
+        sets.setValue(_keyPath, trQVariant(_path))
+        
+    def getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType=1, _lastPathKey=None):
+        pathKey = None
+        if _isUseLastPathKeyType==0: pass
+        elif _isUseLastPathKeyType==1: pathKey = _caption
+        elif _isUseLastPathKeyType==2: pathKey = _caption + " - " + _directory
+        elif _isUseLastPathKeyType==3: pathKey = _directory
+        elif _isUseLastPathKeyType==4 and _lastPathKey is not None: pathKey = _caption + " - " + _lastPathKey
+        elif _isUseLastPathKeyType==5 and _lastPathKey is not None: pathKey = _caption + " - " + _directory + " - " + _lastPathKey
+        elif _isUseLastPathKeyType==6 and _lastPathKey is not None: pathKey = _directory + " - " + _lastPathKey
+        else: pathKey = _isUseLastPathKeyType
+        return pathKey
         
         
         

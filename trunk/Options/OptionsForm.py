@@ -305,13 +305,13 @@ class OptionsForm(MDialog):
             if requestInfos[1]=="image":
                 directory = InputOutputs.getRealDirName(leValue.text())
                 filePath = Dialogs.getOpenFileName(translate("Options", "Choose Image"),
-                                            directory, str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG)
+                                            directory, str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG, 0)
                 if filePath is not None:
                     leValue.setText(trForUI(filePath))   
             if requestInfos[1]=="executable":
                 directory = InputOutputs.getRealDirName(leValue.text())
                 filePath = Dialogs.getOpenFileName(translate("Options", "Choose Executable File"),
-                                            directory, translate("Options", "Executable Files") + " (*)")
+                                            directory, translate("Options", "Executable Files") + " (*)", 0)
                 if filePath is not None:
                     leValue.setText(trForUI(filePath))  
                     
@@ -322,7 +322,7 @@ class OptionsForm(MDialog):
             if requestInfos[1]=="exist":
                 directory = InputOutputs.getRealPath(leValue.text())
                 dirPath = Dialogs.getExistingDirectory(self,translate("Options", "Choose Image"),
-                                                directory)
+                                                directory, 0)
                 if dirPath is not None:
                     leValue.setText(trForUI(dirPath))
                 

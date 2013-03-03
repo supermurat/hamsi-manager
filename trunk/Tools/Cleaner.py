@@ -98,7 +98,7 @@ class Cleaner(MyDialog):
 
     def selectProjectPath(self):
         try:
-            ProjectPath = Dialogs.getExistingDirectory(translate("Cleaner", "Please Select Directory"),self.lePathOfProject.text())
+            ProjectPath = Dialogs.getExistingDirectory(translate("Cleaner", "Please Select Directory"),self.lePathOfProject.text(), 0)
             if ProjectPath is not None:
                 self.lePathOfProject.setText(trForUI(ProjectPath))
         except:

@@ -242,32 +242,44 @@ class Dialogs():
             return None
         return str(selectedValue)
         
-    def getSaveFileName(_caption, _directory, _filter):
+    def getSaveFileName(_caption, _directory, _filter, _isUseLastPathKeyType=1, _lastPathKey=None):
+        pathKey = Universals.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
+        if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
         filePath = QFileDialog.getSaveFileName(Universals.activeWindow(), trForUI(_caption),
                                     trForUI(_directory), trForUI(_filter))
         if filePath=="":
             return None
+        if pathKey is not None: Universals.setLastPathByEvent(pathKey, str(filePath))
         return str(filePath)
         
-    def getOpenFileName(_caption, _directory, _filter):
+    def getOpenFileName(_caption, _directory, _filter, _isUseLastPathKeyType=1, _lastPathKey=None):
+        pathKey = Universals.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
+        if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
         filePath = QFileDialog.getOpenFileName(Universals.activeWindow(), trForUI(_caption),
                                     trForUI(_directory), trForUI(_filter))
         if filePath=="":
             return None
+        if pathKey is not None: Universals.setLastPathByEvent(pathKey, str(filePath))
         return str(filePath)
         
-    def getOpenFileNames(_caption, _directory, _filter):
+    def getOpenFileNames(_caption, _directory, _filter, _isUseLastPathKeyType=1, _lastPathKey=None):
+        pathKey = Universals.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
+        if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
         filePaths = QFileDialog.getOpenFileNames(Universals.activeWindow(), trForUI(_caption),
                                     trForUI(_directory), trForUI(_filter))
         if filePaths==[]:
             return None
+        if pathKey is not None: Universals.setLastPathByEvent(pathKey, str(filePath))
         return list(filePaths)
         
-    def getExistingDirectory(_caption, _directory):
+    def getExistingDirectory(_caption, _directory, _isUseLastPathKeyType=1, _lastPathKey=None):
+        pathKey = Universals.getLastPathKey(_caption, _directory, "", _isUseLastPathKeyType, _lastPathKey)
+        if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
         filePath = QFileDialog.getExistingDirectory(Universals.activeWindow(), trForUI(_caption),
                                     trForUI(_directory))
         if filePath=="":
             return None
+        if pathKey is not None: Universals.setLastPathByEvent(pathKey, str(filePath))
         return str(filePath)
         
 class MyStateDialog(MDialog):

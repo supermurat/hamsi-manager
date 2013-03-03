@@ -301,7 +301,7 @@ class AmarokCopyTable():
                 
     def selectDestinationDir(self):
         try:
-            destinationDirPath = Dialogs.getExistingDirectory(translate("AmarokCopyTable", "Please Select Destination Directory"),self.leDestinationDirPath.text())
+            destinationDirPath = Dialogs.getExistingDirectory(translate("AmarokCopyTable", "Please Select Destination Directory"),self.leDestinationDirPath.text(), 0)
             if destinationDirPath is not None:
                 self.leDestinationDirPath.setText(trForUI(destinationDirPath))
         except:

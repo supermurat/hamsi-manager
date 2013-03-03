@@ -158,7 +158,7 @@ class FileTreeBuilder(MyDialog):
     
     def selectPath(self):
         try:
-            dirPath = Dialogs.getExistingDirectory(translate("FileTreeBuilder", "Please Select"),self.lePath.text())
+            dirPath = Dialogs.getExistingDirectory(translate("FileTreeBuilder", "Please Select"),self.lePath.text(), 0)
             if dirPath is not None:
                 self.lePath.setText(trForUI(dirPath))
         except:

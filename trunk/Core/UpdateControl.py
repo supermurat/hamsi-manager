@@ -221,7 +221,7 @@ class UpdateControl(MDialog):
             defaultFileName = str(MFileInfo(trForUI(Universals.trStr(_request.url()))).fileName())
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
-                fileDialogTitle = translate("UpdateControl", "Save As")
+                fileDialogTitle = translate("UpdateControl", "Save New Version Of Hamsi Manager")
             fileName = Dialogs.getSaveFileName(fileDialogTitle, InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), defaultFileName))
             if self.isNotInstall==False or fileName is not None:
                 if fileName is None:

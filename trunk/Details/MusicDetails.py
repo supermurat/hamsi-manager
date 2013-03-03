@@ -316,7 +316,7 @@ class MusicDetails(MDialog):
         try:
             if self.lstwImages.currentRow()!=-1:
                 imagePath = Dialogs.getSaveFileName(translate("MusicDetails", "Save As"),
-                                    InputOutputs.getDirName(self.musicValues["path"]), str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1]))
+                                    InputOutputs.getDirName(self.musicValues["path"]), str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1]), 0)
                 if imagePath is not None:
                     sourceFile = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1])
                     InputOutputs.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
@@ -344,7 +344,7 @@ class MusicDetails(MDialog):
     def selectImage(self):
         try:
             imagePath = Dialogs.getOpenFileName(translate("MusicDetails", "Choose Image"),
-                InputOutputs.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG)
+                InputOutputs.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG, 0)
             if imagePath is not None:
                 self.leImagePath.setText(imagePath)
         except:

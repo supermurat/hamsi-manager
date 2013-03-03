@@ -539,7 +539,7 @@ class InputOutputs:
                                 return _newPath
                             elif answer==translate("Dialogs", "Rename"):
                                 newPath = Dialogs.getSaveFileName(translate("InputOutputs", "Select A New Name For File"),
-                                                        _newPath, translate("InputOutputs", "All Files") + " (*)")
+                                                        _newPath, translate("InputOutputs", "All Files") + " (*)", 0)
                                 if newPath is not None:
                                     return checkDestination(_oldPath, newPath, _isQuiet)
                                 return False
@@ -557,7 +557,7 @@ class InputOutputs:
                                 return joinPath(_newPath, getBaseName(_newPath))
                             elif answer==translate("Dialogs", "Rename"):
                                 newPath = Dialogs.getSaveFileName(translate("InputOutputs", "Select A New Name For File"),
-                                                        _newPath, translate("InputOutputs", "All Files") + " (*)")
+                                                        _newPath, translate("InputOutputs", "All Files") + " (*)", 0)
                                 if newPath is not None:
                                     return checkDestination(_oldPath, newPath, _isQuiet)
                                 return False
@@ -584,7 +584,7 @@ class InputOutputs:
                                         appendingDirectories.append(_newPath)
                                         return _newPath
                                     elif answer==translate("Dialogs", "Rename"):
-                                        newPath = Dialogs.getExistingDirectory(translate("InputOutputs", "Select A Directory"), _newPath)
+                                        newPath = Dialogs.getExistingDirectory(translate("InputOutputs", "Select A Directory"), _newPath, 0)
                                         if newPath is not None:
                                             return checkDestination(_oldPath, newPath, _isQuiet)
                                         return False
@@ -1403,7 +1403,7 @@ class InputOutputs:
                 fileExt="txt"
             filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
                                                joinPath(Variables.userDirectoryPath, getBaseName(_path) + "." + fileExt),
-                                               formatTypeName + " (*."+fileExt+")")
+                                               formatTypeName + " (*."+fileExt+")", 2)
             if filePath is not None:
                 if _outputType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
