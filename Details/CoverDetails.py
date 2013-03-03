@@ -131,13 +131,13 @@ class CoverDetails(MDialog):
         
     def sourceClicked(self):
         imagePath = Dialogs.getOpenFileName(translate("ImageDetails", "Choose Image"),
-                                    self.lePathOfSource.text(),str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *."))
+                                    self.lePathOfSource.text(),str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *."), 0)
         if imagePath is not None:
             self.lePathOfSource.setText(imagePath)
         
     def destinationClicked(self):
         imagePath = Dialogs.getSaveFileName(translate("ImageDetails", "Save As"),
-                                    self.lePathOfDestination.text(),str(translate("ImageDetails", "Images (*.%s)") % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")))
+                                    self.lePathOfDestination.text(),str(translate("ImageDetails", "Images (*.%s)") % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")), 0)
         if imagePath is not None:
             self.lePathOfDestination.setText(imagePath)
         

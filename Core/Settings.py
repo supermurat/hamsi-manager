@@ -24,13 +24,16 @@ from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBProper
 from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
     
 class Settings():
-    global getSettings, setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting
+    global getSettings, setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting, settingForPaths
     
     def getSettings(_settingsFilePath):
         return Variables.MQtCore.QSettings(Universals.trForUI(_settingsFilePath) ,Variables.MQtCore.QSettings.IniFormat)
         
     def setting():
         return getSettings(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, Universals.fileOfSettings))
+        
+    def settingForPaths():
+        return getSettings(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "paths.ini"))
     
     def universalSetting():
         return getSettings(InputOutputs.joinPath(Variables.userDirectoryPath, ".HamsiApps", "universalSettings.ini"))

@@ -290,7 +290,7 @@ class Packager(MyDialog):
             else:
                 packageExtension = ".tar"   
             PathOfPackage = Dialogs.getSaveFileName(translate("Packager", "Please Select The Pack To Be Created"),self.lePathOfPackage.text(),
-                        str(translate("Packager", "Archive Files (*%s)")) % (packageExtension))
+                        str(translate("Packager", "Archive Files (*%s)")) % (packageExtension), 2)
             if PathOfPackage is not None:
                 self.lePathOfPackage.setText(trForUI(PathOfPackage))    
         except:

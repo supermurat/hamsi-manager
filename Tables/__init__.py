@@ -629,7 +629,7 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
-                                    Variables.userDirectoryPath, formatTypeName+" (*."+fileExt+")")
+                                    InputOutputs.joinPath(Variables.userDirectoryPath, InputOutputs.getBaseName(Universals.MainWindow.Table.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
             if filePath is not None:
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"

@@ -348,7 +348,8 @@ class Searcher(MyDialog):
     
     def selectSearchDirectoryPath(self):
         try:
-            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
+            lastPath = Universals.getListFromListString(self.lePathToSeach.text(), ";")[-1]
+            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory To Search"), lastPath)
             if SearchPath is not None:
                 self.lePathToSeach.setText(trForUI(SearchPath))
                 if self.setSourceToSearch(True, True):
@@ -360,7 +361,8 @@ class Searcher(MyDialog):
     
     def addSearchDirectoryPath(self):
         try:
-            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory"),self.lePathToSeach.text())
+            lastPath = Universals.getListFromListString(self.lePathToSeach.text(), ";")[-1]
+            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory To Search"), lastPath)
             if SearchPath is not None:
                 SearchPaths = Universals.getListFromListString(self.lePathToSeach.text(), ";")
                 SearchPaths.append(SearchPath)
@@ -375,7 +377,8 @@ class Searcher(MyDialog):
 
     def selectSearchFilePath(self):
         try:
-            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
+            lastPath = Universals.getListFromListString(self.lePathToSeach.text(), ";")[-1]
+            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"), lastPath,
                         translate("Searcher", "All Files (*.*)"))
             if SearchPaths is not None:
                 self.lePathToSeach.setText(Universals.getStringFromList(SearchPaths, ";"))
@@ -388,7 +391,8 @@ class Searcher(MyDialog):
 
     def addSearchFilePath(self):
         try:
-            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"), self.lePathToSeach.text(),
+            lastPath = Universals.getListFromListString(self.lePathToSeach.text(), ";")[-1]
+            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"), lastPath,
                         translate("Searcher", "All Files (*.*)"))
             if SearchPaths is not None:
                 SearchPaths = Universals.getListFromListString(self.lePathToSeach.text(), ";") + SearchPaths
