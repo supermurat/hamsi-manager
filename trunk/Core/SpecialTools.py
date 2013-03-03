@@ -173,7 +173,7 @@ class SpecialTools(MWidget):
             tb.setAutoRaise(True)
             self.specialActions.pbtnAddObjects.append(tb)
             MObject.connect(self.specialActions.pbtnAddObjects[-1], SIGNAL("clicked()"), self.specialActions.AddObjects)
-            lbl = MLabel(columnName)
+            lbl = MLabel(columnName + ":")
             lbl.setFixedWidth(70)
             self.quickFill.lblColumns.append(lbl)
             le = MLineEdit("")

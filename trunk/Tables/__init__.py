@@ -401,6 +401,7 @@ class Tables(MTableWidget):
             from Core import Records
             Records.setTitle(Universals.tableTypesNames[Universals.tableType])
             InputOutputs.activateSmartCheckIcon()
+            InputOutputs.activateSmartCheckEmptyDirectories()
             from Core import MyThread
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
@@ -415,13 +416,14 @@ class Tables(MTableWidget):
                 isGoUpDirectoryWithFileTable = False
                 if Universals.tableType in [0, 1, 2, 3, 4]:
                     if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                        if InputOutputs.clearEmptyDirectories(self.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                        if InputOutputs.checkEmptyDirectories(self.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                             isGoUpDirectoryWithFileTable = True
                 if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
                     if Universals.tableType in [0, 1, 2, 3]:
                         if Universals.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                             InputOutputs.checkIcon(self.newDirectoryPath)
                 InputOutputs.completeSmartCheckIcon()
+                InputOutputs.completeSmartCheckEmptyDirectories(True, True)
                 Records.saveAllRecords()
                 if self.changedValueNumber==0:
                     Dialogs.show(translate("Tables", "Did Not Change Any Things"), 

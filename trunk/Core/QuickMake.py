@@ -265,7 +265,7 @@ class QuickMakeWindow(MyDialog):
             _path = self.checkSource(str(QuickMakeParameters[1]), "directory")
             if _path is not None:
                 InputOutputs.activateSmartCheckIcon()
-                InputOutputs.clearEmptyDirectories(_path, True, True)
+                InputOutputs.checkEmptyDirectories(_path, True, True, True, True)
                 if InputOutputs.isDir(_path):
                     InputOutputs.completeSmartCheckIcon()
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
