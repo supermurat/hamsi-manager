@@ -276,8 +276,6 @@ if RoutineChecks.checkMandatoryModules():
                                 Universals.setMySetting("isShowAdvancedSelections",self.SpecialTools.isShowAdvancedSelections)
                                 if Universals.tableType==2:
                                     Universals.setMySetting("isPlayNow",self.Table.SubTable.isPlayNow.isChecked())
-                                Universals.setMySetting("isChangeSelected",Universals.isChangeSelected)
-                                Universals.setMySetting("isChangeAll",Universals.isChangeAll)
                                 Universals.setMySetting("tableType", Universals.tableType)
                                 Universals.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 Universals.saveSettings()
