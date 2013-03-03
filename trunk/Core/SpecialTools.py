@@ -41,6 +41,7 @@ class SpecialTools(MWidget):
         self.clear = Clear(self.tabwTabs)
         self.characterState = CharacterState(self.tabwTabs)
         self.characterEncoding = CharacterEncoding(self.tabwTabs)
+        self.quickFill = QuickFill(self.tabwTabs)
         self.pbtnAdvancedSelections = MPushButton("Simple")
         self.pbtnApply = MPushButton(translate("SpecialTools", "Apply"))
         self.pbtnApply.setIcon(MIcon("Images:apply.png"))
@@ -67,6 +68,7 @@ class SpecialTools(MWidget):
         self.tabwTabs.addTab(self.clear, translate("SpecialTools", "Clear"))
         self.tabwTabs.addTab(self.characterState, translate("SpecialTools", "Character State"))
         self.tabwTabs.addTab(self.characterEncoding, translate("SpecialTools", "Character Encoding"))
+        self.tabwTabs.addTab(self.quickFill, translate("SpecialTools", "Quick Fill"))
         HBox0 = MHBoxLayout()
         HBox0.addWidget(self.tbAddToBefore)
         HBox0.addWidget(self.btChange)
@@ -146,6 +148,14 @@ class SpecialTools(MWidget):
                 btn.setVisible(False)
                 btn.deleteLater()
         except:pass
+        try:
+            for lbl in self.quickFill.lblColumns:
+                lbl.setVisible(False)
+                lbl.deleteLater()
+            for le in self.quickFill.leColumns:
+                le.setVisible(False)
+                le.deleteLater()
+        except:pass
         self.specialActions.pbtnAddObjects=[]
         self.searchAndReplace.columns.addItem(translate("SpecialTools", "All"))
         self.clear.columns.addItem(translate("SpecialTools", "All"))
@@ -163,15 +173,27 @@ class SpecialTools(MWidget):
             tb.setAutoRaise(True)
             self.specialActions.pbtnAddObjects.append(tb)
             MObject.connect(self.specialActions.pbtnAddObjects[-1], SIGNAL("clicked()"), self.specialActions.AddObjects)
+            lbl = MLabel(columnName)
+            lbl.setFixedWidth(70)
+            self.quickFill.lblColumns.append(lbl)
+            le = MLineEdit("")
+            le.setObjectName(columnName)
+            self.quickFill.leColumns.append(le)
+            MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"), self.quickFill.fillAfter)
         try:
             if Universals.tableType==2:
                 for x in range(0, 5):
                     self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])
                 for x in range(len(self.specialActions.pbtnAddObjects)-1, 4, -1):
                     self.specialActions.HBoxs[1].insertWidget(0, self.specialActions.pbtnAddObjects[x])
+                for x in range(0, len(self.quickFill.leColumns)):
+                    self.quickFill.HBoxs[x/4].addWidget(self.quickFill.lblColumns[x])
+                    self.quickFill.HBoxs[x/4].addWidget(self.quickFill.leColumns[x])
             else:
-                for btn in self.specialActions.pbtnAddObjects:
-                    self.specialActions.HBoxs[0].addWidget(btn)
+                for x in range(0, len(self.specialActions.pbtnAddObjects)):
+                    self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])
+                    self.quickFill.HBoxs[0].addWidget(self.quickFill.lblColumns[x])
+                    self.quickFill.HBoxs[0].addWidget(self.quickFill.leColumns[x])
         except:pass
         self.specialActions.refreshBookmarks()
         if self.isShowAdvancedSelections==False:
@@ -195,6 +217,7 @@ class SpecialTools(MWidget):
     
     def tabChanged(self, _index):
         Universals.setMySetting("activeTabNoOfSpecialTools", str(_index))
+        self.pbtnApply.setEnabled(True)
         self.tbAddToBefore.setEnabled(True)
         self.tbAddToAfter.setEnabled(True)
         if _index==0:
@@ -226,6 +249,10 @@ class SpecialTools(MWidget):
             self.btChange.setChecked(True)
             self.tbAddToBefore.setEnabled(False)
             self.tbAddToAfter.setEnabled(False)
+        elif _index==6:
+            self.cbInformationSection.setCurrentIndex(0)
+            self.cbInformationSection.setEnabled(False)
+            self.pbtnApply.setEnabled(False)
         
     def showOrHideAdvancedSelections(self):
         try:
@@ -249,6 +276,7 @@ class SpecialTools(MWidget):
         self.clear.showAdvancedSelections()
         self.characterState.showAdvancedSelections()
         self.characterEncoding.showAdvancedSelections()
+        self.quickFill.showAdvancedSelections()
     
     def hideAdvancedSelections(self):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Advance"))
@@ -263,6 +291,7 @@ class SpecialTools(MWidget):
         self.clear.hideAdvancedSelections()
         self.characterState.hideAdvancedSelections()
         self.characterEncoding.hideAdvancedSelections()
+        self.quickFill.hideAdvancedSelections()
         
     def apply(self):
         try:
@@ -287,6 +316,8 @@ class SpecialTools(MWidget):
                 Organizer.correctCaseSensitiveTable(self)
             elif self.tabwTabs.currentIndex()==5:
                 Organizer.correctCharacterEncodingTable(self)
+            elif self.tabwTabs.currentIndex()==6:
+                pass
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -299,6 +330,7 @@ class SpecialTools(MWidget):
             self.clear.checkCompleters()
             self.characterState.checkCompleters()
             self.characterEncoding.checkCompleters()
+            self.quickFill.checkCompleters()
     
     def reFillCompleters(self):
         if Universals.getBoolValue("isActiveCompleter"):
@@ -308,6 +340,7 @@ class SpecialTools(MWidget):
             self.clear.reFillCompleters()
             self.characterState.reFillCompleters()
             self.characterEncoding.reFillCompleters()
+            self.quickFill.reFillCompleters()
     
 class SpecialActions(MWidget):
     def __init__(self, _parent):
@@ -989,6 +1022,64 @@ class CharacterEncoding(MWidget):
     
     def reFillCompleters(self):
         pass
+            
+class QuickFill(MWidget):
+    def __init__(self, _parent):
+        MWidget.__init__(self, _parent)
+        self.lblColumns = []
+        self.leColumns = []
+        self.tmrFillAfter = None
+        self.HBoxs = []
+        self.HBoxs.append(MHBoxLayout())
+        self.HBoxs.append(MHBoxLayout())
+        self.HBoxs.append(MHBoxLayout())
+        self.HBoxs.append(MHBoxLayout())
+        vblFill = MVBoxLayout()
+        vblFill.addLayout(self.HBoxs[0])
+        vblFill.addLayout(self.HBoxs[1])
+        vblFill.addLayout(self.HBoxs[2])
+        self.setLayout(vblFill)
+        
+    def showAdvancedSelections(self):
+        for x in range(8, len(self.leColumns)):
+            self.lblColumns[x].show()
+            self.leColumns[x].show()
+    
+    def hideAdvancedSelections(self):
+        for x in range(8, len(self.leColumns)):
+            self.lblColumns[x].hide()
+            self.leColumns[x].hide()
+    
+    def checkCompleters(self):
+        for x in range(0, len(self.leColumns)):
+            Databases.CompleterTable.insert(self.lblColumns[x].text(), self.leColumns[x].text())
+    
+    def reFillCompleters(self):
+        for x in range(0, len(self.leColumns)):
+            setCompleter(self.leColumns[x], self.lblColumns[x].text())
+        
+    def fillAfter(self, _searchValue=""):
+        try:
+            self.fillFrom = self.sender()
+            if self.tmrFillAfter!= None:
+                self.tmrFillAfter.stop()
+                self.tmrFillAfter.deleteLater()
+            self.tmrFillAfter = MTimer(self)
+            self.tmrFillAfter.setSingleShot(True)
+            self.connect(self.tmrFillAfter,SIGNAL("timeout()"), self.fill)
+            self.tmrFillAfter.start(1000)
+        except:
+            from Core import ReportBug
+            error = ReportBug.ReportBug()
+            error.show() 
+            
+    def fill(self, _searchValue=""):
+        try:
+            Organizer.fillTable(str(self.fillFrom.objectName()), self.parent().parent().parent(), str(self.fillFrom.text()))
+        except:
+            from Core import ReportBug
+            error = ReportBug.ReportBug()
+            error.show() 
             
             
 class SearchAndReplaceListEditDialog(MDialog):

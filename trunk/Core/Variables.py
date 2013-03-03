@@ -414,7 +414,7 @@ class Variables():
                 "isPlayNow": "bool", 
                 "MainWindowGeometries": ["intStaticListLen", 4], 
                 "tableType": ["int", list(range(0, 9))], 
-                "activeTabNoOfSpecialTools": ["int", list(range(0, 6))], 
+                "activeTabNoOfSpecialTools": ["int", list(range(0, 7))], 
                 "unneededFiles": "list", 
                 "ignoredFiles": "list", 
                 "imageExtensions": "list", 
