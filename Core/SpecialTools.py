@@ -1075,6 +1075,9 @@ class QuickFill(MWidget):
             
     def fill(self, _searchValue=""):
         try:
+            self.checkCompleters()
+            self.reFillCompleters()
+            Universals.MainWindow.Table.createHistoryPoint()
             Organizer.fillTable(str(self.fillFrom.objectName()), self.parent().parent().parent(), str(self.fillFrom.text()))
         except:
             from Core import ReportBug
