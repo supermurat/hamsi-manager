@@ -271,7 +271,7 @@ class InputOutputs:
     def moveFileOrDir(_oldPath, _newPath, _isQuiet=True):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
         try:
-            if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and getDirName(_oldPath).lower()==getDirName(_newPath).lower()):
+            if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and getDirName(_oldPath).lower().replace("\\", sep).replace("/", sep)==getDirName(_newPath).lower().replace("\\", sep).replace("/", sep)):
                 try:os.rename(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
                 except:os.rename(_oldPath,_newPath)
             else:

@@ -204,7 +204,8 @@ class Tagger():
         
     def addImage(self, _ImageType,_ImagePath):
         if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
-            self.tag.addImage(_ImageType,_ImagePath)
+            try:self.tag.addImage(_ImageType,Universals.trEncode(_ImagePath, InputOutputs.fileSystemEncoding))
+            except:self.tag.addImage(_ImageType,_ImagePath)
         
     def getSize(self):
         if self.Mp3AudioFile!=None:

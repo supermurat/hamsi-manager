@@ -82,13 +82,14 @@ class AmarokArtistTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if self.Table.isChangableItem(rowNo, 1, str(self.Table.currentTableContentValues[rowNo]["name"])):
-                    changedArtistValues.append({})
-                    changedArtistValues[-1]["id"] = str(self.Table.currentTableContentValues[rowNo]["id"])
-                    value = str(self.Table.item(rowNo, 1).text())
-                    changedArtistValues[-1]["name"] = value
-                    Records.add(str(translate("AmarokArtistTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["name"]), value)
-                    self.Table.changedValueNumber += 1
+                if self.Table.isRowHidden(rowNo)==False:
+                    if self.Table.isChangableItem(rowNo, 1, str(self.Table.currentTableContentValues[rowNo]["name"])):
+                        changedArtistValues.append({})
+                        changedArtistValues[-1]["id"] = str(self.Table.currentTableContentValues[rowNo]["id"])
+                        value = str(self.Table.item(rowNo, 1).text())
+                        changedArtistValues[-1]["name"] = value
+                        Records.add(str(translate("AmarokArtistTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["name"]), value)
+                        self.Table.changedValueNumber += 1
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)

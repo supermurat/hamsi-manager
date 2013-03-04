@@ -73,21 +73,21 @@ class FileTable():
                     if self.Table.isRowHidden(rowNo):
                         InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                         self.Table.changedValueNumber += 1
-                        continue
-                    baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                    baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                    if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
-                        baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
-                        self.Table.changedValueNumber += 1
-                        newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
-                        self.Table.setNewDirectory(newDirectoryPath)
-                    if self.Table.isChangableItem(rowNo, 1, baseName, False):
-                        baseName = str(self.Table.item(rowNo,1).text())
-                        self.Table.changedValueNumber += 1
-                    newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
-                    if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
-                        changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
-                                                        newFilePath])
+                    else:
+                        baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                        baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
+                        if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                            baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
+                            self.Table.changedValueNumber += 1
+                            newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
+                            self.Table.setNewDirectory(newDirectoryPath)
+                        if self.Table.isChangableItem(rowNo, 1, baseName, False):
+                            baseName = str(self.Table.item(rowNo,1).text())
+                            self.Table.changedValueNumber += 1
+                        newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
+                        if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
+                            changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
+                                                            newFilePath])
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Files", "Writing File Informations"),rowNo+1,allItemNumber, True)
