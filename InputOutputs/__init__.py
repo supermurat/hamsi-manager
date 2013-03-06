@@ -33,7 +33,7 @@ from Core.Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories
+    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, walk, getDirectorySize, checkSizeOfDeletedFiles
     global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
     global readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
@@ -158,8 +158,17 @@ class InputOutputs:
         return newPath
     
     def getSize(_oldPath):
-        try:return os.stat(Universals.trEncode(_oldPath, fileSystemEncoding))[stat.ST_SIZE]
-        except:return os.stat(_oldPath)[stat.ST_SIZE]
+        try:return os.path.getsize(Universals.trEncode(_oldPath, fileSystemEncoding))
+        except:return os.path.getsize(_oldPath)
+        
+    def getDirectorySize(_oldPath):
+        total_size = 0
+        names = walk(_oldPath)
+        if names is not None:
+            for dirpath, dirnames, filenames in names:
+                for f in filenames:
+                    total_size += getSize(joinPath(dirpath, f))
+        return total_size
         
     def getDetails(_oldPath):
         try:return os.stat(Universals.trEncode(_oldPath, fileSystemEncoding))
@@ -203,6 +212,8 @@ class InputOutputs:
         
     def getRealPath(_path, _parentPath=None):
         _path = str(_path)
+        if Variables.isWindows:
+            _path = _path.replace("\\", sep).replace("/", sep)
         if len(_path)==0: 
             if Variables.isWindows: return "C:" + sep
             return sep
@@ -350,6 +361,14 @@ class InputOutputs:
             names.sort(key=trSort)
         return names
         
+    def walk(_oldPath):
+        names = None
+        _oldPath = checkSource(_oldPath, "directory")
+        if _oldPath is not None:
+            try:names = os.walk(Universals.trEncode(_oldPath, fileSystemEncoding))
+            except:names = os.walk(_oldPath)
+        return names
+        
     def makeDirs(_newPath):
         if isWritableFileOrDir(getRealDirName(_newPath)):
             try:os.makedirs(Universals.trEncode(_newPath, fileSystemEncoding))
@@ -468,30 +487,30 @@ class InputOutputs:
         return False
         
     def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
-        _oldPath = str(_oldPath)
-        if _objectType=="file" and isFile(_oldPath):
-            return _oldPath
-        elif _objectType=="directory" and isDir(_oldPath):
-            return _oldPath
-        elif _objectType=="fileAndDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
-            return _oldPath
+        oldPath = str(_oldPath)
+        if _objectType=="file" and isFile(oldPath):
+            return oldPath
+        elif _objectType=="directory" and isDir(oldPath):
+            return oldPath
+        elif _objectType=="fileAndDirectory" and (isDir(oldPath) or isFile(oldPath)):
+            return oldPath
         if Variables.isWindows:
-            _oldPath = "\\\\?\\" + _oldPath # for wrong name such as "C:\Temp \test.txt", "C:\Temp\test.txt "
-            if _objectType=="file" and isFile(_oldPath):
-                return _oldPath
-            elif _objectType=="directory" and isDir(_oldPath):
-                return _oldPath
-            elif _objectType=="fileAndDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
-                return _oldPath
-        _rPath = getRealPath(str(_oldPath))
-        if _rPath!=_oldPath:
-            _oldPath = _rPath
-            if _objectType=="file" and isFile(_oldPath):
-                return _oldPath
-            elif _objectType=="directory" and isDir(_oldPath):
-                return _oldPath
-            elif _objectType=="fileAndDirectory" and (isDir(_oldPath) or isFile(_oldPath)):
-                return _oldPath
+            oldPath = "\\\\?\\" + oldPath # for wrong name such as "C:\Temp \test.txt", "C:\Temp\test.txt "
+            if _objectType=="file" and isFile(oldPath):
+                return oldPath
+            elif _objectType=="directory" and isDir(oldPath):
+                return oldPath
+            elif _objectType=="fileAndDirectory" and (isDir(oldPath) or isFile(oldPath)):
+                return oldPath
+        _rPath = getRealPath(str(oldPath))
+        if _rPath!=oldPath:
+            oldPath = _rPath
+            if _objectType=="file" and isFile(oldPath):
+                return oldPath
+            elif _objectType=="directory" and isDir(oldPath):
+                return oldPath
+            elif _objectType=="fileAndDirectory" and (isDir(oldPath) or isFile(oldPath)):
+                return oldPath
         if _isShowAlert:
             if _objectType=="file":
                 from Core import Dialogs
@@ -524,7 +543,7 @@ class InputOutputs:
             availableNameByName = getAvailableNameByName(_newPath)
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
-                if Variables.isWindows and _oldPath.lower()==_newPath.lower(): 
+                if Variables.isWindows and _oldPath.lower().replace("\\", sep).replace("/", sep)==_newPath.lower().replace("\\", sep).replace("/", sep): 
                     return _newPath
                 else:
                     if isFile(_newPath):
@@ -1222,7 +1241,7 @@ class InputOutputs:
                 removeDir(_path)
                 if _isCloseState: 
                     Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
-                    Dialogs.show(translate("InputOutputs", "Project Directory Deleted"), str("InputOutputs", translate("\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
+                    Dialogs.show(translate("InputOutputs", "Project Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
                 return False
             if _isCloseState: Dialogs.showState(translate("InputOutputs", "Project Directory Cleaned"), 1, 1)
             return True
@@ -1538,5 +1557,23 @@ class InputOutputs:
                 hashTypes.append("SHA1")
             except:pass
             return hashTypes
-        
+            
+    def checkSizeOfDeletedFiles():
+        pathOfDeletedFilesAndDirectories = Universals.MySettings["pathOfDeletedFilesAndDirectories"]
+        pathOfDeletedFilesAndDirectories = checkSource(pathOfDeletedFilesAndDirectories, "directory", False)
+        if pathOfDeletedFilesAndDirectories is not None:
+            deletedDirectorySize = getDirectorySize(pathOfDeletedFilesAndDirectories)
+            if deletedDirectorySize > (int(Universals.MySettings["maxDeletedDirectorySize"])*1024*1024):
+                from Core import Dialogs
+                answer = Dialogs.askSpecial(translate("InputOutputs", "Size Of Directory Of Deleted Is Over"),
+                            str(translate("InputOutputs", "Size of directory of deleted is over. You can check and remove them. <br> Directory Of Deleted : \"%s\" ( %s )")) % (Organizer.getLink(pathOfDeletedFilesAndDirectories), Organizer.getCorrectedFileSize(deletedDirectorySize)), translate("InputOutputs", "Open With Default File Manager"), translate("InputOutputs", "Close"), translate("InputOutputs", "Remove All Files"))
+                if answer==translate("InputOutputs", "Open With Default File Manager"):
+                    from Core import Execute
+                    Execute.openWith([getRealDirName(pathOfDeletedFilesAndDirectories)])
+                if answer==translate("InputOutputs", "Remove All Files"):
+                    Universals.MySettings["isDontDeleteFileAndDirectory"] = "false"
+                    removeDir(pathOfDeletedFilesAndDirectories)
+                    Universals.MySettings["isDontDeleteFileAndDirectory"] = "true"
+                    Dialogs.show(translate("InputOutputs", "Directory Of Deleted Has Been Removed"), translate("InputOutputs", "Directory of deleted has been removed successfully."))
+                
         

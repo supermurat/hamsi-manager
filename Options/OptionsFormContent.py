@@ -563,8 +563,8 @@ class Advanced(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["fileSystemEncoding", "imageExtensions", "musicExtensions", "isActivePyKDE4", "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]
-        self.tabsOfSettings = [None, None, None, None, None, None]
+        self.keysOfSettings = ["fileSystemEncoding", "imageExtensions", "musicExtensions", "isActivePyKDE4", "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", "maxDeletedDirectorySize"]
+        self.tabsOfSettings = [None, None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
@@ -577,14 +577,16 @@ class Advanced(MWidget):
                     translate("Options/Advanced", "Music Files` Extensions"), 
                     translate("Options/Advanced", "Do You Want To Use PyKDE4?"), 
                     translate("Options/Advanced", "Never Delete Files And Directories"), 
-                    translate("Options/Advanced", "Path Of Deleted Files And Directories")]
+                    translate("Options/Advanced", "Path Of Deleted Files And Directories"), 
+                    translate("Options/Advanced", "Max Size Of Directory Of Deleted")]
         self.toolTips = [trForUI(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Variables.defaultFileSystemEncoding)), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"),
                     translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>"), 
                     translate("Options/Advanced", "Would you like to move files to specific directory to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
-                    translate("Options/Advanced", "")]
-        self.typesOfValues = [["options", 0], "list", "list", "Yes/No", "Yes/No", ["directory", "exist"]]
+                    translate("Options/Advanced", "You can select a directory to move files to it."), 
+                    translate("Options/Advanced", "You can select size of directory of deleted to get notification when it is over.(Megabytes)")]
+        self.typesOfValues = [["options", 0], "list", "list", "Yes/No", "Yes/No", ["directory", "exist"], ["number", 1]]
         charSets = Variables.getCharSets()
         if Variables.isAvailablePyKDE4()==False:
             keyNo = self.keysOfSettings.index("isActivePyKDE4")
@@ -592,8 +594,8 @@ class Advanced(MWidget):
             del self.labels[keyNo]
             del self.toolTips[keyNo]
             del self.typesOfValues[keyNo]
-        self.valuesOfOptions = [charSets]
-        self.valuesOfOptionsKeys = [charSets]
+        self.valuesOfOptions = [charSets, ["10", "100000"]]
+        self.valuesOfOptionsKeys = [charSets, ["10", "100000"]]
         _parent.createOptions(self) 
         if self.visibleKeys.count("isDontDeleteFileAndDirectory")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isDontDeleteFileAndDirectory")], SIGNAL("currentIndexChanged(int)"), self.dontDeleteFileAndDirectoryChanged)
@@ -602,8 +604,10 @@ class Advanced(MWidget):
     def dontDeleteFileAndDirectoryChanged(self):
         if self.values[self.keysOfSettings.index("isDontDeleteFileAndDirectory")].currentIndex()==1:
             self._parent.setVisibleFormItems(self, "pathOfDeletedFilesAndDirectories", True)
+            self._parent.setVisibleFormItems(self, "maxDeletedDirectorySize", True)
         else:
             self._parent.setVisibleFormItems(self, "pathOfDeletedFilesAndDirectories", False)
+            self._parent.setVisibleFormItems(self, "maxDeletedDirectorySize", False)
         
 class Player(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):

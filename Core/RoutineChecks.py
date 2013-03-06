@@ -356,6 +356,9 @@ def checkAndCorrectWindowMode(_isCheck=False):
      
 def checkBeforeCloseProccess():
     from Core import Universals, UpdateControl
+    if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
+        import InputOutputs
+        InputOutputs.checkSizeOfDeletedFiles()
     if UpdateControl.isMakeUpdateControl():
         UpdateControl.UpdateControl(Universals.MainWindow, _isCloseParent=True)
         return False
