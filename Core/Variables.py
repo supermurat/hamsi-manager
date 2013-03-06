@@ -118,10 +118,7 @@ class Variables():
     def checkStartupVariables():
         global executableAppPath, userDirectoryPath, HamsiManagerDirectory, executableAppPath, isBuilt
         checkEncoding()
-        if sys.argv[0][0]==".":
-            executableAppPath = str(os.getcwd() + sys.argv[0][1:])
-        else:
-            executableAppPath = str(sys.argv[0])
+        executableAppPath = str(os.path.abspath(sys.argv[0]))
         if os.path.islink(executableAppPath):
             executableAppPath = os.readlink(executableAppPath)
         userDirectoryPath = os.path.expanduser("~")
