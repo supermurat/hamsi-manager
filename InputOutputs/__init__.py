@@ -281,8 +281,11 @@ class InputOutputs:
     
     def moveFileOrDir(_oldPath, _newPath, _isQuiet=True):
         _oldPath, _newPath = str(_oldPath), str(_newPath)
+        if Variables.isWindows:
+            _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
+            _newPath = _newPath.replace("\\", sep).replace("/", sep)
         try:
-            if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and getDirName(_oldPath).lower().replace("\\", sep).replace("/", sep)==getDirName(_newPath).lower().replace("\\", sep).replace("/", sep)):
+            if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and getDirName(_oldPath).lower()==getDirName(_newPath).lower()):
                 try:os.rename(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
                 except:os.rename(_oldPath,_newPath)
             else:
@@ -488,6 +491,8 @@ class InputOutputs:
         
     def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
         oldPath = str(_oldPath)
+        if Variables.isWindows:
+            _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         if _objectType=="file" and isFile(oldPath):
             return oldPath
         elif _objectType=="directory" and isDir(oldPath):
@@ -527,6 +532,10 @@ class InputOutputs:
         return None
         
     def checkDestination(_oldPath, _newPath, _isQuiet=False):
+        _oldPath, _newPath = str(_oldPath), str(_newPath)
+        if Variables.isWindows:
+            _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
+            _newPath = _newPath.replace("\\", sep).replace("/", sep)
         while isAvailableNameForEncoding(_newPath) == False:
             from Core import Dialogs
             _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
@@ -543,7 +552,7 @@ class InputOutputs:
             availableNameByName = getAvailableNameByName(_newPath)
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
-                if Variables.isWindows and _oldPath.lower().replace("\\", sep).replace("/", sep)==_newPath.lower().replace("\\", sep).replace("/", sep): 
+                if Variables.isWindows and _oldPath.lower()==_newPath.lower(): 
                     return _newPath
                 else:
                     if isFile(_newPath):
