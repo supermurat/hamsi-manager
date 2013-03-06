@@ -173,6 +173,8 @@ class TableQuickOptions(MMenu):
             Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
             self.checkEnableStates()
             Universals.MainWindow.StatusBar.fillSelectionInfo()
+            if Universals.MainWindow.Table is not None:
+                Universals.MainWindow.Table.fillSelectionInfo()
         except:
             error = ReportBug.ReportBug()
             error.show()

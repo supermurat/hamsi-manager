@@ -361,5 +361,7 @@ class Settings():
             cur.execute(str("DROP TABLE tmpSearchAndReplaceTable;"))
             con.commit()
             newSettingsKeys = newSettingsKeys + ["isCorrectValueWithSearchAndReplaceTable"]
+        if oldVersion<1170:
+            newSettingsKeys = newSettingsKeys + ["maxDeletedDirectorySize"]
         return newSettingsKeys, changedDefaultValuesKeys
         

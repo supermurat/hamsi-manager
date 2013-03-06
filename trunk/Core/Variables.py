@@ -31,9 +31,9 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "1.1"
-    intversion = 1100
-    settingVersion = "1100"
+    version = "1.1.7"
+    intversion = 1170
+    settingVersion = "1170"
     aboutOfHamsiManager = ""
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
@@ -99,7 +99,7 @@ class Variables():
                   "isFileTableValuesChangeInAmarokDB", "isFolderTableValuesChangeInAmarokDB", 
                   "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
                   "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", 
-                  "isDecodeURLStrings", "isCheckUnSavedValues", "isAutoSaveScripts"]
+                  "isDecodeURLStrings", "isCheckUnSavedValues", "isAutoSaveScripts", "maxDeletedDirectorySize"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
@@ -386,7 +386,8 @@ class Variables():
                 "isShowHiddensInFileTree": "False", 
                 "isDecodeURLStrings": "True", 
                 "isCheckUnSavedValues": "False", 
-                "isAutoSaveScripts": "True"
+                "isAutoSaveScripts": "True", 
+                "maxDeletedDirectorySize" : "2048"
                 }
             
                 
@@ -537,7 +538,8 @@ class Variables():
                 "isShowHiddensInFileTree": "bool", 
                 "isDecodeURLStrings": "bool", 
                 "isCheckUnSavedValues": "bool", 
-                "isAutoSaveScripts": "bool"
+                "isAutoSaveScripts": "bool", 
+                "maxDeletedDirectorySize": "int"
                 }
 
     def getAvailablePlayers():

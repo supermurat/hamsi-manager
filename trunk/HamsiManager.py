@@ -163,6 +163,7 @@ if RoutineChecks.checkMandatoryModules():
                             Universals.fillRemainderUniversals()
                             self.isLockedMainForm = False
                             self.Menu = None
+                            self.Table = None
                             self.CentralWidget = MWidget()
                             self.createMainLayout()
                             Universals.printForDevelopers("Before Bars.Bars")

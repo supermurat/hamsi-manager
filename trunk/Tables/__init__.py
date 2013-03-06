@@ -116,6 +116,7 @@ class Tables(MTableWidget):
         self.mContextMenu.addAction(translate("Tables", "Open Details")).setObjectName(translate("Tables", "Open Details"))
         self.mContextMenu.addMenu(self.mContextMenuOpenWith)
         self.checkActionsStates()
+        self.fillSelectionInfo()
     
     def setSubTable(self):
         if Universals.tableType==0:
@@ -443,6 +444,17 @@ class Tables(MTableWidget):
         except:
             error = ReportBug.ReportBug()
             error.show()    
+        
+    def fillSelectionInfo(self):
+        if Universals.getBoolValue("isChangeAll"):
+            self.pbtnSave.setText(translate("Tables", "Save"))
+            self.pbtnSave.setToolTip(translate("Tables", "All informations will be changed"))
+        else:
+            self.pbtnSave.setText(str(" ! " + translate("Tables", "Save") + " ! "))
+            if Universals.getBoolValue("isChangeSelected"):
+                self.pbtnSave.setToolTip(translate("Tables", "Just selected informations will be changed"))
+            else:
+                self.pbtnSave.setToolTip(translate("Tables", "Just unselected informations will be changed"))
         
     def isChangableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
         if self.item(_rowNo, _columnNo).isNeverChange == False:
