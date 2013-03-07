@@ -49,21 +49,27 @@ class FileManager():
             self.fpvPlaces.setModel(self.fpmPlacesModel)
             self.dirModelForNavigator = MDirSortFilterProxyModel()
             self.dirModelForNavigator.setSourceModel(self.dirModelMain)
+            self.dirModelForTree = QDirModel()
+            self.dirModelForTree.setFilter(MDir.AllDirs | MDir.Drives | MDir.Readable | MDir.NoDotAndDotDot)
+            self.dirModelForTree.sort(0)
         else:
             self.dirModel = MDirModel()
             self.dirModel.setFilter(MDir.AllEntries | MDir.Readable | MDir.NoDotAndDotDot)
             self.dirModel.sort(0)
+            self.dirModelForTree = MDirModel()
+            self.dirModelForTree.setFilter(MDir.AllDirs | MDir.Drives | MDir.Readable | MDir.NoDotAndDotDot)
+            self.dirModelForTree.sort(0)
             self.dirModelForNavigator = MDirModel()
             self.dirModelForNavigator.setFilter(MDir.AllEntries | MDir.Readable)
             self.dirModelForNavigator.sort(0)
         self.trvFileManager = MTreeView()
         self.lstvFileManager = MListView()
-        self.trvFileManager.setModel(self.dirModel)
+        self.trvFileManager.setModel(self.dirModelForTree)
         self.lstvFileManager.setModel(self.dirModel)
         self.currentDirectory = trForUI(InputOutputs.getRealDirName(Universals.MySettings["lastDirectory"]))
         if InputOutputs.isDir(str(self.currentDirectory))==False:
             self.currentDirectory = MDir.homePath()
-        MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndex)
+        MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndexByTree)
         MObject.connect(self.lstvFileManager, SIGNAL("doubleClicked(QModelIndex)"),self.setMyCurrentIndex)
         tools = MToolBar(_parent)
         actAddBookmark = MAction(MIcon("Images:addBookmark.png"),"",tools)
@@ -131,6 +137,7 @@ class FileManager():
         self.actBack.setEnabled(False)
         self.actForward.setEnabled(False)
         self.goTo(self.currentDirectory)
+        self.trvFileManager.setColumnWidth(0, 250)
         if Universals.windowMode==Variables.windowModeKeys[1]:
             tools.setIconSize(MSize(16, 16))
             self.tbarBrowserTools = MToolBar(_parent)
@@ -212,43 +219,45 @@ class FileManager():
 
     def goTo(self, _path, _isRemember = True, _isOnlyBrowser = False):
         try:
-            _path = InputOutputs.checkSource(str(_path), "directory")
+            _path = InputOutputs.checkSource(str(_path))
             if _path is not None:
                 if InputOutputs.isReadableFileOrDir(_path):
-                    if _isRemember:
-                        self.future = []
-                        self.history.append(self.currentDirectory)
-                    if _path[-1]==InputOutputs.sep: _path = _path[:-1]
-                    self.currentDirectory = trForUI(_path)
-                    if Universals.isActivePyKDE4==True:
-                        self.dirLister.openUrl(MUrl(self.currentDirectory))
-                        self.isGoToFromUrlNavigator = False
-                        self.urlNavigator.setUrl(MUrl(self.currentDirectory))
-                        self.isGoToFromUrlNavigator = True
-                        self.isGoToFromDirOperator = False
-                        self.dirOperator.setUrl(MUrl(self.currentDirectory), False)
-                        self.isGoToFromDirOperator = True
-                    else:
-                        self.lstvFileManager.setRootIndex(self.dirModel.index(_path))
-                        self.trvFileManager.setCurrentIndex(self.dirModel.index(_path))
-                    self.actForward.setEnabled(False)
-                    if _isOnlyBrowser==False:
-                        self.showInTable()
-                    self.actBack.setEnabled(True)
-                    if str(self.currentDirectory)==InputOutputs.sep:
-                        self.actUp.setEnabled(False)
-                    else:
-                        self.actUp.setEnabled(True)
-                elif InputOutputs.isFile(_path):
-                    isOpened = False
-                    for ext in Universals.getListValue("musicExtensions"):
-                        if str(_path).split(".")[-1].lower() == str(ext).lower():
-                            if Universals.tableType==2 and Universals.MainWindow.PlayerBar.Player.playInBar.isChecked():
-                                Universals.MainWindow.PlayerBar.Player.play(str(_path))
-                            isOpened = True
-                    if isOpened==False:
-                        from Details import Details
-                        Details(str(_path),Universals.getBoolValue("isOpenDetailsInNewWindow"))
+                    if InputOutputs.isDir(_path):
+                        if _isRemember:
+                            self.future = []
+                            self.history.append(self.currentDirectory)
+                        if _path[-1]==InputOutputs.sep: _path = _path[:-1]
+                        self.currentDirectory = trForUI(_path)
+                        if Universals.isActivePyKDE4==True:
+                            self.dirLister.openUrl(MUrl(self.currentDirectory))
+                            self.trvFileManager.setCurrentIndex(self.dirModelForTree.index(_path))
+                            self.isGoToFromUrlNavigator = False
+                            self.urlNavigator.setUrl(MUrl(self.currentDirectory))
+                            self.isGoToFromUrlNavigator = True
+                            self.isGoToFromDirOperator = False
+                            self.dirOperator.setUrl(MUrl(self.currentDirectory), False)
+                            self.isGoToFromDirOperator = True
+                        else:
+                            self.lstvFileManager.setRootIndex(self.dirModel.index(_path))
+                            self.trvFileManager.setCurrentIndex(self.dirModelForTree.index(_path))
+                        self.actForward.setEnabled(False)
+                        if _isOnlyBrowser==False:
+                            self.showInTable()
+                        self.actBack.setEnabled(True)
+                        if str(self.currentDirectory)==InputOutputs.sep:
+                            self.actUp.setEnabled(False)
+                        else:
+                            self.actUp.setEnabled(True)
+                    elif InputOutputs.isFile(_path):
+                        isOpened = False
+                        for ext in Universals.getListValue("musicExtensions"):
+                            if str(_path).split(".")[-1].lower() == str(ext).lower():
+                                if Universals.tableType==2 and Universals.MainWindow.PlayerBar.MusicPlayer.playInBar.isChecked():
+                                    Universals.MainWindow.PlayerBar.MusicPlayer.play(str(_path))
+                                isOpened = True
+                        if isOpened==False:
+                            from Details import Details
+                            Details(str(_path),Universals.getBoolValue("isOpenDetailsInNewWindow"))
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -324,6 +333,9 @@ class FileManager():
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index)).url().pathOrUrl()
         else:
             return self.dirModel.filePath(_index)
+            
+    def getPathOfIndexByTree(self, _index):
+        return self.dirModelForTree.filePath(_index)
         
     def getFileInfo(self, _index):
         if Universals.isActivePyKDE4==True:
@@ -356,6 +368,20 @@ class FileManager():
                 else:
                     _index = _index.parent()
             self.goTo(self.getPathOfIndex(_index))
+        except:
+            error = ReportBug.ReportBug()
+            error.show()
+            
+    def setMyCurrentIndexByTree(self, _index):
+        try:
+            while 1==1:
+                selected = str(self.getPathOfIndexByTree(_index))
+                if InputOutputs.isDir(selected)==True or InputOutputs.isFile(selected)==True:
+                    self.makeRefreshOnlyFileList(_index)
+                    break
+                else:
+                    _index = _index.parent()
+            self.goTo(self.getPathOfIndexByTree(_index))
         except:
             error = ReportBug.ReportBug()
             error.show()

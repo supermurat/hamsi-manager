@@ -235,7 +235,7 @@ if RoutineChecks.checkMandatoryModules():
                                 Universals.isStartedCloseProcces = True
                                 Universals.printForDevelopers("Started closeEvent")
                                 MApplication.setQuitOnLastWindowClosed(True)
-                                try:self.PlayerBar.Player.stop()
+                                try:self.PlayerBar.MusicPlayer.stop()
                                 except:pass
                                 from Core import ReportBug, Records
                                 from Details import MusicDetails, TextDetails, CoverDetails
