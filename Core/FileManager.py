@@ -312,7 +312,8 @@ class FileManager():
                     if self.currentDirectory != trForUI(sourcePath):
                         self.goTo(sourcePath, False)
                     else:
-                        self.makeRefreshOnlyFileList(self.lstvFileManager.rootIndex())
+                        self.makeRefreshOnlyFileList()
+                        self.makeRefreshOnlyFileListByTree()
                         if _isOnlyBrowser==False:
                             self.showInTable()
                 else:
@@ -327,6 +328,10 @@ class FileManager():
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index)).refresh()
         else:
             return self.dirModel.refresh(_index)
+    
+    def makeRefreshOnlyFileListByTree(self, _index=""):
+        if _index=="":_index = self.trvFileManager.currentIndex()
+        return self.dirModelForTree.refresh(_index)
     
     def getPathOfIndex(self, _index):
         if Universals.isActivePyKDE4==True:
@@ -377,7 +382,7 @@ class FileManager():
             while 1==1:
                 selected = str(self.getPathOfIndexByTree(_index))
                 if InputOutputs.isDir(selected)==True or InputOutputs.isFile(selected)==True:
-                    self.makeRefreshOnlyFileList(_index)
+                    self.makeRefreshOnlyFileListByTree(_index)
                     break
                 else:
                     _index = _index.parent()
@@ -437,7 +442,8 @@ class BookmarksMenu(MMenu):
                             Databases.BookmarksOfDirectories.delete(str(info[0]))
                             self.makeRefresh()
                             Universals.MainWindow.FileManager.bookmarks.makeRefresh()
-            Universals.MainWindow.FileManager.makeRefreshOnlyFileList()   
+            Universals.MainWindow.FileManager.makeRefreshOnlyFileList() 
+            Universals.MainWindow.FileManager.makeRefreshOnlyFileListByTree()     
         except:
             error = ReportBug.ReportBug()
             error.show()
