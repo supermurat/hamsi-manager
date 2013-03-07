@@ -23,6 +23,7 @@ from Core import Dialogs
 from Core import Universals
 from Core import ReportBug
 from Core import Scripts
+from Core import Variables
 import InputOutputs
 import Options
 
@@ -39,6 +40,12 @@ class ScriptManager(MDialog):
         self.sciCommand.setAutoCompletionThreshold(2)
         self.sciCommand.setAutoCompletionSource(QsciScintilla.AcsDocument)
         self.sciCommand.setLexer(QsciLexerPython(self))
+        self.sciCommand.setMarginLineNumbers(1, True)
+        self.sciCommand.setMarginWidth(1, '0000')
+        if Variables.isWindows:
+            self.sciCommand.setEolMode(QsciScintilla.EolWindows)
+        else:
+            self.sciCommand.setEolMode(QsciScintilla.EolUnix)
         lblScriptList = MLabel(translate("ScriptManager", "Script List : "))
         self.currentScriptFileName = None
         self.lwScriptList = Options.MyListWidget(self, [], _currentRowChanged=self.getFromScriptList)
