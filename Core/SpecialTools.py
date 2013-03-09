@@ -157,6 +157,8 @@ class SpecialTools(MWidget):
                 le.deleteLater()
         except:pass
         self.specialActions.pbtnAddObjects=[]
+        self.quickFill.lblColumns=[]
+        self.quickFill.leColumns=[]
         self.searchAndReplace.columns.addItem(translate("SpecialTools", "All"))
         self.clear.columns.addItem(translate("SpecialTools", "All"))
         self.characterState.columns.addItem(translate("SpecialTools", "All"))
@@ -1038,6 +1040,7 @@ class QuickFill(MWidget):
         vblFill.addLayout(self.HBoxs[0])
         vblFill.addLayout(self.HBoxs[1])
         vblFill.addLayout(self.HBoxs[2])
+        vblFill.addLayout(self.HBoxs[3])
         self.setLayout(vblFill)
         
     def showAdvancedSelections(self):
