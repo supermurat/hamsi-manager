@@ -212,7 +212,8 @@ class Correct(MWidget):
                                     translate("Options/Correct", "Sentence"), 
                                     translate("Options/Correct", "Don`t Change")], 
                                 [translate("Options/Correct", "After The First Point"), 
-                                    translate("Options/Correct", "After The Last Point")]]
+                                    translate("Options/Correct", "After The Last Point"), 
+                                    translate("Options/Correct", "Be Smart")]]
         self.valuesOfOptionsKeys = [Variables.validSentenceStructureKeys, 
                         Variables.fileExtesionIsKeys]
         _parent.createOptions(self)

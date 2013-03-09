@@ -262,6 +262,8 @@ class InputOutputs:
                 return _fileName.split(".", 1)[1]
             elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
                 return _fileName.rsplit(".", 1)[1]
+            elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[2]:
+                return re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName).group('ext')
         return ""
     
     def getFileNameParts(_fileNameOrPath):
@@ -273,6 +275,9 @@ class InputOutputs:
                 fParts = _fileName.split(".", 1)
             elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
                 fParts = _fileName.rsplit(".", 1)
+            elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[2]:
+                ext = re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName).group('ext')
+                fParts = [_fileName.replace("." + ext, ""), ext]
             fileName = fParts[0]
             fileExtension = fParts[1]
         else:

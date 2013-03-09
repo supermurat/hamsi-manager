@@ -88,7 +88,8 @@ class QuickOptions(MMenu):
                                     translate("QuickOptions", "Sentence"), 
                                     translate("QuickOptions", "Don`t Change")], 
                                 [translate("QuickOptions", "After The First Point"), 
-                                    translate("QuickOptions", "After The Last Point")]]
+                                    translate("QuickOptions", "After The Last Point"), 
+                                    translate("Options/Correct", "Be Smart")]]
         self.valuesOfOptionsKeys = [Variables.validSentenceStructureKeys,
                                     Variables.fileExtesionIsKeys]
         if Universals.tableType==0:
