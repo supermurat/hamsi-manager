@@ -20,6 +20,7 @@ import time
 import unicodedata
 import string
 import math
+import re
 from Core import Variables
 from Core import Universals
 import InputOutputs
@@ -117,6 +118,9 @@ class Organizer:
                 fParts = _fileName.split(".", 1)
             elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
                 fParts = _fileName.rsplit(".", 1)
+            elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[2]:
+                ext = re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName).group('ext')
+                fParts = [_fileName.replace("." + ext, ""), ext]
             fileName = fParts[0]
             fileExtension = fParts[1]
         else:
@@ -389,7 +393,6 @@ class Organizer:
         for filterNo in range(0,len(_searchStrings)):
             if _searchStrings[filterNo]!="":
                 if _isRegExp == True:
-                    import re
                     if _isCaseInsensitive ==True:
                         pattern = re.compile(Universals.trUnicode(_searchStrings[filterNo]), re.I | re.U)
                         newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
@@ -398,7 +401,6 @@ class Organizer:
                         newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
                 else:
                     if _isCaseInsensitive ==True:
-                        import re
                         pattern = re.compile(re.escape(Universals.trUnicode(_searchStrings[filterNo])), re.I | re.U)
                         newString = re.sub(pattern,Universals.trUnicode(_replaceStrings[filterNo]), Universals.trUnicode(newString))
                     else:
@@ -518,7 +520,6 @@ class Organizer:
                     myString+=char
         elif _cbClearType==translate("SpecialTools", "Selected Text"):
             if _isRegExp == True:
-                import re
                 if _isCaseInsensitive ==True:
                     pattern = re.compile(Universals.trUnicode(_searchString), re.I | re.U)
                     myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
@@ -527,7 +528,6 @@ class Organizer:
                     myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
             else:
                 if _isCaseInsensitive==True:
-                    import re
                     pattern = re.compile(re.escape(Universals.trUnicode(_searchString)), re.I | re.U)
                     myString = re.sub(pattern,Universals.trUnicode(""), Universals.trUnicode(_oldString))
                 else:
@@ -540,7 +540,6 @@ class Organizer:
             for filterNo in range(0,len(_searchStrings)):
                 if _searchStrings[filterNo]!="":
                     if _isRegExp == True:
-                        import re
                         if _isCaseInsensitive ==True:
                             m = re.search(_searchStrings[filterNo], newString, re.I | re.U)
                             try:a = m.group(0)
@@ -555,7 +554,6 @@ class Organizer:
                             newString = re.sub(pattern,Universals.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), Universals.trUnicode(newString))
                     else:
                         if _isCaseInsensitive ==True:
-                            import re
                             pattern = re.compile(re.escape(Universals.trUnicode(_searchStrings[filterNo])), re.I | re.U)
                             newString = re.sub(pattern,Universals.trUnicode(makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType)), Universals.trUnicode(newString))
                         else:

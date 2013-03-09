@@ -31,13 +31,13 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "1.1.7"
-    intversion = 1170
-    settingVersion = "1170"
+    version = "1.1.8"
+    intversion = 1180
+    settingVersion = "1180"
     aboutOfHamsiManager = ""
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
-    fileExtesionIsKeys = ["After The First Point", "After The Last Point"]
+    fileExtesionIsKeys = ["After The First Point", "After The Last Point", "Be Smart"]
     mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
     imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
     windowModeKeys = ["Normal", "Mini"]
