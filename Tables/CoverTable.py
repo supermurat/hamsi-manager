@@ -206,7 +206,7 @@ class CoverTable():
                 elif itemNo==2:
                     newString = trForUI(self.Table.currentTableContentValues[rowNo]["currentCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
-                    item = self.Table.createTableWidgetItem(newString, newString)
+                    item = self.Table.createTableWidgetItem(newString, newString, True)
                 elif itemNo==3:
                     newString = trForUI(self.Table.currentTableContentValues[rowNo]["sourceCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")

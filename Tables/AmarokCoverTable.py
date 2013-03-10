@@ -196,7 +196,7 @@ class AmarokCoverTable():
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseName"])
                 elif itemNo==2:
                     newString = InputOutputs.getShortPath(self.Table.currentTableContentValues[rowNo]["currentCover"], self.Table.currentTableContentValues[rowNo]["path"])
-                    item = self.Table.createTableWidgetItem(newString)
+                    item = self.Table.createTableWidgetItem(newString, newString, True)
                     self.setItemColor(item, rowNo, itemNo, "currentCover")
                 elif itemNo==3:
                     newString = InputOutputs.getShortPath(self.Table.currentTableContentValues[rowNo]["sourceCover"], self.Table.currentTableContentValues[rowNo]["path"])

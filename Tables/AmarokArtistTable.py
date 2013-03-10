@@ -125,15 +125,12 @@ class AmarokArtistTable():
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
         for rowNo in range(self.Table.rowCount()):
             newString = self.Table.currentTableContentValues[rowNo]["name"]
-            item = self.Table.createTableWidgetItem(newString, newString)
+            item = self.Table.createTableWidgetItem(newString, newString, True)
             self.Table.setItem(rowNo, 0, item)
             newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["name"])
-            item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["name"])
+            isReadOnly = self.Table.currentTableContentValues[rowNo]["name"].strip()==""
+            item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["name"], isReadOnly)
             self.Table.setItem(rowNo, 1, item)
-            if self.Table.currentTableContentValues[rowNo]["name"].strip()=="":
-                self.Table.item(rowNo,1).setToolTip(translate("AmarokArtistTable", "This value is NOT changeable!"))
-                self.Table.item(rowNo,1).setBackground(MBrush(MColor(255,150,150)))
-                self.Table.item(rowNo,1).isNeverChange = True
                         
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
