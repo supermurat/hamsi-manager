@@ -176,14 +176,13 @@ class SpecialTools(MWidget):
             self.specialActions.pbtnAddObjects.append(tb)
             MObject.connect(self.specialActions.pbtnAddObjects[-1], SIGNAL("clicked()"), self.specialActions.AddObjects)
             lbl = MLabel(columnName + ":")
-            lbl.setFixedWidth(70)
             self.quickFill.lblColumns.append(lbl)
             le = MLineEdit("")
             le.setObjectName(columnName)
             self.quickFill.leColumns.append(le)
             MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"), self.quickFill.fillAfter)
         try:
-            if Universals.tableType==2:
+            if Universals.tableType==2 or Universals.tableType==6 or Universals.tableType==8:
                 for x in range(0, 5):
                     self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])
                 for x in range(len(self.specialActions.pbtnAddObjects)-1, 4, -1):
@@ -191,6 +190,12 @@ class SpecialTools(MWidget):
                 for x in range(0, len(self.quickFill.leColumns)):
                     self.quickFill.HBoxs[x/4].addWidget(self.quickFill.lblColumns[x])
                     self.quickFill.HBoxs[x/4].addWidget(self.quickFill.leColumns[x])
+            elif Universals.tableType==4 or  Universals.tableType==5:
+                for x in range(0, len(self.specialActions.pbtnAddObjects)):
+                    self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])
+                for x in range(0, len(self.quickFill.leColumns)):
+                    self.quickFill.HBoxs[x/2].addWidget(self.quickFill.lblColumns[x])
+                    self.quickFill.HBoxs[x/2].addWidget(self.quickFill.leColumns[x])
             else:
                 for x in range(0, len(self.specialActions.pbtnAddObjects)):
                     self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])

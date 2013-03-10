@@ -363,11 +363,6 @@
         <source>Corrected Artist</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="Tables/AmarokArtistTable.py" line="134"/>
-        <source>This value is NOT changeable!</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>AmarokCopyOptionsBar</name>
@@ -890,12 +885,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="574"/>
+        <location filename="Tables/__init__.py" line="578"/>
         <source>Yes To All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="549"/>
+        <location filename="Tables/__init__.py" line="553"/>
         <source>No To All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3020,27 +3015,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="924"/>
+        <location filename="Core/SpecialTools.py" line="932"/>
         <source>Don`t Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="924"/>
+        <location filename="Core/SpecialTools.py" line="932"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="924"/>
+        <location filename="Core/SpecialTools.py" line="932"/>
         <source>All Small</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="924"/>
+        <location filename="Core/SpecialTools.py" line="932"/>
         <source>All Caps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="924"/>
+        <location filename="Core/SpecialTools.py" line="932"/>
         <source>Sentence</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3130,7 +3125,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="995"/>
+        <location filename="Core/SpecialTools.py" line="1003"/>
         <source>Table Contents</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5798,27 +5793,27 @@
 <context>
     <name>SearchAndReplaceListEditDialog</name>
     <message>
-        <location filename="Core/SpecialTools.py" line="1093"/>
+        <location filename="Core/SpecialTools.py" line="1102"/>
         <source>Advanced Value Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="1108"/>
+        <location filename="Core/SpecialTools.py" line="1117"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="1109"/>
+        <location filename="Core/SpecialTools.py" line="1118"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="1112"/>
+        <location filename="Core/SpecialTools.py" line="1121"/>
         <source>Search List : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="1114"/>
+        <location filename="Core/SpecialTools.py" line="1123"/>
         <source>Replace List : </source>
         <translation type="unfinished"></translation>
     </message>
@@ -6097,17 +6092,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="206"/>
+        <location filename="Core/SpecialTools.py" line="214"/>
         <source>Add In Front</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="208"/>
+        <location filename="Core/SpecialTools.py" line="216"/>
         <source>Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="210"/>
+        <location filename="Core/SpecialTools.py" line="218"/>
         <source>Append</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6127,7 +6122,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="374"/>
+        <location filename="Core/SpecialTools.py" line="382"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6182,117 +6177,117 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="268"/>
+        <location filename="Core/SpecialTools.py" line="276"/>
         <source>Simple</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="282"/>
+        <location filename="Core/SpecialTools.py" line="290"/>
         <source>Advance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="350"/>
+        <location filename="Core/SpecialTools.py" line="358"/>
         <source>Please Select An Action!..</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="363"/>
+        <location filename="Core/SpecialTools.py" line="371"/>
         <source>,</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="366"/>
+        <location filename="Core/SpecialTools.py" line="374"/>
         <source>Hyphen(-)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="375"/>
+        <location filename="Core/SpecialTools.py" line="383"/>
         <source>Add To Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="376"/>
+        <location filename="Core/SpecialTools.py" line="384"/>
         <source>Remove From Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="377"/>
+        <location filename="Core/SpecialTools.py" line="385"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="378"/>
+        <location filename="Core/SpecialTools.py" line="386"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="379"/>
+        <location filename="Core/SpecialTools.py" line="387"/>
         <source>What Does This Command Do?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="652"/>
+        <location filename="Core/SpecialTools.py" line="660"/>
         <source>Please Select An Action!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="669"/>
+        <location filename="Core/SpecialTools.py" line="677"/>
         <source>Search: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="670"/>
+        <location filename="Core/SpecialTools.py" line="678"/>
         <source>Replace: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="983"/>
+        <location filename="Core/SpecialTools.py" line="991"/>
         <source>Column: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="852"/>
+        <location filename="Core/SpecialTools.py" line="860"/>
         <source>Content Type: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="749"/>
+        <location filename="Core/SpecialTools.py" line="757"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="749"/>
+        <location filename="Core/SpecialTools.py" line="757"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="751"/>
+        <location filename="Core/SpecialTools.py" line="759"/>
         <source>Number Of Characters: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="850"/>
+        <location filename="Core/SpecialTools.py" line="858"/>
         <source>Text: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="761"/>
+        <location filename="Core/SpecialTools.py" line="769"/>
         <source>Sort: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="764"/>
+        <location filename="Core/SpecialTools.py" line="772"/>
         <source>Ascending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="764"/>
+        <location filename="Core/SpecialTools.py" line="772"/>
         <source>Descending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="766"/>
+        <location filename="Core/SpecialTools.py" line="774"/>
         <source>Begins With: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -6317,22 +6312,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="919"/>
+        <location filename="Core/SpecialTools.py" line="927"/>
         <source>Correct Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="921"/>
+        <location filename="Core/SpecialTools.py" line="929"/>
         <source>Character Format: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="677"/>
+        <location filename="Core/SpecialTools.py" line="685"/>
         <source>&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Example: &quot;search 1&lt;b&gt;;&lt;/b&gt;search 2&lt;b&gt;;&lt;/b&gt;search 3&lt;b&gt;;&lt;/b&gt;...&lt;b&gt;;&lt;/b&gt;search n&lt;b&gt;;&lt;/b&gt;&quot;&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="678"/>
+        <location filename="Core/SpecialTools.py" line="686"/>
         <source>&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Example: &quot;Change/replace 1&lt;b&gt;;&lt;/b&gt;Change/replace 2&lt;b&gt;;&lt;/b&gt;Change/replace 3&lt;b&gt;;&lt;/b&gt;...&lt;b&gt;;&lt;/b&gt;Change/replace n&lt;b&gt;;&lt;/b&gt;&quot;&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6342,37 +6337,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="929"/>
+        <location filename="Core/SpecialTools.py" line="937"/>
         <source>Case Insensitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="930"/>
+        <location filename="Core/SpecialTools.py" line="938"/>
         <source>Regular Expression (RegExp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="674"/>
+        <location filename="Core/SpecialTools.py" line="682"/>
         <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;HamsiManager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;ager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;HamsiMan&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="982"/>
+        <location filename="Core/SpecialTools.py" line="990"/>
         <source>Character Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="984"/>
+        <location filename="Core/SpecialTools.py" line="992"/>
         <source>Source Values : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="985"/>
+        <location filename="Core/SpecialTools.py" line="993"/>
         <source>Source Encoding : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="986"/>
+        <location filename="Core/SpecialTools.py" line="994"/>
         <source>Destination Encoding : </source>
         <translation type="unfinished"></translation>
     </message>
@@ -6673,57 +6668,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="567"/>
+        <location filename="Tables/__init__.py" line="571"/>
         <source>Hidden Field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="571"/>
+        <location filename="Tables/__init__.py" line="575"/>
         <source>Action Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="571"/>
+        <location filename="Tables/__init__.py" line="575"/>
         <source>You have cancelled the action.&lt;br&gt;You can make the necessary changes and reperform the action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="659"/>
+        <location filename="Tables/__init__.py" line="663"/>
         <source>Table Contents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="645"/>
+        <location filename="Tables/__init__.py" line="649"/>
         <source>Save As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="653"/>
+        <location filename="Tables/__init__.py" line="657"/>
         <source>Table Exported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="669"/>
+        <location filename="Tables/__init__.py" line="673"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="640"/>
+        <location filename="Tables/__init__.py" line="644"/>
         <source>HTML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="643"/>
+        <location filename="Tables/__init__.py" line="647"/>
         <source>Plain Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="567"/>
+        <location filename="Tables/__init__.py" line="571"/>
         <source>&quot;%s&quot;: you have hidden this field in the table.&lt;br&gt;Do you want to activate this field and perform the action?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="653"/>
+        <location filename="Tables/__init__.py" line="657"/>
         <source>Table contents are exported to file: &quot;%s&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6823,12 +6818,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="540"/>
+        <location filename="Tables/__init__.py" line="544"/>
         <source>Incorrect File Extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="540"/>
+        <location filename="Tables/__init__.py" line="544"/>
         <source>&quot;%s&quot;: the file extension is different from the source file extension.&lt;br&gt;Do you want to set the source file extension?&lt;br&gt;&lt;b&gt;Source file : &lt;/b&gt;&quot;%s&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6873,12 +6868,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="507"/>
+        <location filename="Tables/__init__.py" line="511"/>
         <source>There Are Unsaved Values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="507"/>
+        <location filename="Tables/__init__.py" line="511"/>
         <source>Do you want to save these values?&lt;br&gt;If you click to Yes : Table will be saved without any other question or option.&lt;br&gt;If you click to No : Application will be closed without doing any process.&lt;br&gt;If you click to Cancel : Application won&apos;t be closed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6905,6 +6900,11 @@
     <message>
         <location filename="Core/Bars.py" line="1092"/>
         <source>Just unselected informations will be changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tables/__init__.py" line="485"/>
+        <source>This value is NOT changeable!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

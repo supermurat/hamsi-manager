@@ -457,7 +457,7 @@ class Tables(MTableWidget):
                 self.pbtnSave.setToolTip(translate("Tables", "Just unselected informations will be changed"))
         
     def isChangableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
-        if self.item(_rowNo, _columnNo).isNeverChange == False:
+        if self.item(_rowNo, _columnNo).isReadOnly == False:
             if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.getBoolValue("isChangeSelected") or Universals.getBoolValue("isChangeAll"):
                 if _isCheckLike and _checkLikeThis!=None:
                     if str(_checkLikeThis)!=str(self.item(_rowNo, _columnNo).text()):
@@ -477,13 +477,17 @@ class Tables(MTableWidget):
                         return True
         return False
         
-    def createTableWidgetItem(self, _value, _currentValue=None):
+    def createTableWidgetItem(self, _value, _currentValue=None, _isReadOnly = False):
         item = MyTableWidgetItem(_currentValue)
         item.setText(trForUI(_value))
+        item.isReadOnly = _isReadOnly
+        if _isReadOnly:
+            item.setToolTip(translate("Tables", "This value is NOT changeable!"))
+            item.setFlags(Mt.ItemIsSelectable | Mt.ItemIsEnabled)
         return item
     
     def itemChanged(self, _item):
-        if _item.text()!=_item.currentText and _item.isNeverChange==False:
+        if _item.text()!=_item.currentText and _item.isReadOnly==False:
             _item.setToolTip(_item.currentText)
             _item.setBackground(MBrush(MColor(142,199,255)))
         
@@ -688,7 +692,7 @@ class MyTableWidgetItem(MTableWidgetItem):
     def __init__(self, _value):
         MTableWidgetItem.__init__(self, trForUI(_value))
         self.currentText = trForUI(_value)
-        self.isNeverChange = False
+        self.isReadOnly = False
 
 
 
