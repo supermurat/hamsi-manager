@@ -31,9 +31,9 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "1.1.8"
-    intversion = 1180
-    settingVersion = "1180"
+    version = "1.1.9"
+    intversion = 1190
+    settingVersion = "1190"
     aboutOfHamsiManager = ""
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
@@ -240,6 +240,7 @@ class Variables():
         else:
             insLangCode = "en_GB"
         myStyle , PlayerName = "", getAvailablePlayers().pop()
+        if isWindows: myStyle = "Plastique"
         return {
                 "lastDirectory": str(userDirectoryPath), 
                 "isMainWindowMaximized": "False", 
@@ -305,7 +306,7 @@ class Variables():
                 "isCorrectFileNameWithSearchAndReplaceTable": "True", 
                 "isCorrectValueWithSearchAndReplaceTable": "True", 
                 "isCorrectDoubleSpaceChars": "True", 
-                "fileExtesionIs": "After The Last Point", 
+                "fileExtesionIs": "Be Smart", 
                 "settingsVersion": settingVersion,
                 "subDirectoryDeep": "-1", 
                 "maxRecordFileSize": "256", 
@@ -338,7 +339,7 @@ class Variables():
                 "remindMeLaterForUpdate": "-1", 
                 "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S"), 
                 "isShowTransactionDetails": "False", 
-                "windowMode": windowModeKeys[0], 
+                "windowMode": windowModeKeys[1], 
                 "isInstalledKDE4Language": "False", 
                 "isShowWindowModeSuggestion": "True", 
                 "isMakeAutoDesign": "True", 

@@ -363,5 +363,7 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["isCorrectValueWithSearchAndReplaceTable"]
         if oldVersion<1170:
             newSettingsKeys = newSettingsKeys + ["maxDeletedDirectorySize"]
+        if oldVersion<1190:
+            changedDefaultValuesKeys = changedDefaultValuesKeys + ["applicationStyle", "windowMode", "fileExtesionIs"]
         return newSettingsKeys, changedDefaultValuesKeys
         

@@ -91,7 +91,7 @@ class Records():
         
     def read(_recordFilePath=Universals.recordFilePath):
         if InputOutputs.isFile(_recordFilePath)==True:
-            return InputOutputs.readFromFile(_recordFilePath)
+            return InputOutputs.readFromFile(_recordFilePath, "utf-8")
         else:
             create()
             setRecordType(1)
