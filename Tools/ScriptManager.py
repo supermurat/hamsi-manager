@@ -37,15 +37,16 @@ class ScriptManager(MDialog):
         self.sciCommand = QsciScintilla()
         self.sciCommand.setUtf8(True)
         self.sciCommand.setAutoIndent(True)
+        self.sciCommand.setIndentationGuides(True)
+        self.sciCommand.setIndentationsUseTabs(True)
+        self.sciCommand.setCaretLineVisible(True)
         self.sciCommand.setAutoCompletionThreshold(2)
         self.sciCommand.setAutoCompletionSource(QsciScintilla.AcsDocument)
         self.sciCommand.setLexer(QsciLexerPython(self))
         self.sciCommand.setMarginLineNumbers(1, True)
         self.sciCommand.setMarginWidth(1, '0000')
-        if Variables.isWindows:
-            self.sciCommand.setEolMode(QsciScintilla.EolWindows)
-        else:
-            self.sciCommand.setEolMode(QsciScintilla.EolUnix)
+        self.sciCommand.setEolMode(QsciScintilla.EolUnix)
+        self.sciCommand.setWrapMode(QsciScintilla.WrapWord)
         lblScriptList = MLabel(translate("ScriptManager", "Script List : "))
         self.currentScriptFileName = None
         self.lwScriptList = Options.MyListWidget(self, [], _currentRowChanged=self.getFromScriptList)
