@@ -337,21 +337,18 @@ def checkAndCorrectWindowMode(_isCheck=False):
                 Universals.MainWindow.removeToolBar(Universals.MainWindow.FileManager.tbarBrowserTools)
                 Universals.MainWindow.insertToolBar(firstToolBar, Universals.MainWindow.FileManager.tbarBrowserTools)
                 Universals.MainWindow.FileManager.tbarBrowserTools.setVisible(True)
-            answer = Dialogs.ask(translate("HamsiManager", "We Have A Suggestion"),
-                    translate("HamsiManager", "Your screen size too small.Are you want to reorganize interface of Hamsi Manager for your screen size?"), False)
-            if answer==Dialogs.Yes: 
-                try:
-                    if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:
-                        Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.Places)
-                    if Universals.MainWindow.Browser!=None and Universals.MainWindow.TreeBrowser!=None:
-                        Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.TreeBrowser)
-                    if Universals.MainWindow.Browser!=None and Universals.MainWindow.DirOperator!=None:
-                        Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.DirOperator)
-                    try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
-                    except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
-                    geometries = Universals.getListValue("MainWindowGeometries")
-                    Universals.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
-                except:pass
+            try:
+                if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:
+                    Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.Places)
+                if Universals.MainWindow.Browser!=None and Universals.MainWindow.TreeBrowser!=None:
+                    Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.TreeBrowser)
+                if Universals.MainWindow.Browser!=None and Universals.MainWindow.DirOperator!=None:
+                    Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.DirOperator)
+                try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
+                except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
+                geometries = Universals.getListValue("MainWindowGeometries")
+                Universals.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
+            except:pass
             Universals.setMySetting("isShowWindowModeSuggestion", False)
      
 def checkBeforeCloseProccess():
