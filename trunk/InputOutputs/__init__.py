@@ -1186,19 +1186,18 @@ class InputOutputs:
                 if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
                 if isFile(joinPath(_path, name)):
                     dontRemovingFilesCount+=1
+                    isDeleted = False
                     for ext in Universals.getListValue("packagerUnneededFileExtensions"):
-                        try:
-                            if checkExtension(name, ext):
-                                removeFile(joinPath(_path, name))
-                                dontRemovingFilesCount-=1
-                                continue
-                        except:pass
-                    try:
+                        if checkExtension(name, ext):
+                            removeFile(joinPath(_path, name))
+                            dontRemovingFilesCount-=1
+                            isDeleted = True
+                            break
+                    if isDeleted == False:
                         if name[-1:]=="~":
                             removeFile(joinPath(_path, name))
                             dontRemovingFilesCount-=1
                             continue
-                    except:pass
                 if isDir(joinPath(_path, name)):
                     dontRemovingFilesCount+=1
                     if clearPackagingDirectory(joinPath(_path, name))==False:
