@@ -322,6 +322,8 @@ if RoutineChecks.checkMandatoryModules():
                     if self.isCreateExecutableLink.checkState()==Mt.Checked:
                         if executableLink.strip()!="":
                             HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
+                            if InputOutputs.isFile(executableLink):
+                                InputOutputs.removeFileOrDir(executableLink)
                             InputOutputs.createSymLink(InputOutputs.joinPath(self.installationDirectory, HamsiManagerFileName), executableLink)
                             Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
                         if InputOutputs.isDir("/usr/share/applications/"):

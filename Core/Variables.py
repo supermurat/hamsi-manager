@@ -105,9 +105,12 @@ class Variables():
     
     def checkMyObjects():
         global MQtGui, MQtCore, isQt4Exist
-        from PyQt4 import QtGui
-        from PyQt4 import QtCore
-        MQtGui, MQtCore = QtGui, QtCore
+        MQtGui, MQtCore = None, None
+        try:
+            from PyQt4 import QtGui
+            from PyQt4 import QtCore
+            MQtGui, MQtCore = QtGui, QtCore
+        except:pass
         if MQtGui!=None and MQtCore!=None:
             isQt4Exist=True
             MQtCore.QTextCodec.setCodecForCStrings(MQtCore.QTextCodec.codecForName("utf-8"))
