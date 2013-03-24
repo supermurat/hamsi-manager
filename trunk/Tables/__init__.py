@@ -234,7 +234,11 @@ class Tables(MTableWidget):
         for rowNo in range(self.rowCount()):
             nokta.append([])
             for columnNo in range(self.columnCount()):
-                nokta[-1].append(self.item(rowNo, columnNo).text())
+                item = self.item(rowNo, columnNo)
+                if item is not None:
+                    nokta[-1].append(item.text())
+                else:
+                    nokta[-1].append("")
             nokta[-1].append(self.isRowHidden(rowNo))
         if _isReturn==False:
             self.future = []
@@ -246,7 +250,9 @@ class Tables(MTableWidget):
     def goActionPoint(self, _actionPoint):
         for rowNo, row in enumerate(_actionPoint):
             for columnNo, column in enumerate(row[:-1]):
-                self.item(rowNo, columnNo).setText(column)
+                item = self.item(rowNo, columnNo)
+                if item is not None:
+                    item.setText(column)
             if row[-1]==True:
                 self.hideRow(rowNo)
             else:
@@ -457,24 +463,26 @@ class Tables(MTableWidget):
                 self.pbtnSave.setToolTip(translate("Tables", "Just unselected informations will be changed"))
         
     def isChangableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
-        if self.item(_rowNo, _columnNo).isReadOnly == False:
-            if self.isColumnHidden(_columnNo)!=True and self.item(_rowNo, _columnNo).isSelected()==Universals.getBoolValue("isChangeSelected") or Universals.getBoolValue("isChangeAll"):
-                if _isCheckLike and _checkLikeThis!=None:
-                    if str(_checkLikeThis)!=str(self.item(_rowNo, _columnNo).text()):
+        item = self.item(_rowNo, _columnNo)
+        if item is not None:
+            if item.isReadOnly == False:
+                if self.isColumnHidden(_columnNo)!=True and item.isSelected()==Universals.getBoolValue("isChangeSelected") or Universals.getBoolValue("isChangeAll"):
+                    if _isCheckLike and _checkLikeThis!=None:
+                        if str(_checkLikeThis)!=str(item.text()):
+                            if isCanBeEmpty==False:
+                                if str(item.text()).strip()!="":
+                                    return True
+                                return False
+                            else:
+                                return True
+                        return False
+                    else:
                         if isCanBeEmpty==False:
-                            if str(self.item(_rowNo, _columnNo).text()).strip()!="":
+                            if str(item.text()).strip()!="":
                                 return True
                             return False
                         else:
                             return True
-                    return False
-                else:
-                    if isCanBeEmpty==False:
-                        if str(self.item(_rowNo, _columnNo).text()).strip()!="":
-                            return True
-                        return False
-                    else:
-                        return True
         return False
         
     def createTableWidgetItem(self, _value, _currentValue=None, _isReadOnly = False):
