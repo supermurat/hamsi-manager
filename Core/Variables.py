@@ -563,8 +563,11 @@ class Variables():
         from encodings import aliases
         charSets = []
         for k, v in aliases.aliases.items():
-            if charSets.count(v.replace("_", "-"))==0:
-                charSets.append(v.replace("_", "-"))
+            key = v.replace("_", "-")
+            if v.find("iso")>-1 and v.find("iso-")==-1:
+                key = key.replace("iso", "iso-")
+            if charSets.count(key)==0:
+                charSets.append(key)
         charSets.sort()
         return charSets
         
