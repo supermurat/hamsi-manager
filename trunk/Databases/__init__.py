@@ -27,7 +27,7 @@ import InputOutputs
 from Databases import *
     
 class Databases:
-    global defaultConnection, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, correctForSql, getAmendedSQLInsertOrUpdateQueries, checkDatabases, getAmendedSQLSelectOrInsertAndSelectQueries
+    global defaultConnection, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, correctForSql, getAmendedSQLInsertOrUpdateQueries, checkDatabases, getAmendedSQLSelectOrInsertAndSelectQueries, correctForUser
     defaultConnection = None
         
     def getDefaultConnection():
@@ -68,7 +68,17 @@ class Databases:
             cur.execute(str(sqlCommand))
             con.commit()
     
-    def correctForSql(_string):
+    def correctForSql(_string, _type="varchar"):
+        if _type=="int":
+            stringInt = "NULL"
+            try:stringInt = str(int(_string))
+            except:pass
+            return stringInt
+        return str(_string).replace("'", "''")
+    
+    def correctForUser(_string):
+        if _string is None or str(_string).upper()=="NULL" or str(_string).upper()=="NONE":
+            return ""
         return str(_string).replace("'", "''")
     
     def getAmendedSQLInsertOrUpdateQueries(_table, _columnNamesAndValues, _primaryColumns):
@@ -146,28 +156,6 @@ class Databases:
                 cur = con.cursor()
                 cur.execute(str(sqlCommand))
                 con.commit()
-                
-#            try:
-#                cur.execute("SELECT * FROM dbProperties where keyName='bookmarksOfDirectories_Version'")
-#                bookmarksOfDirectoriesVersion = int(cur.fetchall()[0][1])
-#            except:
-#                bookmarksOfDirectoriesVersion = 0
-#            try:
-#                cur.execute("SELECT * FROM dbProperties where keyName='bookmarksOfSpecialTools_Version'")
-#                bookmarksOfSpecialToolsVersion = int(cur.fetchall()[0][1])
-#            except:
-#                bookmarksOfSpecialToolsVersion = 0
-#            try:
-#                cur.execute("SELECT * FROM dbProperties where keyName='searchAndReplaceTable_Version'")
-#                searchAndReplaceTableVersion = int(cur.fetchall()[0][1])
-#            except:
-#                searchAndReplaceTableVersion = 0
-#            if bookmarksOfDirectoriesVersion<x:
-#                pass
-#            if bookmarksOfSpecialToolsVersion<x:
-#                pass
-#            if searchAndReplaceTableVersion<x:
-#                pass
         except:
             reFillDatabases()
     
