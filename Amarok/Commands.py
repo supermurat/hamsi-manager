@@ -319,7 +319,7 @@ LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
             musicFileValues[-1]["albumId"] = row[4]
             musicFileValues[-1]["yearId"] = row[5]
             musicFileValues[-1]["genreId"] = row[6]
-            musicFileValues[-1]["tracknumber"] = row[7]
+            musicFileValues[-1]["tracknumber"] = Databases.correctForUser(row[7])
             musicFileValues[-1]["comment"] = row[8]
         return musicFileValues
         
@@ -390,7 +390,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
             musicFileValues[-1]["albumId"] = row[4]
             musicFileValues[-1]["yearId"] = row[5]
             musicFileValues[-1]["genreId"] = row[6]
-            musicFileValues[-1]["tracknumber"] = row[7]
+            musicFileValues[-1]["tracknumber"] = Databases.correctForUser(row[7])
             musicFileValues[-1]["comment"] = row[8]
             musicFileValues[-1]["artist"] = row[9]
             musicFileValues[-1]["album"] = row[10]
@@ -467,7 +467,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
             musicFileValues[-1]["albumId"] = row[4]
             musicFileValues[-1]["yearId"] = row[5]
             musicFileValues[-1]["genreId"] = row[6]
-            musicFileValues[-1]["tracknumber"] = row[7]
+            musicFileValues[-1]["tracknumber"] = Databases.correctForUser(row[7])
             musicFileValues[-1]["comment"] = row[8]
             musicFileValues[-1]["artist"] = row[9]
             musicFileValues[-1]["album"] = row[10]
@@ -569,7 +569,7 @@ SELECT * FROM (
         musicFileValues["albumId"] = row[4]
         musicFileValues["yearId"] = row[5]
         musicFileValues["genreId"] = row[6]
-        musicFileValues["tracknumber"] = row[7]
+        musicFileValues["tracknumber"] = Databases.correctForUser(row[7])
         musicFileValues["comment"] = row[8]
         return musicFileValues
         
@@ -797,7 +797,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
             if "album" in _values:
                 albumId = getOrInsertAlbum(_values["album"], artistId)
             if "trackNum" in _values:
-                trackNum = _values["trackNum"]
+                trackNum = Databases.correctForSql(_values["trackNum"], "int")
             if "year" in _values:
                 yearId = getOrInsertYear(_values["year"])
             if "genre" in _values:
