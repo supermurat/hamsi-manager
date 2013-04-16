@@ -320,28 +320,32 @@ class SearchAndReplace(MWidget):
                 self.mMenu.setGeometry(_action.globalX(),_action.globalY(),1,1)
                 selected = self.mMenu.exec_()
                 if selected!=None:
-                    if selected.objectName()==self.namesOfButtons[0]:
-                        MApplication.clipboard().setText(self.currentItem().text())
-                        self.currentItem().setText("")
-                    elif selected.objectName()==self.namesOfButtons[1]:
-                        MApplication.clipboard().setText(self.currentItem().text())
-                    elif selected.objectName()==self.namesOfButtons[2]:
-                        self.currentItem().setText(MApplication.clipboard().text())
-                    elif selected.objectName()==self.namesOfButtons[3]:
-                        self.currentItem().setText("")
-                        self.editItem(self.currentItem())
-                    elif selected.objectName()==self.namesOfButtons[4]:
-                        self.editItem(self.currentItem())
-                    elif selected.objectName()==self.namesOfButtons[5]:
-                        self.hideRow(self.currentItem().row())
+                    currentItem = self.currentItem()
+                    if currentItem is not None:
+                        if selected.objectName()==self.namesOfButtons[0]:
+                            MApplication.clipboard().setText(currentItem.text())
+                            currentItem.setText("")
+                        elif selected.objectName()==self.namesOfButtons[1]:
+                            MApplication.clipboard().setText(currentItem.text())
+                        elif selected.objectName()==self.namesOfButtons[2]:
+                            currentItem.setText(MApplication.clipboard().text())
+                        elif selected.objectName()==self.namesOfButtons[3]:
+                            currentItem.setText("")
+                            self.editItem(currentItem)
+                        elif selected.objectName()==self.namesOfButtons[4]:
+                            self.editItem(currentItem)
+                        elif selected.objectName()==self.namesOfButtons[5]:
+                            self.hideRow(currentItem.row())
             except:
                 error = ReportBug.ReportBug()
                 error.show()
         
         def clicked(self, _row, _column):
             try:
-                if len(self.currentItem().text())*8>self.columnWidth(_column):
-                    self.setColumnWidth(_column,len(self.currentItem().text())*8)
+                currentItem = self.currentItem()
+                if currentItem is not None:
+                    if len(currentItem.text())*8>self.columnWidth(_column):
+                        self.setColumnWidth(_column,len(currentItem.text())*8)
             except:pass
         
         def itemChanged(self, _item):
