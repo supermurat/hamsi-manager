@@ -224,14 +224,16 @@ class AmarokMusicTable():
         MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"], Universals.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
     
     def cellClicked(self,_row,_column):
-        cellLenght = len(self.Table.currentItem().text())*8
-        if cellLenght>self.Table.columnWidth(_column):
-            self.Table.setColumnWidth(_column,cellLenght)
-        if _column==8 or _column==9:
-            if self.Table.rowHeight(_row)<150:
-                self.Table.setRowHeight(_row,150)
-            if self.Table.columnWidth(_column)<250:
-                self.Table.setColumnWidth(_column,250)
+        currentItem = self.Table.currentItem()
+        if currentItem is not None:
+            cellLenght = len(currentItem.text())*8
+            if cellLenght>self.Table.columnWidth(_column):
+                self.Table.setColumnWidth(_column,cellLenght)
+            if _column==8 or _column==9:
+                if self.Table.rowHeight(_row)<150:
+                    self.Table.setRowHeight(_row,150)
+                if self.Table.columnWidth(_column)<250:
+                    self.Table.setColumnWidth(_column,250)
         
     def cellDoubleClicked(self,_row,_column):
         try:

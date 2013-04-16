@@ -157,9 +157,11 @@ class AmarokCoverTable():
         CoverDetails.CoverDetails(coverValues, Universals.getBoolValue("isOpenDetailsInNewWindow"), _infoNo)
         
     def cellClicked(self,_row,_column):
-        cellLenght = len(self.Table.currentItem().text())*8
-        if cellLenght>self.Table.columnWidth(_column):
-            self.Table.setColumnWidth(_column,cellLenght)
+        currentItem = self.Table.currentItem()
+        if currentItem is not None:
+            cellLenght = len(currentItem.text())*8
+            if cellLenght>self.Table.columnWidth(_column):
+                self.Table.setColumnWidth(_column,cellLenght)
     
     def cellDoubleClicked(self,_row,_column):
         try:

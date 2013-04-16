@@ -270,21 +270,22 @@ class Tables(MTableWidget):
             
     def contextMenuEvent(self,_event):
         try:
-            if self.currentItem()!=None:
+            currentItem = self.currentItem()
+            if currentItem is not None:
                 self.mContextMenu.setGeometry(_event.globalX(),_event.globalY(),1,1)
                 selectedItem = self.mContextMenu.exec_()
                 if selectedItem!=None:
                     if selectedItem.objectName()==self.mContextMenuActionNames[0]:
                         self.createHistoryPoint()
-                        MApplication.clipboard().setText(self.currentItem().text())
-                        self.currentItem().setText("")
+                        MApplication.clipboard().setText(currentItem.text())
+                        currentItem.setText("")
                     elif selectedItem.objectName()==self.mContextMenuActionNames[1]:
-                        MApplication.clipboard().setText(self.currentItem().text())
+                        MApplication.clipboard().setText(currentItem.text())
                     elif selectedItem.objectName()==self.mContextMenuActionNames[2]:
                         self.createHistoryPoint()
-                        self.currentItem().setText(MApplication.clipboard().text())
+                        currentItem.setText(MApplication.clipboard().text())
                     elif selectedItem.objectName()==self.mContextMenuActionNames[3]:
-                        self.editItem(self.currentItem())
+                        self.editItem(currentItem)
                     elif selectedItem.objectName()==self.mContextMenuActionNames[4]:
                         self.createHistoryPoint()
                         for rowNo in self.getSelectedRows():
@@ -293,13 +294,13 @@ class Tables(MTableWidget):
                         self.showDetails()
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         from Core import Execute
-                        Execute.openWith([InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
+                        Execute.openWith([InputOutputs.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         from Core import Execute
-                        Execute.openWith([self.currentTableContentValues[self.currentItem().row()]["path"]])
+                        Execute.openWith([self.currentTableContentValues[currentItem.row()]["path"]])
                     elif Variables.isWindows == False and selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
-                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(self.currentTableContentValues[self.currentItem().row()]["path"])])
+                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
         except:
             error = ReportBug.ReportBug()
             error.show()
