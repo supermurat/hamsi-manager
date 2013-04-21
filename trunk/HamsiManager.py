@@ -138,6 +138,7 @@ if RoutineChecks.checkMandatoryModules():
                     quickMake = QuickMake.QuickMake()
                     if RoutineChecks.isQuickMake:
                         res = HamsiManagerApp.exec_()
+                        Universals.saveSettings()
                         Universals.printForDevelopers("Shutting down, result %d" % res)
                 except:
                     from Core import ReportBug
