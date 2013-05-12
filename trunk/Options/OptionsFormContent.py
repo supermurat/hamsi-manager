@@ -1004,7 +1004,7 @@ class MySettings(MWidget):
                 MyConfigure.installKDE4Languages()
                 Dialogs.show(translate("Options/MySettings", "Language Reinstallation Completed"), 
                         translate("Options/MySettings", "Language has successfully been reinstalled."))
-                self.parent().parent().reStart()
+                self._parent.reStart()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1048,7 +1048,7 @@ class MySettings(MWidget):
     def restoreBookmarks(self):
         try:
             if Settings.restoreBackUp("bookmarks")==True:
-                self.parent().parent().reStart()
+                self._parent.reStart()
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
@@ -1068,7 +1068,7 @@ class MySettings(MWidget):
     def restoreSettings(self):
         try:
             if Settings.restoreBackUp("Settings")==True:
-                self.parent().parent().reStart()
+                self._parent.reStart()
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
@@ -1078,7 +1078,7 @@ class MySettings(MWidget):
     def restoreAll(self):
         try:
             if Settings.restoreBackUp("All")==True:
-                self.parent().parent().reStart()
+                self._parent.reStart()
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
@@ -1096,7 +1096,7 @@ class MySettings(MWidget):
                 Databases.reFillDatabases("bookmarks")
             elif answer==translate("Options/MySettings", "Back Up And Reset"):
                 Databases.reFillDatabases("bookmarks", _makeBackUp=True)
-            self.parent().parent().reStart()
+            self._parent.reStart()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1128,7 +1128,7 @@ class MySettings(MWidget):
                 Settings.reFillSettings()
             elif answer==translate("Options/MySettings", "Back Up And Reset"):
                 Settings.reFillSettings(True)
-            self.parent().parent().reStart()
+            self._parent.reStart()
         except:
             error = ReportBug.ReportBug()
             error.show()
@@ -1144,7 +1144,7 @@ class MySettings(MWidget):
                 Settings.reFillAll()
             elif answer==translate("Options/MySettings", "Back Up And Reset"):
                 Settings.reFillAll(True)
-            self.parent().parent().reStart()
+            self._parent.reStart()
         except:
             error = ReportBug.ReportBug()
             error.show()
