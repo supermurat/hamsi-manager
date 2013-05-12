@@ -557,7 +557,7 @@ class InputOutputs:
             availableNameByName = getAvailableNameByName(_newPath)
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
-                if Variables.isWindows and _oldPath.lower()==_newPath.lower(): 
+                if Variables.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, Variables.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, Variables.validSentenceStructureKeys[1]): 
                     return _newPath
                 else:
                     if isFile(_newPath):

@@ -131,7 +131,7 @@ if RoutineChecks.checkMandatoryModules():
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                installationDirPath = InputOutputs.getDirName(trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), "HamsiManager")))))
+                installationDirPath = trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), "Hamsi"))))
                 self.leInstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)

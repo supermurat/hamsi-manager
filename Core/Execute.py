@@ -85,6 +85,13 @@ class Execute:
                 return "hamsi.exe"
             else:
                 return "hamsi"
+        if _executableName=="HamsiManagerInstaller":
+            for fName in fileList:
+                if fName.lower() == "install" or (fName.lower().split(".")[0] == "install" and (fName.lower().split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1) ):
+                    return fName
+            for fName in fileList:
+                if (fName.lower().split(".")[0].find("install")>-1) and (fName.lower().split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
+                    return fName
         return None
             
     def findExecutablePath(_executableName):
