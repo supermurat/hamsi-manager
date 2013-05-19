@@ -33,12 +33,11 @@ if Variables.isPython3k:
     from urllib.parse import unquote, quote
 else:
     from urllib import unquote, quote
-iSClosingInErrorReporting = False
 
 class ReportBug(MDialog):
     global isClose
     isClose=False
-    def __init__(self, _isOnlyReport=False, _hideFixMe=False, _isCloseAppAfterReport=True):
+    def __init__(self, _isOnlyReport=False, _hideFixMe=False):
         global errorDetails, isClose
         lastErrorDetails = str(sys.exc_info())
         lastErrorDetailsValues = sys.exc_info()
@@ -49,7 +48,6 @@ class ReportBug(MDialog):
             isShowFixMe = True
         try:MDialog.__init__(self, MainWindow)
         except:MDialog.__init__(self, None)
-        self.isCloseAppAfterReport = _isCloseAppAfterReport
         self.namMain = None
         self.nrqPost = None
         self.nrpBack = None
@@ -302,12 +300,11 @@ class ReportBug(MDialog):
         UpdateControl.UpdateControl(self)
         
     def closeEvent(self, _event):
-        global isClose, iSClosingInErrorReporting
+        global isClose
         isClose=True
         try:
             self.close()
-            if self.isCloseAppAfterReport and self.isOnlyReport==False and Universals.loggingLevel!=logging.DEBUG:
-                iSClosingInErrorReporting = True
+            if Universals.isStartingSuccessfully == False:
                 self.parent().close()
         except:pass
         
