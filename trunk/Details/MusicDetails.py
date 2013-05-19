@@ -265,15 +265,13 @@ class MusicDetails(MDialog):
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
         
     def openImageDetails(self, _index):
         try:
             ImageDetails(self.musicValues["images"][_index.row()][3], "data", self.isOpenImageDetailsOnNewWindow.isChecked())
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
         
     def addImage(self):
         try:
@@ -299,8 +297,7 @@ class MusicDetails(MDialog):
                         str(translate("MusicDetails", "\"%s\" does not exist.")
                             ) % Organizer.getLink(trForUI(self.leImagePath.text())))
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
     
     def deleteImage(self):
         try:
@@ -309,8 +306,7 @@ class MusicDetails(MDialog):
                 Musics.writeMusicFile(self.musicValues,False,True,self.musicValues["images"][self.lstwImages.currentRow()][0],False)
                 self.changeFile(self.musicFile)
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
     
     def saveAsImage(self):
         try:
@@ -322,8 +318,7 @@ class MusicDetails(MDialog):
                     InputOutputs.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
                     InputOutputs.moveOrChange(sourceFile, imagePath)
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
             
     def cancelAddImage(self):
         try:
@@ -338,8 +333,7 @@ class MusicDetails(MDialog):
             self.pbtnDeleteImage.show()
             self.pbtnSaveAsImage.show()
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
         
     def selectImage(self):
         try:
@@ -348,6 +342,5 @@ class MusicDetails(MDialog):
             if imagePath is not None:
                 self.leImagePath.setText(imagePath)
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
             

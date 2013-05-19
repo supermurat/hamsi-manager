@@ -186,8 +186,7 @@ class Searcher(MyDialog):
                 return True
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
             
     def getSearchValueList(self):
         searchValue = str(self.leSearch.text())
@@ -260,8 +259,7 @@ class Searcher(MyDialog):
                 self.tmrSearchAfter.start(500)
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
     
     def search(self, _searchValue=""):
         try:
@@ -320,8 +318,7 @@ class Searcher(MyDialog):
                 self.teSearchResult.setText(trForUI(resultOfSearch))
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
 
     def isRegExpChanged(self, _isSearch=True):
         if self.cckbIsRegExp.checkState() == Mt.Checked:
@@ -356,8 +353,7 @@ class Searcher(MyDialog):
                     self.search()
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
     
     def addSearchDirectoryPath(self):
         try:
@@ -371,8 +367,7 @@ class Searcher(MyDialog):
                     self.search()
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
 
 
     def selectSearchFilePath(self):
@@ -386,8 +381,7 @@ class Searcher(MyDialog):
                     self.search()
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
 
     def addSearchFilePath(self):
         try:
@@ -401,8 +395,7 @@ class Searcher(MyDialog):
                     self.search()
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
     
     def pbtnEditValuePathToSeachClicked(self):
         aved = AdvancedValueEditorDialog(self)

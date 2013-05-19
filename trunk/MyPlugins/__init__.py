@@ -96,16 +96,14 @@ class MyPlugins(MyDialog):
             installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def uninstallThis(self):
         try:
             uninstallPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def installPlugin(_pluginName, _isQuiet=False):
         isInstalled = False
@@ -216,8 +214,7 @@ class MyPluginsForSystem(MWidget):
             self.installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def installPlugin(self, _pluginName, _isQuiet=False):
         isInstalled = False

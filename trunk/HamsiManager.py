@@ -142,8 +142,7 @@ if RoutineChecks.checkMandatoryModules():
                         Universals.printForDevelopers("Shutting down, result %d" % res)
                 except:
                     from Core import ReportBug
-                    error = ReportBug.ReportBug()
-                    error.show()
+                    ReportBug.ReportBug()
                     res = HamsiManagerApp.exec_()
                     Universals.printForDevelopers("Shutting down, result %d" % res)
             if RoutineChecks.isQuickMake == False:
@@ -291,8 +290,7 @@ if RoutineChecks.checkMandatoryModules():
                             except:
                                 from Core import ReportBug
                                 if ReportBug.isClose==False:
-                                    error = ReportBug.ReportBug()
-                                    error.show()
+                                    ReportBug.ReportBug()
                                     _event.ignore()
                     
                     Universals.printForDevelopers("Before Main")

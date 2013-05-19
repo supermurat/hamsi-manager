@@ -147,6 +147,5 @@ class TextDetails(MDialog):
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
     

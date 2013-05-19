@@ -120,23 +120,20 @@ class ScriptManager(MDialog):
                 codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
                 self.sciCommand.setText(trForUI(codes))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def runScriptAndClose(self):
         try:
             if self.runScript():
                 self.close()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def runScript(self):
         try:
             return Scripts.runScript(str(self.sciCommand.text()))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def checkForSave(self):
         try:
@@ -155,16 +152,14 @@ class ScriptManager(MDialog):
                                 return False
             return True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def save(self):
         try:
             codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
             Scripts.saveScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName), str(self.sciCommand.text()))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def clear(self):
         try:
@@ -173,8 +168,7 @@ class ScriptManager(MDialog):
             if answer==Dialogs.Yes:
                 Scripts.clearScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def delete(self):
         try:
@@ -184,8 +178,7 @@ class ScriptManager(MDialog):
                 InputOutputs.removeFile(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
                 self.refreshScriptList()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def create(self):
         try:
@@ -193,8 +186,7 @@ class ScriptManager(MDialog):
             self.refreshScriptList()
             self.lwScriptList.setCurrentRow(self.scriptList.index(newScriptFileName))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def refreshScriptList(self):
         try:
@@ -205,7 +197,6 @@ class ScriptManager(MDialog):
                 scriptFileName = self.scriptList[self.lwScriptList.currentRow()]
             self.currentScriptFileName = scriptFileName
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
         

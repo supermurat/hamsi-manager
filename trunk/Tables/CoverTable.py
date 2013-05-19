@@ -263,8 +263,7 @@ class CoverTable():
                                                             directoryAndValues["year"][0]))
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo==0:

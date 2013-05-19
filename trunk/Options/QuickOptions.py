@@ -199,7 +199,6 @@ class QuickOptions(MMenu):
             Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
             self.checkEnableStates()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     

@@ -326,12 +326,10 @@ class InputOutputs:
                     moveFileOrDir(_oldPath,_newPath, _isQuiet)
                 if answer==translate("Dialogs", "Show Error Details"):
                     from Core import  ReportBug
-                    error = ReportBug.ReportBug()
-                    error.show()   
+                    ReportBug.ReportBug()
             else:
                 from Core import  ReportBug
-                error = ReportBug.ReportBug()
-                error.show()   
+                ReportBug.ReportBug()
     
     def copyFileOrDir(_oldPath, _newPath):
         _oldPath, _newPath = str(_oldPath), str(_newPath)

@@ -146,8 +146,7 @@ class Amarok:
                 elif str(error).find("Can't connect to local MySQL server through socket")!=-1:
                     Dialogs.showError(translate("Amarok", "Not Connected To Database"), str(translate("Amarok", "Can't connect to local MySQL server through socket \"%s\" <br><b>Details</b> : %s")) % (str(error).replace("(2002, \"Can't connect to local MySQL server through socket '", "").replace("' (2)\")", ""), str(error)))
                 else:
-                    error = ReportBug.ReportBug()
-                    error.show()
+                    ReportBug.ReportBug()
                 return None
         else:
             if isLoadedMysql==False:
@@ -408,24 +407,21 @@ class EmbeddedDBConfigurator(MyDialog):
             configureEmbeddedDB(False)
             self.checkRunState()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def startEmbeddedDB(self, _isNoAlertIfSuccesfully=False):
         try:
             startEmbeddedDB(_isNoAlertIfSuccesfully)
             self.checkRunState()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def stopEmbeddedDB(self, _isNoAlertIfSuccesfully=False):
         try:
             stopEmbeddedDB(False)
             self.checkRunState()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def isRunning(self):
         try:
@@ -438,8 +434,7 @@ class EmbeddedDBConfigurator(MyDialog):
                 self.pbtnStartEmbeddedDB.setEnabled(True)
                 Dialogs.show(translate("EmbeddedDBConfigurator", "Not Running Embedded Server"), translate("EmbeddedDBConfigurator", "Embedded Amarok database server is not running."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def backup(self):
         backupEmbeddedDB()
@@ -516,32 +511,28 @@ class ReadOnlyEmbeddedDBConfigurator(MyDialog):
             createReadOnlyEmbeddedDB(False)
             self.checkRunState()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def generateReadOnlyEmbeddedD(self):
         try:
             generateReadOnlyEmbeddedD(False)
             self.checkRunState()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def startReadOnlyEmbeddedDB(self):
         try:
             startReadOnlyEmbeddedDB(False)
             self.checkRunState()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def stopReadOnlyEmbeddedDB(self):
         try:
             stopReadOnlyEmbeddedDB(False)
             self.checkRunState()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def isReadOnlyRunning(self):
         try:
@@ -554,5 +545,4 @@ class ReadOnlyEmbeddedDBConfigurator(MyDialog):
                 self.pbtnStartEmbeddedDB.setEnabled(True)
                 Dialogs.show(translate("EmbeddedDBConfigurator", "Not Running Embedded Server"), translate("EmbeddedDBConfigurator", "Embedded Amarok database server is not running."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()

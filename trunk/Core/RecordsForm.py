@@ -70,8 +70,7 @@ class RecordsForm(MDialog):
             else:
                 self.teRecords.setPlainText(trForUI(Records.read(_filePath)))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def getFromRecordList(self, _index = None):
         try:
@@ -81,8 +80,7 @@ class RecordsForm(MDialog):
                 recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
                 self.setRecordsFile(InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, recordFilePath))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def clear(self):
         try:
@@ -99,7 +97,6 @@ class RecordsForm(MDialog):
                     self.cbRecordsList.addItems(self.recordsList)
                 self.setRecordsFile()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
         

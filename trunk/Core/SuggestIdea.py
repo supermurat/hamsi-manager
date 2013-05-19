@@ -103,8 +103,7 @@ class SuggestIdea(MDialog):
             Dialogs.showState(translate("SuggestIdea", "Sending Your Idea"), 0, 100, True, self.cancelSending)
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
         
     def sending(self, _currentValue, _maxValue):
         Dialogs.showState(translate("SuggestIdea", "Sending Your Idea"), _currentValue, _maxValue, True, self.cancelSending)
@@ -129,8 +128,7 @@ class SuggestIdea(MDialog):
             self.nrpBack = None
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
         
     def cancel(self):
         if self.nrpBack is not None:
@@ -151,8 +149,7 @@ class SuggestIdea(MDialog):
                 self.teIdea.setHtml(trForUI(currenText))
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
         
         
         

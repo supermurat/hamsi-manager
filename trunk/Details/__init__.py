@@ -84,7 +84,6 @@ class Details():
                         str(translate("Details", "\"%s\" couldn't opened. This file may is not supported. <br>If you think this is a bug, please report us.")) % Organizer.getLink(str(_filePath)), 
                         translate("QuickMake", "Report This Bug"), translate("QuickMake", "OK"), None)
             if answer==translate("QuickMake", "Report This Bug"):
-                self.error = ReportBug.ReportBug()
-                self.error.show()
+                ReportBug.ReportBug()
         
  

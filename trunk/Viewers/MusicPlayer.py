@@ -172,8 +172,7 @@ class MusicPlayer(MWidget):
                         self.tbMute.setEnabled(True)
                         self.tbStop.setEnabled(True)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def stop(self):
         try:
@@ -187,8 +186,7 @@ class MusicPlayer(MWidget):
             if self.type=="bar":
                 self.setInfoText(translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def mute(self):
         try:
@@ -196,30 +194,26 @@ class MusicPlayer(MWidget):
                 self.tbPause.setChecked(False)
             self.Player.mute()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def pause(self):
         try:
             self.Player.pause()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def runTo(self):
         try:
             temp=nesne_adi().split(";")
             self.Player.runTo(temp[1])
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def seek(self, _state):      
         try:  
             self.Player.seek(_state)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
 
 class M_Phonon():

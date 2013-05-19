@@ -176,7 +176,6 @@ class TableQuickOptions(MMenu):
             if Universals.MainWindow.Table is not None:
                 Universals.MainWindow.Table.fillSelectionInfo()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     

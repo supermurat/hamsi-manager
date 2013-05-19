@@ -268,8 +268,7 @@ class SpecialTools(MWidget):
             else:
                 self.hideAdvancedSelections()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def showAdvancedSelections(self):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Simple"))
@@ -326,8 +325,7 @@ class SpecialTools(MWidget):
             elif self.tabwTabs.currentIndex()==6:
                 pass
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def checkCompleters(self):
         if Universals.getBoolValue("isActiveCompleter"):
@@ -480,8 +478,7 @@ class SpecialActions(MWidget):
                             str(self.sender().objectName())+" "))
                 self.actionCommand += Universals.MainWindow.Table.getColumnKeyFromName(self.sender().text())
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def addComma(self):
         try:
@@ -496,8 +493,7 @@ class SpecialActions(MWidget):
                 self.commaAndSplitControl = self.numberOfActionCommand
                 self.isPressedAddObjects=False
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def addSplit(self):
         try:
@@ -515,8 +511,7 @@ class SpecialActions(MWidget):
                 self.commaAndSplitControl = self.numberOfActionCommand
                 self.isPressedAddObjects=False
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def makeClear(self):
         try:
@@ -531,15 +526,13 @@ class SpecialActions(MWidget):
             self.whereIsSplitPointer="right"
             self.isPressedAddObjects=False
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def whatDoesThisCommandDo(self):
         try:
             Organizer.whatDoesSpecialCommandDo(str(self.leSplitPointer.text()),self.whereIsSplitPointer,self.actionCommand)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def goBack(self):
         try:
@@ -564,8 +557,7 @@ class SpecialActions(MWidget):
             else:
                 self.tbGoBack.setEnabled(False)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def goForward(self):
         try:
@@ -590,8 +582,7 @@ class SpecialActions(MWidget):
             else:
                 self.tbGoForward.setEnabled(False)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
            
     def cbBookmarksChanged(self,_index):
         try:
@@ -629,8 +620,7 @@ class SpecialActions(MWidget):
                 self.tbAddComma.setEnabled(True)
                 self.details.setText(translate("SpecialTools", "Please Select An Action!"))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def addBookmark(self):
         try:
@@ -641,8 +631,7 @@ class SpecialActions(MWidget):
                 self.refreshBookmarks()
                 self.cbBookmarks.setCurrentIndex(self.cbBookmarks.count()-1)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
            
     def deleteBookmark(self):
         try:
@@ -650,8 +639,7 @@ class SpecialActions(MWidget):
                 Databases.BookmarksOfSpecialTools.delete(Databases.BookmarksOfSpecialTools.fetchAllByType()[self.cbBookmarks.currentIndex()-1][0])
                 self.refreshBookmarks()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def refreshBookmarks(self):
         try:
@@ -660,8 +648,7 @@ class SpecialActions(MWidget):
             for fav in Databases.BookmarksOfSpecialTools.fetchAllByType():
                 self.cbBookmarks.addItem(trForUI(fav[1]))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def checkCompleters(self):
         pass
@@ -829,8 +816,7 @@ class Fill(MWidget):
                 self.leFill.setEnabled(True)
                 self.spCharNumberOfDigit.setEnabled(False)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def fillTypeChanged(self):
         if self.cbFillType.currentIndex()==1:
@@ -1078,8 +1064,7 @@ class QuickFill(MWidget):
             self.tmrFillAfter.start(1000)
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
             
     def fill(self, _searchValue=""):
         try:
@@ -1089,8 +1074,7 @@ class QuickFill(MWidget):
             Organizer.quickFillTable(str(self.fillFrom.objectName()), self.parent().parent().parent(), str(self.fillFrom.text()))
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
             
             
 class SearchAndReplaceListEditDialog(MDialog):

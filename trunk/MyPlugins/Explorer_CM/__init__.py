@@ -301,8 +301,7 @@ def installThisPlugin():
             Dialogs.showError(translate("MyPlugins/Explorer_CM", "Access Denied"), 
                          translate("MyPlugins/Explorer_CM", "Please run Hamsi Manager as Administrator and try again."))
         else:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         return False
     winreg.CloseKey(rootReg)
     
@@ -394,8 +393,7 @@ def uninstallThisPlugin():
             Dialogs.showError(translate("MyPlugins/Explorer_CM", "Access Denied"), 
                          translate("MyPlugins/Explorer_CM", "Please run Hamsi Manager as Administrator and try again."))
         else:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         return False
     winreg.CloseKey(rootReg)
     

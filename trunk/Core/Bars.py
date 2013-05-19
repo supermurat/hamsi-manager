@@ -227,12 +227,10 @@ class Bars():
                 from Core import Universals, UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
             elif actionName==translate("MenuBar", "Report Bug"):
-                error = ReportBug.ReportBug(True)
-                error.show()
+                ReportBug.ReportBug(True)
             elif actionName==translate("MenuBar", "Suggest Idea"):
                 from Core import SuggestIdea
-                error = SuggestIdea.SuggestIdea()
-                error.show()
+                SuggestIdea.SuggestIdea()
             elif actionName==translate("MenuBar", "About Hamsi Manager"):
                 if Universals.isActivePyKDE4==False:
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Variables.aboutOfHamsiManager)
@@ -303,8 +301,7 @@ class Bars():
                 Scripts.runScriptFile(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, actionName))
             Records.saveAllRecords()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def refreshBars(self):
         Universals.MainWindow.Table = Tables.Tables(Universals.MainWindow)
@@ -388,8 +385,7 @@ class Bars():
             else:
                 return False
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         return False
     
     def changeTableType(self, _action):
@@ -403,8 +399,7 @@ class Bars():
             else:
                 _action.setChecked(True)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def getAllBarsStyleFromMySettings(self):
         Universals.MainWindow.TableToolsBar.setToolButtonStyle(int(Universals.MySettings["TableToolsBarButtonStyle"]))
@@ -454,8 +449,7 @@ class Bars():
             Universals.MainWindow.FileManager.makeRefresh()
             MApplication.processEvents()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     
 class TableToolsBar(MToolBar):
@@ -680,8 +674,7 @@ class MusicOptionsBar(MToolBar):
                     self.cbMusicTagTypeForReadForMenu.setCurrentIndex(self.cbMusicTagTypeForReadForMenu.findText(getSelectedTaggerTypeForReadName()))
                 self.isActiveChanging = True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def musicTagTypeForWriteChanged(self, _action=None):
         try:
@@ -695,8 +688,7 @@ class MusicOptionsBar(MToolBar):
                     self.cbMusicTagTypeForWriteForMenu.setCurrentIndex(self.cbMusicTagTypeForWriteForMenu.findText(getSelectedTaggerTypeForWriteName()))
                 self.isActiveChanging = True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def getSpecialOptions(self, _menu):
         self.cbMusicTagTypeForReadForMenu = MComboBox(self)
@@ -772,8 +764,7 @@ class AmarokMusicOptionsBar(MToolBar):
                     self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
                 self.isActiveChanging = True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def musicTagTargetTypeChanged(self, _action=None):
         try:
@@ -787,8 +778,7 @@ class AmarokMusicOptionsBar(MToolBar):
                     self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
                 self.isActiveChanging = True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def getSpecialOptions(self, _menu):
         self.cbTagSourceTypeForMenu = MComboBox(self)
@@ -868,8 +858,7 @@ class AmarokCopyOptionsBar(MToolBar):
                     self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
                 self.isActiveChanging = True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def musicTagTargetTypeChanged(self, _action=None):
         try:
@@ -883,8 +872,7 @@ class AmarokCopyOptionsBar(MToolBar):
                     self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
                 self.isActiveChanging = True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def getSpecialOptions(self, _menu):
         self.cbTagSourceTypeForMenu = MComboBox(self)
@@ -951,8 +939,7 @@ class SubDirectoryOptionsBar(MToolBar):
                     self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["subDirectoryDeep"])))
                 self.isActiveChanging = True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def getSpecialOptions(self, _menu):
         self.cbSubDirectoryDeepForMenu = MComboBox(self)
@@ -1010,8 +997,7 @@ class CoverOptionsBar(MToolBar):
                     self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["CoversSubDirectoryDeep"])))
                 self.isActiveChanging = True
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
             
     def getSpecialOptions(self, _menu):
