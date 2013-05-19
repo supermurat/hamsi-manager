@@ -19,7 +19,7 @@
 from Core import Variables
 from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/KDE4_CM", "For KDE4 Applications` Context Menus"))
-pluginVersion = "0.7"
+pluginVersion = "0.8"
 pluginFiles = ["HamsiManager_KDE4_CM.desktop", 
                "HamsiManager_KDE4_CM_Dir.desktop", 
                "HamsiManager_KDE4_CM_File.desktop"]

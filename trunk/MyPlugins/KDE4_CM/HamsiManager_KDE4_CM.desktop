@@ -3,23 +3,44 @@ Type=Service
 ServiceTypes=KonqPopupMenu/Plugin,all/allfiles,inode/directory
 ExcludeServiceTypes=kdedevice/*
 Encoding=UTF-8
-Actions=Organize;copyPath
+Actions=Organize;_SEPARATOR_;Organize0;Organize1;Organize2;Organize3;Organize4;_SEPARATOR_
 X-KDE-Priority=TopLevel
-X-KDE-Submenu=&Hamsi Manager
-X-KDE-Submenu[tr]=&Hamsi Manager
-X-KDE-Submenu[pt_BR]=&Hamsi Manager
+X-KDE-Submenu=&Hamsi Manager ( Manage )
+X-KDE-Submenu[tr]=&Hamsi Manager ( Düzenle )
 Icon=~IconPath~
 
 [Desktop Action Organize]
+Exec=~ExecuteCommandOfHamsiManager~ --directory %U
+Icon=~IconPath~
+Name=As Last Selected Table
+Name[tr]=En Son Seçilen Tabloyla Düzenle
+
+[Desktop Action Organize0]
+Exec=~ExecuteCommandOfHamsiManager~ -t 0 --directory %U
+Icon=~IconPath~
+Name=As Folder Table
+Name[tr]=Dizin Tablosuyla Düzenle
+
+[Desktop Action Organize1]
 Exec=~ExecuteCommandOfHamsiManager~ -t 1 --directory %U
 Icon=~IconPath~
-Name=Organize with Hamsi Manager
-Name[tr]=Hamsi Manager ile Düzenle
-Name[pt_BR]=Organizar com Hamsi Manager
+Name=As File Table
+Name[tr]=Dosya Tablosuyla Düzenle
 
-[Desktop Action copyPath]
-Exec=~ExecuteCommandOfHamsiManager~ --qm --copyPath %U
-Icon=~ThemePath~/Images/copyPath.png
-Name=Copy Path To Clipboard
-Name[tr]=Yolunu Panoya Kopyala
-Name[pt_BR]=Copiar caminho para a área de transferência
+[Desktop Action Organize2]
+Exec=~ExecuteCommandOfHamsiManager~ -t 2 --directory %U
+Icon=~IconPath~
+Name=As Music Table
+Name[tr]=Müzik Tablosuyla Düzenle 
+
+[Desktop Action Organize3]
+Exec=~ExecuteCommandOfHamsiManager~ -t 3 --directory %U
+Icon=~IconPath~
+Name=As Subfolder Table
+Name[tr]=Alt Dizin Tablosuyla Düzenle
+
+[Desktop Action Organize4]
+Exec=~ExecuteCommandOfHamsiManager~ -t 4 --directory %U
+Icon=~IconPath~
+Name=As Cover Table
+Name[tr]=Kapak Tablosuyla Düzenle

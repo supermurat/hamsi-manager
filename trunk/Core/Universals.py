@@ -187,7 +187,7 @@ class Universals():
         themePath = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", MySettings["themeName"])
         if tableType == None:
             tableType = int(MySettings["tableType"])
-            if tableType<0 or tableType>=len(tableTypesNames) or tableType==3:
+            if tableType<0 or tableType>=len(tableTypesNames):
                 tableType = 1
         if getBoolValue("isInstalledKDE4Language")==False:
             from Core import MyConfigure

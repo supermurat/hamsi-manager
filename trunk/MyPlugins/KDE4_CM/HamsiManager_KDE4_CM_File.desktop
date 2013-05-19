@@ -3,7 +3,7 @@ Type=Service
 ServiceTypes=KonqPopupMenu/Plugin,all/allfiles
 ExcludeServiceTypes=kdedevice/*
 Encoding=UTF-8
-Actions=emend;hash;textCorrector;search
+Actions=copyPath;emend;hash;textCorrector;search
 X-KDE-Priority=TopLevel
 X-KDE-Submenu=&Hamsi Manager
 X-KDE-Submenu[tr]=&Hamsi Manager
@@ -35,3 +35,10 @@ Exec=~ExecuteCommandOfHamsiManager~ --qm --search %U
 Icon=~ThemePath~/Images/search.png
 Name=Search
 Name[tr]=Ara
+
+[Desktop Action copyPath]
+Exec=~ExecuteCommandOfHamsiManager~ --qm --copyPath %U
+Icon=~ThemePath~/Images/copyPath.png
+Name=Copy Path To Clipboard
+Name[tr]=Yolunu Panoya Kopyala
+Name[pt_BR]=Copiar caminho para a área de transferência
