@@ -264,15 +264,14 @@ if RoutineChecks.checkMandatoryModules():
                                 Universals.printForDevelopers("Before Save Configs")
                                 Universals.setMySetting(self.Table.SubTable.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
-                                if ReportBug.iSClosingInErrorReporting == False:
-                                    Records.setRecordType(1)
-                                    subFixForStateFile = ""
-                                    if Universals.windowMode!=Variables.windowModeKeys[0]:
-                                        subFixForStateFile = Universals.windowMode
-                                    InputOutputs.writeToBinaryFile(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "LastState" + subFixForStateFile), self.saveState())
-                                    Records.restoreRecordType()
-                                    geometri = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
-                                    Universals.setMySetting("MainWindowGeometries",geometri)
+                                Records.setRecordType(1)
+                                subFixForStateFile = ""
+                                if Universals.windowMode!=Variables.windowModeKeys[0]:
+                                    subFixForStateFile = Universals.windowMode
+                                InputOutputs.writeToBinaryFile(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "LastState" + subFixForStateFile), self.saveState())
+                                Records.restoreRecordType()
+                                geometri = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
+                                Universals.setMySetting("MainWindowGeometries",geometri)
                                 Universals.setMySetting("lastDirectory",self.FileManager.currentDirectory)
                                 Universals.setMySetting("isMainWindowMaximized",self.isMaximized())
                                 Universals.setMySetting("isShowAdvancedSelections",self.SpecialTools.isShowAdvancedSelections)
@@ -333,8 +332,7 @@ if RoutineChecks.checkMandatoryModules():
                     Universals.isCanBeShowOnMainWindow = True
                 except:
                     from Core import ReportBug
-                    error = ReportBug.ReportBug()
-                    error.show()
+                    ReportBug.ReportBug()
                 res = None
                 try:
                     Universals.printForDevelopers("Before HamsiManagerApp.exec_")
@@ -344,7 +342,6 @@ if RoutineChecks.checkMandatoryModules():
                 except Exception as err:
                     from Core import ReportBug
                     error = ReportBug.ReportBug()
-                    error.show()
                     print (str(MApplication.translate("ReportBug", "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details." )) % (error.pathOfReportFile))
                     print (str(MApplication.translate("ReportBug", "Thanks in advance for your interest.")))
                     print ("Shutting down, result %d" % res)
