@@ -32,7 +32,7 @@ else:
 class Organizer:
     """Music tags, filenames, Turkish characters etc. will be arranged through this class
     """
-    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName, getCorrectedFileSize, getCorrectedTime, getFileNameParts, emendBaseName, emendFileExtension, replaceList, correctCharacterEncodingTable
+    global applySpecialCommand, emend, whatDoesSpecialCommandDo,searchAndReplaceTable, fillTable, quickFillTable, clearTable, makeCorrectCaseSensitive, correctCaseSensitiveTable, searchAndReplace, clear, correctCaseSensitive, searchAndReplaceFromSearchAndReplaceTable, getLink, getIconName, getCorrectedFileSize, getCorrectedTime, getFileNameParts, emendBaseName, emendFileExtension, replaceList, correctCharacterEncodingTable
     
     def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
         _inputString = str(_inputString)
@@ -51,6 +51,7 @@ class Organizer:
             _inputString = unquote(_inputString)
         _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore"))
         if _type=="file" or _type=="directory":
+            _inputString = InputOutputs.getAvailableNameByName(_inputString)
             preString, extString, ext2String = "", "", ""
             if _inputString[-1]==InputOutputs.sep:
                 _inputString = _inputString[:-1]
@@ -410,7 +411,7 @@ class Organizer:
                         newString = newString.replace(_searchStrings[filterNo],_replaceStrings[filterNo])
         return newString
     
-    def fillTable(_columnName, _SpecialTools,_newString=""):
+    def fillTable(_columnName, _SpecialTools, _newString=""):
         from Core.MyObjects import trForUI
         import Tables
         Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
@@ -449,7 +450,29 @@ class Organizer:
                         myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
                     elif _SpecialTools.tbAddToAfter.isChecked()==True:
                         myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString).title()))
+                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString)))
+                    
+    def quickFillTable(_columnName, _SpecialTools, _newString=""):
+        from Core.MyObjects import trForUI
+        import Tables
+        Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
+        for No, columnName in enumerate(Universals.MainWindow.Table.tableColumns):
+            if str(_columnName) == str(columnName):
+                columnNo=No
+                break
+        if Tables.checkHiddenColumn(columnNo,False)==False:
+            return False
+        if Tables.isChangeHiddenColumn==True:
+            for rowNo in range(Universals.MainWindow.Table.rowCount()):
+                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
+                    myString = str(_newString)
+                    if _SpecialTools.btChange.isChecked()==True:
+                        pass
+                    elif _SpecialTools.tbAddToBefore.isChecked()==True:
+                        myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                    elif _SpecialTools.tbAddToAfter.isChecked()==True:
+                        myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
+                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString)))
                     
     def clearTable(_SpecialTools):
         from Core.MyObjects import trForUI
