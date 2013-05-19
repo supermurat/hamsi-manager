@@ -24,6 +24,7 @@ from Details import CoverDetails
 from Core import Dialogs
 from time import gmtime
 from Core import Universals
+from Core import ReportBug
 
 class CoverTable():
     def __init__(self, _table):
@@ -45,29 +46,32 @@ class CoverTable():
         for dirNo,dirName in enumerate(allFilesAndDirectories):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isReadableFileOrDir(dirName, False, True) and InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(dirName, ".directory"), False, True):
-                    content = {}
-                    content["path"] = dirName
-                    content["baseNameOfDirectory"] = str(str(InputOutputs.getBaseName(_directoryPath)) + 
-                                    str(InputOutputs.getDirName(dirName)).replace(_directoryPath,""))
-                    content["baseName"] = InputOutputs.getBaseName(dirName)
+                try:
+                    if InputOutputs.isReadableFileOrDir(dirName, False, True) and InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(dirName, ".directory"), False, True):
+                        content = {}
+                        content["path"] = dirName
+                        content["baseNameOfDirectory"] = str(str(InputOutputs.getBaseName(_directoryPath)) + 
+                                        str(InputOutputs.getDirName(dirName)).replace(_directoryPath,""))
+                        content["baseName"] = InputOutputs.getBaseName(dirName)
 
-                    currentCover, isCorrectedFileContent = InputOutputs.getIconFromDirectory(dirName)
-                    selectedName = None
-                    if isCorrectedFileContent and currentCover!=None:
-                        selectedName = InputOutputs.getBaseName(currentCover)
-                    sourceCover = InputOutputs.getFirstImageInDirectory(dirName, selectedName, False, False)
-                    if currentCover==None:
-                        currentCover = ""
-                    if sourceCover==None:
-                        sourceCover = ""
-                    else:
-                        sourceCover = InputOutputs.joinPath(dirName, sourceCover)
-                    content["currentCover"] = (currentCover)
-                    content["sourceCover"] = (sourceCover)
-                    content["destinationCover"] = (sourceCover)
-                    content["isCorrectedFileContent"] = (isCorrectedFileContent)
-                    currentTableContentValues.append(content)
+                        currentCover, isCorrectedFileContent = InputOutputs.getIconFromDirectory(dirName)
+                        selectedName = None
+                        if isCorrectedFileContent and currentCover!=None:
+                            selectedName = InputOutputs.getBaseName(currentCover)
+                        sourceCover = InputOutputs.getFirstImageInDirectory(dirName, selectedName, False, False)
+                        if currentCover==None:
+                            currentCover = ""
+                        if sourceCover==None:
+                            sourceCover = ""
+                        else:
+                            sourceCover = InputOutputs.joinPath(dirName, sourceCover)
+                        content["currentCover"] = (currentCover)
+                        content["sourceCover"] = (sourceCover)
+                        content["destinationCover"] = (sourceCover)
+                        content["isCorrectedFileContent"] = (isCorrectedFileContent)
+                        currentTableContentValues.append(content)
+                except:
+                    ReportBug.ReportBug()
             else:
                 allItemNumber = dirNo+1
             Dialogs.showState(translate("InputOutputs/Covers", "Reading Cover Informations"),
@@ -91,53 +95,56 @@ class CoverTable():
         for rowNo in range(startRowNo,self.Table.rowCount(),rowStep):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
-                    if self.Table.isRowHidden(rowNo):
-                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
-                        self.Table.changedValueNumber += 1
-                    else:
-                        baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                        baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                        if self.Table.isChangableItem(rowNo, 3) or self.Table.isChangableItem(rowNo, 4):
-                            sourcePath = self.Table.currentTableContentValues[rowNo]["sourceCover"]
-                            destinationPath = self.Table.currentTableContentValues[rowNo]["destinationCover"]
-                            if self.Table.isChangableItem(rowNo, 3):
-                                sourcePath = str(self.Table.item(rowNo,3).text()).strip()
-                            if self.Table.isChangableItem(rowNo, 4):
-                                destinationPath = str(self.Table.item(rowNo,4).text()).strip()
-                            if (str(self.Table.item(rowNo,2).text())!=sourcePath or sourcePath!=destinationPath or str(self.Table.item(rowNo,2).text())!=destinationPath) or (str(self.Table.item(rowNo,2).text())!=self.Table.currentTableContentValues[rowNo]["currentCover"] and (str(self.Table.item(rowNo,2).text())!=sourcePath and str(self.Table.item(rowNo,2).text())!=destinationPath)):
-                                if str(self.Table.item(rowNo,3).text()).strip()!="":
-                                    sourcePath = InputOutputs.getRealPath(sourcePath, self.Table.currentTableContentValues[rowNo]["path"])
-                                    sourcePath = InputOutputs.checkSource(sourcePath, "file")
-                                    if sourcePath is not None:
-                                        if destinationPath!="":
-                                            destinationPath = InputOutputs.getRealPath(destinationPath, self.Table.currentTableContentValues[rowNo]["path"])
-                                            if sourcePath!=destinationPath:
-                                                destinationPath = InputOutputs.moveOrChange(sourcePath, destinationPath)
-                                        else:
-                                            destinationPath = sourcePath
-                                        InputOutputs.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], destinationPath)
+                try:
+                    if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                        if self.Table.isRowHidden(rowNo):
+                            InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                            self.Table.changedValueNumber += 1
+                        else:
+                            baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                            baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
+                            if self.Table.isChangableItem(rowNo, 3) or self.Table.isChangableItem(rowNo, 4):
+                                sourcePath = self.Table.currentTableContentValues[rowNo]["sourceCover"]
+                                destinationPath = self.Table.currentTableContentValues[rowNo]["destinationCover"]
+                                if self.Table.isChangableItem(rowNo, 3):
+                                    sourcePath = str(self.Table.item(rowNo,3).text()).strip()
+                                if self.Table.isChangableItem(rowNo, 4):
+                                    destinationPath = str(self.Table.item(rowNo,4).text()).strip()
+                                if (str(self.Table.item(rowNo,2).text())!=sourcePath or sourcePath!=destinationPath or str(self.Table.item(rowNo,2).text())!=destinationPath) or (str(self.Table.item(rowNo,2).text())!=self.Table.currentTableContentValues[rowNo]["currentCover"] and (str(self.Table.item(rowNo,2).text())!=sourcePath and str(self.Table.item(rowNo,2).text())!=destinationPath)):
+                                    if str(self.Table.item(rowNo,3).text()).strip()!="":
+                                        sourcePath = InputOutputs.getRealPath(sourcePath, self.Table.currentTableContentValues[rowNo]["path"])
+                                        sourcePath = InputOutputs.checkSource(sourcePath, "file")
+                                        if sourcePath is not None:
+                                            if destinationPath!="":
+                                                destinationPath = InputOutputs.getRealPath(destinationPath, self.Table.currentTableContentValues[rowNo]["path"])
+                                                if sourcePath!=destinationPath:
+                                                    destinationPath = InputOutputs.moveOrChange(sourcePath, destinationPath)
+                                            else:
+                                                destinationPath = sourcePath
+                                            InputOutputs.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], destinationPath)
+                                            self.Table.changedValueNumber += 1
+                                    else:
+                                        InputOutputs.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], "")
                                         self.Table.changedValueNumber += 1
-                                else:
-                                    InputOutputs.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], "")
-                                    self.Table.changedValueNumber += 1
-                        if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
-                            baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
-                            self.Table.changedValueNumber += 1
-                            isMovedToNewDirectory = True
-                            currentDirectoryPath = InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])
-                            newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
-                            self.Table.setNewDirectory(newDirectoryPath)
-                            if rowNo>0:
-                                if str(self.Table.item(rowNo-1,0).text()) != baseNameOfDirectory:
-                                    isNewDirectoriesSame = False
-                        if self.Table.isChangableItem(rowNo, 1, baseName, False):
-                            baseName = str(self.Table.item(rowNo,1).text())
-                            self.Table.changedValueNumber += 1
-                        newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
-                        if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
-                            changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
-                                                            newFilePath])
+                            if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                                baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
+                                self.Table.changedValueNumber += 1
+                                isMovedToNewDirectory = True
+                                currentDirectoryPath = InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])
+                                newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
+                                self.Table.setNewDirectory(newDirectoryPath)
+                                if rowNo>0:
+                                    if str(self.Table.item(rowNo-1,0).text()) != baseNameOfDirectory:
+                                        isNewDirectoriesSame = False
+                            if self.Table.isChangableItem(rowNo, 1, baseName, False):
+                                baseName = str(self.Table.item(rowNo,1).text())
+                                self.Table.changedValueNumber += 1
+                            newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
+                            if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
+                                changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
+                                                                newFilePath])
+                except:
+                    ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Covers", "Writing Cover Informations"),rowNo+1,allItemNumber, True)
