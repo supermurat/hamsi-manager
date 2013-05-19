@@ -26,6 +26,7 @@ from Core import Dialogs
 import Taggers
 from time import gmtime
 from Core import Records
+from Core import ReportBug
 
 class AmarokArtistTable():
     def __init__(self, _table):
@@ -58,10 +59,13 @@ class AmarokArtistTable():
                         for musicFileRow in artistValues:
                             isContinueThreadAction = Universals.isContinueThreadAction()
                             if isContinueThreadAction:
-                                content = {}
-                                content["id"] = musicFileRow["id"]
-                                content["name"] = musicFileRow["name"]
-                                currentTableContentValues.append(content)
+                                try:
+                                    content = {}
+                                    content["id"] = musicFileRow["id"]
+                                    content["name"] = musicFileRow["name"]
+                                    currentTableContentValues.append(content)
+                                except:
+                                    ReportBug.ReportBug()
                             else:
                                 allItemNumber = musicFileNo+1
                             Dialogs.showState(translate("InputOutputs/Covers", "Reading Music File Informations"),
@@ -82,14 +86,17 @@ class AmarokArtistTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if self.Table.isRowHidden(rowNo)==False:
-                    if self.Table.isChangableItem(rowNo, 1, str(self.Table.currentTableContentValues[rowNo]["name"])):
-                        changedArtistValues.append({})
-                        changedArtistValues[-1]["id"] = str(self.Table.currentTableContentValues[rowNo]["id"])
-                        value = str(self.Table.item(rowNo, 1).text())
-                        changedArtistValues[-1]["name"] = value
-                        Records.add(str(translate("AmarokArtistTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["name"]), value)
-                        self.Table.changedValueNumber += 1
+                try:
+                    if self.Table.isRowHidden(rowNo)==False:
+                        if self.Table.isChangableItem(rowNo, 1, str(self.Table.currentTableContentValues[rowNo]["name"])):
+                            changedArtistValues.append({})
+                            changedArtistValues[-1]["id"] = str(self.Table.currentTableContentValues[rowNo]["id"])
+                            value = str(self.Table.item(rowNo, 1).text())
+                            changedArtistValues[-1]["name"] = value
+                            Records.add(str(translate("AmarokArtistTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["name"]), value)
+                            self.Table.changedValueNumber += 1
+                except:
+                    ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)

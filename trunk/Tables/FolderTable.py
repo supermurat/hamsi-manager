@@ -25,6 +25,7 @@ from Core import Dialogs
 import Options
 from time import gmtime
 from Core import Universals
+from Core import ReportBug
 
 class FolderTable():
     def __init__(self, _table):
@@ -42,12 +43,15 @@ class FolderTable():
         for dirNo,dirName in enumerate(fileAndDirectoryNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(_directoryPath, dirName), False, True):
-                    content = {}
-                    content["path"] = InputOutputs.joinPath(_directoryPath, dirName)
-                    content["baseNameOfDirectory"] = baseNameOfDirectory
-                    content["baseName"] = dirName
-                    currentTableContentValues.append(content)
+                try:
+                    if InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(_directoryPath, dirName), False, True):
+                        content = {}
+                        content["path"] = InputOutputs.joinPath(_directoryPath, dirName)
+                        content["baseNameOfDirectory"] = baseNameOfDirectory
+                        content["baseName"] = dirName
+                        currentTableContentValues.append(content)
+                except:
+                    ReportBug.ReportBug()
             else:
                 allItemNumber = dirNo+1
             Dialogs.showState(translate("InputOutputs/Folders", "Reading Directory Informations"),dirNo+1,allItemNumber, True) 
@@ -69,25 +73,28 @@ class FolderTable():
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
-                if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
-                    if self.Table.isRowHidden(rowNo):
-                        InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], True)
-                        self.Table.changedValueNumber += 1
-                    else:
-                        baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                        baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                        if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
-                            baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
+                try:
+                    if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                        if self.Table.isRowHidden(rowNo):
+                            InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], True)
                             self.Table.changedValueNumber += 1
-                            newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
-                            self.Table.setNewDirectory(newDirectoryPath)
-                        if self.Table.isChangableItem(rowNo, 1, baseName, False):
-                            baseName = str(self.Table.item(rowNo,1).text())
-                            self.Table.changedValueNumber += 1
-                        newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
-                        if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
-                            changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
-                                                            newFilePath])
+                        else:
+                            baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                            baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
+                            if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                                baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
+                                self.Table.changedValueNumber += 1
+                                newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
+                                self.Table.setNewDirectory(newDirectoryPath)
+                            if self.Table.isChangableItem(rowNo, 1, baseName, False):
+                                baseName = str(self.Table.item(rowNo,1).text())
+                                self.Table.changedValueNumber += 1
+                            newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
+                            if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
+                                changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
+                                                                newFilePath])
+                except:
+                    ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo+1
             Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),rowNo+1,allItemNumber, True)

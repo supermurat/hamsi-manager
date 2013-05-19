@@ -34,30 +34,28 @@ if Variables.isPython3k:
 else:
     from urllib import unquote, quote
 
-class ReportBug(MDialog):
-    global isClose
-    isClose=False
-    def __init__(self, _isOnlyReport=False, _hideFixMe=False):
-        global errorDetails, isClose
-        lastErrorDetails = str(sys.exc_info())
-        lastErrorDetailsValues = sys.exc_info()
-        MainWindow = Universals.MainWindow
-        if Universals.isStartingSuccessfully==True:
-            isShowFixMe = False
-        else:
-            isShowFixMe = True
-        try:MDialog.__init__(self, MainWindow)
-        except:MDialog.__init__(self, None)
-        self.namMain = None
-        self.nrqPost = None
-        self.nrpBack = None
-        self.pathOfReportFile = ""
-        self.isOnlyReport=True
-        isClose=False
+class ReportBug():
+    global bugDialog, lastErrorDetails
+    bugDialog = None
+    lastErrorDetails = None
+    
+    def __init__(self, _isOnlyReport=False):
+        global bugDialog, lastErrorDetails
+        self.pathOfReportFile = None
+        realErrorDetails = ""
+        if bugDialog is not None:
+            self.pathOfReportFile = bugDialog.pathOfReportFile
+        if lastErrorDetails is not None:
+            realErrorDetails += lastErrorDetails
         errorDetails = "<b>" + str(translate("ReportBug", "Note : You can check and delete your personal informations."))+"</b><br>"
+        try:Records.saveAllRecords()
+        except:pass
+        try:Universals.saveSettings()
+        except:pass
+        
         if _isOnlyReport==False:
+            lastErrorDetailsValues = sys.exc_info()
             Universals.isRaisedAnError = True
-            self.isOnlyReport = False
             cla, error, trbk = lastErrorDetailsValues
             try:
                 excArgs = error.__dict__["args"]
@@ -68,27 +66,21 @@ class ReportBug(MDialog):
                 for x in traceback.format_tb(trbk, 5):
                     tbf += str(x) + "<br>"
             except:tbf = ""
-            realErrorDetails = "<p><b><a name='errorDetails'>" + str(translate("ReportBug", "Errors : ")) + "</a></b>" + tbf + "</p>"
+            realErrorDetails += "<p><b><a name='errorDetails'>" + str(translate("ReportBug", "Errors : ")) + "</a></b>" + tbf + "</p>"
             realErrorDetails += ("<p><b>" + str(translate("ReportBug", "Error Name : ")) + "</b>" + str(cla.__name__) + "<br><b>" +
                             str(translate("ReportBug", "Error : ")) + "</b>"+str(error)+"<br><b>" +
                             str(translate("ReportBug", "Error arguments : ")) + "</b>"+str(excArgs)+"</p><hr><p><b>" +
                             str(translate("ReportBug", "Last Signal Sender (Object Name,Object Text) : ")) + "</b>&quot;")
-            try:realErrorDetails +=Universals.trUnicode(self.sender().objectName())
+            try:realErrorDetails +=Universals.trUnicode(Universals.MainWindow.sender().objectName())
             except:pass
             realErrorDetails +="&quot;,&quot;"
-            try:realErrorDetails +=Universals.trUnicode(self.sender().text())
+            try:realErrorDetails +=Universals.trUnicode(Universals.MainWindow.sender().text())
             except:pass
             realErrorDetails +="&quot;"
             realErrorDetails += "</p>"
             realErrorDetails = realErrorDetails.replace("\\n", "<br>").replace("\'", "&#39;")
-        try:Records.saveAllRecords()
-        except:pass
-        try:Universals.saveSettings()
-        except:pass
-        try:
-            if Universals.isActivePyKDE4==True:
-                self.setButtons(MDialog.NoDefault)
-        except:pass
+            lastErrorDetails = realErrorDetails
+            
         errorDetails +="<hr><b>" + str(translate("ReportBug", "Active Dialog`s Titles : ")) + "</b>"
         try:errorDetails += str(Universals.HamsiManagerApp.activeModalWidget().windowTitle())+","
         except:pass
@@ -105,8 +97,6 @@ class ReportBug(MDialog):
         try:
             errorDetails += "<b>" + str(translate("ReportBug", "Is Starting Successfully : ")) + "</b>"
             errorDetails += str(Universals.isStartingSuccessfully) + "<br>"
-            errorDetails += "<b>" + str(translate("ReportBug", "Is Reporting Manuel : ")) + "</b>"
-            errorDetails += str(_isOnlyReport) + "<br>"
             errorDetails += "<b>" + str(translate("ReportBug", "Is Quick Make : ")) + "</b>"
             errorDetails += str(isQuickMake) + "<br>"
             errorDetails += "<b>" + str(translate("ReportBug", "Quick Make Parameters : ")) + "</b>"
@@ -157,8 +147,74 @@ class ReportBug(MDialog):
             import Tables
             errorDetails += "<b>" + str(translate("ReportBug", "Table Type No : ")) + "</b>" + str(Universals.tableType) +"<br>"
         except:pass
-        if _isOnlyReport==False:
-            errorDetails += str(realErrorDetails)
+        errorDetails += str(realErrorDetails)
+        self.createErrorPage(errorDetails)
+        if bugDialog is None:
+            bugDialog = ReportBugDialog(errorDetails, self.pathOfReportFile)
+        else:
+            try:
+                bugDialog.teErrorDetails.setHtml(trForUI(errorDetails.replace("<hr>", "")))
+            except:
+                bugDialog.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>To see the details, please click on the \"Show details file\" button."))
+                bugDialog.teErrorDetails.setEnabled(False)
+            bugDialog.show()
+            
+    def createErrorPage(self, _errorDetails):
+        _errorDetails = _errorDetails.replace("\"", "&quot;").replace("\'", "&#39;")
+        language = "en_GB"
+        if "language" in Universals.MySettings:
+            language = Universals.MySettings["language"]
+        htmlString=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
+                    '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Hamsi Manager</title></head><body>'+
+                    '<center>'+
+                    '<form action="http://hamsiapps.com/ForMyProjects/ReportBug.php" method="post">'+
+                    '<TABLE><TR><TD valign="top">%s'
+                    '</TD><TD colspan=2><textarea ROWS="7" COLS="40" name="userNotes"></textarea></TD></TR></TABLE>'+
+                    '<TABLE><TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="nameAndSurname" value=""></input></TD></TR>'+
+                    '<TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="mail" value=""></input></TD></TR></TABLE>'+
+                    '<TABLE><TR><TD align="right"><input name="send" type="submit" value="&nbsp;&nbsp;&nbsp;%s&nbsp;&nbsp;&nbsp;&nbsp;"></TD></TR></TABLE>'+
+                    '<INPUT TYPE="hidden" name="error" value="%s" />'+
+                    '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
+                    '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
+                    '<INPUT TYPE="hidden" name="l" value="' + str(language) + '" />'+
+                    '<INPUT TYPE="hidden" name="v" value="' + str(Variables.intversion) + '" /></form>'+
+                    '%s</center></body></html>'
+                    ) % (
+                    str(translate("ReportBug", "<b>Error description :</b> <br>(Be can null)<br><b>Note:</b>Please write what you did before you received the error here.")), 
+                    str(translate("ReportBug", "<b>Name and Surname :</b> (Be can null)")), 
+                    str(translate("ReportBug", "<b>E-mail address :</b> (Be can null)<br><b>Note:</b>Will be kept strictly confidential. It will be used solely to report you back once the problem is solved..")), 
+                    str(translate("ReportBug", "Report Bug")), 
+                    _errorDetails, 
+                    str(translate("ReportBug", "Thank you for sending us your error report. You have already contributed a lot to make the next release even better..<br>")), 
+                    _errorDetails)
+        if self.pathOfReportFile is None:
+            import random
+            self.pathOfReportFile = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html")
+            InputOutputs.writeToFile(self.pathOfReportFile, htmlString)
+        
+
+class ReportBugDialog(MDialog):
+    global isClose
+    isClose=False
+    def __init__(self, _errorDetails="", _pathOfReportFile=None):
+        global isClose
+        MainWindow = Universals.MainWindow
+        if Universals.isStartingSuccessfully==True:
+            isShowFixMe = False
+        else:
+            isShowFixMe = True
+        try:MDialog.__init__(self, MainWindow)
+        except:MDialog.__init__(self, None)
+        self.pathOfReportFile = _pathOfReportFile
+        self.namMain = None
+        self.nrqPost = None
+        self.nrpBack = None
+        isClose=False
+        try:
+            if Universals.isActivePyKDE4==True:
+                self.setButtons(MDialog.NoDefault)
+        except:pass
+        
         try:
             from Core import Dialogs
             if Dialogs.pnlState!=None:
@@ -174,9 +230,8 @@ class ReportBug(MDialog):
         self.pbtnCheckUpdate = MPushButton(translate("ReportBug", "Check Update"))
         self.cckbIsSendTableContents = Options.MyCheckBox(self, translate("ReportBug", "Send Table Contents For More Details"), 0, _stateChanged = self.isSendTableContents)
         self.teErrorDetails = MTextEdit() 
-        self.createErrorPage(errorDetails)
         try:
-            self.teErrorDetails.setHtml(trForUI(errorDetails.replace("<hr>", "")))
+            self.teErrorDetails.setHtml(trForUI(_errorDetails.replace("<hr>", "")))
         except:
             self.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>To see the details, please click on the \"Show details file\" button."))
             self.teErrorDetails.setEnabled(False)
@@ -227,7 +282,7 @@ class ReportBug(MDialog):
         self.setMaximumSize(600, 375)  
         self.show()
         self.setMaximumSize(10000, 10000)
-        if isShowFixMe == True and isQuickMake==False and _hideFixMe==False and Universals.loggingLevel!=logging.DEBUG:
+        if isShowFixMe == True and isQuickMake==False and Universals.loggingLevel!=logging.DEBUG:
             try:
                 from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("ReportBug", "I Have A Suggestion!"),
@@ -307,39 +362,6 @@ class ReportBug(MDialog):
             if Universals.isStartingSuccessfully == False:
                 self.parent().close()
         except:pass
-        
-    def createErrorPage(self, _errorDetails):
-        _errorDetails = _errorDetails.replace("\"", "&quot;").replace("\'", "&#39;")
-        language = "en_GB"
-        if "language" in Universals.MySettings:
-            language = Universals.MySettings["language"]
-        htmlString=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
-                    '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Hamsi Manager</title></head><body>'+
-                    '<center>'+
-                    '<form action="http://hamsiapps.com/ForMyProjects/ReportBug.php" method="post">'+
-                    '<TABLE><TR><TD valign="top">%s'
-                    '</TD><TD colspan=2><textarea ROWS="7" COLS="40" name="userNotes"></textarea></TD></TR></TABLE>'+
-                    '<TABLE><TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="nameAndSurname" value=""></input></TD></TR>'+
-                    '<TR><TD valign="top" colspan=2>%s</TD><TD align="right"><input type="search" name="mail" value=""></input></TD></TR></TABLE>'+
-                    '<TABLE><TR><TD align="right"><input name="send" type="submit" value="&nbsp;&nbsp;&nbsp;%s&nbsp;&nbsp;&nbsp;&nbsp;"></TD></TR></TABLE>'+
-                    '<INPUT TYPE="hidden" name="error" value="%s" />'+
-                    '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
-                    '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
-                    '<INPUT TYPE="hidden" name="l" value="' + str(language) + '" />'+
-                    '<INPUT TYPE="hidden" name="v" value="' + str(Variables.intversion) + '" /></form>'+
-                    '%s</center></body></html>'
-                    ) % (
-                    str(translate("ReportBug", "<b>Error description :</b> <br>(Be can null)<br><b>Note:</b>Please write what you did before you received the error here.")), 
-                    str(translate("ReportBug", "<b>Name and Surname :</b> (Be can null)")), 
-                    str(translate("ReportBug", "<b>E-mail address :</b> (Be can null)<br><b>Note:</b>Will be kept strictly confidential. It will be used solely to report you back once the problem is solved..")), 
-                    str(translate("ReportBug", "Report Bug")), 
-                    _errorDetails, 
-                    str(translate("ReportBug", "Thank you for sending us your error report. You have already contributed a lot to make the next release even better..<br>")), 
-                    _errorDetails)
-        if self.pathOfReportFile=="":
-            import random
-            self.pathOfReportFile = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html")
-            InputOutputs.writeToFile(self.pathOfReportFile, htmlString)
             
     def showDetailsPage(self):
         from Details import HtmlDetails
