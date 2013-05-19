@@ -1086,7 +1086,7 @@ class QuickFill(MWidget):
             self.checkCompleters()
             self.reFillCompleters()
             Universals.MainWindow.Table.createHistoryPoint()
-            Organizer.fillTable(str(self.fillFrom.objectName()), self.parent().parent().parent(), str(self.fillFrom.text()))
+            Organizer.quickFillTable(str(self.fillFrom.objectName()), self.parent().parent().parent(), str(self.fillFrom.text()))
         except:
             from Core import ReportBug
             error = ReportBug.ReportBug()

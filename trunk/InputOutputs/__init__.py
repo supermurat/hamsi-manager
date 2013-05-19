@@ -35,7 +35,7 @@ class InputOutputs:
     """Read and writes are arranged in this class"""
     global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, walk, getDirectorySize, checkSizeOfDeletedFiles
     global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
-    global readDirectoryAll, getObjectType, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
+    global readDirectoryAll, getObjectType, getAvailablePathByPath, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
     global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError, checkEmptyDirectories, activateSmartCheckEmptyDirectories, completeSmartCheckEmptyDirectories, isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus
     appendingDirectories = []
@@ -134,7 +134,7 @@ class InputOutputs:
         except:
             return False
             
-    def getAvailableNameByName(_newPath):
+    def getAvailablePathByPath(_newPath):
         _newPath = getRealPath(str(_newPath))
         newPath = ""
         isFirstPart = True
@@ -155,6 +155,21 @@ class InputOutputs:
             else:
                 newPath += sep
             isFirstPart = False
+        return newPath
+            
+    def getAvailableNameByName(_newPath):
+        _newPath = str(_newPath)
+        newPath = ""
+        for pathPart in _newPath.split(sep):
+            badchars = re.compile(r'[/]')
+            pathPart = badchars.sub('_', pathPart)
+            if Variables.isWindows:
+                badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|\.$|^ | $|^$', re.U)
+                pathPart = re.sub(badchars,'_', Universals.trUnicode(pathPart), re.U)
+                badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
+                if badnames.match(pathPart):
+                    pathPart = "_" + pathPart
+            newPath = joinPath(newPath, pathPart)
         return newPath
     
     def getSize(_oldPath):
@@ -290,7 +305,7 @@ class InputOutputs:
             _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
             _newPath = _newPath.replace("\\", sep).replace("/", sep)
         try:
-            if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and getDirName(_oldPath).lower()==getDirName(_newPath).lower()):
+            if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, Variables.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, Variables.validSentenceStructureKeys[1])):
                 try:os.rename(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
                 except:os.rename(_oldPath,_newPath)
             else:
@@ -547,14 +562,14 @@ class InputOutputs:
                                         str(translate("InputOutputs", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
             if _newPath is None:
                 return False
-        availableNameByName = getAvailableNameByName(_newPath)
+        availableNameByName = getAvailablePathByPath(_newPath)
         while _newPath!=availableNameByName:
             from Core import Dialogs
             _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
                                         str(translate("InputOutputs", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
             if _newPath is None:
                 return False
-            availableNameByName = getAvailableNameByName(_newPath)
+            availableNameByName = getAvailablePathByPath(_newPath)
         if isExist(_newPath):
             if isWritableFileOrDir(_newPath):
                 if Variables.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, Variables.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, Variables.validSentenceStructureKeys[1]): 
