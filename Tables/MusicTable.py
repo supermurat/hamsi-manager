@@ -59,6 +59,7 @@ class MusicTable():
             if isContinueThreadAction:
                 try:
                     if InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(_directoryPath, musicName), False, True):
+                        tagger = Taggers.getTagger()
                         try:
                             tagger.loadFile(InputOutputs.joinPath(_directoryPath, musicName))
                         except:
