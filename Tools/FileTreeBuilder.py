@@ -153,8 +153,7 @@ class FileTreeBuilder(MyDialog):
             Universals.isCanBeShowOnMainWindow = True
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()   
+            ReportBug.ReportBug()
     
     def selectPath(self):
         try:
@@ -163,8 +162,7 @@ class FileTreeBuilder(MyDialog):
                 self.lePath.setText(trForUI(dirPath))
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
     
     
                 

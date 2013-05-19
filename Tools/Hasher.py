@@ -119,8 +119,7 @@ class Hasher(MyDialog):
             self.leHashDigestFile.setText(self.lePathOfPackage.text() + packageExtension)  
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
     
     def hashOutputChanged(self, _value):
         if _value==1:
@@ -161,8 +160,7 @@ class Hasher(MyDialog):
                 self.lePathOfPackage.setText(trForUI(PathOfPackage))    
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
     
     
                 

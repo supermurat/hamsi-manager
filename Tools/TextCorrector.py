@@ -136,8 +136,7 @@ class TextCorrector(MyDialog):
                 self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(Universals.MySettings["fileSystemEncoding"]))
                 self.fillValues()
         except:
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
         
     def save(self):
         try:
@@ -158,6 +157,5 @@ class TextCorrector(MyDialog):
                         str(translate("TextDetails", "\"%s\" does not exist.<br>Please select an exist file and try again.")
                             )% Organizer.getLink(trForUI(filePath)))
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
     

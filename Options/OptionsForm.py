@@ -236,8 +236,7 @@ class OptionsForm(MDialog):
                 category.setVisible(False)
             self.categories[_tabNo].setVisible(True)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def reStart(self):
         answer = Dialogs.ask(translate("Options", "Please Restart"), 
@@ -492,8 +491,7 @@ class OptionsForm(MDialog):
                 self.reStart()
             else:return True
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()
+            ReportBug.ReportBug()
             
     def applySetting(self, _category, _keyValue):
         try:
@@ -557,8 +555,7 @@ class OptionsForm(MDialog):
                     else:
                         Universals.setMySetting(_keyValue, value) 
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()
+            ReportBug.ReportBug()
             
     def createOptions(self, _category):
         self.correctSettingKeys(_category)

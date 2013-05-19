@@ -230,8 +230,7 @@ class Configurator(MyDialog):
             self.wAvailableModules.setLayout(self.vblAvailableModules)
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def pageChanged(self, _isRunningManual=False):
         try:
@@ -274,8 +273,7 @@ class Configurator(MyDialog):
                     self.reConfigure()
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def reConfigure(self):
         try:
@@ -317,8 +315,7 @@ class Configurator(MyDialog):
             self.isInstallFinised = True
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     
                 

@@ -259,8 +259,7 @@ class FileManager():
                             from Details import Details
                             Details(str(_path),Universals.getBoolValue("isOpenDetailsInNewWindow"))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def goBack(self):
         try:
@@ -271,8 +270,7 @@ class FileManager():
             if len(self.history)==0:
                 self.actBack.setEnabled(False)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def goForward(self):
         try:
@@ -285,22 +283,19 @@ class FileManager():
             if len(self.future)==0:
                 self.actForward.setEnabled(False)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def goUp(self):
         try:
             self.goTo(trForUI(InputOutputs.getDirName(self.currentDirectory)))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def goHome(self):
         try:
             self.goTo(MDir.homePath())
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def makeRefresh(self, _newDirectoryPath="", _isOnlyBrowser=False):
         try:
@@ -319,8 +314,7 @@ class FileManager():
                 else:
                     self.goTo(InputOutputs.getRealDirName(str(self.currentDirectory)), False)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def makeRefreshOnlyFileList(self, _index=""):
         if _index=="":_index = self.lstvFileManager.currentIndex()
@@ -374,8 +368,7 @@ class FileManager():
                     _index = _index.parent()
             self.goTo(self.getPathOfIndex(_index))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def setMyCurrentIndexByTree(self, _index):
         try:
@@ -388,8 +381,7 @@ class FileManager():
                     _index = _index.parent()
             self.goTo(self.getPathOfIndexByTree(_index))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def showInTable(self):
         try:
@@ -398,8 +390,7 @@ class FileManager():
             else:
                 Universals.MainWindow.StatusBar.setTableInfo(Universals.tableTypesNames[Universals.tableType] + trForUI(" : ~ "))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def getCurrentDirectoryPath(self):
         return str(self.currentDirectory).replace("file://", "")
@@ -421,8 +412,7 @@ class BookmarksMenu(MMenu):
                 self.addAction(trForUI(fav[1])).setObjectName(trForUI(fav[1]))
             self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(translate("BookmarksMenu", "Edit Bookmarks"))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def triggered(self, _action):
         try:
@@ -445,8 +435,7 @@ class BookmarksMenu(MMenu):
             Universals.MainWindow.FileManager.makeRefreshOnlyFileList() 
             Universals.MainWindow.FileManager.makeRefreshOnlyFileListByTree()     
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     
 class Bookmarks(MDialog):
@@ -491,8 +480,7 @@ class Bookmarks(MDialog):
         try:
             self.pathOfBookmark.setText(trForUI(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def addBookmark(self):
         try:
@@ -501,8 +489,7 @@ class Bookmarks(MDialog):
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def saveBookmark(self):
         try:
@@ -511,8 +498,7 @@ class Bookmarks(MDialog):
             self.makeRefresh()
             Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def deleteBookmark(self):
         try:
@@ -522,8 +508,7 @@ class Bookmarks(MDialog):
                 self.makeRefresh()
                 Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def makeRefresh(self):
         try:
@@ -531,8 +516,7 @@ class Bookmarks(MDialog):
             for fav in Databases.BookmarksOfDirectories.fetchAll():
                 self.cbBookmarks.addItem(trForUI(fav[1])) 
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
             
             

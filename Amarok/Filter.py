@@ -52,8 +52,7 @@ class FilterWidget(MWidget):
             self.dFilterEditor.show()
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
         
     def apply(self):
         try:
@@ -61,8 +60,7 @@ class FilterWidget(MWidget):
             Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
 
 class FilterEditor(MDialog):
     def __init__(self, _parent, _filterKeyName):
@@ -117,8 +115,7 @@ class FilterEditor(MDialog):
             self.fWidget.apply()
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
         
         
             

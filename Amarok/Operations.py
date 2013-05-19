@@ -55,8 +55,7 @@ class Operations:
                     else:
                         Commands.changeDirectoryPath(value["oldPath"], value["newPath"])
                 except:
-                    error = ReportBug.ReportBug()
-                    error.show()   
+                    ReportBug.ReportBug()
             else:
                 allItemNumber = valueNo+1
             Dialogs.showState(Universals.translate("Amarok/Operations", "Changing Paths In Amarok Database"),
@@ -76,8 +75,7 @@ class Operations:
                 try:
                     Commands.changeTag(value)
                 except:
-                    error = ReportBug.ReportBug()
-                    error.show()   
+                    ReportBug.ReportBug()
             else:
                 allItemNumber = valueNo+1
             Dialogs.showState(Universals.translate("Amarok/Operations", "Changing Tags In Amarok Database"),

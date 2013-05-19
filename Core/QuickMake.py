@@ -117,8 +117,7 @@ class QuickMake():
             answer = Dialogs.askSpecial(translate("QuickMake", "Missing Command"),
                         translate("QuickMake", "Your action unable to process.Please try again or report this bug."), translate("QuickMake", "Report This Bug"), translate("QuickMake", "Close"))
         if answer==translate("QuickMake", "Report This Bug"):
-            self.error = ReportBug.ReportBug(True)
-            self.error.show()
+            ReportBug.ReportBug(True)
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
    
@@ -219,24 +218,21 @@ class QuickMakeWindow(MyDialog):
                 from Tools import Packager
                 self.newDialog = Packager.Packager(_path)
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
         
     def configurator(self):
         try:
             from Tools import Configurator
             self.newDialog = Configurator.Configurator()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()    
+            ReportBug.ReportBug()
         
     def plugins(self):
         try:
             import MyPlugins
             self.newDialog = MyPlugins.MyPlugins()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
     
     def hash(self):
         try:
@@ -245,8 +241,7 @@ class QuickMakeWindow(MyDialog):
                 from Tools import Hasher
                 self.newDialog = Hasher.Hasher(_path)
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
                 
     def checkIcon(self):
         try:
@@ -257,8 +252,7 @@ class QuickMakeWindow(MyDialog):
                         str(translate("QuickMake", "\"%s\"`s icon checked.<br>The default action based on the data is executed.")) % Organizer.getLink(_path))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
 
     def clearEmptyDirectories(self):
         try:
@@ -272,8 +266,7 @@ class QuickMakeWindow(MyDialog):
                         str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(_path))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
                 
     def clearUnneededs(self):
         try:
@@ -284,8 +277,7 @@ class QuickMakeWindow(MyDialog):
                         str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(_path))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
                 
     def clearIgnoreds(self):
         try:
@@ -296,8 +288,7 @@ class QuickMakeWindow(MyDialog):
                         str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(_path))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
                         
     def emendFile(self):
         try:
@@ -316,8 +307,7 @@ class QuickMakeWindow(MyDialog):
                             (Organizer.getLink(_path), Organizer.getLink(newFileName)))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
 
     def emendDirectory(self):
         try:
@@ -336,8 +326,7 @@ class QuickMakeWindow(MyDialog):
                             (Organizer.getLink(_path), Organizer.getLink(newDirName)))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
                             
     def emendDirectoryWithContents(self):
         try:
@@ -366,8 +355,7 @@ class QuickMakeWindow(MyDialog):
                             (Organizer.getLink(_path), Organizer.getLink(newDirName)))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
                             
     def copyPath(self):
         try:
@@ -378,8 +366,7 @@ class QuickMakeWindow(MyDialog):
                         str(translate("QuickMake", "\"%s\" copied to clipboard.")) % Organizer.getLink(_path))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
 
     def fileTree(self):
         try:
@@ -388,8 +375,7 @@ class QuickMakeWindow(MyDialog):
                 from Tools import FileTreeBuilder
                 self.newDialog = FileTreeBuilder.FileTreeBuilder(_path)
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()     
+            ReportBug.ReportBug()
     
     def removeOnlySubFiles(self):
         try:
@@ -405,8 +391,7 @@ class QuickMakeWindow(MyDialog):
                         str(translate("QuickMake", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(_path))
             self.close()
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()   
+            ReportBug.ReportBug()
 
     def clear(self):
         try:
@@ -415,8 +400,7 @@ class QuickMakeWindow(MyDialog):
                 from Tools import Cleaner
                 self.newDialog = Cleaner.Cleaner(_path)
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()     
+            ReportBug.ReportBug()
     
     def textCorrector(self):
         try:
@@ -425,8 +409,7 @@ class QuickMakeWindow(MyDialog):
                 from Tools import TextCorrector
                 self.newDialog = TextCorrector.TextCorrector(_path)
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()    
+            ReportBug.ReportBug()
             
     def search(self):
         try:
@@ -436,8 +419,7 @@ class QuickMakeWindow(MyDialog):
                 searchList = [_path] + QuickMakeParameters[2]
                 self.newDialog = Searcher.Searcher(searchList)
         except:
-            self.error = ReportBug.ReportBug()
-            self.error.show()    
+            ReportBug.ReportBug()
             
             
         

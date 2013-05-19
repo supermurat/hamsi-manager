@@ -224,8 +224,7 @@ if RoutineChecks.checkMandatoryModules():
                         self.install()
             except:
                 from Core import ReportBug
-                error = ReportBug.ReportBug()
-                error.show()
+                ReportBug.ReportBug()
                 
         def install(self):
             try:
@@ -295,8 +294,7 @@ if RoutineChecks.checkMandatoryModules():
                 self.pageChanged(True)
             except:
                 from Core import ReportBug
-                error = ReportBug.ReportBug()
-                error.show()
+                ReportBug.ReportBug()
         
         def closeEvent(self, _event):
             if self.isInstallFinised==False:
@@ -338,8 +336,7 @@ if RoutineChecks.checkMandatoryModules():
                 self.close()
             except:
                 from Core import ReportBug
-                error = ReportBug.ReportBug()
-                error.show()
+                ReportBug.ReportBug()
             
     if Variables.isRunningAsRoot()==False and Variables.isRunableAsRoot():
         answer = Dialogs.askSpecial(MApplication.translate("Install", "Are You Want To Run As Root?"), MApplication.translate("Install", "Hamsi Manager Installer is running with user privileges.<br>Do you want to run Hamsi Manager installer with root rights?<br><b>Note: </b>The other users on your system has to inherit these permissions and install the program to a location other than their /home directories."), MApplication.translate("Install", "Yes"), MApplication.translate("Install", "No (Continue as is)"), None)
@@ -354,8 +351,7 @@ if RoutineChecks.checkMandatoryModules():
         Universals.isStartingSuccessfully = True
     except:
         from Core import ReportBug
-        error = ReportBug.ReportBug()
-        error.show()
+        ReportBug.ReportBug()
     sys.exit(HamsiManagerApp.exec_())
 else:
     sys.exit()

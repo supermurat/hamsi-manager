@@ -187,8 +187,7 @@ class UpdateControl(MDialog):
                             translate("UpdateControl", "Cannot fetch release information. Please retry later.<br>If you are constantly receiving this error, please visit \"http://hamsiapps.com/HamsiManager\"."))
                 self.close()
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
             
     def showDetails(self, _value):
         if _value==True:
@@ -213,8 +212,7 @@ class UpdateControl(MDialog):
             self.request = MNetworkRequest(MUrl(self.updateInformations[1]))
             self.willDownload(self.request)
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
           
     def willDownload(self, _request):
         try:
@@ -237,8 +235,7 @@ class UpdateControl(MDialog):
                 self.connect(reply,SIGNAL("finished()"),self.downloaded)
                 self.connect(reply,SIGNAL("error(QNetworkReply::NetworkError)"),self.errorOccurred)
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
         
     def downloading(self, _value, _maxValue):
         self.prgbState.setRange(0, _maxValue)
@@ -263,8 +260,7 @@ class UpdateControl(MDialog):
                 InputOutputs.writeToBinaryFile(fileName, reply.readAll())
                 self.install(fileName)
         except:
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
         
     def install(self, _fileName):
         if self.isNotInstall==False and Variables.isBuilt:

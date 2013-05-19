@@ -307,8 +307,7 @@ class AmarokCopyTable():
                 self.leDestinationDirPath.setText(trForUI(destinationDirPath))
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo==0:

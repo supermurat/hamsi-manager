@@ -137,8 +137,7 @@ class Packager(MyDialog):
             self.lePathOfPackage.setText(self.lePathOfProject.text()+packageExtension)  
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
     
     def pathOfPackageChanged(self, _value):
         try:
@@ -149,8 +148,7 @@ class Packager(MyDialog):
             self.leHashDigestFile.setText(self.lePathOfPackage.text()+packageExtension)  
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()  
+            ReportBug.ReportBug()
     
     def hashChanged(self, _value):
         if _value==0:
@@ -210,8 +208,7 @@ class Packager(MyDialog):
             Universals.isCanBeShowOnMainWindow = True
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()   
+            ReportBug.ReportBug()
     
     def Clear(self):
         try:
@@ -227,8 +224,7 @@ class Packager(MyDialog):
             Universals.isCanBeShowOnMainWindow = True
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
     
     def Pack(self):
         try:
@@ -241,8 +237,7 @@ class Packager(MyDialog):
             Universals.isCanBeShowOnMainWindow = True
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show()   
+            ReportBug.ReportBug()
     
     def getPackageType(self):
         if self.cbPackageType.currentIndex()!=0:
@@ -259,8 +254,7 @@ class Packager(MyDialog):
             self.packageTypeChanged()
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
         
     def packageTypeChanged(self):
         try:
@@ -280,8 +274,7 @@ class Packager(MyDialog):
             self.lePathOfPackage.setText(packageName+packageExtension)  
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
         
     def selectPackagePath(self):
         try:
@@ -295,8 +288,7 @@ class Packager(MyDialog):
                 self.lePathOfPackage.setText(trForUI(PathOfPackage))    
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
     
     
                 

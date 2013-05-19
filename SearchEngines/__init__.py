@@ -71,7 +71,6 @@ class SearchEngines(MMenu):
                     Dialogs.show(translate("SearchEngines", "Table Is Empty"), 
                                 translate("SearchEngines", "Nothing to be done because the table is empty."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
         

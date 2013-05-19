@@ -102,6 +102,5 @@ class Scripts():
                             str(translate("ScriptManager", "Error details: <br> \"%s\"")) % (errorDetails))
                 return False
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 

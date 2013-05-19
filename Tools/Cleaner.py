@@ -93,8 +93,7 @@ class Cleaner(MyDialog):
             Universals.isCanBeShowOnMainWindow = True
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
 
     def selectProjectPath(self):
         try:
@@ -103,8 +102,7 @@ class Cleaner(MyDialog):
                 self.lePathOfProject.setText(trForUI(ProjectPath))
         except:
             from Core import ReportBug
-            error = ReportBug.ReportBug()
-            error.show() 
+            ReportBug.ReportBug()
     
     
                 

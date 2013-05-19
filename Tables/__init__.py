@@ -209,15 +209,13 @@ class Tables(MTableWidget):
             if rowNo!=-1:
                 self.SubTable.showDetails(rowNo, self.currentColumn())
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def correct(self):
         try:
             self.SubTable.correctTable()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def goBack(self):
         self.future.append(self.createHistoryPoint(True))
@@ -302,8 +300,7 @@ class Tables(MTableWidget):
                         from Core import Execute
                         Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def getSelectedRows(self):
         sr = []
@@ -334,15 +331,13 @@ class Tables(MTableWidget):
         try:
             self.SubTable.cellClicked(_row, _column)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def cellDoubleClicked(self,_row,_column):
         try:
             self.SubTable.cellDoubleClicked(_row, _column)
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def refreshForColumns(self):
         self.mContextMenuColumns.clear()
@@ -414,8 +409,7 @@ class Tables(MTableWidget):
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
         except:
-            error = ReportBug.ReportBug()
-            error.show()      
+            ReportBug.ReportBug()
         
     def continueSave(self, _returned=None):
         try:
@@ -449,8 +443,7 @@ class Tables(MTableWidget):
                     if Universals.tableType in [5, 6, 7, 8]:
                         self.refresh(self.newDirectoryPath)
         except:
-            error = ReportBug.ReportBug()
-            error.show()    
+            ReportBug.ReportBug()
         
     def fillSelectionInfo(self):
         if Universals.getBoolValue("isChangeAll"):

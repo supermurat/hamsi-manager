@@ -47,8 +47,7 @@ class Taggers():
                                     translate("Taggers", "Not found any tagger in your system. Please install a tagger module. Now supporting only eyeD3 module (python-eyed3)."))
             return None
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
             
     def getLoaddedTagger():
         if loaddedTagger==None:

@@ -337,8 +337,7 @@ class SearchAndReplace(MWidget):
                         elif selected.objectName()==self.namesOfButtons[5]:
                             self.hideRow(currentItem.row())
             except:
-                error = ReportBug.ReportBug()
-                error.show()
+                ReportBug.ReportBug()
         
         def clicked(self, _row, _column):
             try:
@@ -831,8 +830,7 @@ class Amarok(MWidget):
                     Universals.saveSettings()
             amarokDb = None
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
 class HiddenObjects(MWidget):
     def __init__(self, _parent=None, _showType = None, _visibleKeys = None):
@@ -980,8 +978,7 @@ class MySettings(MWidget):
             Records.saveAllRecords()
             Dialogs.show(translate("Options/General", "Error Logs Deleted"), translate("Options/General", "All created by Hamsi Manager error logs and temp files is deleted."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def clearMyAnswers(self):
         try:
@@ -992,8 +989,7 @@ class MySettings(MWidget):
                 Dialogs.show(translate("Options/MySettings", "Your Answers Cleared"), 
                         translate("Options/MySettings", "Cleared your answers to the notification messages.All notification messages will be asked again."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
                     
     def reInstallKDE4Language(self):
         try:
@@ -1006,8 +1002,7 @@ class MySettings(MWidget):
                         translate("Options/MySettings", "Language has successfully been reinstalled."))
                 self._parent.reStart()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def backUpBookmarks(self):
         try:
@@ -1015,8 +1010,7 @@ class MySettings(MWidget):
             Dialogs.show(translate("Options/MySettings", "Backup Succesfully"), 
                     translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def backUpSearchAndReplaceTable(self):
         try:
@@ -1024,8 +1018,7 @@ class MySettings(MWidget):
             Dialogs.show(translate("Options/MySettings", "Backup Succesfully"), 
                     translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def backUpSettings(self):
         try:
@@ -1033,8 +1026,7 @@ class MySettings(MWidget):
             Dialogs.show(translate("Options/MySettings", "Backup Succesfully"), 
                     translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def backUpAll(self):
         try:
@@ -1042,8 +1034,7 @@ class MySettings(MWidget):
             Dialogs.show(translate("Options/MySettings", "Backup Succesfully"), 
                     translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def restoreBookmarks(self):
         try:
@@ -1052,8 +1043,7 @@ class MySettings(MWidget):
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def restoreSearchAndReplaceTable(self):
         try:
@@ -1062,8 +1052,7 @@ class MySettings(MWidget):
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def restoreSettings(self):
         try:
@@ -1072,8 +1061,7 @@ class MySettings(MWidget):
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
     
     def restoreAll(self):
         try:
@@ -1082,8 +1070,7 @@ class MySettings(MWidget):
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def reFillBookmarks(self):
         try:
@@ -1098,8 +1085,7 @@ class MySettings(MWidget):
                 Databases.reFillDatabases("bookmarks", _makeBackUp=True)
             self._parent.reStart()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def reFillSearchAndReplaceTable(self):
         try:
@@ -1114,8 +1100,7 @@ class MySettings(MWidget):
                 Databases.reFillDatabases("searchAndReplaceTable", _makeBackUp=True)
             self.parent().parent().close()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
 
     def reFillSettings(self):
         try:
@@ -1130,8 +1115,7 @@ class MySettings(MWidget):
                 Settings.reFillSettings(True)
             self._parent.reStart()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
     def reFillAll(self):
         try:
@@ -1146,8 +1130,7 @@ class MySettings(MWidget):
                 Settings.reFillAll(True)
             self._parent.reStart()
         except:
-            error = ReportBug.ReportBug()
-            error.show()
+            ReportBug.ReportBug()
         
         
         
