@@ -48,11 +48,7 @@ def installThisPlugin():
                         "key": "HamsiManager", 
                         "title": "Hamsi Manager", 
                         "icon": InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico"), 
-                        "actions": [{"key": "Organize", 
-                                            "title": translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager"), 
-                                            "icon": InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " -t 1 \"%1\""}, 
-                                    {"key": "copyPath", 
+                        "actions": [{"key": "copyPath", 
                                             "title": translate("MyPlugins/Explorer_CM", "Copy Path To Clipboard"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.ico"), 
                                             "command" : executeCommandOfHamsiManager + " --qm --copyPath \"%1\""}, 
@@ -77,11 +73,7 @@ def installThisPlugin():
                         "key": "HamsiManager", 
                         "title": "Hamsi Manager", 
                         "icon": InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico"), 
-                        "actions": [{"key": "Organize", 
-                                            "title": translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager"), 
-                                            "icon": InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " -t 1 --directory \"%1\""}, 
-                                    {"key": "copyPath", 
+                        "actions": [{"key": "copyPath", 
                                             "title": translate("MyPlugins/Explorer_CM", "Copy Path To Clipboard"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.ico"), 
                                             "command" : executeCommandOfHamsiManager + " --qm --copyPath \"%1\""}, 
@@ -134,11 +126,7 @@ def installThisPlugin():
                         "key": "HamsiManager", 
                         "title": "Hamsi Manager", 
                         "icon": InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico"), 
-                        "actions": [{"key": "Organize", 
-                                            "title": translate("MyPlugins/Explorer_CM", "Organize With Hamsi Manager"), 
-                                            "icon": InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-32x32.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " -t 1 --directory \"%V\""}, 
-                                    {"key": "copyPath", 
+                        "actions": [{"key": "copyPath", 
                                             "title": translate("MyPlugins/Explorer_CM", "Copy Path To Clipboard"), 
                                             "icon": InputOutputs.joinPath(Universals.themePath, "Images", "copyPath.ico"), 
                                             "command" : executeCommandOfHamsiManager + " --qm --copyPath \"%V\""}, 
@@ -269,7 +257,7 @@ def installThisPlugin():
             mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
             winreg.CreateKey(mainKey, object["key"])
             hamsiKey = winreg.OpenKey(mainKey, object["key"], 0, winreg.KEY_WRITE)
-            winreg.SetValueEx(hamsiKey,"MUIVerb",0, winreg.REG_SZ, object["title"])
+            winreg.SetValueEx(hamsiKey,"MUIVerb",0, winreg.REG_SZ, Universals.trEncode(str(object["title"]), Variables.defaultFileSystemEncoding))
             winreg.SetValueEx(hamsiKey,"ExtendedSubCommandsKey",0, winreg.REG_SZ, object["object"] + "\\ContextMenus\\" + object["key"])
             try:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(object["icon"]), Variables.defaultFileSystemEncoding))
             except:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, str(object["icon"]))
@@ -320,8 +308,7 @@ def uninstallThisPlugin():
     
     actionsValues = [{"object": "*",
                         "key": "HamsiManager", 
-                        "actions": [{"key": "Organize"}, 
-                                    {"key": "copyPath"}, 
+                        "actions": [{"key": "copyPath"}, 
                                     {"key": "emendFile"}, 
                                     {"key": "hash"}, 
                                     {"key": "textCorrector"}, 
@@ -329,8 +316,7 @@ def uninstallThisPlugin():
                                 ]}, 
                     {"object": "Directory",
                         "key": "HamsiManager", 
-                        "actions": [{"key": "Organize"}, 
-                                    {"key": "copyPath"}, 
+                        "actions": [{"key": "copyPath"}, 
                                     {"key": "emendDirectory"}, 
                                     {"key": "emendDirectoryWithContents"}, 
                                     {"key": "pack"}, 
@@ -345,8 +331,7 @@ def uninstallThisPlugin():
                                 ]}, 
                     {"object": "Directory\\Background",
                         "key": "HamsiManager", 
-                        "actions": [{"key": "Organize"}, 
-                                    {"key": "copyPath"}, 
+                        "actions": [{"key": "copyPath"}, 
                                     {"key": "emendDirectory"}, 
                                     {"key": "emendDirectoryWithContents"}, 
                                     {"key": "pack"}, 
@@ -358,6 +343,30 @@ def uninstallThisPlugin():
                                     {"key": "removeOnlySubFiles"}, 
                                     {"key": "clear"}, 
                                     {"key": "search"}
+                                ]}, 
+                    {"object": "*",
+                        "key": "HamsiManagerManage", 
+                        "actions": [{"key": "Organize"}, 
+                                    {"key": "Organize0"}, 
+                                    {"key": "Organize1"}, 
+                                    {"key": "Organize2"}, 
+                                    {"key": "Organize3"}
+                                ]}, 
+                    {"object": "Directory",
+                        "key": "HamsiManagerManage", 
+                        "actions": [{"key": "Organize"}, 
+                                    {"key": "Organize0"}, 
+                                    {"key": "Organize1"}, 
+                                    {"key": "Organize2"}, 
+                                    {"key": "Organize3"}
+                                ]}, 
+                    {"object": "Directory\\Background",
+                        "key": "HamsiManagerManage", 
+                        "actions": [{"key": "Organize"}, 
+                                    {"key": "Organize0"}, 
+                                    {"key": "Organize1"}, 
+                                    {"key": "Organize2"}, 
+                                    {"key": "Organize3"}
                                 ]}
                     ]
     rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
