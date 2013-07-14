@@ -31,8 +31,8 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "1.2.1"
-    intversion = 1210
+    version = "1.2.2"
+    intversion = 1220
     settingVersion = "1210"
     aboutOfHamsiManager = ""
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
