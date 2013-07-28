@@ -121,7 +121,11 @@ class Organizer:
                 fParts = _fileName.rsplit(".", 1)
             elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[2]:
                 try:
-                    ext = re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName).group('ext')
+                    m = re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName)
+                    if m is not None:
+                        ext = m.group('ext')
+                    else:
+                        ext = _fileName.rsplit(".", 1)[1]
                     fParts = [_fileName.replace("." + ext, ""), ext]
                 except:
                     fParts = _fileName.rsplit(".", 1)

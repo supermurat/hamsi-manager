@@ -37,8 +37,8 @@ class Taggers():
             if len(taggersNames)==0:
                 taggersNames = Variables.getTaggersNames()
             for tagger in taggersNames:
-                taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger"], -1)
-                TaggerLoaded = __import__("Taggers." + tagger, globals(), locals(), [tagger], -1)
+                taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger"], 0)
+                TaggerLoaded = __import__("Taggers." + tagger, globals(), locals(), [tagger], 0)
                 if taggerModule.isAvailable:
                     loaddedTagger = TaggerLoaded
                     return taggerModule.Tagger()
