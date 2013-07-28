@@ -76,7 +76,7 @@ class MyPlugins(MyDialog):
         self.lstwPluginList.clear()
         self.myPluginsNames = []
         for plugin in Variables.getMyPluginsNames():
-            pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], -1)
+            pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], 0)
             if pluginModule.isInstallable():
                 installedVersion = Settings.getUniversalSetting(trForUI(pluginModule.pluginName), "")
                 if installedVersion == "":
@@ -107,7 +107,7 @@ class MyPlugins(MyDialog):
     
     def installPlugin(_pluginName, _isQuiet=False):
         isInstalled = False
-        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], -1)
+        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], 0)
         if pluginModule.installThisPlugin==None:
             if pluginModule.pluginDirectory=="":
                 try:InputOutputs.makeDirs(pluginModule.setupDirectory)
@@ -139,7 +139,7 @@ class MyPlugins(MyDialog):
     
     def uninstallPlugin(_pluginName, _isQuiet=False):
         isUninstalled = False
-        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "uninstallThisPlugin", "setupDirectory", "pluginVersion"], -1)
+        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "uninstallThisPlugin", "setupDirectory", "pluginVersion"], 0)
         if pluginModule.uninstallThisPlugin==None:
             if pluginModule.pluginDirectory=="":
                 for pluginFile in pluginModule.pluginFiles:
@@ -194,7 +194,7 @@ class MyPluginsForSystem(MWidget):
         self.lstwPluginList.clear()
         self.myPluginsNames = []
         for plugin in Variables.getMyPluginsNames():
-            pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], -1)
+            pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], 0)
             if pluginModule.isInstallable():
                 installedVersion = Settings.getUniversalSetting(trForUI(pluginModule.pluginName), "")
                 if installedVersion == "":
@@ -218,7 +218,7 @@ class MyPluginsForSystem(MWidget):
     
     def installPlugin(self, _pluginName, _isQuiet=False):
         isInstalled = False
-        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], -1)
+        pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], 0)
         if pluginModule.installThisPlugin==None:
             if pluginModule.pluginDirectory=="":
                 try:InputOutputs.makeDirs(pluginModule.setupDirectory)

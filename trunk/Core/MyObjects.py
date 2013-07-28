@@ -83,7 +83,7 @@ def trForUI(_s):
     return _s
     
 def getMyObject(_objectName):
-    MyObject = __import__("PyQt4." + _objectName, globals(), locals(), [_objectName], -1)
+    MyObject = __import__("PyQt4." + _objectName, globals(), locals(), [_objectName], 0)
     return MyObject
             
 def getMyDialog():

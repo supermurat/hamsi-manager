@@ -31,7 +31,7 @@ class SearchEngines(MMenu):
         self.searchEnginesNames = Variables.getSearchEnginesNames()
         isAnyAvailable = False
         for sEngine in self.searchEnginesNames:
-            sEngineModule = __import__("SearchEngines." + sEngine, globals(), locals(), ["isAvailable", "pluginName"], -1)
+            sEngineModule = __import__("SearchEngines." + sEngine, globals(), locals(), ["isAvailable", "pluginName"], 0)
             if sEngineModule.isAvailable:
                 isAnyAvailable = True
                 self.actions.append(MAction(trForUI(sEngineModule.pluginName), self))
@@ -65,7 +65,7 @@ class SearchEngines(MMenu):
                         selectedSearchDepth = info[2]
                     else:
                         engine = self.searchEnginesNames[int(_action.objectName())]
-                    sEngineModule = __import__("SearchEngines." + engine, globals(), locals(), ["Search"], -1)
+                    sEngineModule = __import__("SearchEngines." + engine, globals(), locals(), ["Search"], 0)
                     sEngineModule.Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
                 else:
                     Dialogs.show(translate("SearchEngines", "Table Is Empty"), 

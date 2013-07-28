@@ -242,7 +242,17 @@ class Dialogs():
             return None
         return str(selectedValue)
         
-    def getSaveFileName(_caption, _directory, _filter, _isUseLastPathKeyType=1, _lastPathKey=None):
+    def getSaveFileName(_caption, _directory, _filter=None, _isUseLastPathKeyType=1, _lastPathKey=None):
+        if _filter is None:
+            import InputOutputs
+            if InputOutputs.isFile(_directory):
+                fileExt = InputOutputs.getFileExtension(_directory)
+                if fileExt != "":
+                    _filter = "*.%s (*.%s)" % (fileExt,fileExt)
+                else:
+                    _filter = "*.* (*.*)"
+            else:
+                _filter = "*.* (*.*)"
         pathKey = Universals.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
         if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
         filePath = QFileDialog.getSaveFileName(Universals.activeWindow(), trForUI(_caption),
