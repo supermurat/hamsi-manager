@@ -788,7 +788,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
                 return False
             trackId, artistId, albumId, yearId, genreId = oldValues["id"], oldValues["artistId"], oldValues["albumId"], oldValues["yearId"], oldValues["genreId"]
             title = oldValues["title"]
-            trackNum = oldValues["tracknumber"]
+            trackNum = Databases.correctForSql(oldValues["tracknumber"], "int")
             firstComment = oldValues["comment"]
             if "artist" in _values:
                 artistId = getOrInsertArtist(_values["artist"])
