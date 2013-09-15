@@ -20,10 +20,12 @@
 from Core import Variables
 from Core.MyObjects import *
 from Core import Universals
+from datetime import datetime
 
 class Dialogs():
-    global show, showError, ask, askSpecial, showState, Ok, Cancel, Yes, No, Continue, getItem, sleep, getText, getSaveFileName, getOpenFileName, getOpenFileNames, getExistingDirectory
+    global show, showError, ask, askSpecial, showState, Ok, Cancel, Yes, No, Continue, getItem, sleep, getText, getSaveFileName, getOpenFileName, getOpenFileNames, getExistingDirectory, lastInfoTime
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
+    lastInfoTime = datetime.now().second
     
     def show(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
         MApplication.processEvents()
@@ -145,6 +147,11 @@ class Dialogs():
                 return _btnString
                 
     def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
+        global lastInfoTime
+        if lastInfoTime == datetime.now().second and _maxValue != _value:
+            return None
+        else:
+            lastInfoTime = datetime.now().second
         if Universals.windowMode==Variables.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
             return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel, _connectToCancel)
         MApplication.processEvents()
@@ -293,6 +300,8 @@ class Dialogs():
         return str(filePath)
         
 class MyStateDialog(MDialog):
+    global lastInfoTime
+    lastInfoTime = datetime.now().second
     
     def __init__(self, _title="", _isShowCancel=False, _connectToCancel=None):
         MDialog.__init__(self, Universals.MainWindow)
@@ -325,6 +334,11 @@ class MyStateDialog(MDialog):
         self.title = _title
     
     def setState(self, _value=0, _maxValue=100):
+        global lastInfoTime
+        if lastInfoTime == datetime.now().second and _maxValue != _value:
+            return None
+        else:
+            lastInfoTime = datetime.now().second
         MApplication.processEvents()
         self.setWindowTitle(self.title + " ( "+str(_value)+" / "+str(_maxValue)+" )")
         self.StateBar.setRange(0, _maxValue)
