@@ -145,7 +145,24 @@ class Organizer:
             if Variables.isPython3k:
                 return str(Universals.trUnicode(_inputString)).title()
             else:
-                return string.capwords(Universals.trUnicode(_inputString))
+                s = []
+                prevIsCased = False
+                prevC = ""
+                for c in Universals.trUnicode(_inputString):
+                    if c.islower():
+                       if not prevIsCased and prevC not in ("'", "`"):
+                          c = c.upper()
+                       prevIsCased = True
+                    elif c.isupper():
+                       if prevIsCased:
+                          c = c.lower()
+                       prevIsCased = True
+                    else:
+                       prevIsCased = False
+                    prevC = c
+                    s.append(c)
+                return ''.join(s)
+                #return string.capwords(Universals.trUnicode(_inputString)) #don't use this. Because; it clears whitespaces, it doesn't upper the letters whick is after ()[]-/*......
         elif _cbCharacterType==Variables.validSentenceStructureKeys[1]:
             if Variables.isPython3k:
                 return str(Universals.trUnicode(_inputString)).lower()

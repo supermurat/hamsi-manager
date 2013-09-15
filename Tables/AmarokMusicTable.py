@@ -137,7 +137,7 @@ class AmarokMusicTable():
                             InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                             self.Table.changedValueNumber += 1
                     else:
-                        changingTags.append({"path" : self.Table.currentTableContentValues[rowNo]["path"]})
+                        changingTag = {"path" : self.Table.currentTableContentValues[rowNo]["path"]}
                         isWritableFileOrDir = InputOutputs.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True)
                         if isWritableFileOrDir:
                             baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -154,51 +154,53 @@ class AmarokMusicTable():
                         if self.Table.isChangableItem(rowNo, 2):
                             value = str(self.Table.item(rowNo,2).text())
                             if isWritableFileOrDir:tagger.setArtist(value)
-                            changingTags[-1]["artist"] = value
+                            changingTag["artist"] = value
                             Records.add(str(translate("AmarokMusicTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["artist"]), value)
                             self.Table.changedValueNumber += 1
                         if self.Table.isChangableItem(rowNo, 3):
                             value = str(self.Table.item(rowNo,3).text())
                             if isWritableFileOrDir:tagger.setTitle(value)
-                            changingTags[-1]["title"] = value
+                            changingTag["title"] = value
                             Records.add(str(translate("AmarokMusicTable", "Title")), str(self.Table.currentTableContentValues[rowNo]["title"]), value)
                             self.Table.changedValueNumber += 1
                         if self.Table.isChangableItem(rowNo, 4):
                             value = str(self.Table.item(rowNo,4).text())
                             if isWritableFileOrDir:tagger.setAlbum(value)
-                            changingTags[-1]["album"] = value
+                            changingTag["album"] = value
                             Records.add(str(translate("AmarokMusicTable", "Album")), str(self.Table.currentTableContentValues[rowNo]["album"]), value)
                             self.Table.changedValueNumber += 1
                         if self.Table.isChangableItem(rowNo, 5):
                             value = str(self.Table.item(rowNo,5).text())
                             if isWritableFileOrDir:tagger.setTrackNum(value)
-                            changingTags[-1]["trackNum"] = value
+                            changingTag["trackNum"] = value
                             Records.add(str(translate("AmarokMusicTable", "Track No")), str(self.Table.currentTableContentValues[rowNo]["trackNum"]), value)
                             self.Table.changedValueNumber += 1
                         if self.Table.isChangableItem(rowNo, 6):
                             value = str(self.Table.item(rowNo,6).text())
                             if isWritableFileOrDir:tagger.setDate(value)
-                            changingTags[-1]["year"] = value
+                            changingTag["year"] = value
                             Records.add(str(translate("AmarokMusicTable", "Year")), str(self.Table.currentTableContentValues[rowNo]["year"]), value)
                             self.Table.changedValueNumber += 1
                         if self.Table.isChangableItem(rowNo, 7):
                             value = str(self.Table.item(rowNo,7).text())
                             if isWritableFileOrDir:tagger.setGenre(value)
-                            changingTags[-1]["genre"] = value
+                            changingTag["genre"] = value
                             Records.add(str(translate("AmarokMusicTable", "Genre")), str(self.Table.currentTableContentValues[rowNo]["genre"]), value)
                             self.Table.changedValueNumber += 1
                         if self.Table.isChangableItem(rowNo, 8):
                             value = str(self.Table.item(rowNo,8).text())
                             if isWritableFileOrDir:tagger.setFirstComment(value)
-                            changingTags[-1]["firstComment"] = value
+                            changingTag["firstComment"] = value
                             Records.add(str(translate("AmarokMusicTable", "Comment")), str(self.Table.currentTableContentValues[rowNo]["firstComment"]), value)
                             self.Table.changedValueNumber += 1
                         if len(self.Table.tableColumns)>9 and self.Table.isChangableItem(rowNo, 9):
                             value = str(self.Table.item(rowNo,9).text())
                             if isWritableFileOrDir:tagger.setFirstLyrics(value)
-                            changingTags[-1]["firstLyrics"] = value
+                            changingTag["firstLyrics"] = value
                             Records.add(str(translate("AmarokMusicTable", "Lyrics")), str(self.Table.currentTableContentValues[rowNo]["firstLyrics"]), value)
                             self.Table.changedValueNumber += 1
+                        if len(changingTag)>1:
+                            changingTags.append(changingTag)
                         if isWritableFileOrDir:
                             if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("ID3")>-1:
                                 tagger.update()
