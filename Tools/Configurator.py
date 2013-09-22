@@ -295,6 +295,8 @@ class Configurator(MyDialog):
                     if self.isCreateExecutableLink.checkState()==Mt.Checked:
                         if executableLink.strip()!="":
                             HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
+                            if InputOutputs.isFile(executableLink):
+                                InputOutputs.removeFileOrDir(executableLink)
                             InputOutputs.createSymLink(InputOutputs.joinPath(Variables.HamsiManagerDirectory, HamsiManagerFileName), executableLink)
                             Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
                             if oldPathOfExecutableHamsi!=executableLink:
