@@ -33,7 +33,7 @@ from Core.Universals import translate
 
 class InputOutputs:
     """Read and writes are arranged in this class"""
-    global joinPath, splitPath, isFile, isDir, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, walk, getDirectorySize, checkSizeOfDeletedFiles
+    global joinPath, splitPath, isFile, isDir, isLink, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, walk, getDirectorySize, checkSizeOfDeletedFiles
     global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
     global readDirectoryAll, getObjectType, getAvailablePathByPath, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
@@ -79,6 +79,11 @@ class InputOutputs:
         try:return os.path.isdir(Universals.trEncode(_oldPath, fileSystemEncoding))
         except:return os.path.isdir(_oldPath)
     
+    def isLink(_oldPath):
+        _oldPath = str(_oldPath)
+        try:return os.path.islink(Universals.trEncode(_oldPath, fileSystemEncoding))
+        except:return os.path.islink(_oldPath)
+    
     def isDirEmpty(_oldPath):
         _oldPath = str(_oldPath)
         if isDir(_oldPath):
@@ -90,6 +95,8 @@ class InputOutputs:
         if isFile(_oldPath):
             return True
         elif isDir(_oldPath):
+            return True
+        elif isLink(_oldPath):
             return True
         return False
         
