@@ -47,7 +47,7 @@ class Configurator(MyDialog):
         self.vblMain = MVBoxLayout(self.pnlMain)
         self.hblMain = MHBoxLayout()
         self.lblLeftImage = MLabel()
-        self.pmapLeftImage = MPixmap("Images:HamsiManager-128x176.png")
+        self.pmapLeftImage = MPixmap("Images:HamsiManager-256x256.png")
         self.lblLeftImage.setPixmap(self.pmapLeftImage)
         self.vblLeftColumn = MVBoxLayout()
         self.vblLeftColumn.addStretch(1)
