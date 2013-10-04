@@ -116,7 +116,7 @@ if RoutineChecks.checkMandatoryModules():
         MDir.setSearchPaths("root", MStringList(trForUI(Variables.HamsiManagerDirectory)))
         if InputOutputs.isFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")):
             HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")))
-        HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128.png"))
+        HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128-1.png"))
         if Universals.MySettings["applicationStyle"]!="":
             MApplication.setStyle(Universals.MySettings["applicationStyle"])
         if Universals.isActivePyKDE4:
