@@ -66,7 +66,7 @@ if RoutineChecks.checkMandatoryModules():
             self.vblMain = MVBoxLayout()
             self.hblMain = MHBoxLayout()
             self.lblLeftImage = MLabel()
-            self.pmapLeftImage = MPixmap("Images:HamsiManager-256x256.png")
+            self.pmapLeftImage = MPixmap("Images:HamsiManager-256x256-1.png")
             self.lblLeftImage.setPixmap(self.pmapLeftImage)
             self.vblLeftColumn = MVBoxLayout()
             self.vblLeftColumn.addStretch(1)
