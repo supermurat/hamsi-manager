@@ -64,7 +64,7 @@ if RoutineChecks.checkMandatoryModules():
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.setProgramIconName(trForUI(InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-128x128.png")))
+            aboutOfHamsiManager.setProgramIconName(trForUI(InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-128x128-1.png")))
             if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)):
                 aboutOfHamsiManager.addLicenseTextFile(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)))
             else:
