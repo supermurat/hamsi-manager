@@ -34,7 +34,7 @@ class Details():
                 from Core import Execute
                 Execute.openWith([_path])
             else:
-                _path = InputOutputs.checkSource(_filePath, "file")
+                _path = InputOutputs.checkSource(_filePath, "file", False)
                 if _path is not None:
                     isOpened = False
                     type = mimetypes.guess_type(_path)

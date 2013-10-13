@@ -266,6 +266,11 @@ class Tables(MTableWidget):
         else:
             self.tbGoForward.setEnabled(True)
             
+    def clearHistoryPoints(self):
+        self.history = []
+        self.future = []
+        self.checkActionsStates()
+            
     def contextMenuEvent(self,_event):
         try:
             currentItem = self.currentItem()
@@ -377,6 +382,7 @@ class Tables(MTableWidget):
         self.setCurrentDirectory(_path)
         isAskShowHiddenColumn, isAskIncorrectFileExtension = True, True
         isShowChanges=False
+        self.clearHistoryPoints()
         self.clear()
         self.setColumnCount(len(self.tableColumns))
         self.setHorizontalHeaderLabels(self.tableColumns)
