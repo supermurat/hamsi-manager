@@ -39,7 +39,7 @@ class CoverTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
+        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectoriesThread(_directoryPath, 
                     int(Universals.MySettings["CoversSubDirectoryDeep"]), True, True, Universals.getBoolValue("isShowHiddensInCoverTable"))
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
@@ -203,7 +203,8 @@ class CoverTable():
     def refresh(self, _path):
         self.Table.currentTableContentValues = self.readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
-        for rowNo in range(self.Table.rowCount()):
+        allItemNumber = self.Table.rowCount()
+        for rowNo in range(allItemNumber):
             for itemNo in range(5):
                 item = None
                 if itemNo==0:
@@ -234,6 +235,7 @@ class CoverTable():
                 item = self.Table.item(rowNo, 2)
                 if item!=None:
                     item.setBackground(MBrush(MColor(255,163,163)))
+            Dialogs.showState(translate("InputOutputs/Tables", "Generating Table..."), rowNo+1, allItemNumber) 
                     
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):

@@ -37,7 +37,7 @@ class InputOutputs:
     global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
     global readDirectoryAll, getObjectType, getAvailablePathByPath, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
-    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError, checkEmptyDirectories, activateSmartCheckEmptyDirectories, completeSmartCheckEmptyDirectories, isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus
+    global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError, checkEmptyDirectories, activateSmartCheckEmptyDirectories, completeSmartCheckEmptyDirectories, isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus, readDirectoryWithSubDirectoriesThread
     appendingDirectories = []
     fileSystemEncoding = Variables.defaultFileSystemEncoding
     willCheckIconDirectories = []
@@ -731,6 +731,18 @@ class InputOutputs:
             for name in files:
                 allFilesAndDirectories.append(joinPath(_path, name))
         return allFilesAndDirectories
+        
+    def readDirectoryWithSubDirectoriesThread(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _isShowHiddens=False, _currentSubDeep=0):
+        from Core import Dialogs
+        from Core import MyThread
+        global appendingDirectories
+        allFilesAndDirectories, appendingDirectories =[],[]
+        infoProccess = MyThread.MyWaitThread(translate("InputOutputs", "Reading Directory..."))
+        myProcs = MyThread.MyThread(readDirectoryWithSubDirectories, infoProccess.finish, args=[_path, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _isShowHiddens, _currentSubDeep])
+        myProcs.start()
+        infoProccess.run()
+        allFilesAndDirectories = myProcs.data
+        return allFilesAndDirectories
     
     def readFromFile(_path, _contentEncoding = fileSystemEncoding):
         _path = str(_path)
@@ -1305,9 +1317,9 @@ class InputOutputs:
         import tarfile
         try:tar = tarfile.open(Universals.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
         except:tar = tarfile.open(_filePath, "w:" + _packageType)
-        maxMembers = len(readDirectoryWithSubDirectories(_sourcePath, -1, True, False, True))+1
+        maxMembers = len(readDirectoryWithSubDirectoriesThread(_sourcePath, -1, True, False, True))+1
         dlgState = Dialogs.MyStateDialog(translate("InputOutputs", "Creating Tar File"))
-        infoProccess = MyThread.MyStateThread(tar, maxMembers, dlgState)
+        infoProccess = MyThread.MyTarPackStateThread(tar, maxMembers, dlgState)
         try:
             myProcs = MyThread.MyThread(tar.add, infoProccess.finish, args=[Universals.trEncode(_sourcePath, fileSystemEncoding)], kwargs={"arcname":Universals.trEncode(_realSourceBaseName, fileSystemEncoding)})
             myProcs.start()

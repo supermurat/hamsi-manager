@@ -36,7 +36,7 @@ class SubFolderTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectories(_directoryPath, 
+        allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectoriesThread(_directoryPath, 
                     int(Universals.MySettings["subDirectoryDeep"]), _isShowHiddens=Universals.getBoolValue("isShowHiddensInSubFolderTable"))
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
@@ -141,7 +141,8 @@ class SubFolderTable():
     def refresh(self, _path):
         self.Table.currentTableContentValues = self.readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
-        for rowNo in range(self.Table.rowCount()):
+        allItemNumber = self.Table.rowCount()
+        for rowNo in range(allItemNumber):
             for itemNo in range(2):
                 item = None
                 if itemNo==0:
@@ -152,6 +153,7 @@ class SubFolderTable():
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseName"])
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
+            Dialogs.showState(translate("InputOutputs/Tables", "Generating Table..."), rowNo+1, allItemNumber) 
                     
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):

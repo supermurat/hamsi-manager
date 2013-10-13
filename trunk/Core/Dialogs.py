@@ -25,7 +25,7 @@ from datetime import datetime
 class Dialogs():
     global show, showError, ask, askSpecial, showState, Ok, Cancel, Yes, No, Continue, getItem, sleep, getText, getSaveFileName, getOpenFileName, getOpenFileNames, getExistingDirectory, lastInfoTime
     Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
-    lastInfoTime = datetime.now().second
+    lastInfoTime = (datetime.now().microsecond / 60000)
     
     def show(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
         MApplication.processEvents()
@@ -146,12 +146,13 @@ class Dialogs():
             elif btn!=None:
                 return _btnString
                 
-    def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
+    def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None, _isCheckLastShowTime=True):
         global lastInfoTime
-        if lastInfoTime == datetime.now().second and _maxValue != _value:
-            return None
-        else:
-            lastInfoTime = datetime.now().second
+        if _isCheckLastShowTime:
+            if lastInfoTime == (datetime.now().microsecond / 60000) and _maxValue != _value:
+                return None
+            else:
+                lastInfoTime = (datetime.now().microsecond / 60000)
         if Universals.windowMode==Variables.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
             return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel, _connectToCancel)
         MApplication.processEvents()
@@ -300,53 +301,22 @@ class Dialogs():
         return str(filePath)
         
 class MyStateDialog(MDialog):
-    global lastInfoTime
-    lastInfoTime = datetime.now().second
     
-    def __init__(self, _title="", _isShowCancel=False, _connectToCancel=None):
+    def __init__(self, _title="", _isShowCancel=False, _connectToCancel=None, _isCheckLastShowTime=True):
         MDialog.__init__(self, Universals.MainWindow)
         if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         self.title = _title
-        self.StateBar = MProgressBar()
-        self.setModal(True)
-        self.setMinimumWidth(500) 
-        pnlMain = MWidget(self)
-        HBoxs=[]
-        HBoxs.append(MHBoxLayout(pnlMain))
-        HBoxs[0].addWidget(self.StateBar)
-        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
-            self.setMainWidget(pnlMain)
-        else:
-            self.setLayout(HBoxs[0])
-        if _isShowCancel:
-            pbtnCancel = MPushButton(translate("Dialogs", "Cancel"), self)
-            if _connectToCancel==None:
-                MObject.connect(pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
-            else:
-                MObject.connect(pbtnCancel, SIGNAL("clicked()"), _connectToCancel)
-            HBoxs[0].addWidget(pbtnCancel)
+        self.isShowCancel = _isShowCancel
+        self.connectToCancel = _connectToCancel
+        self.isCheckLastShowTime = _isCheckLastShowTime
         self.connect(self, SIGNAL("setState"), self.setState)
-        self.setModal(True)
-        self.open()
         
     def setTitle(self, _title):
         self.title = _title
     
     def setState(self, _value=0, _maxValue=100):
-        global lastInfoTime
-        if lastInfoTime == datetime.now().second and _maxValue != _value:
-            return None
-        else:
-            lastInfoTime = datetime.now().second
-        MApplication.processEvents()
-        self.setWindowTitle(self.title + " ( "+str(_value)+" / "+str(_maxValue)+" )")
-        self.StateBar.setRange(0, _maxValue)
-        self.StateBar.setValue(_value)
-        if _value>=_maxValue:
-            self.setModal(False)
-            self.close()
-        
+        showState(self.title, _value, _maxValue, self.isShowCancel, self.connectToCancel, self.isCheckLastShowTime)
         
         
         
