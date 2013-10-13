@@ -42,10 +42,14 @@ class MyThread(MThread):
         
     def startCallback(self):
         if self.callback!=None:
-            self.callback(self.data)
+            if type(self.callback) is list:
+                for cb in self.callback:
+                    cb(self.data)
+            else:
+                self.callback(self.data)
 
 
-class MyStateThread(MThread):
+class MyTarPackStateThread(MThread):
     
     def __init__(self, _tarFile, _maxMembers, _dlgState):
         MThread.__init__(self, Universals.activeWindow())
@@ -55,13 +59,31 @@ class MyStateThread(MThread):
         self.dlgState = _dlgState
         
     def run(self):
-        while 1==1:
-            if self.isFinished == False:
-                self.dlgState.emit(SIGNAL("setState"), len(self.tarFile.members), self.maxMembers)
-                time.sleep(0.05)
-            else:
-                break
+        while self.isFinished == False:
+            self.dlgState.emit(SIGNAL("setState"), len(self.tarFile.members), self.maxMembers)
+            time.sleep(0.05)
             
-    def finish(self, _returnValue):
+    def finish(self, _returnValue=None):
+        self.isFinished = True
+
+
+class MyWaitThread(MThread):
+    
+    def __init__(self, _title):
+        MThread.__init__(self, Universals.activeWindow())
+        self.isFinished = False
+        self.dlgState = dlgState = Dialogs.MyStateDialog(_title, False, None, False)
+        
+    def run(self):
+        i = 0
+        while self.isFinished == False:
+            if i > 9: 
+                i = 0
+            self.dlgState.emit(SIGNAL("setState"), i, 10)
+            time.sleep(0.05)
+            i += 1
+        self.dlgState.emit(SIGNAL("setState"), 10, 10)
+            
+    def finish(self, _returnValue=None):
         self.isFinished = True
 

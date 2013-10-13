@@ -194,7 +194,8 @@ class AmarokCoverTable():
     def refresh(self, _path):
         self.Table.currentTableContentValues = self.readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
-        for rowNo in range(self.Table.rowCount()):
+        allItemNumber = self.Table.rowCount()
+        for rowNo in range(allItemNumber):
             for itemNo in range(5):
                 item = None
                 if itemNo==0:
@@ -217,6 +218,7 @@ class AmarokCoverTable():
                     self.setItemColor(item, rowNo, itemNo, "destinationCover")
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
+            Dialogs.showState(translate("InputOutputs/Tables", "Generating Table..."), rowNo+1, allItemNumber) 
                     
     def setItemColor(self, _item, _rowNo, _itemNo, _name):
         if _item!=None:

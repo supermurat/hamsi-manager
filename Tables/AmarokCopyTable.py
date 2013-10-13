@@ -260,7 +260,8 @@ class AmarokCopyTable():
         self.Table.setColumnWidth(6,40)
         self.Table.currentTableContentValues = self.readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
-        for rowNo in range(self.Table.rowCount()):
+        allItemNumber = self.Table.rowCount()
+        for rowNo in range(allItemNumber):
             for itemNo in range(len(self.Table.tableColumns)):
                 item = None
                 if itemNo==0:
@@ -295,6 +296,7 @@ class AmarokCopyTable():
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["firstLyrics"])
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
+            Dialogs.showState(translate("InputOutputs/Tables", "Generating Table..."), rowNo+1, allItemNumber) 
                         
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
