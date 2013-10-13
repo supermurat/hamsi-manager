@@ -108,12 +108,36 @@ class Commands:
                 return " ( `valueTable`.`rating` = %s ) " % (filterPart)
             else:
                 return " ( `statistics`.`rating` = %s ) " % (filterPart)
+        elif _partOfFilterString.find("year:<")!=-1:
+            filterPart = _partOfFilterString.replace("year:<", "").replace(".", ",")
+            try: filterPart = int(filterPart)
+            except: filterPart = 0
+            if _isValueTable:
+                return " ( CAST( `valueTable`.`yearname` AS INT ) < %s ) " % (filterPart)
+            else:
+                return " ( CAST( `years`.`name` AS INT ) < %s ) " % (filterPart)
+        elif _partOfFilterString.find("year:>")!=-1:
+            filterPart = _partOfFilterString.replace("year:>", "").replace(".", ",")
+            try: filterPart = int(filterPart)
+            except: filterPart = 0
+            if _isValueTable:
+                return " ( CAST( `valueTable`.`yearname` AS INT ) > %s ) " % (filterPart)
+            else:
+                return " ( CAST( `years`.`name` AS INT ) > %s ) " % (filterPart)
+        elif _partOfFilterString.find("year:")!=-1:
+            filterPart = _partOfFilterString.replace("year:", "").replace(".", ",")
+            try: filterPart = int(filterPart)
+            except: filterPart = 0
+            if _isValueTable:
+                return " ( CAST( `valueTable`.`yearname` AS INT ) = %s ) " % (filterPart)
+            else:
+                return " ( CAST( `years`.`name` AS INT )  = %s ) " % (filterPart)
         else:
             filterPart = _partOfFilterString
             if _isValueTable:
-                return " ( LOWER(`valueTable`.`filePath`) LIKE LOWER('%s') OR LOWER(`valueTable`.`title`) LIKE LOWER('%s') OR LOWER(`valueTable`.`artistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumartistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`genrename`) LIKE LOWER('%s') OR LOWER(`valueTable`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+                return " ( LOWER(`valueTable`.`filePath`) LIKE LOWER('%s') OR LOWER(`valueTable`.`title`) LIKE LOWER('%s') OR LOWER(`valueTable`.`artistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumartistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`genrename`) LIKE LOWER('%s') OR LOWER(`valueTable`.`comment`) LIKE LOWER('%s') OR LOWER(`valueTable`.`yearname`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
             else:
-                return " ( LOWER(`urls`.`rpath`) LIKE LOWER('%s') OR LOWER(`tracks`.`title`) LIKE LOWER('%s') OR LOWER(`artists`.`name`) LIKE LOWER('%s') OR LOWER(`albums`.`name`) LIKE LOWER('%s') OR LOWER(`albumartists`.`name`) LIKE LOWER('%s') OR LOWER(`genres`.`name`) LIKE LOWER('%s') OR LOWER(`tracks`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+                return " ( LOWER(`urls`.`rpath`) LIKE LOWER('%s') OR LOWER(`tracks`.`title`) LIKE LOWER('%s') OR LOWER(`artists`.`name`) LIKE LOWER('%s') OR LOWER(`albums`.`name`) LIKE LOWER('%s') OR LOWER(`albumartists`.`name`) LIKE LOWER('%s') OR LOWER(`genres`.`name`) LIKE LOWER('%s') OR LOWER(`tracks`.`comment`) LIKE LOWER('%s') OR LOWER(`years`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
         
     def getSQLConditionValues(sqlCondition, _filter, _listOfFilters, _isValueTable = True):
         for f in _listOfFilters:
@@ -649,7 +673,9 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         
     def getArtistName(_artistId):
         db = Amarok.checkAndGetDB()
-        db.query("SELECT `name` FROM `artists` WHERE `id`=%s" % _artistId)
+        query = "SELECT `name` FROM `artists` WHERE `id`=%s" % _artistId
+        Universals.printForDevelopers("Query - getArtistName : " + query)
+        db.query(query)
         r = db.store_result()
         musicFileValues = []
         rows = r.fetch_row(0)
@@ -659,13 +685,17 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
 
     def getDevices():
         db = Amarok.checkAndGetDB()
-        db.query("SELECT id,lastmountpoint FROM devices")
+        query = "SELECT id,lastmountpoint FROM devices"
+        Universals.printForDevelopers("Query - getDevices : " + query)
+        db.query(query)
         r = db.store_result()
         return r.fetch_row(0)
         
     def getArtistId(_artist):
         db = Amarok.checkAndGetDB()
-        db.query("SELECT `id` FROM `artists` WHERE `name`='%s'" % (Databases.correctForSql(_artist)))
+        query = "SELECT `id` FROM `artists` WHERE `name`='%s'" % (Databases.correctForSql(_artist))
+        Universals.printForDevelopers("Query - getArtistId : " + query)
+        db.query(query)
         r = db.store_result()
         rows = r.fetch_row(0)
         if len(rows)>0:
@@ -675,6 +705,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
     def getOrInsertArtist(_artist):
         db = Amarok.checkAndGetDB()
         for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("artists", "id", {"name" : "'" + Databases.correctForSql(_artist) + "'"}):
+            Universals.printForDevelopers("Query - getOrInsertArtist : " + sqlCommand)
             db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
@@ -682,6 +713,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
     def getOrInsertAlbum(_album, _artistId):
         db = Amarok.checkAndGetDB()
         for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("albums", "id", {"name" : "'" + Databases.correctForSql(_album) + "'", "artist" : "'" + _artistId + "'"}):
+            Universals.printForDevelopers("Query - getOrInsertAlbum : " + sqlCommand)
             db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
@@ -689,6 +721,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
     def getOrInsertYear(_year):
         db = Amarok.checkAndGetDB()
         for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("years", "id", {"name" : "'" + Databases.correctForSql(_year) + "'"}):
+            Universals.printForDevelopers("Query - getOrInsertYear : " + sqlCommand)
             db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
@@ -696,6 +729,7 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
     def getOrInsertGenre(_genre):
         db = Amarok.checkAndGetDB()
         for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("genres", "id", {"name" : "'" + Databases.correctForSql(_genre) + "'"}):
+            Universals.printForDevelopers("Query - getOrInsertGenre : " + sqlCommand)
             db.query(sqlCommand)
         r = db.store_result()
         return r.fetch_row(0)[0][0]
@@ -705,11 +739,15 @@ SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
         if _directory[0]!=".": _directory = "." + _directory
         db = Amarok.checkAndGetDB()
         sqlSelectCommand = "SELECT id FROM directories WHERE deviceid=" + _deviceId + " AND dir='" + Databases.correctForSql(_directory) + "'"
+        Universals.printForDevelopers("Query - getOrInsertDirectory - sqlSelectCommand - 1 : " + sqlSelectCommand)
         db.query(sqlSelectCommand)
         r = db.store_result()
         rows = r.fetch_row(0)
         if len(rows)==0:
-            db.query("INSERT INTO directories(deviceid,dir) VALUES (" + _deviceId + ",'" + Databases.correctForSql(_directory) + "')")
+            sqlInsertCommand = "INSERT INTO directories(deviceid,dir) VALUES (" + _deviceId + ",'" + Databases.correctForSql(_directory) + "')"
+            Universals.printForDevelopers("Query - getOrInsertDirectory - sqlInsertCommand : " + sqlInsertCommand)
+            db.query(sqlInsertCommand)
+            Universals.printForDevelopers("Query - getOrInsertDirectory - sqlSelectCommand - 2 : " + sqlSelectCommand)
             db.query(sqlSelectCommand)
             r = db.store_result()
             rows = r.fetch_row(0)
