@@ -228,22 +228,22 @@ class Tables(MTableWidget):
         self.checkActionsStates()
         
     def createHistoryPoint(self, _isReturn=False):
-        nokta=[]
+        point=[]
         for rowNo in range(self.rowCount()):
-            nokta.append([])
+            point.append([])
             for columnNo in range(self.columnCount()):
                 item = self.item(rowNo, columnNo)
                 if item is not None:
-                    nokta[-1].append(item.text())
+                    point[-1].append(item.text())
                 else:
-                    nokta[-1].append("")
-            nokta[-1].append(self.isRowHidden(rowNo))
+                    point[-1].append("")
+            point[-1].append(self.isRowHidden(rowNo))
         if _isReturn==False:
             self.future = []
-            self.history.append(nokta)
+            self.history.append(point)
             self.checkActionsStates()
         else:
-            return nokta
+            return point
     
     def goActionPoint(self, _actionPoint):
         for rowNo, row in enumerate(_actionPoint):

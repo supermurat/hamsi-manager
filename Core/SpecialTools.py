@@ -169,39 +169,18 @@ class SpecialTools(MWidget):
             self.clear.columns.addItem(columnName)
             self.characterState.columns.addItem(columnName)
             self.characterEncoding.columns.addItem(columnName)
-            tb = MToolButton()
-            tb.setText(columnName)
-            tb.setObjectName(columnName)
-            tb.setAutoRaise(True)
+            tb = SpecialActionsCommandButton(self, Universals.MainWindow.Table.getColumnKeyFromName(columnName))
             self.specialActions.pbtnAddObjects.append(tb)
-            MObject.connect(self.specialActions.pbtnAddObjects[-1], SIGNAL("clicked()"), self.specialActions.AddObjects)
             lbl = MLabel(columnName + ":")
             self.quickFill.lblColumns.append(lbl)
             le = MLineEdit("")
             le.setObjectName(columnName)
             self.quickFill.leColumns.append(le)
             MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"), self.quickFill.fillAfter)
-        try:
-            if Universals.tableType==2 or Universals.tableType==6 or Universals.tableType==8:
-                for x in range(0, 5):
-                    self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])
-                for x in range(len(self.specialActions.pbtnAddObjects)-1, 4, -1):
-                    self.specialActions.HBoxs[1].insertWidget(0, self.specialActions.pbtnAddObjects[x])
-                for x in range(0, len(self.quickFill.leColumns)):
-                    self.quickFill.HBoxs[x/4].addWidget(self.quickFill.lblColumns[x])
-                    self.quickFill.HBoxs[x/4].addWidget(self.quickFill.leColumns[x])
-            elif Universals.tableType==4 or  Universals.tableType==5:
-                for x in range(0, len(self.specialActions.pbtnAddObjects)):
-                    self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])
-                for x in range(0, len(self.quickFill.leColumns)):
-                    self.quickFill.HBoxs[x/2].addWidget(self.quickFill.lblColumns[x])
-                    self.quickFill.HBoxs[x/2].addWidget(self.quickFill.leColumns[x])
-            else:
-                for x in range(0, len(self.specialActions.pbtnAddObjects)):
-                    self.specialActions.HBoxs[0].addWidget(self.specialActions.pbtnAddObjects[x])
-                    self.quickFill.HBoxs[0].addWidget(self.quickFill.lblColumns[x])
-                    self.quickFill.HBoxs[0].addWidget(self.quickFill.leColumns[x])
-        except:pass
+        for x in range(0, len(self.specialActions.pbtnAddObjects)):
+            self.specialActions.specialActionsCommandContainerAvailable.HBox.addWidget(self.specialActions.pbtnAddObjects[x])
+            self.quickFill.HBoxs[0].addWidget(self.quickFill.lblColumns[x])
+            self.quickFill.HBoxs[0].addWidget(self.quickFill.leColumns[x])
         self.specialActions.refreshBookmarks()
         if self.isShowAdvancedSelections==False:
             self.hideAdvancedSelections()
@@ -305,13 +284,8 @@ class SpecialTools(MWidget):
             self.reFillCompleters()
             Universals.MainWindow.Table.createHistoryPoint()
             if self.tabwTabs.currentIndex()==0:
-                if Organizer.whatDoesSpecialCommandDo(str(self.specialActions.leSplitPointer.text()),
-                                            self.specialActions.whereIsSplitPointer,
-                                            self.specialActions.actionCommand, 
-                                            True)==True:
-                    Organizer.applySpecialCommand(str(self.specialActions.leSplitPointer.text()),
-                                self.specialActions.whereIsSplitPointer,
-                                self.specialActions.actionCommand, self)
+                if Organizer.whatDoesSpecialCommandDo(self.specialActions.getActionCommand())==True:
+                    Organizer.applySpecialCommand(self.specialActions.getActionCommand(), self)
             elif self.tabwTabs.currentIndex()==1:
                 Organizer.searchAndReplaceTable(str(self.searchAndReplace.leSearch.text()),str(self.searchAndReplace.leReplace.text()), self)
             elif self.tabwTabs.currentIndex()==2:
@@ -350,284 +324,133 @@ class SpecialTools(MWidget):
 class SpecialActions(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
-        self.history, self.future, self.isPressedAddObjects=[], [], False
         self.pbtnAddObjects = []
-        self.details = MLabel(translate("SpecialTools", "Please Select An Action!.."))
-        self.details.setWordWrap(True)
-        self.whereIsSplitPointer, self.numberOfActionCommand, self.commaAndSplitControl="right",0,0
-        self.actionCommand = ""
-        self.leActionString = MLineEdit("")
-        self.leSplitPointer = MLineEdit("-")
-        fntFont = MFont()
-        fntFont.setPointSize(16)
-        fntFont.setBold(True)
-        self.leSplitPointer.setFont(fntFont)
+        lblSplit = MLabel(">>>", self)
         self.cbBookmarks = MComboBox()
-        self.refreshBookmarks()
-        self.tbAddComma = MToolButton()
-        self.tbAddComma.setText(translate("SpecialTools", ","))
-        self.tbAddComma.setAutoRaise(True)
-        self.tbAddSplit = MToolButton()
-        self.tbAddSplit.setText(translate("SpecialTools", "Hyphen(-)"))
-        self.tbAddSplit.setAutoRaise(True)
         self.tbClear = MToolButton(self)
         self.tbAddBookmark = MToolButton(self)
         self.tbDeleteBookmark = MToolButton(self)
-        self.tbGoBack = MToolButton(self)
-        self.tbGoForward = MToolButton(self)
         self.tbWhatDoesThisCommandDo = MToolButton(self)
         self.tbClear.setToolTip(translate("SpecialTools", "Clear"))
         self.tbAddBookmark.setToolTip(translate("SpecialTools", "Add To Bookmarks"))
         self.tbDeleteBookmark.setToolTip(translate("SpecialTools", "Remove From Bookmarks"))
-        self.tbGoBack.setToolTip(translate("SpecialTools", "Back"))
-        self.tbGoForward.setToolTip(translate("SpecialTools", "Forward"))
         self.tbWhatDoesThisCommandDo.setToolTip(translate("SpecialTools", "What Does This Command Do?"))
         self.tbClear.setIcon(MIcon("Images:actionClear.png"))
         self.tbAddBookmark.setIcon(MIcon("Images:addBookmark.png"))
         self.tbDeleteBookmark.setIcon(MIcon("Images:actionDelete.png"))
-        self.tbGoBack.setIcon(MIcon("Images:actionBack.png"))
-        self.tbGoForward.setIcon(MIcon("Images:actionForward.png"))
         self.tbWhatDoesThisCommandDo.setIcon(MIcon("Images:whatDoesThisCommandDo.png"))
         self.tbClear.setAutoRaise(True)
         self.tbAddBookmark.setAutoRaise(True)
         self.tbDeleteBookmark.setAutoRaise(True)
-        self.tbGoBack.setAutoRaise(True)
-        self.tbGoForward.setAutoRaise(True)
         self.tbWhatDoesThisCommandDo.setAutoRaise(True)
-        self.leActionString.setEnabled(False)
         self.tbDeleteBookmark.setEnabled(False)
         MObject.connect(self.cbBookmarks, SIGNAL("currentIndexChanged(int)"), self.cbBookmarksChanged)
-        MObject.connect(self.tbAddComma, SIGNAL("clicked()"), self.addComma)
-        MObject.connect(self.tbAddSplit, SIGNAL("clicked()"), self.addSplit)
         MObject.connect(self.tbClear, SIGNAL("clicked()"), self.makeClear)
-        MObject.connect(self.tbGoBack, SIGNAL("clicked()"), self.goBack)
-        MObject.connect(self.tbGoForward, SIGNAL("clicked()"), self.goForward)
         MObject.connect(self.tbWhatDoesThisCommandDo, SIGNAL("clicked()"), self.whatDoesThisCommandDo)
         MObject.connect(self.tbAddBookmark, SIGNAL("clicked()"), self.addBookmark)
         MObject.connect(self.tbDeleteBookmark, SIGNAL("clicked()"), self.deleteBookmark)
+        
+        self.specialActionsCommandContainerAvailable = SpecialActionsCommandContainer(self, True)
+        
+        self.specialActionsCommandContainerLeft = SpecialActionsCommandContainer(self)
+        self.specialActionsCommandContainerRight = SpecialActionsCommandContainer(self)
+        
         self.HBoxs = []
         self.HBoxs.append(MHBoxLayout())
+        self.HBoxs[0].addWidget(self.cbBookmarks)
+        self.HBoxs[0].addWidget(self.tbDeleteBookmark)
         self.HBoxs.append(MHBoxLayout())
-        self.HBoxs[1].addWidget(self.tbAddComma)
-        self.HBoxs[1].addWidget(self.tbAddSplit)
-        self.HBoxs[1].addWidget(self.leSplitPointer)
+        self.HBoxs[1].addWidget(self.specialActionsCommandContainerAvailable)
         self.HBoxs.append(MHBoxLayout())
-        self.HBoxs[2].addWidget(self.cbBookmarks)
-        self.HBoxs[2].addWidget(self.tbDeleteBookmark)
+        self.HBoxs[2].addWidget(self.specialActionsCommandContainerLeft, 10)
+        self.HBoxs[2].addWidget(lblSplit, 1)
+        self.HBoxs[2].addWidget(self.specialActionsCommandContainerRight, 10)
+        self.HBoxs[2].addWidget(self.tbClear, 1)
+        self.HBoxs[2].addWidget(self.tbAddBookmark, 1)
+        self.HBoxs[2].addWidget(self.tbWhatDoesThisCommandDo, 1)
         self.HBoxs.append(MHBoxLayout())
-        self.HBoxs[3].addWidget(self.tbGoBack)
-        self.HBoxs[3].addWidget(self.tbGoForward)
-        self.HBoxs[3].addWidget(self.tbClear)
-        self.HBoxs[3].addWidget(self.leActionString)
-        self.HBoxs[3].addWidget(self.tbAddBookmark)
-        self.HBoxs[3].addWidget(self.tbWhatDoesThisCommandDo)
-        self.HBoxs[3].addWidget(self.details)
         vblSpecialActions = MVBoxLayout()
         vblSpecialActions.addLayout(self.HBoxs[0])
         vblSpecialActions.addLayout(self.HBoxs[1])
         vblSpecialActions.addLayout(self.HBoxs[2])
-        vblSpecialActions.addLayout(self.HBoxs[3])
         self.setLayout(vblSpecialActions)
         self.cbBookmarks.setSizeAdjustPolicy(MComboBox.AdjustToMinimumContentsLength)
-        self.leSplitPointer.setMaximumWidth(40)
-        self.tbAddComma.setMaximumWidth(40)
-        self.tbAddComma.setMaximumWidth(40)
-        self.leSplitPointer.setMaximumHeight(30)   
-        if self.parent().parent().isShowAdvancedSelections==True:
-            self.details.hide()
+        self.refreshBookmarks()
             
     def showAdvancedSelections(self):
-        self.leActionString.show()
-        self.leSplitPointer.show()
         for btn in self.pbtnAddObjects:
             btn.show()
-        self.tbAddComma.show()
-        self.tbAddSplit.show()
         self.tbClear.show()
-        self.tbGoBack.show()
-        self.tbGoForward.show()
         self.tbWhatDoesThisCommandDo.show()
         self.tbAddBookmark.show()
         self.tbDeleteBookmark.show()
-        self.details.hide()
     
     def hideAdvancedSelections(self):
-        self.leActionString.hide()
-        self.leSplitPointer.hide()
         for btn in self.pbtnAddObjects:
             btn.hide()
-        self.tbAddComma.hide()
-        self.tbAddSplit.hide()
         self.tbClear.hide()
-        self.tbGoBack.hide()
-        self.tbGoForward.hide()
         self.tbWhatDoesThisCommandDo.hide()
         self.tbAddBookmark.hide()
         self.tbDeleteBookmark.hide()
-        self.details.show()
         
-    def AddObjects(self):
-        try:
-            if self.isPressedAddObjects==False:
-                self.history.append(self.leActionString.text())
-                self.future=[]
-                self.tbGoForward.setEnabled(False)
-                self.numberOfActionCommand+=1
-                self.isPressedAddObjects=True
-                self.leActionString.setText(trForUI(str(self.leActionString.text()) + 
-                            str(self.sender().objectName())+" "))
-                self.actionCommand += Universals.MainWindow.Table.getColumnKeyFromName(self.sender().text())
-        except:
-            ReportBug.ReportBug()
-            
-    def addComma(self):
-        try:
-            if self.numberOfActionCommand>0 and (self.commaAndSplitControl==0 or self.commaAndSplitControl<self.numberOfActionCommand) and self.numberOfActionCommand<100:
-                self.history.append(self.leActionString.text())
-                self.future=[]
-                self.tbGoForward.setEnabled(False)
-                self.leActionString.setText(trForUI(self.leActionString.text() + ", "))
-                self.actionCommand += ", "
-                self.tbAddComma.setEnabled(False)
-                self.numberOfActionCommand+=100
-                self.commaAndSplitControl = self.numberOfActionCommand
-                self.isPressedAddObjects=False
-        except:
-            ReportBug.ReportBug()
-            
-    def addSplit(self):
-        try:
-            if self.numberOfActionCommand>0 and (self.commaAndSplitControl==0 or self.commaAndSplitControl<self.numberOfActionCommand) and (self.whereIsSplitPointer=="right" or self.numberOfActionCommand<100) :
-                if self.numberOfActionCommand<100:
-                    self.whereIsSplitPointer="left"
-                if str(self.leSplitPointer.text()).strip()=="":
-                    self.leSplitPointer.setText("-")
-                self.history.append(self.leActionString.text())
-                self.future=[]
-                self.tbGoForward.setEnabled(False)
-                self.leActionString.setText(trForUI(str(self.leActionString.text()) + str(self.leSplitPointer.text()).strip() + " "))
-                self.actionCommand += str(self.leSplitPointer.text()).strip() + " "
-                self.numberOfActionCommand+=10
-                self.commaAndSplitControl = self.numberOfActionCommand
-                self.isPressedAddObjects=False
-        except:
-            ReportBug.ReportBug()
+    def getActionCommand(self):
+        leftKeys = []
+        for child in Universals.getAllChildren(self.specialActionsCommandContainerLeft):
+            objectName = str(child.objectName())
+            if objectName not in ["", "MoveHere"]:
+                leftKeys.append(objectName)
+        rightKeys = []
+        for child in Universals.getAllChildren(self.specialActionsCommandContainerRight):
+            objectName = str(child.objectName())
+            if objectName not in ["", "MoveHere"]:
+                rightKeys.append(objectName)
+        return leftKeys + ["~||~"] + rightKeys
+        
+    def setActionCommand(self, _actionCommand):
+        spliterIndex = _actionCommand.index("~||~")
+        leftKeys = _actionCommand[:spliterIndex]
+        rightKeys = _actionCommand[spliterIndex+1:]
+        for objectName in leftKeys:
+            child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
+            self.specialActionsCommandContainerLeft.HBox.addWidget(child)
+        for objectName in rightKeys:
+            child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
+            self.specialActionsCommandContainerRight.HBox.addWidget(child)
             
     def makeClear(self):
         try:
-            self.history.append(self.leActionString.text())
-            self.future=[]
-            self.tbGoForward.setEnabled(False)
-            self.leActionString.setText("")
-            self.actionCommand = ""
-            self.tbAddComma.setEnabled(True)
-            self.numberOfActionCommand=0
-            self.commaAndSplitControl=0
-            self.whereIsSplitPointer="right"
-            self.isPressedAddObjects=False
+            for child in Universals.getAllChildren(self.specialActionsCommandContainerLeft):
+                objectName = str(child.objectName())
+                if objectName not in ["", "MoveHere"]:
+                    self.specialActionsCommandContainerAvailable.HBox.addWidget(child)
+            for child in Universals.getAllChildren(self.specialActionsCommandContainerRight):
+                objectName = str(child.objectName())
+                if objectName not in ["", "MoveHere"]:
+                    self.specialActionsCommandContainerAvailable.HBox.addWidget(child)
         except:
             ReportBug.ReportBug()
     
     def whatDoesThisCommandDo(self):
         try:
-            Organizer.whatDoesSpecialCommandDo(str(self.leSplitPointer.text()),self.whereIsSplitPointer,self.actionCommand)
-        except:
-            ReportBug.ReportBug()
-    
-    def goBack(self):
-        try:
-            if len(self.history)>0:
-                if str(self.leActionString.text())[-2:].strip()==str(self.leSplitPointer.text()).strip():
-                    self.numberOfActionCommand-=10
-                    self.commaAndSplitControl = self.numberOfActionCommand-1
-                    self.isPressedAddObjects=True
-                elif str(self.leActionString.text())[-2:].strip()==",":
-                    self.tbAddComma.setEnabled(True)
-                    self.numberOfActionCommand-=100
-                    self.commaAndSplitControl = self.numberOfActionCommand-1
-                    self.isPressedAddObjects=True
-                else:
-                    self.numberOfActionCommand-=1
-                    self.isPressedAddObjects=False
-                self.future.append(self.leActionString.text())
-                h = self.history.pop()
-                self.leActionString.setText(h)
-                self.actionCommand = str(h)
-                self.tbGoForward.setEnabled(True)
-            else:
-                self.tbGoBack.setEnabled(False)
+            Organizer.whatDoesSpecialCommandDo(self.getActionCommand(), True)
         except:
             ReportBug.ReportBug()
             
-    def goForward(self):
-        try:
-            if len(self.future)>0:
-                future_temp=self.future.pop()
-                if str(future_temp)[-2:].strip()==str(self.leSplitPointer.text()).strip():
-                    self.numberOfActionCommand+=10
-                    self.commaAndSplitControl = self.numberOfActionCommand
-                    self.isPressedAddObjects=False
-                elif str(future_temp)[-2:].strip()==",":
-                    self.tbAddComma.setEnabled(False)
-                    self.numberOfActionCommand+=100
-                    self.commaAndSplitControl = self.numberOfActionCommand
-                    self.isPressedAddObjects=False
-                else: 
-                    self.numberOfActionCommand+=1
-                    self.isPressedAddObjects=True
-                self.history.append(self.leActionString.text())
-                self.leActionString.setText(future_temp)
-                self.actionCommand = str(future_temp)
-                self.tbGoBack.setEnabled(True)
-            else:
-                self.tbGoForward.setEnabled(False)
-        except:
-            ReportBug.ReportBug()
-           
     def cbBookmarksChanged(self,_index):
         try:
+            self.makeClear()
             if _index>0:
-                tempT = Databases.BookmarksOfSpecialTools.fetchAllByType()[_index-1][2]
-                tempString = tempT.split(";")
-                tempT = ""
-                tempA = ""
-                for t in tempString[:-2]:
-                    tempT += t
-                    tempA += t
-                    for colNo, colName in enumerate(Universals.MainWindow.Table.tableColumnsKey):
-                        tempT = tempT.replace(colName, str(Universals.MainWindow.Table.tableColumns[colNo]))
-                self.history.append(self.leActionString.text())
-                self.future=[]
-                self.leActionString.setText(trForUI(tempT))
-                self.actionCommand = tempA
-                self.whereIsSplitPointer = tempString[-2]
-                self.numberOfActionCommand = int(tempString[-1])
-                self.commaAndSplitControl = self.numberOfActionCommand-1
+                self.setActionCommand(eval(str(Databases.BookmarksOfSpecialTools.fetchAllByType()[_index-1][2])))
                 self.tbDeleteBookmark.setEnabled(True)
-                self.isPressedAddObjects=True
-                self.tbGoBack.setEnabled(True)
-                self.tbGoForward.setEnabled(False)
-                self.tbAddComma.setEnabled(False)
-                self.details.setText(trForUI(Organizer.whatDoesSpecialCommandDo(str(self.leSplitPointer.text()),
-                                    self.whereIsSplitPointer,
-                                    self.actionCommand, 
-                                    _isReturnDetails=True)))
             else:
-                self.whereIsSplitPointer, self.numberOfActionCommand, self.commaAndSplitControl, self.isPressedAddObjects="right",0,0, False
-                self.leActionString.setText("")
-                self.actionCommand = ""
                 self.tbDeleteBookmark.setEnabled(False)
-                self.tbAddComma.setEnabled(True)
-                self.details.setText(translate("SpecialTools", "Please Select An Action!"))
         except:
             ReportBug.ReportBug()
         
     def addBookmark(self):
         try:
-            tempString = self.actionCommand
-            if Organizer.whatDoesSpecialCommandDo(str(self.leSplitPointer.text()),self.whereIsSplitPointer,str(self.leActionString.text()),True)==True:
-                addition = " ;"+self.whereIsSplitPointer +";"+ str(self.numberOfActionCommand)
-                Databases.BookmarksOfSpecialTools.insert("", tempString+addition)
+            if Organizer.whatDoesSpecialCommandDo(self.getActionCommand())==True:
+                Databases.BookmarksOfSpecialTools.insert(str(self.getActionCommand()))
                 self.refreshBookmarks()
                 self.cbBookmarks.setCurrentIndex(self.cbBookmarks.count()-1)
         except:
@@ -643,6 +466,7 @@ class SpecialActions(MWidget):
             
     def refreshBookmarks(self):
         try:
+            self.makeClear()
             self.cbBookmarks.clear()
             self.cbBookmarks.addItem(translate("SpecialTools", "Please Select An Action!"))
             for fav in Databases.BookmarksOfSpecialTools.fetchAllByType():
@@ -656,7 +480,7 @@ class SpecialActions(MWidget):
     def reFillCompleters(self):
         pass
     
-                
+    
 class SearchAndReplace(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
@@ -1135,6 +959,57 @@ class SearchAndReplaceListEditDialog(MDialog):
         self.parent().leReplace.setText(trForUI(valueForReplace))
         self.close()
         
+class SpecialActionsCommandContainer(MWidget):
+    def __init__(self, _parent, _isForAvailable=False):
+        MWidget.__init__(self, _parent)
+        self.isForAvailable = _isForAvailable
+        self.setAcceptDrops(True)
+        self.HBox = MHBoxLayout()
+        self.lblMoveHere = MLabel(translate("SpecialActionsCommandContainer", "Move Here"), self)
+        self.lblMoveHere.setObjectName("MoveHere")
+        self.HBox.addWidget(self.lblMoveHere)
+        self.setLayout(self.HBox)
+        self.checkLabelMoveHere()
+        self.setMinimumWidth(200)
+    
+    def dragEnterEvent(self, _e):
+        if _e.mimeData().hasFormat("SpecialActionsCommandButton"):
+            _e.accept()
         
+    def dropEvent(self, _e):
+        #baData = _e.mimeData().data("SpecialActionsCommandButton")
+        #objectNameOfButton = str(baData)
+        btn = _e.source()
+        self.HBox.addWidget(btn)
+        self.checkLabelMoveHere()
+        _e.accept()
         
+    def checkLabelMoveHere(self):
+        if self.isForAvailable == False and self.HBox.count()==1:
+            self.lblMoveHere.show()
+        else:
+            self.lblMoveHere.hide()
         
+class SpecialActionsCommandButton(MPushButton):
+    def __init__(self, _parent, _columnName):
+        MPushButton.__init__(self, _parent)
+        self.setText(Universals.MainWindow.Table.getColumnNameFromKey(_columnName))
+        self.setObjectName(_columnName)
+
+    def mouseMoveEvent(self, _e):
+        if _e.buttons() != QtCore.Qt.LeftButton:
+            return
+        mimeData = QtCore.QMimeData()
+        baData = MByteArray()
+        baData.append(self.objectName())
+        mimeData.setData("SpecialActionsCommandButton", baData)
+        drag = QtGui.QDrag(self)
+        drag.setMimeData(mimeData)
+        dropAction = drag.start(QtCore.Qt.MoveAction)
+        
+    def mousePressEvent(self, _e):
+        MPushButton.mousePressEvent(self, _e)
+
+            
+    
+    

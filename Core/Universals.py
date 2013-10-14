@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 from Core import Variables
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -314,7 +314,18 @@ class Universals():
                 _object.hide()
                 _object.deleteLater()
             except:pass
-                            
+            
+    def getAllChildren(_object):
+        children = _object.children()
+        return children
+        
+    def getChild(_object, _objectName):
+        children = getAllChildren(_object)
+        for child in children:
+            if str(child.objectName()) == str(_objectName):
+                return child
+        return None
+               
     def startThreadAction():
         global threadActionState
         threadActionState = True
