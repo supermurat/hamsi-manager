@@ -26,7 +26,7 @@ class BookmarksOfSpecialTools:
     global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries
     global tableName, tableVersion, allForFetch, allForFetchByType
     tableName = "bookmarksOfSpecialTools"
-    tableVersion = 2
+    tableVersion = 3
     allForFetch, allForFetchByType = None, {}
         
     def fetchAll():
@@ -49,15 +49,8 @@ class BookmarksOfSpecialTools:
             cur.execute("SELECT * FROM " + tableName + " where type='" + _type + "'")
             myBookmarks = []
             for mybm in cur.fetchall():
-                tempT = mybm[2]
-                tempString = tempT.split(";")
-                tempT = ""
-                for t in tempString[:-2]:
-                    tempT+=t
-                newText  = Organizer.whatDoesSpecialCommandDo("-",
-                                tempString[-2],
-                                tempT, False, True)
-                myBookmarks.append([mybm[0], newText, mybm[2], mybm[3]])
+                newText  = Organizer.whatDoesSpecialCommandDo(eval(str(mybm[1])), False, True)
+                myBookmarks.append([mybm[0], newText, mybm[1], mybm[2]])
             allForFetchByType[_type] = myBookmarks
         return allForFetchByType[_type]
     
@@ -67,20 +60,20 @@ class BookmarksOfSpecialTools:
         cur.execute("SELECT * FROM " + tableName + " where id=" + str(int(_id)))
         return cur.fetchall()
     
-    def checkValues(_bookmark, _value, _type):
+    def checkValues(_value, _type):
         if len(_value)==0:
             return False
         return True
     
-    def insert(_bookmark, _value, _type=None):
+    def insert(_value, _type=None):
         global allForFetch, allForFetchByType
         if _type==None:
             _type = Universals.MainWindow.Table.SubTable.keyName
-        if checkValues(_bookmark, _value, _type):
+        if checkValues(_value, _type):
             allForFetch, allForFetchByType[_type] = None, None
             con = getDefaultConnection()
             cur = con.cursor()
-            sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'" + correctForSql(_bookmark) + "'", "value" : "'" + correctForSql(_value) + "'", "type" : "'" + correctForSql(_type) + "'"}, ["value"])
+            sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql(_value) + "'", "type" : "'" + correctForSql(_type) + "'"}, ["value"])
             cur.execute(sqlQueries[0])
             cur.execute(sqlQueries[1])
             con.commit()
@@ -88,15 +81,15 @@ class BookmarksOfSpecialTools:
             return cur.fetchall()[0][0]
         return None
     
-    def update(_id, _bookmark, _value, _type=None):
+    def update(_id, _value, _type=None):
         global allForFetch, allForFetchByType
         if _type==None:
             _type = Universals.MainWindow.Table.SubTable.keyName
-        if checkValues(_bookmark, _value, _type):
+        if checkValues(_value, _type):
             allForFetch, allForFetchByType[_type] = None, None
             con = getDefaultConnection()
             cur = con.cursor()
-            cur.execute(str("update " + tableName + " set bookmark='" + correctForSql(_bookmark) + "', value='" + correctForSql(_value) + "', type='" + correctForSql(_type) + "' where id=" + str(int(_id))))
+            cur.execute(str("update " + tableName + " set value='" + correctForSql(_value) + "', type='" + correctForSql(_type) + "' where id=" + str(int(_id))))
             con.commit()
     
     def delete(_id, _type=None):
@@ -110,33 +103,33 @@ class BookmarksOfSpecialTools:
         con.commit()
         
     def getTableCreateQuery():
-        return "CREATE TABLE IF NOT EXISTS " + tableName + " ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'type' TEXT)"
+        return "CREATE TABLE IF NOT EXISTS " + tableName + " ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'value' TEXT,'type' TEXT)"
         
     def getDeleteTableQuery():
         return "DELETE FROM " + tableName
         
     def getDefaultsQueries():
         sqlQueries = []
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Artist - Title ;right;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Track No - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Album , Directory  ;left;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Title  ;right;102'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Title , File Name  ;right;102'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Year , Album  ;right;102'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Lyrics , Artist - Title  ;right;113'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Artist - Album - Title , File Name  ;left;124'", "type" : "'music'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory - File Name , Directory  ;left;113'", "type" : "'file'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File Name  ;right;102'", "type" : "'file'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Directory  ;right;102'", "type" : "'file'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File/Directory Name  ;right;102'", "type" : "'directory'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File/Directory Name , Directory  ;right;102'", "type" : "'directory'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory , File Name  ;right;102'", "type" : "'subfolder'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'File Name , Directory  ;right;102'", "type" : "'subfolder'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Directory Name , Directory  ;right;102'", "type" : "'cover'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Source Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Destination Cover , Source Cover  ;right;102'", "type" : "'cover'"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "''", "value" : "'Destination Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File Name , Artist - Title ;right;113'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Artist - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Track No - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Artist - Album , Directory  ;left;113'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File Name , Title  ;right;102'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Title , File Name  ;right;102'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Year , Album  ;right;102'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Lyrics , Artist - Title  ;right;113'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Artist - Album - Title , File Name  ;left;124'", "type" : "'music'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory - File Name , Directory  ;left;113'", "type" : "'file'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory , File Name  ;right;102'", "type" : "'file'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File Name , Directory  ;right;102'", "type" : "'file'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory , File/Directory Name  ;right;102'", "type" : "'directory'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File/Directory Name , Directory  ;right;102'", "type" : "'directory'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory , File Name  ;right;102'", "type" : "'subfolder'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File Name , Directory  ;right;102'", "type" : "'subfolder'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory Name , Directory  ;right;102'", "type" : "'cover'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Source Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Destination Cover , Source Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Destination Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
         return sqlQueries
         
         

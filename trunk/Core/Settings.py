@@ -365,5 +365,12 @@ class Settings():
             newSettingsKeys = newSettingsKeys + ["maxDeletedDirectorySize"]
         if oldVersion<1190:
             changedDefaultValuesKeys = changedDefaultValuesKeys + ["applicationStyle", "windowMode", "fileExtesionIs"]
+        if oldVersion<1280:
+            con = sqlite.connect(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "database.sqlite"))
+            cur = con.cursor()
+            cur.execute(str("DROP TABLE bookmarksOfSpecialTools;"))
+            cur.execute(str(BookmarksOfSpecialTools.getTableCreateQuery()))
+            con.commit()
+            newSettingsKeys = newSettingsKeys + ["isCorrectValueWithSearchAndReplaceTable"]
         return newSettingsKeys, changedDefaultValuesKeys
         

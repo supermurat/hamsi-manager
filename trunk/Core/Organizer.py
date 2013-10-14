@@ -222,136 +222,89 @@ class Organizer:
                 newString = searchAndReplace(newString, [info[2]], [info[3]], isCaseInsensitive, isRegExp)
         return newString
     
-    def applySpecialCommand(_splitPointer, _whereIsSplitPointer, _command, _SpecialTools):
+    def applySpecialCommand(_actionCommand, _SpecialTools):
         from Core.MyObjects import trForUI
         import Tables
-        blok = _command.split(",")
-        changings = blok[0].split(_splitPointer)
-        changers = blok[1].split(_splitPointer)
-        changingColumns,changerColumns=[],[]
-        Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
-        for columnName in changings:
-            columnName=columnName.strip()
-            for no,column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
-                if columnName==column:
-                    if Tables.checkHiddenColumn(no)==False:
-                        return False
-                    changingColumns.append(no)
-        if len(changingColumns)==0:
-            return False
-        for columnName in changers:
-            columnName=columnName.strip()
-            for no,column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
-                if columnName==column:
-                    if Tables.checkHiddenColumn(no)==False:
-                        return False
-                    changerColumns.append(no)
-        if len(changerColumns)==0:
-            return False
-        if Tables.isChangeHiddenColumn==True:
-            if _whereIsSplitPointer=="right":
-                for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                    if Universals.MainWindow.Table.isChangableItem(rowNo, changingColumns[0]):
-                        newString=""
-                        for changerColumnNo in changerColumns:
-                            valueOfField = str(Universals.MainWindow.Table.item(rowNo,changerColumnNo).text())
-                            if Universals.MainWindow.Table.tableColumnsKey[changerColumnNo] == "File Name":
-                                valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
-                            if valueOfField != "-----":
-                                newString+=" "+_splitPointer+" "+valueOfField
-                        newString = emend(newString[2:])
+        spliterIndex = _actionCommand.index("~||~")
+        leftKeys = _actionCommand[:spliterIndex]
+        rightKeys = _actionCommand[spliterIndex+1:]
+        leftColumns = []
+        rightColumns = []
+        Tables.isAskShowHiddenColumn = True
+        if len(leftKeys)>0 and len(rightKeys)>0:
+            for columnName in leftKeys:
+                for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
+                    if columnName==column:
+                        Tables.checkHiddenColumn(no)
+                        leftColumns.append(no)
+            for columnName in rightKeys:
+                for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
+                    if columnName==column:
+                        Tables.checkHiddenColumn(no)
+                        rightColumns.append(no)
+        if len(leftColumns)>0 and len(rightColumns)>0:
+            for rowNo in range(Universals.MainWindow.Table.rowCount()):
+                sourceString = ""
+                sourceList = []
+                for columnNo in leftColumns:
+                    valueOfField = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                    if Universals.MainWindow.Table.tableColumnsKey[columnNo] == "File Name":
+                        valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
+                    sourceString += valueOfField
+                    sourceList.append(valueOfField)
+                    if leftColumns[-1] != columnNo:
+                        sourceString += "-" # splitter
+                columnsValues = sourceString.split("-")
+                for no in range(len(rightColumns)):
+                    if Universals.MainWindow.Table.isChangableItem(rowNo, rightColumns[no]):
+                        newString = ""
+                        if len(rightColumns)==1:
+                            newString = sourceString
+                        elif len(sourceList)==len(rightColumns):
+                            newString = sourceList[no]
+                        elif len(columnsValues)==len(rightColumns):
+                            newString = columnsValues[no]
+                        newString = emend(newString)
                         if newString!="":
                             if _SpecialTools.btChange.isChecked()==True:
                                 pass
                             elif _SpecialTools.tbAddToBefore.isChecked()==True:
-                                newString += str(Universals.MainWindow.Table.item(rowNo,changingColumns[0]).text())
+                                newString += str(Universals.MainWindow.Table.item(rowNo, rightColumns[no]).text())
                             elif _SpecialTools.tbAddToAfter.isChecked()==True:
-                                newString = str(Universals.MainWindow.Table.item(rowNo,changingColumns[0]).text()) + newString
-                            Universals.MainWindow.Table.item(rowNo,changingColumns[0]).setText(trForUI(newString.strip()))
-            else:
-                for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                    valueOfField = str(Universals.MainWindow.Table.item(rowNo,changerColumns[0]).text())
-                    if Universals.MainWindow.Table.tableColumnsKey[changerColumns[0]] == "File Name":
-                        valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
-                    newString = valueOfField
-                    if newString!="-----":
-                        newStrings = ["","","","","","","",""]
-                        newString = newString.split(_splitPointer)
-                        for stringNo in range(0,len(newString)):
-                            newStrings[stringNo] = newString[stringNo]
-                        stringNo=0
-                        for changingColumnNo in changingColumns:
-                            if Universals.MainWindow.Table.isChangableItem(rowNo, changingColumnNo):
-                                if _SpecialTools.btChange.isChecked()==True:
-                                    pass
-                                elif _SpecialTools.tbAddToBefore.isChecked()==True:
-                                    newStrings[stringNo] += str(Universals.MainWindow.Table.item(rowNo,changingColumnNo).text())
-                                elif _SpecialTools.tbAddToAfter.isChecked()==True:
-                                    newStrings[stringNo] = str(Universals.MainWindow.Table.item(rowNo,changingColumnNo).text()) + newStrings[stringNo]
-                                Universals.MainWindow.Table.item(rowNo,changingColumnNo).setText(trForUI(newStrings[stringNo].strip()))
-                            stringNo+=1
+                                newString = str(Universals.MainWindow.Table.item(rowNo, rightColumns[no]).text()) + newString
+                            Universals.MainWindow.Table.item(rowNo, rightColumns[no]).setText(trForUI(newString.strip()))
         
-    def whatDoesSpecialCommandDo(_splitPointer, _whereIsSplitPointer, _command, _isCorrect=False, _isReturnDetails=False):
+        
+    def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetails=False):
         from Core import Dialogs
         from Core.MyObjects import trForUI, translate
-        if _command[-2:]!="- " and _command[-2:]!=", " and _command.find(",")!=-1:
-            _command = _command.split(",")
-            changings = _command[0].split(_splitPointer)
-            changers = _command[1].split(_splitPointer)
-            if _whereIsSplitPointer=="right":
-                details=""
-                for changerColumnName in changers:
-                    if len(changers)>1:
-                        if changerColumnName==changers[-2]:
-                            appended= str(translate("Organizer", " and "))
-                        elif changerColumnName==changers[-1]:
-                            appended=""
-                        else:
-                            appended=","
-                    else:
-                        appended = ""
-                    details+=str(Universals.MainWindow.Table.getColumnNameFromKey(changerColumnName.strip()))+appended
-                details+=str(translate("Organizer", " \"%s\" is concatenated with and is set as \"%s\".")) % (_splitPointer, str(Universals.MainWindow.Table.getColumnNameFromKey(changings[0].strip()))) 
-                if len(changers)==1:
-                    details = str(translate("Organizer", "\"%s\" \"%s\" are set.")) % (str(Universals.MainWindow.Table.getColumnNameFromKey(changers[0].strip())), str(Universals.MainWindow.Table.getColumnNameFromKey(changings[0].strip())))
-                if _isCorrect==True:
-                    return True
-                if _isReturnDetails==True:
-                    return details
-                Dialogs.show(translate("Organizer", "What Does This Command Do?"),trForUI(details))
-                
+        spliterIndex = _actionCommand.index("~||~")
+        leftKeys = _actionCommand[:spliterIndex]
+        rightKeys = _actionCommand[spliterIndex+1:]
+        if len(leftKeys)>0 and len(rightKeys)>0:
+            details = ""
+            leftNames = ""
+            rightNames = ""
+            for columnName in leftKeys:
+                leftNames += Universals.MainWindow.Table.getColumnNameFromKey(columnName)
+                if leftKeys[-1] != columnName:
+                    leftNames += ","
+            for columnName in rightKeys:
+                rightNames += Universals.MainWindow.Table.getColumnNameFromKey(columnName)
+                if rightKeys[-1] != columnName:
+                    rightNames += ","
+            
+            details = str(translate("Organizer", "\"%s\" will be concatenated and/or separated then it will be set as \"%s\" respectively.")) % (leftNames, rightNames) 
+            
+            if _isShowAlert:
+                Dialogs.show(translate("Organizer", "What Does This Command Do?"), trForUI(details))
+            if _isReturnDetails==False:
+                return True
             else:
-                details = ""
-                for changingColumnName in changings:
-                    if len(changings)>1:
-                        if changingColumnName==changings[-2]:
-                            appended=str(translate("Organizer", " and "))
-                        elif changingColumnName==changings[-1]:
-                            appended=""
-                        else:
-                            appended=","
-                    else:
-                        appended = ""
-                    details+= str(Universals.MainWindow.Table.getColumnNameFromKey(changingColumnName.strip()))+appended
-                details = str(translate("Organizer", "\"%s\" \"%s\" hyphenates from the apostrophe and sets each piece as \"%s\".")) % (str(Universals.MainWindow.Table.getColumnNameFromKey(changers[0].strip())), _splitPointer, details)
-                if _isCorrect==True:
-                    return True
-                if _isReturnDetails==True:
-                    return details
-                Dialogs.show(translate("Organizer", "What Does This Command Do?"),details)
+                return details
         else:
-            if _command.find(",")==-1:
-                if _isReturnDetails==True:
-                    return (translate("Organizer", "You have to add a \",\"(comma) to your command!.."))
-                Dialogs.showError(translate("Organizer", "Missing Command"),
-                             translate("Organizer", "You have to add a \",\"(comma) to your command!.."))
-                return False
-            else:
-                if _isReturnDetails==True:
-                    return (translate("Organizer", "You have to add one (more) \"Column\"!.."))
-                Dialogs.showError(translate("Organizer", "Missing Command"),
-                             translate("Organizer", "You have to add one (more) \"Column\"!.."))
-                return False
+            Dialogs.showError(translate("Organizer", "Missing Command"), translate("Organizer", "You have to add at least a \"Column\"!.."))
+            return False
     
     def searchAndReplaceTable(_searchStrings,_replaceStrings, _SpecialTools):
         from Core.MyObjects import trForUI
@@ -436,70 +389,68 @@ class Organizer:
     def fillTable(_columnName, _SpecialTools, _newString=""):
         from Core.MyObjects import trForUI
         import Tables
-        Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
+        Tables.isAskShowHiddenColumn=True
         for No, columnName in enumerate(Universals.MainWindow.Table.tableColumns):
             if str(_columnName) == str(columnName):
                 columnNo=No
                 break
         if Tables.checkHiddenColumn(columnNo,False)==False:
             return False
-        if Tables.isChangeHiddenColumn==True:
-            if _SpecialTools.fill.cbFillType.currentIndex()==1:
-                _newString = int(_SpecialTools.fill.spStartDigit.value())-1
-            for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
-                    if _SpecialTools.fill.cbFillType.currentIndex()==1:
-                        if _SpecialTools.fill.cbSort.currentIndex()==0:
-                            _newString+=1
-                        else:
-                            _newString-=1
-                        myString = str(_newString)
-                        inNegative = False
-                        if myString.find("-")!=-1:
-                            myString = myString.replace("-", "")
-                            inNegative = True
-                        karakterSayisi = len(myString)
-                        while karakterSayisi < int(_SpecialTools.fill.spCharNumberOfDigit.value()):
-                            myString="0"+myString
-                            karakterSayisi = len(myString)
-                        if inNegative:
-                            myString="-"+myString
+        if _SpecialTools.fill.cbFillType.currentIndex()==1:
+            _newString = int(_SpecialTools.fill.spStartDigit.value())-1
+        for rowNo in range(Universals.MainWindow.Table.rowCount()):
+            if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
+                if _SpecialTools.fill.cbFillType.currentIndex()==1:
+                    if _SpecialTools.fill.cbSort.currentIndex()==0:
+                        _newString+=1
                     else:
-                        myString = str(_newString)
-                    if _SpecialTools.btChange.isChecked()==True:
-                        pass
-                    elif _SpecialTools.tbAddToBefore.isChecked()==True:
-                        myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
-                    elif _SpecialTools.tbAddToAfter.isChecked()==True:
-                        myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString)))
+                        _newString-=1
+                    myString = str(_newString)
+                    inNegative = False
+                    if myString.find("-")!=-1:
+                        myString = myString.replace("-", "")
+                        inNegative = True
+                    karakterSayisi = len(myString)
+                    while karakterSayisi < int(_SpecialTools.fill.spCharNumberOfDigit.value()):
+                        myString="0"+myString
+                        karakterSayisi = len(myString)
+                    if inNegative:
+                        myString="-"+myString
+                else:
+                    myString = str(_newString)
+                if _SpecialTools.btChange.isChecked()==True:
+                    pass
+                elif _SpecialTools.tbAddToBefore.isChecked()==True:
+                    myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                elif _SpecialTools.tbAddToAfter.isChecked()==True:
+                    myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
+                Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString)))
                     
     def quickFillTable(_columnName, _SpecialTools, _newString=""):
         from Core.MyObjects import trForUI
         import Tables
-        Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
+        Tables.isAskShowHiddenColumn=True
         for No, columnName in enumerate(Universals.MainWindow.Table.tableColumns):
             if str(_columnName) == str(columnName):
                 columnNo=No
                 break
         if Tables.checkHiddenColumn(columnNo,False)==False:
             return False
-        if Tables.isChangeHiddenColumn==True:
-            for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
-                    myString = str(_newString)
-                    if _SpecialTools.btChange.isChecked()==True:
-                        pass
-                    elif _SpecialTools.tbAddToBefore.isChecked()==True:
-                        myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
-                    elif _SpecialTools.tbAddToAfter.isChecked()==True:
-                        myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString)))
+        for rowNo in range(Universals.MainWindow.Table.rowCount()):
+            if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
+                myString = str(_newString)
+                if _SpecialTools.btChange.isChecked()==True:
+                    pass
+                elif _SpecialTools.tbAddToBefore.isChecked()==True:
+                    myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                elif _SpecialTools.tbAddToAfter.isChecked()==True:
+                    myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
+                Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString)))
                     
     def clearTable(_SpecialTools):
         from Core.MyObjects import trForUI
         import Tables
-        Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
+        Tables.isAskShowHiddenColumn=True
         if _SpecialTools.clear.columns.currentIndex()==0:
             columns = list(range(0,Universals.MainWindow.Table.columnCount()))
         else:
@@ -613,7 +564,7 @@ class Organizer:
     def correctCaseSensitiveTable(_SpecialTools):
         from Core.MyObjects import trForUI
         import Tables
-        Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
+        Tables.isAskShowHiddenColumn=True
         searchStrings = str(_SpecialTools.characterState.leSearch.text()).split(";")
         if _SpecialTools.characterState.columns.currentIndex()==0:
             columns = list(range(0,Universals.MainWindow.Table.columnCount()))
@@ -659,7 +610,7 @@ class Organizer:
     def correctCharacterEncodingTable(_SpecialTools):
         from Core.MyObjects import trForUI, translate
         import Tables
-        Tables.isChangeHiddenColumn,Tables.isAskShowHiddenColumn=True,True
+        Tables.isAskShowHiddenColumn=True
         sourceEncoding = str(_SpecialTools.characterEncoding.cbSourceEncoding.currentText())
         destinationEncoding = str(_SpecialTools.characterEncoding.cbDestinationEncoding.currentText())
         sourceValues = str(_SpecialTools.characterEncoding.cbSourceValues.currentText())
