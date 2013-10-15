@@ -93,7 +93,6 @@ class SpecialTools(MWidget):
         VBox = MVBoxLayout()
         self.pnlAdvancedSelections.setLayout(VBox)
         VBox1 = MVBoxLayout()
-        VBox1.addStretch(3)
         VBox1.addWidget(self.pbtnAdvancedSelections)
         VBox.addWidget(self.cbInformationSection)
         HBoxs1 = MHBoxLayout()
@@ -257,8 +256,8 @@ class SpecialTools(MWidget):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Simple"))
         self.pnlAdvancedSelections.setVisible(True)
         self.isShowAdvancedSelections = True
-        self.tabwTabs.setMaximumHeight(175)
-        self.setMaximumHeight(175)
+        self.tabwTabs.setMaximumHeight(185)
+        self.setMaximumHeight(185)
         self.specialActions.showAdvancedSelections()
         self.fill.showAdvancedSelections()
         self.searchAndReplace.showAdvancedSelections()
@@ -354,10 +353,10 @@ class SpecialActions(MWidget):
         MObject.connect(self.tbAddBookmark, SIGNAL("clicked()"), self.addBookmark)
         MObject.connect(self.tbDeleteBookmark, SIGNAL("clicked()"), self.deleteBookmark)
         
-        self.specialActionsCommandContainerAvailable = SpecialActionsCommandContainer(self, True)
+        self.specialActionsCommandContainerAvailable = SpecialActionsCommandContainer(self, translate("SpecialActionsCommandContainer", "Availables - Move Here Not To Use"))
         
-        self.specialActionsCommandContainerLeft = SpecialActionsCommandContainer(self)
-        self.specialActionsCommandContainerRight = SpecialActionsCommandContainer(self)
+        self.specialActionsCommandContainerLeft = SpecialActionsCommandContainer(self, translate("SpecialActionsCommandContainer", "Move Here To Use As Source"))
+        self.specialActionsCommandContainerRight = SpecialActionsCommandContainer(self, translate("SpecialActionsCommandContainer", "Move Here To Set"))
         
         self.HBoxs = []
         self.HBoxs.append(MHBoxLayout())
@@ -409,32 +408,46 @@ class SpecialActions(MWidget):
         leftKeys = []
         for child in self.specialActionsCommandContainerLeft.widgetList:
             objectName = str(child.objectName())
+            point = str(child.getPoint())
             if objectName not in ["", "MoveHere"]:
-                leftKeys.append(objectName)
+                leftKeys.append(objectName + "~|~" + point)
         rightKeys = []
         for child in self.specialActionsCommandContainerRight.widgetList:
             objectName = str(child.objectName())
+            point = str(child.getPoint())
             if objectName not in ["", "MoveHere"]:
-                rightKeys.append(objectName)
+                rightKeys.append(objectName + "~|~" + point)
         return leftKeys + ["~||~"] + rightKeys
         
     def setActionCommand(self, _actionCommand):
         spliterIndex = _actionCommand.index("~||~")
         leftKeys = _actionCommand[:spliterIndex]
         rightKeys = _actionCommand[spliterIndex+1:]
-        for objectName in leftKeys:
+        for objectNameAndPoint in leftKeys:
+            objectNameAndPointList = objectNameAndPoint.split("~|~")
+            objectName = objectNameAndPointList[0]
+            point = ""
+            if len(objectNameAndPointList)>1:
+                point = objectNameAndPointList[1]
             child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
             if child is None:
                 child = Universals.getChild(self.specialActionsCommandContainerLeft, objectName)
             if child is None:
                 child = Universals.getChild(self.specialActionsCommandContainerRight, objectName)
+            child.setPoint(point)
             self.specialActionsCommandContainerLeft.addToWidgetList(child)
-        for objectName in rightKeys:
+        for objectNameAndPoint in rightKeys:
+            objectNameAndPointList = objectNameAndPoint.split("~|~")
+            objectName = objectNameAndPointList[0]
+            point = ""
+            if len(objectNameAndPointList)>1:
+                point = objectNameAndPointList[1]
             child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
             if child is None:
                 child = Universals.getChild(self.specialActionsCommandContainerLeft, objectName)
             if child is None:
                 child = Universals.getChild(self.specialActionsCommandContainerRight, objectName)
+            child.setPoint(point)
             self.specialActionsCommandContainerRight.addToWidgetList(child)
             
     def makeClear(self):
@@ -983,15 +996,14 @@ class SearchAndReplaceListEditDialog(MDialog):
         self.close()
         
 class SpecialActionsCommandContainer(MFrame):
-    def __init__(self, _parent, _isForAvailable=False):
+    def __init__(self, _parent, _moveHereLabel=False):
         MFrame.__init__(self, _parent)
-        self.isForAvailable = _isForAvailable
         self.setAcceptDrops(True)
         self.HBox = MHBoxLayout()
         self.HBox1 = MHBoxLayout()
         self.HBox2 = MHBoxLayout()
         self.widgetList = []
-        self.lblMoveHere = MLabel(translate("SpecialActionsCommandContainer", "Move Here"), self)
+        self.lblMoveHere = MLabel(_moveHereLabel, self)
         self.lblMoveHere.setObjectName("MoveHere")
         self.HBox.addWidget(self.lblMoveHere)
         self.VBox = MVBoxLayout()
@@ -1002,28 +1014,42 @@ class SpecialActionsCommandContainer(MFrame):
         self.checkLabelMoveHere()
         self.setMinimumWidth(200)
         self.setFrameShape(MFrame.StyledPanel)
-        self.setMidLineWidth(0)
-        self.setLineWidth(0)
         self.setFrameShadow(MFrame.Sunken)
         
-    def addToWidgetList(self, _widget):
-        self.widgetList.append(_widget)
+    def addToLayout(self, _widget):
         if self.HBox.count()<5:
             self.HBox.addWidget(_widget)
         elif self.HBox1.count()<8:
             self.HBox1.addWidget(_widget)
         else:
             self.HBox2.addWidget(_widget)
+        
+    def addToWidgetList(self, _widget):
+        self.widgetList.append(_widget)
+        self.addToLayout(_widget)
         self.removeFromOtherWidgetList(_widget)
         self.checkLabelMoveHere()
+        if self.parent().specialActionsCommandContainerAvailable == self:
+            _widget.hidePoint()
+        elif self.parent().specialActionsCommandContainerLeft == self:
+            _widget.showPoint()
+        elif self.parent().specialActionsCommandContainerRight == self:
+            _widget.hidePoint()
+            
         
     def removeFromOtherWidgetList(self, _widget):
+        if self.parent().specialActionsCommandContainerAvailable != self:
+            if _widget in self.parent().specialActionsCommandContainerAvailable.widgetList:
+                self.parent().specialActionsCommandContainerAvailable.widgetList.remove(_widget)
+                self.parent().specialActionsCommandContainerAvailable.checkLabelMoveHere()
         if self.parent().specialActionsCommandContainerLeft != self:
             if _widget in self.parent().specialActionsCommandContainerLeft.widgetList:
                 self.parent().specialActionsCommandContainerLeft.widgetList.remove(_widget)
+                self.parent().specialActionsCommandContainerLeft.checkLabelMoveHere()
         if self.parent().specialActionsCommandContainerRight != self:
             if _widget in self.parent().specialActionsCommandContainerRight.widgetList:
                 self.parent().specialActionsCommandContainerRight.widgetList.remove(_widget)
+                self.parent().specialActionsCommandContainerRight.checkLabelMoveHere()
     
     def dragEnterEvent(self, _e):
         if _e.mimeData().hasFormat("SpecialActionsCommandButton"):
@@ -1035,6 +1061,8 @@ class SpecialActionsCommandContainer(MFrame):
         btn = _e.source()
         if btn not in self.widgetList:
             self.addToWidgetList(btn)
+        else:
+            self.addToLayout(btn)
         _e.accept()
         
     def checkLabelMoveHere(self):
@@ -1043,12 +1071,37 @@ class SpecialActionsCommandContainer(MFrame):
         else:
             self.lblMoveHere.hide()
         
-class SpecialActionsCommandButton(MPushButton):
-    def __init__(self, _parent, _columnName):
-        MPushButton.__init__(self, _parent)
-        self.setText(Universals.MainWindow.Table.getColumnNameFromKey(_columnName))
-        self.setObjectName(_columnName)
-
+class SpecialActionsCommandButton(MFrame):
+    def __init__(self, _parent, _columnNameKey):
+        MFrame.__init__(self, _parent)
+        self.setObjectName(_columnNameKey)
+        self.columnName = Universals.MainWindow.Table.getColumnNameFromKey(_columnNameKey)
+        self.lblMoveHere = MLabel(self.columnName, self)
+        self.lePoint = MLineEdit("", self)
+        self.lePoint.setToolTip(str(translate("SpecialActions", "If requires, \"%s\" will be separated by this. You can leave blank not to separate it.")) % (self.columnName) )
+        self.HBox = MHBoxLayout()
+        self.HBox.addWidget(self.lblMoveHere)
+        self.HBox.addWidget(self.lePoint)
+        self.setLayout(self.HBox)
+        self.lePoint.hide()
+        #self.setFrameShape(MFrame.StyledPanel)
+        #self.setFrameShadow(MFrame.Raised)
+        
+    def setPoint(self, _value):
+        self.lePoint.setText(trForUI(_value))
+        
+    def getPoint(self):
+        return str(self.lePoint.text())
+        
+    def showPoint(self):
+        self.lePoint.setMinimumHeight(24)
+        self.lePoint.show()
+        self.lblMoveHere.setText(self.columnName + ":")
+        
+    def hidePoint(self):
+        self.lePoint.hide()
+        self.lblMoveHere.setText(self.columnName)
+        
     def mouseMoveEvent(self, _e):
         if _e.buttons() != QtCore.Qt.LeftButton:
             return
@@ -1061,7 +1114,7 @@ class SpecialActionsCommandButton(MPushButton):
         dropAction = drag.start(QtCore.Qt.MoveAction)
         
     def mousePressEvent(self, _e):
-        MPushButton.mousePressEvent(self, _e)
+        MFrame.mousePressEvent(self, _e)
 
             
     

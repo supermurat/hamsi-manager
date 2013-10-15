@@ -228,51 +228,73 @@ class Organizer:
         spliterIndex = _actionCommand.index("~||~")
         leftKeys = _actionCommand[:spliterIndex]
         rightKeys = _actionCommand[spliterIndex+1:]
-        leftColumns = []
-        rightColumns = []
+        leftColumnKeys = []
+        rightColumnKeys = []
         Tables.isAskShowHiddenColumn = True
         if len(leftKeys)>0 and len(rightKeys)>0:
-            for columnName in leftKeys:
+            for objectNameAndPoint in leftKeys:
+                objectNameAndPointList = objectNameAndPoint.split("~|~")
+                objectName = objectNameAndPointList[0]
                 for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
-                    if columnName==column:
+                    if objectName==column:
                         Tables.checkHiddenColumn(no)
-                        leftColumns.append(no)
-            for columnName in rightKeys:
+                        leftColumnKeys.append(objectNameAndPoint)
+            for objectNameAndPoint in rightKeys:
+                objectNameAndPointList = objectNameAndPoint.split("~|~")
+                objectName = objectNameAndPointList[0]
                 for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
-                    if columnName==column:
+                    if objectName==column:
                         Tables.checkHiddenColumn(no)
-                        rightColumns.append(no)
-        if len(leftColumns)>0 and len(rightColumns)>0:
+                        rightColumnKeys.append(objectNameAndPoint)
+        if len(leftColumnKeys)>0 and len(rightColumnKeys)>0:
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 sourceString = ""
                 sourceList = []
-                for columnNo in leftColumns:
+                sourceListLogical = []
+                for objectNameAndPoint in leftColumnKeys:
+                    objectNameAndPointList = objectNameAndPoint.split("~|~")
+                    objectName = objectNameAndPointList[0]
+                    columnNo = Universals.MainWindow.Table.tableColumnsKey.index(objectName)
+                    point = ""
+                    if len(objectNameAndPointList)>1:
+                        point = objectNameAndPointList[1]
                     valueOfField = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
-                    if Universals.MainWindow.Table.tableColumnsKey[columnNo] == "File Name":
+                    if objectName == "File Name":
                         valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
                     sourceString += valueOfField
                     sourceList.append(valueOfField)
-                    if leftColumns[-1] != columnNo:
+                    if point!="":
+                        sourceListLogical += valueOfField.split(point)
+                    else:
+                        sourceListLogical.append(valueOfField)
+                    if leftColumnKeys[-1] != objectNameAndPoint:
                         sourceString += "-" # splitter
-                columnsValues = sourceString.split("-")
-                for no in range(len(rightColumns)):
-                    if Universals.MainWindow.Table.isChangableItem(rowNo, rightColumns[no]):
+                columnsValues = sourceString.split("-") # splitter
+                for no, objectNameAndPoint in enumerate(rightColumnKeys):
+                    objectNameAndPointList = objectNameAndPoint.split("~|~")
+                    objectName = objectNameAndPointList[0]
+                    columnNo = Universals.MainWindow.Table.tableColumnsKey.index(objectName)
+                    if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
                         newString = ""
-                        if len(rightColumns)==1:
+                        if len(rightColumnKeys)==1:
                             newString = sourceString
-                        elif len(sourceList)==len(rightColumns):
+                        elif len(sourceList)==len(rightColumnKeys):
                             newString = sourceList[no]
-                        elif len(columnsValues)==len(rightColumns):
+                        elif len(sourceListLogical)==len(rightColumnKeys):
+                            newString = sourceListLogical[no]
+                        elif len(columnsValues)>=len(rightColumnKeys):
+                            newString = columnsValues[no]
+                        elif len(columnsValues)>no:
                             newString = columnsValues[no]
                         newString = emend(newString)
                         if newString!="":
                             if _SpecialTools.btChange.isChecked()==True:
                                 pass
                             elif _SpecialTools.tbAddToBefore.isChecked()==True:
-                                newString += str(Universals.MainWindow.Table.item(rowNo, rightColumns[no]).text())
+                                newString += str(Universals.MainWindow.Table.item(rowNo, columnNo).text())
                             elif _SpecialTools.tbAddToAfter.isChecked()==True:
-                                newString = str(Universals.MainWindow.Table.item(rowNo, rightColumns[no]).text()) + newString
-                            Universals.MainWindow.Table.item(rowNo, rightColumns[no]).setText(trForUI(newString.strip()))
+                                newString = str(Universals.MainWindow.Table.item(rowNo, columnNo).text()) + newString
+                            Universals.MainWindow.Table.item(rowNo, columnNo).setText(trForUI(newString.strip()))
         
         
     def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetails=False):
@@ -285,14 +307,28 @@ class Organizer:
             details = ""
             leftNames = ""
             rightNames = ""
-            for columnName in leftKeys:
-                leftNames += Universals.MainWindow.Table.getColumnNameFromKey(columnName)
-                if leftKeys[-1] != columnName:
-                    leftNames += ","
-            for columnName in rightKeys:
-                rightNames += Universals.MainWindow.Table.getColumnNameFromKey(columnName)
-                if rightKeys[-1] != columnName:
-                    rightNames += ","
+            for objectNameAndPoint in leftKeys:
+                objectNameAndPointList = objectNameAndPoint.split("~|~")
+                objectName = objectNameAndPointList[0]
+                point = ""
+                if len(objectNameAndPointList)>1:
+                    point = objectNameAndPointList[1]
+                leftNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
+                if point!="":
+                    leftNames += " (can be separated by '" + point + "')"
+                if leftKeys[-1] != objectNameAndPoint:
+                    leftNames += " ,"
+            for objectNameAndPoint in rightKeys:
+                objectNameAndPointList = objectNameAndPoint.split("~|~")
+                objectName = objectNameAndPointList[0]
+                point = ""
+                if len(objectNameAndPointList)>1:
+                    point = objectNameAndPointList[1]
+                rightNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
+                if point!="":
+                    rightNames += " (can be separated by '" + point + "')"
+                if rightKeys[-1] != objectNameAndPoint:
+                    rightNames += " ,"
             
             details = str(translate("Organizer", "\"%s\" will be concatenated and/or separated then it will be set as \"%s\" respectively.")) % (leftNames, rightNames) 
             
