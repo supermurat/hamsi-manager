@@ -169,7 +169,7 @@ class SpecialTools(MWidget):
             self.clear.columns.addItem(columnName)
             self.characterState.columns.addItem(columnName)
             self.characterEncoding.columns.addItem(columnName)
-            tb = SpecialActionsCommandButton(self, Universals.MainWindow.Table.getColumnKeyFromName(columnName))
+            tb = SpecialActionsCommandButton(self.specialActions, Universals.MainWindow.Table.getColumnKeyFromName(columnName))
             self.specialActions.pbtnAddObjects.append(tb)
             lbl = MLabel(columnName + ":")
             self.quickFill.lblColumns.append(lbl)
@@ -178,9 +178,13 @@ class SpecialTools(MWidget):
             self.quickFill.leColumns.append(le)
             MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"), self.quickFill.fillAfter)
         for x in range(0, len(self.specialActions.pbtnAddObjects)):
-            self.specialActions.specialActionsCommandContainerAvailable.HBox.addWidget(self.specialActions.pbtnAddObjects[x])
-            self.quickFill.HBoxs[0].addWidget(self.quickFill.lblColumns[x])
-            self.quickFill.HBoxs[0].addWidget(self.quickFill.leColumns[x])
+            self.specialActions.specialActionsCommandContainerAvailable.addToWidgetList(self.specialActions.pbtnAddObjects[x])
+            if Universals.tableType==4 or  Universals.tableType==5:
+                self.quickFill.HBoxs[x/2].addWidget(self.quickFill.lblColumns[x])
+                self.quickFill.HBoxs[x/2].addWidget(self.quickFill.leColumns[x])
+            else:
+                self.quickFill.HBoxs[x/4].addWidget(self.quickFill.lblColumns[x])
+                self.quickFill.HBoxs[x/4].addWidget(self.quickFill.leColumns[x])
         self.specialActions.refreshBookmarks()
         if self.isShowAdvancedSelections==False:
             self.hideAdvancedSelections()
@@ -253,8 +257,8 @@ class SpecialTools(MWidget):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Simple"))
         self.pnlAdvancedSelections.setVisible(True)
         self.isShowAdvancedSelections = True
-        self.tabwTabs.setMaximumHeight(155)
-        self.setMaximumHeight(155)
+        self.tabwTabs.setMaximumHeight(175)
+        self.setMaximumHeight(175)
         self.specialActions.showAdvancedSelections()
         self.fill.showAdvancedSelections()
         self.searchAndReplace.showAdvancedSelections()
@@ -325,7 +329,7 @@ class SpecialActions(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
         self.pbtnAddObjects = []
-        lblSplit = MLabel(">>>", self)
+        self.lblSplit = MLabel(">>>", self)
         self.cbBookmarks = MComboBox()
         self.tbClear = MToolButton(self)
         self.tbAddBookmark = MToolButton(self)
@@ -363,7 +367,7 @@ class SpecialActions(MWidget):
         self.HBoxs[1].addWidget(self.specialActionsCommandContainerAvailable)
         self.HBoxs.append(MHBoxLayout())
         self.HBoxs[2].addWidget(self.specialActionsCommandContainerLeft, 10)
-        self.HBoxs[2].addWidget(lblSplit, 1)
+        self.HBoxs[2].addWidget(self.lblSplit, 1)
         self.HBoxs[2].addWidget(self.specialActionsCommandContainerRight, 10)
         self.HBoxs[2].addWidget(self.tbClear, 1)
         self.HBoxs[2].addWidget(self.tbAddBookmark, 1)
@@ -384,6 +388,10 @@ class SpecialActions(MWidget):
         self.tbWhatDoesThisCommandDo.show()
         self.tbAddBookmark.show()
         self.tbDeleteBookmark.show()
+        self.specialActionsCommandContainerAvailable.show()
+        self.specialActionsCommandContainerLeft.show()
+        self.specialActionsCommandContainerRight.show()
+        self.lblSplit.show()
     
     def hideAdvancedSelections(self):
         for btn in self.pbtnAddObjects:
@@ -392,15 +400,19 @@ class SpecialActions(MWidget):
         self.tbWhatDoesThisCommandDo.hide()
         self.tbAddBookmark.hide()
         self.tbDeleteBookmark.hide()
+        self.specialActionsCommandContainerAvailable.hide()
+        self.specialActionsCommandContainerLeft.hide()
+        self.specialActionsCommandContainerRight.hide()
+        self.lblSplit.hide()
         
     def getActionCommand(self):
         leftKeys = []
-        for child in Universals.getAllChildren(self.specialActionsCommandContainerLeft):
+        for child in self.specialActionsCommandContainerLeft.widgetList:
             objectName = str(child.objectName())
             if objectName not in ["", "MoveHere"]:
                 leftKeys.append(objectName)
         rightKeys = []
-        for child in Universals.getAllChildren(self.specialActionsCommandContainerRight):
+        for child in self.specialActionsCommandContainerRight.widgetList:
             objectName = str(child.objectName())
             if objectName not in ["", "MoveHere"]:
                 rightKeys.append(objectName)
@@ -412,21 +424,32 @@ class SpecialActions(MWidget):
         rightKeys = _actionCommand[spliterIndex+1:]
         for objectName in leftKeys:
             child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
-            self.specialActionsCommandContainerLeft.HBox.addWidget(child)
+            if child is None:
+                child = Universals.getChild(self.specialActionsCommandContainerLeft, objectName)
+            if child is None:
+                child = Universals.getChild(self.specialActionsCommandContainerRight, objectName)
+            self.specialActionsCommandContainerLeft.addToWidgetList(child)
         for objectName in rightKeys:
             child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
-            self.specialActionsCommandContainerRight.HBox.addWidget(child)
+            if child is None:
+                child = Universals.getChild(self.specialActionsCommandContainerLeft, objectName)
+            if child is None:
+                child = Universals.getChild(self.specialActionsCommandContainerRight, objectName)
+            self.specialActionsCommandContainerRight.addToWidgetList(child)
             
     def makeClear(self):
         try:
             for child in Universals.getAllChildren(self.specialActionsCommandContainerLeft):
                 objectName = str(child.objectName())
                 if objectName not in ["", "MoveHere"]:
-                    self.specialActionsCommandContainerAvailable.HBox.addWidget(child)
+                    self.specialActionsCommandContainerAvailable.addToWidgetList(child)
             for child in Universals.getAllChildren(self.specialActionsCommandContainerRight):
                 objectName = str(child.objectName())
                 if objectName not in ["", "MoveHere"]:
-                    self.specialActionsCommandContainerAvailable.HBox.addWidget(child)
+                    self.specialActionsCommandContainerAvailable.addToWidgetList(child)
+            self.specialActionsCommandContainerAvailable.checkLabelMoveHere()
+            self.specialActionsCommandContainerLeft.checkLabelMoveHere()
+            self.specialActionsCommandContainerRight.checkLabelMoveHere()
         except:
             ReportBug.ReportBug()
     
@@ -959,18 +982,48 @@ class SearchAndReplaceListEditDialog(MDialog):
         self.parent().leReplace.setText(trForUI(valueForReplace))
         self.close()
         
-class SpecialActionsCommandContainer(MWidget):
+class SpecialActionsCommandContainer(MFrame):
     def __init__(self, _parent, _isForAvailable=False):
-        MWidget.__init__(self, _parent)
+        MFrame.__init__(self, _parent)
         self.isForAvailable = _isForAvailable
         self.setAcceptDrops(True)
         self.HBox = MHBoxLayout()
+        self.HBox1 = MHBoxLayout()
+        self.HBox2 = MHBoxLayout()
+        self.widgetList = []
         self.lblMoveHere = MLabel(translate("SpecialActionsCommandContainer", "Move Here"), self)
         self.lblMoveHere.setObjectName("MoveHere")
         self.HBox.addWidget(self.lblMoveHere)
-        self.setLayout(self.HBox)
+        self.VBox = MVBoxLayout()
+        self.VBox.addLayout(self.HBox)
+        self.VBox.addLayout(self.HBox1)
+        self.VBox.addLayout(self.HBox2)
+        self.setLayout(self.VBox)
         self.checkLabelMoveHere()
         self.setMinimumWidth(200)
+        self.setFrameShape(MFrame.StyledPanel)
+        self.setMidLineWidth(0)
+        self.setLineWidth(0)
+        self.setFrameShadow(MFrame.Sunken)
+        
+    def addToWidgetList(self, _widget):
+        self.widgetList.append(_widget)
+        if self.HBox.count()<5:
+            self.HBox.addWidget(_widget)
+        elif self.HBox1.count()<8:
+            self.HBox1.addWidget(_widget)
+        else:
+            self.HBox2.addWidget(_widget)
+        self.removeFromOtherWidgetList(_widget)
+        self.checkLabelMoveHere()
+        
+    def removeFromOtherWidgetList(self, _widget):
+        if self.parent().specialActionsCommandContainerLeft != self:
+            if _widget in self.parent().specialActionsCommandContainerLeft.widgetList:
+                self.parent().specialActionsCommandContainerLeft.widgetList.remove(_widget)
+        if self.parent().specialActionsCommandContainerRight != self:
+            if _widget in self.parent().specialActionsCommandContainerRight.widgetList:
+                self.parent().specialActionsCommandContainerRight.widgetList.remove(_widget)
     
     def dragEnterEvent(self, _e):
         if _e.mimeData().hasFormat("SpecialActionsCommandButton"):
@@ -980,12 +1033,12 @@ class SpecialActionsCommandContainer(MWidget):
         #baData = _e.mimeData().data("SpecialActionsCommandButton")
         #objectNameOfButton = str(baData)
         btn = _e.source()
-        self.HBox.addWidget(btn)
-        self.checkLabelMoveHere()
+        if btn not in self.widgetList:
+            self.addToWidgetList(btn)
         _e.accept()
         
     def checkLabelMoveHere(self):
-        if self.isForAvailable == False and self.HBox.count()==1:
+        if len(self.widgetList)==0:
             self.lblMoveHere.show()
         else:
             self.lblMoveHere.hide()
