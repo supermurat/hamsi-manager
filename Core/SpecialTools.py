@@ -347,16 +347,20 @@ class SpecialActions(MWidget):
         self.tbDeleteBookmark.setAutoRaise(True)
         self.tbWhatDoesThisCommandDo.setAutoRaise(True)
         self.tbDeleteBookmark.setEnabled(False)
+            
         MObject.connect(self.cbBookmarks, SIGNAL("currentIndexChanged(int)"), self.cbBookmarksChanged)
         MObject.connect(self.tbClear, SIGNAL("clicked()"), self.makeClear)
         MObject.connect(self.tbWhatDoesThisCommandDo, SIGNAL("clicked()"), self.whatDoesThisCommandDo)
         MObject.connect(self.tbAddBookmark, SIGNAL("clicked()"), self.addBookmark)
         MObject.connect(self.tbDeleteBookmark, SIGNAL("clicked()"), self.deleteBookmark)
         
-        self.specialActionsCommandContainerAvailable = SpecialActionsCommandContainer(self, translate("SpecialActionsCommandContainer", "Availables - Move Here Not To Use"))
+        self.specialActionsCommandContainerAvailable = SpecialActionsCommandContainer(self, translate("SpecialActions", "Availables - Move Here Not To Use"))
         
-        self.specialActionsCommandContainerLeft = SpecialActionsCommandContainer(self, translate("SpecialActionsCommandContainer", "Move Here To Use As Source"))
-        self.specialActionsCommandContainerRight = SpecialActionsCommandContainer(self, translate("SpecialActionsCommandContainer", "Move Here To Set"))
+        self.specialActionsCommandContainerLeft = SpecialActionsCommandContainer(self, translate("SpecialActions", "Move Here To Use As Source"))
+        self.specialActionsCommandContainerRight = SpecialActionsCommandContainer(self, translate("SpecialActions", "Move Here To Set"))
+        
+        saConcatenate = SpecialActionsCommandButton(self, "Concatenate")
+        self.specialActionsCommandContainerAvailable.addToWidgetList(saConcatenate)
         
         self.HBoxs = []
         self.HBoxs.append(MHBoxLayout())
@@ -429,11 +433,14 @@ class SpecialActions(MWidget):
             point = ""
             if len(objectNameAndPointList)>1:
                 point = objectNameAndPointList[1]
-            child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
-            if child is None:
-                child = Universals.getChild(self.specialActionsCommandContainerLeft, objectName)
-            if child is None:
-                child = Universals.getChild(self.specialActionsCommandContainerRight, objectName)
+            if objectName.find("Concatenate")==-1:
+                child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
+                if child is None:
+                    child = Universals.getChild(self.specialActionsCommandContainerLeft, objectName)
+                if child is None:
+                    child = Universals.getChild(self.specialActionsCommandContainerRight, objectName)
+            else:
+                child = SpecialActionsCommandButton(self, objectName)
             child.setPoint(point)
             self.specialActionsCommandContainerLeft.addToWidgetList(child)
         for objectNameAndPoint in rightKeys:
@@ -442,11 +449,14 @@ class SpecialActions(MWidget):
             point = ""
             if len(objectNameAndPointList)>1:
                 point = objectNameAndPointList[1]
-            child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
-            if child is None:
-                child = Universals.getChild(self.specialActionsCommandContainerLeft, objectName)
-            if child is None:
-                child = Universals.getChild(self.specialActionsCommandContainerRight, objectName)
+            if objectName.find("Concatenate")==-1:
+                child = Universals.getChild(self.specialActionsCommandContainerAvailable, objectName)
+                if child is None:
+                    child = Universals.getChild(self.specialActionsCommandContainerLeft, objectName)
+                if child is None:
+                    child = Universals.getChild(self.specialActionsCommandContainerRight, objectName)
+            else:
+                child = SpecialActionsCommandButton(self, objectName)
             child.setPoint(point)
             self.specialActionsCommandContainerRight.addToWidgetList(child)
             
@@ -1025,12 +1035,14 @@ class SpecialActionsCommandContainer(MFrame):
             self.HBox2.addWidget(_widget)
         
     def addToWidgetList(self, _widget):
+        self.removeFromOtherWidgetList(_widget)
         self.widgetList.append(_widget)
         self.addToLayout(_widget)
-        self.removeFromOtherWidgetList(_widget)
         self.checkLabelMoveHere()
         if self.parent().specialActionsCommandContainerAvailable == self:
             _widget.hidePoint()
+            if str(_widget.objectName()).find("Concatenate-")>-1:
+                _widget.hide()
         elif self.parent().specialActionsCommandContainerLeft == self:
             _widget.showPoint()
         elif self.parent().specialActionsCommandContainerRight == self:
@@ -1038,18 +1050,15 @@ class SpecialActionsCommandContainer(MFrame):
             
         
     def removeFromOtherWidgetList(self, _widget):
-        if self.parent().specialActionsCommandContainerAvailable != self:
-            if _widget in self.parent().specialActionsCommandContainerAvailable.widgetList:
-                self.parent().specialActionsCommandContainerAvailable.widgetList.remove(_widget)
-                self.parent().specialActionsCommandContainerAvailable.checkLabelMoveHere()
-        if self.parent().specialActionsCommandContainerLeft != self:
-            if _widget in self.parent().specialActionsCommandContainerLeft.widgetList:
-                self.parent().specialActionsCommandContainerLeft.widgetList.remove(_widget)
-                self.parent().specialActionsCommandContainerLeft.checkLabelMoveHere()
-        if self.parent().specialActionsCommandContainerRight != self:
-            if _widget in self.parent().specialActionsCommandContainerRight.widgetList:
-                self.parent().specialActionsCommandContainerRight.widgetList.remove(_widget)
-                self.parent().specialActionsCommandContainerRight.checkLabelMoveHere()
+        if _widget in self.parent().specialActionsCommandContainerAvailable.widgetList:
+            self.parent().specialActionsCommandContainerAvailable.widgetList.remove(_widget)
+            self.parent().specialActionsCommandContainerAvailable.checkLabelMoveHere()
+        if _widget in self.parent().specialActionsCommandContainerLeft.widgetList:
+            self.parent().specialActionsCommandContainerLeft.widgetList.remove(_widget)
+            self.parent().specialActionsCommandContainerLeft.checkLabelMoveHere()
+        if _widget in self.parent().specialActionsCommandContainerRight.widgetList:
+            self.parent().specialActionsCommandContainerRight.widgetList.remove(_widget)
+            self.parent().specialActionsCommandContainerRight.checkLabelMoveHere()
     
     def dragEnterEvent(self, _e):
         if _e.mimeData().hasFormat("SpecialActionsCommandButton"):
@@ -1059,26 +1068,62 @@ class SpecialActionsCommandContainer(MFrame):
         #baData = _e.mimeData().data("SpecialActionsCommandButton")
         #objectNameOfButton = str(baData)
         btn = _e.source()
-        if btn not in self.widgetList:
-            self.addToWidgetList(btn)
+        if str(btn.objectName()).find("Concatenate")==-1:
+            if btn not in self.widgetList:
+                self.addToWidgetList(btn)
+            else:
+                self.addToWidgetList(btn)#
         else:
-            self.addToLayout(btn)
+            if btn not in self.widgetList:
+                if self == self.parent().specialActionsCommandContainerAvailable:
+                    self.addToWidgetList(btn)
+                elif self == self.parent().specialActionsCommandContainerLeft:
+                    child = SpecialActionsCommandButton(self.parent(), self.createNextConcatenateObjectName())
+                    self.addToWidgetList(child)
+                elif self == self.parent().specialActionsCommandContainerRight:
+                    pass
+            else:
+                self.addToWidgetList(btn)#
         _e.accept()
+        
+    def createNextConcatenateObjectName(self):
+        objectName = "Concatenate-"
+        i = 0
+        while 1:
+            newObjectName = objectName + str(i)
+            isExist = False
+            for _widget in (self.parent().specialActionsCommandContainerAvailable.widgetList +
+                            self.parent().specialActionsCommandContainerLeft.widgetList + 
+                            self.parent().specialActionsCommandContainerRight.widgetList):
+                if str(_widget.objectName())==newObjectName:
+                    isExist = True
+                    break
+            if isExist:
+                i += 1
+            else:
+                return newObjectName
         
     def checkLabelMoveHere(self):
         if len(self.widgetList)==0:
             self.lblMoveHere.show()
         else:
             self.lblMoveHere.hide()
+            
+    
         
 class SpecialActionsCommandButton(MFrame):
     def __init__(self, _parent, _columnNameKey):
         MFrame.__init__(self, _parent)
         self.setObjectName(_columnNameKey)
-        self.columnName = Universals.MainWindow.Table.getColumnNameFromKey(_columnNameKey)
+        if _columnNameKey.find("Concatenate")==-1:
+            self.columnName = Universals.MainWindow.Table.getColumnNameFromKey(_columnNameKey)
+            toolTip = str(translate("SpecialActions", "If requires, \"%s\" will be separated by this. You can leave blank not to separate it.")) % (self.columnName) 
+        else:
+            self.columnName = translate("SpecialActions", "Concatenate")
+            toolTip = str(translate("SpecialActions", "If requires, Side columns will be concatenated with this.")) 
         self.lblMoveHere = MLabel(self.columnName, self)
         self.lePoint = MLineEdit("", self)
-        self.lePoint.setToolTip(str(translate("SpecialActions", "If requires, \"%s\" will be separated by this. You can leave blank not to separate it.")) % (self.columnName) )
+        self.lePoint.setToolTip(toolTip)
         self.HBox = MHBoxLayout()
         self.HBox.addWidget(self.lblMoveHere)
         self.HBox.addWidget(self.lePoint)

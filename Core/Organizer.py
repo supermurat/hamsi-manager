@@ -235,41 +235,60 @@ class Organizer:
             for objectNameAndPoint in leftKeys:
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
                 objectName = objectNameAndPointList[0]
-                for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
-                    if objectName==column:
-                        Tables.checkHiddenColumn(no)
-                        leftColumnKeys.append(objectNameAndPoint)
+                if objectName.find("Concatenate")==-1:
+                    for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
+                        if objectName==column:
+                            Tables.checkHiddenColumn(no)
+                            leftColumnKeys.append(objectNameAndPoint)
+                else:
+                    leftColumnKeys.append(objectNameAndPoint)
             for objectNameAndPoint in rightKeys:
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
                 objectName = objectNameAndPointList[0]
-                for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
-                    if objectName==column:
-                        Tables.checkHiddenColumn(no)
-                        rightColumnKeys.append(objectNameAndPoint)
+                if objectName.find("Concatenate")==-1:
+                    for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
+                        if objectName==column:
+                            Tables.checkHiddenColumn(no)
+                            rightColumnKeys.append(objectNameAndPoint)
+                else:
+                    rightColumnKeys.append(objectNameAndPoint)
         if len(leftColumnKeys)>0 and len(rightColumnKeys)>0:
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 sourceString = ""
                 sourceList = []
                 sourceListLogical = []
-                for objectNameAndPoint in leftColumnKeys:
+                for no, objectNameAndPoint in enumerate(leftColumnKeys):
                     objectNameAndPointList = objectNameAndPoint.split("~|~")
                     objectName = objectNameAndPointList[0]
-                    columnNo = Universals.MainWindow.Table.tableColumnsKey.index(objectName)
                     point = ""
                     if len(objectNameAndPointList)>1:
                         point = objectNameAndPointList[1]
-                    valueOfField = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
-                    if objectName == "File Name":
-                        valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
-                    sourceString += valueOfField
-                    sourceList.append(valueOfField)
-                    if point!="":
-                        sourceListLogical += valueOfField.split(point)
+                    if objectName.find("Concatenate")==-1:
+                        columnNo = Universals.MainWindow.Table.tableColumnsKey.index(objectName)
+                        valueOfField = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                        if objectName == "File Name":
+                            valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
+                        sourceString += valueOfField
+                        sourceList.append(valueOfField)
+                        if point!="":
+                            sourceListLogical += valueOfField.split(point)
+                        else:
+                            sourceListLogical.append(valueOfField)
+                            
+                        nextObjectName = ""
+                        nextPoint = ""
+                        if leftColumnKeys[-1] != objectNameAndPoint:
+                            nextObjectNameAndPoint = leftColumnKeys[no+1]
+                            nextObjectNameAndPointList = nextObjectNameAndPoint.split("~|~")
+                            nextObjectName = nextObjectNameAndPointList[0]
+                            if len(nextObjectNameAndPointList)>1:
+                                nextPoint = nextObjectNameAndPointList[1]
+                            if nextObjectName.find("Concatenate")==-1:
+                                sourceString += "-"
+                            else:
+                                sourceString += nextPoint
                     else:
-                        sourceListLogical.append(valueOfField)
-                    if leftColumnKeys[-1] != objectNameAndPoint:
-                        sourceString += "-" # splitter
-                columnsValues = sourceString.split("-") # splitter
+                        pass
                 for no, objectNameAndPoint in enumerate(rightColumnKeys):
                     objectNameAndPointList = objectNameAndPoint.split("~|~")
                     objectName = objectNameAndPointList[0]
@@ -280,12 +299,10 @@ class Organizer:
                             newString = sourceString
                         elif len(sourceList)==len(rightColumnKeys):
                             newString = sourceList[no]
-                        elif len(sourceListLogical)==len(rightColumnKeys):
+                        elif len(sourceListLogical)>=len(rightColumnKeys):
                             newString = sourceListLogical[no]
-                        elif len(columnsValues)>=len(rightColumnKeys):
-                            newString = columnsValues[no]
-                        elif len(columnsValues)>no:
-                            newString = columnsValues[no]
+                        elif len(sourceListLogical)>no:
+                            newString = sourceListLogical[no]
                         newString = emend(newString)
                         if newString!="":
                             if _SpecialTools.btChange.isChecked()==True:
@@ -313,9 +330,15 @@ class Organizer:
                 point = ""
                 if len(objectNameAndPointList)>1:
                     point = objectNameAndPointList[1]
-                leftNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
+                if objectName.find("Concatenate")==-1:
+                    leftNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
+                else:
+                    leftNames += translate("Organizer", "Concatenate")
                 if point!="":
-                    leftNames += " (can be separated by '" + point + "')"
+                    if objectName.find("Concatenate")==-1:
+                        leftNames += " (can be separated by '" + point + "')"
+                    else:
+                        leftNames += " (can be concatenated by '" + point + "')"
                 if leftKeys[-1] != objectNameAndPoint:
                     leftNames += " ,"
             for objectNameAndPoint in rightKeys:
@@ -324,9 +347,15 @@ class Organizer:
                 point = ""
                 if len(objectNameAndPointList)>1:
                     point = objectNameAndPointList[1]
-                rightNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
+                if objectName.find("Concatenate")==-1:
+                    rightNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
+                else:
+                    rightNames += translate("Organizer", "Concatenate")
                 if point!="":
-                    rightNames += " (can be separated by '" + point + "')"
+                    if objectName.find("Concatenate")==-1:
+                        rightNames += " (can be separated by '" + point + "')"
+                    else:
+                        rightNames += " (can be concatenated by '" + point + "')"
                 if rightKeys[-1] != objectNameAndPoint:
                     rightNames += " ,"
             
