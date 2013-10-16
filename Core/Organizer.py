@@ -266,7 +266,7 @@ class Organizer:
                     if objectName.find("Concatenate")==-1:
                         columnNo = Universals.MainWindow.Table.tableColumnsKey.index(objectName)
                         valueOfField = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
-                        if objectName == "File Name":
+                        if objectName == "File Name" or objectName == "File/Directory Name":
                             valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
                         sourceString += valueOfField
                         sourceList.append(valueOfField)

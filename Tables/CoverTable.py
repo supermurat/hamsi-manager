@@ -224,8 +224,9 @@ class CoverTable():
                     oldString = oldString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
                     item = self.Table.createTableWidgetItem(newString, oldString)
                 elif itemNo==4:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["destinationCover"], "file")
+                    newString = self.Table.currentTableContentValues[rowNo]["destinationCover"]
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
+                    newString = Organizer.emend(newString, "file")
                     oldString = self.Table.currentTableContentValues[rowNo]["currentCover"]
                     oldString = oldString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
                     item = self.Table.createTableWidgetItem(newString, oldString)
