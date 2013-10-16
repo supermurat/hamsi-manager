@@ -167,16 +167,20 @@ class InputOutputs:
     def getAvailableNameByName(_newPath):
         _newPath = str(_newPath)
         newPath = ""
-        for pathPart in _newPath.split(sep):
-            badchars = re.compile(r'[/]')
-            pathPart = badchars.sub('_', pathPart)
-            if Variables.isWindows:
-                badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|\.$|^ | $|^$', re.U)
-                pathPart = re.sub(badchars,'_', Universals.trUnicode(pathPart), re.U)
-                badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
-                if badnames.match(pathPart):
-                    pathPart = "_" + pathPart
-            newPath = joinPath(newPath, pathPart)
+        pathParts = _newPath.split(sep)
+        for pathPart in pathParts:
+            if pathPart!="":
+                badchars = re.compile(r'[/]')
+                pathPart = badchars.sub('_', pathPart)
+                if Variables.isWindows:
+                    badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|\.$|^ | $|^$', re.U)
+                    pathPart = re.sub(badchars,'_', Universals.trUnicode(pathPart), re.U)
+                    badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
+                    if badnames.match(pathPart):
+                        pathPart = "_" + pathPart
+                newPath = joinPath(newPath, pathPart)
+            else:
+                newPath += sep
         return newPath
     
     def getSize(_oldPath):

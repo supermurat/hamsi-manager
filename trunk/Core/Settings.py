@@ -371,6 +371,5 @@ class Settings():
             cur.execute(str("DROP TABLE bookmarksOfSpecialTools;"))
             cur.execute(str(BookmarksOfSpecialTools.getTableCreateQuery()))
             con.commit()
-            newSettingsKeys = newSettingsKeys + ["isCorrectValueWithSearchAndReplaceTable"]
         return newSettingsKeys, changedDefaultValuesKeys
         

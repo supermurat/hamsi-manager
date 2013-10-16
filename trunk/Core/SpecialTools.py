@@ -178,12 +178,14 @@ class SpecialTools(MWidget):
             MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"), self.quickFill.fillAfter)
         for x in range(0, len(self.specialActions.pbtnAddObjects)):
             self.specialActions.specialActionsCommandContainerAvailable.addToWidgetList(self.specialActions.pbtnAddObjects[x])
-            if Universals.tableType==4 or  Universals.tableType==5:
-                self.quickFill.HBoxs[x/2].addWidget(self.quickFill.lblColumns[x])
-                self.quickFill.HBoxs[x/2].addWidget(self.quickFill.leColumns[x])
+            if len(self.specialActions.pbtnAddObjects)<7:
+                columnNo = (x*2) - ((x/2) * (2*2))
+                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x/2, columnNo)
+                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x/2, columnNo + 1)
             else:
-                self.quickFill.HBoxs[x/4].addWidget(self.quickFill.lblColumns[x])
-                self.quickFill.HBoxs[x/4].addWidget(self.quickFill.leColumns[x])
+                columnNo = (x*4) - ((x/4) * (4*4))
+                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x/4, columnNo)
+                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x/4, columnNo + 1)
         self.specialActions.refreshBookmarks()
         if self.isShowAdvancedSelections==False:
             self.hideAdvancedSelections()
@@ -892,17 +894,8 @@ class QuickFill(MWidget):
         self.lblColumns = []
         self.leColumns = []
         self.tmrFillAfter = None
-        self.HBoxs = []
-        self.HBoxs.append(MHBoxLayout())
-        self.HBoxs.append(MHBoxLayout())
-        self.HBoxs.append(MHBoxLayout())
-        self.HBoxs.append(MHBoxLayout())
-        vblFill = MVBoxLayout()
-        vblFill.addLayout(self.HBoxs[0])
-        vblFill.addLayout(self.HBoxs[1])
-        vblFill.addLayout(self.HBoxs[2])
-        vblFill.addLayout(self.HBoxs[3])
-        self.setLayout(vblFill)
+        self.gridLayout = MGridLayout()
+        self.setLayout(self.gridLayout)
         
     def showAdvancedSelections(self):
         for x in range(8, len(self.leColumns)):
@@ -1027,64 +1020,72 @@ class SpecialActionsCommandContainer(MFrame):
         self.setFrameShadow(MFrame.Sunken)
         
     def addToLayout(self, _widget):
-        if self.HBox.count()<5:
+        if self.HBox.count()<7:
             self.HBox.addWidget(_widget)
-        elif self.HBox1.count()<8:
+        elif self.HBox1.count()<10:
             self.HBox1.addWidget(_widget)
         else:
             self.HBox2.addWidget(_widget)
         
     def addToWidgetList(self, _widget):
-        self.removeFromOtherWidgetList(_widget)
-        self.widgetList.append(_widget)
-        self.addToLayout(_widget)
-        self.checkLabelMoveHere()
-        if self.parent().specialActionsCommandContainerAvailable == self:
-            _widget.hidePoint()
-            if str(_widget.objectName()).find("Concatenate-")>-1:
-                _widget.hide()
-        elif self.parent().specialActionsCommandContainerLeft == self:
-            _widget.showPoint()
-        elif self.parent().specialActionsCommandContainerRight == self:
-            _widget.hidePoint()
+        try:
+            self.removeFromOtherWidgetList(_widget)
+            self.widgetList.append(_widget)
+            self.addToLayout(_widget)
+            self.checkLabelMoveHere()
+            if self.parent().specialActionsCommandContainerAvailable == self:
+                _widget.hidePoint()
+                if str(_widget.objectName()).find("Concatenate-")>-1:
+                    _widget.hide()
+            elif self.parent().specialActionsCommandContainerLeft == self:
+                _widget.showPoint()
+            elif self.parent().specialActionsCommandContainerRight == self:
+                _widget.hidePoint()
+        except:
+            ReportBug.ReportBug()
             
-        
     def removeFromOtherWidgetList(self, _widget):
-        if _widget in self.parent().specialActionsCommandContainerAvailable.widgetList:
-            self.parent().specialActionsCommandContainerAvailable.widgetList.remove(_widget)
-            self.parent().specialActionsCommandContainerAvailable.checkLabelMoveHere()
-        if _widget in self.parent().specialActionsCommandContainerLeft.widgetList:
-            self.parent().specialActionsCommandContainerLeft.widgetList.remove(_widget)
-            self.parent().specialActionsCommandContainerLeft.checkLabelMoveHere()
-        if _widget in self.parent().specialActionsCommandContainerRight.widgetList:
-            self.parent().specialActionsCommandContainerRight.widgetList.remove(_widget)
-            self.parent().specialActionsCommandContainerRight.checkLabelMoveHere()
+        try:
+            if _widget in self.parent().specialActionsCommandContainerAvailable.widgetList:
+                self.parent().specialActionsCommandContainerAvailable.widgetList.remove(_widget)
+                self.parent().specialActionsCommandContainerAvailable.checkLabelMoveHere()
+            if _widget in self.parent().specialActionsCommandContainerLeft.widgetList:
+                self.parent().specialActionsCommandContainerLeft.widgetList.remove(_widget)
+                self.parent().specialActionsCommandContainerLeft.checkLabelMoveHere()
+            if _widget in self.parent().specialActionsCommandContainerRight.widgetList:
+                self.parent().specialActionsCommandContainerRight.widgetList.remove(_widget)
+                self.parent().specialActionsCommandContainerRight.checkLabelMoveHere()
+        except:
+            ReportBug.ReportBug()
     
     def dragEnterEvent(self, _e):
         if _e.mimeData().hasFormat("SpecialActionsCommandButton"):
             _e.accept()
         
     def dropEvent(self, _e):
-        #baData = _e.mimeData().data("SpecialActionsCommandButton")
-        #objectNameOfButton = str(baData)
-        btn = _e.source()
-        if str(btn.objectName()).find("Concatenate")==-1:
-            if btn not in self.widgetList:
-                self.addToWidgetList(btn)
-            else:
-                self.addToWidgetList(btn)#
-        else:
-            if btn not in self.widgetList:
-                if self == self.parent().specialActionsCommandContainerAvailable:
+        try:
+            #baData = _e.mimeData().data("SpecialActionsCommandButton")
+            #objectNameOfButton = str(baData)
+            btn = _e.source()
+            if str(btn.objectName()).find("Concatenate")==-1:
+                if btn not in self.widgetList:
                     self.addToWidgetList(btn)
-                elif self == self.parent().specialActionsCommandContainerLeft:
-                    child = SpecialActionsCommandButton(self.parent(), self.createNextConcatenateObjectName())
-                    self.addToWidgetList(child)
-                elif self == self.parent().specialActionsCommandContainerRight:
-                    pass
+                else:
+                    self.addToWidgetList(btn)#
             else:
-                self.addToWidgetList(btn)#
-        _e.accept()
+                if btn not in self.widgetList:
+                    if self == self.parent().specialActionsCommandContainerAvailable:
+                        self.addToWidgetList(btn)
+                    elif self == self.parent().specialActionsCommandContainerLeft:
+                        child = SpecialActionsCommandButton(self.parent(), self.createNextConcatenateObjectName())
+                        self.addToWidgetList(child)
+                    elif self == self.parent().specialActionsCommandContainerRight:
+                        pass
+                else:
+                    self.addToWidgetList(btn)#
+            _e.accept()
+        except:
+            ReportBug.ReportBug()
         
     def createNextConcatenateObjectName(self):
         objectName = "Concatenate-"
@@ -1148,15 +1149,18 @@ class SpecialActionsCommandButton(MFrame):
         self.lblMoveHere.setText(self.columnName)
         
     def mouseMoveEvent(self, _e):
-        if _e.buttons() != QtCore.Qt.LeftButton:
-            return
-        mimeData = QtCore.QMimeData()
-        baData = MByteArray()
-        baData.append(self.objectName())
-        mimeData.setData("SpecialActionsCommandButton", baData)
-        drag = QtGui.QDrag(self)
-        drag.setMimeData(mimeData)
-        dropAction = drag.start(QtCore.Qt.MoveAction)
+        try:
+            if _e.buttons() != QtCore.Qt.LeftButton:
+                return
+            mimeData = QtCore.QMimeData()
+            baData = MByteArray()
+            baData.append(self.objectName())
+            mimeData.setData("SpecialActionsCommandButton", baData)
+            drag = QtGui.QDrag(self)
+            drag.setMimeData(mimeData)
+            dropAction = drag.start(QtCore.Qt.MoveAction)
+        except:
+            ReportBug.ReportBug()
         
     def mousePressEvent(self, _e):
         MFrame.mousePressEvent(self, _e)
