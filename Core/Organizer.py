@@ -336,9 +336,9 @@ class Organizer:
                     leftNames += translate("Organizer", "Concatenate")
                 if point!="":
                     if objectName.find("Concatenate")==-1:
-                        leftNames += " (can be separated by '" + point + "')"
+                        leftNames += " " + (str(translate("Organizer", "(can be separated by \"%s\")")) % (point))
                     else:
-                        leftNames += " (can be concatenated by '" + point + "')"
+                        leftNames += " " + (str(translate("Organizer", "(can be concatenated by \"%s\")")) % (point))
                 if leftKeys[-1] != objectNameAndPoint:
                     leftNames += " ,"
             for objectNameAndPoint in rightKeys:
@@ -353,9 +353,9 @@ class Organizer:
                     rightNames += translate("Organizer", "Concatenate")
                 if point!="":
                     if objectName.find("Concatenate")==-1:
-                        rightNames += " (can be separated by '" + point + "')"
+                        rightNames += " " + (str(translate("Organizer", "(can be separated by \"%s\")")) % (point))
                     else:
-                        rightNames += " (can be concatenated by '" + point + "')"
+                        rightNames += " " + (str(translate("Organizer", "(can be concatenated by \"%s\")")) % (point))
                 if rightKeys[-1] != objectNameAndPoint:
                     rightNames += " ,"
             

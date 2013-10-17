@@ -26,7 +26,7 @@ class BookmarksOfSpecialTools:
     global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries
     global tableName, tableVersion, allForFetch, allForFetchByType
     tableName = "bookmarksOfSpecialTools"
-    tableVersion = 3
+    tableVersion = 4
     allForFetch, allForFetchByType = None, {}
         
     def fetchAll():
@@ -110,26 +110,21 @@ class BookmarksOfSpecialTools:
         
     def getDefaultsQueries():
         sqlQueries = []
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File Name , Artist - Title ;right;113'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Artist - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Track No - Title , File Name  ;left;113'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Artist - Album , Directory  ;left;113'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File Name , Title  ;right;102'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Title , File Name  ;right;102'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Year , Album  ;right;102'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Lyrics , Artist - Title  ;right;113'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Artist - Album - Title , File Name  ;left;124'", "type" : "'music'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory - File Name , Directory  ;left;113'", "type" : "'file'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory , File Name  ;right;102'", "type" : "'file'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File Name , Directory  ;right;102'", "type" : "'file'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory , File/Directory Name  ;right;102'", "type" : "'directory'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File/Directory Name , Directory  ;right;102'", "type" : "'directory'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory , File Name  ;right;102'", "type" : "'subfolder'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'File Name , Directory  ;right;102'", "type" : "'subfolder'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Directory Name , Directory  ;right;102'", "type" : "'cover'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Source Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Destination Cover , Source Cover  ;right;102'", "type" : "'cover'"}, ["value"])
-#        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'Destination Cover , Current Cover  ;right;102'", "type" : "'cover'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['File Name~|~-', '~||~', 'Artist~|~', 'Title~|~']") + "'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Track No~|~', 'Concatenate-0~|~ - ', 'Title~|~', '~||~', 'File Name~|~']") + "'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Album~|~', '~||~', 'Directory~|~']") + "'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Directory~|~', '~||~', 'Album~|~']") + "'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Directory~|~-', '~||~', 'Artist~|~', 'Album~|~']") + "'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Directory~|~-', '~||~', 'Year~|~', 'Album~|~']") + "'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['File Name~|~-', '~||~', 'Track No~|~', 'Title~|~']") + "'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Artist~|~', 'Concatenate-0~|~ + ', 'Title~|~', '~||~', 'File Name~|~']") + "'", "type" : "'music'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['File Name~|~', '~||~', 'Directory~|~']") + "'", "type" : "'file'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Directory~|~', '~||~', 'File Name~|~']") + "'", "type" : "'file'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Directory~|~', '~||~', 'File/Directory Name~|~']") + "'", "type" : "'directory'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['File/Directory Name~|~', '~||~', 'Directory~|~']") + "'", "type" : "'directory'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Current Cover~|~', '~||~', 'Source Cover~|~']") + "'", "type" : "'cover'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Current Cover~|~', '~||~', 'Destination Cover~|~']") + "'", "type" : "'cover'"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"value" : "'" + correctForSql("['Directory Name~|~', '~||~', 'Destination Cover~|~']") + "'", "type" : "'cover'"}, ["value"])
         return sqlQueries
         
         

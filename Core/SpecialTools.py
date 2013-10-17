@@ -1004,7 +1004,6 @@ class SpecialActionsCommandContainer(MFrame):
         self.setAcceptDrops(True)
         self.HBox = MHBoxLayout()
         self.HBox1 = MHBoxLayout()
-        self.HBox2 = MHBoxLayout()
         self.widgetList = []
         self.lblMoveHere = MLabel(_moveHereLabel, self)
         self.lblMoveHere.setObjectName("MoveHere")
@@ -1012,7 +1011,6 @@ class SpecialActionsCommandContainer(MFrame):
         self.VBox = MVBoxLayout()
         self.VBox.addLayout(self.HBox)
         self.VBox.addLayout(self.HBox1)
-        self.VBox.addLayout(self.HBox2)
         self.setLayout(self.VBox)
         self.checkLabelMoveHere()
         self.setMinimumWidth(200)
@@ -1020,12 +1018,10 @@ class SpecialActionsCommandContainer(MFrame):
         self.setFrameShadow(MFrame.Sunken)
         
     def addToLayout(self, _widget):
-        if self.HBox.count()<7:
+        if self.HBox.count() - len(Universals.getAllChildren(self.HBox, "Concatenate-"))<7:
             self.HBox.addWidget(_widget)
-        elif self.HBox1.count()<10:
-            self.HBox1.addWidget(_widget)
         else:
-            self.HBox2.addWidget(_widget)
+            self.HBox1.addWidget(_widget)
         
     def addToWidgetList(self, _widget):
         try:

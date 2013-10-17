@@ -108,19 +108,26 @@ if RoutineChecks.checkMandatoryModules():
             pnlPage.setLayout(HBox)
             if _pageNo==0:
                 VBox = MVBoxLayout()
-                self.lblAreYouSure = MLabel(MApplication.translate("Uninstall", "Are you sure you want to uninstall Hamsi Manager."))
+                self.lblAreYouSure = MLabel(MApplication.translate("Uninstall", "Are you sure you want to uninstall Hamsi Manager?"))
                 VBox.addStretch(10)
                 VBox.addWidget(self.lblAreYouSure)
                 VBox.addStretch(10)
                 HBox.addLayout(VBox)
             if _pageNo==1:
-                lblPleaseSelect = MLabel(MApplication.translate("Uninstall", "Please Select A Folder For Uninstallation."))
+                lblPleaseSelect = MLabel(MApplication.translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."))
                 UninstallationDirPath = InputOutputs.getDirName(trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(Variables.HamsiManagerDirectory))))
                 self.leUninstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(UninstallationDirPath))))
                 self.pbtnSelectUninstallationDirectory = MPushButton(MApplication.translate("Uninstall", "Browse"))
                 self.connect(self.pbtnSelectUninstallationDirectory,SIGNAL("clicked()"),self.selectUninstallationDirectory)
-                HBox.addWidget(self.leUninstallationDirectory)
-                HBox.addWidget(self.pbtnSelectUninstallationDirectory)
+                VBox = MVBoxLayout()
+                VBox.addStretch(2)
+                VBox.addWidget(lblPleaseSelect)
+                HBox1 = MHBoxLayout()
+                HBox1.addWidget(self.leUninstallationDirectory)
+                HBox1.addWidget(self.pbtnSelectUninstallationDirectory)
+                VBox.addLayout(HBox1)
+                VBox.addStretch(2)
+                HBox.addLayout(VBox)
             elif _pageNo==2:
                 import MyPlugins
                 self.lblFinished = MLabel(MApplication.translate("Uninstall", "Uninstallation Completed."))
@@ -135,7 +142,7 @@ if RoutineChecks.checkMandatoryModules():
             return pnlPage
         
         def selectUninstallationDirectory(self):
-            insDir = Dialogs.getExistingDirectory(MApplication.translate("Uninstall", "Please select a folder for Uninstallation."),self.leUninstallationDirectory.text())
+            insDir = Dialogs.getExistingDirectory(MApplication.translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."),self.leUninstallationDirectory.text())
             if insDir is not None:
                 self.leUninstallationDirectory.setText(trForUI(insDir))
             
