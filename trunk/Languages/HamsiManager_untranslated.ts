@@ -192,23 +192,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Amarok/Filter.py" line="106"/>
+        <location filename="Amarok/Filter.py" line="109"/>
         <source>Edit Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Amarok/Filter.py" line="79"/>
-        <source>rating:&lt;5 (less than)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Amarok/Filter.py" line="79"/>
-        <source>rating:&gt;5 (greater than)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Amarok/Filter.py" line="92"/>
+        <location filename="Amarok/Filter.py" line="95"/>
         <source>Conditions : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Amarok/Filter.py" line="79"/>
+        <source>rating:&amp;lt;5 (less than)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Amarok/Filter.py" line="79"/>
+        <source>rating:&amp;gt;5 (greater than)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Amarok/Filter.py" line="79"/>
+        <source>year:2000 (equals)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Amarok/Filter.py" line="79"/>
+        <source>year:&amp;lt;2000 (less than)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Amarok/Filter.py" line="79"/>
+        <source>year:&amp;gt;2000 (greater than)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -475,7 +490,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCopyTable.py" line="312"/>
+        <location filename="Tables/AmarokCopyTable.py" line="314"/>
         <source>Please Select Destination Directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -614,12 +629,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="253"/>
+        <location filename="Tables/AmarokMusicTable.py" line="255"/>
         <source>Cannot Open Music File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="253"/>
+        <location filename="Tables/AmarokMusicTable.py" line="255"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a music file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -799,17 +814,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="252"/>
+        <location filename="Tables/CoverTable.py" line="255"/>
         <source>Checking For Amarok...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="254"/>
+        <location filename="Tables/CoverTable.py" line="257"/>
         <source>Getting Values From Amarok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/CoverTable.py" line="257"/>
+        <location filename="Tables/CoverTable.py" line="260"/>
         <source>Values Are Being Processed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -860,7 +875,7 @@
 <context>
     <name>Dialogs</name>
     <message>
-        <location filename="Core/Dialogs.py" line="40"/>
+        <location filename="Core/Dialogs.py" line="42"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -875,52 +890,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Dialogs.py" line="304"/>
+        <location filename="Core/Dialogs.py" line="192"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Dialogs.py" line="158"/>
+        <location filename="Core/Dialogs.py" line="166"/>
         <source>Progress Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="580"/>
+        <location filename="Tables/__init__.py" line="586"/>
         <source>Yes To All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="555"/>
+        <location filename="Tables/__init__.py" line="561"/>
         <source>No To All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="489"/>
+        <location filename="InputOutputs/__init__.py" line="513"/>
         <source>Continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="506"/>
+        <location filename="InputOutputs/__init__.py" line="530"/>
         <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="586"/>
+        <location filename="InputOutputs/__init__.py" line="610"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="635"/>
+        <location filename="InputOutputs/__init__.py" line="659"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="632"/>
+        <location filename="InputOutputs/__init__.py" line="656"/>
         <source>Yes, Add Into</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="327"/>
+        <location filename="InputOutputs/__init__.py" line="351"/>
         <source>Show Error Details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1599,47 +1614,47 @@
 <context>
     <name>InputOutputs</name>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1245"/>
+        <location filename="InputOutputs/__init__.py" line="1281"/>
         <source>Checking Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1266"/>
+        <location filename="InputOutputs/__init__.py" line="1302"/>
         <source>Deleting Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1269"/>
+        <location filename="InputOutputs/__init__.py" line="1305"/>
         <source>Empty Directories Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="581"/>
+        <location filename="InputOutputs/__init__.py" line="605"/>
         <source>Current File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1282"/>
+        <location filename="InputOutputs/__init__.py" line="1318"/>
         <source>Current Directory Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="540"/>
+        <location filename="InputOutputs/__init__.py" line="564"/>
         <source>Cannot Find File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="544"/>
+        <location filename="InputOutputs/__init__.py" line="568"/>
         <source>Cannot Find Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="502"/>
+        <location filename="InputOutputs/__init__.py" line="526"/>
         <source>Access Denied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1002"/>
+        <location filename="InputOutputs/__init__.py" line="1038"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1659,193 +1674,198 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="494"/>
+        <location filename="InputOutputs/__init__.py" line="518"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="502"/>
+        <location filename="InputOutputs/__init__.py" line="526"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="540"/>
+        <location filename="InputOutputs/__init__.py" line="564"/>
         <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="544"/>
+        <location filename="InputOutputs/__init__.py" line="568"/>
         <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="548"/>
+        <location filename="InputOutputs/__init__.py" line="572"/>
         <source>Cannot Find File Or Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="548"/>
+        <location filename="InputOutputs/__init__.py" line="572"/>
         <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="581"/>
+        <location filename="InputOutputs/__init__.py" line="605"/>
         <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the current one?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="600"/>
+        <location filename="InputOutputs/__init__.py" line="624"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;&quot;%s&quot; Add this file to the current folder?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1282"/>
+        <location filename="InputOutputs/__init__.py" line="1318"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="857"/>
+        <location filename="InputOutputs/__init__.py" line="893"/>
         <source>Directory Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1270"/>
+        <location filename="InputOutputs/__init__.py" line="1306"/>
         <source>Project Directory Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1272"/>
+        <location filename="InputOutputs/__init__.py" line="1308"/>
         <source>Project Directory Cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="461"/>
+        <location filename="InputOutputs/__init__.py" line="485"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="469"/>
+        <location filename="InputOutputs/__init__.py" line="493"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1270"/>
+        <location filename="InputOutputs/__init__.py" line="1306"/>
         <source>&quot;%s&quot; deleted.Because this directory is empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1081"/>
+        <location filename="InputOutputs/__init__.py" line="1117"/>
         <source>Select A Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1081"/>
+        <location filename="InputOutputs/__init__.py" line="1117"/>
         <source>Please select a cover for &quot;%s&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="852"/>
+        <location filename="InputOutputs/__init__.py" line="888"/>
         <source>Cleaning Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="859"/>
+        <location filename="InputOutputs/__init__.py" line="895"/>
         <source>Directories Cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="566"/>
+        <location filename="InputOutputs/__init__.py" line="590"/>
         <source>Unavailable Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="559"/>
+        <location filename="InputOutputs/__init__.py" line="583"/>
         <source>&quot;%s&quot; : can not encoded by %s.&lt;br&gt;Please review and correct the name!&lt;br&gt;You can correct your file system encoding name in Options/Advanced, If you want.&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="608"/>
+        <location filename="InputOutputs/__init__.py" line="632"/>
         <source>Select A New Name For File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="608"/>
+        <location filename="InputOutputs/__init__.py" line="632"/>
         <source>All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="627"/>
+        <location filename="InputOutputs/__init__.py" line="651"/>
         <source>&quot;%s&quot; : there already exists a directory with the same name.&lt;br&gt;Add your files to the current directory?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="636"/>
+        <location filename="InputOutputs/__init__.py" line="660"/>
         <source>Select A Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="849"/>
+        <location filename="InputOutputs/__init__.py" line="885"/>
         <source>Checked Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1289"/>
+        <location filename="InputOutputs/__init__.py" line="1325"/>
         <source>Creating Tar File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="566"/>
+        <location filename="InputOutputs/__init__.py" line="590"/>
         <source>&quot;%s&quot; : this file path is not valid.&lt;br&gt;Please review and correct the path of file!&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1455"/>
+        <location filename="InputOutputs/__init__.py" line="1491"/>
         <source>inaccessible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="320"/>
+        <location filename="InputOutputs/__init__.py" line="344"/>
         <source>An Error Has Occurred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="320"/>
+        <location filename="InputOutputs/__init__.py" line="344"/>
         <source>&quot;%s&quot; &gt; &quot;%s&quot; : an unknown error has occurred.&lt;br&gt;Please check it and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1594"/>
+        <location filename="InputOutputs/__init__.py" line="1630"/>
         <source>Size Of Directory Of Deleted Is Over</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1594"/>
+        <location filename="InputOutputs/__init__.py" line="1630"/>
         <source>Size of directory of deleted is over. You can check and remove them. &lt;br&gt; Directory Of Deleted : &quot;%s&quot; ( %s )</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1596"/>
+        <location filename="InputOutputs/__init__.py" line="1632"/>
         <source>Open With Default File Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1594"/>
+        <location filename="InputOutputs/__init__.py" line="1630"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1599"/>
+        <location filename="InputOutputs/__init__.py" line="1635"/>
         <source>Remove All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1603"/>
+        <location filename="InputOutputs/__init__.py" line="1639"/>
         <source>Directory Of Deleted Has Been Removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1603"/>
+        <location filename="InputOutputs/__init__.py" line="1639"/>
         <source>Directory of deleted has been removed successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="InputOutputs/__init__.py" line="744"/>
+        <source>Reading Directory...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1946,6 +1966,14 @@
     <message>
         <location filename="Tables/SubFolderTable.py" line="102"/>
         <source>Writing File Informations</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InputOutputs/Tables</name>
+    <message>
+        <location filename="Tables/AmarokArtistTable.py" line="144"/>
+        <source>Generating Table...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2569,12 +2597,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="250"/>
+        <location filename="Tables/MusicTable.py" line="244"/>
         <source>Cannot Open Music File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="250"/>
+        <location filename="Tables/MusicTable.py" line="244"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a music file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2587,7 +2615,7 @@
 <context>
     <name>MyPlugins</name>
     <message>
-        <location filename="MyPlugins/__init__.py" line="178"/>
+        <location filename="MyPlugins/__init__.py" line="184"/>
         <source>Install The Selected Plug-in</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2597,52 +2625,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="240"/>
+        <location filename="MyPlugins/__init__.py" line="252"/>
         <source>Plug-in Installation Is Complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="244"/>
+        <location filename="MyPlugins/__init__.py" line="256"/>
         <source>Plug-in Already Installed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="248"/>
+        <location filename="MyPlugins/__init__.py" line="260"/>
         <source>Plug-in Installation Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="240"/>
+        <location filename="MyPlugins/__init__.py" line="252"/>
         <source>&quot;%s&quot; is installed on your system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="244"/>
+        <location filename="MyPlugins/__init__.py" line="256"/>
         <source>&quot;%s&quot; already installed on your system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="248"/>
+        <location filename="MyPlugins/__init__.py" line="260"/>
         <source>&quot;%s&quot; failed to install on your system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="201"/>
+        <location filename="MyPlugins/__init__.py" line="206"/>
         <source>Could Not Be Determined</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="203"/>
+        <location filename="MyPlugins/__init__.py" line="208"/>
         <source>Have A New Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="205"/>
+        <location filename="MyPlugins/__init__.py" line="210"/>
         <source>Installed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="209"/>
+        <location filename="MyPlugins/__init__.py" line="214"/>
         <source>Could not find the appropriate plug-in to your system</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2652,37 +2680,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="45"/>
+        <location filename="MyPlugins/__init__.py" line="188"/>
         <source>Uninstall The Selected Plug-in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="158"/>
+        <location filename="MyPlugins/__init__.py" line="281"/>
         <source>Plug-in Uninstallation Is Complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="158"/>
+        <location filename="MyPlugins/__init__.py" line="281"/>
         <source>&quot;%s&quot; is uninstalled on your system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="162"/>
+        <location filename="MyPlugins/__init__.py" line="285"/>
         <source>Plug-in Already Uninstalled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="162"/>
+        <location filename="MyPlugins/__init__.py" line="285"/>
         <source>&quot;%s&quot; already uninstalled on your system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="166"/>
+        <location filename="MyPlugins/__init__.py" line="289"/>
         <source>Plug-in Uninstallation Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/__init__.py" line="166"/>
+        <location filename="MyPlugins/__init__.py" line="289"/>
         <source>&quot;%s&quot; failed to uninstall on your system.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2700,122 +2728,117 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="138"/>
-        <source>Organize With Hamsi Manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="142"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="130"/>
         <source>Copy Path To Clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="64"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="60"/>
         <source>Hash Digest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="68"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="64"/>
         <source>Correct Content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="186"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="174"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="154"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="142"/>
         <source>Pack It</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="158"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="146"/>
         <source>Check Directory Icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="162"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="150"/>
         <source>Clear Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="166"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="154"/>
         <source>Clear Unneededs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="170"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="158"/>
         <source>Clear Ignoreds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="174"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="162"/>
         <source>Build File Tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="178"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="166"/>
         <source>Remove Sub Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="182"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="170"/>
         <source>Clear It</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="60"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="56"/>
         <source>Auto Emend File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="146"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="134"/>
         <source>Auto Emend Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="150"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="138"/>
         <source>Auto Emend Directory (With Contents)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="393"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="402"/>
         <source>Access Denied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="393"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="402"/>
         <source>Please run Hamsi Manager as Administrator and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="242"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="230"/>
         <source>Hamsi Manager ( Manage )</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="245"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="233"/>
         <source>As Last Selected Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="249"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="237"/>
         <source>As Folder Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="253"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="241"/>
         <source>As File Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="257"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="245"/>
         <source>As Music Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MyPlugins/Explorer_CM/__init__.py" line="261"/>
+        <location filename="MyPlugins/Explorer_CM/__init__.py" line="249"/>
         <source>As Subfolder Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3035,27 +3058,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="917"/>
+        <location filename="Core/SpecialTools.py" line="789"/>
         <source>Don`t Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="917"/>
+        <location filename="Core/SpecialTools.py" line="789"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="917"/>
+        <location filename="Core/SpecialTools.py" line="789"/>
         <source>All Small</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="917"/>
+        <location filename="Core/SpecialTools.py" line="789"/>
         <source>All Caps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="917"/>
+        <location filename="Core/SpecialTools.py" line="789"/>
         <source>Sentence</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3140,12 +3163,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="644"/>
+        <location filename="Core/Organizer.py" line="682"/>
         <source>Real Values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="988"/>
+        <location filename="Core/SpecialTools.py" line="860"/>
         <source>Table Contents</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4557,43 +4580,38 @@
 <context>
     <name>Organizer</name>
     <message>
-        <location filename="Core/Organizer.py" line="306"/>
-        <source> and </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Core/Organizer.py" line="319"/>
+        <location filename="Core/Organizer.py" line="365"/>
         <source>What Does This Command Do?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="330"/>
+        <location filename="Core/Organizer.py" line="371"/>
         <source>Missing Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="292"/>
-        <source> &quot;%s&quot; is concatenated with and is set as &quot;%s&quot;.</source>
+        <location filename="Core/Organizer.py" line="353"/>
+        <source>Concatenate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="294"/>
-        <source>&quot;%s&quot; &quot;%s&quot; are set.</source>
+        <location filename="Core/Organizer.py" line="362"/>
+        <source>&quot;%s&quot; will be concatenated and/or separated then it will be set as &quot;%s&quot; respectively.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="314"/>
-        <source>&quot;%s&quot; &quot;%s&quot; hyphenates from the apostrophe and sets each piece as &quot;%s&quot;.</source>
+        <location filename="Core/Organizer.py" line="371"/>
+        <source>You have to add at least a &quot;Column&quot;!..</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="324"/>
-        <source>You have to add a &quot;,&quot;(comma) to your command!..</source>
+        <location filename="Core/Organizer.py" line="356"/>
+        <source>(can be separated by &quot;%s&quot;)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="330"/>
-        <source>You have to add one (more) &quot;Column&quot;!..</source>
+        <location filename="Core/Organizer.py" line="358"/>
+        <source>(can be concatenated by &quot;%s&quot;)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5290,12 +5308,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="302"/>
+        <location filename="Tools/Configurator.py" line="304"/>
         <source>Other Hamsi Manager Was Detected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="302"/>
+        <location filename="Tools/Configurator.py" line="304"/>
         <source>Other Hamsi Manager executable file was detected. Are you want to delete old executable file? You can delete this old executable file : &quot;%s&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5808,27 +5826,27 @@
 <context>
     <name>SearchAndReplaceListEditDialog</name>
     <message>
-        <location filename="Core/SpecialTools.py" line="1085"/>
+        <location filename="Core/SpecialTools.py" line="948"/>
         <source>Advanced Value Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="1100"/>
+        <location filename="Core/SpecialTools.py" line="963"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="1101"/>
+        <location filename="Core/SpecialTools.py" line="964"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="1104"/>
+        <location filename="Core/SpecialTools.py" line="967"/>
         <source>Search List : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="1106"/>
+        <location filename="Core/SpecialTools.py" line="969"/>
         <source>Replace List : </source>
         <translation type="unfinished"></translation>
     </message>
@@ -6100,6 +6118,39 @@
     </message>
 </context>
 <context>
+    <name>SpecialActions</name>
+    <message>
+        <location filename="Core/SpecialTools.py" line="359"/>
+        <source>Availables - Move Here Not To Use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Core/SpecialTools.py" line="361"/>
+        <source>Move Here To Use As Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Core/SpecialTools.py" line="362"/>
+        <source>Move Here To Set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Core/SpecialTools.py" line="1121"/>
+        <source>If requires, &quot;%s&quot; will be separated by this. You can leave blank not to separate it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Core/SpecialTools.py" line="1123"/>
+        <source>Concatenate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Core/SpecialTools.py" line="1124"/>
+        <source>If requires, Side columns will be concatenated with this.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SpecialTools</name>
     <message>
         <location filename="Core/SpecialTools.py" line="46"/>
@@ -6107,17 +6158,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="213"/>
+        <location filename="Core/SpecialTools.py" line="197"/>
         <source>Add In Front</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="215"/>
+        <location filename="Core/SpecialTools.py" line="199"/>
         <source>Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="217"/>
+        <location filename="Core/SpecialTools.py" line="201"/>
         <source>Append</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6137,7 +6188,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="379"/>
+        <location filename="Core/SpecialTools.py" line="339"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6157,7 +6208,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="533"/>
+        <location filename="Core/Organizer.py" line="571"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6192,197 +6243,172 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="274"/>
+        <location filename="Core/SpecialTools.py" line="258"/>
         <source>Simple</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="288"/>
+        <location filename="Core/SpecialTools.py" line="272"/>
         <source>Advance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="355"/>
-        <source>Please Select An Action!..</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Core/SpecialTools.py" line="368"/>
-        <source>,</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Core/SpecialTools.py" line="371"/>
-        <source>Hyphen(-)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Core/SpecialTools.py" line="380"/>
+        <location filename="Core/SpecialTools.py" line="340"/>
         <source>Add To Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="381"/>
+        <location filename="Core/SpecialTools.py" line="341"/>
         <source>Remove From Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="382"/>
-        <source>Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Core/SpecialTools.py" line="383"/>
-        <source>Forward</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Core/SpecialTools.py" line="384"/>
+        <location filename="Core/SpecialTools.py" line="342"/>
         <source>What Does This Command Do?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="647"/>
+        <location filename="Core/SpecialTools.py" line="519"/>
         <source>Please Select An Action!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="663"/>
+        <location filename="Core/SpecialTools.py" line="535"/>
         <source>Search: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="664"/>
+        <location filename="Core/SpecialTools.py" line="536"/>
         <source>Replace: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="976"/>
+        <location filename="Core/SpecialTools.py" line="848"/>
         <source>Column: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="845"/>
+        <location filename="Core/SpecialTools.py" line="717"/>
         <source>Content Type: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="743"/>
+        <location filename="Core/SpecialTools.py" line="615"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="743"/>
+        <location filename="Core/SpecialTools.py" line="615"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="745"/>
+        <location filename="Core/SpecialTools.py" line="617"/>
         <source>Number Of Characters: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="843"/>
+        <location filename="Core/SpecialTools.py" line="715"/>
         <source>Text: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="755"/>
+        <location filename="Core/SpecialTools.py" line="627"/>
         <source>Sort: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="758"/>
+        <location filename="Core/SpecialTools.py" line="630"/>
         <source>Ascending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="758"/>
+        <location filename="Core/SpecialTools.py" line="630"/>
         <source>Descending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="760"/>
+        <location filename="Core/SpecialTools.py" line="632"/>
         <source>Begins With: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="535"/>
+        <location filename="Core/Organizer.py" line="573"/>
         <source>Letters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="539"/>
+        <location filename="Core/Organizer.py" line="577"/>
         <source>Numbers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="543"/>
+        <location filename="Core/Organizer.py" line="581"/>
         <source>Other Characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Organizer.py" line="547"/>
+        <location filename="Core/Organizer.py" line="585"/>
         <source>Selected Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="912"/>
+        <location filename="Core/SpecialTools.py" line="784"/>
         <source>Correct Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="914"/>
+        <location filename="Core/SpecialTools.py" line="786"/>
         <source>Character Format: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="671"/>
+        <location filename="Core/SpecialTools.py" line="543"/>
         <source>&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Example: &quot;search 1&lt;b&gt;;&lt;/b&gt;search 2&lt;b&gt;;&lt;/b&gt;search 3&lt;b&gt;;&lt;/b&gt;...&lt;b&gt;;&lt;/b&gt;search n&lt;b&gt;;&lt;/b&gt;&quot;&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="672"/>
+        <location filename="Core/SpecialTools.py" line="544"/>
         <source>&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Example: &quot;Change/replace 1&lt;b&gt;;&lt;/b&gt;Change/replace 2&lt;b&gt;;&lt;/b&gt;Change/replace 3&lt;b&gt;;&lt;/b&gt;...&lt;b&gt;;&lt;/b&gt;Change/replace n&lt;b&gt;;&lt;/b&gt;&quot;&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="113"/>
+        <location filename="Core/SpecialTools.py" line="112"/>
         <source>Special Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="922"/>
+        <location filename="Core/SpecialTools.py" line="794"/>
         <source>Case Insensitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="923"/>
+        <location filename="Core/SpecialTools.py" line="795"/>
         <source>Regular Expression (RegExp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="668"/>
+        <location filename="Core/SpecialTools.py" line="540"/>
         <source>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;Before&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Search&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;Replace&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;After&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;nobr&gt;HamsiManager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;ager&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;-&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;&lt;/nobr&gt;&lt;/td&gt;&lt;td&gt;&gt;&gt;&lt;/td&gt;&lt;td&gt;&lt;nobr&gt;HamsiMan&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;table&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="975"/>
+        <location filename="Core/SpecialTools.py" line="847"/>
         <source>Character Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="977"/>
+        <location filename="Core/SpecialTools.py" line="849"/>
         <source>Source Values : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="978"/>
+        <location filename="Core/SpecialTools.py" line="850"/>
         <source>Source Encoding : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/SpecialTools.py" line="979"/>
+        <location filename="Core/SpecialTools.py" line="851"/>
         <source>Destination Encoding : </source>
         <translation type="unfinished"></translation>
     </message>
@@ -6653,7 +6679,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="453"/>
+        <location filename="Tables/__init__.py" line="459"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6683,72 +6709,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="573"/>
+        <location filename="Tables/__init__.py" line="579"/>
         <source>Hidden Field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="577"/>
+        <location filename="Tables/__init__.py" line="583"/>
         <source>Action Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="577"/>
+        <location filename="Tables/__init__.py" line="583"/>
         <source>You have cancelled the action.&lt;br&gt;You can make the necessary changes and reperform the action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="665"/>
+        <location filename="Tables/__init__.py" line="671"/>
         <source>Table Contents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="651"/>
+        <location filename="Tables/__init__.py" line="657"/>
         <source>Save As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="659"/>
+        <location filename="Tables/__init__.py" line="665"/>
         <source>Table Exported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="675"/>
+        <location filename="Tables/__init__.py" line="681"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="646"/>
+        <location filename="Tables/__init__.py" line="652"/>
         <source>HTML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="649"/>
+        <location filename="Tables/__init__.py" line="655"/>
         <source>Plain Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="573"/>
+        <location filename="Tables/__init__.py" line="579"/>
         <source>&quot;%s&quot;: you have hidden this field in the table.&lt;br&gt;Do you want to activate this field and perform the action?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="659"/>
+        <location filename="Tables/__init__.py" line="665"/>
         <source>Table contents are exported to file: &quot;%s&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1491"/>
+        <location filename="InputOutputs/__init__.py" line="1527"/>
         <source>File Tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1484"/>
+        <location filename="InputOutputs/__init__.py" line="1520"/>
         <source>File Tree Created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1484"/>
+        <location filename="InputOutputs/__init__.py" line="1520"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6783,22 +6809,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="431"/>
+        <location filename="Tables/__init__.py" line="437"/>
         <source>Did Not Change Any Things</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="431"/>
+        <location filename="Tables/__init__.py" line="437"/>
         <source>Did not change any things in this table.Please check the criteria you select.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="435"/>
+        <location filename="Tables/__init__.py" line="441"/>
         <source>Transaction Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="435"/>
+        <location filename="Tables/__init__.py" line="441"/>
         <source>%s value(s) changed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6833,12 +6859,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="546"/>
+        <location filename="Tables/__init__.py" line="552"/>
         <source>Incorrect File Extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="546"/>
+        <location filename="Tables/__init__.py" line="552"/>
         <source>&quot;%s&quot;: the file extension is different from the source file extension.&lt;br&gt;Do you want to set the source file extension?&lt;br&gt;&lt;b&gt;Source file : &lt;/b&gt;&quot;%s&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6853,12 +6879,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1452"/>
+        <location filename="InputOutputs/__init__.py" line="1488"/>
         <source>Last Modified : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1419"/>
+        <location filename="InputOutputs/__init__.py" line="1455"/>
         <source>File List</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6883,12 +6909,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="513"/>
+        <location filename="Tables/__init__.py" line="519"/>
         <source>There Are Unsaved Values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="513"/>
+        <location filename="Tables/__init__.py" line="519"/>
         <source>Do you want to save these values?&lt;br&gt;If you click to Yes : Table will be saved without any other question or option.&lt;br&gt;If you click to No : Application will be closed without doing any process.&lt;br&gt;If you click to Cancel : Application won&apos;t be closed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6898,7 +6924,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="291"/>
+        <location filename="Tables/__init__.py" line="296"/>
         <source>Open Details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6918,7 +6944,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/__init__.py" line="487"/>
+        <location filename="Tables/__init__.py" line="493"/>
         <source>This value is NOT changeable!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7276,14 +7302,102 @@
     </message>
 </context>
 <context>
+    <name>Uninstall</name>
+    <message>
+        <location filename="uninstall.py" line="84"/>
+        <source>Back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="167"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="86"/>
+        <source>Uninstall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="93"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="96"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="145"/>
+        <source>Please Select Directory Of Hamsi Manager To Uninstall.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="120"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="133"/>
+        <source>Uninstallation Completed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="238"/>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="207"/>
+        <source>The path you selected is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="196"/>
+        <source>The selected path is Hamsi Manager source directory.&lt;br&gt;Please choose a valid uninstallation path.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="207"/>
+        <source>The selected path points to a file not a folder.&lt;br&gt;Please choose a valid Uninstallation path.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="237"/>
+        <source>Are You Want To Run As Root?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="237"/>
+        <source>Hamsi Manager Uninstaller is running with user privileges.&lt;br&gt;Do you want to run Hamsi Manager Uninstaller with root rights?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="237"/>
+        <source>No (Continue as is)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="243"/>
+        <source>Hamsi Manager Uninstaller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="uninstall.py" line="111"/>
+        <source>Are you sure you want to uninstall Hamsi Manager?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Universals</name>
     <message>
-        <location filename="Core/Universals.py" line="325"/>
+        <location filename="Core/Universals.py" line="336"/>
         <source>Are You Sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="325"/>
+        <location filename="Core/Universals.py" line="336"/>
         <source>Are you want to cancel these transactions?</source>
         <translation type="unfinished"></translation>
     </message>

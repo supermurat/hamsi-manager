@@ -315,8 +315,14 @@ class Universals():
                 _object.deleteLater()
             except:pass
             
-    def getAllChildren(_object):
+    def getAllChildren(_object, _objectName=None):
         children = _object.children()
+        if _objectName is not None:
+            selectedChildren = []
+            for child in children:
+                if str(child.objectName()).find(_objectName)>-1:
+                    selectedChildren.append()
+            return selectedChildren
         return children
         
     def getChild(_object, _objectName):
