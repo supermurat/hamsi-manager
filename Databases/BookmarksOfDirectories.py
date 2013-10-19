@@ -23,7 +23,7 @@ from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQL
 
 class BookmarksOfDirectories:
     global fetchAll, fetch, checkValues, insert, update, delete
-    global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries
+    global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries, checkUpdates
     global tableName, tableVersion, allForFetch
     tableName = "bookmarksOfDirectories"
     tableVersion = 2
@@ -95,6 +95,19 @@ class BookmarksOfDirectories:
             sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'MNT'", "value" : "'/mnt'", "type" : "''"}, ["value"])
             sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'MEDIA'", "value" : "'/media'", "type" : "''"}, ["value"])
         return sqlQueries
+        
+    def checkUpdates(_oldVersion):
+        if _oldVersion<2:
+            con = getDefaultConnection()
+            cur = con.cursor()
+            cur.execute(str("DROP TABLE " + tableName + ";"))
+            con.commit()
+            cur.execute(getTableCreateQuery())
+            con.commit()
+            for sqlCommand in getDefaultsQueries():
+                cur = con.cursor()
+                cur.execute(str(sqlCommand))
+                con.commit()
         
     
     

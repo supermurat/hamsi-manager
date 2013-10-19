@@ -23,7 +23,7 @@ from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQL
 
 class SearchAndReplaceTable:
     global fetchAll, fetch, checkValues, insert, update, delete
-    global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries
+    global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries, checkUpdates
     global tableName, tableVersion, allForFetch
     tableName = "searchAndReplaceTable"
     tableVersion = 2
@@ -90,5 +90,18 @@ class SearchAndReplaceTable:
         sqlQueries = []
         sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"label" : "'delete url'", "searching" : "'(([A-Za-z]{3,9})://)?([-;:&=\+\$,\w]+@{1})?(([-A-Za-z0-9]+\.)+[A-Za-z]{2,3})(:\d+)?((/[-\+~%/\.\w]+)?/?([&?][-\+=&;%@\.\w]+)?(#[\w]+)?)?'", "replacing" : "''", "intIsActive" : "0", "intIsCaseSensitive" : "1", "intIsRegExp" : "1"}, ["searching"])
         return sqlQueries
+        
+    def checkUpdates(_oldVersion):
+        if _oldVersion<2:
+            con = getDefaultConnection()
+            cur = con.cursor()
+            cur.execute(str("DROP TABLE " + tableName + ";"))
+            con.commit()
+            cur.execute(getTableCreateQuery())
+            con.commit()
+            for sqlCommand in getDefaultsQueries():
+                cur = con.cursor()
+                cur.execute(str(sqlCommand))
+                con.commit()
         
     
