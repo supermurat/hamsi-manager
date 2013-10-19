@@ -258,8 +258,12 @@ class SpecialTools(MWidget):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Simple"))
         self.pnlAdvancedSelections.setVisible(True)
         self.isShowAdvancedSelections = True
-        self.tabwTabs.setMaximumHeight(185)
-        self.setMaximumHeight(185)
+        if Variables.isWindows:
+            self.tabwTabs.setMaximumHeight(215)
+            self.setMaximumHeight(215)
+        else:
+            self.tabwTabs.setMaximumHeight(185)
+            self.setMaximumHeight(185)
         self.specialActions.showAdvancedSelections()
         self.fill.showAdvancedSelections()
         self.searchAndReplace.showAdvancedSelections()
@@ -1018,7 +1022,7 @@ class SpecialActionsCommandContainer(MFrame):
         self.setFrameShadow(MFrame.Sunken)
         
     def addToLayout(self, _widget):
-        if self.HBox.count() - len(Universals.getAllChildren(self.HBox, "Concatenate-"))<7:
+        if self.HBox.count() - len(Universals.getAllChildren(self.HBox, "Concatenate-"))<7 or Variables.isWindows:
             self.HBox.addWidget(_widget)
         else:
             self.HBox1.addWidget(_widget)
@@ -1126,8 +1130,8 @@ class SpecialActionsCommandButton(MFrame):
         self.HBox.addWidget(self.lePoint)
         self.setLayout(self.HBox)
         self.lePoint.hide()
-        #self.setFrameShape(MFrame.StyledPanel)
-        #self.setFrameShadow(MFrame.Raised)
+        #self.setFrameShape(MFrame.Box)
+        #self.setFrameShadow(MFrame.Plain)
         
     def setPoint(self, _value):
         self.lePoint.setText(trForUI(_value))
@@ -1136,7 +1140,6 @@ class SpecialActionsCommandButton(MFrame):
         return str(self.lePoint.text())
         
     def showPoint(self):
-        self.lePoint.setMinimumHeight(24)
         self.lePoint.show()
         self.lblMoveHere.setText(self.columnName + ":")
         
