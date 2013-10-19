@@ -139,10 +139,12 @@ class Databases:
                     tableVersion = int(cur.fetchall()[0][1])
                 except:
                     tableVersion = 0
-                if tableVersion<database.tableVersion:
+                if tableVersion==0:
                     tableCreateQueries.append(database.getTableCreateQuery())
                     sqlCommands += database.getDefaultsQueries()
                     tableInsertImportantQueries += getAmendedSQLInsertOrUpdateQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
+                elif tableVersion<database.tableVersion:
+                    database.checkUpdates(tableVersion)
                     
             for sqlCommand in tableCreateQueries:
                 cur = con.cursor()

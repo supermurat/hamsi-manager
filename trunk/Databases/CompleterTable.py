@@ -23,7 +23,7 @@ from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQL
 
 class CompleterTable:
     global fetchAll, fetchAllByObjectName, fetch, checkValues, insert, update, delete
-    global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries
+    global getTableCreateQuery, getDeleteTableQuery, getDefaultsQueries, checkUpdates
     global tableName, tableVersion, allForFetch, allForFetchByObjectName
     tableName = "completerTable"
     tableVersion = 1
@@ -107,6 +107,19 @@ class CompleterTable:
         sqlQueries = []
         sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"objectName" : "'*'", "value" : "'Hamsi'"}, ["objectName", "value"])
         return sqlQueries
+        
+    def checkUpdates(_oldVersion):
+        if _oldVersion<1:
+            con = getDefaultConnection()
+            cur = con.cursor()
+            cur.execute(str("DROP TABLE " + tableName + ";"))
+            con.commit()
+            cur.execute(getTableCreateQuery())
+            con.commit()
+            for sqlCommand in getDefaultsQueries():
+                cur = con.cursor()
+                cur.execute(str(sqlCommand))
+                con.commit()
         
     
     
