@@ -89,7 +89,7 @@ class Configurator(MyDialog):
             self.setCentralWidget(self.pnlMain)
             moveToCenter(self)
         self.setWindowTitle(translate("Reconfigure", "Hamsi Manager Configurator") + " " + Variables.version)
-        self.setWindowIcon(MIcon("Images:HamsiManager-128x128-1.png"))
+        self.setWindowIcon(MIcon("Images:hamsi.png"))
         self.setMinimumWidth(650)
         self.setMinimumHeight(350)
         self.show()

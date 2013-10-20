@@ -64,7 +64,7 @@ if RoutineChecks.checkMandatoryModules():
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.setProgramIconName(trForUI(InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-128x128-1.png")))
+            aboutOfHamsiManager.setProgramIconName(trForUI(InputOutputs.joinPath(Universals.themePath, "Images", "hamsi.png")))
             if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)):
                 aboutOfHamsiManager.addLicenseTextFile(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)))
             else:
@@ -116,7 +116,7 @@ if RoutineChecks.checkMandatoryModules():
         MDir.setSearchPaths("root", MStringList(trForUI(Variables.HamsiManagerDirectory)))
         if InputOutputs.isFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")):
             HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")))
-        HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128-1.png"))
+        HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))
         if Universals.MySettings["applicationStyle"]!="":
             MApplication.setStyle(Universals.MySettings["applicationStyle"])
         if Universals.isActivePyKDE4:

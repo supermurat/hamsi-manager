@@ -32,7 +32,7 @@ def isInstallable():
 def installThisPlugin():
     from Core import Execute
     executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
-    iconPath =  InputOutputs.joinPath(Universals.themePath, "Images", "HamsiManager-128x128-1.png")
+    iconPath =  InputOutputs.joinPath(Universals.themePath, "Images", "hamsi.png")
     myPluginStrings = [(" <action name=\"hamsimanager_Organize\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Organize With Hamsi Manager")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "You can organize with Hamsi Manager")) + "</tooltip>\n"+

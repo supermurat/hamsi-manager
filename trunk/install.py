@@ -49,7 +49,7 @@ if RoutineChecks.checkMandatoryModules():
     HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
-    HamsiManagerApp.setWindowIcon(MIcon("Images:HamsiManager-128x128-1.png"))
+    HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))
     HamsiManagerApp.setApplicationName("InstallHamsiManager")
     HamsiManagerApp.setApplicationVersion(Variables.version)
     HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
