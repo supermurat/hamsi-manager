@@ -32,8 +32,8 @@ class Variables():
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
     version = "1.3"
-    intversion = 1280
-    settingVersion = "1280"
+    intversion = 1300
+    settingVersion = "1300"
     aboutOfHamsiManager = ""
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
