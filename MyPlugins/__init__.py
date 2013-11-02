@@ -212,18 +212,21 @@ class MyPluginsForSystem(MWidget):
                 self.myPluginsNames.append(plugin)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
-            self.pbtnInstall.setEnabled(False)
+            if self.pbtnInstall is not None:
+                self.pbtnInstall.setEnabled(False)
+            if self.pbtnUninstall is not None:
+                self.pbtnUninstall.setEnabled(False)
     
     def installThis(self):
         try:
-            self.installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
+            installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
             ReportBug.ReportBug()
             
     def uninstallThis(self):
         try:
-            self.uninstallPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
+            uninstallPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
             ReportBug.ReportBug()
