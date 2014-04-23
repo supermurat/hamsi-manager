@@ -172,6 +172,8 @@ class MyPluginsForSystem(MWidget):
     
     def __init__(self, _parent, _actions=""):
         MWidget.__init__(self, _parent)
+        self.pbtnInstall = None
+        self.pbtnUninstall = None
         lblHeader = MLabel(trForUI("<b>" + translate("MyPlugins", "My Plugins") + "</b>"))
         lblNote = MLabel(translate("MyPlugins", "You can manage plugins in your system"))
         self.lstwPluginList = MListWidget()

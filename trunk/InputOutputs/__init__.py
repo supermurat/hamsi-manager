@@ -34,7 +34,7 @@ from Core.Universals import translate
 class InputOutputs:
     """Read and writes are arranged in this class"""
     global joinPath, splitPath, isFile, isDir, isLink, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, walk, getDirectorySize, checkSizeOfDeletedFiles
-    global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir
+    global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, checkNewDestination
     global readDirectoryAll, getObjectType, getAvailablePathByPath, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
     global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError, checkEmptyDirectories, activateSmartCheckEmptyDirectories, completeSmartCheckEmptyDirectories, isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus, readDirectoryWithSubDirectoriesThread
@@ -387,7 +387,7 @@ class InputOutputs:
         if Variables.isAvailableSymLink():
             from os import symlink
             if isExist(_newPath):
-                removeFile(_newPath)
+                removeFileOrDir(_newPath)
             try:symlink(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
             except:symlink(_oldPath,_newPath)
             Records.add("Created Link", _oldPath, _newPath)
@@ -674,6 +674,73 @@ class InputOutputs:
                 return False
         return False
         
+    def checkNewDestination(_newPath, _isQuiet=False):
+        _newPath = str(_newPath)
+        if Variables.isWindows:
+            _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
+            _newPath = _newPath.replace("\\", sep).replace("/", sep)
+        while isAvailableNameForEncoding(_newPath) == False:
+            from Core import Dialogs
+            _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
+                                        str(translate("InputOutputs", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
+            if _newPath is None:
+                return False
+        availableNameByName = getAvailablePathByPath(_newPath)
+        while _newPath!=availableNameByName:
+            from Core import Dialogs
+            _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
+                                        str(translate("InputOutputs", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
+            if _newPath is None:
+                return False
+            availableNameByName = getAvailablePathByPath(_newPath)
+        if isExist(_newPath):
+            if isWritableFileOrDir(_newPath):
+                if isFile(_newPath):
+                    if _isQuiet:
+                        return _newPath
+                    else:
+                        from Core import Dialogs
+                        answer = Dialogs.askSpecial(translate("InputOutputs", "Current File Name"),
+                                    str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath), 
+                            translate("Dialogs", "Replace"), 
+                            translate("Dialogs", "Rename"), 
+                            translate("Dialogs", "Cancel"))
+                        if answer==translate("Dialogs", "Replace"): 
+                            removeFile(_newPath)
+                            return _newPath
+                        elif answer==translate("Dialogs", "Rename"):
+                            newPath = Dialogs.getSaveFileName(translate("InputOutputs", "Select A New Name For File"),
+                                                    _newPath, translate("InputOutputs", "All Files") + " (*)", 0)
+                            if newPath is not None:
+                                return checkNewDestination(newPath, _isQuiet)
+                            return False
+                        else:
+                            return False
+                elif isDir(_newPath):
+                    if _isQuiet:
+                        return False
+                    else:
+                        from Core import Dialogs
+                        answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"), 
+                                str(translate("InputOutputs", "\"%s\" : there already exists a directory with the same name.<br>Are you want to choose another name?")) % Organizer.getLink(_newPath))
+                        if answer==Dialogs.Yes:
+                            newPath = Dialogs.getText(translate("InputOutputs", "Choose Another Name"), translate("InputOutputs", "Choose Another Name"), _newPath)
+                            if newPath is not None:
+                                return checkNewDestination(newPath, _isQuiet)
+                            return False
+                        else:
+                            return False
+                else:
+                    return False
+            else:
+                return False
+        else:
+            if isWritableFileOrDir(getDirName(_newPath)):
+                return _newPath
+            else:
+                return False
+        return False
+        
     def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=False):
         global appendingDirectories
         appendingDirectories=[]
@@ -840,8 +907,8 @@ class InputOutputs:
         return _oldFileValues["path"]
     
     def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True):
-        #If directory deleted : returned True
-        #If directory cleaned : returned False
+        #If directory will deleted : returns True
+        #If directory will cleaned : returns False
         from Core import Dialogs
         clearUnneededs(_path)
         dontRemovingFilesCount = 0
@@ -911,7 +978,7 @@ class InputOutputs:
             for f in Universals.getListValue("unneededDirectories"):
                 try:
                     if isDir(joinPath(_path, str(f))) and f.strip()!="":
-                        removeFileOrDir(joinPath(_path, str(f)), True)
+                        removeFileOrDir(joinPath(_path, str(f)))
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(joinPath(_path, name)):
@@ -932,7 +999,7 @@ class InputOutputs:
             for f in Universals.getListValue("ignoredDirectories"):
                 try:
                     if isDir(joinPath(_path, str(f))) and f.strip()!="":
-                        removeFileOrDir(joinPath(_path, str(f)), True)
+                        removeFileOrDir(joinPath(_path, str(f)))
                 except:pass
             for name in readDirectoryAll(_path):
                 if isFile(joinPath(_path, name)):
@@ -942,9 +1009,9 @@ class InputOutputs:
                                 removeFile(joinPath(_path, name))
                         except:pass
     
-    def removeFileOrDir(_path, _isDir=False):
+    def removeFileOrDir(_path):
         if isWritableFileOrDir(getDirName(_path)):
-            if _isDir==False:
+            if isFile(_path):
                 removeFile(_path)
             else:
                 if isWritableFileOrDir(_path):
@@ -1228,7 +1295,7 @@ class InputOutputs:
                     removeFile(joinPath(_path, f))
             for d in Universals.getListValue("packagerUnneededDirectories"):
                 if isExist(joinPath(_path, d)):
-                    removeFileOrDir(joinPath(_path, d), True)
+                    removeFileOrDir(joinPath(_path, d))
             dontRemovingFilesCount = 0
             filesAndDirectories = readDirectoryAll(_path)
             for nameNo, name in enumerate(filesAndDirectories):
@@ -1274,7 +1341,7 @@ class InputOutputs:
                     removeFile(joinPath(_path, f))
             for d in Universals.getListValue("cleanerUnneededDirectories"):
                 if isExist(joinPath(_path, d)):
-                    removeFileOrDir(joinPath(_path, d), True)
+                    removeFileOrDir(joinPath(_path, d))
             dontRemovingFilesCount = 0
             filesAndDirectories = readDirectoryAll(_path)
             for nameNo, name in enumerate(filesAndDirectories):
@@ -1350,7 +1417,7 @@ class InputOutputs:
         for fileName in readDirectoryAll(tempDirPath):
             if fileName[:15] == "HamsiManager":
                 if isDir(joinPath(tempDirPath, fileName)):
-                    removeFileOrDir(joinPath(tempDirPath, fileName), True)
+                    removeFileOrDir(joinPath(tempDirPath, fileName))
                 else:
                     removeFileOrDir(joinPath(tempDirPath, fileName))
             

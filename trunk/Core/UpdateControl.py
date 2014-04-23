@@ -203,7 +203,7 @@ class UpdateControl(MDialog):
                 if InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True) == False:
                     from Core import Organizer
                     Dialogs.showError(translate("UpdateControl", "Access Denied"),
-                            str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(realPath))
+                            str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(Variables.HamsiManagerDirectory))
             self.setFixedHeight(130)   
             self.isDownloading=True
             self.prgbState.setVisible(True)

@@ -258,12 +258,13 @@ class QuickMakeWindow(MyDialog):
         try:
             _path = self.checkSource(str(QuickMakeParameters[1]), "directory")
             if _path is not None:
-                InputOutputs.activateSmartCheckIcon()
-                InputOutputs.checkEmptyDirectories(_path, True, True, True, True)
-                if InputOutputs.isDir(_path):
-                    InputOutputs.completeSmartCheckIcon()
-                Dialogs.show(translate("QuickMake", "Directory Cleaned"),
-                        str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(_path))
+                if InputOutputs.isWritableFileOrDir(_path):
+                    InputOutputs.activateSmartCheckIcon()
+                    InputOutputs.checkEmptyDirectories(_path, True, True, True, True)
+                    if InputOutputs.isDir(_path):
+                        InputOutputs.completeSmartCheckIcon()
+                    Dialogs.show(translate("QuickMake", "Directory Cleaned"),
+                            str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(_path))
             self.close()
         except:
             ReportBug.ReportBug()

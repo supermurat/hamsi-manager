@@ -258,7 +258,7 @@ class EmbeddedDBCore():
         
     def backupEmbeddedDB():
         if InputOutputs.isDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi"):
-            InputOutputs.removeFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi", True)
+            InputOutputs.removeFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
         InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
         
     def restoreEmbeddedDB():
@@ -275,7 +275,7 @@ class ReadOnlyEmbeddedDBCore():
         stopReadOnlyEmbeddedDB()
         from Core import MyConfigure
         if InputOutputs.isDir(Universals.pathOfSettingsDirectory+"/Amarok"):
-            InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok", True)
+            InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok")
         InputOutputs.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle")
         InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql", )
         InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my-readOnly.cnf", Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
@@ -292,7 +292,7 @@ class ReadOnlyEmbeddedDBCore():
     def generateReadOnlyEmbeddedD(_isNoAlertIfSuccesfully=True):
         stopReadOnlyEmbeddedDB()
         if InputOutputs.isExist(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok"):
-            InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok", True)
+            InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
         InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("EmbeddedDBCore", "Generated Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server generated."))

@@ -135,8 +135,15 @@ if RoutineChecks.checkMandatoryModules():
                 self.leInstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
-                HBox.addWidget(self.leInstallationDirectory)
-                HBox.addWidget(self.pbtnSelectInstallationDirectory)
+                VBox = MVBoxLayout()
+                VBox.addStretch(10)
+                VBox.addWidget(lblPleaseSelect)
+                HBox1 = MHBoxLayout()
+                HBox1.addWidget(self.leInstallationDirectory)
+                HBox1.addWidget(self.pbtnSelectInstallationDirectory)
+                VBox.addLayout(HBox1)
+                VBox.addStretch(10)
+                HBox.addLayout(VBox)
             elif _pageNo==3:
                 VBox = MVBoxLayout()
                 self.lblActions =MLabel("")
@@ -251,7 +258,7 @@ if RoutineChecks.checkMandatoryModules():
                                             MApplication.translate("Install", "Cancel"))
                                 if answer==MApplication.translate("Install", "Yes (Recommended)"):
                                     self.lblActions.setText(MApplication.translate("Install", "Clearing Installation Path..."))
-                                    InputOutputs.removeFileOrDir(self.installationDirectory, True)
+                                    InputOutputs.removeFileOrDir(self.installationDirectory)
                                     InputOutputs.makeDirs(self.installationDirectory)
                                     isMakeInstall=True
                                 elif answer==MApplication.translate("Install", "No (Overwrite)"):
@@ -319,11 +326,11 @@ if RoutineChecks.checkMandatoryModules():
                     executableLink = str(self.leExecutableLink.text())
                     if self.isCreateExecutableLink.checkState()==Mt.Checked:
                         if executableLink.strip()!="":
-                            HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
-                            if InputOutputs.isFile(executableLink):
-                                InputOutputs.removeFileOrDir(executableLink)
-                            InputOutputs.createSymLink(InputOutputs.joinPath(self.installationDirectory, HamsiManagerFileName), executableLink)
-                            Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
+                            executableLink = InputOutputs.checkNewDestination(executableLink)
+                            if executableLink:
+                                HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
+                                InputOutputs.createSymLink(InputOutputs.joinPath(self.installationDirectory, HamsiManagerFileName), executableLink)
+                                Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
                         if InputOutputs.isDir("/usr/share/applications/"):
                             fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                             InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
