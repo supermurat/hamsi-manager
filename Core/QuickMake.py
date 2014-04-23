@@ -183,7 +183,7 @@ class QuickMakeWindow(MyDialog):
     def closeEvent(self, _event):
         MApplication.setQuitOnLastWindowClosed(True)
     
-    def checkSource(self, _oldPath, _objectType="fileAndDirectory"):
+    def checkSource(self, _oldPath, _objectType="fileAndDirectory", _isCheckWritable=True):
         _path = InputOutputs.checkSource(_oldPath, _objectType, False)
         if _path is None:
             if _objectType=="file":
@@ -204,6 +204,9 @@ class QuickMakeWindow(MyDialog):
                 if answer==Dialogs.Yes:
                     self.organizeWithHamsiManager(_oldPath)
                 return None
+        if _isCheckWritable:
+            if InputOutputs.isWritableFileOrDir(_oldPath)==False:
+                return None
         return _path
         
     def organizeWithHamsiManager(self, _oldPath):
@@ -213,7 +216,7 @@ class QuickMakeWindow(MyDialog):
     
     def pack(self):
         try:
-            _path = self.checkSource(str(QuickMakeParameters[1]), "directory")
+            _path = self.checkSource(str(QuickMakeParameters[1]), "directory", False)
             if _path is not None:
                 from Tools import Packager
                 self.newDialog = Packager.Packager(_path)
@@ -236,7 +239,7 @@ class QuickMakeWindow(MyDialog):
     
     def hash(self):
         try:
-            _path = self.checkSource(str(QuickMakeParameters[1]), "file")
+            _path = self.checkSource(str(QuickMakeParameters[1]), "file", False)
             if _path is not None:
                 from Tools import Hasher
                 self.newDialog = Hasher.Hasher(_path)
@@ -360,7 +363,7 @@ class QuickMakeWindow(MyDialog):
                             
     def copyPath(self):
         try:
-            _path = self.checkSource(str(QuickMakeParameters[1]))
+            _path = self.checkSource(str(QuickMakeParameters[1]), "fileAndDirectory", False)
             if _path is not None:
                 MApplication.clipboard().setText(trForUI(_path))
                 Dialogs.show(translate("QuickMake", "Copied To Clipboard"),
@@ -371,7 +374,7 @@ class QuickMakeWindow(MyDialog):
 
     def fileTree(self):
         try:
-            _path = self.checkSource(str(QuickMakeParameters[1]), "directory")
+            _path = self.checkSource(str(QuickMakeParameters[1]), "directory", False)
             if _path is not None:
                 from Tools import FileTreeBuilder
                 self.newDialog = FileTreeBuilder.FileTreeBuilder(_path)
@@ -414,7 +417,7 @@ class QuickMakeWindow(MyDialog):
             
     def search(self):
         try:
-            _path = self.checkSource(str(QuickMakeParameters[1]))
+            _path = self.checkSource(str(QuickMakeParameters[1]), "fileAndDirectory", False)
             if _path is not None:
                 from Tools import Searcher
                 searchList = [_path] + QuickMakeParameters[2]

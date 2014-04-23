@@ -869,6 +869,8 @@ class InputOutputs:
         
     def writeToFile(_path, _contents=""):
         _path = str(_path)
+        if isDir(getDirName(_path)) == False:
+            makeDirs(getDirName(_path))
         try:f = open(Universals.trEncode(_path, fileSystemEncoding), "w")
         except:f = open(_path, "w")
         f.write(_contents)
@@ -877,6 +879,8 @@ class InputOutputs:
         
     def writeToBinaryFile(_path, _contents=""):
         _path = str(_path)
+        if isDir(getDirName(_path)) == False:
+            makeDirs(getDirName(_path))
         try:f = open(Universals.trEncode(_path, fileSystemEncoding), "wb")
         except:f = open(_path, "wb")
         f.write(_contents)
