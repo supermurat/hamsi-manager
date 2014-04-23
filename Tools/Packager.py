@@ -199,7 +199,7 @@ class Packager(MyDialog):
             InputOutputs.copyFileOrDir(pathOfProject, pathOfTempSource)
             InputOutputs.clearPackagingDirectory(tempDir, True, True)
             if InputOutputs.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource, InputOutputs.getBaseName(pathOfProject)):
-                InputOutputs.removeFileOrDir(tempDir, True)
+                InputOutputs.removeFileOrDir(tempDir)
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
                             translate("Packager", "You can now start sharing it."))
