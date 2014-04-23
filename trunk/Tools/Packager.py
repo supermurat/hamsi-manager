@@ -218,9 +218,10 @@ class Packager(MyDialog):
                     "This action will delete the files completely, without any chance to recover.<br>"+
                     "Are you sure you want to perform the action?")) % Organizer.getLink(str(self.lePathOfProject.text())))
             if answer==Dialogs.Yes:
-                if InputOutputs.clearPackagingDirectory(str(self.lePathOfProject.text()), True, True):
-                    Dialogs.show(translate("Packager", "Project Is Cleared"),
-                                translate("Packager", "You can now pack your project."))
+                if InputOutputs.isWritableFileOrDir(str(self.lePathOfProject.text())):
+                    if InputOutputs.clearPackagingDirectory(str(self.lePathOfProject.text()), True, True):
+                        Dialogs.show(translate("Packager", "Project Is Cleared"),
+                                    translate("Packager", "You can now pack your project."))
             Universals.isCanBeShowOnMainWindow = True
         except:
             from Core import ReportBug
