@@ -23,6 +23,7 @@ import stat
 import re
 import tempfile
 import ctypes
+import mimetypes
 from Core import Variables
 from Core import Universals
 from Core import Records
@@ -34,7 +35,7 @@ from Core.Universals import translate
 class InputOutputs:
     """Read and writes are arranged in this class"""
     global joinPath, splitPath, isFile, isDir, isLink, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, walk, getDirectorySize, checkSizeOfDeletedFiles
-    global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, checkNewDestination
+    global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, checkNewDestination, getMimeType
     global readDirectoryAll, getObjectType, getAvailablePathByPath, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
     global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError, checkEmptyDirectories, activateSmartCheckEmptyDirectories, completeSmartCheckEmptyDirectories, isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus, readDirectoryWithSubDirectoriesThread
@@ -186,6 +187,10 @@ class InputOutputs:
     def getSize(_oldPath):
         try:return os.path.getsize(Universals.trEncode(_oldPath, fileSystemEncoding))
         except:return os.path.getsize(_oldPath)
+        
+    def getMimeType(_oldPath):
+        try:return mimetypes.guess_type(Universals.trEncode(_oldPath, fileSystemEncoding))
+        except:return mimetypes.guess_type(_oldPath)
         
     def getDirectorySize(_oldPath):
         total_size = 0
