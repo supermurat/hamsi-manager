@@ -16,7 +16,6 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import mimetypes
 from Core import Variables
 import InputOutputs
 from Core.MyObjects import *
@@ -37,7 +36,7 @@ class Details():
                 _path = InputOutputs.checkSource(_filePath, "file", False)
                 if _path is not None:
                     isOpened = False
-                    type = mimetypes.guess_type(_path)
+                    type = InputOutputs.getMimeType(_path)
                     if type[0] != None:
                         if type[0].split("/")[0] == "text":
                             from Details import TextDetails

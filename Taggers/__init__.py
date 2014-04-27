@@ -24,7 +24,7 @@ from Core import Dialogs
 from Core import ReportBug
 
 class Taggers():
-    global getTagger, getSelectedTaggerTypeForRead, setSelectedTaggerTypeForRead, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, taggersNames, getAvailableLabelsForTable, getAvailableKeysForTable, getTaggerTypes, getTaggerTypesName, getLoaddedTagger, loaddedTagger, getSelectedTaggerTypeForWrite, setSelectedTaggerTypeForWrite, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
+    global getTagger, getSelectedTaggerTypeForRead, setSelectedTaggerTypeForRead, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, taggersNames, getAvailableLabelsForTable, getAvailableKeysForTable, getTaggerTypes, getTaggerTypesName, getLoaddedTagger, loaddedTagger, getSelectedTaggerTypeForWrite, setSelectedTaggerTypeForWrite, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName, getImageTypes, getImageTypesNo
     taggersNames = []
     loaddedTagger = None
     
@@ -120,6 +120,10 @@ class Taggers():
     def getAvailableKeysForTable():
         return getLoaddedTagger().getAvailableKeysForTable()
         
+    def getImageTypes():
+        return getLoaddedTagger().getImageTypes()
         
+    def getImageTypesNo():
+        return getLoaddedTagger().getImageTypesNo()
         
         

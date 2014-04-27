@@ -54,17 +54,13 @@ class Musics:
             content["genre"] = tagger.getGenre()
             content["firstComment"] = tagger.getFirstComment()
             content["firstLyrics"] = tagger.getFirstLyrics()
-            content["size"] = tagger.getSize()
-            content["playTimeString"] = tagger.getPlayTimeString()
-            content["sampleFreq"] = tagger.getSampleFreq()
-            content["bitRateString"] = tagger.getBitRateString()
             content["images"] = tagger.getImages()
             if isCanNoncompatible and _isAlertWhenNotAvailable:
                 Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
                     translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
             return content
     
-    def writeMusicFile(_oldMusicTagsValues,_newMusicTagsValues,_isImageAction=False,_ImageType=False,_ImagePath=False):
+    def writeMusicFile(_oldMusicTagsValues, _newMusicTagsValues, _isImageAction=False, _ImageType=False, _ImagePath=False, _imageDescription=u""):
         if InputOutputs.isWritableFileOrDir(_oldMusicTagsValues["path"]):
             baseNameOfDirectory = _oldMusicTagsValues["baseNameOfDirectory"]
             baseName = _oldMusicTagsValues["baseName"]
@@ -97,7 +93,10 @@ class Musics:
                     return InputOutputs.moveOrChange(_oldMusicTagsValues["path"], newFilePath, InputOutputs.getObjectType(_oldMusicTagsValues["path"]))
             #Making changes on image files
             else:
-                tagger.addImage(_ImageType,_ImagePath)
+                if _ImagePath==False:
+                    tagger.removeImage(_imageDescription)
+                else:
+                    tagger.addImage(_ImageType, _ImagePath, _imageDescription)
                 tagger.update()
                 return None
         return _oldMusicTagsValues["path"]

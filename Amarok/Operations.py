@@ -103,9 +103,8 @@ class Operations:
                             tagger = Taggers.getTagger()
                             if tagger is not None:
                                 try:
-                                    tagger.loadFileForWrite(musicFilePath, False)
+                                    tagger.loadFileForWrite(musicFilePath)
                                     currentArtistName = tagger.getArtist()
-                                    tagger.correctForMusicTagType()
                                 except: 
                                     tagger.loadFileForWrite(musicFilePath)
                                 tagger.setArtist(artistName)

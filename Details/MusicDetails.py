@@ -29,7 +29,6 @@ from Details.ImageDetails import ImageDetails, closeAllImageDialogs
 from Core import Universals
 from Core import ReportBug
 import Taggers
-from Taggers import EyeD3Tagger
 
 class MusicDetails(MDialog):
     global musicDialogs, closeAllMusicDialogs
@@ -140,7 +139,7 @@ class MusicDetails(MDialog):
         self.leImagePath = MLineEdit("")
         self.lblImagePath = MLabel(translate("MusicDetails", "Image Path: "))
         self.cbImageType = MComboBox()
-        self.cbImageType.addItems(EyeD3Tagger.getImageTypes())
+        self.cbImageType.addItems(Taggers.getImageTypes())
         self.lblImageType = MLabel(translate("MusicDetails", "Image Type: "))
         
         self.lstwImages = MListWidget()
@@ -149,7 +148,7 @@ class MusicDetails(MDialog):
         MObject.connect(self.lstwImages, SIGNAL("doubleClicked(QModelIndex)"),self.openImageDetails)
         self.lstwImages.clear()
         for image in self.musicValues["images"]:
-            if len(image)==4:
+            if len(image)==5:
                 pixmImage = MPixmap()
                 pixmImage.loadFromData(image[3])
                 icnImage = QIcon(pixmImage)
@@ -289,7 +288,9 @@ class MusicDetails(MDialog):
             else:
                 if InputOutputs.isFile(self.leImagePath.text())==True:
                     closeAllImageDialogs()
-                    Musics.writeMusicFile(self.musicValues,False,True,self.cbImageType.currentIndex(),str(self.leImagePath.text()))
+                    imageType = Taggers.getImageTypesNo()[self.cbImageType.currentIndex()]
+                    description = str(imageType)
+                    Musics.writeMusicFile(self.musicValues,None,True,imageType,str(self.leImagePath.text()), description)
                     self.changeFile(self.musicFile)
                     self.cancelAddImage()
                 else:
@@ -303,7 +304,8 @@ class MusicDetails(MDialog):
         try:
             if self.lstwImages.currentRow()!=-1:
                 closeAllImageDialogs()
-                Musics.writeMusicFile(self.musicValues,False,True,self.musicValues["images"][self.lstwImages.currentRow()][0],False)
+                description = self.musicValues["images"][self.lstwImages.currentRow()][4]
+                Musics.writeMusicFile(self.musicValues,None,True,self.musicValues["images"][self.lstwImages.currentRow()][0], False, description)
                 self.changeFile(self.musicFile)
         except:
             ReportBug.ReportBug()
