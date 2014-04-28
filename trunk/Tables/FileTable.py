@@ -156,11 +156,12 @@ class FileTable():
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
-                if itemNo==0:
-                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
-                else:
-                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
-                self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+                if self.Table.isChangableItem(rowNo, itemNo):
+                    if itemNo==0:
+                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
+                    else:
+                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
+                    self.Table.item(rowNo,itemNo).setText(trForUI(newString))
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo==0:

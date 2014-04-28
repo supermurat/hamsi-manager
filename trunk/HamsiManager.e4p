@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2013-10-06, 01:12:00 -->
-<!-- Copyright (C) 2013 Murat Demir, mopened@gmail.com -->
+<!-- Saved: 2014-04-27, 23:10:28 -->
+<!-- Copyright (C) 2014 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
   <ProgLanguage mixed="1">Python</ProgLanguage>
@@ -105,6 +105,7 @@
     <Source>Tools/Configurator.py</Source>
     <Source>Options/TableQuickOptions.py</Source>
     <Source>uninstall.py</Source>
+    <Source>Taggers/NewEyeD3Tagger.py</Source>
   </Sources>
   <Forms>
   </Forms>

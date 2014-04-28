@@ -78,14 +78,6 @@ class Tagger():
         else:
             return _value
         
-    def correctValuesForMusicGenre(self, _genre):
-        import re
-        regex = re.compile("^[A-Z 0-9+/\-\|!&'\.]+\00*$", re.IGNORECASE)
-        genreStrAmended = ""
-        for x in [y for x, y in enumerate(_genre) if regex.match(y)]:
-            genreStrAmended+=x
-        return str(genreStrAmended)
-            
     def correctValuesForMusicTagType(self, _value):
         if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V1_1, id3.ID3_V1_0, id3.ID3_V1):
             return Universals.trUnicode(str(_value), "latin1")
@@ -188,7 +180,7 @@ class Tagger():
             self.tag._setRecordingDate(gmtime()[0])
         
     def setGenre(self, _value):
-        self.tag._setGenre(self.correctValuesForMusicGenre(self.correctValuesForMusicTagType(_value)))
+        self.tag._setGenre(self.correctValuesForMusicTagType(_value))
         
     def setFirstComment(self, _value):
         self.tag.comments.set(self.correctValuesForMusicTagType(_value))
