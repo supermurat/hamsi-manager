@@ -241,13 +241,14 @@ class CoverTable():
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
-                if itemNo==0 or itemNo==1:
-                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
-                elif itemNo==2 or itemNo==3:
-                    newString = trForUI(str(self.Table.item(rowNo,itemNo).text()))
-                else:
-                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
-                self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+                if self.Table.isChangableItem(rowNo, itemNo):
+                    if itemNo==0 or itemNo==1:
+                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
+                    elif itemNo==2 or itemNo==3:
+                        newString = trForUI(str(self.Table.item(rowNo,itemNo).text()))
+                    else:
+                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
+                    self.Table.item(rowNo,itemNo).setText(trForUI(newString))
         
     def getFromAmarok(self):
         try:

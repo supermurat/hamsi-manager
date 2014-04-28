@@ -301,13 +301,14 @@ class AmarokCopyTable():
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
-                if itemNo==0:
-                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
-                elif itemNo==1:
-                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
-                else:
-                    newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()))
-                self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+                if self.Table.isChangableItem(rowNo, itemNo):
+                    if itemNo==0:
+                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
+                    elif itemNo==1:
+                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
+                    else:
+                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()))
+                    self.Table.item(rowNo,itemNo).setText(trForUI(newString))
                 
     def selectDestinationDir(self):
         try:
