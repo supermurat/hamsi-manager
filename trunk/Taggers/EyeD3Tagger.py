@@ -205,12 +205,12 @@ class Tagger():
         
     def addImage(self, _ImageType, _ImagePath, _description):
         if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
-            try:self.tag.addImage(_ImageType,Universals.trEncode(_ImagePath, InputOutputs.fileSystemEncoding))
-            except:self.tag.addImage(_ImageType,_ImagePath)
+            try:self.tag.addImage(int(_ImageType),Universals.trEncode(_ImagePath, InputOutputs.fileSystemEncoding))
+            except:self.tag.addImage(int(_ImageType),_ImagePath)
             
     def removeImage(self, _description):
         if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
-            self.tag.addImage(_description, "False")
+            self.tag.addImage(int(_description), False)
         
     def getImageTypes():
         return ["Other (Default)","Icon","Other Icon","Front Cover","Back Cover","Leaflet","Media",
