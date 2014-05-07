@@ -71,12 +71,19 @@ if os.name=="posix":
     data_files.append((InputOutputs.joinPath("/", "usr", "share", "icons"), [InputOutputs.joinPath(HamsiManagerDirectory, "Themes", "Default", "Images", "hamsi.png")]))
     data_files.append((InputOutputs.joinPath("/", "usr", "share", "pixmaps"), [InputOutputs.joinPath(HamsiManagerDirectory, "Themes", "Default", "Images", "hamsi.png")]))
     
+eyed3ModuleName = "eyeD3"
+
+try:
+    import eyed3
+    eyed3ModuleName = "eyed3"
+except:pass
+    
 packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
         "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers", 
         "hashlib", "tarfile", "urllib", "PyQt4", 
         "sqlite3", "ctypes", 
         "PyKDE4", "_mysql", 
-        "eyeD3", "musicbrainz2"]
+        eyed3ModuleName, "musicbrainz2"]
 
 exeBase = "Console"
 fileExtension = ""
@@ -87,7 +94,7 @@ if float(sys.version[:3])<2.7:
     packages.append("pysqlite2")
     
 if float(sys.version[:3])>=3.0:
-    packages.remove("eyeD3")
+    packages.remove(eyed3ModuleName)
     packages.remove("musicbrainz2")
     
 if os.name=="nt":
