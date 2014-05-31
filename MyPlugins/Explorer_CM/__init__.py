@@ -299,6 +299,7 @@ def installThisPlugin():
     
 
 def uninstallThisPlugin():
+    isAlreadyUninstalled = False
     if Variables.isPython3k:
         import winreg
     else:
@@ -401,13 +402,15 @@ def uninstallThisPlugin():
         if str(error).find("[Error 5]")!=-1:
             Dialogs.showError(translate("MyPlugins/Explorer_CM", "Access Denied"), 
                          translate("MyPlugins/Explorer_CM", "Please run Hamsi Manager as Administrator and try again."))
+        elif str(error).find("[Error 2]")!=-1:
+            isAlreadyUninstalled = True #Error : The system cannot find the file specified. Cause : Already Uninstalled
         else:
             ReportBug.ReportBug()
         return False
     winreg.CloseKey(rootReg)
     
-    #if isAlreadyuninstalled:
-    #    return "Alreadyuninstalled"
+    if isAlreadyUninstalled:
+        return "isAlreadyUninstalled"
     return True
     
     
