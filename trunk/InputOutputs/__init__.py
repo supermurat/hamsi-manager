@@ -1434,7 +1434,6 @@ class InputOutputs:
                     removeFileOrDir(joinPath(tempDirPath, fileName))
             
     def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):   
-        from Core import Organizer
         from Core.MyObjects import trForUI
         _path = str(_path)
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True, False, Universals.getBoolValue("isShowHiddensInFileTree"))

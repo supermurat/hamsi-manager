@@ -368,7 +368,7 @@ def checkAfterCloseProccess():
     
 def checkMyModules(_HamsiManagerApp):
     try:
-        from Core import SpecialTools
+        import SpecialTools
         import Tables
         from Core import FileManager
         from Core import Bars

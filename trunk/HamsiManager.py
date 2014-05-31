@@ -147,7 +147,7 @@ if RoutineChecks.checkMandatoryModules():
                     Universals.printForDevelopers("Shutting down, result %d" % res)
             if RoutineChecks.isQuickMake == False:
                 Universals.printForDevelopers("NotQuickMake")
-                from Core import SpecialTools
+                import SpecialTools
                 import Tables
                 from Core import FileManager
                 from Core import Bars

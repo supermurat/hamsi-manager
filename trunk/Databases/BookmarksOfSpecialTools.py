@@ -43,13 +43,13 @@ class BookmarksOfSpecialTools:
         if _type==None:
             _type = Universals.MainWindow.Table.SubTable.keyName
         if _type not in allForFetchByType or allForFetchByType[_type]==None:
-            from Core import Organizer
+            from SpecialTools import SpecialActions
             con = getDefaultConnection()
             cur = con.cursor()
             cur.execute("SELECT * FROM " + tableName + " where type='" + _type + "'")
             myBookmarks = []
             for mybm in cur.fetchall():
-                newText  = Organizer.whatDoesSpecialCommandDo(eval(str(mybm[1])), False, True)
+                newText  = SpecialActions.whatDoesSpecialCommandDo(eval(str(mybm[1])), False, True)
                 myBookmarks.append([mybm[0], newText, mybm[1], mybm[2]])
             allForFetchByType[_type] = myBookmarks
         return allForFetchByType[_type]
