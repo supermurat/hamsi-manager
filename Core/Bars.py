@@ -19,7 +19,7 @@
 
 from Core import Variables
 import Tables
-from Core import SpecialTools
+import SpecialTools
 from Core import Universals
 from Core import Dialogs
 from Core.MyObjects import *
