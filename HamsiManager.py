@@ -31,6 +31,10 @@ Universals.printForDevelopers("Before RoutineChecks")
 from Core import RoutineChecks
 Universals.printForDevelopers("Before RoutineChecks.checkMandatoryModules")
 if RoutineChecks.checkMandatoryModules():
+    Universals.printForDevelopers("Before InputOutputs")
+    import InputOutputs
+    Universals.printForDevelopers("Before Universals.setPaths")
+    Universals.setPaths()
     Universals.printForDevelopers("Before RoutineChecks.checkParameters")
     if RoutineChecks.checkParameters():
         Universals.printForDevelopers("Before Settings")
@@ -41,8 +45,6 @@ if RoutineChecks.checkMandatoryModules():
         Universals.fillMySettings()
         Universals.printForDevelopers("Before MyObjects")
         from Core.MyObjects import *
-        Universals.printForDevelopers("Before InputOutputs")
-        import InputOutputs
         if Universals.isActivePyKDE4==True:
             Universals.printForDevelopers("ActivePyKDE4")
             appName     = "HamsiManager"

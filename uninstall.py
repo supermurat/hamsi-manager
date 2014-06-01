@@ -29,11 +29,12 @@ Variables.checkStartupVariables()
 from Core import Universals
 from Core import RoutineChecks
 if RoutineChecks.checkMandatoryModules():
+    import InputOutputs
+    Universals.setPaths()
     from Core import Settings
     Universals.fillMySettings(False, False, False)
     Universals.isActivePyKDE4 = False
     from Core.MyObjects import *
-    import InputOutputs
     from Core import Dialogs
     from Core import Execute
     defaultLangCode = str(QLocale().name())

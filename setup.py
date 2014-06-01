@@ -78,8 +78,8 @@ try:
     eyed3ModuleName = "eyed3"
 except:pass
     
-packages = ["Amarok","Core","Databases","Details","InputOutputs","Languages",
-        "MyPlugins","Options","SearchEngines","Tables","Taggers","Tools","Viewers", 
+packages = ["Amarok", "Core", "Databases", "Details", "InputOutputs", "Languages",
+        "MyPlugins", "Options", "SearchEngines", "SpecialTools", "Tables", "Taggers", "Tools", "Viewers", 
         "hashlib", "tarfile", "urllib", "PyQt4", 
         "sqlite3", "ctypes", 
         "PyKDE4", "_mysql", 

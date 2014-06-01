@@ -199,7 +199,7 @@ class UpdateControl(MDialog):
         
     def downloadAndInstall(self):
         try:
-            if Variables.isBuilt == False:
+            if Variables.isBuilt() == False:
                 if InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True) == False:
                     from Core import Organizer
                     Dialogs.showError(translate("UpdateControl", "Access Denied"),
@@ -263,7 +263,7 @@ class UpdateControl(MDialog):
             ReportBug.ReportBug()
         
     def install(self, _fileName):
-        if self.isNotInstall==False and Variables.isBuilt:
+        if self.isNotInstall==False and Variables.isBuilt():
             self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))
             self.lblInfo.setText(translate("UpdateControl", "Latest release downloaded, initializing installation."))
             from Core.Execute import openWith

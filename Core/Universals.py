@@ -23,7 +23,7 @@ from datetime import timedelta, datetime
 from Core import Variables
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild, setPaths
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -45,16 +45,20 @@ class Universals():
     isRaisedAnError = False
     Utf8Contents = {}
     isActiveDirectoryCover = True
-    themePath = Variables.joinPath(Variables.HamsiManagerDirectory, "Themes", "Default")
-    pathOfSettingsDirectory = Variables.joinPath(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
-    recordFilePath = Variables.joinPath(pathOfSettingsDirectory, "logs.txt")
-    oldRecordsDirectoryPath = Variables.joinPath(pathOfSettingsDirectory, "OldRecords")
     
     if Variables.isWindows:
         isActiveDirectoryCover = False
     
     def __init__(self):
         pass
+        
+    def setPaths():
+        global themePath, pathOfSettingsDirectory, recordFilePath, oldRecordsDirectoryPath
+        import InputOutputs
+        themePath = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", "Default")
+        pathOfSettingsDirectory = InputOutputs.joinPath(Variables.userDirectoryPath, ".HamsiApps", "HamsiManager")
+        recordFilePath = InputOutputs.joinPath(pathOfSettingsDirectory, "logs.txt")
+        oldRecordsDirectoryPath = InputOutputs.joinPath(pathOfSettingsDirectory, "OldRecords")
         
     def setApp(_app):
         global HamsiManagerApp
