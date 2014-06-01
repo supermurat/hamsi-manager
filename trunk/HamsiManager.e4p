@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2014-04-27, 23:10:28 -->
+<!-- Saved: 2014-05-31, 23:16:38 -->
 <!-- Copyright (C) 2014 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -106,6 +106,14 @@
     <Source>Options/TableQuickOptions.py</Source>
     <Source>uninstall.py</Source>
     <Source>Taggers/NewEyeD3Tagger.py</Source>
+    <Source>SpecialTools/__init__.py</Source>
+    <Source>SpecialTools/CharacterEncoding.py</Source>
+    <Source>SpecialTools/CharacterState.py</Source>
+    <Source>SpecialTools/Clear.py</Source>
+    <Source>SpecialTools/Fill.py</Source>
+    <Source>SpecialTools/QuickFill.py</Source>
+    <Source>SpecialTools/SearchAndReplace.py</Source>
+    <Source>SpecialTools/SpecialActions.py</Source>
   </Sources>
   <Forms>
   </Forms>

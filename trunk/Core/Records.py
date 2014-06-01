@@ -21,7 +21,6 @@ import time
 from Core import Universals
 import InputOutputs
 import logging
-from Core.Universals import translate
 
 class Records():
     global add, create, read, setTitle, clearRecords, recordContents, isSetedTitle, saveAllRecords,recordContents, checkSize, recordType, lastRecordType, setRecordType, restoreRecordType, getBackupRecordsList
@@ -32,7 +31,7 @@ class Records():
     
     def create():
         global recordContents
-        recordContents = str(translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+        recordContents = str(Universals.translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
     
     def setTitle(_title):
         global isSetedTitle, recordContents
@@ -89,7 +88,9 @@ class Records():
         else:
             return []
         
-    def read(_recordFilePath=Universals.recordFilePath):
+    def read(_recordFilePath=None):
+        if _recordFilePath==None:
+            _recordFilePath = Universals.recordFilePath
         if InputOutputs.isFile(_recordFilePath)==True:
             return InputOutputs.readFromFile(_recordFilePath, "utf-8")
         else:
@@ -100,7 +101,7 @@ class Records():
             return recordContents
             
     def clearRecords():
-        InputOutputs.writeToFile(Universals.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+        InputOutputs.writeToFile(Universals.recordFilePath, str(Universals.translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
             
             
             

@@ -23,7 +23,6 @@ class Variables():
     global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
     global MQtGui, MQtCore, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, machineType, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableAppPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath, isBuilt, getBuildType, getDefaultLanguageCode
-    global joinPath, trEncode, trDecode #TODO: think about me:)
     MQtGui, MQtCore, isQt4Exist = None, None, False
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
@@ -119,7 +118,7 @@ class Variables():
         return False
     
     def checkStartupVariables():
-        global executableAppPath, userDirectoryPath, HamsiManagerDirectory, executableAppPath, isBuilt
+        global executableAppPath, userDirectoryPath, HamsiManagerDirectory, executableAppPath
         checkEncoding()
         executableAppPath = str(os.path.abspath(sys.argv[0]))
         if os.path.islink(executableAppPath):
@@ -134,8 +133,6 @@ class Variables():
             except:pass
             try:userDirectoryPath = userDirectoryPath.decode(defaultFileSystemEncoding)
             except:pass
-        try:isBuilt = os.path.isfile(trEncode(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"), defaultFileSystemEncoding))
-        except:isBuilt = os.path.isfile(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
 
     def checkEncoding():
         global defaultFileSystemEncoding
@@ -149,38 +146,19 @@ class Variables():
         if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.items()].count(defaultFileSystemEncoding)==0:
             defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
         
-        
-    def joinPath(_a, *_b):
-        _a = str(_a)
-        c = []
-        for x in _b:
-            try:c.append(trEncode(str(x), defaultFileSystemEncoding))
-            except:c.append(str(x))
-        c = tuple(c)
-        try:returnValue = os.path.join(trEncode(_a, defaultFileSystemEncoding), *c)
-        except:returnValue = os.path.join(_a, *c)
-        try:return trDecode(returnValue, defaultFileSystemEncoding)
-        except:return returnValue
-        
-    def trDecode(_s, _e = "utf-8", _p = "strict"):
-        if isPython3k:
-            return _s
-        return _s.decode(_e, _p)
-        
-    def trEncode(_s, _e = "utf-8", _p = "strict"):
-        if isPython3k:
-            return _s
-        return _s.encode(_e, _p)
-        
     def isAvailablePyKDE4():
         try:
             import PyKDE4
             return True
         except:
             return False
+    
+    def isBuilt():
+        import InputOutputs
+        return InputOutputs.isFile(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
                    
     def isUpdatable():
-        if isBuilt:
+        if isBuilt():
             buildType = getBuildType()
             if buildType in ["rpm", "msi"]:
                 return True
@@ -218,8 +196,8 @@ class Variables():
         
     def getBuildType():
         import InputOutputs
-        if InputOutputs.isFile(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt")):
-            firstRow = InputOutputs.readLinesFromFile(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))[0]
+        if InputOutputs.isFile(InputOutputs.joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt")):
+            firstRow = InputOutputs.readLinesFromFile(InputOutputs.joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))[0]
             if firstRow.find("bdist_rpm")>-1:
                 return "rpm"
             elif firstRow.find("bdist_msi")>-1:
@@ -237,6 +215,7 @@ class Variables():
         return str(None)
 
     def getDefaultValues():
+        import InputOutputs
         from datetime import datetime
         if getInstalledLanguagesCodes().count(str(MQtCore.QLocale.system().name()))>0:
             insLangCode = str(MQtCore.QLocale.system().name())
@@ -365,7 +344,7 @@ class Variables():
                 "colorSchemes": "", 
                 "isActiveAutoMakeIconToDirectory": "True", 
                 "isDontDeleteFileAndDirectory": "False", 
-                "pathOfDeletedFilesAndDirectories": joinPath(userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"), 
+                "pathOfDeletedFilesAndDirectories": InputOutputs.joinPath(userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"), 
                 "isReadOnlyAmarokDB": "False", 
                 "isReadOnlyAmarokDBHost": "False", 
                 "isResizeTableColumnsToContents": "False", 

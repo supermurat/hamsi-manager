@@ -313,7 +313,7 @@ def checkAfterRunProccess():
             from Options import OptionsForm
             newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
             OptionsForm.OptionsForm(Universals.MainWindow, "Normal", None, newOrChangedKeys)
-    elif Universals.getBoolValue("isShowReconfigureWizard") and Variables.isBuilt == False:
+    elif Universals.getBoolValue("isShowReconfigureWizard") and Variables.isBuilt() == False:
         from Tools import Configurator
         Configurator.Configurator()
         Universals.setMySetting("isShowReconfigureWizard", "False")
