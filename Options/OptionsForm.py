@@ -30,7 +30,7 @@ class OptionsForm(MDialog):
     
     def __init__(self, _parent=None, _showType="Normal", _focusTo = None, _markedKeys = []):
         MDialog.__init__(self, _parent)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         self.showType = _showType
         self.focusTo = _focusTo
@@ -100,7 +100,7 @@ class OptionsForm(MDialog):
                 pbtnApply.setMinimumWidth(150)
                 vblMain.addLayout(pnlCategories)
             vblMain.addLayout(hblButtons)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
@@ -700,7 +700,7 @@ class EditDialog(MDialog):
     
     def __init__(self, _parent, _sender):
         MDialog.__init__(self, _parent)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("EditDialog", "Advanced Value Editor"))
         self.requestInfos = str(_sender.objectName()).split("_")
@@ -721,7 +721,7 @@ class EditDialog(MDialog):
             self.EditorWidget.setPlainText(trForUI(currentValue))
         elif self.typeOfValue=="list":
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.EditorWidget = MEditListBox(self)
                 self.EditorWidget.setItems([trForUI(x) for x in currentValue.split(";")])
             else:
@@ -753,7 +753,7 @@ class EditDialog(MDialog):
         hblBox.addWidget(pbtnApply)
         hblBox.addWidget(pbtnCancel)
         vblMain.addLayout(hblBox)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
@@ -771,7 +771,7 @@ class EditDialog(MDialog):
             self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(trForUI(newValue))
         elif self.typeOfValue=="list":
             value = ""
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 for y, info in enumerate(self.EditorWidget.items()):
                     if y!=0:
                         value += ";"

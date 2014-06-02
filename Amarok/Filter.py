@@ -66,7 +66,7 @@ class FilterEditor(MDialog):
     def __init__(self, _parent, _filterKeyName):
         MDialog.__init__(self, _parent)
         self.fWidget = _parent
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
@@ -102,7 +102,7 @@ class FilterEditor(MDialog):
         self.hblBox.addWidget(self.pbtnApply)
         vblMain.addLayout(self.hblBox)
         vblMain.addWidget(gboxUsableInformations)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)

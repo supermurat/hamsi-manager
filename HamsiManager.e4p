@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2014-05-31, 23:16:38 -->
+<!-- Saved: 2014-06-01, 23:58:56 -->
 <!-- Copyright (C) 2014 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -42,7 +42,6 @@
     <Source>MyPlugins/KDE4_CM/HamsiManager_KDE4_CM_Dir.desktop</Source>
     <Source>MyPlugins/KDE4_CM/__init__.py</Source>
     <Source>Core/MyObjects.py</Source>
-    <Source>Core/SpecialTools.py</Source>
     <Source>Core/QuickMake.py</Source>
     <Source>Core/Records.py</Source>
     <Source>Core/Universals.py</Source>

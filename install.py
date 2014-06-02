@@ -19,21 +19,23 @@
 
 import sys
 import os
-from Core import Variables
 try: 
     if float(sys.version[:3])<3.0: 
         reload(sys)
         sys.setdefaultencoding("utf-8")
 except:pass
-Variables.checkStartupVariables()
-from Core import Universals
+
 from Core import RoutineChecks
 if RoutineChecks.checkMandatoryModules():
+    from Core.MyObjects import *
+    from Core import Variables
+    Variables.checkStartupVariables()
+    from Core import Universals
     import InputOutputs
     Universals.setPaths()
     from Core import Settings
     Universals.fillMySettings(False, False, False)
-    Universals.isActivePyKDE4 = False
+    isActivePyKDE4 = False
     from Core.MyObjects import *
     from Core import Dialogs
     from Core import Execute

@@ -37,7 +37,7 @@ class FileManager():
         Universals.MainWindow.Browser = None
         Universals.MainWindow.Places = None
         Universals.MainWindow.TreeBrowser = None
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.dirModelMain = MDirModel()
             self.dirLister = MDirLister()
             self.dirLister.setAutoUpdate(True)
@@ -91,7 +91,7 @@ class FileManager():
         MObject.connect(actHome, SIGNAL("triggered(bool)"), self.goHome)
         MObject.connect(actAddBookmark, SIGNAL("triggered(bool)"), self.bookmarks.addBookmark)
         self.bookmarksMenu = BookmarksMenu(self)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             toolsFull = MToolBar(_parent)
             toolsFull.addAction(self.bookmarksMenu.menuAction())
             self.isGoToFromDirOperator = False
@@ -152,7 +152,7 @@ class FileManager():
             self.tbarLocationBar.setIconSize(MSize(16,16))
             self.tbarLocationBar.addWidget(self.leNavigator)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 toolsFull.setIconSize(MSize(16, 16))
                 self.tbarBrowserToolsFull = MToolBar(_parent)
                 self.tbarBrowserToolsFull.setWindowTitle(translate("FileManager", "Browser Tools (KDE4)"))
@@ -180,7 +180,7 @@ class FileManager():
             self.tbarLocationBar.setIconSize(MSize(16,16))
             self.tbarLocationBar.addWidget(self.leNavigator)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 toolsFull.setIconSize(MSize(22, 22))
                 self.dckwBrowserToolsFull = MDockWidget(translate("FileManager", "Browser Tools (KDE4)"))
                 self.dckwBrowserToolsFull.setObjectName(translate("FileManager", "Browser Tools (KDE4)"))
@@ -206,7 +206,7 @@ class FileManager():
         Universals.MainWindow.TreeBrowser.setAllowedAreas(Mt.AllDockWidgetAreas)
         Universals.MainWindow.TreeBrowser.setFeatures(MDockWidget.AllDockWidgetFeatures)
         _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.TreeBrowser)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             Universals.MainWindow.Places = MDockWidget(translate("FileManager", "Places"))
             Universals.MainWindow.Places.setObjectName(translate("FileManager", "Places"))
             Universals.MainWindow.Places.setWidget(self.fpvPlaces)
@@ -228,7 +228,7 @@ class FileManager():
                             self.history.append(self.currentDirectory)
                         if _path[-1]==InputOutputs.sep: _path = _path[:-1]
                         self.currentDirectory = trForUI(_path)
-                        if Universals.isActivePyKDE4==True:
+                        if isActivePyKDE4==True:
                             self.dirLister.openUrl(MUrl(self.currentDirectory))
                             self.trvFileManager.setCurrentIndex(self.dirModelForTree.index(_path))
                             self.isGoToFromUrlNavigator = False
@@ -318,7 +318,7 @@ class FileManager():
     
     def makeRefreshOnlyFileList(self, _index=""):
         if _index=="":_index = self.lstvFileManager.currentIndex()
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index)).refresh()
         else:
             return self.dirModel.refresh(_index)
@@ -328,7 +328,7 @@ class FileManager():
         return self.dirModelForTree.refresh(_index)
     
     def getPathOfIndex(self, _index):
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index)).url().pathOrUrl()
         else:
             return self.dirModel.filePath(_index)
@@ -337,7 +337,7 @@ class FileManager():
         return self.dirModelForTree.filePath(_index)
         
     def getFileInfo(self, _index):
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index))
         else:
             return self.dirModel.fileInfo(_index)
@@ -442,7 +442,7 @@ class Bookmarks(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self)
         self._parent = _parent;
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("Bookmarks", "Bookmarks"))
         pbtnDeleteBookmark = MPushButton(translate("Bookmarks", "Delete"))
@@ -465,7 +465,7 @@ class Bookmarks(MDialog):
         vblMain.addLayout(hbox)
         vblMain.addLayout(hbox1)
         vblMain.addWidget(pbtnClose)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)

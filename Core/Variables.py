@@ -18,12 +18,12 @@
 
 
 import os, sys, platform
+from Core.MyObjects import *
 
 class Variables():
-    global checkMyObjects, checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, isAvailablePyKDE4, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
-    global MQtGui, MQtCore, isQt4Exist, defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
+    global checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
+    global defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
     global osName, machineType, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableAppPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath, isBuilt, getBuildType, getDefaultLanguageCode
-    MQtGui, MQtCore, isQt4Exist = None, None, False
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     machineType = platform.machine()
@@ -58,7 +58,7 @@ class Variables():
                   "applicationStyle", "playerName", "isMinimumWindowMode", 
                   "packagerUnneededFileExtensions", "packagerUnneededFiles", "packagerUnneededDirectories", 
                   "lastUpdateControlDate", "updateInterval", 
-                  "isActivePyKDE4", "isCloseOnCleanAndPackage", 
+                  "isCloseOnCleanAndPackage", 
                   "TableToolsBarButtonStyle", "ToolsBarButtonStyle", "PlayerBarButtonStyle", 
                   "MusicOptionsBarButtonStyle", "SubDirectoryOptionsBarButtonStyle", 
                   "CoverOptionsBarButtonStyle", "AmarokMusicOptionsBarButtonStyle", "AmarokCopyOptionsBarButtonStyle", 
@@ -102,21 +102,6 @@ class Variables():
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
-    def checkMyObjects():
-        global MQtGui, MQtCore, isQt4Exist
-        MQtGui, MQtCore = None, None
-        try:
-            from PyQt4 import QtGui
-            from PyQt4 import QtCore
-            MQtGui, MQtCore = QtGui, QtCore
-        except:pass
-        if MQtGui!=None and MQtCore!=None:
-            isQt4Exist=True
-            MQtCore.QTextCodec.setCodecForCStrings(MQtCore.QTextCodec.codecForName("utf-8"))
-            MQtCore.QTextCodec.setCodecForTr(MQtCore.QTextCodec.codecForName("utf-8"))
-            return True
-        return False
-    
     def checkStartupVariables():
         global executableAppPath, userDirectoryPath, HamsiManagerDirectory, executableAppPath
         checkEncoding()
@@ -145,13 +130,6 @@ class Variables():
             defaultFileSystemEncoding = "latin-1"
         if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.items()].count(defaultFileSystemEncoding)==0:
             defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
-        
-    def isAvailablePyKDE4():
-        try:
-            import PyKDE4
-            return True
-        except:
-            return False
     
     def isBuilt():
         import InputOutputs
@@ -267,7 +245,6 @@ class Variables():
                 "packagerUnneededDirectories": str(['.eric4project', '.svn', '.git', 'CVS', '.bzr', '.cache', '.settings']), 
                 "lastUpdateControlDate": datetime.now().strftime("%Y %m %d %H %M %S"), 
                 "updateInterval": "14", 
-                "isActivePyKDE4": str(isAvailablePyKDE4()), 
                 "isCloseOnCleanAndPackage": "True", 
                 "TableToolsBarButtonStyle": "0", 
                 "ToolsBarButtonStyle": "0", 
@@ -419,7 +396,6 @@ class Variables():
                 "packagerUnneededDirectories": "list", 
                 "lastUpdateControlDate": "date", 
                 "updateInterval": ["int", list(range(0, 32))], 
-                "isActivePyKDE4": "bool", 
                 "isCloseOnCleanAndPackage": "bool", 
                 "TableToolsBarButtonStyle": ["int", list(range(0, 4))], 
                 "ToolsBarButtonStyle": ["int", list(range(0, 4))], 
@@ -557,12 +533,13 @@ class Variables():
         return styles
         
     def getColorSchemesAndPath():
+        from Core.MyObjects import isActivePyKDE4
         from Core import Settings, Universals
         import InputOutputs
         colorSchemes, colorSchemePaths = [], []
         colorSchemes.append("Default")
         colorSchemePaths.append("")
-        if isAvailablePyKDE4():
+        if isActivePyKDE4:
             from PyKDE4.kdecore import KStandardDirs, KGlobal
             schemeFiles = KGlobal.dirs().findAllResources("data", "color-schemes/*.colors", KStandardDirs.NoDuplicates)
             for scheme in schemeFiles:
@@ -580,7 +557,8 @@ class Variables():
         
     def getUserDesktopPath():
         import InputOutputs
-        if isAvailablePyKDE4():
+        from Core.MyObjects import isActivePyKDE4
+        if isActivePyKDE4:
             from PyKDE4.kdeui import KGlobalSettings
             desktopPath = str(KGlobalSettings.desktopPath())
         elif isAvailableKDE4():
@@ -602,7 +580,8 @@ class Variables():
     def getKDE4HomePath():
         if isAvailableKDE4():
             try:
-                if isAvailablePyKDE4():
+                from Core.MyObjects import isActivePyKDE4
+                if isActivePyKDE4:
                     from PyKDE4.kdecore import KStandardDirs
                     kdedirPath = str(KStandardDirs().localkdedir())
                     if kdedirPath[-1]==os.sep:
@@ -621,7 +600,8 @@ class Variables():
     def getLibraryDirectoryPath():
         global libPath
         if libPath==None:
-            if isAvailablePyKDE4():
+            from Core.MyObjects import isActivePyKDE4
+            if isActivePyKDE4:
                 from PyKDE4 import pykdeconfig
                 libPath = pykdeconfig._pkg_config["kdelibdir"]
             else:

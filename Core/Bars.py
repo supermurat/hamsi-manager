@@ -46,7 +46,7 @@ class MenuBar(MMenuBar):
         self.mView.setObjectName(translate("MenuBar", "View"))
         self.mSettings = self.addMenu(translate("MenuBar", "Settings"))
         self.mSettings.setObjectName(translate("MenuBar", "Settings"))
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.mHelpMenu = Universals.MainWindow.helpMenu()
             self.mHelpMenu.setObjectName(self.mHelpMenu.title())
             self.aHelpMenu = self.addMenu(self.mHelpMenu)
@@ -93,7 +93,7 @@ class MenuBar(MMenuBar):
         if Variables.isRunableAsRoot():
             self.mSettings.addAction(translate("MenuBar", "My Plugins (System)")).setObjectName(translate("MenuBar", "My Plugins (System)"))
             self.mSettings.addAction(translate("MenuBar", "Reconfigure (System)")).setObjectName(translate("MenuBar", "Reconfigure (System)"))
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             actReportBug = MAction(translate("MenuBar", "Report Bug"), self.mHelpMenu)
             actReportBug.setObjectName(translate("MenuBar", "Report Bug"))
             self.mHelpMenu.insertAction(self.mHelpMenu.actions()[3], actReportBug)
@@ -206,7 +206,7 @@ class Bars():
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
                     InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "fileTree", "title")
             elif actionName==translate("MenuBar", "About QT"):
-                if Universals.isActivePyKDE4==True:
+                if isActivePyKDE4==True:
                     QMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
                 else:
                     MMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
@@ -232,7 +232,7 @@ class Bars():
                 from Core import SuggestIdea
                 SuggestIdea.SuggestIdea()
             elif actionName==translate("MenuBar", "About Hamsi Manager"):
-                if Universals.isActivePyKDE4==False:
+                if isActivePyKDE4==False:
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Variables.aboutOfHamsiManager)
             elif actionName==translate("ToolsBar", "Check Icon"):
                 Universals.MainWindow.setEnabled(False)

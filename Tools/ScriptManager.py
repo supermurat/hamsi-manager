@@ -32,7 +32,7 @@ class ScriptManager(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
         from PyQt4.Qsci import QsciScintilla, QsciLexerPython, QsciAPIs
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         self.sciCommand = QsciScintilla()
         self.sciCommand.setUtf8(True)
@@ -88,7 +88,7 @@ class ScriptManager(MDialog):
         hbox1.addWidget(pbtnClose,1)
         vblMain.addLayout(hbox0)
         vblMain.addLayout(hbox1)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)

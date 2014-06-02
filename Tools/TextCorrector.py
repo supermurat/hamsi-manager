@@ -34,7 +34,7 @@ class TextCorrector(MyDialog):
     def __init__(self,_filePath):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
@@ -90,7 +90,7 @@ class TextCorrector(MyDialog):
         tabwTabs.addTab(wOptionsPanel, translate("Searcher", "Quick Options"))
         vblMain.addWidget(tabwTabs)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)

@@ -211,7 +211,7 @@ class ReportBugDialog(MDialog):
         self.nrpBack = None
         isClose=False
         try:
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MDialog.NoDefault)
         except:pass
         
@@ -272,7 +272,7 @@ class ReportBugDialog(MDialog):
         self.vblMain.addWidget(gboxContactInformations, 1)
         self.vblMain.addLayout(hbox0, 1)
         try:
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(self.vblMain)

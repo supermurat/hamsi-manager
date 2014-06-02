@@ -21,9 +21,10 @@ import sys
 import os
 from datetime import timedelta, datetime
 from Core import Variables
+from Core.MyObjects import *
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActivePyKDE4, isActiveAmarok, isLoadedMyObjects, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild, setPaths
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActiveAmarok, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, iconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild, setPaths
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -33,9 +34,7 @@ class Universals():
     changedDefaultValuesKeys = []
     newSettingsKeys = []
     isCanBeShowOnMainWindow = False
-    isActivePyKDE4 = False
     isActiveAmarok = False
-    isLoadedMyObjects = False
     windowMode = "Normal"
     threadActionState = None
     tableTypesNames = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
@@ -87,7 +86,7 @@ class Universals():
     
     def translate(_p, _s):
         try:
-            return Variables.MQtGui.QApplication.translate(_p, _s)
+            return MQtGui.QApplication.translate(_p, _s)
         except:
             try:return _s.decode("utf-8")
             except: return _s
@@ -154,10 +153,10 @@ class Universals():
     def trQVariant(_s):
         if Variables.isPython3k:
             return _s
-        return Variables.MQtCore.QVariant(trForUI(_s))
+        return MQtCore.QVariant(trForUI(_s))
         
-    def fillMySettings(_setAgain=False, _isCheckUpdate=True, _isActiveKDE4=None):
-        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, isActivePyKDE4, windowMode, tableType
+    def fillMySettings(_setAgain=False, _isCheckUpdate=True):
+        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, windowMode, tableType
         from Core import Settings
         import InputOutputs
         sets = Settings.setting()
@@ -178,15 +177,7 @@ class Universals():
             if newSettingVersion!=settingVersion:
                 newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion, newSettingVersion)
                 isShowVerifySettings = True
-        if _isActiveKDE4!=False:
-            InputOutputs.fileSystemEncoding = MySettings["fileSystemEncoding"]
-            if Variables.isAvailableKDE4():
-                if getBoolValue("isActivePyKDE4"):
-                    if Variables.isAvailablePyKDE4():
-                        if isLoadedMyObjects==False:
-                            isActivePyKDE4 = True
-                    else:
-                        MySettings["isActivePyKDE4"] = "False"
+        InputOutputs.fileSystemEncoding = MySettings["fileSystemEncoding"]#FIXME:check this line, is it necessary?
         windowMode = MySettings["windowMode"]
         themePath = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Themes", MySettings["themeName"])
         if tableType == None:

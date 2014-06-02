@@ -350,7 +350,7 @@ class EmbeddedDBConfigurator(MyDialog):
     def __init__(self):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("EmbeddedDBConfigurator")
@@ -378,7 +378,7 @@ class EmbeddedDBConfigurator(MyDialog):
         self.checkRunState()
         self.pbtnRestore.setEnabled(isHasEmbeddedDBBackup())
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -456,7 +456,7 @@ class ReadOnlyEmbeddedDBConfigurator(MyDialog):
     def __init__(self):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("ReadOnlyEmbeddedDBConfigurator")
@@ -480,7 +480,7 @@ class ReadOnlyEmbeddedDBConfigurator(MyDialog):
         self.connect(self.pbtnIsRunning,SIGNAL("clicked()"),self.isReadOnlyRunning)
         self.checkRunState()
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)

@@ -18,10 +18,6 @@
 
 import sys
 import os
-from optparse import OptionParser, OptionGroup
-from Core import Variables
-from Core import Universals
-import logging
 
 myArgvs = []
 isQuickMake = False
@@ -29,6 +25,10 @@ QuickMakeParameters = []
 parser =None
 
 def checkParameters():
+    from optparse import OptionParser, OptionGroup
+    import logging
+    from Core import Variables
+    from Core import Universals
     global isQuickMake, QuickMakeParameters, myArgvs, parser, optionList
     myArgvs = sys.argv
     isDontRun = False
@@ -82,11 +82,6 @@ the Free Software Foundation; either version 2 of the License, or
                       'Example : "Removable Media" ')
     optionList.append("f <fileReNamerTypeNo>")
     optionList.append("fileReNamerType <fileReNamerTypeNo>")
-    parser.add_option('--PyKDE4',
-                      help='Are you want to activate PyKDE4. '
-                      'Example : "1" or "True" for Yes '
-                      'Example : "0" or "False" for No ')
-    optionList.append("PyKDE4 <o>")
     qmgroup = OptionGroup(parser, "Quick Make Options",
                     "You can make quickly what are you want.")
     qmgroup.add_option('--qmw',
@@ -188,11 +183,6 @@ the Free Software Foundation; either version 2 of the License, or
         Universals.setMySetting("tableType", Universals.getThisTableType(options.tableType))
     if options.fileReNamerType:
         Universals.setMySetting("fileReNamerType", options.fileReNamerType)
-    if options.PyKDE4:
-        if options.PyKDE4.lower()=="false" or options.PyKDE4=="0":
-            Universals.setMySetting("isActivePyKDE4", False)
-        else:
-            Universals.setMySetting("isActivePyKDE4", True)
     if options.qm:
         if options.qmw:
             if options.qmw.lower()=="false" or options.qmw=="0":
@@ -280,8 +270,10 @@ the Free Software Foundation; either version 2 of the License, or
     return True
 
 def checkAfterRunProccess():
-    from Core import Dialogs, Universals, UpdateControl
-    from Core.MyObjects import translate
+    from Core import Variables
+    from Core import Universals
+    from Core import Dialogs, UpdateControl
+    from Core.MyObjects import translate, isActivePyKDE4
     if str(Variables.defaultFileSystemEncoding) != str(Universals.MySettings["fileSystemEncoding"]):
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
@@ -291,7 +283,7 @@ def checkAfterRunProccess():
     if Universals.getBoolValue("isMakeAutoDesign") or Universals.getBoolValue("isShowWindowModeSuggestion"):
         Universals.MainWindow.TableToolsBar.setVisible(False)
         Universals.MainWindow.ToolsBar.setVisible(False)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             Universals.MainWindow.Browser.setVisible(False)
             Universals.MainWindow.TreeBrowser.setVisible(False)
             Universals.MainWindow.FileManager.urlNavigator.setMinimumWidth(150)
@@ -319,6 +311,7 @@ def checkAfterRunProccess():
         Universals.setMySetting("isShowReconfigureWizard", "False")
     
 def checkWindowMode(_isCheck=False):
+    from Core import Variables
     from Core import Universals
     if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
         if Universals.windowMode == Variables.windowModeKeys[0]:
@@ -328,7 +321,9 @@ def checkWindowMode(_isCheck=False):
                     Universals.windowMode = Variables.windowModeKeys[1]
     
 def checkAndCorrectWindowMode(_isCheck=False):
-    from Core import Dialogs, Universals 
+    from Core import Variables
+    from Core import Universals
+    from Core import Dialogs 
     from Core.MyObjects import translate, MToolBar
     if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
         if Universals.windowMode == Variables.windowModeKeys[1]:
@@ -352,7 +347,9 @@ def checkAndCorrectWindowMode(_isCheck=False):
             Universals.setMySetting("isShowWindowModeSuggestion", False)
      
 def checkBeforeCloseProccess():
-    from Core import Universals, UpdateControl
+    from Core import Variables
+    from Core import Universals
+    from Core import UpdateControl
     if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
         import InputOutputs
         InputOutputs.checkSizeOfDeletedFiles()
@@ -374,46 +371,47 @@ def checkMyModules(_HamsiManagerApp):
         from Core import Bars
         return True
     except ImportError as error:
-        errorForm = Variables.MQtGui.QWidget()
-        errorForm.vblMain = Variables.MQtGui.QVBoxLayout(errorForm)
+        from PyQt4 import QtGui
+        from PyQt4 import QtCore
+        errorForm = QtGui.QWidget()
+        errorForm.vblMain = QtGui.QVBoxLayout(errorForm)
         if str(error)[16:].find(" ")==-1:
-            title = str(Variables.MQtGui.QApplication.translate("ReportBug", "Missing Module"))
+            title = str(QtGui.QApplication.translate("ReportBug", "Missing Module"))
             startNumber=16
-            details = str(Variables.MQtGui.QApplication.translate("ReportBug", "Application will not work without the module \"%s\"."))
+            details = str(QtGui.QApplication.translate("ReportBug", "Application will not work without the module \"%s\"."))
         else:
-            title = str(Variables.MQtGui.QApplication.translate("ReportBug", "Error In Module"))
+            title = str(QtGui.QApplication.translate("ReportBug", "Error In Module"))
             startNumber=19
-            details = str(Variables.MQtGui.QApplication.translate("ReportBug", "\"%s\" is not in this module.Please download and install Hamsi Manager again."))
-        lblDetails = Variables.MQtGui.QLabel(Universals.trForUI("<b>"+title+":</b><br>"+ (details % (str(error)[startNumber:]))))
-        pbtnOk = Variables.MQtGui.QPushButton(Variables.MQtGui.QApplication.translate("ReportBug", "OK"))
-        errorForm.connect(pbtnOk,Variables.MQtCore.SIGNAL("clicked()"), _HamsiManagerApp.quit)
-        hbox0 = Variables.MQtGui.QHBoxLayout()
+            details = str(QtGui.QApplication.translate("ReportBug", "\"%s\" is not in this module.Please download and install Hamsi Manager again."))
+        lblDetails = QtGui.QLabel(Universals.trForUI("<b>"+title+":</b><br>"+ (details % (str(error)[startNumber:]))))
+        pbtnOk = QtGui.QPushButton(QtGui.QApplication.translate("ReportBug", "OK"))
+        errorForm.connect(pbtnOk,QtCore.SIGNAL("clicked()"), _HamsiManagerApp.quit)
+        hbox0 = QtGui.QHBoxLayout()
         hbox0.addStretch(2)
         hbox0.addWidget(pbtnOk,1)
         errorForm.vblMain.addWidget(lblDetails)
         errorForm.vblMain.addLayout(hbox0)
-        errorForm.setWindowTitle(Variables.MQtGui.QApplication.translate("ReportBug", "Critical Error!"))
+        errorForm.setWindowTitle(QtGui.QApplication.translate("ReportBug", "Critical Error!"))
         errorForm.show()
         sys.exit(_HamsiManagerApp.exec_())
     return False
     
 def checkMandatoryModules():
-    Variables.checkMyObjects()
-    if Variables.isQt4Exist:
-        if Variables.isWindows:
+    try:
+        from PyQt4 import QtGui, QtCore
+        if os.name=="nt":
             pywin32IsAvailable = False
             try:
                 import win32api, win32con, win32com
                 pywin32IsAvailable = True
             except:pass
             if pywin32IsAvailable == False:
-                from PyQt4 import QtGui, QtCore
                 app = QtGui.QApplication(sys.argv)
                 w = QtGui.QWidget()
                 l = QtGui.QVBoxLayout(w)
                 qbtn = QtGui.QPushButton('Quit', w)
                 qbtn.clicked.connect(QtCore.QCoreApplication.instance().quit)
-                lblAlert = QtGui.QLabel(Universals.trDecode("<br><b><a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system.</b><br><br>You have to install it on your system to run Hamsi Manager.<br><br>", "utf-8"), w)
+                lblAlert = QtGui.QLabel("<br><b><a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system.</b><br><br>You have to install it on your system to run Hamsi Manager.<br><br>", w)
                 lblAlert.setOpenExternalLinks(True)
                 l.addWidget(lblAlert)
                 l.addWidget(qbtn)
@@ -423,13 +421,13 @@ def checkMandatoryModules():
                 w.setMinimumWidth(400)
                 sys.exit(app.exec_())
         return True
-    else:
+    except:
         try:
             import qt
             HamsiManagerApp=qt.QApplication(sys.argv)
             panel = qt.QWidget()
             panel.vblMain = qt.QVBoxLayout(panel)
-            lblInfo = qt.QLabel(Universals.trDecode("<br><b>PyQt4 is not installed:</b><br>You have to install \"PyQt4\" on your system to run Hamsi Manager.", "utf-8"),panel)
+            lblInfo = qt.QLabel("<br><b>PyQt4 is not installed:</b><br>You have to install \"PyQt4\" on your system to run Hamsi Manager.",panel)
             pbtnClose = qt.QPushButton("OK",panel)
             panel.connect(pbtnClose,SIGNAL("clicked()"),HamsiManagerApp.quit)
             hbox0 = qt.QHBoxLayout()

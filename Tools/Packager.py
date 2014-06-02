@@ -32,7 +32,7 @@ class Packager(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
@@ -114,7 +114,7 @@ class Packager(MyDialog):
         vblMain.addWidget(tabwTabs)
         self.hashChanged(self.cbHash.currentIndex())
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
