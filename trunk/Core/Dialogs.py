@@ -32,7 +32,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
-        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+        if len(Universals.MySettings)>0 and isActivePyKDE4==True:
             MMessageBox.information(Universals.activeWindow(), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), trForUI(str(_title)+"!.."))
         else:
             MMessageBox.information(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),_btnString)
@@ -43,7 +43,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
-        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+        if len(Universals.MySettings)>0 and isActivePyKDE4==True:
             MMessageBox.error(Universals.activeWindow(), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), trForUI(str(_title)+"!.."))
         else:
             MMessageBox.critical(Universals.activeWindow(),trForUI(str(_title)+"!.."),trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),_btnString)
@@ -54,7 +54,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Manager"
-        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+        if len(Universals.MySettings)>0 and isActivePyKDE4==True:
             if _isShowCancel:
                 if _showAgainKeyName!="":
                     return MMessageBox.messageBox(Universals.activeWindow(), 
@@ -109,7 +109,7 @@ class Dialogs():
     def askSpecial(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "Yes"), _btnString1=translate("Dialogs", "No"), _btnString2=translate("Dialogs", "Cancel"), _btnString3=None):
         MApplication.processEvents()
         MyMessageBox = MMessageBox
-        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+        if len(Universals.MySettings)>0 and isActivePyKDE4==True:
             MyMessageBox = QMessageBox
         try:mboxDialog = MyMessageBox(Universals.activeWindow())
         except:mboxDialog = MyMessageBox(None)
@@ -172,14 +172,14 @@ class Dialogs():
                 Universals.MainWindow.StateDialog.setMaximumHeight(60)
             else:
                 Universals.MainWindow.StateDialog = MDialog(Universals.MainWindow)
-                if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+                if len(Universals.MySettings)>0 and isActivePyKDE4==True:
                     Universals.MainWindow.StateDialog.setButtons(MDialog.NoDefault)
                 Universals.MainWindow.StateDialog.setModal(True)
                 Universals.MainWindow.StateDialog.setMinimumWidth(500) 
                 pnlMain = MWidget(Universals.MainWindow.StateDialog)
                 HBoxs.append(MHBoxLayout(pnlMain))
                 HBoxs[0].addWidget(Universals.MainWindow.StateDialogStateBar)
-                if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+                if len(Universals.MySettings)>0 and isActivePyKDE4==True:
                     Universals.MainWindow.StateDialog.setMainWidget(pnlMain)
                 else:
                     Universals.MainWindow.StateDialog.setLayout(HBoxs[0])
@@ -224,7 +224,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Cover"
-        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+        if len(Universals.MySettings)>0 and isActivePyKDE4==True:
             selectedValue, isSelected = MInputDialog.getItem(trForUI(str(_title)+"!.."), trForUI(str(_detail)), [trForUI(str(x)) for x in _itemList], _currentItem, False)
         else:
             selectedValue, isSelected = MInputDialog.getItem(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI(str(_detail)), [trForUI(str(x)) for x in _itemList], _currentItem, False)
@@ -236,7 +236,7 @@ class Dialogs():
         if _detail=="": 
             _detail = _title
             _title = "Hamsi Cover"
-        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+        if len(Universals.MySettings)>0 and isActivePyKDE4==True:
             selectedValue, isSelected = MInputDialog.getText(trForUI(str(_title)+"!.."), trForUI(str(_detail)), trForUI(_default))
         else:
             selectedValue, isSelected = MInputDialog.getText(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI(str(_detail)), MLineEdit.Normal, trForUI(_default))
@@ -298,7 +298,7 @@ class MyStateDialog(MDialog):
     
     def __init__(self, _title="", _isShowCancel=False, _connectToCancel=None, _isCheckLastShowTime=True):
         MDialog.__init__(self, Universals.MainWindow)
-        if len(Universals.MySettings)>0 and Universals.isActivePyKDE4==True:
+        if len(Universals.MySettings)>0 and isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         self.title = _title
         self.isShowCancel = _isShowCancel

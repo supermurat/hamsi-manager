@@ -29,7 +29,7 @@ class RecordsForm(MDialog):
     
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         pbtnClose = MPushButton(translate("RecordsForm", "Close"))
         pbtnClear = MPushButton(translate("RecordsForm", "Clear"))
@@ -53,7 +53,7 @@ class RecordsForm(MDialog):
         vblMain.addLayout(hbox1)
         vblMain.addWidget(self.teRecords)
         vblMain.addLayout(hbox)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)

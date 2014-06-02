@@ -35,7 +35,7 @@ class MyPlugins(MyDialog):
     def __init__(self):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Searcher")
@@ -58,7 +58,7 @@ class MyPlugins(MyDialog):
         vblMain.addStretch(1)
         vblMain.addLayout(HBox1)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)

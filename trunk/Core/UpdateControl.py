@@ -32,7 +32,7 @@ class UpdateControl(MDialog):
     def __init__(self,_parent, _isNotInstall=False, _isCloseParent=False):
         MDialog.__init__(self, _parent)
         QtWebKit = getMyObject("QtWebKit")
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         if _isNotInstall==False:
             if Variables.isUpdatable()==False:
@@ -98,7 +98,7 @@ class UpdateControl(MDialog):
         self.pbtnDownloadAndInstall.setFixedWidth(180)
         self.setFixedWidth(400)
         self.setFixedHeight(130)   
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setMainWidget(self.pnlMain)
         else:
             self.setLayout(self.vblMain)

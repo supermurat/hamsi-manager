@@ -130,7 +130,7 @@ class QuickMakeWindow(MyDialog):
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, QuickMakeParameters[0], None, newOrChangedKeys)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
@@ -171,7 +171,7 @@ class QuickMakeWindow(MyDialog):
         hblBox.addWidget(pbtnApply, 3)
         vblInfo.addLayout(hblBox)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)

@@ -1600,7 +1600,7 @@ class InputOutputs:
         elif _outputTarget=="dialog":
             from Core.MyObjects import MDialog, MWidget, MVBoxLayout, MTextEdit, MPushButton, MObject, SIGNAL, getMyObject
             dDialog = MDialog(Universals.MainWindow)
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 dDialog.setButtons(MDialog.NoDefault)
             dDialog.setWindowTitle(translate("Tables", "File Tree"))
             mainPanel = MWidget(dDialog)
@@ -1616,7 +1616,7 @@ class InputOutputs:
             MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
             vblMain.addWidget(wvWeb)
             vblMain.addWidget(pbtnClose)
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 dDialog.setMainWidget(mainPanel)
             else:
                 dDialog.setLayout(vblMain)

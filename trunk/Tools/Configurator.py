@@ -31,7 +31,7 @@ class Configurator(MyDialog):
     def __init__(self, _page=None):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
@@ -81,7 +81,7 @@ class Configurator(MyDialog):
         self.vblMain.addLayout(self.hblButtons)
         self.pageChanged(True)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(self.pnlMain)
             else:
                 self.setLayout(self.vblMain)

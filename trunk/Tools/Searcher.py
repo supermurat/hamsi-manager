@@ -32,7 +32,7 @@ class Searcher(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Searcher")
@@ -135,7 +135,7 @@ class Searcher(MyDialog):
         tabwTabs.addTab(wOptionsPanel, translate("Searcher", "Quick Options"))
         vblMain.addWidget(tabwTabs)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -403,11 +403,11 @@ class Searcher(MyDialog):
 class AdvancedValueEditorDialog(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("AdvancedValueEditorDialog", "Advanced Value Editor"))
         currentValuePathToSeach = str(self.parent().lePathToSeach.text())
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.EditorWidgetPathToSeach = MEditListBox(self)
             self.EditorWidgetPathToSeach.setItems([trForUI(x) for x in currentValuePathToSeach.split(";")])
         else:
@@ -425,7 +425,7 @@ class AdvancedValueEditorDialog(MDialog):
         hblBox.addWidget(pbtnApply)
         hblBox.addWidget(pbtnCancel)
         vblMain.addLayout(hblBox)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
@@ -434,7 +434,7 @@ class AdvancedValueEditorDialog(MDialog):
         
     def apply(self):
         valuePathToSeach = ""
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             for y, info in enumerate(self.EditorWidgetPathToSeach.items()):
                 if y!=0:
                     valuePathToSeach += ";"

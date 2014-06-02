@@ -666,7 +666,7 @@ class Tables(MTableWidget):
                             str(translate("Tables", "Table contents are exported to file: \"%s\".")) % Organizer.getLink(filePath))
         elif _actionType=="dialog":
             dDialog = MDialog(Universals.MainWindow)
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 dDialog.setButtons(MDialog.NoDefault)
             dDialog.setWindowTitle(translate("Tables", "Table Contents"))
             mainPanel = MWidget(dDialog)
@@ -682,7 +682,7 @@ class Tables(MTableWidget):
             MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
             vblMain.addWidget(wvWeb)
             vblMain.addWidget(pbtnClose)
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 dDialog.setMainWidget(mainPanel)
             else:
                 dDialog.setLayout(vblMain)

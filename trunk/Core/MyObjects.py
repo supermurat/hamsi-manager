@@ -17,10 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
-from Core import Universals
-
 MStringList = None
+isActivePyKDE4 = None
 
 from PyQt4 import QtGui
 for obj in dir(QtGui):
@@ -40,29 +38,34 @@ for obj in dir(QtNetwork):
         exec ("M"+obj[1:]+" = QtNetwork." + obj)
     else:
         exec (obj + " = QtNetwork." + obj)
-            
-if Universals.isActivePyKDE4==True:
-    try:
-        from PyKDE4 import kdeui
-        for obj in dir(kdeui):
-            if obj[0]=="K":
-                exec ("M"+obj[1:]+" = kdeui." + obj)
-            else:
-                exec (obj + " = kdeui." + obj)
-        from PyKDE4 import kdecore
-        for obj in dir(kdecore):
-            if obj[0]=="K":
-                exec ("M"+obj[1:]+" = kdecore." + obj)
-            else:
-                exec (obj + " = kdecore." + obj)
-        from PyKDE4 import kio
-        for obj in dir(kio):
-            if obj[0]=="K":
-                exec ("M"+obj[1:]+" = kio." + obj)
-            else:
-                exec (obj + " = kio." + obj)
-    except:
-        Universals.isActivePyKDE4 = False
+
+MQtGui, MQtCore = QtGui, QtCore
+
+MQtCore.QTextCodec.setCodecForCStrings(MQtCore.QTextCodec.codecForName("utf-8"))
+MQtCore.QTextCodec.setCodecForTr(MQtCore.QTextCodec.codecForName("utf-8"))
+
+try:
+    from PyKDE4 import kdeui
+    for obj in dir(kdeui):
+        if obj[0]=="K":
+            exec ("M"+obj[1:]+" = kdeui." + obj)
+        else:
+            exec (obj + " = kdeui." + obj)
+    from PyKDE4 import kdecore
+    for obj in dir(kdecore):
+        if obj[0]=="K":
+            exec ("M"+obj[1:]+" = kdecore." + obj)
+        else:
+            exec (obj + " = kdecore." + obj)
+    from PyKDE4 import kio
+    for obj in dir(kio):
+        if obj[0]=="K":
+            exec ("M"+obj[1:]+" = kio." + obj)
+        else:
+            exec (obj + " = kio." + obj)
+    isActivePyKDE4 = True
+except:
+    isActivePyKDE4 = False
     
 #this PyKDE4 objects different from PyQt4 objects
 QLocale = QtCore.QLocale
@@ -88,6 +91,7 @@ def getMyObject(_objectName):
             
 def getMyDialog():
     try:
+        from Core import Universals
         if Universals.MainWindow.objectName()=="RealMainWindow":
             return MDialog, "MDialog", Universals.MainWindow
         else:
@@ -106,6 +110,7 @@ def moveToCenter(_dialog):
       int((desk.height() - _dialog.height()) / 2))
     
 def setCompleter(_object, _objectName=None):
+    from Core import Universals
     if Universals.getBoolValue("isShowAllForCompleter"):
         _objectName = "%*%"
     from Databases import CompleterTable
@@ -116,4 +121,3 @@ def setCompleter(_object, _objectName=None):
     cmpCompleter.setCaseSensitivity(Mt.CaseInsensitive)
     _object.setCompleter(cmpCompleter)
 
-Universals.isLoadedMyObjects = True

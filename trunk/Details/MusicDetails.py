@@ -53,7 +53,7 @@ class MusicDetails(MDialog):
             if _isOpenDetailsOnNewWindow==True:
                 musicDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
-                if Universals.isActivePyKDE4==True:
+                if isActivePyKDE4==True:
                     self.setButtons(MDialog.NoDefault)
                 self.isActiveAddImage = False
                 self.infoLabels = {}
@@ -82,7 +82,7 @@ class MusicDetails(MDialog):
                 buttonHBOXs.addWidget(self.pbtnSave)
                 buttonHBOXs.addWidget(self.pbtnClose)
                 self.vblMain.addLayout(buttonHBOXs)
-                if Universals.isActivePyKDE4==True:
+                if isActivePyKDE4==True:
                     self.setMainWidget(self.pnlMain)
                 else:
                     self.setLayout(self.vblMain)

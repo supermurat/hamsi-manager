@@ -32,7 +32,7 @@ else:
 class SuggestIdea(MDialog):
     def __init__(self):
         MDialog.__init__(self, Universals.MainWindow)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             self.setButtons(MDialog.NoDefault)
         pnlMain = MWidget(self)
         self.namMain = None
@@ -75,7 +75,7 @@ class SuggestIdea(MDialog):
         self.vblMain.addWidget(gboxContactInformations, 1)
         self.vblMain.addLayout(hbox0, 1)
         try:
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(self.vblMain)

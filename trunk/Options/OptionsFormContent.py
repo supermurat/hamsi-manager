@@ -62,7 +62,7 @@ class General(MWidget):
         self.valuesOfOptionsKeys = [Variables.getInstalledLanguagesCodes(), 
                                 ["1", "30"], ["10", "100000"]]
         _parent.createOptions(self)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             _parent.setVisibleFormItems(self, "language", False)
         if self.visibleKeys.count("isSaveActions")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isSaveActions")], SIGNAL("currentIndexChanged(int)"), self.saveActionsChanged)
@@ -118,7 +118,7 @@ class Appearance(MWidget):
         styles = Variables.getStyles()
         themes = Variables.getInstalledThemes()
         schemes, schemePaths  = Variables.getColorSchemesAndPath()
-        if Universals.isActivePyKDE4==False:
+        if isActivePyKDE4==False:
             keyNo = self.keysOfSettings.index("colorSchemes")
             del self.keysOfSettings[keyNo]
             del self.labels[keyNo]
@@ -567,37 +567,29 @@ class Advanced(MWidget):
         self.categoryNo = None
         self.Panel = MVBoxLayout(self)
         self.values, self.lblLabels = [], []
-        self.keysOfSettings = ["fileSystemEncoding", "imageExtensions", "musicExtensions", "isActivePyKDE4", "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", "maxDeletedDirectorySize"]
-        self.tabsOfSettings = [None, None, None, None, None, None, None]
+        self.keysOfSettings = ["fileSystemEncoding", "imageExtensions", "musicExtensions", "isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories", "maxDeletedDirectorySize"]
+        self.tabsOfSettings = [None, None, None, None, None, None]
         self.tabNames = []
         if _visibleKeys==None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
-        self.neededRestartSettingKeys = ["fileSystemEncoding", "isActivePyKDE4"]
+        self.neededRestartSettingKeys = ["fileSystemEncoding"]
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/Advanced", "File System Character Set"), 
                     translate("Options/Advanced", "Graphics Files` Extensions"), 
                     translate("Options/Advanced", "Music Files` Extensions"), 
-                    translate("Options/Advanced", "Do You Want To Use PyKDE4?"), 
                     translate("Options/Advanced", "Never Delete Files And Directories"), 
                     translate("Options/Advanced", "Path Of Deleted Files And Directories"), 
                     translate("Options/Advanced", "Max Size Of Directory Of Deleted")]
         self.toolTips = [trForUI(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (Variables.defaultFileSystemEncoding)), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"),
-                    translate("Options/Advanced", "<font color=blue>You can use PyKDE4 for better desktop integration.</font>"), 
                     translate("Options/Advanced", "Would you like to move files to specific directory to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
                     translate("Options/Advanced", "You can select a directory to move files to it."), 
                     translate("Options/Advanced", "You can select size of directory of deleted to get notification when it is over.(Megabytes)")]
-        self.typesOfValues = [["options", 0], "list", "list", "Yes/No", "Yes/No", ["directory", "exist"], ["number", 1]]
+        self.typesOfValues = [["options", 0], "list", "list", "Yes/No", ["directory", "exist"], ["number", 1]]
         charSets = Variables.getCharSets()
-        if Variables.isAvailablePyKDE4()==False:
-            keyNo = self.keysOfSettings.index("isActivePyKDE4")
-            del self.keysOfSettings[keyNo]
-            del self.labels[keyNo]
-            del self.toolTips[keyNo]
-            del self.typesOfValues[keyNo]
         self.valuesOfOptions = [charSets, ["10", "100000"]]
         self.valuesOfOptionsKeys = [charSets, ["10", "100000"]]
         _parent.createOptions(self) 
@@ -963,7 +955,7 @@ class MySettings(MWidget):
         gboxErrors = MGroupBox(translate("Options/MySettings", "Error Logs"))
         gboxErrors.setLayout(hbox1)
         self.Panel.addWidget(gboxErrors)
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             pbtnClearMyAnswers = MPushButton(translate("Options/MySettings", "Clear My Answers"))
             pbtnClearMyAnswers.setToolTip(translate("Options/MySettings", "Clear my answers to the notification messages"))
             MObject.connect(pbtnClearMyAnswers, SIGNAL("clicked()"), self.clearMyAnswers)

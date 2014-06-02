@@ -19,18 +19,18 @@
 
 import sys
 import os
-from Core import Variables
 try: 
-    if Variables.isPython3k==False: 
+    if float(sys.version[:3])<3.0: 
         reload(sys)
         sys.setdefaultencoding("utf-8")
 except:pass
-Variables.checkStartupVariables()
-from Core import Universals
-Universals.printForDevelopers("Before RoutineChecks")
+
 from Core import RoutineChecks
-Universals.printForDevelopers("Before RoutineChecks.checkMandatoryModules")
 if RoutineChecks.checkMandatoryModules():
+    from Core.MyObjects import *
+    from Core import Variables
+    Variables.checkStartupVariables()
+    from Core import Universals
     Universals.printForDevelopers("Before InputOutputs")
     import InputOutputs
     Universals.printForDevelopers("Before Universals.setPaths")
@@ -43,9 +43,7 @@ if RoutineChecks.checkMandatoryModules():
         Settings.checkSettings()
         Universals.printForDevelopers("Before Universals.fillMySettings")
         Universals.fillMySettings()
-        Universals.printForDevelopers("Before MyObjects")
-        from Core.MyObjects import *
-        if Universals.isActivePyKDE4==True:
+        if isActivePyKDE4==True:
             Universals.printForDevelopers("ActivePyKDE4")
             appName     = "HamsiManager"
             programName = ki18n ("Hamsi Manager")
@@ -121,7 +119,7 @@ if RoutineChecks.checkMandatoryModules():
         HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))
         if Universals.MySettings["applicationStyle"]!="":
             MApplication.setStyle(Universals.MySettings["applicationStyle"])
-        if Universals.isActivePyKDE4:
+        if isActivePyKDE4:
             if InputOutputs.isFile(Universals.MySettings["colorSchemes"]):
                 config = MSharedConfig.openConfig(Universals.MySettings["colorSchemes"])
                 plt = MGlobalSettings.createApplicationPalette(config)
@@ -255,7 +253,7 @@ if RoutineChecks.checkMandatoryModules():
                                     _event.ignore()
                                     return None
                                 Universals.printForDevelopers("After RoutineChecks.checkBeforeCloseProccess")
-                                if Universals.isActivePyKDE4==True:
+                                if isActivePyKDE4==True:
                                     Universals.printForDevelopers("Before Save KDE Configs")
                                     kconf = MGlobal.config()
                                     kconfGroup = MConfigGroup(kconf,"DirectoryOperator")
@@ -300,7 +298,7 @@ if RoutineChecks.checkMandatoryModules():
                     Universals.printForDevelopers("After Main")
                     if str(MainWindow.windowTitle()) == "":
                         MainWindow.setWindowTitle("Hamsi Manager "+ Variables.version)
-                    if Universals.isActivePyKDE4==True:
+                    if isActivePyKDE4==True:
                         Universals.printForDevelopers("Before MGlobal.config")
                         kconf = MGlobal.config()
                         kconfGroup = MConfigGroup(kconf,"Universals")

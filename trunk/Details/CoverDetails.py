@@ -50,7 +50,7 @@ class CoverDetails(MDialog):
         if _isOpenDetailsOnNewWindow==True:
             coverDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MDialog.NoDefault)
             self.vblCurrent = MVBoxLayout()
             self.vblSource = MVBoxLayout()
@@ -105,7 +105,7 @@ class CoverDetails(MDialog):
             vblMain = MVBoxLayout(self.pnlMain)
             vblMain.addLayout(self.hblImages)
             vblMain.addLayout(HBOXs[0])
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(self.pnlMain)
             else:
                 self.setLayout(vblMain)

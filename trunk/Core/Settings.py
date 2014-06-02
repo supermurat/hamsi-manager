@@ -19,6 +19,7 @@
 
 from Core import Variables
 from Core import Universals
+from Core.MyObjects import *
 import InputOutputs
 from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, getAmendedSQLInsertOrUpdateQueries, checkDatabases
 from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
@@ -27,7 +28,7 @@ class Settings():
     global getSettings, setting, saveUniversalSettings, emendValue, checkSettings, reFillSettings, reFillAll, makeBackUp, restoreBackUp, saveStateOfSettings, openStateOfSettings, updateOldSettings, universalSetting, getUniversalSetting, setUniversalSetting, settingForPaths
     
     def getSettings(_settingsFilePath):
-        return Variables.MQtCore.QSettings(Universals.trForUI(_settingsFilePath) ,Variables.MQtCore.QSettings.IniFormat)
+        return MQtCore.QSettings(Universals.trForUI(_settingsFilePath), MQtCore.QSettings.IniFormat)
         
     def setting():
         return getSettings(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, Universals.fileOfSettings))

@@ -30,7 +30,7 @@ class FileTreeBuilder(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
@@ -115,7 +115,7 @@ class FileTreeBuilder(MyDialog):
         tabwTabs.addTab(wOptionsPanel, translate("FileTreeBuilder", "Quick Options"))
         vblMain.addWidget(tabwTabs)
         if MyDialogType=="MDialog":
-            if Universals.isActivePyKDE4==True:
+            if isActivePyKDE4==True:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)

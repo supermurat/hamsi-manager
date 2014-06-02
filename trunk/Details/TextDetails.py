@@ -48,7 +48,7 @@ class TextDetails(MDialog):
             if _isOpenDetailsOnNewWindow==True:
                 textDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
-                if Universals.isActivePyKDE4==True:
+                if isActivePyKDE4==True:
                     self.setButtons(MDialog.NoDefault)
                 self.charSet = MComboBox()
                 self.charSet.addItems(Variables.getCharSets())
@@ -75,7 +75,7 @@ class TextDetails(MDialog):
                 VBOXs[0].addLayout(HBOXs[-1])
                 VBOXs[0].addWidget(pbtnClose)
                 self.vblMain.addLayout(VBOXs[0], 1)
-                if Universals.isActivePyKDE4==True:
+                if isActivePyKDE4==True:
                     self.setMainWidget(self.pnlMain)
                 else:
                     self.setLayout(self.vblMain)
