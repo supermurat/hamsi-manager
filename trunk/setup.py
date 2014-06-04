@@ -24,14 +24,16 @@ HamsiManagerDirectory = os.getcwd()
 sys.path.insert(0,HamsiManagerDirectory)
 try:
     from Core import Variables
+    import InputOutputs
 except:
     HamsiManagerDirectory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(HamsiManagerDirectory)))))
     sys.path.insert(0,HamsiManagerDirectory)
     from Core import Variables
+    import InputOutputs
 
 from cx_Freeze import setup, Executable
-Variables.checkStartupVariables()
-Variables.HamsiManagerDirectory = HamsiManagerDirectory
+InputOutputs.initStartupVariables()
+InputOutputs.HamsiManagerDirectory = HamsiManagerDirectory
 import InputOutputs
 
 includes = []
@@ -64,7 +66,7 @@ if os.name=="posix":
     if Variables.isAvailableKDE4():
         for langCode in Variables.getInstalledLanguagesCodes():
             KDELocalateDir = InputOutputs.joinPath("/", "usr", "share", "locale", str(langCode[:2]), "LC_MESSAGES")
-            langFile = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "DontTranslate", str(langCode), "HamsiManager.mo")
+            langFile = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "DontTranslate", str(langCode), "HamsiManager.mo")
             if InputOutputs.isFile(langFile):
                 data_files.append((KDELocalateDir, [langFile]))
         

@@ -26,9 +26,9 @@ from Core import Universals
 class MyConfigure:
     global reConfigureFile, installKDE4Language, installKDE4Languages, getDesktopFileContent, getConfiguredDesktopFileContent, getConfiguredContent, createShortCutFile
     
-    def reConfigureFile(_filePath, _installationDirectory=Variables.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):
+    def reConfigureFile(_filePath, _installationDirectory=InputOutputs.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):
         fileContent = getConfiguredContent(InputOutputs.readFromFile(_filePath), _executeCommandOfHamsiManager)
-        fileContent = fileContent.replace(Variables.HamsiManagerDirectory, _installationDirectory)
+        fileContent = fileContent.replace(InputOutputs.HamsiManagerDirectory, _installationDirectory)
         InputOutputs.writeToFile(_filePath, fileContent)
             
     def installKDE4Languages():
@@ -45,7 +45,7 @@ class MyConfigure:
             if Variables.isRunningAsRoot():
                 KDELocalateDir = InputOutputs.joinPath("/usr", "share", "locale", str(_language[:2]), "LC_MESSAGES")
             KDELocalateDir = str(KDELocalateDir)
-            langFile = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "DontTranslate", str(_language), "HamsiManager.mo")
+            langFile = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "DontTranslate", str(_language), "HamsiManager.mo")
             if InputOutputs.isFile(InputOutputs.joinPath(KDELocalateDir, "HamsiManager.mo"))==False:
                 if InputOutputs.isFile(langFile):
                     if InputOutputs.isDir(KDELocalateDir)==False:
@@ -54,7 +54,7 @@ class MyConfigure:
             return True
         return False
         
-    def createShortCutFile(_destinationPath, _installationDirectory=Variables.HamsiManagerDirectory):
+    def createShortCutFile(_destinationPath, _installationDirectory=InputOutputs.HamsiManagerDirectory):
         if InputOutputs.isFile(_destinationPath):
             InputOutputs.removeFileOrDir(_destinationPath)
         from Core import Execute
@@ -68,7 +68,7 @@ class MyConfigure:
         else:
             shortcut.Targetpath = targetPath[0]
         shortcut.WorkingDirectory = _installationDirectory
-        shortcut.IconLocation = InputOutputs.joinPath(Universals.themePath.replace(Variables.HamsiManagerDirectory, _installationDirectory), "Images", "hamsi.ico")
+        shortcut.IconLocation = InputOutputs.joinPath(Universals.themePath.replace(InputOutputs.HamsiManagerDirectory, _installationDirectory), "Images", "hamsi.ico")
         shortcut.save()
         
     def getDesktopFileContent():
@@ -101,12 +101,12 @@ X-MultipleArgs=false
         if _executeCommandOfHamsiManager is None:
             from Core import Execute
             _executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
-        return _content.replace("~InstallationDirectory~", Variables.HamsiManagerDirectory).replace("~ExecuteCommandOfHamsiManager~", _executeCommandOfHamsiManager).replace("~IconPath~", InputOutputs.joinPath(Universals.themePath, "Images", "hamsi.png")).replace("~ThemePath~", Universals.themePath)
+        return _content.replace("~InstallationDirectory~", InputOutputs.HamsiManagerDirectory).replace("~ExecuteCommandOfHamsiManager~", _executeCommandOfHamsiManager).replace("~IconPath~", InputOutputs.joinPath(Universals.themePath, "Images", "hamsi.png")).replace("~ThemePath~", Universals.themePath)
         
         
-    def getConfiguredDesktopFileContent(_installationDirectory=Variables.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):
+    def getConfiguredDesktopFileContent(_installationDirectory=InputOutputs.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):
         fileContent = getConfiguredContent(getDesktopFileContent(), _executeCommandOfHamsiManager)
-        fileContent = fileContent.replace(Variables.HamsiManagerDirectory, _installationDirectory)
+        fileContent = fileContent.replace(InputOutputs.HamsiManagerDirectory, _installationDirectory)
         return fileContent
 
         

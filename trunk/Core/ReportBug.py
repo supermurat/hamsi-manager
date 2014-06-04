@@ -104,7 +104,7 @@ class ReportBug():
             errorDetails += "<b>" + str(translate("ReportBug", "My Parameters : ")) + "</b>"
             errorDetails += str(myArgvs) + "<br>"
             errorDetails += "<b>FileSystemCharSet : </b>"
-            errorDetails += str(Variables.defaultFileSystemEncoding) + " / " + str(sys.getfilesystemencoding()).lower() + "<br>"
+            errorDetails += str(InputOutputs.defaultFileSystemEncoding) + " / " + str(sys.getfilesystemencoding()).lower() + "<br>"
             errorDetails += "<b>SystemCharSet : </b>"
             errorDetails += str(sys.getdefaultencoding().lower()) + "<br>"
             try:
@@ -297,7 +297,7 @@ class ReportBugDialog(MDialog):
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
                     from Core import Settings
-                    Settings.setting().setValue("lastDirectory", Universals.trQVariant(Variables.userDirectoryPath))
+                    Settings.setting().setValue("lastDirectory", Universals.trQVariant(InputOutputs.userDirectoryPath))
                 elif answer==translate("ReportBug", "Settings"):
                     from Core import Settings
                     Settings.reFillSettings(True)

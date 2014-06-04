@@ -37,7 +37,7 @@ class Settings():
         return getSettings(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "paths.ini"))
     
     def universalSetting():
-        return getSettings(InputOutputs.joinPath(Variables.userDirectoryPath, ".HamsiApps", "universalSettings.ini"))
+        return getSettings(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".HamsiApps", "universalSettings.ini"))
         
     def checkSettings():
         if InputOutputs.isDir(Universals.pathOfSettingsDirectory)==False:

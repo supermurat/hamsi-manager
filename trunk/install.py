@@ -28,10 +28,10 @@ except:pass
 from Core import RoutineChecks
 if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
-    from Core import Variables
-    Variables.checkStartupVariables()
-    from Core import Universals
     import InputOutputs
+    InputOutputs.initStartupVariables()
+    from Core import Variables
+    from Core import Universals
     Universals.setPaths()
     from Core import Settings
     Universals.fillMySettings(False, False, False)
@@ -45,10 +45,10 @@ if RoutineChecks.checkMandatoryModules():
     StyleFile = open(InputOutputs.joinPath(Universals.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
-    if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
-    elif InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
+    if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
+            languageFile.load(trForUI(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
+    elif InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
+            languageFile.load(trForUI(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
     HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
@@ -117,24 +117,24 @@ if RoutineChecks.checkMandatoryModules():
             HBox = MHBoxLayout()
             pnlPage.setLayout(HBox)
             if _pageNo==0:
-                if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode)):
-                    aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
+                if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode)):
+                    aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
                 else:
-                    aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
+                    aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
                 lblAbout = MLabel(trForUI(aboutFileContent))
                 lblAbout.setWordWrap(True)
                 HBox.addWidget(lblAbout)
             elif _pageNo==1:
-                if InputOutputs.isFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode)):
-                    lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode), "utf-8")
+                if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode)):
+                    lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode), "utf-8")
                 else:
-                    lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
+                    lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
                 teCopying = MTextEdit()
                 teCopying.setPlainText(trForUI(lisenceFileContent))
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
-                installationDirPath = trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), "Hamsi"))))
+                installationDirPath = trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.HamsiManagerDirectory), "Hamsi"))))
                 self.leInstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
@@ -243,7 +243,7 @@ if RoutineChecks.checkMandatoryModules():
                 if len(self.installationDirectory)>0:
                     if self.installationDirectory[-1]==InputOutputs.sep:
                         self.installationDirectory = self.installationDirectory[:-1]
-                    if self.installationDirectory==Variables.HamsiManagerDirectory:
+                    if self.installationDirectory==InputOutputs.HamsiManagerDirectory:
                         self.pageNo-=1
                         self.lblActions.setText("")
                         Dialogs.showError(MApplication.translate("Install", "The path you selected is not valid."),
@@ -270,13 +270,13 @@ if RoutineChecks.checkMandatoryModules():
                                     isMakeInstall=False
                         if isMakeInstall==True:
                             Settings.setUniversalSetting("pathOfInstallationDirectory", self.installationDirectory)
-                            directoriesAndFiles = InputOutputs.readDirectoryWithSubDirectories(Variables.HamsiManagerDirectory)
+                            directoriesAndFiles = InputOutputs.readDirectoryWithSubDirectories(InputOutputs.HamsiManagerDirectory)
                             self.prgbState.setRange(0,len(directoriesAndFiles))
                             self.lblActions.setText(MApplication.translate("Install", "Copying Files And Folders..."))
                             installFileName = Execute.findExecutableBaseName("HamsiManagerInstaller")
                             for fileNo, fileName in enumerate(directoriesAndFiles):
                                 MApplication.processEvents()
-                                newFileName = self.installationDirectory + fileName.replace(Variables.HamsiManagerDirectory, "")
+                                newFileName = self.installationDirectory + fileName.replace(InputOutputs.HamsiManagerDirectory, "")
                                 if InputOutputs.isDir(fileName):
                                     try:InputOutputs.makeDirs(newFileName)
                                     except:pass
@@ -338,10 +338,10 @@ if RoutineChecks.checkMandatoryModules():
                             fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                             InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
                 if Variables.isRunningAsRoot()==False:
-                    if InputOutputs.isDir(InputOutputs.joinPath(Variables.userDirectoryPath, ".local", "applications"))==False:
-                        InputOutputs.makeDirs(InputOutputs.joinPath(Variables.userDirectoryPath, ".local", "applications"))
+                    if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications"))==False:
+                        InputOutputs.makeDirs(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications"))
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                    InputOutputs.writeToFile(InputOutputs.joinPath(Variables.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"), fileContent)
+                    InputOutputs.writeToFile(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"), fileContent)
                 self.isInstallFinised = True
                 self.close()
             except:

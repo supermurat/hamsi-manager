@@ -19,6 +19,7 @@
 
 from Core import Variables
 from Core import Universals
+import InputOutputs
 from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
 
 class BookmarksOfDirectories:
@@ -88,7 +89,7 @@ class BookmarksOfDirectories:
         
     def getDefaultsQueries():
         sqlQueries = []
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'Home'", "value" : "'"+Variables.userDirectoryPath+"'", "type" : "''"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'Home'", "value" : "'"+InputOutputs.userDirectoryPath+"'", "type" : "''"}, ["value"])
         if Variables.isWindows:
             sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'C:\\'", "value" : "'C:\\'", "type" : "''"}, ["value"])
         else:

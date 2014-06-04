@@ -363,7 +363,7 @@ class Tables(MTableWidget):
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None:
                 _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
             else:
-                _path = Variables.userDirectoryPath
+                _path = InputOutputs.userDirectoryPath
         self.currentDirectoryPath = _path
         self.newDirectoryPath = _path
     
@@ -374,7 +374,7 @@ class Tables(MTableWidget):
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None:
                 _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
             else:
-                _path = Variables.userDirectoryPath
+                _path = InputOutputs.userDirectoryPath
         self.newDirectoryPath = _path
         
     def refresh(self, _path = ""):

@@ -113,11 +113,11 @@ class MyPlugins(MyDialog):
                 try:InputOutputs.makeDirs(pluginModule.setupDirectory)
                 except:pass
                 for pluginFile in pluginModule.pluginFiles:
-                    InputOutputs.copyOrChange(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
+                    InputOutputs.copyOrChange(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
                     MyConfigure.reConfigureFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
                 isInstalled = True
             else:
-                oldFilePath = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
+                oldFilePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
                 newFilePath = InputOutputs.copyOrChange(oldFilePath, InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory), "directory", "only", True)
                 if newFilePath!=oldFilePath:
                     isInstalled = True
@@ -241,11 +241,11 @@ class MyPluginsForSystem(MWidget):
                 try:InputOutputs.makeDirs(pluginModule.setupDirectory)
                 except:pass
                 for pluginFile in pluginModule.pluginFiles:
-                    InputOutputs.copyOrChange(InputOutputs.joinPath(Variables.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
+                    InputOutputs.copyOrChange(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
                     MyConfigure.reConfigureFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
                 isInstalled = True
             else:
-                oldFilePath = InputOutputs.joinPath(Variables.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
+                oldFilePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
                 newFilePath = InputOutputs.copyOrChange(oldFilePath, InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory), "directory", "only", True)
                 if newFilePath!=oldFilePath:
                     isInstalled = True

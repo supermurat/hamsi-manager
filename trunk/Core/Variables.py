@@ -19,11 +19,12 @@
 
 import os, sys, platform
 from Core.MyObjects import *
+import InputOutputs
 
 class Variables():
-    global checkStartupVariables, checkEncoding, getAvailablePlayers, getCharSets, getStyles, getScreenSize, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
-    global defaultFileSystemEncoding, keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
-    global osName, machineType, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, HamsiManagerDirectory, executableAppPath, userDirectoryPath, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath, isBuilt, getBuildType, getDefaultLanguageCode
+    global getAvailablePlayers, getCharSets, getStyles, getScreenSize, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
+    global keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
+    global osName, machineType, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath, isBuilt, getBuildType, getDefaultLanguageCode
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     machineType = platform.machine()
@@ -102,38 +103,8 @@ class Variables():
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
                   "amarokDBPass", "amarokDBDB"]
     
-    def checkStartupVariables():
-        global executableAppPath, userDirectoryPath, HamsiManagerDirectory, executableAppPath
-        checkEncoding()
-        executableAppPath = str(os.path.abspath(sys.argv[0]))
-        if os.path.islink(executableAppPath):
-            executableAppPath = os.readlink(executableAppPath)
-        userDirectoryPath = os.path.expanduser("~")
-        if isPython3k:
-            HamsiManagerDirectory = os.path.dirname(executableAppPath)
-        else:
-            try:HamsiManagerDirectory = os.path.dirname(executableAppPath).decode(defaultFileSystemEncoding)
-            except:HamsiManagerDirectory = os.path.dirname(executableAppPath)
-            try:executableAppPath = executableAppPath.decode(defaultFileSystemEncoding)
-            except:pass
-            try:userDirectoryPath = userDirectoryPath.decode(defaultFileSystemEncoding)
-            except:pass
-
-    def checkEncoding():
-        global defaultFileSystemEncoding
-        defaultFileSystemEncoding = sys.getfilesystemencoding()
-        if defaultFileSystemEncoding is None:
-            defaultFileSystemEncoding = sys.getdefaultencoding()
-        defaultFileSystemEncoding = defaultFileSystemEncoding.lower()
-        from encodings import aliases
-        if defaultFileSystemEncoding=="iso-8859-1": 
-            defaultFileSystemEncoding = "latin-1"
-        if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.items()].count(defaultFileSystemEncoding)==0:
-            defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
-    
     def isBuilt():
-        import InputOutputs
-        return InputOutputs.isFile(joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
+        return InputOutputs.isFile(joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
                    
     def isUpdatable():
         if isBuilt():
@@ -143,7 +114,6 @@ class Variables():
         return False
         
     def isAvailableKDE4():
-        import InputOutputs
         if InputOutputs.isFile("/usr/bin/kde4"):
             return True
         else:
@@ -158,7 +128,6 @@ class Variables():
         
     def isRunableAsRoot():
         try:
-            import InputOutputs
             if InputOutputs.isFile(InputOutputs.joinPath(getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")):
                 if isRunningAsRoot():
                     return False
@@ -168,14 +137,13 @@ class Variables():
             return False
         
     def isRunningAsRoot():
-        if userDirectoryPath=="/root":
+        if InputOutputs.userDirectoryPath=="/root":
             return True
         return False
         
     def getBuildType():
-        import InputOutputs
-        if InputOutputs.isFile(InputOutputs.joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt")):
-            firstRow = InputOutputs.readLinesFromFile(InputOutputs.joinPath(HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))[0]
+        if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt")):
+            firstRow = InputOutputs.readLinesFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))[0]
             if firstRow.find("bdist_rpm")>-1:
                 return "rpm"
             elif firstRow.find("bdist_msi")>-1:
@@ -193,7 +161,6 @@ class Variables():
         return str(None)
 
     def getDefaultValues():
-        import InputOutputs
         from datetime import datetime
         if getInstalledLanguagesCodes().count(str(MQtCore.QLocale.system().name()))>0:
             insLangCode = str(MQtCore.QLocale.system().name())
@@ -202,7 +169,7 @@ class Variables():
         myStyle , PlayerName = "", getAvailablePlayers().pop()
         if isWindows: myStyle = "Plastique"
         return {
-                "lastDirectory": str(userDirectoryPath), 
+                "lastDirectory": str(InputOutputs.userDirectoryPath), 
                 "isMainWindowMaximized": "False", 
                 "isShowAdvancedSelections": "False", 
                 "isRunOnDoubleClick": "False", 
@@ -236,7 +203,7 @@ class Variables():
                 "mplayerAudioDevicePointer": "-ao",
                 "mplayerAudioDevice": mplayerSoundDevices[0], 
                 "isSaveActions": "True", 
-                "fileSystemEncoding": defaultFileSystemEncoding, 
+                "fileSystemEncoding": InputOutputs.defaultFileSystemEncoding, 
                 "applicationStyle": myStyle, 
                 "playerName": PlayerName, 
                 "isMinimumWindowMode": "False", 
@@ -321,7 +288,7 @@ class Variables():
                 "colorSchemes": "", 
                 "isActiveAutoMakeIconToDirectory": "True", 
                 "isDontDeleteFileAndDirectory": "False", 
-                "pathOfDeletedFilesAndDirectories": InputOutputs.joinPath(userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"), 
+                "pathOfDeletedFilesAndDirectories": InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"), 
                 "isReadOnlyAmarokDB": "False", 
                 "isReadOnlyAmarokDBHost": "False", 
                 "isResizeTableColumnsToContents": "False", 
@@ -535,7 +502,6 @@ class Variables():
     def getColorSchemesAndPath():
         from Core.MyObjects import isActivePyKDE4
         from Core import Settings, Universals
-        import InputOutputs
         colorSchemes, colorSchemePaths = [], []
         colorSchemes.append("Default")
         colorSchemePaths.append("")
@@ -556,7 +522,6 @@ class Variables():
             return None
         
     def getUserDesktopPath():
-        import InputOutputs
         from Core.MyObjects import isActivePyKDE4
         if isActivePyKDE4:
             from PyKDE4.kdeui import KGlobalSettings
@@ -570,11 +535,11 @@ class Variables():
         else:
             desktopNames = [str(MQtGui.QApplication.translate("Variables", "Desktop")), "Desktop"]
             for dirName in desktopNames:
-                if InputOutputs.isDir(InputOutputs.joinPath(userDirectoryPath, dirName)):
-                    desktopPath = InputOutputs.joinPath(userDirectoryPath, dirName)
+                if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, dirName)):
+                    desktopPath = InputOutputs.joinPath(InputOutputs.userDirectoryPath, dirName)
                     break
                 else:
-                    desktopPath = userDirectoryPath
+                    desktopPath = InputOutputs.userDirectoryPath
         return desktopPath
     
     def getKDE4HomePath():
@@ -591,11 +556,10 @@ class Variables():
                     kdedirPath = Execute.getCommandResult(["kde4-config", "--localprefix"])[:-2]
                 return kdedirPath
             except:pass
-        import InputOutputs
-        if InputOutputs.isDir(InputOutputs.joinPath(userDirectoryPath, ".kde4", "share", "config")):
-            return InputOutputs.joinPath(userDirectoryPath, ".kde4")
+        if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".kde4", "share", "config")):
+            return InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".kde4")
         else:
-            return InputOutputs.joinPath(userDirectoryPath, ".kde")
+            return InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".kde")
         
     def getLibraryDirectoryPath():
         global libPath
@@ -609,7 +573,6 @@ class Variables():
                     from Core import Execute
                     libPath = Execute.getCommandResult(["kde4-config", "--path", "lib"]).split(":")[1][:-2]
                 except:
-                    import InputOutputs
                     if InputOutputs.isDir("/usr/lib64"):
                         libPath = "/usr/lib64"
                     else: 
@@ -617,47 +580,43 @@ class Variables():
         return libPath
                 
     def getSearchEnginesNames():
-        import InputOutputs
         engines = []
-        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(HamsiManagerDirectory, "SearchEngines")):
+        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "SearchEngines")):
             try:
                 moduleName = name.split(".")[0]
                 moduleNameExt = name.split(".")[1]
                 if engines.count(moduleName)==0:
-                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(InputOutputs.joinPath(HamsiManagerDirectory, "SearchEngines", name)):
+                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "SearchEngines", name)):
                         engines.append(moduleName)
             except:pass
         return engines
     
     def getTaggersNames():
-        import InputOutputs
         taggers = []
-        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(HamsiManagerDirectory, "Taggers")):
+        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Taggers")):
             try:
                 moduleName = name.split(".")[0]
                 moduleNameExt = name.split(".")[1]
                 if taggers.count(moduleName)==0:
-                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(InputOutputs.joinPath(HamsiManagerDirectory, "Taggers", name)):
+                    if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Taggers", name)):
                         taggers.append(moduleName)
             except:pass
         return taggers
         
     def getMyPluginsNames():
-        import InputOutputs
         plugins = []
-        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(HamsiManagerDirectory, "MyPlugins")):
+        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins")):
             try:
-                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(InputOutputs.joinPath(HamsiManagerDirectory, "MyPlugins", name)):
+                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", name)):
                     plugins.append(name)
             except:pass
         return plugins
         
     def getInstalledThemes():
-        import InputOutputs
         themes = []
-        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(HamsiManagerDirectory, "Themes")):
+        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes")):
             try:
-                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(InputOutputs.joinPath(HamsiManagerDirectory, "Themes", name)):
+                if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes", name)):
                     themes.append(name)
             except:pass
         return themes
@@ -670,10 +629,9 @@ class Variables():
     def getInstalledLanguagesCodes():
         global installedLanguagesCodes
         if installedLanguagesCodes==None:
-            import InputOutputs
             languages = []
-            for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(HamsiManagerDirectory, "Languages")):
-                if InputOutputs.isFile(InputOutputs.joinPath(HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
+            for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages")):
+                if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
                     langCode = name[-8:-3]
                     if languages.count(langCode)==0:
                         languages.append(langCode)
@@ -685,10 +643,9 @@ class Variables():
     def getInstalledLanguagesNames():
         global installedLanguagesNames
         if installedLanguagesNames==None:
-            import InputOutputs
             languages = []
-            for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(HamsiManagerDirectory, "Languages")):
-                if InputOutputs.isFile(InputOutputs.joinPath(HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
+            for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages")):
+                if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
                     langCode = name[-8:-3]
                     if languages.count(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))==0:
                         languages.append(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))
@@ -716,7 +673,6 @@ class Variables():
 
         
     def checkMysqldSafe(_isAskIfNotFound=True):
-        import InputOutputs
         from Core import Dialogs, Universals
         from Core.MyObjects import translate
         if InputOutputs.isFile(Universals.MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + Universals.MySettings["pathOfMysqldSafe"])==False:
