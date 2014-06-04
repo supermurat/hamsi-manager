@@ -203,8 +203,8 @@ class EmbeddedDBCore():
         stopEmbeddedDB()
         from Core import MyConfigure
         backupEmbeddedDB()
-        InputOutputs.copyDirContent(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql")
-        InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my.cnf", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
+        InputOutputs.copyDirContent(InputOutputs.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql")
+        InputOutputs.copyFileOrDir(InputOutputs.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my.cnf", Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
         MyConfigure.reConfigureFile(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("EmbeddedDBCore", "Created Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server created and generated."))
@@ -277,8 +277,8 @@ class ReadOnlyEmbeddedDBCore():
         if InputOutputs.isDir(Universals.pathOfSettingsDirectory+"/Amarok"):
             InputOutputs.removeFileOrDir(Universals.pathOfSettingsDirectory+"/Amarok")
         InputOutputs.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle")
-        InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql", )
-        InputOutputs.copyFileOrDir(Variables.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my-readOnly.cnf", Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
+        InputOutputs.copyFileOrDir(InputOutputs.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/mysql", )
+        InputOutputs.copyFileOrDir(InputOutputs.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my-readOnly.cnf", Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
         MyConfigure.reConfigureFile(Universals.pathOfSettingsDirectory+"/Amarok/my.cnf")
         InputOutputs.makeDirs(Universals.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
         InputOutputs.copyFileOrDir(Variables.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile0", Universals.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile0")

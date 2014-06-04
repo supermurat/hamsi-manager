@@ -18,6 +18,7 @@
 
 
 import os
+import sys
 import shutil
 import stat
 import re
@@ -39,14 +40,41 @@ class InputOutputs:
     global readDirectoryAll, getObjectType, getAvailablePathByPath, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
     global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError, checkEmptyDirectories, activateSmartCheckEmptyDirectories, completeSmartCheckEmptyDirectories, isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus, readDirectoryWithSubDirectoriesThread
+    global paths, defaultFileSystemEncoding, initFileSystemEncoding, initStartupVariables, executableAppPath, userDirectoryPath, HamsiManagerDirectory, readLink
     appendingDirectories = []
-    fileSystemEncoding = Variables.defaultFileSystemEncoding
+    defaultFileSystemEncoding = None
+    fileSystemEncoding = None
     willCheckIconDirectories = []
     willCheckEmptyDirectories = []
     willCheckEmptyDirectoriesSubDirectoryStatus = []
     isSmartCheckIcon = False
     isSmartCheckEmptyDirectories = False
     sep = os.sep
+    paths = {}#FIXME:add all paths in this
+    
+    def initStartupVariables():
+        global executableAppPath, userDirectoryPath, HamsiManagerDirectory
+        initFileSystemEncoding()
+        executableAppPath = str(os.path.abspath(sys.argv[0]))
+        if isLink(executableAppPath):
+            executableAppPath = readLink(executableAppPath)
+        HamsiManagerDirectory = getDirName(executableAppPath)
+        userDirectoryPath = os.path.expanduser("~")
+        try:userDirectoryPath = Universals.trDecode(userDirectoryPath, fileSystemEncoding)
+        except:pass
+
+    def initFileSystemEncoding():
+        global defaultFileSystemEncoding, fileSystemEncoding
+        defaultFileSystemEncoding = sys.getfilesystemencoding()
+        if defaultFileSystemEncoding is None:
+            defaultFileSystemEncoding = sys.getdefaultencoding()
+        defaultFileSystemEncoding = defaultFileSystemEncoding.lower()
+        from encodings import aliases
+        if defaultFileSystemEncoding=="iso-8859-1": 
+            defaultFileSystemEncoding = "latin-1"
+        if [str(v).lower().replace("_", "-") for k, v in aliases.aliases.items()].count(defaultFileSystemEncoding)==0:
+            defaultFileSystemEncoding = sys.getfilesystemencoding().lower()
+        fileSystemEncoding = str(defaultFileSystemEncoding)
     
     def joinPath(_a, *_b):
         _a = str(_a)
@@ -217,6 +245,13 @@ class InputOutputs:
         _oldPath = str(_oldPath)
         try:returnValue = os.path.dirname(Universals.trEncode(_oldPath, fileSystemEncoding))
         except:returnValue = os.path.dirname(_oldPath)
+        try:return Universals.trDecode(returnValue, fileSystemEncoding)
+        except:return returnValue
+    
+    def readLink(_oldPath):
+        _oldPath = str(_oldPath)
+        try:returnValue = os.readlink(Universals.trEncode(_oldPath, fileSystemEncoding))
+        except:returnValue = os.readlink(_oldPath)
         try:return Universals.trDecode(returnValue, fileSystemEncoding)
         except:return returnValue
     
@@ -1587,7 +1622,7 @@ class InputOutputs:
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
-                                               joinPath(Variables.userDirectoryPath, getBaseName(_path) + "." + fileExt),
+                                               joinPath(userDirectoryPath, getBaseName(_path) + "." + fileExt),
                                                formatTypeName + " (*."+fileExt+")", 2)
             if filePath is not None:
                 if _outputType=="html" and filePath[-5:]!=".html":

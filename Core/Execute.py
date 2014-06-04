@@ -70,7 +70,7 @@ class Execute:
             return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
             
     def findExecutableBaseName(_executableName):
-        fileList = InputOutputs.readDirectory(Variables.HamsiManagerDirectory, "file")
+        fileList = InputOutputs.readDirectory(InputOutputs.HamsiManagerDirectory, "file")
         for fName in fileList:
             if fName.split(".")[0]==_executableName and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                 return fName
@@ -97,7 +97,7 @@ class Execute:
     def findExecutablePath(_executableName):
         executableBaseName = findExecutableBaseName(_executableName)
         if executableBaseName != None:
-            return InputOutputs.joinPath(Variables.HamsiManagerDirectory, executableBaseName)
+            return InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, executableBaseName)
         return None
         
     def getPythonPath():

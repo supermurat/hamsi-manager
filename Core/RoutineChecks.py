@@ -29,6 +29,7 @@ def checkParameters():
     import logging
     from Core import Variables
     from Core import Universals
+    import InputOutputs
     global isQuickMake, QuickMakeParameters, myArgvs, parser, optionList
     myArgvs = sys.argv
     isDontRun = False
@@ -168,10 +169,10 @@ the Free Software Foundation; either version 2 of the License, or
     parser.set_defaults(loggingLevel=logging.WARNING, runAsRoot=False, qm=False, plugins=False)
     options, remainderParameters = parser.parse_args()
     if len(remainderParameters)==1:
-        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainderParameters[0]), Variables.defaultFileSystemEncoding))
+        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainderParameters[0]), InputOutputs.defaultFileSystemEncoding))
         except:Universals.setMySetting("lastDirectory", str(remainderParameters[0]))
     if options.directory:
-        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(options.directory), Variables.defaultFileSystemEncoding))
+        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(options.directory), InputOutputs.defaultFileSystemEncoding))
         except:Universals.setMySetting("lastDirectory", str(options.directory))
     if options.loggingLevel:
         Universals.loggingLevel = options.loggingLevel
@@ -274,7 +275,8 @@ def checkAfterRunProccess():
     from Core import Universals
     from Core import Dialogs, UpdateControl
     from Core.MyObjects import translate, isActivePyKDE4
-    if str(Variables.defaultFileSystemEncoding) != str(Universals.MySettings["fileSystemEncoding"]):
+    import InputOutputs
+    if str(InputOutputs.defaultFileSystemEncoding) != str(Universals.MySettings["fileSystemEncoding"]):
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
         if answer==Dialogs.No: 

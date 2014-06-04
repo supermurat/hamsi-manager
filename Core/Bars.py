@@ -154,12 +154,12 @@ class Bars():
             if actionName==translate("MenuBar", "Open State"):
                 from Core import Settings
                 f = Dialogs.getOpenFileName(translate("MenuBar", "Open State Of Hamsi Manager"),
-                                    Variables.userDirectoryPath,translate("MenuBar", "Application Runner") + " (*.desktop)")
+                                    InputOutputs.userDirectoryPath,translate("MenuBar", "Application Runner") + " (*.desktop)")
                 if f is not None:
                     Settings.openStateOfSettings(f)
             elif actionName==translate("MenuBar", "Save State"):
                 from Core import Settings
-                f = Dialogs.getSaveFileName(translate("MenuBar", "Save State Of Hamsi Manager"), InputOutputs.joinPath(Variables.userDirectoryPath, "HamsiManager.desktop"),translate("MenuBar", "Application Runner") + " (*.desktop)")
+                f = Dialogs.getSaveFileName(translate("MenuBar", "Save State Of Hamsi Manager"), InputOutputs.joinPath(InputOutputs.userDirectoryPath, "HamsiManager.desktop"),translate("MenuBar", "Application Runner") + " (*.desktop)")
                 if f is not None:
                     Settings.saveStateOfSettings(f)
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 

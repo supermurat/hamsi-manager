@@ -38,7 +38,7 @@ class AmarokCopyTable():
         self.hiddenTableColumnsSettingKey = "hiddenAmarokCopyTableColumns"
         self.refreshColumns()
         lblDestinationDir = MLabel(translate("AmarokCopyTable", "Destination Path : "))
-        self.leDestinationDirPath = MLineEdit(Variables.userDirectoryPath)
+        self.leDestinationDirPath = MLineEdit(InputOutputs.userDirectoryPath)
         self.pbtnSelectDestinationDir = MPushButton(translate("AmarokCopyTable", "Browse"))
         self.Table.connect(self.pbtnSelectDestinationDir,SIGNAL("clicked()"),self.selectDestinationDir)
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)

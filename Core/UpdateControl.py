@@ -200,10 +200,10 @@ class UpdateControl(MDialog):
     def downloadAndInstall(self):
         try:
             if Variables.isBuilt() == False:
-                if InputOutputs.isWritableFileOrDir(Variables.HamsiManagerDirectory, True) == False:
+                if InputOutputs.isWritableFileOrDir(InputOutputs.HamsiManagerDirectory, True) == False:
                     from Core import Organizer
                     Dialogs.showError(translate("UpdateControl", "Access Denied"),
-                            str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(Variables.HamsiManagerDirectory))
+                            str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(InputOutputs.HamsiManagerDirectory))
             self.setFixedHeight(130)   
             self.isDownloading=True
             self.prgbState.setVisible(True)
@@ -220,7 +220,7 @@ class UpdateControl(MDialog):
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save New Version Of Hamsi Manager")
-            fileName = Dialogs.getSaveFileName(fileDialogTitle, InputOutputs.joinPath(InputOutputs.getDirName(Variables.HamsiManagerDirectory), defaultFileName))
+            fileName = Dialogs.getSaveFileName(fileDialogTitle, InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.HamsiManagerDirectory), defaultFileName))
             if self.isNotInstall==False or fileName is not None:
                 if fileName is None:
                     import random
