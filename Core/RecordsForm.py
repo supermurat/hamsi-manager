@@ -78,7 +78,7 @@ class RecordsForm(MDialog):
                 self.setRecordsFile()
             else:
                 recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
-                self.setRecordsFile(InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, recordFilePath))
+                self.setRecordsFile(InputOutputs.joinPath(InputOutputs.oldRecordsDirectoryPath, recordFilePath))
         except:
             ReportBug.ReportBug()
             
@@ -91,7 +91,7 @@ class RecordsForm(MDialog):
                     Records.clearRecords()
                 else:
                     recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
-                    InputOutputs.removeFile(InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, recordFilePath))
+                    InputOutputs.removeFile(InputOutputs.joinPath(InputOutputs.oldRecordsDirectoryPath, recordFilePath))
                     self.recordsList = [translate("RecordsForm", "Current Records")] + Records.getBackupRecordsList()
                     self.cbRecordsList.clear()
                     self.cbRecordsList.addItems(self.recordsList)

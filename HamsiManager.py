@@ -33,7 +33,6 @@ if RoutineChecks.checkMandatoryModules():
     from Core import Variables
     from Core import Universals
     Universals.printForDevelopers("Before Universals.setPaths")
-    Universals.setPaths()
     Universals.printForDevelopers("Before RoutineChecks.checkParameters")
     if RoutineChecks.checkParameters():
         Universals.printForDevelopers("Before Settings")
@@ -63,7 +62,7 @@ if RoutineChecks.checkMandatoryModules():
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor (ki18n(trForUI("Murat Demir")), ki18n(trForUI("Project Manager and Developer")), 
                                 "mopened@gmail.com", "hamsiapps.com")
-            aboutOfHamsiManager.setProgramIconName(trForUI(InputOutputs.joinPath(Universals.themePath, "Images", "hamsi.png")))
+            aboutOfHamsiManager.setProgramIconName(trForUI(InputOutputs.joinPath(InputOutputs.themePath, "Images", "hamsi.png")))
             if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)):
                 aboutOfHamsiManager.addLicenseTextFile(trForUI(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_"+ kde4LangKode)))
             else:
@@ -111,10 +110,10 @@ if RoutineChecks.checkMandatoryModules():
         HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
         HamsiManagerApp.setOrganizationName("Hamsi Apps")
         MApplication.setQuitOnLastWindowClosed(True)
-        MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(Universals.themePath, "Images"))))
+        MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(InputOutputs.themePath, "Images"))))
         MDir.setSearchPaths("root", MStringList(trForUI(InputOutputs.HamsiManagerDirectory)))
-        if InputOutputs.isFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")):
-            HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(InputOutputs.joinPath(Universals.themePath, "Style.qss")))
+        if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.themePath, "Style.qss")):
+            HamsiManagerApp.setStyleSheet(InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.themePath, "Style.qss")))
         HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))
         if Universals.MySettings["applicationStyle"]!="":
             MApplication.setStyle(Universals.MySettings["applicationStyle"])
@@ -266,7 +265,7 @@ if RoutineChecks.checkMandatoryModules():
                                 subFixForStateFile = ""
                                 if Universals.windowMode!=Variables.windowModeKeys[0]:
                                     subFixForStateFile = Universals.windowMode
-                                InputOutputs.writeToBinaryFile(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "LastState" + subFixForStateFile), self.saveState())
+                                InputOutputs.writeToBinaryFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "LastState" + subFixForStateFile), self.saveState())
                                 Records.restoreRecordType()
                                 geometri = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
                                 Universals.setMySetting("MainWindowGeometries",geometri)
@@ -310,7 +309,7 @@ if RoutineChecks.checkMandatoryModules():
                             subFixForStateFile = ""
                             if Universals.windowMode!=Variables.windowModeKeys[0]:
                                 subFixForStateFile = Universals.windowMode
-                            state.append(InputOutputs.readFromBinaryFile(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "LastState" + subFixForStateFile)))
+                            state.append(InputOutputs.readFromBinaryFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "LastState" + subFixForStateFile)))
                             MainWindow.restoreState(state)
                             Universals.printForDevelopers("After MainWindow.restoreState")
                         except:pass
@@ -339,8 +338,8 @@ if RoutineChecks.checkMandatoryModules():
                 except Exception as err:
                     from Core import ReportBug
                     error = ReportBug.ReportBug()
-                    print (str(MApplication.translate("ReportBug", "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details." )) % (error.pathOfReportFile))
-                    print (str(MApplication.translate("ReportBug", "Thanks in advance for your interest.")))
+                    print (str(translate("ReportBug", "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details." )) % (error.pathOfReportFile))
+                    print (str(translate("ReportBug", "Thanks in advance for your interest.")))
                     print ("Shutting down, result %d" % res)
                     raise err
                     

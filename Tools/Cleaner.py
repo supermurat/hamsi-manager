@@ -23,6 +23,7 @@ from Core import Dialogs
 import InputOutputs
 from Options import OptionsForm
 from Core import Organizer
+from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
@@ -93,7 +94,6 @@ class Cleaner(MyDialog):
                                     str(translate("Cleaner", "This directory is cleared : \"%s\"")) % Organizer.getLink(str(self.lePathOfProject.text())))
             Universals.isCanBeShowOnMainWindow = True
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
 
     def selectProjectPath(self):
@@ -102,7 +102,6 @@ class Cleaner(MyDialog):
             if ProjectPath is not None:
                 self.lePathOfProject.setText(trForUI(ProjectPath))
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     

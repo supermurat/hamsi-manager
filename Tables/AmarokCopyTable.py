@@ -316,7 +316,6 @@ class AmarokCopyTable():
             if destinationDirPath is not None:
                 self.leDestinationDirPath.setText(trForUI(destinationDirPath))
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):

@@ -69,7 +69,7 @@ class UpdateControl(MDialog):
         self.connect(self.wvWeb,SIGNAL("loadFinished(bool)"),self.loadFinished)
         self.vblMain.addWidget(self.prgbState)
         self.vblMain.addWidget(self.lblInfo)
-        self.pbtnRemindMeLater = MPushButton(MApplication.translate("UpdateControl", "Remind Me Later And Close"))
+        self.pbtnRemindMeLater = MPushButton(translate("UpdateControl", "Remind Me Later And Close"))
         self.cbRemindMeLater = MSpinBox()
         self.pbtnRemindMeLater.setVisible(False)
         self.cbRemindMeLater.setVisible(False)

@@ -19,6 +19,13 @@
 
 import Amarok
 from Amarok import Commands
+from Core.MyObjects import *
+import Taggers
+import InputOutputs 
+from Core import Universals
+from Core import Dialogs
+from Core import Records
+from Core import ReportBug
 
 class Operations:
     global getDirectoriesAndValues, changePaths, changeTags, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValues
@@ -42,8 +49,6 @@ class Operations:
         return None
         
     def changePaths(_values, _type="auto"):
-        import Taggers, InputOutputs 
-        from Core import Universals, Dialogs, Records, ReportBug
         Universals.startThreadAction()
         allItemNumber = len(_values)
         for valueNo,value in enumerate(_values):
@@ -58,15 +63,13 @@ class Operations:
                     ReportBug.ReportBug()
             else:
                 allItemNumber = valueNo+1
-            Dialogs.showState(Universals.translate("Amarok/Operations", "Changing Paths In Amarok Database"),
+            Dialogs.showState(translate("Amarok/Operations", "Changing Paths In Amarok Database"),
                               valueNo+1,allItemNumber, True) 
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
         
     def changeTags(_values):
-        import Taggers, InputOutputs
-        from Core import Universals, Dialogs, Records, ReportBug
         Universals.startThreadAction()
         allItemNumber = len(_values)
         for valueNo,value in enumerate(_values):
@@ -78,18 +81,16 @@ class Operations:
                     ReportBug.ReportBug()
             else:
                 allItemNumber = valueNo+1
-            Dialogs.showState(Universals.translate("Amarok/Operations", "Changing Tags In Amarok Database"),
+            Dialogs.showState(translate("Amarok/Operations", "Changing Tags In Amarok Database"),
                               valueNo+1,allItemNumber, True) 
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
             
     def changeArtistValues(_values):
-        import Taggers, InputOutputs
-        from Core import Universals, Dialogs, Records
         Universals.startThreadAction()
         allItemNumber = len(_values)
-        Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
+        Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
         for x, value in enumerate(_values):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
@@ -98,7 +99,7 @@ class Operations:
                     artistName = musicFilePathAndArtist[1]
                     for musicFilePath in musicFilePathAndArtist[0]:
                         if InputOutputs.isWritableFileOrDir(musicFilePath, False, True):
-                            Records.add(str(Universals.translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
+                            Records.add(str(translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
                             currentArtistName = ""
                             tagger = Taggers.getTagger()
                             if tagger is not None:
@@ -109,10 +110,10 @@ class Operations:
                                     tagger.loadFileForWrite(musicFilePath)
                                 tagger.setArtist(artistName)
                                 tagger.update()
-                                Records.add(str(Universals.translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
+                                Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
             else:
                 allItemNumber = x+1
-            Dialogs.showState(Universals.translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)
+            Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()

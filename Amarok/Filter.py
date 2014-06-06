@@ -26,6 +26,7 @@ import Options
 from Core import Organizer
 import Amarok
 from Amarok import Commands
+from Core import ReportBug
 
 class FilterWidget(MWidget):
     def __init__(self, _parent, _filterKeyName):
@@ -51,7 +52,6 @@ class FilterWidget(MWidget):
             self.dFilterEditor = FilterEditor(self, self.filterKeyName)
             self.dFilterEditor.show()
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
         
     def apply(self):
@@ -59,7 +59,6 @@ class FilterWidget(MWidget):
             Universals.setMySetting(self.filterKeyName, str(self.leFilter.text()))
             Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
 
 class FilterEditor(MDialog):
@@ -117,7 +116,6 @@ class FilterEditor(MDialog):
             self.fWidget.leFilter.setText(self.leFilter.text())
             self.fWidget.apply()
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
         
         

@@ -16,8 +16,8 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+from Core.MyObjects import *
 from Core import Variables
-from Core.MyObjects import translate
 pluginName = str(translate("MyPlugins/KDE4_SM", "For KDE4 Applications` Service Menus"))
 pluginVersion = "0.8"
 pluginFiles = ["HamsiManager_KDE4_SM.desktop", 

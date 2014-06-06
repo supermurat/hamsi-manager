@@ -231,7 +231,6 @@ class M_Phonon():
             Dialogs.showError(translate("Player", "Phonon Is Not Installed On Your System."),
                         translate("Player", "We could not find the Phonon(PyQt4) module installed on your system.<br>Please choose another player from the options or <br>check your Phonon installation."))
             return False
-        from Core import Universals
         if not self.m_media:
             self.m_media = Phonon.MediaObject(Universals.MainWindow)
             self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, Universals.MainWindow)
@@ -283,7 +282,6 @@ class M_Phonon_PySide():
         except:
             Dialogs.showError(translate("Player", "Phonon Is Not Installed On Your System."),
                         translate("Player", "We could not find the Phonon(PySide) module installed on your system.<br>Please choose another player from the options or <br>check your Phonon installation."))
-        from Core import Universals
         if not self.m_media:
             self.m_media = Phonon.MediaObject()
             self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory)

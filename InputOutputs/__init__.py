@@ -25,11 +25,12 @@ import re
 import tempfile
 import ctypes
 import mimetypes
+from Core.MyObjects import *
 from Core import Variables
 from Core import Universals
 from Core import Records
 from Core import Organizer
-from Core.Universals import translate
+from Core import Dialogs
 
 
 
@@ -40,7 +41,7 @@ class InputOutputs:
     global readDirectoryAll, getObjectType, getAvailablePathByPath, getAvailableNameByName, isAvailableNameForEncoding, getFileExtension, readFromFile, writeToFile, addToFile, readFromBinaryFile, writeToBinaryFile, readLinesFromFile, fileSystemEncoding, clearTempFiles, getFileTree, removeOnlySubFiles, moveToPathOfDeleted
     global getSize, fixToSize, clearCleaningDirectory, checkExtension, isDirEmpty, createSymLink, willCheckIconDirectories, isSmartCheckIcon, activateSmartCheckIcon, completeSmartCheckIcon
     global setIconToDirectory, getFirstImageInDirectory, isReadableFileOrDir, getHashDigest, createHashDigestFile, getIconFromDirectory, getRealPath, getShortPath, copyDirContent, getDetails, getFileNameParts, sep, getTempDir, isHidden, isBinary, onRMTreeError, checkEmptyDirectories, activateSmartCheckEmptyDirectories, completeSmartCheckEmptyDirectories, isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus, readDirectoryWithSubDirectoriesThread
-    global paths, defaultFileSystemEncoding, initFileSystemEncoding, initStartupVariables, executableAppPath, userDirectoryPath, HamsiManagerDirectory, readLink
+    global paths, defaultFileSystemEncoding, initFileSystemEncoding, initStartupVariables, executableAppPath, userDirectoryPath, HamsiManagerDirectory, readLink, themePath, pathOfSettingsDirectory, recordFilePath, oldRecordsDirectoryPath
     appendingDirectories = []
     defaultFileSystemEncoding = None
     fileSystemEncoding = None
@@ -54,6 +55,7 @@ class InputOutputs:
     
     def initStartupVariables():
         global executableAppPath, userDirectoryPath, HamsiManagerDirectory
+        global themePath, pathOfSettingsDirectory, recordFilePath, oldRecordsDirectoryPath
         initFileSystemEncoding()
         executableAppPath = str(os.path.abspath(sys.argv[0]))
         if isLink(executableAppPath):
@@ -62,6 +64,10 @@ class InputOutputs:
         userDirectoryPath = os.path.expanduser("~")
         try:userDirectoryPath = Universals.trDecode(userDirectoryPath, fileSystemEncoding)
         except:pass
+        themePath = joinPath(HamsiManagerDirectory, "Themes", "Default")
+        pathOfSettingsDirectory = joinPath(userDirectoryPath, ".HamsiApps", "HamsiManager")
+        recordFilePath = joinPath(pathOfSettingsDirectory, "logs.txt")
+        oldRecordsDirectoryPath = joinPath(pathOfSettingsDirectory, "OldRecords")
 
     def initFileSystemEncoding():
         global defaultFileSystemEncoding, fileSystemEncoding
@@ -380,7 +386,6 @@ class InputOutputs:
             Records.add("Moved", _oldPath, _newPath)
         except:
             if _isQuiet==False:
-                from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("InputOutputs", "An Error Has Occurred"), 
                         str(translate("InputOutputs", "\"%s\" > \"%s\" : an unknown error has occurred.<br>Please check it and try again.")) % (Organizer.getLink(_oldPath), Organizer.getLink(_newPath)), 
                             translate("Dialogs", "Cancel"), 
@@ -521,7 +526,6 @@ class InputOutputs:
             else:
                 okButtonLabel = translate("Dialogs", "OK")
             if isDir(realPath):
-                from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
                             okButtonLabel, 
@@ -529,7 +533,6 @@ class InputOutputs:
                 if answer==translate("Dialogs", "Retry"):
                     return isReadableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
             else:
-                from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
                             okButtonLabel, 
@@ -554,7 +557,6 @@ class InputOutputs:
             else:
                 okButtonLabel = translate("Dialogs", "OK")
             if isDir(realPath):
-                from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
                             okButtonLabel, 
@@ -562,7 +564,6 @@ class InputOutputs:
                 if answer==translate("Dialogs", "Retry"):
                     return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
             else:
-                from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"), 
                         str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath), 
                             okButtonLabel, 
@@ -600,15 +601,12 @@ class InputOutputs:
                 return oldPath
         if _isShowAlert:
             if _objectType=="file":
-                from Core import Dialogs
                 Dialogs.showError(translate("InputOutputs", "Cannot Find File"),
                         str(translate("InputOutputs", "\"%s\" : cannot find a file with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
             elif _objectType=="directory":
-                from Core import Dialogs
                 Dialogs.showError(translate("InputOutputs", "Cannot Find Directory"),
                         str(translate("InputOutputs", "\"%s\" : cannot find a folder with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
             else:
-                from Core import Dialogs
                 Dialogs.showError(translate("InputOutputs", "Cannot Find File Or Directory"),
                         str(translate("InputOutputs", "\"%s\" : cannot find a file or directory with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
         return None
@@ -619,14 +617,12 @@ class InputOutputs:
             _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
             _newPath = _newPath.replace("\\", sep).replace("/", sep)
         while isAvailableNameForEncoding(_newPath) == False:
-            from Core import Dialogs
             _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
                                         str(translate("InputOutputs", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
             if _newPath is None:
                 return False
         availableNameByName = getAvailablePathByPath(_newPath)
         while _newPath!=availableNameByName:
-            from Core import Dialogs
             _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
                                         str(translate("InputOutputs", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
             if _newPath is None:
@@ -641,7 +637,6 @@ class InputOutputs:
                         if _isQuiet:
                             return _newPath
                         else:
-                            from Core import Dialogs
                             answer = Dialogs.askSpecial(translate("InputOutputs", "Current File Name"),
                                         str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath), 
                                 translate("Dialogs", "Replace"), 
@@ -660,7 +655,6 @@ class InputOutputs:
                                 return False
                     elif isDir(_newPath):
                         if isFile(_oldPath):
-                            from Core import Dialogs
                             answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"),
                                     str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)), 
                                 translate("Dialogs", "Yes, Add Into"), 
@@ -687,7 +681,6 @@ class InputOutputs:
                                     appendingDirectories.append(_newPath)
                                     return _newPath
                                 else:
-                                    from Core import Dialogs
                                     answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"), 
                                             str(translate("InputOutputs", "\"%s\" : there already exists a directory with the same name.<br>Add your files to the current directory?")) % Organizer.getLink(_newPath), 
                                         translate("Dialogs", "Yes, Add Into"), 
@@ -720,14 +713,12 @@ class InputOutputs:
             _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
             _newPath = _newPath.replace("\\", sep).replace("/", sep)
         while isAvailableNameForEncoding(_newPath) == False:
-            from Core import Dialogs
             _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
                                         str(translate("InputOutputs", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
             if _newPath is None:
                 return False
         availableNameByName = getAvailablePathByPath(_newPath)
         while _newPath!=availableNameByName:
-            from Core import Dialogs
             _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
                                         str(translate("InputOutputs", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
             if _newPath is None:
@@ -739,7 +730,6 @@ class InputOutputs:
                     if _isQuiet:
                         return _newPath
                     else:
-                        from Core import Dialogs
                         answer = Dialogs.askSpecial(translate("InputOutputs", "Current File Name"),
                                     str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath), 
                             translate("Dialogs", "Replace"), 
@@ -760,7 +750,6 @@ class InputOutputs:
                     if _isQuiet:
                         return False
                     else:
-                        from Core import Dialogs
                         answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"), 
                                 str(translate("InputOutputs", "\"%s\" : there already exists a directory with the same name.<br>Are you want to choose another name?")) % Organizer.getLink(_newPath))
                         if answer==Dialogs.Yes:
@@ -844,7 +833,6 @@ class InputOutputs:
         return allFilesAndDirectories
         
     def readDirectoryWithSubDirectoriesThread(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _isShowHiddens=False, _currentSubDeep=0):
-        from Core import Dialogs
         from Core import MyThread
         global appendingDirectories
         allFilesAndDirectories, appendingDirectories =[],[]
@@ -953,7 +941,6 @@ class InputOutputs:
     def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True):
         #If directory will deleted : returns True
         #If directory will cleaned : returns False
-        from Core import Dialogs
         clearUnneededs(_path)
         dontRemovingFilesCount = 0
         filesAndDirectories = readDirectoryAll(_path)
@@ -1133,7 +1120,6 @@ class InputOutputs:
         
     def changeDirectories(_values):
         newFilesPath = []
-        from Core import Dialogs
         if len(_values)!=0:
             Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),0,len(_values))
             for no in range(0,len(_values)):
@@ -1205,7 +1191,6 @@ class InputOutputs:
                 return setIconToDirectory(_path)
     
     def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False, _isAsk=True):
-        from Core import Dialogs
         _path = str(_path)
         cover = None
         imageFiles = []
@@ -1332,7 +1317,6 @@ class InputOutputs:
         return iconPath, isCorrectedFileContent
 
     def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
-        from Core import Dialogs
         _path = checkSource(_path, "directory", False)
         if _path is not None:
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenPath"):
@@ -1378,7 +1362,6 @@ class InputOutputs:
             False
             
     def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
-        from Core import Dialogs
         _path = checkSource(_path, "directory", False)
         if _path is not None:
             if Universals.getBoolValue("isClearEmptyDirectoriesWhenClear"):
@@ -1425,7 +1408,6 @@ class InputOutputs:
             False
 
     def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
-        from Core import Dialogs
         from Core import MyThread
         _filePath, _sourcePath = str(_filePath), str(_sourcePath)
         if isDir(_filePath):
@@ -1469,7 +1451,6 @@ class InputOutputs:
                     removeFileOrDir(joinPath(tempDirPath, fileName))
             
     def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):   
-        from Core.MyObjects import trForUI
         _path = str(_path)
         files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True, False, Universals.getBoolValue("isShowHiddensInFileTree"))
         info = ""
@@ -1478,7 +1459,7 @@ class InputOutputs:
                 if _extInfo=="no":
                     pass
                 elif _extInfo=="title":
-                    info += " \n <h3>%s </h3> \n" % (str(Universals.translate("Tables", "File Tree")))
+                    info += " \n <h3>%s </h3> \n" % (str(translate("Tables", "File Tree")))
                     info += " %s<br> \n" % (_path)
                 dirNumber = _path.count(sep)
                 findStrings, replaceStrings = [], []
@@ -1512,16 +1493,16 @@ class InputOutputs:
                                 info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
                                 if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
                             if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                                info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                                info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                             info += " )"
                         else:
-                            info += " ( " + str(Universals.translate("InputOutputs", "inaccessible")) + " ) "
+                            info += " ( " + str(translate("InputOutputs", "inaccessible")) + " ) "
                     info += "<br> \n"
             elif _outputType=="plainText":
                 if _extInfo=="no":
                     pass
                 elif _extInfo=="title":
-                    info += " %s \n" % (str(Universals.translate("Tables", "File Tree")))
+                    info += " %s \n" % (str(translate("Tables", "File Tree")))
                     info += _path + "\n"
                 dirNumber = _path.count(sep)
                 findStrings, replaceStrings = [], []
@@ -1555,17 +1536,17 @@ class InputOutputs:
                                 info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
                                 if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
                             if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                                info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                                info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                             info += " )"
                         else:
-                            info += " ( " + str(Universals.translate("InputOutputs", "inaccessible")) + " ) "
+                            info += " ( " + str(translate("InputOutputs", "inaccessible")) + " ) "
                     info += "\n"
         elif _contentType=="fileList":
             if _outputType=="html":
                 if _extInfo=="no":
                     pass
                 elif _extInfo=="title":
-                    info += " \n <h3>%s </h3> \n" % (str(Universals.translate("Tables", "File List")))
+                    info += " \n <h3>%s </h3> \n" % (str(translate("Tables", "File List")))
                     info += " %s<br> \n" % (_path)
                 for x, fileName in enumerate(files):
                     info += fileName
@@ -1577,16 +1558,16 @@ class InputOutputs:
                                 info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
                                 if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
                             if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                                info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                                info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                             info += " )"
                         else:
-                            info += " ( " + str(Universals.translate("InputOutputs", "inaccessible")) + " ) "
+                            info += " ( " + str(translate("InputOutputs", "inaccessible")) + " ) "
                     info += "<br> \n"
             elif _outputType=="plainText":
                 if _extInfo=="no":
                     pass
                 elif _extInfo=="title":
-                    info += " %s \n" % (str(Universals.translate("Tables", "File Tree")))
+                    info += " %s \n" % (str(translate("Tables", "File Tree")))
                     info += _path + "\n"
                 for x, fileName in enumerate(files):
                     info += fileName
@@ -1598,16 +1579,15 @@ class InputOutputs:
                                 info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
                                 if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
                             if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
-                                info += str(Universals.translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
+                                info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                             info += " )"
                         else:
-                            info += " ( " + str(Universals.translate("InputOutputs", "inaccessible")) + " ) "
+                            info += " ( " + str(translate("InputOutputs", "inaccessible")) + " ) "
                     info += "\n"
         info = trForUI(info)
         if _outputTarget=="return":
             return info
         elif _outputTarget=="file":
-            from Core import Dialogs
             if _outputType=="html":
                 if _extInfo!="no":
                     strHeader = ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \n"+
@@ -1633,7 +1613,6 @@ class InputOutputs:
                 Dialogs.show(translate("Tables", "File Tree Created"),
                             str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
         elif _outputTarget=="dialog":
-            from Core.MyObjects import MDialog, MWidget, MVBoxLayout, MTextEdit, MPushButton, MObject, SIGNAL, getMyObject
             dDialog = MDialog(Universals.MainWindow)
             if isActivePyKDE4==True:
                 dDialog.setButtons(MDialog.NoDefault)
@@ -1659,7 +1638,6 @@ class InputOutputs:
             dDialog.setMinimumHeight(400)
             dDialog.show()
         elif _outputTarget=="clipboard":
-            from Core.MyObjects import MApplication
             MApplication.clipboard().setText(trForUI(info))
             
     def fixToSize(_path, _size, _clearFrom="head"):
@@ -1739,7 +1717,6 @@ class InputOutputs:
         if pathOfDeletedFilesAndDirectories is not None:
             deletedDirectorySize = getDirectorySize(pathOfDeletedFilesAndDirectories)
             if deletedDirectorySize > (int(Universals.MySettings["maxDeletedDirectorySize"])*1024*1024):
-                from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("InputOutputs", "Size Of Directory Of Deleted Is Over"),
                             str(translate("InputOutputs", "Size of directory of deleted is over. You can check and remove them. <br> Directory Of Deleted : \"%s\" ( %s )")) % (Organizer.getLink(pathOfDeletedFilesAndDirectories), Organizer.getCorrectedFileSize(deletedDirectorySize)), translate("InputOutputs", "Open With Default File Manager"), translate("InputOutputs", "Close"), translate("InputOutputs", "Remove All Files"))
                 if answer==translate("InputOutputs", "Open With Default File Manager"):

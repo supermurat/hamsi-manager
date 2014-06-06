@@ -25,6 +25,7 @@ from Core import Universals
 from Core import Dialogs
 import InputOutputs
 from Core import Records
+from Core import Settings
 import Options
 import traceback
 import logging
@@ -216,7 +217,6 @@ class ReportBugDialog(MDialog):
         except:pass
         
         try:
-            from Core import Dialogs
             if Dialogs.pnlState!=None:
                 Dialogs.showState("", 1, 1)
         except:pass
@@ -284,7 +284,6 @@ class ReportBugDialog(MDialog):
         self.setMaximumSize(10000, 10000)
         if isShowFixMe == True and isQuickMake==False and Universals.loggingLevel!=logging.DEBUG:
             try:
-                from Core import Dialogs
                 answer = Dialogs.askSpecial(translate("ReportBug", "I Have A Suggestion!"),
                             translate("ReportBug", "<b>Please check the following: ;</b><br>"+
                             "<b>1-)</b>If you have received this error when you were checking the last folder, reset the \"Last Directory\",<br>"+
@@ -296,13 +295,10 @@ class ReportBugDialog(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
-                    from Core import Settings
                     Settings.setting().setValue("lastDirectory", Universals.trQVariant(InputOutputs.userDirectoryPath))
                 elif answer==translate("ReportBug", "Settings"):
-                    from Core import Settings
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):
-                    from Core import Settings
                     Settings.reFillAll(True)
             except:pass
     

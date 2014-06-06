@@ -27,6 +27,7 @@ from Core import ReportBug
 from Core import Organizer
 from Core import Execute
 from Core import Records
+from Core import Settings
 import InputOutputs
 from Options import QuickOptions
 from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
@@ -152,21 +153,18 @@ class Bars():
             global Universals
             actionName = _action.objectName()
             if actionName==translate("MenuBar", "Open State"):
-                from Core import Settings
                 f = Dialogs.getOpenFileName(translate("MenuBar", "Open State Of Hamsi Manager"),
                                     InputOutputs.userDirectoryPath,translate("MenuBar", "Application Runner") + " (*.desktop)")
                 if f is not None:
                     Settings.openStateOfSettings(f)
             elif actionName==translate("MenuBar", "Save State"):
-                from Core import Settings
                 f = Dialogs.getSaveFileName(translate("MenuBar", "Save State Of Hamsi Manager"), InputOutputs.joinPath(InputOutputs.userDirectoryPath, "HamsiManager.desktop"),translate("MenuBar", "Application Runner") + " (*.desktop)")
                 if f is not None:
                     Settings.saveStateOfSettings(f)
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
-                from Core import Settings
-                if Execute.executeAsRootWithThread(["--sDirectoryPath", Universals.pathOfSettingsDirectory], "HamsiManager"):
+                if Execute.executeAsRootWithThread(["--sDirectoryPath", InputOutputs.pathOfSettingsDirectory], "HamsiManager"):
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
@@ -224,7 +222,7 @@ class Bars():
             elif actionName==translate("MenuBar", "Reconfigure (System)"):
                 Execute.execute(["--qm", "--configurator", "--runAsRoot"], "HamsiManager")
             elif actionName==translate("MenuBar", "Update"):
-                from Core import Universals, UpdateControl
+                from Core import UpdateControl
                 UpdateControl.UpdateControl(Universals.MainWindow)
             elif actionName==translate("MenuBar", "Report Bug"):
                 ReportBug.ReportBug(True)
@@ -247,7 +245,6 @@ class Bars():
                 answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
                         str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
                 if answer==Dialogs.Yes:
-                    from Core import FileManager
                     Universals.MainWindow.setEnabled(False)
                     currentDirPath = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
                     if InputOutputs.isWritableFileOrDir(currentDirPath):

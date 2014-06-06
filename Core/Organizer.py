@@ -21,6 +21,7 @@ import unicodedata
 import string
 import math
 import re
+from Core.MyObjects import *
 from Core import Variables
 from Core import Universals
 import InputOutputs
@@ -217,7 +218,6 @@ class Organizer:
         return newString
     
     def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True, _isRegExp=False):
-        from Core.MyObjects import translate
         myString=""
         if _cbClearType==translate("SpecialTools", "All"):
             myString=""

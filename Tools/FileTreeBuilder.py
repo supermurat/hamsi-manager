@@ -23,6 +23,7 @@ from Core import Dialogs
 import InputOutputs
 import Options
 from Options import OptionsForm
+from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
@@ -152,7 +153,6 @@ class FileTreeBuilder(MyDialog):
                             translate("FileTreeBuilder", "File tree copied to clipboard."))
             Universals.isCanBeShowOnMainWindow = True
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def selectPath(self):
@@ -161,7 +161,6 @@ class FileTreeBuilder(MyDialog):
             if dirPath is not None:
                 self.lePath.setText(trForUI(dirPath))
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     

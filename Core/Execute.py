@@ -21,6 +21,7 @@ import os, sys
 import subprocess
 from threading import Thread
 import time
+from Core.MyObjects import *
 from Core import Variables, Universals
 import InputOutputs
 from Core import Records
@@ -52,8 +53,8 @@ class Execute:
             pathOfExecutable = findExecutablePath(_executableName)
             if pathOfExecutable==None:
                 from Core import Dialogs
-                Dialogs.showError(Universals.translate("Execute", "Cannot Find Executable File"),
-                    str(Universals.translate("Execute", "\"%s\" : cannot find an executable file matched this name in directory of Hamsi Manager.<br>Please make sure that it exists and retry.")) % _executableName)
+                Dialogs.showError(translate("Execute", "Cannot Find Executable File"),
+                    str(translate("Execute", "\"%s\" : cannot find an executable file matched this name in directory of Hamsi Manager.<br>Please make sure that it exists and retry.")) % _executableName)
                 return None
             if pathOfExecutable.find(".py")>-1 or pathOfExecutable.find(".py3")>-1 or pathOfExecutable.find(".pyw")>-1:
                 pathOfExecutable = [getPythonPath(), pathOfExecutable]

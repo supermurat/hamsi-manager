@@ -500,7 +500,6 @@ class Variables():
         return styles
         
     def getColorSchemesAndPath():
-        from Core.MyObjects import isActivePyKDE4
         from Core import Settings, Universals
         colorSchemes, colorSchemePaths = [], []
         colorSchemes.append("Default")
@@ -522,7 +521,6 @@ class Variables():
             return None
         
     def getUserDesktopPath():
-        from Core.MyObjects import isActivePyKDE4
         if isActivePyKDE4:
             from PyKDE4.kdeui import KGlobalSettings
             desktopPath = str(KGlobalSettings.desktopPath())
@@ -533,7 +531,7 @@ class Variables():
             from win32com.shell import shell, shellcon
             desktopPath = shell.SHGetFolderPath (0, shellcon.CSIDL_DESKTOP, 0, 0)
         else:
-            desktopNames = [str(MQtGui.QApplication.translate("Variables", "Desktop")), "Desktop"]
+            desktopNames = [str(translate("Variables", "Desktop")), "Desktop"]
             for dirName in desktopNames:
                 if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, dirName)):
                     desktopPath = InputOutputs.joinPath(InputOutputs.userDirectoryPath, dirName)
@@ -545,7 +543,6 @@ class Variables():
     def getKDE4HomePath():
         if isAvailableKDE4():
             try:
-                from Core.MyObjects import isActivePyKDE4
                 if isActivePyKDE4:
                     from PyKDE4.kdecore import KStandardDirs
                     kdedirPath = str(KStandardDirs().localkdedir())
@@ -564,7 +561,6 @@ class Variables():
     def getLibraryDirectoryPath():
         global libPath
         if libPath==None:
-            from Core.MyObjects import isActivePyKDE4
             if isActivePyKDE4:
                 from PyKDE4 import pykdeconfig
                 libPath = pykdeconfig._pkg_config["kdelibdir"]
@@ -674,7 +670,6 @@ class Variables():
         
     def checkMysqldSafe(_isAskIfNotFound=True):
         from Core import Dialogs, Universals
-        from Core.MyObjects import translate
         if InputOutputs.isFile(Universals.MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + Universals.MySettings["pathOfMysqldSafe"])==False:
             if _isAskIfNotFound:
                 answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),

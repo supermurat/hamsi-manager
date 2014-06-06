@@ -28,7 +28,7 @@ import InputOutputs
 
 class Scripts():
     global pathOfScripsDirectory, createDefaultScript, createNewScript, getScript, getScriptList, getNextScriptFilePath, saveScript, clearScript, runScriptFile, runScript
-    pathOfScripsDirectory = InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "Scripts")
+    pathOfScripsDirectory = InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "Scripts")
     
     def createDefaultScript(_filePath):
         defaultCodes = ("#!/usr/bin/env python\n" +

@@ -32,17 +32,15 @@ if RoutineChecks.checkMandatoryModules():
     InputOutputs.initStartupVariables()
     from Core import Variables
     from Core import Universals
-    Universals.setPaths()
     from Core import Settings
     Universals.fillMySettings(False, False, False)
     isActivePyKDE4 = False
-    from Core.MyObjects import *
     from Core import Dialogs
     from Core import Execute
     defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(Universals.themePath, "Images"))))
-    StyleFile = open(InputOutputs.joinPath(Universals.themePath, "Style.qss"))
+    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(InputOutputs.themePath, "Images"))))
+    StyleFile = open(InputOutputs.joinPath(InputOutputs.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
     if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
@@ -84,22 +82,22 @@ if RoutineChecks.checkMandatoryModules():
                 self.hblMain.addWidget(self.pages[-1])
             self.vblMain.addLayout(self.hblMain, 20)
             self.hblButtons = MHBoxLayout()
-            self.buttons = [MPushButton(MApplication.translate("Install", "Back")), 
-                            MPushButton(MApplication.translate("Install", "Forward")), 
-                            MPushButton(MApplication.translate("Install", "Install"))]
+            self.buttons = [MPushButton(translate("Install", "Back")), 
+                            MPushButton(translate("Install", "Forward")), 
+                            MPushButton(translate("Install", "Install"))]
             self.hblButtons.addStretch(5)
             for btnNo, btn in enumerate(self.buttons):
                 if btnNo==len(self.buttons)-1 or btnNo==0:
                     btn.setVisible(False)
                 self.hblButtons.addWidget(btn, 1)
                 self.connect(btn,SIGNAL("clicked()"),self.pageChanged)
-            self.pbtnCancel = MPushButton(MApplication.translate("Install", "Cancel"))
+            self.pbtnCancel = MPushButton(translate("Install", "Cancel"))
             self.pbtnCheckUpdate = MPushButton(translate("Install", "Check Update"))
             self.hblButtons.insertWidget(0, self.pbtnCheckUpdate, 1)
             self.hblButtons.addWidget(self.pbtnCancel, 1)
             self.connect(self.pbtnCancel,SIGNAL("clicked()"),self.close)
             self.connect(self.pbtnCheckUpdate,SIGNAL("clicked()"), self.checkUpdate)
-            self.pbtnFinish = MPushButton(MApplication.translate("Install", "OK"))
+            self.pbtnFinish = MPushButton(translate("Install", "OK"))
             self.hblButtons.addWidget(self.pbtnFinish, 1)
             self.connect(self.pbtnFinish,SIGNAL("clicked()"),self.finish)
             self.pbtnFinish.setVisible(False)
@@ -133,10 +131,10 @@ if RoutineChecks.checkMandatoryModules():
                 teCopying.setPlainText(trForUI(lisenceFileContent))
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
-                lblPleaseSelect = MLabel(MApplication.translate("Install", "Please Select A Folder For Installation."))
+                lblPleaseSelect = MLabel(translate("Install", "Please Select A Folder For Installation."))
                 installationDirPath = trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.HamsiManagerDirectory), "Hamsi"))))
                 self.leInstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
-                self.pbtnSelectInstallationDirectory = MPushButton(MApplication.translate("Install", "Browse"))
+                self.pbtnSelectInstallationDirectory = MPushButton(translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
                 VBox = MVBoxLayout()
                 VBox.addStretch(10)
@@ -156,15 +154,15 @@ if RoutineChecks.checkMandatoryModules():
                 HBox.addLayout(VBox)
             elif _pageNo==4:
                 VBox = MVBoxLayout()
-                self.lblFinished = MLabel(MApplication.translate("Install", "Installation Complete."))
+                self.lblFinished = MLabel(translate("Install", "Installation Complete."))
                 VBox.addStretch(10)
                 VBox.addWidget(self.lblFinished)
                 self.isCreateDesktopShortcut = None
                 self.isCreateExecutableLink = None
                 if Variables.isRunningAsRoot():
-                    self.isCreateExecutableLink = MCheckBox(MApplication.translate("Install", "Add To The System"))
+                    self.isCreateExecutableLink = MCheckBox(translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
-                    lblExecutableLink = MLabel(MApplication.translate("Install", "Executable Link Path : "))
+                    lblExecutableLink = MLabel(translate("Install", "Executable Link Path : "))
                     self.leExecutableLink = MLineEdit(trForUI(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
                     self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
@@ -173,7 +171,7 @@ if RoutineChecks.checkMandatoryModules():
                     HBox1.addWidget(self.leExecutableLink)
                     VBox.addLayout(HBox1)
                 else:
-                    self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Install", "Create Desktop Shortcut."))
+                    self.isCreateDesktopShortcut = MCheckBox(translate("Install", "Create Desktop Shortcut."))
                     self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
                     VBox.addWidget(self.isCreateDesktopShortcut)
                 VBox.addStretch(10)
@@ -187,7 +185,7 @@ if RoutineChecks.checkMandatoryModules():
                 self.leExecutableLink.setEnabled(True)
         
         def selectInstallationDirectory(self):
-            insDir = Dialogs.getExistingDirectory(MApplication.translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
+            insDir = Dialogs.getExistingDirectory(translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
             if insDir is not None:
                 self.leInstallationDirectory.setText(trForUI(insDir))
             
@@ -210,13 +208,13 @@ if RoutineChecks.checkMandatoryModules():
                 self.buttons[1].setVisible(False)
                 self.buttons[2].setVisible(False)
                 self.pbtnCheckUpdate.setVisible(False)
-                self.buttons[1].setText(MApplication.translate("Install", "Forward"))
+                self.buttons[1].setText(translate("Install", "Forward"))
                 if self.pageNo==0:
                     self.buttons[1].setVisible(True)
                     self.pbtnCheckUpdate.setVisible(True)
                 elif self.pageNo==1:
                     self.buttons[1].setVisible(True)
-                    self.buttons[1].setText(MApplication.translate("Install", "Accept"))
+                    self.buttons[1].setText(translate("Install", "Accept"))
                     self.pbtnCheckUpdate.setVisible(True)
                 elif self.pageNo==2:
                     self.buttons[0].setVisible(True)
@@ -246,25 +244,25 @@ if RoutineChecks.checkMandatoryModules():
                     if self.installationDirectory==InputOutputs.HamsiManagerDirectory:
                         self.pageNo-=1
                         self.lblActions.setText("")
-                        Dialogs.showError(MApplication.translate("Install", "The path you selected is not valid."),
-                                    MApplication.translate("Install", "The selected path is Hamsi Manager source directory.<br>Please choose a valid installation path."))
+                        Dialogs.showError(translate("Install", "The path you selected is not valid."),
+                                    translate("Install", "The selected path is Hamsi Manager source directory.<br>Please choose a valid installation path."))
                     elif InputOutputs.isFile(self.installationDirectory)==False:
                         isMakeInstall=True
                         if InputOutputs.isDir(self.installationDirectory)==False:
-                            self.lblActions.setText(MApplication.translate("Install", "Creating Installation Folder..."))
+                            self.lblActions.setText(translate("Install", "Creating Installation Folder..."))
                             InputOutputs.makeDirs(self.installationDirectory)
                         elif len(InputOutputs.listDir(self.installationDirectory))>0:
-                                answer = Dialogs.askSpecial(MApplication.translate("Install", "The Installation Path You Selected Is Not Empty."),
-                                            MApplication.translate("Install", "If the path you selected is an \"Hamsi Manager\" installation path, <b>I recommend you to delete the older files.</b><br>Do you want me to clear the installation path/folder for you?<br><b>Note: </b> Your personal settings are <b>never deleted</b>."), 
-                                            MApplication.translate("Install", "Yes (Recommended)"), 
-                                            MApplication.translate("Install", "No (Overwrite)"), 
-                                            MApplication.translate("Install", "Cancel"))
-                                if answer==MApplication.translate("Install", "Yes (Recommended)"):
-                                    self.lblActions.setText(MApplication.translate("Install", "Clearing Installation Path..."))
+                                answer = Dialogs.askSpecial(translate("Install", "The Installation Path You Selected Is Not Empty."),
+                                            translate("Install", "If the path you selected is an \"Hamsi Manager\" installation path, <b>I recommend you to delete the older files.</b><br>Do you want me to clear the installation path/folder for you?<br><b>Note: </b> Your personal settings are <b>never deleted</b>."), 
+                                            translate("Install", "Yes (Recommended)"), 
+                                            translate("Install", "No (Overwrite)"), 
+                                            translate("Install", "Cancel"))
+                                if answer==translate("Install", "Yes (Recommended)"):
+                                    self.lblActions.setText(translate("Install", "Clearing Installation Path..."))
                                     InputOutputs.removeFileOrDir(self.installationDirectory)
                                     InputOutputs.makeDirs(self.installationDirectory)
                                     isMakeInstall=True
-                                elif answer==MApplication.translate("Install", "No (Overwrite)"):
+                                elif answer==translate("Install", "No (Overwrite)"):
                                     isMakeInstall=True
                                 else:
                                     isMakeInstall=False
@@ -272,7 +270,7 @@ if RoutineChecks.checkMandatoryModules():
                             Settings.setUniversalSetting("pathOfInstallationDirectory", self.installationDirectory)
                             directoriesAndFiles = InputOutputs.readDirectoryWithSubDirectories(InputOutputs.HamsiManagerDirectory)
                             self.prgbState.setRange(0,len(directoriesAndFiles))
-                            self.lblActions.setText(MApplication.translate("Install", "Copying Files And Folders..."))
+                            self.lblActions.setText(translate("Install", "Copying Files And Folders..."))
                             installFileName = Execute.findExecutableBaseName("HamsiManagerInstaller")
                             for fileNo, fileName in enumerate(directoriesAndFiles):
                                 MApplication.processEvents()
@@ -294,13 +292,13 @@ if RoutineChecks.checkMandatoryModules():
                     else:
                         self.pageNo-=1
                         self.lblActions.setText("")
-                        Dialogs.showError(MApplication.translate("Install", "The path you selected is not valid."),
-                                    MApplication.translate("Install", "The selected path points to a file not a folder.<br>Please choose a valid installation path."))
+                        Dialogs.showError(translate("Install", "The path you selected is not valid."),
+                                    translate("Install", "The selected path points to a file not a folder.<br>Please choose a valid installation path."))
                 else:
                     self.pageNo-=1
                     self.lblActions.setText("")
-                    Dialogs.showError(MApplication.translate("Install", "The path you selected is not valid."),
-                                MApplication.translate("Install", "The selected path points to a file not a folder.<br>Please choose a valid installation path."))
+                    Dialogs.showError(translate("Install", "The path you selected is not valid."),
+                                translate("Install", "The selected path points to a file not a folder.<br>Please choose a valid installation path."))
                 self.pageChanged(True)
             except:
                 from Core import ReportBug
@@ -308,8 +306,8 @@ if RoutineChecks.checkMandatoryModules():
         
         def closeEvent(self, _event):
             if self.isInstallFinised==False:
-                answer = Dialogs.ask(MApplication.translate("Install", "Finalizing Installation"), 
-                            MApplication.translate("Install", "Are You Sure You Want To Quit?"))
+                answer = Dialogs.ask(translate("Install", "Finalizing Installation"), 
+                            translate("Install", "Are You Sure You Want To Quit?"))
                 if answer!=Dialogs.Yes:
                     _event.ignore()
             
@@ -349,13 +347,13 @@ if RoutineChecks.checkMandatoryModules():
                 ReportBug.ReportBug()
             
     if Variables.isRunningAsRoot()==False and Variables.isRunableAsRoot():
-        answer = Dialogs.askSpecial(MApplication.translate("Install", "Are You Want To Run As Root?"), MApplication.translate("Install", "Hamsi Manager Installer is running with user privileges.<br>Do you want to run Hamsi Manager installer with root rights?<br><b>Note: </b>The other users on your system has to inherit these permissions and install the program to a location other than their /home directories."), MApplication.translate("Install", "Yes"), MApplication.translate("Install", "No (Continue as is)"), None)
-        if answer==MApplication.translate("Install", "Yes"):
+        answer = Dialogs.askSpecial(translate("Install", "Are You Want To Run As Root?"), translate("Install", "Hamsi Manager Installer is running with user privileges.<br>Do you want to run Hamsi Manager installer with root rights?<br><b>Note: </b>The other users on your system has to inherit these permissions and install the program to a location other than their /home directories."), translate("Install", "Yes"), translate("Install", "No (Continue as is)"), None)
+        if answer==translate("Install", "Yes"):
             NewApp = Execute.executeAsRootWithThread([], "HamsiManagerInstaller")
             sys.exit()
     try:
         MainWidget=Main()
-        MainWidget.setWindowTitle(MApplication.translate("Install", "Hamsi Manager Installer") + " " + Variables.version)
+        MainWidget.setWindowTitle(translate("Install", "Hamsi Manager Installer") + " " + Variables.version)
         MainWidget.setGeometry(300, 300, 650, 350)
         MainWidget.show()
         Universals.isStartingSuccessfully = True
