@@ -25,7 +25,7 @@ import InputOutputs
 from Core.MyObjects import *
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, themePath, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActiveAmarok, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, getIconNameFormatLabels, pathOfSettingsDirectory, fileOfSettings, setPathOfSettingsDirectory, recordFilePath, translate, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, oldRecordsDirectoryPath, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild, setPaths
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActiveAmarok, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, getIconNameFormatLabels, fileOfSettings, setPathOfSettingsDirectory, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -51,13 +51,6 @@ class Universals():
     def __init__(self):
         pass
         
-    def setPaths():
-        global themePath, pathOfSettingsDirectory, recordFilePath, oldRecordsDirectoryPath
-        themePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes", "Default")
-        pathOfSettingsDirectory = InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".HamsiApps", "HamsiManager")
-        recordFilePath = InputOutputs.joinPath(pathOfSettingsDirectory, "logs.txt")
-        oldRecordsDirectoryPath = InputOutputs.joinPath(pathOfSettingsDirectory, "OldRecords")
-        
     def setApp(_app):
         global HamsiManagerApp
         HamsiManagerApp = _app
@@ -77,18 +70,10 @@ class Universals():
         MainWindow.CentralWidget = None
     
     def setPathOfSettingsDirectory(_path):
-        global pathOfSettingsDirectory
         _path = str(_path)
         if _path[-1]==os.sep:
             _path = _path[:-1]
-        pathOfSettingsDirectory = _path
-    
-    def translate(_p, _s):
-        try:
-            return MQtGui.QApplication.translate(_p, _s)
-        except:
-            try:return _s.decode("utf-8")
-            except: return _s
+        InputOutputs.pathOfSettingsDirectory = _path
             
     def trForUI(_s):
         return str(_s)
@@ -155,7 +140,7 @@ class Universals():
         return MQtCore.QVariant(trForUI(_s))
         
     def fillMySettings(_setAgain=False, _isCheckUpdate=True):
-        global MySettings, isShowVerifySettings, themePath, changedDefaultValuesKeys, newSettingsKeys, windowMode, tableType
+        global MySettings, isShowVerifySettings, changedDefaultValuesKeys, newSettingsKeys, windowMode, tableType
         from Core import Settings
         sets = Settings.setting()
         settingVersion = trStr(sets.value("settingsVersion"))
@@ -177,7 +162,7 @@ class Universals():
                 isShowVerifySettings = True
         InputOutputs.fileSystemEncoding = MySettings["fileSystemEncoding"]
         windowMode = MySettings["windowMode"]
-        themePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes", MySettings["themeName"])
+        InputOutputs.themePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes", MySettings["themeName"])
         if tableType == None:
             tableType = int(MySettings["tableType"])
             if tableType<0 or tableType>=len(tableTypesNames):
@@ -257,7 +242,6 @@ class Universals():
             sets.setValue(value,trQVariant(MySettings[value]))
 
     def activeWindow():
-        from Core.MyObjects import MApplication
         if MApplication.activeModalWidget()!=None:
             return MApplication.activeModalWidget()
         else:
@@ -278,7 +262,7 @@ class Universals():
                     tt = 1
         return tt
         
-    def fillRemainderUniversals():
+    def fillRemainderUniversals():#FIXME:check is it required
         global tableTypesNames, isActiveAmarok
         import Amarok
         isActiveAmarok = Amarok.isUsable()

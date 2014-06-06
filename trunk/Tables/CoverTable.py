@@ -273,7 +273,6 @@ class CoverTable():
                                                             directoryAndValues["genre"][0], 
                                                             directoryAndValues["year"][0]))
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):

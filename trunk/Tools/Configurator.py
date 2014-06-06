@@ -24,6 +24,7 @@ from Core import Settings
 from Core import MyConfigure
 from Core import Execute
 import InputOutputs
+from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
@@ -62,17 +63,17 @@ class Configurator(MyDialog):
             self.hblMain.addWidget(self.pages[-1])
         self.vblMain.addLayout(self.hblMain, 20)
         self.hblButtons = MHBoxLayout()
-        self.buttons = [MPushButton(MApplication.translate("Reconfigure", "Back")), 
-                        MPushButton(MApplication.translate("Reconfigure", "Forward")), 
-                        MPushButton(MApplication.translate("Reconfigure", "Configure"))]
+        self.buttons = [MPushButton(translate("Reconfigure", "Back")), 
+                        MPushButton(translate("Reconfigure", "Forward")), 
+                        MPushButton(translate("Reconfigure", "Configure"))]
         self.hblButtons.addStretch(5)
         for btnNo, btn in enumerate(self.buttons):
             if btnNo==len(self.buttons)-1 or btnNo==0:
                 btn.setVisible(False)
             self.hblButtons.addWidget(btn, 1)
             self.connect(btn,SIGNAL("clicked()"),self.pageChanged)
-        self.pbtnCancel = MPushButton(MApplication.translate("Reconfigure", "Cancel"))
-        self.pbtnFinish = MPushButton(MApplication.translate("Reconfigure", "Finish"))
+        self.pbtnCancel = MPushButton(translate("Reconfigure", "Cancel"))
+        self.pbtnFinish = MPushButton(translate("Reconfigure", "Finish"))
         self.pbtnFinish.setVisible(False)
         self.hblButtons.addWidget(self.pbtnCancel, 1)
         self.hblButtons.addWidget(self.pbtnFinish, 1)
@@ -96,8 +97,8 @@ class Configurator(MyDialog):
                         
     def closeEvent(self, _event):
         if self.isInstallFinised==False:
-            answer = Dialogs.ask(MApplication.translate("Reconfigure", "Finalizing Configuration"), 
-                        MApplication.translate("Reconfigure", "Are You Sure You Want To Quit?"))
+            answer = Dialogs.ask(translate("Reconfigure", "Finalizing Configuration"), 
+                        translate("Reconfigure", "Are You Sure You Want To Quit?"))
             if answer!=Dialogs.Yes:
                 _event.ignore()
         MApplication.setQuitOnLastWindowClosed(True)
@@ -134,9 +135,9 @@ class Configurator(MyDialog):
             self.checkAvailableModules()
             VBox.addStretch(1)
             if Variables.isRunningAsRoot():
-                self.isCreateExecutableLink = MCheckBox(MApplication.translate("Reconfigure", "Add To The System"))
+                self.isCreateExecutableLink = MCheckBox(translate("Reconfigure", "Add To The System"))
                 self.isCreateExecutableLink.setCheckState(Mt.Checked)
-                lblExecutableLink = MLabel(MApplication.translate("Reconfigure", "Executable Link Path : "))
+                lblExecutableLink = MLabel(translate("Reconfigure", "Executable Link Path : "))
                 self.leExecutableLink = MLineEdit(trForUI(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
                 self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                 VBox.addWidget(self.isCreateExecutableLink)
@@ -145,7 +146,7 @@ class Configurator(MyDialog):
                 HBox1.addWidget(self.leExecutableLink, 10)
                 VBox.addLayout(HBox1)
             else:
-                self.isCreateDesktopShortcut = MCheckBox(MApplication.translate("Reconfigure", "Create Desktop Shortcut."))
+                self.isCreateDesktopShortcut = MCheckBox(translate("Reconfigure", "Create Desktop Shortcut."))
                 self.isCreateDesktopShortcut.setCheckState(Mt.Checked)
                 VBox.addWidget(self.isCreateDesktopShortcut)
             VBox.addStretch(10)
@@ -199,37 +200,36 @@ class Configurator(MyDialog):
             Universals.clearAllChilds(self.wAvailableModules)
             
             if eyeD3IsAvailable==False:
-                lblEyeD3 = MLabel(MApplication.translate("Reconfigure", "<a href='http://eyed3.nicfit.net/'>'eyeD3'</a> (python-eyed3) named module has NOT installed in your system."))
+                lblEyeD3 = MLabel(translate("Reconfigure", "<a href='http://eyed3.nicfit.net/'>'eyeD3'</a> (python-eyed3) named module has NOT installed in your system."))
                 lblEyeD3.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblEyeD3)
             if mysqlIsAvailable==False:
-                lblMysql = MLabel(MApplication.translate("Reconfigure", "<a href='https://sourceforge.net/projects/mysql-python/'>'MySQL'</a> (python-mysql) named module has NOT installed on your system."))
+                lblMysql = MLabel(translate("Reconfigure", "<a href='https://sourceforge.net/projects/mysql-python/'>'MySQL'</a> (python-mysql) named module has NOT installed on your system."))
                 lblMysql.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblMysql)
             if musicbrainzIsAvailable==False:
-                lblMusicbrainz = MLabel(MApplication.translate("Reconfigure", "<a href='http://musicbrainz.org/doc/python-musicbrainz2'>'Music Brainz'</a> (python-musicbrainz2) named module has NOT installed on your system."))
+                lblMusicbrainz = MLabel(translate("Reconfigure", "<a href='http://musicbrainz.org/doc/python-musicbrainz2'>'Music Brainz'</a> (python-musicbrainz2) named module has NOT installed on your system."))
                 lblMusicbrainz.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblMusicbrainz)
             if scintillaIsAvailable==False:
-                lblScintilla = MLabel(MApplication.translate("Reconfigure", "<a href='http://www.riverbankcomputing.com/software/qscintilla/download'>'QScintilla'</a> (python-qt4-qscintilla) named module has NOT installed on your system."))
+                lblScintilla = MLabel(translate("Reconfigure", "<a href='http://www.riverbankcomputing.com/software/qscintilla/download'>'QScintilla'</a> (python-qt4-qscintilla) named module has NOT installed on your system."))
                 lblScintilla.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblScintilla)
             if Variables.isWindows:
                 if pywin32IsAvailable==False:
-                    lblPywin32 = MLabel(MApplication.translate("Reconfigure", "<a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system."))
+                    lblPywin32 = MLabel(translate("Reconfigure", "<a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system."))
                     lblPywin32.setOpenExternalLinks(True)
                     self.vblAvailableModules.addWidget(lblPywin32)
             
             if eyeD3IsAvailable==False or mysqlIsAvailable==False or musicbrainzIsAvailable==False or scintillaIsAvailable==False or (Variables.isWindows and (mysqlIsAvailable==False)):
-                lblAlert = MLabel(MApplication.translate("Reconfigure", "<b>You have to install above modules to use some features.<br>If you don't want to use all features, you can continue without these modules.</b>"))
+                lblAlert = MLabel(translate("Reconfigure", "<b>You have to install above modules to use some features.<br>If you don't want to use all features, you can continue without these modules.</b>"))
                 self.vblAvailableModules.addWidget(lblAlert)
-                btnCheckAvailableModules = MPushButton(MApplication.translate("Reconfigure", "Check Again"))
+                btnCheckAvailableModules = MPushButton(translate("Reconfigure", "Check Again"))
                 self.vblAvailableModules.addWidget(btnCheckAvailableModules)
                 self.connect(btnCheckAvailableModules, SIGNAL("clicked()"), self.checkAvailableModules)
                     
             self.wAvailableModules.setLayout(self.vblAvailableModules)
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
         
     def pageChanged(self, _isRunningManual=False):
@@ -250,12 +250,12 @@ class Configurator(MyDialog):
             self.buttons[0].setVisible(False)
             self.buttons[1].setVisible(False)
             self.buttons[2].setVisible(False)
-            self.buttons[1].setText(MApplication.translate("Reconfigure", "Forward"))
+            self.buttons[1].setText(translate("Reconfigure", "Forward"))
             if self.pageNo==0:
                 self.buttons[1].setVisible(True)
             elif self.pageNo==1:
                 self.buttons[1].setVisible(True)
-                self.buttons[1].setText(MApplication.translate("Reconfigure", "Accept"))
+                self.buttons[1].setText(translate("Reconfigure", "Accept"))
             elif self.pageNo==2:
                 self.buttons[0].setVisible(False)
                 self.buttons[1].setVisible(False)
@@ -272,7 +272,6 @@ class Configurator(MyDialog):
                 if senderObject==self.buttons[2]:
                     self.reConfigure()
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
         
     def reConfigure(self):
@@ -301,8 +300,8 @@ class Configurator(MyDialog):
                             Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
                             if oldPathOfExecutableHamsi!=executableLink:
                                 if InputOutputs.isFile(oldPathOfExecutableHamsi):
-                                    answer = Dialogs.ask(MApplication.translate("Reconfigure", "Other Hamsi Manager Was Detected"), 
-                                        str(MApplication.translate("Reconfigure", "Other Hamsi Manager executable file was detected. Are you want to delete old executable file? You can delete this old executable file : \"%s\"")) % (oldPathOfExecutableHamsi))
+                                    answer = Dialogs.ask(translate("Reconfigure", "Other Hamsi Manager Was Detected"), 
+                                        str(translate("Reconfigure", "Other Hamsi Manager executable file was detected. Are you want to delete old executable file? You can delete this old executable file : \"%s\"")) % (oldPathOfExecutableHamsi))
                                     if answer!=Dialogs.Yes:
                                         InputOutputs.removeFile(oldPathOfExecutableHamsi)
                         if InputOutputs.isDir("/usr/share/applications/"):
@@ -316,7 +315,6 @@ class Configurator(MyDialog):
             MyConfigure.installKDE4Languages()
             self.isInstallFinised = True
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     

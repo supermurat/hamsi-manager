@@ -24,6 +24,7 @@ import InputOutputs
 import Options
 from Options import OptionsForm
 from Core import Organizer
+from Core import ReportBug
 import unicodedata
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
@@ -185,7 +186,6 @@ class Searcher(MyDialog):
             else:
                 return True
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
             
     def getSearchValueList(self):
@@ -258,7 +258,6 @@ class Searcher(MyDialog):
                 self.connect(self.tmrSearchAfter,SIGNAL("timeout()"),self.search)
                 self.tmrSearchAfter.start(500)
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def search(self, _searchValue=""):
@@ -317,7 +316,6 @@ class Searcher(MyDialog):
                     self.lblSearchListValues.setText(trForUI(""))
                 self.teSearchResult.setText(trForUI(resultOfSearch))
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
 
     def isRegExpChanged(self, _isSearch=True):
@@ -352,7 +350,6 @@ class Searcher(MyDialog):
                 if self.setSourceToSearch(True, True):
                     self.search()
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def addSearchDirectoryPath(self):
@@ -366,7 +363,6 @@ class Searcher(MyDialog):
                 if self.setSourceToSearch(True, True):
                     self.search()
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
 
 
@@ -380,7 +376,6 @@ class Searcher(MyDialog):
                 if self.setSourceToSearch(True, True):
                     self.search()
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
 
     def addSearchFilePath(self):
@@ -394,7 +389,6 @@ class Searcher(MyDialog):
                 if self.setSourceToSearch(True, True):
                     self.search()
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def pbtnEditValuePathToSeachClicked(self):

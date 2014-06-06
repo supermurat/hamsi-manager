@@ -325,8 +325,6 @@ class SpecialActions(MWidget):
         
         
     def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetails=False):
-        from Core import Dialogs
-        from Core.MyObjects import trForUI, translate
         spliterIndex = _actionCommand.index("~||~")
         leftKeys = _actionCommand[:spliterIndex]
         rightKeys = _actionCommand[spliterIndex+1:]

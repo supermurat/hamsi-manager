@@ -25,6 +25,7 @@ import InputOutputs
 import Options
 from Options import OptionsForm
 from Core import Organizer
+from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
@@ -118,7 +119,6 @@ class Hasher(MyDialog):
             packageExtension =  "." + str(self.cbHash.currentText()).lower()
             self.leHashDigestFile.setText(self.lePathOfPackage.text() + packageExtension)  
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def hashOutputChanged(self, _value):
@@ -159,7 +159,6 @@ class Hasher(MyDialog):
             if PathOfPackage is not None:
                 self.lePathOfPackage.setText(trForUI(PathOfPackage))    
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     

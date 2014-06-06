@@ -302,7 +302,6 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(_path, InputOutputs.getObjectType(_path))
-                from Core import Organizer
                 oldFileName = _path
                 newFileName = InputOutputs.moveOrChange(oldFileName, newEmendedName)
                 if newFileName!=oldFileName:
@@ -321,7 +320,6 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(_path, InputOutputs.getObjectType(_path))
-                from Core import Organizer
                 oldFileName = _path
                 newDirName = InputOutputs.moveOrChange(oldFileName, newEmendedName, "directory")
                 if newDirName!=oldFileName:
@@ -340,7 +338,6 @@ class QuickMakeWindow(MyDialog):
                     newEmendedName = str(self.leNewValue.text())
                 else:
                     newEmendedName = Organizer.emend(_path, InputOutputs.getObjectType(_path))
-                from Core import Organizer
                 InputOutputs.activateSmartCheckIcon()
                 oldFileName = _path
                 newDirName = InputOutputs.moveOrChange(oldFileName, newEmendedName, "directory")

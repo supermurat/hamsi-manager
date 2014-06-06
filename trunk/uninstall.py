@@ -32,16 +32,14 @@ if RoutineChecks.checkMandatoryModules():
     InputOutputs.initStartupVariables()
     from Core import Variables
     from Core import Universals
-    Universals.setPaths()
     from Core import Settings
     Universals.fillMySettings(False, False, False)
-    from Core.MyObjects import *
     from Core import Dialogs
     from Core import Execute
     defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(Universals.themePath, "Images"))))
-    StyleFile = open(InputOutputs.joinPath(Universals.themePath, "Style.qss"))
+    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(themePath.themePath, "Images"))))
+    StyleFile = open(InputOutputs.joinPath(themePath.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
     if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
@@ -83,19 +81,19 @@ if RoutineChecks.checkMandatoryModules():
                 self.hblMain.addWidget(self.pages[-1])
             self.vblMain.addLayout(self.hblMain, 20)
             self.hblButtons = MHBoxLayout()
-            self.buttons = [MPushButton(MApplication.translate("Uninstall", "Back")), 
-                            MPushButton(MApplication.translate("Uninstall", "Forward")), 
-                            MPushButton(MApplication.translate("Uninstall", "Uninstall"))]
+            self.buttons = [MPushButton(translate("Uninstall", "Back")), 
+                            MPushButton(translate("Uninstall", "Forward")), 
+                            MPushButton(translate("Uninstall", "Uninstall"))]
             self.hblButtons.addStretch(5)
             for btnNo, btn in enumerate(self.buttons):
                 if btnNo==len(self.buttons)-1 or btnNo==0:
                     btn.setVisible(False)
                 self.hblButtons.addWidget(btn, 1)
                 self.connect(btn,SIGNAL("clicked()"),self.pageChanged)
-            self.pbtnCancel = MPushButton(MApplication.translate("Uninstall", "Cancel"))
+            self.pbtnCancel = MPushButton(translate("Uninstall", "Cancel"))
             self.hblButtons.addWidget(self.pbtnCancel, 1)
             self.connect(self.pbtnCancel,SIGNAL("clicked()"),self.close)
-            self.pbtnFinish = MPushButton(MApplication.translate("Uninstall", "OK"))
+            self.pbtnFinish = MPushButton(translate("Uninstall", "OK"))
             self.hblButtons.addWidget(self.pbtnFinish, 1)
             self.connect(self.pbtnFinish,SIGNAL("clicked()"),self.finish)
             self.pbtnFinish.setVisible(False)
@@ -110,16 +108,16 @@ if RoutineChecks.checkMandatoryModules():
             pnlPage.setLayout(HBox)
             if _pageNo==0:
                 VBox = MVBoxLayout()
-                self.lblAreYouSure = MLabel(MApplication.translate("Uninstall", "Are you sure you want to uninstall Hamsi Manager?"))
+                self.lblAreYouSure = MLabel(translate("Uninstall", "Are you sure you want to uninstall Hamsi Manager?"))
                 VBox.addStretch(10)
                 VBox.addWidget(self.lblAreYouSure)
                 VBox.addStretch(10)
                 HBox.addLayout(VBox)
             if _pageNo==1:
-                lblPleaseSelect = MLabel(MApplication.translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."))
+                lblPleaseSelect = MLabel(translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."))
                 UninstallationDirPath = InputOutputs.getDirName(trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.HamsiManagerDirectory))))
                 self.leUninstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(UninstallationDirPath))))
-                self.pbtnSelectUninstallationDirectory = MPushButton(MApplication.translate("Uninstall", "Browse"))
+                self.pbtnSelectUninstallationDirectory = MPushButton(translate("Uninstall", "Browse"))
                 self.connect(self.pbtnSelectUninstallationDirectory,SIGNAL("clicked()"),self.selectUninstallationDirectory)
                 VBox = MVBoxLayout()
                 VBox.addStretch(2)
@@ -132,7 +130,7 @@ if RoutineChecks.checkMandatoryModules():
                 HBox.addLayout(VBox)
             elif _pageNo==2:
                 import MyPlugins
-                self.lblFinished = MLabel(MApplication.translate("Uninstall", "Uninstallation Completed."))
+                self.lblFinished = MLabel(translate("Uninstall", "Uninstallation Completed."))
                 VBox = MVBoxLayout()
                 VBox.addStretch(2)
                 VBox.addWidget(self.lblFinished)
@@ -144,7 +142,7 @@ if RoutineChecks.checkMandatoryModules():
             return pnlPage
         
         def selectUninstallationDirectory(self):
-            insDir = Dialogs.getExistingDirectory(MApplication.translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."),self.leUninstallationDirectory.text())
+            insDir = Dialogs.getExistingDirectory(translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."),self.leUninstallationDirectory.text())
             if insDir is not None:
                 self.leUninstallationDirectory.setText(trForUI(insDir))
             
@@ -166,10 +164,10 @@ if RoutineChecks.checkMandatoryModules():
                 self.buttons[0].setVisible(False)
                 self.buttons[1].setVisible(False)
                 self.buttons[2].setVisible(False)
-                self.buttons[1].setText(MApplication.translate("Uninstall", "Forward"))
+                self.buttons[1].setText(translate("Uninstall", "Forward"))
                 if self.pageNo==0:
                     self.buttons[1].setVisible(True)
-                    self.buttons[1].setText(MApplication.translate("Uninstall", "Yes"))
+                    self.buttons[1].setText(translate("Uninstall", "Yes"))
                 elif self.pageNo==1:
                     self.buttons[1].setVisible(False)
                     self.buttons[2].setVisible(True)
@@ -195,19 +193,19 @@ if RoutineChecks.checkMandatoryModules():
                         self.UninstallationDirectory = self.UninstallationDirectory[:-1]
                     if self.UninstallationDirectory==InputOutputs.HamsiManagerDirectory:
                         self.pageNo-=1
-                        Dialogs.showError(MApplication.translate("Uninstall", "The path you selected is not valid."),
-                                    MApplication.translate("Uninstall", "The selected path is Hamsi Manager source directory.<br>Please choose a valid uninstallation path."))
+                        Dialogs.showError(translate("Uninstall", "The path you selected is not valid."),
+                                    translate("Uninstall", "The selected path is Hamsi Manager source directory.<br>Please choose a valid uninstallation path."))
                     elif InputOutputs.isDir(self.UninstallationDirectory):
                         InputOutputs.removeFileOrDir(self.UninstallationDirectory)
                         self.pageNo+=1
                     else:
                         self.pageNo-=1
-                        Dialogs.showError(MApplication.translate("Uninstall", "The path you selected is not valid."),
-                                    MApplication.translate("Uninstall", "The selected path points to a file not a folder.<br>Please choose a valid Uninstallation path."))
+                        Dialogs.showError(translate("Uninstall", "The path you selected is not valid."),
+                                    translate("Uninstall", "The selected path points to a file not a folder.<br>Please choose a valid Uninstallation path."))
                 else:
                     self.pageNo-=1
-                    Dialogs.showError(MApplication.translate("Uninstall", "The path you selected is not valid."),
-                                MApplication.translate("Uninstall", "The selected path points to a file not a folder.<br>Please choose a valid Uninstallation path."))
+                    Dialogs.showError(translate("Uninstall", "The path you selected is not valid."),
+                                translate("Uninstall", "The selected path points to a file not a folder.<br>Please choose a valid Uninstallation path."))
                 self.pageChanged(True)
             except:
                 from Core import ReportBug
@@ -236,13 +234,13 @@ if RoutineChecks.checkMandatoryModules():
                 ReportBug.ReportBug()
             
     if Variables.isRunningAsRoot()==False and Variables.isRunableAsRoot():
-        answer = Dialogs.askSpecial(MApplication.translate("Uninstall", "Are You Want To Run As Root?"), MApplication.translate("Uninstall", "Hamsi Manager Uninstaller is running with user privileges.<br>Do you want to run Hamsi Manager Uninstaller with root rights?"), MApplication.translate("Uninstall", "Yes"), MApplication.translate("Uninstall", "No (Continue as is)"), None)
-        if answer==MApplication.translate("Uninstall", "Yes"):
+        answer = Dialogs.askSpecial(translate("Uninstall", "Are You Want To Run As Root?"), translate("Uninstall", "Hamsi Manager Uninstaller is running with user privileges.<br>Do you want to run Hamsi Manager Uninstaller with root rights?"), translate("Uninstall", "Yes"), translate("Uninstall", "No (Continue as is)"), None)
+        if answer==translate("Uninstall", "Yes"):
             NewApp = Execute.executeAsRootWithThread([], "HamsiManagerUninstaller")
             sys.exit()
     try:
         MainWidget=Main()
-        MainWidget.setWindowTitle(MApplication.translate("Uninstall", "Hamsi Manager Uninstaller") + " " + Variables.version)
+        MainWidget.setWindowTitle(translate("Uninstall", "Hamsi Manager Uninstaller") + " " + Variables.version)
         MainWidget.setGeometry(300, 300, 650, 350)
         MainWidget.show()
         Universals.isStartingSuccessfully = True

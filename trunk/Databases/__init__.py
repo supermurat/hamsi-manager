@@ -33,7 +33,7 @@ class Databases:
     def getDefaultConnection():
         global defaultConnection
         if defaultConnection==None:
-            defaultConnection = sqlite.connect(InputOutputs.joinPath(Universals.pathOfSettingsDirectory, "database.sqlite"))
+            defaultConnection = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "database.sqlite"))
         return defaultConnection
     
     def getAllDatabases():

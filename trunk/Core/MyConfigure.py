@@ -68,7 +68,7 @@ class MyConfigure:
         else:
             shortcut.Targetpath = targetPath[0]
         shortcut.WorkingDirectory = _installationDirectory
-        shortcut.IconLocation = InputOutputs.joinPath(Universals.themePath.replace(InputOutputs.HamsiManagerDirectory, _installationDirectory), "Images", "hamsi.ico")
+        shortcut.IconLocation = InputOutputs.joinPath(InputOutputs.themePath.replace(InputOutputs.HamsiManagerDirectory, _installationDirectory), "Images", "hamsi.ico")
         shortcut.save()
         
     def getDesktopFileContent():
@@ -101,7 +101,7 @@ X-MultipleArgs=false
         if _executeCommandOfHamsiManager is None:
             from Core import Execute
             _executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
-        return _content.replace("~InstallationDirectory~", InputOutputs.HamsiManagerDirectory).replace("~ExecuteCommandOfHamsiManager~", _executeCommandOfHamsiManager).replace("~IconPath~", InputOutputs.joinPath(Universals.themePath, "Images", "hamsi.png")).replace("~ThemePath~", Universals.themePath)
+        return _content.replace("~InstallationDirectory~", InputOutputs.HamsiManagerDirectory).replace("~ExecuteCommandOfHamsiManager~", _executeCommandOfHamsiManager).replace("~IconPath~", InputOutputs.joinPath(InputOutputs.themePath, "Images", "hamsi.png")).replace("~ThemePath~", Universals.themePath)
         
         
     def getConfiguredDesktopFileContent(_installationDirectory=InputOutputs.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):

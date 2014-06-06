@@ -25,6 +25,7 @@ import InputOutputs
 import Options
 from Options import OptionsForm
 from Core import Organizer
+from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
@@ -136,7 +137,6 @@ class Packager(MyDialog):
                 packageExtension = ".tar"   
             self.lePathOfPackage.setText(self.lePathOfProject.text()+packageExtension)  
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def pathOfPackageChanged(self, _value):
@@ -147,7 +147,6 @@ class Packager(MyDialog):
                 packageExtension =  "." + str(self.cbHash.currentText()).lower()
             self.leHashDigestFile.setText(self.lePathOfPackage.text()+packageExtension)  
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def hashChanged(self, _value):
@@ -207,7 +206,6 @@ class Packager(MyDialog):
                 self.close()
             Universals.isCanBeShowOnMainWindow = True
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def Clear(self):
@@ -224,7 +222,6 @@ class Packager(MyDialog):
                                     translate("Packager", "You can now pack your project."))
             Universals.isCanBeShowOnMainWindow = True
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def Pack(self):
@@ -237,7 +234,6 @@ class Packager(MyDialog):
                             translate("Packager", "You can now share your project."))
             Universals.isCanBeShowOnMainWindow = True
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     def getPackageType(self):
@@ -254,7 +250,6 @@ class Packager(MyDialog):
                 self.lePathOfProject.setText(trForUI(ProjectPath))  
             self.packageTypeChanged()
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
         
     def packageTypeChanged(self):
@@ -274,7 +269,6 @@ class Packager(MyDialog):
                 packageExtension = ".tar"   
             self.lePathOfPackage.setText(packageName+packageExtension)  
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
         
     def selectPackagePath(self):
@@ -288,7 +282,6 @@ class Packager(MyDialog):
             if PathOfPackage is not None:
                 self.lePathOfPackage.setText(trForUI(PathOfPackage))    
         except:
-            from Core import ReportBug
             ReportBug.ReportBug()
     
     

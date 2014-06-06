@@ -18,6 +18,7 @@
 
 
 import time
+from Core.MyObjects import *
 from Core import Universals
 import InputOutputs
 import logging
@@ -31,7 +32,7 @@ class Records():
     
     def create():
         global recordContents
-        recordContents = str(Universals.translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+        recordContents = str(translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
     
     def setTitle(_title):
         global isSetedTitle, recordContents
@@ -67,30 +68,30 @@ class Records():
     def saveAllRecords():
         global recordContents, isSetedTitle
         if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
-            if InputOutputs.isFile(Universals.recordFilePath)==False:
+            if InputOutputs.isFile(InputOutputs.recordFilePath)==False:
                 create()
             setRecordType(1)
-            InputOutputs.addToFile(Universals.recordFilePath, recordContents)
+            InputOutputs.addToFile(InputOutputs.recordFilePath, recordContents)
             restoreRecordType()
         recordContents = ""
         isSetedTitle = False
     
     def checkSize():
         setRecordType(1)
-        if InputOutputs.isFile(Universals.recordFilePath):
-            if InputOutputs.getSize(Universals.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
-                InputOutputs.moveFileOrDir(Universals.recordFilePath, InputOutputs.joinPath(Universals.oldRecordsDirectoryPath, str(time.strftime("%Y%m%d_%H%M%S")) + ".txt"))
+        if InputOutputs.isFile(InputOutputs.recordFilePath):
+            if InputOutputs.getSize(InputOutputs.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
+                InputOutputs.moveFileOrDir(InputOutputs.recordFilePath, InputOutputs.joinPath(InputOutputs.oldRecordsDirectoryPath, str(time.strftime("%Y%m%d_%H%M%S")) + ".txt"))
         restoreRecordType()
         
     def getBackupRecordsList():
-        if InputOutputs.isDir(Universals.oldRecordsDirectoryPath)==True:
-            return InputOutputs.readDirectory(Universals.oldRecordsDirectoryPath, "file")
+        if InputOutputs.isDir(InputOutputs.oldRecordsDirectoryPath)==True:
+            return InputOutputs.readDirectory(InputOutputs.oldRecordsDirectoryPath, "file")
         else:
             return []
         
     def read(_recordFilePath=None):
         if _recordFilePath==None:
-            _recordFilePath = Universals.recordFilePath
+            _recordFilePath = InputOutputs.recordFilePath
         if InputOutputs.isFile(_recordFilePath)==True:
             return InputOutputs.readFromFile(_recordFilePath, "utf-8")
         else:
@@ -101,7 +102,7 @@ class Records():
             return recordContents
             
     def clearRecords():
-        InputOutputs.writeToFile(Universals.recordFilePath, str(Universals.translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+        InputOutputs.writeToFile(InputOutputs.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
             
             
             

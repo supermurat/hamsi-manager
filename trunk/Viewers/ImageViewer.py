@@ -65,11 +65,11 @@ class ImageViewer(MWidget):
             _image = InputOutputs.checkSource(_image, "file", False)
             if _image is None:
                 if self.isCorrectedWhenNotExist==True:
-                    _image = InputOutputs.joinPath(Universals.themePath, "Images", "ok.png")
+                    _image = InputOutputs.joinPath(themePath.themePath, "Images", "ok.png")
                 else:
-                    _image = InputOutputs.joinPath(Universals.themePath, "Images", "notExist.png")
+                    _image = InputOutputs.joinPath(themePath.themePath, "Images", "notExist.png")
         elif _valueType=="file":
-            _image = InputOutputs.joinPath(Universals.themePath, "Images", "notExist.png")
+            _image = InputOutputs.joinPath(themePath.themePath, "Images", "notExist.png")
         self.pmapImage.detach()
         if _valueType=="data":
             self.pmapImage.loadFromData(_image)
