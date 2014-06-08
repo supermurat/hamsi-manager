@@ -116,7 +116,7 @@ class QuickOptions(MMenu):
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
                                 "isActiveClearGeneral", "isClearEmptyDirectoriesWhenSave", "isAutoCleanSubFolderWhenSave", 
                                 "isActiveAutoMakeIconToDirectory"]
-        if Universals.isActiveDirectoryCover==False:
+        if Variables.isActiveDirectoryCover==False:
             self.hiddenKeys += ["isActiveAutoMakeIconToDirectory"]
         self.createActions()
         self.checkEnableStates()

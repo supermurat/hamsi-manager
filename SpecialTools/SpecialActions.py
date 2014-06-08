@@ -240,7 +240,7 @@ class SpecialActions(MWidget):
         rightKeys = actionCommand[spliterIndex+1:]
         leftColumnKeys = []
         rightColumnKeys = []
-        Tables.isAskShowHiddenColumn = True
+        Universals.MainWindow.Table.isAskShowHiddenColumn = True
         if len(leftKeys)>0 and len(rightKeys)>0:
             for objectNameAndPoint in leftKeys:
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
@@ -248,7 +248,7 @@ class SpecialActions(MWidget):
                 if objectName.find("Concatenate")==-1:
                     for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
                         if objectName==column:
-                            Tables.checkHiddenColumn(no)
+                            Universals.MainWindow.Table.checkHiddenColumn(no)
                             leftColumnKeys.append(objectNameAndPoint)
                 else:
                     leftColumnKeys.append(objectNameAndPoint)
@@ -258,7 +258,7 @@ class SpecialActions(MWidget):
                 if objectName.find("Concatenate")==-1:
                     for no, column in enumerate(Universals.MainWindow.Table.tableColumnsKey):
                         if objectName==column:
-                            Tables.checkHiddenColumn(no)
+                            Universals.MainWindow.Table.checkHiddenColumn(no)
                             rightColumnKeys.append(objectNameAndPoint)
                 else:
                     rightColumnKeys.append(objectNameAndPoint)

@@ -22,6 +22,7 @@ import SearchEngines
 from Core.MyObjects import *
 from Details import MusicDetails
 from Core import Universals
+from Core import Variables
 from Core import Dialogs
 import Options
 import Taggers
@@ -102,7 +103,7 @@ class MusicTable():
         isMovedToNewDirectory = False
         currentDirectoryPath = ""
         newDirectoryPath = ""
-        if Universals.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
+        if Variables.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -211,7 +212,7 @@ class MusicTable():
                     for fileName in otherFileNames:
                         changingOtherFileDirectories.append([InputOutputs.joinPath(currentDirectoryPath, fileName), InputOutputs.joinPath(newDirectoryPath, fileName)])
                     pathValues += InputOutputs.changeDirectories(changingOtherFileDirectories)
-        if Universals.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
+        if Variables.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changeTags(changingTags)

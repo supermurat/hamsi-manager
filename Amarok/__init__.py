@@ -19,10 +19,10 @@
 
 from os import *
 import sys
-from Core import Variables
-import InputOutputs
-from Core.MyObjects import *
 from time import gmtime
+from Core.MyObjects import *
+import InputOutputs
+from Core import Variables
 from Core import Dialogs
 from Core import Organizer
 from Core import Universals
@@ -39,14 +39,9 @@ except:pass
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
 class Amarok:
-    global getMySQLModule, checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType, isUsable
+    global getMySQLModule, checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType
     isAskEmbeddedDBConfiguration = True
     dbConnection = None
-    
-    def isUsable():
-        if Variables.isWindows:
-            return False
-        return True
     
     def getMySQLModule():
         if isLoadedMysql: return mdb

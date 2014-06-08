@@ -60,7 +60,6 @@ if RoutineChecks.checkMandatoryModules():
             MMainWindow.__init__(self, parent)
             Universals.setApp(HamsiManagerApp)
             Universals.setMainWindow(self)
-            Universals.fillRemainderUniversals()
             self.isUninstallFinised = False
             self.pageNo, self.pageSize = 0, 3
             self.vblMain = MVBoxLayout()

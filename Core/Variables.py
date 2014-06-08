@@ -23,8 +23,9 @@ import InputOutputs
 
 class Variables():
     global getAvailablePlayers, getCharSets, getStyles, getScreenSize, getUserDesktopPath, getDefaultValues, getValueTypesAndValues, getKDE4HomePath, isAvailableKDE4, getSearchEnginesNames, getTaggersNames, getMyPluginsNames, getInstalledThemes, getInstalledLanguagesCodes, getInstalledLanguagesNames, isAvailableSymLink, getHashTypes, isRunableAsRoot, isRunningAsRoot, getColorSchemesAndPath, isPython3k, checkMysqldSafe, isUpdatable, isWindows
-    global keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys
+    global keysOfSettings, willNotReportSettings, mplayerSoundDevices, imageExtStringOnlyPNGAndJPG, windowModeKeys, tableTypeIcons, iconNameFormatKeys, iconNameFormatLabels
     global osName, machineType, version, intversion, settingVersion, Catalog, aboutOfHamsiManager, fileReNamerTypeNamesKeys, validSentenceStructureKeys, fileExtesionIsKeys, installedLanguagesCodes, installedLanguagesNames, libPath, getLibraryDirectoryPath, isBuilt, getBuildType, getDefaultLanguageCode
+    global isActiveDirectoryCover, isActiveAmarok, tableTypesNames
     installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
     osName = os.name
     machineType = platform.machine()
@@ -43,6 +44,10 @@ class Variables():
     windowModeKeys = ["Normal", "Mini"]
     tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png", "amarokMusicTable.png", "amarokMusicTable.png", "amarokCopyTable.png"]
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
+    iconNameFormatLabels =  [translate("Variables", "%Artist%"), 
+                            translate("Variables", "%Album%"), 
+                            translate("Variables", "%Year%"), 
+                            translate("Variables", "%Genre%")]
     keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelections", 
                   "isRunOnDoubleClick", "isChangeSelected", 
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
@@ -100,9 +105,27 @@ class Variables():
                   "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
                   "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", 
                   "isDecodeURLStrings", "isCheckUnSavedValues", "isAutoSaveScripts", "maxDeletedDirectorySize"]
-    willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", 
-                  "amarokDBPass", "amarokDBDB"]
+    willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"]
     
+    isActiveDirectoryCover = True
+    isActiveAmarok = True
+    
+    if isWindows=="nt":
+        isActiveDirectoryCover = False
+        isActiveAmarok = False
+    
+    tableTypesNames = [translate("Tables", "Folder Table"), 
+                        translate("Tables", "File Table"), 
+                        translate("Tables", "Music Table"), 
+                        translate("Tables", "Subfolder Table")]
+    if isActiveDirectoryCover:
+        tableTypesNames += [translate("Tables", "Cover Table")]
+    if isActiveAmarok:
+        tableTypesNames += [translate("Tables", "Amarok Cover Table"), 
+                        translate("Tables", "Amarok Music Table"), 
+                        translate("Tables", "Amarok Artist Table"), 
+                        translate("Tables", "Amarok Copy Table")]
+                        
     def isBuilt():
         return InputOutputs.isFile(joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
                    

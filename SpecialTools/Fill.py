@@ -131,12 +131,12 @@ class Fill(MWidget):
        
     def apply(self):
         newString = str(self.leFill.text())
-        Tables.isAskShowHiddenColumn=True
+        Universals.MainWindow.Table.isAskShowHiddenColumn = True
         for No, columnName in enumerate(Universals.MainWindow.Table.tableColumns):
             if str(self.columns.currentText()) == str(columnName):
                 columnNo=No
                 break
-        if Tables.checkHiddenColumn(columnNo,False)==False:
+        if Universals.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
             return False
         if self.cbFillType.currentIndex()==1:
             newString = int(self.spStartDigit.value())-1
