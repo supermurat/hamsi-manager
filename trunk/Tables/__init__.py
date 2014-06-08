@@ -28,11 +28,10 @@ from Core import ReportBug
 from Options import TableQuickOptions
 
 class Tables(MTableWidget):
-    global checkHiddenColumn, isAskShowHiddenColumn, isChangeHiddenColumn, exportValues, askHiddenColumn, isAskIncorrectFileExtension
-    isAskShowHiddenColumn, isAskIncorrectFileExtension = True, True
     def __init__(self, _parent):
         global layouts,widgets
         MTableWidget.__init__(self, _parent)
+        self.isAskShowHiddenColumn = True
         self.currentDirectoryPath = ""
         self.newDirectoryPath = ""
         self.currentTableContentValues = []
@@ -138,7 +137,7 @@ class Tables(MTableWidget):
             from Tables import SubFolderTable
             self.SubTable = SubFolderTable.SubFolderTable(self)
         elif Universals.tableType==4:
-            if Universals.isActiveDirectoryCover:
+            if Variables.isActiveDirectoryCover:
                 from Tables import CoverTable
                 self.SubTable = CoverTable.CoverTable(self)
             else:
@@ -378,9 +377,9 @@ class Tables(MTableWidget):
         self.newDirectoryPath = _path
         
     def refresh(self, _path = ""):
-        global isShowChanges, isAskShowHiddenColumn, isAskIncorrectFileExtension
+        global isShowChanges
         self.setCurrentDirectory(_path)
-        isAskShowHiddenColumn, isAskIncorrectFileExtension = True, True
+        self.isAskShowHiddenColumn = True
         isShowChanges=False
         self.clearHistoryPoints()
         self.clear()
@@ -403,12 +402,12 @@ class Tables(MTableWidget):
         self.refreshShowedAndHiddenColumns()
         if Universals.getBoolValue("isResizeTableColumnsToContents"):
             self.resizeColumnsToContents()
-        Universals.MainWindow.StatusBar.setTableInfo(Universals.tableTypesNames[Universals.tableType] + trForUI(" : ") + trForUI(str(self.rowCount())))
+        Universals.MainWindow.StatusBar.setTableInfo(Variables.tableTypesNames[Universals.tableType] + trForUI(" : ") + trForUI(str(self.rowCount())))
         
     def save(self):
         try:
             from Core import Records
-            Records.setTitle(Universals.tableTypesNames[Universals.tableType])
+            Records.setTitle(Variables.tableTypesNames[Universals.tableType])
             InputOutputs.activateSmartCheckIcon()
             InputOutputs.activateSmartCheckEmptyDirectories()
             from Core import MyThread
@@ -428,7 +427,7 @@ class Tables(MTableWidget):
                             isGoUpDirectoryWithFileTable = True
                 if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
                     if Universals.tableType in [0, 1, 2, 3]:
-                        if Universals.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                        if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                             InputOutputs.checkIcon(self.newDirectoryPath)
                 InputOutputs.completeSmartCheckIcon()
                 InputOutputs.completeSmartCheckEmptyDirectories(True, True)
@@ -526,7 +525,6 @@ class Tables(MTableWidget):
         return True
         
     def checkFileExtensions(self, _columnNo, _fileNameKeyOrDestinationColumnNo, _isCheckFile=False):
-        global isAskIncorrectFileExtension
         destinationParameterType = "fileNameKey"
         if type(_fileNameKeyOrDestinationColumnNo)==type(0):
             destinationParameterType = "destinationColumnNo"
@@ -564,37 +562,35 @@ class Tables(MTableWidget):
                     if answer==Dialogs.Yes or answer==translate("Dialogs", "Yes"):
                         self.item(rowNo,_columnNo).setText(trForUI(cFileName + "." + sFileExt))
 
-    def askHiddenColumn(_columnNo, _isYesToAll=True):
-        global isChangeHiddenColumn, isAskShowHiddenColumn
+    def askHiddenColumn(self, _columnNo, _isYesToAll=True):
         if _isYesToAll==False:
-            isAskShowHiddenColumn = True
-        if isAskShowHiddenColumn:
+            self.isAskShowHiddenColumn = True
+        if self.isAskShowHiddenColumn:
             if _isYesToAll==True:
                 answer = Dialogs.askSpecial(translate("Tables", "Hidden Field"), 
-                                str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (Universals.MainWindow.Table.tableColumns[_columnNo]), 
+                                str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (self.tableColumns[_columnNo]), 
                                 translate("Dialogs", "Yes"), 
                                 translate("Dialogs", "No"), 
                                 translate("Dialogs", "Yes To All"))  
             else:
                 answer = Dialogs.ask(translate("Tables", "Hidden Field"), 
-                                str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (Universals.MainWindow.Table.tableColumns[_columnNo]))   
+                                str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (self.tableColumns[_columnNo]))   
             if answer==Dialogs.No or answer==translate("Dialogs", "No"):
-                isChangeHiddenColumn=False
                 Dialogs.showError(translate("Tables", "Action Cancelled"), 
                                 translate("Tables", "You have cancelled the action.<br>You can make the necessary changes and reperform the action."))
                 return False
             elif answer==translate("Dialogs", "Yes To All"):
-                isAskShowHiddenColumn=False
-        Universals.MainWindow.Table.mContextMenuColumnsActions[_columnNo].setChecked(True)
+                self.isAskShowHiddenColumn=False
+        self.mContextMenuColumnsActions[_columnNo].setChecked(True)
         self.refreshShowedAndHiddenColumns()
         return True
     
-    def checkHiddenColumn(_columnNo, _isYesToAll=True):
-        if Universals.MainWindow.Table.isColumnHidden(_columnNo)==True:
-            return askHiddenColumn(_columnNo, _isYesToAll)
+    def checkHiddenColumn(self, _columnNo, _isYesToAll=True):
+        if self.isColumnHidden(_columnNo)==True:
+            return self.askHiddenColumn(_columnNo, _isYesToAll)
         return True
         
-    def exportValues(_actionType="return",_formatType="html", _extInfo="no"):
+    def exportValues(self, _actionType="return",_formatType="html", _extInfo="no"):
         import os
         info = ""
         if _formatType=="html":
@@ -603,19 +599,19 @@ class Tables(MTableWidget):
             elif _extInfo=="title":
                 info += " \n<h3>%s : </h3>" % (str(translate("Tables", "Table Contents")))
             info += " \n<table border=1> \n<tr> \n<td>*</td> \n"
-            for columnNo in range(Universals.MainWindow.Table.columnCount()):
-                if Universals.MainWindow.Table.isColumnHidden(columnNo)==False:
+            for columnNo in range(self.columnCount()):
+                if self.isColumnHidden(columnNo)==False:
                     info +="<td><b>"
-                    info +=str(Universals.MainWindow.Table.tableColumns[columnNo])
+                    info +=str(self.tableColumns[columnNo])
                     info +="</b></td> \n"
             info +="</tr> \n"
-            for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isRowHidden(rowNo)==False:
+            for rowNo in range(self.rowCount()):
+                if self.isRowHidden(rowNo)==False:
                     info +=" \n<tr> \n<td>" + str (rowNo + 1) + "</td> \n"
-                    for columnNo in range(Universals.MainWindow.Table.columnCount()):
-                        if Universals.MainWindow.Table.isColumnHidden(columnNo)==False:
+                    for columnNo in range(self.columnCount()):
+                        if self.isColumnHidden(columnNo)==False:
                             info +="<td>"
-                            info +=str(str(Universals.MainWindow.Table.item(rowNo,columnNo).text()))
+                            info +=str(str(self.item(rowNo,columnNo).text()))
                             info +="</td> \n"
                     info +="</tr> \n"
             info+="</table> \n"
@@ -625,17 +621,17 @@ class Tables(MTableWidget):
             elif _extInfo=="title":
                 info +=" %s : \n" % (str(translate("Tables", "Table Contents")))
             info += "*\t"
-            for columnNo in range(Universals.MainWindow.Table.columnCount()):
-                if Universals.MainWindow.Table.isColumnHidden(columnNo)==False:
-                    info +=str(Universals.MainWindow.Table.tableColumns[columnNo])
+            for columnNo in range(self.columnCount()):
+                if self.isColumnHidden(columnNo)==False:
+                    info +=str(self.tableColumns[columnNo])
                     info +="\t"
             info +="\n"
-            for rowNo in range(Universals.MainWindow.Table.rowCount()):
+            for rowNo in range(self.rowCount()):
                 info += str(rowNo + 1)+"\t"
-                if Universals.MainWindow.Table.isRowHidden(rowNo)==False:
-                    for columnNo in range(Universals.MainWindow.Table.columnCount()):
-                        if Universals.MainWindow.Table.isColumnHidden(columnNo)==False:
-                            info +=str(str(Universals.MainWindow.Table.item(rowNo,columnNo).text()))
+                if self.isRowHidden(rowNo)==False:
+                    for columnNo in range(self.columnCount()):
+                        if self.isColumnHidden(columnNo)==False:
+                            info +=str(str(self.item(rowNo,columnNo).text()))
                             info +="\t"
                     info +="\n"
         if _actionType=="return":
@@ -655,7 +651,7 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
-                                    InputOutputs.joinPath(Variables.userDirectoryPath, InputOutputs.getBaseName(Universals.MainWindow.Table.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
+                                    InputOutputs.joinPath(Variables.userDirectoryPath, InputOutputs.getBaseName(self.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
             if filePath is not None:
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"

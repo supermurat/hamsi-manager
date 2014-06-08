@@ -373,8 +373,7 @@ class ReportBugDialog(MDialog):
                 settingText = "<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + currentDirectoryPath + "</p>"
                 settingText += "<p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
                 try:
-                    import Tables
-                    settingText += Tables.exportValues("return", "html", "no")
+                    settingText += Universals.MainWindow.Table.exportValues("return", "html", "no")
                 except:pass
                 settingText += "<hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
                 try:

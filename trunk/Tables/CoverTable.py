@@ -24,6 +24,7 @@ from Details import CoverDetails
 from Core import Dialogs
 from time import gmtime
 from Core import Universals
+from Core import Variables
 from Core import ReportBug
 
 class CoverTable():
@@ -32,7 +33,7 @@ class CoverTable():
         self.keyName = "cover"
         self.hiddenTableColumnsSettingKey = "hiddenCoverTableColumns"
         self.refreshColumns()
-        if Universals.isActiveAmarok:
+        if Variables.isActiveAmarok:
             pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
             MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
             self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnGetFromAmarok)
@@ -261,7 +262,7 @@ class CoverTable():
                 Dialogs.showState(translate("CoverTable", "Values Are Being Processed"), 2, 2)
                 if directoriesAndValues!=None:
                     for rowNo in range(self.Table.rowCount()):
-                        if self.Table.checkHiddenColumn(3) and self.Table.checkHiddenColumn(4):
+                        if Universals.MainWindow.Table.checkHiddenColumn(3) and Universals.MainWindow.Table.checkHiddenColumn(4):
                             if self.Table.isChangableItem(rowNo, 3):
                                 directoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), str(self.Table.item(rowNo,0).text()), str(self.Table.item(rowNo,1).text()))
                                 if directoryPath in directoriesAndValues:

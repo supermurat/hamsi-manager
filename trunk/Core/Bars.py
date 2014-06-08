@@ -177,18 +177,18 @@ class Bars():
                 Universals.MainWindow.close()
             elif actionName==translate("MenuBar", "HTML Format"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    Tables.exportValues("file", "html", "title")
+                    Universals.MainWindow.Table.exportValues("file", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    Tables.exportValues("dialog", "html", "title")
+                    Universals.MainWindow.Table.exportValues("dialog", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    Tables.exportValues("clipboard", "html", "title")
+                    Universals.MainWindow.Table.exportValues("clipboard", "html", "title")
             elif actionName==translate("MenuBar", "Text Format"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    Tables.exportValues("file", "plainText", "title")
+                    Universals.MainWindow.Table.exportValues("file", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    Tables.exportValues("dialog", "plainText", "title")
+                    Universals.MainWindow.Table.exportValues("dialog", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    Tables.exportValues("clipboard", "plainText", "title")
+                    Universals.MainWindow.Table.exportValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
                     InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "fileTree", "title")
@@ -461,7 +461,7 @@ class TableToolsBar(MToolBar):
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
         actgActionGroupTableTypes = MActionGroup(self)
         actgActionGroupTableTypes.setObjectName(translate("ToolsBar", "Table Types"))
-        for x, name in enumerate(Universals.tableTypesNames):
+        for x, name in enumerate(Variables.tableTypesNames):
             a = actgActionGroupTableTypes.addAction(MIcon("Images:"+Variables.tableTypeIcons[x]), name)
             a.setCheckable(True)
             a.setObjectName(name)
@@ -513,7 +513,7 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Clear Empty Directories"),self)
         self.clearEmptyDirectories.setObjectName(translate("ToolsBar", "Clear Empty Directories"))
         self.clearEmptyDirectories.setToolTip(translate("ToolsBar", "Clears the folder contents based on the criteria set."))
-        if Universals.isActiveDirectoryCover:
+        if Variables.isActiveDirectoryCover:
             self.actCheckIcon = MAction(MIcon("Images:checkIcon.png"),
                                                 translate("ToolsBar", "Check Icon"),self)
             self.actCheckIcon.setObjectName(translate("ToolsBar", "Check Icon"))
@@ -555,7 +555,7 @@ class ToolsBar(MToolBar):
                                                     translate("ToolsBar", "Show Last Actions"),self)
             self.actLastActions.setObjectName(translate("ToolsBar", "Show Last Actions"))
             self.actLastActions.setToolTip(translate("ToolsBar", "You can see last actions."))
-        if Universals.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
+        if Variables.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
             self.actAmarokEmbeddedDBConfigurator = MAction(MIcon("Images:amarokEmbeddedDBConfigurator.png"),
                                                     translate("ToolsBar", "Amarok Embedded Database Configurator"),self)
             self.actAmarokEmbeddedDBConfigurator.setObjectName(translate("ToolsBar", "Amarok Embedded Database Configurator"))
@@ -569,12 +569,12 @@ class ToolsBar(MToolBar):
         self.addAction(self.actScriptManager)
         if Universals.getBoolValue("isSaveActions"):
             self.addAction(self.actLastActions)
-        if Universals.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
+        if Variables.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
             self.addAction(self.actAmarokEmbeddedDBConfigurator)
         self.addSeparator()
         self.addAction(self.clearEmptyDirectories)
         self.addAction(self.actRemoveOnlySubFiles)
-        if Universals.isActiveDirectoryCover:
+        if Variables.isActiveDirectoryCover:
             self.addAction(self.actCheckIcon)
         if Universals.windowMode==Variables.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
@@ -591,12 +591,12 @@ class ToolsBar(MToolBar):
         Universals.MainWindow.Menu.mTools.addAction(self.actScriptManager)
         if Universals.getBoolValue("isSaveActions"):
             Universals.MainWindow.Menu.mTools.addAction(self.actLastActions)
-        if Universals.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
+        if Variables.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
             Universals.MainWindow.Menu.mTools.addAction(self.actAmarokEmbeddedDBConfigurator)
         Universals.MainWindow.Menu.mTools.addSeparator()
         Universals.MainWindow.Menu.mTools.addAction(self.clearEmptyDirectories)
         Universals.MainWindow.Menu.mTools.addAction(self.actRemoveOnlySubFiles)
-        if Universals.isActiveDirectoryCover:
+        if Variables.isActiveDirectoryCover:
             Universals.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
         Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTools)
         self.createScriptsMenu(_parent)

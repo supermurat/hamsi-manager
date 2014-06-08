@@ -131,7 +131,6 @@ if RoutineChecks.checkMandatoryModules():
                 Universals.printForDevelopers("QuickMake")
                 try:
                     Universals.setApp(HamsiManagerApp)
-                    Universals.fillRemainderUniversals()
                     from Core import QuickMake
                     quickMake = QuickMake.QuickMake()
                     if RoutineChecks.isQuickMake:
@@ -158,7 +157,6 @@ if RoutineChecks.checkMandatoryModules():
                             self.setObjectName("RealMainWindow")
                             Universals.setApp(HamsiManagerApp)
                             Universals.setMainWindow(self)
-                            Universals.fillRemainderUniversals()
                             self.isLockedMainForm = False
                             self.Menu = None
                             self.Table = None
@@ -278,7 +276,7 @@ if RoutineChecks.checkMandatoryModules():
                                 Universals.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 Universals.saveSettings()
                                 Settings.saveUniversalSettings()
-                                if Universals.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
+                                if Variables.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
                                     import Amarok
                                     Amarok.stopEmbeddedDB()
                                 Universals.printForDevelopers("After Save Configs")

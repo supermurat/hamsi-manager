@@ -98,13 +98,13 @@ class Clear(MWidget):
         setCompleter(self.leClear, self.lblClear.text())
           
     def apply(self):
-        Tables.isAskShowHiddenColumn=True
+        Universals.MainWindow.Table.isAskShowHiddenColumn = True
         if self.columns.currentIndex()==0:
             columns = list(range(0,Universals.MainWindow.Table.columnCount()))
         else:
             columns = [self.columns.currentIndex()-1]
         for columnNo in columns:
-            if Tables.checkHiddenColumn(columnNo,False)==False:
+            if Universals.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
                 continue
             for rowNo in range(Universals.MainWindow.Table.rowCount()):
                 if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):

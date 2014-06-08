@@ -62,7 +62,7 @@ class TableQuickOptions(MMenu):
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
-        if Universals.isActiveAmarok == False:
+        if Variables.isActiveAmarok == False:
             self.hiddenKeys += ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 

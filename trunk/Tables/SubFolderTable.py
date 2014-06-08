@@ -25,6 +25,7 @@ from Core import Dialogs
 import Options
 from time import gmtime
 from Core import Universals
+from Core import Variables
 from Core import ReportBug
 
 class SubFolderTable():
@@ -65,7 +66,7 @@ class SubFolderTable():
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
-        if Universals.isActiveAmarok and Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if Variables.isActiveAmarok and Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -104,7 +105,7 @@ class SubFolderTable():
                 break
         Universals.finishThreadAction()
         pathValues = InputOutputs.changeDirectories(changingFileDirectories)
-        if Universals.isActiveAmarok and Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if Variables.isActiveAmarok and Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changePaths(pathValues, "file")

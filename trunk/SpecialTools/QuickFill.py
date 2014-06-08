@@ -81,12 +81,12 @@ class QuickFill(MWidget):
             
     def apply(self):
         _newString = str(self.fillFrom.text())
-        Tables.isAskShowHiddenColumn=True
+        Universals.MainWindow.Table.isAskShowHiddenColumn = True
         for No, columnName in enumerate(Universals.MainWindow.Table.tableColumns):
             if str(self.fillFrom.objectName()) == str(columnName):
                 columnNo=No
                 break
-        if Tables.checkHiddenColumn(columnNo,False)==False:
+        if Universals.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
             return False
         for rowNo in range(Universals.MainWindow.Table.rowCount()):
             if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):

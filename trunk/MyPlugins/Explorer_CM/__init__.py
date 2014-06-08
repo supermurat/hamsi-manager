@@ -265,7 +265,7 @@ def installThisPlugin():
             mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
             for action in object["actions"]:
                 if action["key"]=="checkIcon":
-                    if Universals.isActiveDirectoryCover==False:
+                    if Variables.isActiveDirectoryCover==False:
                         continue
                 winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"])
                 actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)

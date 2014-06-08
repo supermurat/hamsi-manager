@@ -25,7 +25,7 @@ import InputOutputs
 from Core.MyObjects import *
 
 class Universals():
-    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, isActiveAmarok, getBoolValue, windowMode, tableTypesNames, tableType, getThisTableType, fillRemainderUniversals, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, getIconNameFormatLabels, fileOfSettings, setPathOfSettingsDirectory, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, Utf8Contents, isActiveDirectoryCover, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild
+    global setApp, setMainWindow, MainWindow, HamsiManagerApp, MySettings, setMySetting, saveSettings, isStartingSuccessfully, loggingLevel, fillMySettings, activeWindow, isShowVerifySettings, getListFromListString, changedDefaultValuesKeys, newSettingsKeys, isCanBeShowOnMainWindow, getDateValue, getBoolValue, windowMode, tableType, getThisTableType, clearAllChilds, threadActionState, startThreadAction, cancelThreadAction, finishThreadAction, isContinueThreadAction, printForDevelopers, isStartedCloseProcces, getStringFromList, fileOfSettings, setPathOfSettingsDirectory, isRaisedAnError, trForUI, trStr, trQVariant, getUtf8Data, trUnicode, trDecode, trDecodeList, trEncode, trEncodeList, getValue, Utf8Contents, getListValue, getLastPathByEvent, setLastPathByEvent, getLastPathKey, getAllChildren, getChild
     MainWindow = None 
     isStartingSuccessfully = False
     isStartedCloseProcces = False
@@ -35,18 +35,12 @@ class Universals():
     changedDefaultValuesKeys = []
     newSettingsKeys = []
     isCanBeShowOnMainWindow = False
-    isActiveAmarok = False
     windowMode = "Normal"
     threadActionState = None
-    tableTypesNames = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     tableType = None
     fileOfSettings = "mySettings.ini"
     isRaisedAnError = False
     Utf8Contents = {}
-    isActiveDirectoryCover = True
-    
-    if os.name=="nt":
-        isActiveDirectoryCover = False
     
     def __init__(self):
         pass
@@ -165,7 +159,7 @@ class Universals():
         InputOutputs.themePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes", MySettings["themeName"])
         if tableType == None:
             tableType = int(MySettings["tableType"])
-            if tableType<0 or tableType>=len(tableTypesNames):
+            if tableType<0 or tableType>=len(Variables.tableTypesNames):
                 tableType = 1
         if getBoolValue("isInstalledKDE4Language")==False:
             from Core import MyConfigure
@@ -250,39 +244,17 @@ class Universals():
     def getThisTableType(_tableType):
         try:
             tt = int(_tableType)
-            if tt<0 or tt>=len(tableTypesNames):
+            if tt<0 or tt>=len(Variables.tableTypesNames):
                 tt = 1
         except:
             try:
-                for x, name in enumerate(tableTypesNames):
+                for x, name in enumerate(Variables.tableTypesNames):
                     if str(name) == str(_tableType):
                         return x
                 tt = 1
             except:
                     tt = 1
         return tt
-        
-    def fillRemainderUniversals():#FIXME:check is it required
-        global tableTypesNames, isActiveAmarok
-        import Amarok
-        isActiveAmarok = Amarok.isUsable()
-        tableTypesNames = [translate("Tables", "Folder Table"), 
-                            translate("Tables", "File Table"), 
-                            translate("Tables", "Music Table"), 
-                            translate("Tables", "Subfolder Table")]
-        if isActiveDirectoryCover:
-            tableTypesNames += [translate("Tables", "Cover Table")]
-        if isActiveAmarok:
-            tableTypesNames += [translate("Tables", "Amarok Cover Table"), 
-                            translate("Tables", "Amarok Music Table"), 
-                            translate("Tables", "Amarok Artist Table"), 
-                            translate("Tables", "Amarok Copy Table")]
-        
-    def getIconNameFormatLabels():
-        return [translate("Universals", "%Artist%"), 
-                            translate("Universals", "%Album%"), 
-                            translate("Universals", "%Year%"), 
-                            translate("Universals", "%Genre%")]
             
     def clearAllChilds(_object, _isClearThis=False):
         childs = _object.children()
