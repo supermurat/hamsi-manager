@@ -370,7 +370,7 @@ def checkMyModules(_HamsiManagerApp):
         import SpecialTools
         import Tables
         from Core import FileManager
-        from Core import Bars
+        import Bars
         return True
     except ImportError as error:
         from PyQt4 import QtGui

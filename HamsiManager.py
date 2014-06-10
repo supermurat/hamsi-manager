@@ -147,7 +147,8 @@ if RoutineChecks.checkMandatoryModules():
                 import SpecialTools
                 import Tables
                 from Core import FileManager
-                from Core import Bars
+                import Bars
+                from Bars import TableToolsBar, ToolsBar, StatusBar, MenuBar
                 Universals.printForDevelopers("After Modules")
                 try:
                     class Main(MMainWindow):
@@ -165,13 +166,13 @@ if RoutineChecks.checkMandatoryModules():
                             Universals.printForDevelopers("Before Bars.Bars")
                             self.Bars = Bars.Bars()
                             Universals.printForDevelopers("Before Bars.StatusBar")
-                            self.StatusBar = Bars.StatusBar(self)
+                            self.StatusBar = StatusBar.StatusBar(self)
                             Universals.printForDevelopers("Before Bars.MenuBar")
-                            self.Menu = Bars.MenuBar(self)
+                            self.Menu = MenuBar.MenuBar(self)
                             Universals.printForDevelopers("Before Bars.ToolsBar")
-                            self.ToolsBar = Bars.ToolsBar(self)
+                            self.ToolsBar = ToolsBar.ToolsBar(self)
                             Universals.printForDevelopers("Before Bars.TableToolsBar")
-                            self.TableToolsBar = Bars.TableToolsBar(self)
+                            self.TableToolsBar = TableToolsBar.TableToolsBar(self)
                             Universals.printForDevelopers("Before Bars.refreshBars")
                             self.Bars.refreshBars()
                             Universals.printForDevelopers("Before FileManager.FileManager")

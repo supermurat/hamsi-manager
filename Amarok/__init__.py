@@ -38,7 +38,7 @@ try:
 except:pass
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
-class Amarok:
+class Amarok():
     global getMySQLModule, checkAmarok, connectAndGetDB, checkAndGetDB, checkEmbeddedDB, isAskEmbeddedDBConfiguration, dbConnection, openEmbeddedDBConfigurator, getTagSourceTypes, getTagTargetTypes, getSelectedTagSourseType, getSelectedTagTargetType, setSelectedTagSourseType, setSelectedTagTargetType
     isAskEmbeddedDBConfiguration = True
     dbConnection = None
