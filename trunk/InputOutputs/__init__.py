@@ -34,7 +34,7 @@ from Core import Dialogs
 
 
 
-class InputOutputs:
+class InputOutputs():
     """Read and writes are arranged in this class"""
     global joinPath, splitPath, isFile, isDir, isLink, moveFileOrDir, listDir, makeDirs, removeDir, removeFile, getDirName, getBaseName, copyDirTree, trSort, readDirectory, moveOrChange, moveDir, appendingDirectories, readDirectoryWithSubDirectories, clearEmptyDirectories, clearUnneededs, clearIgnoreds, checkIcon, removeFileOrDir, changeDirectories, walk, getDirectorySize, checkSizeOfDeletedFiles
     global readTextFile, writeTextFile, clearPackagingDirectory, makePack, extractPack, copyOrChange, isExist, copyDirectory, isWritableFileOrDir, getRealDirName, checkSource, checkDestination, copyFileOrDir, checkNewDestination, getMimeType

@@ -32,9 +32,9 @@ class Variables():
     isPython3k = float(sys.version[:3])>=3.0
     isWindows = os.name=="nt"
     Catalog = "HamsiManager" 
-    version = "1.3.2"
-    intversion = 1320
-    settingVersion = "1300"
+    version = "1.3.7"
+    intversion = 1370
+    settingVersion = "1370"
     aboutOfHamsiManager = ""
     fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
     validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
@@ -678,7 +678,7 @@ class Variables():
             import hashlib
             return ["MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512"]
         except:
-            #for x < python 2.5
+            #for python < 2.5
             hashTypes = []
             try:
                 import md5

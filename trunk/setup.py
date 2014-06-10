@@ -81,7 +81,7 @@ try:
 except:pass
     
 packages = ["Amarok", "Core", "Databases", "Details", "InputOutputs", "Languages",
-        "MyPlugins", "Options", "SearchEngines", "SpecialTools", "Tables", "Taggers", "Tools", "Viewers", 
+        "MyPlugins", "Options", "SearchEngines", "SpecialTools", "Tables", "Taggers", "Tools", "Viewers", "Bars", 
         "hashlib", "tarfile", "urllib", "PyQt4", 
         "sqlite3", "ctypes", 
         "PyKDE4", "_mysql", 

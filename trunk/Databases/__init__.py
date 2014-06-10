@@ -26,7 +26,7 @@ from Core import Universals
 import InputOutputs
 from Databases import *
     
-class Databases:
+class Databases():
     global defaultConnection, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, correctForSql, getAmendedSQLInsertOrUpdateQueries, checkDatabases, getAmendedSQLSelectOrInsertAndSelectQueries, correctForUser
     defaultConnection = None
         

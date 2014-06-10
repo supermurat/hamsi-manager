@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2014-06-01, 23:58:56 -->
+<!-- Saved: 2014-06-11, 00:29:50 -->
 <!-- Copyright (C) 2014 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -48,7 +48,6 @@
     <Source>Core/UpdateControl.py</Source>
     <Source>Core/Execute.py</Source>
     <Source>Core/ReportBug.py</Source>
-    <Source>Core/Bars.py</Source>
     <Source>Core/MyConfigure.py</Source>
     <Source>Core/SuggestIdea.py</Source>
     <Source>Core/Settings.py</Source>
@@ -113,6 +112,17 @@
     <Source>SpecialTools/QuickFill.py</Source>
     <Source>SpecialTools/SearchAndReplace.py</Source>
     <Source>SpecialTools/SpecialActions.py</Source>
+    <Source>Bars/CoverOptionsBar.py</Source>
+    <Source>Bars/ToolsBar.py</Source>
+    <Source>Bars/MenuBar.py</Source>
+    <Source>Bars/TableToolsBar.py</Source>
+    <Source>Bars/SubDirectoryOptionsBar.py</Source>
+    <Source>Bars/MusicOptionsBar.py</Source>
+    <Source>Bars/__init__.py</Source>
+    <Source>Bars/PlayerBar.py</Source>
+    <Source>Bars/StatusBar.py</Source>
+    <Source>Bars/AmarokMusicOptionsBar.py</Source>
+    <Source>Bars/AmarokCopyOptionsBar.py</Source>
   </Sources>
   <Forms>
   </Forms>
