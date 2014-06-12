@@ -38,8 +38,8 @@ if RoutineChecks.checkMandatoryModules():
     from Core import Execute
     defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(themePath.themePath, "Images"))))
-    StyleFile = open(InputOutputs.joinPath(themePath.themePath, "Style.qss"))
+    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(InputOutputs.themePath, "Images"))))
+    StyleFile = open(InputOutputs.joinPath(InputOutputs.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
     if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):

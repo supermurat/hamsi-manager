@@ -101,7 +101,7 @@ X-MultipleArgs=false
         if _executeCommandOfHamsiManager is None:
             from Core import Execute
             _executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
-        return _content.replace("~InstallationDirectory~", InputOutputs.HamsiManagerDirectory).replace("~ExecuteCommandOfHamsiManager~", _executeCommandOfHamsiManager).replace("~IconPath~", InputOutputs.joinPath(InputOutputs.themePath, "Images", "hamsi.png")).replace("~ThemePath~", Universals.themePath)
+        return _content.replace("~InstallationDirectory~", InputOutputs.HamsiManagerDirectory).replace("~ExecuteCommandOfHamsiManager~", _executeCommandOfHamsiManager).replace("~IconPath~", InputOutputs.joinPath(InputOutputs.themePath, "Images", "hamsi.png")).replace("~ThemePath~", InputOutputs.themePath)
         
         
     def getConfiguredDesktopFileContent(_installationDirectory=InputOutputs.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):

@@ -59,7 +59,7 @@ the Free Software Foundation; either version 2 of the License, or
     optionList.append("directory <directory>")
     parser.add_option('-s', '--sFileName',
                       help='The setting file name(or path). '
-                      '"The settings directory path" + "SettingFiles/" + "YourEnteredName" '
+                      '"The settings directory path" + "/" + "YourEnteredName" '
                       'Example : enteredName.ini ')
     optionList.append("s <settingFile>")
     optionList.append("sFileName <settingFile>")
