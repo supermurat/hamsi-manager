@@ -40,7 +40,7 @@ class MusicPlayer(MWidget):
         self.tbPause.setToolTip(translate("Player", "Pause / Continue"))
         self.tbPause.setIcon(MIcon("Images:mediaPause.png"))
         self.tbPause.setAutoRaise(True)
-        #self.tbPause.setCheckable(True)
+        self.tbPause.setCheckable(True)
         self.tbMute = MToolButton(self)
         self.tbMute.setToolTip(translate("Player", "Mute"))
         self.tbMute.setIcon(MIcon("Images:playerMute.png"))
@@ -171,6 +171,7 @@ class MusicPlayer(MWidget):
                         self.tbPause.setEnabled(True)
                         self.tbMute.setEnabled(True)
                         self.tbStop.setEnabled(True)
+                        self.tbPlay.setEnabled(False)
         except:
             ReportBug.ReportBug()
         
@@ -178,6 +179,7 @@ class MusicPlayer(MWidget):
         try:
             try:self.Player.stop()
             except:pass
+            self.tbPlay.setEnabled(True)
             self.tbPause.setEnabled(False)
             self.tbMute.setEnabled(False)
             self.tbPause.setChecked(False)
@@ -190,8 +192,6 @@ class MusicPlayer(MWidget):
         
     def mute(self):
         try:
-            if self.tbPause.isChecked():
-                self.tbPause.setChecked(False)
             self.Player.mute()
         except:
             ReportBug.ReportBug()

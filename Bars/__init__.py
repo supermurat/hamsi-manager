@@ -214,13 +214,13 @@ class Bars():
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.CoverOptionsBar)
             Universals.MainWindow.CoverOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
         elif Universals.tableType=="6":
-            Universals.MainWindow.PlayerBar = PlayerBar(Universals.MainWindow)
+            Universals.MainWindow.PlayerBar = PlayerBar.PlayerBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.PlayerBar)
             Universals.MainWindow.AmarokMusicOptionsBar = AmarokMusicOptionsBar.AmarokMusicOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.AmarokMusicOptionsBar)
             Universals.MainWindow.AmarokMusicOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
         elif Universals.tableType=="8":
-            Universals.MainWindow.PlayerBar = PlayerBar(Universals.MainWindow)
+            Universals.MainWindow.PlayerBar = PlayerBar.PlayerBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.PlayerBar)
             Universals.MainWindow.AmarokCopyOptionsBar = AmarokCopyOptionsBar.AmarokCopyOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.AmarokCopyOptionsBar)
