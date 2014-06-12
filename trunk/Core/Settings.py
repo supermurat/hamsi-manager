@@ -75,9 +75,7 @@ class Settings():
         if _makeBackUp==True:
             makeBackUp("Settings")
         mySetting = setting()
-        defaultValues = Variables.getDefaultValues()
-        for keyValue in Variables.keysOfSettings:
-            mySetting.setValue(keyValue, Universals.trQVariant(defaultValues[keyValue]))
+        mySetting.clear()
     
     def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue = None):
         if _valueTypesAndValue==None:

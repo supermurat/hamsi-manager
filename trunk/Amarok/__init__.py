@@ -176,11 +176,11 @@ class Amarok():
         
     def getSelectedTagSourseType(_tableName="AmarokMusicTable"):
         tagSourceTypes = getTagSourceTypes()
-        return Universals.getValue("AmarokTagSourceType" + _tableName, tagSourceTypes, tagSourceTypes[0])
+        return Universals.getValue("AmarokTagSourceType" + _tableName, tagSourceTypes[0])
         
     def getSelectedTagTargetType(_tableName="AmarokMusicTable"):
         tagTargetTypes = getTagTargetTypes()
-        return Universals.getValue("AmarokTagTargetType" + _tableName, tagTargetTypes, tagTargetTypes[1])
+        return Universals.getValue("AmarokTagTargetType" + _tableName, tagTargetTypes[1])
         
     def setSelectedTagSourseType(_type, _tableName="AmarokMusicTable"):
         Universals.setMySetting("AmarokTagSourceType" + _tableName, _type)

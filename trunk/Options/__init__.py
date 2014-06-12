@@ -29,7 +29,7 @@ class MyComboBox(MComboBox):
         self.addItems(_items)
         if len(_items)>0:
             if _settingKey is not None:
-                item = Universals.getValue(_settingKey, _items)
+                item = Universals.getValue(_settingKey, _items[0])
                 item = trForUI(item)
                 if item in _items:
                     _defaultItemIndex = _items.index(item)

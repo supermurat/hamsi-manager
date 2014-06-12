@@ -70,7 +70,7 @@ class Taggers():
             setSelectedTaggerTypeForReadName(typeName, False)
         
     def getSelectedTaggerTypeForReadName():
-        return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", getTaggerTypesName())
+        return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", getTaggerTypesName()[0])
         
     def setSelectedTaggerTypeForReadName(_typeName, _isSetType=True):
         type = getLoaddedTagger().getTaggerTypes()[0]
@@ -97,7 +97,7 @@ class Taggers():
             setSelectedTaggerTypeForWriteName(typeName, False)
         
     def getSelectedTaggerTypeForWriteName():
-        return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", getTaggerTypesName())
+        return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", getTaggerTypesName()[0])
         
     def setSelectedTaggerTypeForWriteName(_typeName, _isSetType=True):
         type = getLoaddedTagger().getTaggerTypes()[0]
