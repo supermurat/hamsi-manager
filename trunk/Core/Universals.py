@@ -158,9 +158,9 @@ class Universals():
         windowMode = MySettings["windowMode"]
         InputOutputs.themePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes", MySettings["themeName"])
         if tableType == None:
-            tableType = int(MySettings["tableType"])
-            if tableType<0 or tableType>=len(Variables.tableTypesNames):
-                tableType = 1
+            tableType = MySettings["tableType"]
+            if tableType not in Variables.tableTypesNames:
+                tableType = "1"
         if getBoolValue("isInstalledKDE4Language")==False:
             from Core import MyConfigure
             MyConfigure.installKDE4Languages()
@@ -231,19 +231,13 @@ class Universals():
             return MainWindow
         
     def getThisTableType(_tableType):
-        try:
-            tt = int(_tableType)
-            if tt<0 or tt>=len(Variables.tableTypesNames):
-                tt = 1
-        except:
-            try:
-                for x, name in enumerate(Variables.tableTypesNames):
-                    if str(name) == str(_tableType):
-                        return x
-                tt = 1
-            except:
-                    tt = 1
-        return tt
+        if _tableType in Variables.tableTypesNames:
+            return _tableType
+        else:
+            for (x, name) in Variables.tableTypesNames.items():
+                if str(name) == str(_tableType):
+                    return x
+        return "1"
             
     def clearAllChilds(_object, _isClearThis=False):
         childs = _object.children()

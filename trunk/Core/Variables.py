@@ -42,7 +42,15 @@ class Variables():
     mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
     imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
     windowModeKeys = ["Normal", "Mini"]
-    tableTypeIcons = ["folderTable.png", "fileTable.png", "musicTable.png", "subFolderTable.png", "coverTable.png", "amarokCoverTable.png", "amarokMusicTable.png", "amarokMusicTable.png", "amarokCopyTable.png"]
+    tableTypeIcons = {"0" : "folderTable.png", 
+                     "1" : "fileTable.png", 
+                     "2" : "musicTable.png", 
+                     "3" : "subFolderTable.png", 
+                     "4" : "coverTable.png", 
+                     "5" : "amarokCoverTable.png", 
+                     "6" : "amarokMusicTable.png", 
+                     "7" : "amarokMusicTable.png", 
+                     "8" : "amarokCopyTable.png"}
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     iconNameFormatLabels =  [translate("Variables", "%Artist%"), 
                             translate("Variables", "%Album%"), 
@@ -114,17 +122,17 @@ class Variables():
         isActiveDirectoryCover = False
         isActiveAmarok = False
     
-    tableTypesNames = [translate("Tables", "Folder Table"), 
-                        translate("Tables", "File Table"), 
-                        translate("Tables", "Music Table"), 
-                        translate("Tables", "Subfolder Table")]
+    tableTypesNames = { "0" : translate("Tables", "Folder Table"), 
+                        "1" : translate("Tables", "File Table"), 
+                        "2" : translate("Tables", "Music Table"), 
+                        "3" : translate("Tables", "Subfolder Table")}
     if isActiveDirectoryCover:
-        tableTypesNames += [translate("Tables", "Cover Table")]
+        tableTypesNames.update({"4" : translate("Tables", "Cover Table")})
     if isActiveAmarok:
-        tableTypesNames += [translate("Tables", "Amarok Cover Table"), 
-                        translate("Tables", "Amarok Music Table"), 
-                        translate("Tables", "Amarok Artist Table"), 
-                        translate("Tables", "Amarok Copy Table")]
+        tableTypesNames.update({"5" : translate("Tables", "Amarok Cover Table"), 
+                            "6" : translate("Tables", "Amarok Music Table"), 
+                            "7" : translate("Tables", "Amarok Artist Table"), 
+                            "8" : translate("Tables", "Amarok Copy Table")})
                         
     def isBuilt():
         return InputOutputs.isFile(joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
@@ -361,7 +369,7 @@ class Variables():
                 "hiddenAmarokCopyTableColumns": ["intList", list(range(0, 10))], 
                 "isPlayNow": "bool", 
                 "MainWindowGeometries": ["intStaticListLen", 4], 
-                "tableType": ["int", list(range(0, 9))], 
+                "tableType": ["options", tableTypesNames.keys()], 
                 "activeTabNoOfSpecialTools": ["int", list(range(0, 7))], 
                 "unneededFiles": "list", 
                 "ignoredFiles": "list", 

@@ -199,27 +199,27 @@ class Bars():
         Universals.MainWindow.Table = Tables.Tables(Universals.MainWindow)
         Universals.MainWindow.SpecialTools = SpecialTools.SpecialTools(Universals.MainWindow)
         Universals.MainWindow.Menu.mSpecialOptions.clear()
-        if Universals.tableType==2:
+        if Universals.tableType=="2":
             Universals.MainWindow.PlayerBar = PlayerBar.PlayerBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.PlayerBar)
             Universals.MainWindow.MusicOptionsBar = MusicOptionsBar.MusicOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.MusicOptionsBar)
             Universals.MainWindow.MusicOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
-        elif Universals.tableType==3:
+        elif Universals.tableType=="3":
             Universals.MainWindow.SubDirectoryOptionsBar = SubDirectoryOptionsBar.SubDirectoryOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.SubDirectoryOptionsBar)
             Universals.MainWindow.SubDirectoryOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
-        elif Universals.tableType==4:
+        elif Universals.tableType=="4":
             Universals.MainWindow.CoverOptionsBar = CoverOptionsBar.CoverOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.CoverOptionsBar)
             Universals.MainWindow.CoverOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
-        elif Universals.tableType==6:
+        elif Universals.tableType=="6":
             Universals.MainWindow.PlayerBar = PlayerBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.PlayerBar)
             Universals.MainWindow.AmarokMusicOptionsBar = AmarokMusicOptionsBar.AmarokMusicOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.AmarokMusicOptionsBar)
             Universals.MainWindow.AmarokMusicOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
-        elif Universals.tableType==8:
+        elif Universals.tableType=="8":
             Universals.MainWindow.PlayerBar = PlayerBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.PlayerBar)
             Universals.MainWindow.AmarokCopyOptionsBar = AmarokCopyOptionsBar.AmarokCopyOptionsBar(Universals.MainWindow)
@@ -237,29 +237,29 @@ class Bars():
                 if Universals.MainWindow.Table.checkUnSavedValues()==False:
                     return False
                 Universals.setMySetting(Universals.MainWindow.Table.SubTable.hiddenTableColumnsSettingKey,Universals.MainWindow.Table.hiddenTableColumns)
-                if Universals.tableType==2:
+                if Universals.tableType=="2":
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.PlayerBar)
                     Universals.MainWindow.PlayerBar.deleteLater()
                     Universals.MainWindow.PlayerBar = None
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.MusicOptionsBar)
                     Universals.MainWindow.MusicOptionsBar.deleteLater()
                     Universals.MainWindow.MusicOptionsBar = None
-                elif Universals.tableType==3:
+                elif Universals.tableType=="3":
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.SubDirectoryOptionsBar)
                     Universals.MainWindow.SubDirectoryOptionsBar.deleteLater()
                     Universals.MainWindow.SubDirectoryOptionsBar = None
-                elif Universals.tableType==4:
+                elif Universals.tableType=="4":
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.CoverOptionsBar)
                     Universals.MainWindow.CoverOptionsBar.deleteLater()
                     Universals.MainWindow.CoverOptionsBar = None
-                elif Universals.tableType==6:
+                elif Universals.tableType=="6":
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.PlayerBar)
                     Universals.MainWindow.PlayerBar.deleteLater()
                     Universals.MainWindow.PlayerBar = None
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.AmarokMusicOptionsBar)
                     Universals.MainWindow.AmarokMusicOptionsBar.deleteLater()
                     Universals.MainWindow.AmarokMusicOptionsBar = None
-                elif Universals.tableType==8:
+                elif Universals.tableType=="8":
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.PlayerBar)
                     Universals.MainWindow.PlayerBar.deleteLater()
                     Universals.MainWindow.PlayerBar = None
@@ -296,34 +296,34 @@ class Bars():
     def getAllBarsStyleFromMySettings(self):
         Universals.MainWindow.TableToolsBar.setToolButtonStyle(int(Universals.MySettings["TableToolsBarButtonStyle"]))
         Universals.MainWindow.ToolsBar.setToolButtonStyle(int(Universals.MySettings["ToolsBarButtonStyle"]))
-        if Universals.tableType==2:
+        if Universals.tableType=="2":
             Universals.MainWindow.PlayerBar.setToolButtonStyle(int(Universals.MySettings["PlayerBarButtonStyle"]))
             Universals.MainWindow.MusicOptionsBar.setToolButtonStyle(int(Universals.MySettings["MusicOptionsBarButtonStyle"]))
-        elif Universals.tableType==3:
+        elif Universals.tableType=="3":
             Universals.MainWindow.SubDirectoryOptionsBar.setToolButtonStyle(int(Universals.MySettings["SubDirectoryOptionsBarButtonStyle"]))
-        elif Universals.tableType==4:
+        elif Universals.tableType=="4":
             Universals.MainWindow.CoverOptionsBar.setToolButtonStyle(int(Universals.MySettings["CoverOptionsBarButtonStyle"]))
-        elif Universals.tableType==6:
+        elif Universals.tableType=="6":
             Universals.MainWindow.PlayerBar.setToolButtonStyle(int(Universals.MySettings["PlayerBarButtonStyle"]))
             Universals.MainWindow.AmarokMusicOptionsBar.setToolButtonStyle(int(Universals.MySettings["AmarokMusicOptionsBarButtonStyle"]))
-        elif Universals.tableType==8:
+        elif Universals.tableType=="8":
             Universals.MainWindow.PlayerBar.setToolButtonStyle(int(Universals.MySettings["PlayerBarButtonStyle"]))
             Universals.MainWindow.AmarokCopyOptionsBar.setToolButtonStyle(int(Universals.MySettings["AmarokCopyOptionsBarButtonStyle"]))
         
     def setAllBarsStyleToMySettings(self):
         Universals.setMySetting("TableToolsBarButtonStyle", Universals.MainWindow.TableToolsBar.toolButtonStyle())
         Universals.setMySetting("ToolsBarButtonStyle", Universals.MainWindow.ToolsBar.toolButtonStyle())
-        if Universals.tableType==2:
+        if Universals.tableType=="2":
             Universals.setMySetting("PlayerBarButtonStyle", Universals.MainWindow.PlayerBar.toolButtonStyle())
             Universals.setMySetting("MusicOptionsBarButtonStyle", Universals.MainWindow.MusicOptionsBar.toolButtonStyle())
-        elif Universals.tableType==3:
+        elif Universals.tableType=="3":
             Universals.setMySetting("SubDirectoryOptionsBarButtonStyle", Universals.MainWindow.SubDirectoryOptionsBar.toolButtonStyle())
-        elif Universals.tableType==4:
+        elif Universals.tableType=="4":
             Universals.setMySetting("CoverOptionsBarButtonStyle", Universals.MainWindow.CoverOptionsBar.toolButtonStyle())
-        elif Universals.tableType==6:
+        elif Universals.tableType=="6":
             Universals.setMySetting("PlayerBarButtonStyle", Universals.MainWindow.PlayerBar.toolButtonStyle())
             Universals.setMySetting("AmarokMusicOptionsBarButtonStyle", Universals.MainWindow.AmarokMusicOptionsBar.toolButtonStyle())
-        elif Universals.tableType==8:
+        elif Universals.tableType=="8":
             Universals.setMySetting("PlayerBarButtonStyle", Universals.MainWindow.PlayerBar.toolButtonStyle())
             Universals.setMySetting("AmarokCopyOptionsBarButtonStyle", Universals.MainWindow.AmarokCopyOptionsBar.toolButtonStyle())
         
