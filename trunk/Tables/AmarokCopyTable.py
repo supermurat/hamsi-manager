@@ -220,7 +220,7 @@ class AmarokCopyTable():
         return True
         
     def showDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"], Universals.getBoolValue("isOpenDetailsInNewWindow"))
+        MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"], Universals.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
     
     def cellClicked(self,_row,_column):
         currentItem = self.Table.currentItem()
