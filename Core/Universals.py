@@ -146,8 +146,8 @@ class Universals():
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
         for keyValue in sets.allKeys():
             keyValue = str(keyValue)
-            value = trStr(sets.value(keyValue, trQVariant("")))
             if keyValue not in MySettings.keys():
+                value = trStr(sets.value(keyValue, trQVariant("")))
                 MySettings[keyValue] = str(Settings.emendValue(keyValue, value, "", "str"))
         newSettingVersion = str(MySettings["settingsVersion"])
         if _isCheckUpdate:
@@ -189,31 +189,20 @@ class Universals():
             else:
                 return str(_list)
         
-    def getValue(_key, _valueList = None, _defaultValue = ""):
+    def getValue(_key, _defaultValue = ""):
         try:
             return MySettings[_key]
         except:
             from Core import Settings
             sets = Settings.setting()
             MySettings[_key] = str(trStr(sets.value(_key, trQVariant(_defaultValue))))
-            if _valueList != None:
-                if MySettings[_key] in _valueList:
-                    return MySettings[_key]
-                else:
-                    if _defaultValue!="":
-                        MySettings[_key] = str(_defaultValue)
-                        return MySettings[_key]
-                    else:
-                        MySettings[_key] = str(_valueList[0])
-                        return MySettings[_key]
-            else:
-                return MySettings[_key]
+            return MySettings[_key]
     
     def getDateValue(_key):
         return datetime.strptime(getValue(_key), "%Y %m %d %H %M %S")
     
     def getBoolValue(_key, _defaultValue = ""):
-        value = str(getValue(_key, None, _defaultValue)).title()
+        value = str(getValue(_key, _defaultValue)).title()
         if value=="True" or value=="1" or value=="2":
             return True
         return False
