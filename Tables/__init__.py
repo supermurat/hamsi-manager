@@ -118,68 +118,68 @@ class Tables(MTableWidget):
         self.fillSelectionInfo()
     
     def setSubTable(self):
-        if Universals.tableType==0:
+        if Universals.tableType=="0":
             from Tables import FolderTable
             self.SubTable = FolderTable.FolderTable(self)
-        elif Universals.tableType==1:
+        elif Universals.tableType=="1":
             from Tables import FileTable
             self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==2:
+        elif Universals.tableType=="2":
             import Taggers
             if Taggers.getTagger(True)!=None:
                 from Tables import MusicTable
                 self.SubTable = MusicTable.MusicTable(self)
             else:
-                Universals.tableType = 1
+                Universals.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==3:
+        elif Universals.tableType=="3":
             from Tables import SubFolderTable
             self.SubTable = SubFolderTable.SubFolderTable(self)
-        elif Universals.tableType==4:
+        elif Universals.tableType=="4":
             if Variables.isActiveDirectoryCover:
                 from Tables import CoverTable
                 self.SubTable = CoverTable.CoverTable(self)
             else:
                 Dialogs.showError(translate("Tables", "Directory Cover Not Usable"), translate("Tables", "Any icon can not set to any directory. This feature is not usable in your system."))
-                Universals.tableType = 1
+                Universals.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==5:
+        elif Universals.tableType=="5":
             import Amarok
             if Amarok.checkAmarok(True,  False):
-                Universals.tableType = 5
+                Universals.tableType = "5"
                 import AmarokCoverTable
                 self.SubTable = AmarokCoverTable.AmarokCoverTable(self)
             else:
-                Universals.tableType = 1
+                Universals.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==6:
+        elif Universals.tableType=="6":
             import Taggers, Amarok
             if Taggers.getTagger(True)!=None and Amarok.checkAmarok(True,  False):
                 import AmarokMusicTable
                 self.SubTable = AmarokMusicTable.AmarokMusicTable(self)
             else:
-                Universals.tableType = 1
+                Universals.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==7:
+        elif Universals.tableType=="7":
             import Amarok
             if Amarok.checkAmarok(True,  False):
                 import AmarokArtistTable
                 self.SubTable = AmarokArtistTable.AmarokArtistTable(self)
             else:
-                Universals.tableType = 1
+                Universals.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType==8:
+        elif Universals.tableType=="8":
             import Taggers, Amarok
             if Taggers.getTagger(True)!=None and Amarok.checkAmarok(True,  False):
                 import AmarokCopyTable
                 self.SubTable = AmarokCopyTable.AmarokCopyTable(self)
             else:
-                Universals.tableType = 1
+                Universals.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
             
@@ -421,12 +421,12 @@ class Tables(MTableWidget):
             if _returned:
                 from Core import Records
                 isGoUpDirectoryWithFileTable = False
-                if Universals.tableType in [0, 1, 2, 3, 4]:
+                if Universals.tableType in ["0", "1", "2", "3", "4"]:
                     if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                         if InputOutputs.checkEmptyDirectories(self.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                             isGoUpDirectoryWithFileTable = True
                 if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
-                    if Universals.tableType in [0, 1, 2, 3]:
+                    if Universals.tableType in ["0", "1", "3", "4"]:
                         if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                             InputOutputs.checkIcon(self.newDirectoryPath)
                 InputOutputs.completeSmartCheckIcon()
@@ -445,7 +445,7 @@ class Tables(MTableWidget):
                     Universals.MainWindow.FileManager.makeRefresh(self.newDirectoryPath)
                 else:
                     Universals.MainWindow.FileManager.makeRefresh("")
-                    if Universals.tableType in [5, 6, 7, 8]:
+                    if Universals.tableType in ["5", "6", "7", "8"]:
                         self.refresh(self.newDirectoryPath)
         except:
             ReportBug.ReportBug()

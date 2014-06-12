@@ -92,22 +92,22 @@ class QuickOptions(MMenu):
                                     translate("Options/Correct", "Be Smart")]]
         self.valuesOfOptionsKeys = [Variables.validSentenceStructureKeys,
                                     Variables.fileExtesionIsKeys]
-        if Universals.tableType==0:
+        if Universals.tableType=="0":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFileTable", 
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
                                 "isCorrectValueWithSearchAndReplaceTable"]
-        elif Universals.tableType==1:
+        elif Universals.tableType=="1":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable",
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
                                 "isCorrectValueWithSearchAndReplaceTable"]
-        elif Universals.tableType==2:
+        elif Universals.tableType=="2":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", 
                                 "isShowHiddensInFileTable", "isShowHiddensInCoverTable"]
-        elif Universals.tableType==3:
+        elif Universals.tableType=="3":
             self.hiddenKeys = ["isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
                                 "isCorrectValueWithSearchAndReplaceTable"]
-        elif Universals.tableType==4:
+        elif Universals.tableType=="4":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", 
                                 "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isActiveAutoMakeIconToDirectory", 
                                 "isCorrectValueWithSearchAndReplaceTable"]

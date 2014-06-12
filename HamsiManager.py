@@ -271,8 +271,9 @@ if RoutineChecks.checkMandatoryModules():
                                 Universals.setMySetting("lastDirectory",self.FileManager.currentDirectory)
                                 Universals.setMySetting("isMainWindowMaximized",self.isMaximized())
                                 Universals.setMySetting("isShowAdvancedSelections",self.SpecialTools.isShowAdvancedSelections)
-                                if Universals.tableType==2:
-                                    Universals.setMySetting("isPlayNow",self.Table.SubTable.isPlayNow.isChecked())
+                                if Universals.tableType in ["2", "6", "8"]:
+                                    try:Universals.setMySetting("isPlayNow",self.Table.SubTable.isPlayNow.isChecked())
+                                    except:pass
                                 Universals.setMySetting("tableType", Universals.tableType)
                                 Universals.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 Universals.saveSettings()

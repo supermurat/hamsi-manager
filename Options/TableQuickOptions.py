@@ -68,19 +68,19 @@ class TableQuickOptions(MMenu):
                                "isMusicTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB"]
         else:
-            if Universals.tableType==0:
+            if Universals.tableType=="0":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB"]
-            elif Universals.tableType==1:
+            elif Universals.tableType=="1":
                 self.hiddenKeys = ["isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB"]
-            elif Universals.tableType==2:
+            elif Universals.tableType=="2":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB"]
-            elif Universals.tableType==3:
+            elif Universals.tableType=="3":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB"]
