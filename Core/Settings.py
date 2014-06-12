@@ -170,9 +170,8 @@ class Settings():
                         break
             else:
                 newFileName = _newFileName
-            try:
+            if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory, newFileName)):
                 InputOutputs.removeFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory, newFileName))
-            except:pass
             try:
                 InputOutputs.copyFileOrDir(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, file), InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory, newFileName))
                 if isReturn==True:
@@ -208,13 +207,13 @@ class Settings():
         newFile = makeBackUp("Settings", "SettingFiles", "random")
         info = MyConfigure.getConfiguredDesktopFileContent()
         newInfo = []
-        for rowNo, row in enumerate(info):
+        for row in info.split("\n"):
             if row [:4]=="Exec":
-                row  = row[:-1] + " -s " + newFile + "\n"
+                row  = row + " -s SettingFiles" + InputOutputs.sep + newFile
             newInfo.append(row )
         info = ""
-        for row  in newInfo:
-            info += row 
+        for row in newInfo:
+            info += row + "\n"
         InputOutputs.writeToFile(_file, info)
         
     def openStateOfSettings(_file):
