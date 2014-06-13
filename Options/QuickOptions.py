@@ -38,7 +38,7 @@ class QuickOptions(MMenu):
                                 "isEmendIncorrectChars", "isCorrectFileNameWithSearchAndReplaceTable", "isCorrectValueWithSearchAndReplaceTable", "isDecodeURLStrings", 
                                 "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars", 
                                 "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
-                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInSubFolderMusicTable"]
         self.labels = [translate("QuickOptions", "Activate General Cleaner"), 
             translate("Options/ClearGeneral", "General Cleaning (Table Saved)"), 
             translate("Options/ClearGeneral", "Clean Subfolders (Table Saved)"), 
@@ -58,7 +58,8 @@ class QuickOptions(MMenu):
             translate("Options/HiddenObjects", "Show Hidden Files And Directories"), 
             translate("Options/HiddenObjects", "Show Hidden Files"), 
             translate("Options/HiddenObjects", "Show Hidden Files"), 
-            translate("Options/HiddenObjects", "Show Hidden Directories")]
+            translate("Options/HiddenObjects", "Show Hidden Directories"), 
+            translate("Options/HiddenObjects", "Show Hidden Files")]
         self.toolTips = [translate("QuickOptions", "Are you want to activate General Cleaner?"), 
             translate("Options/ClearGeneral", "Do you want to general cleaning when table saved?"), 
             translate("Options/ClearGeneral", "Do you want to clear the subfolders when table saved?"), 
@@ -78,10 +79,11 @@ class QuickOptions(MMenu):
             translate("Options/HiddenObjects", "Are you want to show hidden files and directories in folder table?"), 
             translate("Options/HiddenObjects", "Are you want to show hidden files in file table?"), 
             translate("Options/HiddenObjects", "Are you want to show hidden files in music table?"),
-            translate("Options/HiddenObjects", "Are you want to show hidden directories in cover table?")]
+            translate("Options/HiddenObjects", "Are you want to show hidden directories in cover table?"), 
+            translate("Options/HiddenObjects", "Are you want to show hidden files in subfolder music table?")]
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", ["options", 0], ["options", 0], ["options", 0], ["options", 0], 
                             ["options", 1], "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", 
-                            "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
+                            "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = [[translate("QuickOptions", "Title"), 
                                     translate("QuickOptions", "All Small"), 
                                     translate("QuickOptions", "All Caps"), 
@@ -95,25 +97,28 @@ class QuickOptions(MMenu):
         if Universals.tableType=="0":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFileTable", 
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
-                                "isCorrectValueWithSearchAndReplaceTable"]
+                                "isCorrectValueWithSearchAndReplaceTable", "isShowHiddensInSubFolderMusicTable"]
         elif Universals.tableType=="1":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable",
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
-                                "isCorrectValueWithSearchAndReplaceTable"]
+                                "isCorrectValueWithSearchAndReplaceTable", "isShowHiddensInSubFolderMusicTable"]
         elif Universals.tableType=="2":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", 
-                                "isShowHiddensInFileTable", "isShowHiddensInCoverTable"]
+                                "isShowHiddensInFileTable", "isShowHiddensInCoverTable", "isShowHiddensInSubFolderMusicTable"]
         elif Universals.tableType=="3":
             self.hiddenKeys = ["isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
-                                "isCorrectValueWithSearchAndReplaceTable"]
+                                "isCorrectValueWithSearchAndReplaceTable", "isShowHiddensInSubFolderMusicTable"]
         elif Universals.tableType=="4":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", 
                                 "isShowHiddensInFileTable", "isShowHiddensInMusicTable", "isActiveAutoMakeIconToDirectory", 
-                                "isCorrectValueWithSearchAndReplaceTable"]
+                                "isCorrectValueWithSearchAndReplaceTable", "isShowHiddensInSubFolderMusicTable"]
+        elif Universals.tableType=="9":
+            self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInMusicTable", "isShowHiddensInFolderTable", 
+                                "isShowHiddensInFileTable", "isShowHiddensInCoverTable"]
         else:
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
-                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
+                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInSubFolderMusicTable", 
                                 "isActiveClearGeneral", "isClearEmptyDirectoriesWhenSave", "isAutoCleanSubFolderWhenSave", 
                                 "isActiveAutoMakeIconToDirectory"]
         if Variables.isActiveDirectoryCover==False:

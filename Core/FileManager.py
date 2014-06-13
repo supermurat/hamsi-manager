@@ -252,7 +252,7 @@ class FileManager():
                         isOpened = False
                         for ext in Universals.getListValue("musicExtensions"):
                             if str(_path).split(".")[-1].lower() == str(ext).lower():
-                                if Universals.tableType=="2" and Universals.MainWindow.PlayerBar.MusicPlayer.playInBar.isChecked():
+                                if (Universals.tableType=="2" or Universals.tableType=="9") and Universals.MainWindow.PlayerBar.MusicPlayer.playInBar.isChecked():
                                     Universals.MainWindow.PlayerBar.MusicPlayer.play(str(_path))
                                 isOpened = True
                         if isOpened==False:
@@ -385,7 +385,7 @@ class FileManager():
     
     def showInTable(self):
         try:
-            if Universals.tableType in ["0", "1", "2", "3", "4"]:
+            if Universals.tableType in ["0", "1", "2", "3", "4", "9"]:
                 Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
             else:
                 Universals.MainWindow.StatusBar.setTableInfo(Variables.tableTypesNames[Universals.tableType] + trForUI(" : ~ "))

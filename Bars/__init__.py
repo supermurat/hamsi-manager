@@ -225,6 +225,15 @@ class Bars():
             Universals.MainWindow.AmarokCopyOptionsBar = AmarokCopyOptionsBar.AmarokCopyOptionsBar(Universals.MainWindow)
             Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.AmarokCopyOptionsBar)
             Universals.MainWindow.AmarokCopyOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
+        elif Universals.tableType=="9":
+            Universals.MainWindow.PlayerBar = PlayerBar.PlayerBar(Universals.MainWindow)
+            Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.PlayerBar)
+            Universals.MainWindow.MusicOptionsBar = MusicOptionsBar.MusicOptionsBar(Universals.MainWindow)
+            Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.MusicOptionsBar)
+            Universals.MainWindow.MusicOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
+            Universals.MainWindow.SubDirectoryOptionsBar = SubDirectoryOptionsBar.SubDirectoryOptionsBar(Universals.MainWindow)
+            Universals.MainWindow.addToolBar(Mt.TopToolBarArea,Universals.MainWindow.SubDirectoryOptionsBar)
+            Universals.MainWindow.SubDirectoryOptionsBar.getSpecialOptions(Universals.MainWindow.Menu.mSpecialOptions)
         if len(Universals.MainWindow.Menu.mSpecialOptions.actions())==0:
             Universals.MainWindow.Menu.mSpecialOptions.setEnabled(False)
         else:
@@ -266,6 +275,16 @@ class Bars():
                     Universals.MainWindow.removeToolBar(Universals.MainWindow.AmarokCopyOptionsBar)
                     Universals.MainWindow.AmarokCopyOptionsBar.deleteLater()
                     Universals.MainWindow.AmarokCopyOptionsBar = None
+                elif Universals.tableType=="9":
+                    Universals.MainWindow.removeToolBar(Universals.MainWindow.PlayerBar)
+                    Universals.MainWindow.PlayerBar.deleteLater()
+                    Universals.MainWindow.PlayerBar = None
+                    Universals.MainWindow.removeToolBar(Universals.MainWindow.MusicOptionsBar)
+                    Universals.MainWindow.MusicOptionsBar.deleteLater()
+                    Universals.MainWindow.MusicOptionsBar = None
+                    Universals.MainWindow.removeToolBar(Universals.MainWindow.SubDirectoryOptionsBar)
+                    Universals.MainWindow.SubDirectoryOptionsBar.deleteLater()
+                    Universals.MainWindow.SubDirectoryOptionsBar = None
                 try:Universals.MainWindow.removeDockWidget(Universals.MainWindow.dckSpecialTools)
                 except:pass
                 Universals.MainWindow.resetCentralWidget()
@@ -309,6 +328,10 @@ class Bars():
         elif Universals.tableType=="8":
             Universals.MainWindow.PlayerBar.setToolButtonStyle(int(Universals.MySettings["PlayerBarButtonStyle"]))
             Universals.MainWindow.AmarokCopyOptionsBar.setToolButtonStyle(int(Universals.MySettings["AmarokCopyOptionsBarButtonStyle"]))
+        elif Universals.tableType=="9":
+            Universals.MainWindow.PlayerBar.setToolButtonStyle(int(Universals.MySettings["PlayerBarButtonStyle"]))
+            Universals.MainWindow.MusicOptionsBar.setToolButtonStyle(int(Universals.MySettings["MusicOptionsBarButtonStyle"]))
+            Universals.MainWindow.SubDirectoryOptionsBar.setToolButtonStyle(int(Universals.MySettings["SubDirectoryOptionsBarButtonStyle"]))
         
     def setAllBarsStyleToMySettings(self):
         Universals.setMySetting("TableToolsBarButtonStyle", Universals.MainWindow.TableToolsBar.toolButtonStyle())
@@ -326,6 +349,10 @@ class Bars():
         elif Universals.tableType=="8":
             Universals.setMySetting("PlayerBarButtonStyle", Universals.MainWindow.PlayerBar.toolButtonStyle())
             Universals.setMySetting("AmarokCopyOptionsBarButtonStyle", Universals.MainWindow.AmarokCopyOptionsBar.toolButtonStyle())
+        elif Universals.tableType=="9":
+            Universals.setMySetting("PlayerBarButtonStyle", Universals.MainWindow.PlayerBar.toolButtonStyle())
+            Universals.setMySetting("MusicOptionsBarButtonStyle", Universals.MainWindow.MusicOptionsBar.toolButtonStyle())
+            Universals.setMySetting("SubDirectoryOptionsBarButtonStyle", Universals.MainWindow.SubDirectoryOptionsBar.toolButtonStyle())
         
     def changeReNamerType(self, _action):
         try:

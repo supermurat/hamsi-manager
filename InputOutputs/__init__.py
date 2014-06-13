@@ -773,7 +773,10 @@ class InputOutputs():
     def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=False):
         global appendingDirectories
         appendingDirectories=[]
-        fileAndDirectoryNames,fileNames,directoryNames,musicFileNames=[],[],[],[]
+        fileAndDirectoryNames,fileNames,directoryNames=[],[],[]
+        if _objectType=="music":
+            musicFileNames = []
+            musicExtensions = Universals.getListValue("musicExtensions")
         for name in listDir(_path):
             if _isShowHiddens or isHidden(joinPath(_path, name), name)==False:
                 try:fileAndDirectoryNames.append(Universals.trDecode(name, fileSystemEncoding))
@@ -783,12 +786,13 @@ class InputOutputs():
                 directoryNames.append(name)
             else:
                 fileNames.append(name)
-                for ext in Universals.getListValue("musicExtensions"):
-                    try:
-                        if name.split(".")[-1].lower() == str(ext).lower():
-                            musicFileNames.append(name)
-                    except:
-                        pass
+                if _objectType=="music":
+                    for ext in musicExtensions:
+                        try:
+                            if name.split(".")[-1].lower() == str(ext).lower():
+                                musicFileNames.append(name)
+                        except:
+                            pass
         if _objectType=="file":
             return fileNames
         elif _objectType=="directory":
@@ -809,35 +813,45 @@ class InputOutputs():
                 except:tFileAndDirs.append(name)
         return tFileAndDirs
   
-    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _isShowHiddens=False, _currentSubDeep=0):
+    def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _objectType="fileAndDirectory", _isShowHiddens=False, _currentSubDeep=0):
         global appendingDirectories
         _subDirectoryDeep = int(_subDirectoryDeep)
         allFilesAndDirectories, files, directories, appendingDirectories =[],[],[],[]
         try:namesList = readDirectoryAll(_path)
         except:return []
         for name in namesList:
-            if _isShowHiddens or name[:1] != ".":
+            if _isShowHiddens or isHidden(joinPath(_path, name), name)==False:
                 if isDir(joinPath(_path, name)):
                     directories.append(name)
                 else:
                     files.append(name)
         for name in directories:
             if _subDirectoryDeep==-1 or _subDirectoryDeep>_currentSubDeep:
-                if _isGetDirectoryNames==True:
+                if _objectType=="fileAndDirectory" or _objectType=="directory":
                     allFilesAndDirectories.append(joinPath(_path, name))
-                for dd in readDirectoryWithSubDirectories(joinPath(_path, name), _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _isShowHiddens, _currentSubDeep+1):
+                for dd in readDirectoryWithSubDirectories(joinPath(_path, name), _subDirectoryDeep, _objectType, _isShowHiddens, _currentSubDeep+1):
                     allFilesAndDirectories.append(dd)
-        if _isOnlyDirectories==False:
-            for name in files:
-                allFilesAndDirectories.append(joinPath(_path, name))
+        if _objectType!="directory":
+            if _objectType=="file" or _objectType=="fileAndDirectory":
+                for name in files:
+                    allFilesAndDirectories.append(joinPath(_path, name))
+            elif _objectType=="music":
+                musicExtensions = Universals.getListValue("musicExtensions")
+                for name in files:
+                    for ext in musicExtensions:
+                        try:
+                            if name.split(".")[-1].lower() == str(ext).lower():
+                                allFilesAndDirectories.append(joinPath(_path, name))
+                        except:
+                            pass
         return allFilesAndDirectories
         
-    def readDirectoryWithSubDirectoriesThread(_path, _subDirectoryDeep=-1, _isGetDirectoryNames=False, _isOnlyDirectories=False, _isShowHiddens=False, _currentSubDeep=0):
+    def readDirectoryWithSubDirectoriesThread(_path, _subDirectoryDeep=-1, _objectType="fileAndDirectory", _isShowHiddens=False, _currentSubDeep=0):
         from Core import MyThread
         global appendingDirectories
         allFilesAndDirectories, appendingDirectories =[],[]
         infoProccess = MyThread.MyWaitThread(translate("InputOutputs", "Reading Directory..."))
-        myProcs = MyThread.MyThread(readDirectoryWithSubDirectories, infoProccess.finish, args=[_path, _subDirectoryDeep, _isGetDirectoryNames, _isOnlyDirectories, _isShowHiddens, _currentSubDeep])
+        myProcs = MyThread.MyThread(readDirectoryWithSubDirectories, infoProccess.finish, args=[_path, _subDirectoryDeep, _objectType, _isShowHiddens, _currentSubDeep])
         myProcs.start()
         infoProccess.run()
         allFilesAndDirectories = myProcs.data
@@ -1417,7 +1431,7 @@ class InputOutputs():
         import tarfile
         try:tar = tarfile.open(Universals.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
         except:tar = tarfile.open(_filePath, "w:" + _packageType)
-        maxMembers = len(readDirectoryWithSubDirectoriesThread(_sourcePath, -1, True, False, True))+1
+        maxMembers = len(readDirectoryWithSubDirectoriesThread(_sourcePath, -1, "fileAndDirectory", True))+1
         dlgState = Dialogs.MyStateDialog(translate("InputOutputs", "Creating Tar File"))
         infoProccess = MyThread.MyTarPackStateThread(tar, maxMembers, dlgState)
         try:
@@ -1452,7 +1466,7 @@ class InputOutputs():
             
     def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):   
         _path = str(_path)
-        files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, True, False, Universals.getBoolValue("isShowHiddensInFileTree"))
+        files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, "fileAndDirectory", Universals.getBoolValue("isShowHiddensInFileTree"))
         info = ""
         if _contentType=="fileTree":
             if _outputType=="html":

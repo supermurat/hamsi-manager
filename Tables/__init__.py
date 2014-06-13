@@ -182,6 +182,15 @@ class Tables(MTableWidget):
                 Universals.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
+        elif Universals.tableType=="9":
+            import Taggers
+            if Taggers.getTagger(True)!=None:
+                from Tables import SubFolderMusicTable
+                self.SubTable = SubFolderMusicTable.SubFolderMusicTable(self)
+            else:
+                Universals.tableType = "1"
+                from Tables import FileTable
+                self.SubTable = FileTable.FileTable(self)
             
     
     def getColumnKeyFromName(self, _nameWithMark):
@@ -421,12 +430,12 @@ class Tables(MTableWidget):
             if _returned:
                 from Core import Records
                 isGoUpDirectoryWithFileTable = False
-                if Universals.tableType in ["0", "1", "2", "3", "4"]:
+                if Universals.tableType in ["0", "1", "2", "3", "4", "9"]:
                     if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                         if InputOutputs.checkEmptyDirectories(self.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                             isGoUpDirectoryWithFileTable = True
                 if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
-                    if Universals.tableType in ["0", "1", "3", "4"]:
+                    if Universals.tableType in ["0", "1", "3", "4", "9"]:
                         if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                             InputOutputs.checkIcon(self.newDirectoryPath)
                 InputOutputs.completeSmartCheckIcon()

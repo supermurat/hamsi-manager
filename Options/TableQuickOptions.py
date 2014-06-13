@@ -38,13 +38,15 @@ class TableQuickOptions(MMenu):
                                "isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
-                               "isSubFolderTableValuesChangeInAmarokDB"]
+                               "isSubFolderTableValuesChangeInAmarokDB", 
+                               "isSubFolderMusicTableValuesChangeInAmarokDB"]
         self.labels = [translate("TableQuickOptions", "Ignore Selection"), 
                        translate("TableQuickOptions", "Change Just Selected Cells"), 
                        translate("TableQuickOptions", "Show Details On Double Click"), 
                        translate("TableQuickOptions", "Show Details In New Window"), 
                        translate("TableQuickOptions", "Open With Default Application"), 
                        translate("TableQuickOptions", "Force To Open With Default Application"), 
+                       translate("TableQuickOptions", "Change In Amarok"), 
                        translate("TableQuickOptions", "Change In Amarok"), 
                        translate("TableQuickOptions", "Change In Amarok"), 
                        translate("TableQuickOptions", "Change In Amarok"), 
@@ -58,8 +60,9 @@ class TableQuickOptions(MMenu):
                          translate("TableQuickOptions", "Are you want to change file paths in Amarok database?"), 
                          translate("TableQuickOptions", "Are you want to change file and directory paths in Amarok database?"), 
                          translate("TableQuickOptions", "Are you want to change file paths and tags in Amarok database?"), 
-                         translate("TableQuickOptions", "Are you want to change file paths in Amarok database?")]
-        self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
+                         translate("TableQuickOptions", "Are you want to change file paths in Amarok database?"), 
+                         translate("TableQuickOptions", "Are you want to change file paths and tags in Amarok database?")]
+        self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
         if Variables.isActiveAmarok == False:
@@ -71,24 +74,34 @@ class TableQuickOptions(MMenu):
             if Universals.tableType=="0":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
-                               "isSubFolderTableValuesChangeInAmarokDB"]
+                               "isSubFolderTableValuesChangeInAmarokDB", 
+                               "isSubFolderMusicTableValuesChangeInAmarokDB"]
             elif Universals.tableType=="1":
                 self.hiddenKeys = ["isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
-                               "isSubFolderTableValuesChangeInAmarokDB"]
+                               "isSubFolderTableValuesChangeInAmarokDB", 
+                               "isSubFolderMusicTableValuesChangeInAmarokDB"]
             elif Universals.tableType=="2":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
-                               "isSubFolderTableValuesChangeInAmarokDB"]
+                               "isSubFolderTableValuesChangeInAmarokDB", 
+                               "isSubFolderMusicTableValuesChangeInAmarokDB"]
             elif Universals.tableType=="3":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
-                               "isMusicTableValuesChangeInAmarokDB"]
+                               "isMusicTableValuesChangeInAmarokDB", 
+                               "isSubFolderMusicTableValuesChangeInAmarokDB"]
+            elif Universals.tableType=="9":
+                self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
+                               "isFolderTableValuesChangeInAmarokDB", 
+                               "isMusicTableValuesChangeInAmarokDB", 
+                               "isSubFolderTableValuesChangeInAmarokDB"]
             else:
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
-                               "isSubFolderTableValuesChangeInAmarokDB"]
+                               "isSubFolderTableValuesChangeInAmarokDB", 
+                               "isSubFolderMusicTableValuesChangeInAmarokDB"]
         self.createActions()
         self.checkEnableStates()
         
