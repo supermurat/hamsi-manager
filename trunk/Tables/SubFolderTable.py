@@ -38,7 +38,7 @@ class SubFolderTable():
     def readContents(self, _directoryPath):
         currentTableContentValues = []
         allFilesAndDirectories = InputOutputs.readDirectoryWithSubDirectoriesThread(_directoryPath, 
-                    int(Universals.MySettings["subDirectoryDeep"]), _isShowHiddens=Universals.getBoolValue("isShowHiddensInSubFolderTable"))
+                    int(Universals.MySettings["subDirectoryDeep"]), "file", Universals.getBoolValue("isShowHiddensInSubFolderTable"))
         allItemNumber = len(allFilesAndDirectories)
         Universals.startThreadAction()
         for fileNo,fileName in enumerate(allFilesAndDirectories):
@@ -48,8 +48,7 @@ class SubFolderTable():
                     if InputOutputs.isReadableFileOrDir(fileName, False, True):
                         content = {}
                         content["path"] = fileName
-                        content["baseNameOfDirectory"] = str(str(InputOutputs.getBaseName(_directoryPath)) + 
-                                        str(InputOutputs.getDirName(fileName)).replace(_directoryPath,""))
+                        content["baseNameOfDirectory"] = str(str(InputOutputs.getBaseName(_directoryPath)) + str(InputOutputs.getDirName(fileName)).replace(_directoryPath,""))
                         content["baseName"] = InputOutputs.getBaseName(fileName)
                         currentTableContentValues.append(content)
                 except:

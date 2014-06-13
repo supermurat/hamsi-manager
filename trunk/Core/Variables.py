@@ -50,7 +50,8 @@ class Variables():
                      "5" : "amarokCoverTable.png", 
                      "6" : "amarokMusicTable.png", 
                      "7" : "amarokMusicTable.png", 
-                     "8" : "amarokCopyTable.png"}
+                     "8" : "amarokCopyTable.png", 
+                     "9" : "subFolderMusicTable.png"}
     iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
     iconNameFormatLabels =  [translate("Variables", "%Artist%"), 
                             translate("Variables", "%Album%"), 
@@ -61,7 +62,7 @@ class Variables():
                   "isChangeAll", "isOpenDetailsInNewWindow", "hiddenFolderTableColumns", 
                   "hiddenFileTableColumns", "hiddenMusicTableColumns", "hiddenSubFolderTableColumns", 
                   "hiddenCoverTableColumns", "hiddenAmarokMusicTableColumns", "hiddenAmarokCoverTableColumns", 
-                  "hiddenAmarokArtistTableColumns", "hiddenAmarokCopyTableColumns", 
+                  "hiddenAmarokArtistTableColumns", "hiddenAmarokCopyTableColumns", "hiddenSubFolderMusicTableColumns", 
                   "isPlayNow", "MainWindowGeometries", "tableType", 
                   "activeTabNoOfSpecialTools", "unneededFiles", "ignoredFiles", 
                   "imageExtensions", "musicExtensions", "priorityIconNames", 
@@ -109,9 +110,9 @@ class Variables():
                   "AmarokFilterAmarokCoverTable", "AmarokFilterAmarokCopyTable", "AmarokFilterArtistTable", "AmarokFilterAmarokMusicTable", 
                   "isAppendFileSizeToFileTree", "isAppendLastModifiedToFileTree", 
                   "isMusicTableValuesChangeInAmarokDB", "isSubFolderTableValuesChangeInAmarokDB", 
-                  "isFileTableValuesChangeInAmarokDB", "isFolderTableValuesChangeInAmarokDB", 
+                  "isFileTableValuesChangeInAmarokDB", "isFolderTableValuesChangeInAmarokDB", "isSubFolderMusicTableValuesChangeInAmarokDB", 
                   "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable", 
-                  "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInFileTree", 
+                  "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInSubFolderMusicTable", "isShowHiddensInFileTree", 
                   "isDecodeURLStrings", "isCheckUnSavedValues", "isAutoSaveScripts", "maxDeletedDirectorySize"]
     willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"]
     
@@ -125,7 +126,8 @@ class Variables():
     tableTypesNames = { "0" : translate("Tables", "Folder Table"), 
                         "1" : translate("Tables", "File Table"), 
                         "2" : translate("Tables", "Music Table"), 
-                        "3" : translate("Tables", "Subfolder Table")}
+                        "3" : translate("Tables", "Subfolder Table"), 
+                        "9" : translate("Tables", "Subfolder Music Table")}
     if isActiveDirectoryCover:
         tableTypesNames.update({"4" : translate("Tables", "Cover Table")})
     if isActiveAmarok:
@@ -216,6 +218,7 @@ class Variables():
                 "hiddenAmarokCoverTableColumns": str([]),
                 "hiddenAmarokArtistTableColumns": str([]),
                 "hiddenAmarokCopyTableColumns": str([]),
+                "hiddenSubFolderMusicTableColumns": str([]),
                 "isPlayNow": "False", 
                 "MainWindowGeometries": str([50, 50, 850, 533]), 
                 "tableType": "1", 
@@ -333,11 +336,13 @@ class Variables():
                 "isSubFolderTableValuesChangeInAmarokDB": "False", 
                 "isFileTableValuesChangeInAmarokDB": "False", 
                 "isFolderTableValuesChangeInAmarokDB": "False", 
+                "isSubFolderMusicTableValuesChangeInAmarokDB": "False", 
                 "isShowHiddensInSubFolderTable": "False", 
                 "isShowHiddensInFolderTable": "False", 
                 "isShowHiddensInFileTable": "False", 
                 "isShowHiddensInMusicTable": "False", 
                 "isShowHiddensInCoverTable": "False", 
+                "isShowHiddensInSubFolderMusicTable": "False", 
                 "isShowHiddensInFileTree": "False", 
                 "isDecodeURLStrings": "True", 
                 "isCheckUnSavedValues": "False", 
@@ -367,6 +372,7 @@ class Variables():
                 "hiddenAmarokCoverTableColumns": ["intList", list(range(0, 2))], 
                 "hiddenAmarokArtistTableColumns": ["intList", list(range(0, 2))], 
                 "hiddenAmarokCopyTableColumns": ["intList", list(range(0, 10))], 
+                "hiddenSubFolderMusicTableColumns": ["intList", list(range(0, 10))], 
                 "isPlayNow": "bool", 
                 "MainWindowGeometries": ["intStaticListLen", 4], 
                 "tableType": ["options", tableTypesNames.keys()], 
@@ -484,11 +490,13 @@ class Variables():
                 "isSubFolderTableValuesChangeInAmarokDB": "bool", 
                 "isFileTableValuesChangeInAmarokDB": "bool", 
                 "isFolderTableValuesChangeInAmarokDB": "bool", 
+                "isSubFolderMusicTableValuesChangeInAmarokDB": "bool", 
                 "isShowHiddensInSubFolderTable": "bool", 
                 "isShowHiddensInFolderTable": "bool", 
                 "isShowHiddensInFileTable": "bool", 
                 "isShowHiddensInMusicTable": "bool", 
                 "isShowHiddensInCoverTable": "bool", 
+                "isShowHiddensInSubFolderMusicTable": "bool", 
                 "isShowHiddensInFileTree": "bool", 
                 "isDecodeURLStrings": "bool", 
                 "isCheckUnSavedValues": "bool", 
