@@ -3,7 +3,7 @@ Type=Service
 ServiceTypes=KonqPopupMenu/Plugin,all/allfiles,inode/directory
 ExcludeServiceTypes=kdedevice/*
 Encoding=UTF-8
-Actions=Organize;_SEPARATOR_;Organize0;Organize1;Organize2;Organize3;Organize4;_SEPARATOR_
+Actions=Organize;_SEPARATOR_;Organize0;Organize1;Organize2;Organize3;Organize4;Organize9;_SEPARATOR_
 X-KDE-Submenu=&Manage With Hamsi Manager
 X-KDE-Submenu[tr]=&Hamsi Manager ile Düzenle
 Icon=~IconPath~
@@ -43,3 +43,9 @@ Exec=~ExecuteCommandOfHamsiManager~ -t 4 --directory %U
 Icon=~IconPath~
 Name=As Cover Table
 Name[tr]=Kapak Tablosuyla Düzenle
+
+[Desktop Action Organize9]
+Exec=~ExecuteCommandOfHamsiManager~ -t 9 --directory %U
+Icon=~IconPath~
+Name=As Subfolder Music Table
+Name[tr]=Alt Dizin Music Tablosuyla Düzenle

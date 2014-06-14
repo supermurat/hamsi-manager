@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project HamsiManager -->
-<!-- Saved: 2014-06-11, 00:29:50 -->
+<!-- Saved: 2014-06-13, 23:35:59 -->
 <!-- Copyright (C) 2014 Murat Demir, mopened@gmail.com -->
 <Project version="4.6">
   <Language>tr_TR</Language>
@@ -123,6 +123,7 @@
     <Source>Bars/StatusBar.py</Source>
     <Source>Bars/AmarokMusicOptionsBar.py</Source>
     <Source>Bars/AmarokCopyOptionsBar.py</Source>
+    <Source>Tables/SubFolderMusicTable.py</Source>
   </Sources>
   <Forms>
   </Forms>
