@@ -261,7 +261,7 @@ class AmarokMusicTable():
         self.Table.tableColumnsKey = Taggers.getAvailableKeysForTable()
         
     def save(self):
-        MusicDetails.closeAllMusicDialogs()
+        MusicDetails.MusicDetails.closeAllMusicDialogs()
         self.Table.checkFileExtensions(1, "baseName")
         return self.writeContents()
         

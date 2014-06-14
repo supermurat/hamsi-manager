@@ -24,83 +24,79 @@ from Core import Universals
 from Core import ReportBug
 import InputOutputs
 
-   
+pathOfScripsDirectory = InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "Scripts")
 
-class Scripts():
-    global pathOfScripsDirectory, createDefaultScript, createNewScript, getScript, getScriptList, getNextScriptFilePath, saveScript, clearScript, runScriptFile, runScript
-    pathOfScripsDirectory = InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "Scripts")
-    
-    def createDefaultScript(_filePath):
-        defaultCodes = ("#!/usr/bin/env python\n" +
-                        "# -*- codding: utf-8 -*-\n"+
-                        "\n"+
-                        "#You can type and execute the commands you wish to run here.\n"+
-                        "#You can get detailed information from our official website.\n"+
-                        "from Core import Dialogs\nDialogs.show(\"This is an example\",\"You can develop the examples as you wish.\")"+
-                        "\n\n\n\n\n\n\n\n\n")
-        InputOutputs.writeToFile(_filePath, defaultCodes)
-        
-    def getNextScriptFilePath():
-        i = 1
-        while True:
-            nextScriptFilePath = InputOutputs.joinPath(pathOfScripsDirectory, translate("Scripts", "Script") + "-" + str(i) + ".py")
-            if InputOutputs.isFile(nextScriptFilePath)==False:
-                return nextScriptFilePath
-            i = i + 1
-    
-    def createNewScript():
-        filePath = getNextScriptFilePath()
-        createDefaultScript(filePath)
-        return InputOutputs.getBaseName(filePath)
-    
-    def getScript(_filePath):
-        _filePath = InputOutputs.checkSource(_filePath, "file", False)
-        if _filePath is not None:
-            return InputOutputs.readFromFile(_filePath)
-        return None
-    
-    def getScriptList():
-        if InputOutputs.isDir(pathOfScripsDirectory)==False:
-            InputOutputs.makeDirs(pathOfScripsDirectory)
-            createNewScript()
+def createDefaultScript(_filePath):
+    defaultCodes = ("#!/usr/bin/env python\n" +
+                    "# -*- codding: utf-8 -*-\n"+
+                    "\n"+
+                    "#You can type and execute the commands you wish to run here.\n"+
+                    "#You can get detailed information from our official website.\n"+
+                    "from Core import Dialogs\nDialogs.show(\"This is an example\",\"You can develop the examples as you wish.\")"+
+                    "\n\n\n\n\n\n\n\n\n")
+    InputOutputs.writeToFile(_filePath, defaultCodes)
+
+def getNextScriptFilePath():
+    i = 1
+    while True:
+        nextScriptFilePath = InputOutputs.joinPath(pathOfScripsDirectory, translate("Scripts", "Script") + "-" + str(i) + ".py")
+        if InputOutputs.isFile(nextScriptFilePath)==False:
+            return nextScriptFilePath
+        i = i + 1
+
+def createNewScript():
+    filePath = getNextScriptFilePath()
+    createDefaultScript(filePath)
+    return InputOutputs.getBaseName(filePath)
+
+def getScript(_filePath):
+    _filePath = InputOutputs.checkSource(_filePath, "file", False)
+    if _filePath is not None:
+        return InputOutputs.readFromFile(_filePath)
+    return None
+
+def getScriptList():
+    if InputOutputs.isDir(pathOfScripsDirectory)==False:
+        InputOutputs.makeDirs(pathOfScripsDirectory)
+        createNewScript()
+    scriptList = InputOutputs.readDirectory(pathOfScripsDirectory, "file")
+    if len(scriptList)==0:
+        createNewScript()
         scriptList = InputOutputs.readDirectory(pathOfScripsDirectory, "file")
-        if len(scriptList)==0:
-            createNewScript()
-            scriptList = InputOutputs.readDirectory(pathOfScripsDirectory, "file")
-        return scriptList
-    
-    def saveScript(_filePath, _codes):
-        InputOutputs.writeToFile(_filePath, _codes)
-    
-    def clearScript(_filePath):
-        createDefaultScript(_filePath)
-        
-    def runScriptFile(_filePath, _isShowAlertIsSuccessfully=True):
-        return runScript(getScript(_filePath))
-        
-    def runScript(_content, _isShowAlertIsSuccessfully=True):
+    return scriptList
+
+def saveScript(_filePath, _codes):
+    InputOutputs.writeToFile(_filePath, _codes)
+
+def clearScript(_filePath):
+    createDefaultScript(_filePath)
+
+def runScriptFile(_filePath, _isShowAlertIsSuccessfully=True):
+    return runScript(getScript(_filePath))
+
+def runScript(_content, _isShowAlertIsSuccessfully=True):
+    try:
         try:
+            if _content is not None:
+                exec (_content)
+                if _isShowAlertIsSuccessfully:
+                    Dialogs.show(translate("ScriptManager", "Script Has Run Successfully"), translate("ScriptManager", "Script which you selected has run successfully."))
+                return True
+            else:
+                Dialogs.showError(translate("ScriptManager", "Script Is Not Available"), translate("ScriptManager", "Script content is not available or Script file couldn`t read."))
+        except Exception as error:
+            import traceback
+            cla, error, trbk = sys.exc_info()
+            errorName = cla.__name__
             try:
-                if _content is not None:
-                    exec (_content)
-                    if _isShowAlertIsSuccessfully:
-                        Dialogs.show(translate("ScriptManager", "Script Has Run Successfully"), translate("ScriptManager", "Script which you selected has run successfully."))
-                    return True
-                else:
-                    Dialogs.showError(translate("ScriptManager", "Script Is Not Available"), translate("ScriptManager", "Script content is not available or Script file couldn`t read."))
-            except Exception as error:
-                import traceback
-                cla, error, trbk = sys.exc_info()
-                errorName = cla.__name__
-                try:
-                    excArgs = error.__dict__["args"]
-                except KeyError:
-                    excArgs = "<no args>"
-                errorDetail = traceback.format_tb(trbk, 5)
-                errorDetails = str(errorName)+"\n"+str(error)+"\n"+str(excArgs)+"\n"+str(errorDetail[0])
-                Dialogs.showError(translate("ScriptManager", "Error: Failed To Run The Query"),
-                            str(translate("ScriptManager", "Error details: <br> \"%s\"")) % (errorDetails))
-                return False
-        except:
-            ReportBug.ReportBug()
+                excArgs = error.__dict__["args"]
+            except KeyError:
+                excArgs = "<no args>"
+            errorDetail = traceback.format_tb(trbk, 5)
+            errorDetails = str(errorName)+"\n"+str(error)+"\n"+str(excArgs)+"\n"+str(errorDetail[0])
+            Dialogs.showError(translate("ScriptManager", "Error: Failed To Run The Query"),
+                        str(translate("ScriptManager", "Error details: <br> \"%s\"")) % (errorDetails))
+            return False
+    except:
+        ReportBug.ReportBug()
 

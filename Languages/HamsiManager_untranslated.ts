@@ -5960,7 +5960,7 @@
     </message>
     <message>
         <location filename="SearchEngines/MusicBrainzEngine.py" line="51"/>
-        <source>Current Proccess</source>
+        <source>Current Process</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

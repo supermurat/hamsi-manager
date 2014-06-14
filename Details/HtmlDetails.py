@@ -25,7 +25,7 @@ from Core import Organizer
 from Core import Universals
 
 class HtmlDetails(MDialog):
-    global htmlDialogs, closeAllHtmlDialogs
+    global htmlDialogs
     htmlDialogs = []
     def __init__(self, _file, _valueType="file", _isOpenDetailsOnNewWindow=True):
         global htmlDialogs
@@ -76,7 +76,8 @@ class HtmlDetails(MDialog):
         else:
             self.setWindowTitle(trForUI(str(translate("HtmlDetails", "Html Details ( %s )")) % (_file)))
             self.wvWeb.setUrl(MUrl(trForUI(_file)))
-                  
+
+    @staticmethod
     def closeAllHtmlDialogs():
         for dialog in htmlDialogs:
             try:

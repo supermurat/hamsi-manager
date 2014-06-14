@@ -43,7 +43,6 @@ class Bars():
         
     def click(self, _action):
         try:
-            global Universals
             actionName = _action.objectName()
             if actionName==translate("MenuBar", "Open State"):
                 f = Dialogs.getOpenFileName(translate("MenuBar", "Open State Of Hamsi Manager"),
@@ -166,7 +165,7 @@ class Bars():
                 Searcher.Searcher([Universals.MainWindow.FileManager.getCurrentDirectoryPath()])
             elif actionName==translate("ToolsBar", "Script Manager"):
                 from Tools import ScriptManager
-                if ScriptManager.checkScriptManager():
+                if ScriptManager.ScriptManager.checkScriptManager():
                     ScriptManager.ScriptManager(Universals.MainWindow)
             elif actionName==translate("ToolsBar", "Show Last Actions"):
                 from Core import RecordsForm

@@ -126,7 +126,7 @@ class AmarokArtistTable():
         self.Table.tableColumnsKey = ["currentArtist", "correctedArtist"]
         
     def save(self):
-        AmarokArtistDetails.closeAllAmarokArtistDialogs()
+        AmarokArtistDetails.AmarokArtistDetails.closeAllAmarokArtistDialogs()
         return self.writeContents()
         
     def refresh(self, _path):

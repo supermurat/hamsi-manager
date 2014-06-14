@@ -26,7 +26,7 @@ from Core import Universals
 import InputOutputs
 
 class CoverDetails(MDialog):
-    global coverDialogs,closeAllCoverDialogs
+    global coverDialogs
     coverDialogs = []
     def __init__(self, _coverValues, _isOpenDetailsOnNewWindow=True, _FocusedInfoNo=None):
         """_coverValues[0] = Directory Path
@@ -140,7 +140,8 @@ class CoverDetails(MDialog):
                                     self.lePathOfDestination.text(),str(translate("ImageDetails", "Images (*.%s)") % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")), 0)
         if imagePath is not None:
             self.lePathOfDestination.setText(imagePath)
-        
+
+    @staticmethod
     def closeAllCoverDialogs():
         for dialog in coverDialogs:
             try:

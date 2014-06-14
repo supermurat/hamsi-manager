@@ -25,7 +25,7 @@ from Core import Organizer
 from Core import Universals
 
 class ImageDetails(MDialog):
-    global imageDialogs,closeAllImageDialogs
+    global imageDialogs
     imageDialogs = []
     def __init__(self, _file, _valueType="file", _isOpenDetailsOnNewWindow=True, _defaultMaxSize=[500, 400]):
         global imageDialogs
@@ -75,7 +75,8 @@ class ImageDetails(MDialog):
         else:
             self.setWindowTitle(trForUI(str(translate("ImageDetails", "Image Details ( %s )")) % (_file)))
         self.wImage.changeCoverValues(_file, _valueType)
-                  
+
+    @staticmethod
     def closeAllImageDialogs():
         for dialog in imageDialogs:
             try:

@@ -252,7 +252,7 @@ class MusicTable():
         
     def save(self):
         self.Table.checkFileExtensions(1, "baseName")
-        MusicDetails.closeAllMusicDialogs()
+        MusicDetails.MusicDetails.closeAllMusicDialogs()
         return self.writeContents()
         
     def refresh(self, _path):

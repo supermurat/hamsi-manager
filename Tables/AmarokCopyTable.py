@@ -251,9 +251,9 @@ class AmarokCopyTable():
         self.Table.tableColumnsKey = Taggers.getAvailableKeysForTable()
         
     def save(self):
-        MusicDetails.closeAllMusicDialogs()
-        self.Table.checkFileExtensions(1, "baseName")
-        return self.writeContents()
+	    MusicDetails.MusicDetails.closeAllMusicDialogs()
+	    self.Table.checkFileExtensions(1, "baseName")
+	    return self.writeContents()
         
     def refresh(self, _path):
         self.Table.setColumnWidth(5,70)

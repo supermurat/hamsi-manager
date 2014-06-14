@@ -29,7 +29,6 @@ from Core import ReportBug
 import Databases
 
 class SpecialActions(MWidget):
-    global whatDoesSpecialCommandDo
     
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
@@ -322,63 +321,62 @@ class SpecialActions(MWidget):
                             elif self.specialTools.tbAddToAfter.isChecked()==True:
                                 newString = str(Universals.MainWindow.Table.item(rowNo, columnNo).text()) + newString
                             Universals.MainWindow.Table.item(rowNo, columnNo).setText(trForUI(newString.strip()))
-        
-        
-    def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetails=False):
-        spliterIndex = _actionCommand.index("~||~")
-        leftKeys = _actionCommand[:spliterIndex]
-        rightKeys = _actionCommand[spliterIndex+1:]
-        if len(leftKeys)>0 and len(rightKeys)>0:
-            details = ""
-            leftNames = ""
-            rightNames = ""
-            for objectNameAndPoint in leftKeys:
-                objectNameAndPointList = objectNameAndPoint.split("~|~")
-                objectName = objectNameAndPointList[0]
-                point = ""
-                if len(objectNameAndPointList)>1:
-                    point = objectNameAndPointList[1]
-                if objectName.find("Concatenate")==-1:
-                    leftNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
-                else:
-                    leftNames += translate("Organizer", "Concatenate")
-                if point!="":
-                    if objectName.find("Concatenate")==-1:
-                        leftNames += " " + (str(translate("Organizer", "(can be separated by \"%s\")")) % (point))
-                    else:
-                        leftNames += " " + (str(translate("Organizer", "(can be concatenated by \"%s\")")) % (point))
-                if leftKeys[-1] != objectNameAndPoint:
-                    leftNames += " ,"
-            for objectNameAndPoint in rightKeys:
-                objectNameAndPointList = objectNameAndPoint.split("~|~")
-                objectName = objectNameAndPointList[0]
-                point = ""
-                if len(objectNameAndPointList)>1:
-                    point = objectNameAndPointList[1]
-                if objectName.find("Concatenate")==-1:
-                    rightNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
-                else:
-                    rightNames += translate("Organizer", "Concatenate")
-                if point!="":
-                    if objectName.find("Concatenate")==-1:
-                        rightNames += " " + (str(translate("Organizer", "(can be separated by \"%s\")")) % (point))
-                    else:
-                        rightNames += " " + (str(translate("Organizer", "(can be concatenated by \"%s\")")) % (point))
-                if rightKeys[-1] != objectNameAndPoint:
-                    rightNames += " ,"
-            
-            details = str(translate("Organizer", "\"%s\" will be concatenated and/or separated then it will be set as \"%s\" respectively.")) % (leftNames, rightNames) 
-            
-            if _isShowAlert:
-                Dialogs.show(translate("Organizer", "What Does This Command Do?"), trForUI(details))
-            if _isReturnDetails==False:
-                return True
-            else:
-                return details
-        else:
-            Dialogs.showError(translate("Organizer", "Missing Command"), translate("Organizer", "You have to add at least a \"Column\"!.."))
-            return False
 
+
+def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetails=False):
+    splitterIndex = _actionCommand.index("~||~")
+    leftKeys = _actionCommand[:splitterIndex]
+    rightKeys = _actionCommand[splitterIndex+1:]
+    if len(leftKeys)>0 and len(rightKeys)>0:
+        details = ""
+        leftNames = ""
+        rightNames = ""
+        for objectNameAndPoint in leftKeys:
+            objectNameAndPointList = objectNameAndPoint.split("~|~")
+            objectName = objectNameAndPointList[0]
+            point = ""
+            if len(objectNameAndPointList)>1:
+                point = objectNameAndPointList[1]
+            if objectName.find("Concatenate")==-1:
+                leftNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
+            else:
+                leftNames += translate("Organizer", "Concatenate")
+            if point!="":
+                if objectName.find("Concatenate")==-1:
+                    leftNames += " " + (str(translate("Organizer", "(can be separated by \"%s\")")) % (point))
+                else:
+                    leftNames += " " + (str(translate("Organizer", "(can be concatenated by \"%s\")")) % (point))
+            if leftKeys[-1] != objectNameAndPoint:
+                leftNames += " ,"
+        for objectNameAndPoint in rightKeys:
+            objectNameAndPointList = objectNameAndPoint.split("~|~")
+            objectName = objectNameAndPointList[0]
+            point = ""
+            if len(objectNameAndPointList)>1:
+                point = objectNameAndPointList[1]
+            if objectName.find("Concatenate")==-1:
+                rightNames += Universals.MainWindow.Table.getColumnNameFromKey(objectName)
+            else:
+                rightNames += translate("Organizer", "Concatenate")
+            if point!="":
+                if objectName.find("Concatenate")==-1:
+                    rightNames += " " + (str(translate("Organizer", "(can be separated by \"%s\")")) % (point))
+                else:
+                    rightNames += " " + (str(translate("Organizer", "(can be concatenated by \"%s\")")) % (point))
+            if rightKeys[-1] != objectNameAndPoint:
+                rightNames += " ,"
+
+        details = str(translate("Organizer", "\"%s\" will be concatenated and/or separated then it will be set as \"%s\" respectively.")) % (leftNames, rightNames)
+
+        if _isShowAlert:
+            Dialogs.show(translate("Organizer", "What Does This Command Do?"), trForUI(details))
+        if _isReturnDetails==False:
+            return True
+        else:
+            return details
+    else:
+        Dialogs.showError(translate("Organizer", "Missing Command"), translate("Organizer", "You have to add at least a \"Column\"!.."))
+        return False
 
     
 class SpecialActionsCommandContainer(MFrame):
