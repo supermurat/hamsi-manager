@@ -25,7 +25,7 @@ from Core import Execute
 from Core import ReportBug
 import InputOutputs
 pluginName = str(translate("MyPlugins/Explorer_CM", "Windows Explorer`s Context Menus"))
-pluginVersion = "0.4"
+pluginVersion = "0.5"
 pluginFiles = []
 pluginDirectory = ""
 setupDirectory = ""
@@ -198,7 +198,11 @@ def installThisPlugin():
                                     {"key": "Organize3", 
                                             "title": translate("MyPlugins/Explorer_CM", "As Subfolder Table"), 
                                             "icon": InputOutputs.joinPath(InputOutputs.themePath, "Images", "HamsiManager-16x16-1.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " -t 3 \"%1\""}
+                                            "command" : executeCommandOfHamsiManager + " -t 3 \"%1\""}, 
+                                    {"key": "Organize9", 
+                                            "title": translate("MyPlugins/Explorer_CM", "As Subfolder Music Table"), 
+                                            "icon": InputOutputs.joinPath(InputOutputs.themePath, "Images", "HamsiManager-16x16-1.ico"), 
+                                            "command" : executeCommandOfHamsiManager + " -t 9 \"%1\""}
                                 ]}, 
                     {"object": "Directory",
                         "key": "HamsiManagerManage", 
@@ -223,7 +227,11 @@ def installThisPlugin():
                                     {"key": "Organize3", 
                                             "title": translate("MyPlugins/Explorer_CM", "As Subfolder Table"), 
                                             "icon": InputOutputs.joinPath(InputOutputs.themePath, "Images", "HamsiManager-16x16-1.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " -t 3 \"%1\""}
+                                            "command" : executeCommandOfHamsiManager + " -t 3 \"%1\""}, 
+                                    {"key": "Organize9", 
+                                            "title": translate("MyPlugins/Explorer_CM", "As Subfolder Music Table"), 
+                                            "icon": InputOutputs.joinPath(InputOutputs.themePath, "Images", "HamsiManager-16x16-1.ico"), 
+                                            "command" : executeCommandOfHamsiManager + " -t 9 \"%1\""}
                                 ]}, 
                     {"object": "Directory\\Background",
                         "key": "HamsiManagerManage", 
@@ -248,7 +256,11 @@ def installThisPlugin():
                                     {"key": "Organize3", 
                                             "title": translate("MyPlugins/Explorer_CM", "As Subfolder Table"), 
                                             "icon": InputOutputs.joinPath(InputOutputs.themePath, "Images", "HamsiManager-16x16-1.ico"), 
-                                            "command" : executeCommandOfHamsiManager + " -t 3 \"%1\""}
+                                            "command" : executeCommandOfHamsiManager + " -t 3 \"%1\""}, 
+                                    {"key": "Organize9", 
+                                            "title": translate("MyPlugins/Explorer_CM", "As Subfolder Music Table"), 
+                                            "icon": InputOutputs.joinPath(InputOutputs.themePath, "Images", "HamsiManager-16x16-1.ico"), 
+                                            "command" : executeCommandOfHamsiManager + " -t 9 \"%1\""}
                                 ]}
                     ]
     rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
@@ -351,7 +363,8 @@ def uninstallThisPlugin():
                                     {"key": "Organize0"}, 
                                     {"key": "Organize1"}, 
                                     {"key": "Organize2"}, 
-                                    {"key": "Organize3"}
+                                    {"key": "Organize3"}, 
+                                    {"key": "Organize9"}
                                 ]}, 
                     {"object": "Directory",
                         "key": "HamsiManagerManage", 
@@ -359,7 +372,8 @@ def uninstallThisPlugin():
                                     {"key": "Organize0"}, 
                                     {"key": "Organize1"}, 
                                     {"key": "Organize2"}, 
-                                    {"key": "Organize3"}
+                                    {"key": "Organize3"}, 
+                                    {"key": "Organize9"}
                                 ]}, 
                     {"object": "Directory\\Background",
                         "key": "HamsiManagerManage", 
@@ -367,7 +381,8 @@ def uninstallThisPlugin():
                                     {"key": "Organize0"}, 
                                     {"key": "Organize1"}, 
                                     {"key": "Organize2"}, 
-                                    {"key": "Organize3"}
+                                    {"key": "Organize3"}, 
+                                    {"key": "Organize9"}
                                 ]}
                     ]
     rootReg = winreg.ConnectRegistry(None,winreg.HKEY_CLASSES_ROOT)
