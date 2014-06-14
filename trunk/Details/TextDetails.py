@@ -26,7 +26,7 @@ from Core import Universals
 from Core import ReportBug
 
 class TextDetails(MDialog):
-    global textDialogs, closeAllTextDialogs
+    global textDialogs
     textDialogs =[]
     
     def __init__(self,_filePath,_isOpenDetailsOnNewWindow):
@@ -125,7 +125,8 @@ class TextDetails(MDialog):
             Dialogs.showError(translate("TextDetails", "Incorrect File Encoding"), 
                         str(translate("TextDetails", "File can not decode by \"%s\" codec.<br>Please select another file encoding type.")
                             )% trForUI(self.sourceCharSet.currentText()))
-    
+
+    @staticmethod
     def closeAllTextDialogs():
         for dialog in textDialogs:
             try:

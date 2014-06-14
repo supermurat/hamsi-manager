@@ -23,86 +23,84 @@ from Core import Universals
 import InputOutputs
 import logging
 
-class Records():
-    global add, create, read, setTitle, clearRecords, recordContents, isSetedTitle, saveAllRecords,recordContents, checkSize, recordType, lastRecordType, setRecordType, restoreRecordType, getBackupRecordsList
+recordContents = ""
+isSetedTitle = False
+recordType = 0 # 0=Normal, 1=Debug
+lastRecordType = 0
+
+def create():
+    global recordContents
+    recordContents = str(translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+
+def setTitle(_title):
+    global isSetedTitle, recordContents
+    if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
+        recordContents += str(_title) + "\n"
+    if Universals.loggingLevel==logging.DEBUG:
+        print (_title)
+    isSetedTitle = True
+
+def add(_action, _previous="", _now=None):
+    global recordContents
+    if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
+        if recordType==0 or (recordType==1 and Universals.loggingLevel==logging.DEBUG):
+            if _now is not None:
+                recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+            else:
+                recordContents += str(_action + " ::::::: '") + str(_previous) + "' " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
+    if Universals.loggingLevel==logging.DEBUG:
+        if _now is not None:
+            print (str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+        else:
+            print (str(_action + " ::::::: '") + str(_previous) + "' " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+
+def setRecordType(_recordType):
+    global lastRecordType, recordType
+    lastRecordType = recordType
+    recordType = _recordType
+
+def restoreRecordType():
+    global recordType
+    recordType = lastRecordType
+
+def saveAllRecords():
+    global recordContents, isSetedTitle
+    if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
+        if InputOutputs.isFile(InputOutputs.recordFilePath)==False:
+            create()
+        setRecordType(1)
+        InputOutputs.addToFile(InputOutputs.recordFilePath, recordContents)
+        restoreRecordType()
     recordContents = ""
     isSetedTitle = False
-    recordType = 0 # 0=Normal, 1=Debug
-    lastRecordType = 0
-    
-    def create():
-        global recordContents
-        recordContents = str(translate("Records", "Hamsi Manager Record File - Time Created : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
-    
-    def setTitle(_title):
-        global isSetedTitle, recordContents
-        if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
-            recordContents += str(_title) + "\n"
-        if Universals.loggingLevel==logging.DEBUG:
-            print (_title)
-        isSetedTitle = True
-    
-    def add(_action, _previous="", _now=None):
-        global recordContents
-        if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
-            if recordType==0 or (recordType==1 and Universals.loggingLevel==logging.DEBUG):
-                if _now is not None:
-                    recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
-                else:
-                    recordContents += str(_action + " ::::::: '") + str(_previous) + "' " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
-        if Universals.loggingLevel==logging.DEBUG:
-            if _now is not None:
-                print (str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
-            else:
-                print (str(_action + " ::::::: '") + str(_previous) + "' " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
-        
-    def setRecordType(_recordType):
-        global lastRecordType, recordType
-        lastRecordType = recordType
-        recordType = _recordType
-        
-    def restoreRecordType():
-        global recordType
-        recordType = lastRecordType
-        
-    def saveAllRecords():
-        global recordContents, isSetedTitle
-        if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
-            if InputOutputs.isFile(InputOutputs.recordFilePath)==False:
-                create()
-            setRecordType(1)
-            InputOutputs.addToFile(InputOutputs.recordFilePath, recordContents)
-            restoreRecordType()
-        recordContents = ""
-        isSetedTitle = False
-    
-    def checkSize():
+
+def checkSize():
+    setRecordType(1)
+    if InputOutputs.isFile(InputOutputs.recordFilePath):
+        if InputOutputs.getSize(InputOutputs.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
+            InputOutputs.moveFileOrDir(InputOutputs.recordFilePath, InputOutputs.joinPath(InputOutputs.oldRecordsDirectoryPath, str(time.strftime("%Y%m%d_%H%M%S")) + ".txt"))
+    restoreRecordType()
+
+def getBackupRecordsList():
+    if InputOutputs.isDir(InputOutputs.oldRecordsDirectoryPath)==True:
+        return InputOutputs.readDirectory(InputOutputs.oldRecordsDirectoryPath, "file")
+    else:
+        return []
+
+def read(_recordFilePath=None):
+    if _recordFilePath==None:
+        _recordFilePath = InputOutputs.recordFilePath
+    if InputOutputs.isFile(_recordFilePath)==True:
+        return InputOutputs.readFromFile(_recordFilePath, "utf-8")
+    else:
+        create()
         setRecordType(1)
-        if InputOutputs.isFile(InputOutputs.recordFilePath):
-            if InputOutputs.getSize(InputOutputs.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
-                InputOutputs.moveFileOrDir(InputOutputs.recordFilePath, InputOutputs.joinPath(InputOutputs.oldRecordsDirectoryPath, str(time.strftime("%Y%m%d_%H%M%S")) + ".txt"))
+        InputOutputs.addToFile(_recordFilePath, recordContents)
         restoreRecordType()
-        
-    def getBackupRecordsList():
-        if InputOutputs.isDir(InputOutputs.oldRecordsDirectoryPath)==True:
-            return InputOutputs.readDirectory(InputOutputs.oldRecordsDirectoryPath, "file")
-        else:
-            return []
-        
-    def read(_recordFilePath=None):
-        if _recordFilePath==None:
-            _recordFilePath = InputOutputs.recordFilePath
-        if InputOutputs.isFile(_recordFilePath)==True:
-            return InputOutputs.readFromFile(_recordFilePath, "utf-8")
-        else:
-            create()
-            setRecordType(1)
-            InputOutputs.addToFile(_recordFilePath, recordContents)
-            restoreRecordType()
-            return recordContents
-            
-    def clearRecords():
-        InputOutputs.writeToFile(InputOutputs.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
-            
-            
-            
+        return recordContents
+
+def clearRecords():
+    InputOutputs.writeToFile(InputOutputs.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+
+
+

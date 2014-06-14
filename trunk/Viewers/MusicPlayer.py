@@ -400,7 +400,7 @@ class InfoScroller(MThread):
             breakCount = 0
             while 1==1:
                 try:
-                    if Universals.isStartingSuccessfully and Universals.isStartedCloseProcces==False:
+                    if Universals.isStartingSuccessfully and Universals.isStartedCloseProcess==False:
                         if self.parent.parent().isVisible():
                             try:
                                 self.parent.info.move(x, 0)

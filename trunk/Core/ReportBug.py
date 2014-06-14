@@ -30,6 +30,7 @@ import Options
 import traceback
 import logging
 from Core.RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
+
 if Variables.isPython3k:
     from urllib.parse import unquote, quote
 else:

@@ -18,7 +18,6 @@
 
 
 from Core import Variables
-from Core import FileManager
 from Core import Dialogs
 from Core import Universals
 import InputOutputs
@@ -29,7 +28,6 @@ from Options import TableQuickOptions
 
 class Tables(MTableWidget):
     def __init__(self, _parent):
-        global layouts,widgets
         MTableWidget.__init__(self, _parent)
         self.isAskShowHiddenColumn = True
         self.currentDirectoryPath = ""
@@ -191,8 +189,7 @@ class Tables(MTableWidget):
                 Universals.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-            
-    
+
     def getColumnKeyFromName(self, _nameWithMark):
         for x, name in enumerate(self.tableColumns):
             if str(name) == str(_nameWithMark).replace("&", ""):
@@ -386,10 +383,8 @@ class Tables(MTableWidget):
         self.newDirectoryPath = _path
         
     def refresh(self, _path = ""):
-        global isShowChanges
         self.setCurrentDirectory(_path)
         self.isAskShowHiddenColumn = True
-        isShowChanges=False
         self.clearHistoryPoints()
         self.clear()
         self.setColumnCount(len(self.tableColumns))
@@ -403,8 +398,6 @@ class Tables(MTableWidget):
         myProcs.run()
 
     def continueRefresh(self, _returned=None):
-        global isShowChanges
-        isShowChanges=True
         for rowNo in range(self.rowCount()):
             if self.isRowHidden(rowNo):
                 self.showRow(rowNo)

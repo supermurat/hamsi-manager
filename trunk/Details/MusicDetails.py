@@ -25,14 +25,14 @@ from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
 from Viewers import MusicPlayer
-from Details.ImageDetails import ImageDetails, closeAllImageDialogs
+from Details.ImageDetails import ImageDetails
 from Core import Universals
 from Core import ReportBug
 import Taggers
 
 class MusicDetails(MDialog):
-    global musicDialogs, closeAllMusicDialogs
-    musicDialogs =[]
+    global musicDialogs
+    musicDialogs = []
     def __init__(self, _filePath, _isOpenDetailsOnNewWindow=True, _isPlayNow=False):
         global musicDialogs
         _filePath = InputOutputs.checkSource(_filePath, "file")
@@ -224,15 +224,15 @@ class MusicDetails(MDialog):
         self.lblImageType.hide()
         self.cbImageType.hide()
         self.pbtnCancelAddImage.hide()
-        
-    
+
     def closeEvent(self, _event):
         try:
             self.player.stop()
         except:
             pass
-        closeAllImageDialogs()
-    
+        ImageDetails.closeAllImageDialogs()
+
+    @staticmethod
     def closeAllMusicDialogs():
         for dialog in musicDialogs:
             try:
@@ -246,7 +246,7 @@ class MusicDetails(MDialog):
         try:
             from Core import Records
             Records.setTitle(translate("MusicDetails", "Music File"))
-            closeAllImageDialogs()
+            ImageDetails.closeAllImageDialogs()
             newMusicValues={}
             newMusicValues["baseNameOfDirectory"] = str(self.infoValues["baseNameOfDirectory"].text())
             newMusicValues["baseName"] = str(self.infoValues["baseName"].text())
@@ -287,7 +287,7 @@ class MusicDetails(MDialog):
                 self.pbtnSaveAsImage.hide()
             else:
                 if InputOutputs.isFile(self.leImagePath.text())==True:
-                    closeAllImageDialogs()
+                    ImageDetails.closeAllImageDialogs()
                     imageType = Taggers.getImageTypesNo()[self.cbImageType.currentIndex()]
                     description = str(imageType)
                     Musics.writeMusicFile(self.musicValues,None,True,imageType,str(self.leImagePath.text()), description)
@@ -303,7 +303,7 @@ class MusicDetails(MDialog):
     def deleteImage(self):
         try:
             if self.lstwImages.currentRow()!=-1:
-                closeAllImageDialogs()
+                ImageDetails.closeAllImageDialogs()
                 description = self.musicValues["images"][self.lstwImages.currentRow()][4]
                 Musics.writeMusicFile(self.musicValues,None,True,self.musicValues["images"][self.lstwImages.currentRow()][0], False, description)
                 self.changeFile(self.musicFile)

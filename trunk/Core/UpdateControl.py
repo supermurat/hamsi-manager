@@ -28,7 +28,6 @@ from Core.MyObjects import *
 from datetime import timedelta, datetime
 
 class UpdateControl(MDialog):
-    global isMakeUpdateControl
     def __init__(self,_parent, _isNotInstall=False, _isCloseParent=False):
         MDialog.__init__(self, _parent)
         QtWebKit = getMyObject("QtWebKit")
@@ -274,8 +273,8 @@ class UpdateControl(MDialog):
             Dialogs.show(translate("UpdateControl", "The New Version Downloaded"), 
                         translate("UpdateControl", "New version of Hamsi Manager downloaded, you can install it manually."))
             self.close()
-            
-        
+
+    @staticmethod
     def isMakeUpdateControl():
         lastUpdateControlTime = Universals.getDateValue("lastUpdateControlDate")
         updateInterval = int(Universals.MySettings["updateInterval"])

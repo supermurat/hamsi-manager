@@ -23,6 +23,7 @@ myArgvs = []
 isQuickMake = False
 QuickMakeParameters = []
 parser =None
+optionList = None
 
 def checkParameters():
     from optparse import OptionParser, OptionGroup
@@ -270,7 +271,7 @@ the Free Software Foundation; either version 2 of the License, or
         return False
     return True
 
-def checkAfterRunProccess():
+def checkAfterRunProcess():
     from Core import Variables
     from Core import Universals
     from Core import Dialogs, UpdateControl
@@ -348,19 +349,19 @@ def checkAndCorrectWindowMode(_isCheck=False):
             except:pass
             Universals.setMySetting("isShowWindowModeSuggestion", False)
      
-def checkBeforeCloseProccess():
+def checkBeforeCloseProcess():
     from Core import Variables
     from Core import Universals
     from Core import UpdateControl
     if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
         import InputOutputs
         InputOutputs.checkSizeOfDeletedFiles()
-    if UpdateControl.isMakeUpdateControl():
+    if UpdateControl.UpdateControl.isMakeUpdateControl():
         UpdateControl.UpdateControl(Universals.MainWindow, _isCloseParent=True)
         return False
     return True
 
-def checkAfterCloseProccess():
+def checkAfterCloseProcess():
     from Core import Records
     Records.saveAllRecords()
     Records.checkSize()

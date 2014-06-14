@@ -30,7 +30,6 @@ from Core import ReportBug
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
 class MyPlugins(MyDialog):
-    global installPlugin, uninstallPlugin
     
     def __init__(self):
         MyDialog.__init__(self, MyParent)
@@ -93,19 +92,19 @@ class MyPlugins(MyDialog):
     
     def installThis(self):
         try:
-            installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
+            self.installPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
             ReportBug.ReportBug()
     
     def uninstallThis(self):
         try:
-            uninstallPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
+            self.uninstallPlugin(self.myPluginsNames[self.lstwPluginList.currentRow()])
             self.fillPlugins()
         except:
             ReportBug.ReportBug()
-    
-    def installPlugin(_pluginName, _isQuiet=False):
+
+    def installPlugin(self, _pluginName, _isQuiet=False):
         isInstalled = False
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], 0)
         if pluginModule.installThisPlugin==None:
@@ -136,8 +135,8 @@ class MyPlugins(MyDialog):
             if _isQuiet==False:
                 Dialogs.showError(translate("MyPlugins", "Plug-in Installation Failed"), 
                          str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (pluginModule.pluginName))
-    
-    def uninstallPlugin(_pluginName, _isQuiet=False):
+
+    def uninstallPlugin(self, _pluginName, _isQuiet=False):
         isUninstalled = False
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "uninstallThisPlugin", "setupDirectory", "pluginVersion"], 0)
         if pluginModule.uninstallThisPlugin==None:

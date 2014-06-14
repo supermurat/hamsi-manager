@@ -30,7 +30,7 @@ import Amarok
 from Amarok import Operations, Commands
 
 class AmarokArtistDetails(MDialog):
-    global amarokArtistDialogs, closeAllAmarokArtistDialogs
+    global amarokArtistDialogs
     amarokArtistDialogs =[]
     def __init__(self, _artistId, _isOpenDetailsOnNewWindow=True):
         global amarokArtistDialogs
@@ -145,7 +145,8 @@ class AmarokArtistDetails(MDialog):
             vblInfos.addLayout(hbox)
         vblInfos.addWidget(self.twSongs)
         vblClearable.addLayout(vblInfos)
-                                       
+
+    @staticmethod
     def closeAllAmarokArtistDialogs():
         for dialog in amarokArtistDialogs:
             try:

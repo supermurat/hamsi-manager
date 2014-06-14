@@ -27,100 +27,97 @@ from Core import Dialogs
 from Core import Records
 from Core import ReportBug
 
-class Operations:
-    global getDirectoriesAndValues, changePaths, changeTags, getAllMusicFileValuesWithNames, getAllArtistsValues, changeArtistValues
-    
-    def getDirectoriesAndValues(_filter = ""):
-        db = Amarok.checkAndGetDB()
-        if db!=None:
-            return Commands.getDirectoriesAndValues(_filter)
-        return None
-        
-    def getAllMusicFileValuesWithNames(_filter = ""):
-        db = Amarok.checkAndGetDB()
-        if db!=None:
-            return Commands.getAllMusicFileValuesWithNames(_filter)
-        return None
-        
-    def getAllArtistsValues(_filter = "", _isOnlyArtistFilter = False):
-        db = Amarok.checkAndGetDB()
-        if db!=None:
-            return Commands.getAllArtistsValues(_filter, _isOnlyArtistFilter)
-        return None
-        
-    def changePaths(_values, _type="auto"):
-        Universals.startThreadAction()
-        allItemNumber = len(_values)
-        for valueNo,value in enumerate(_values):
-            isContinueThreadAction = Universals.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    if _type == "file" or (_type=="auto" and InputOutputs.isFile(value["newPath"])):
-                        Commands.changeFilePath(value["oldPath"], value["newPath"])
-                    else:
-                        Commands.changeDirectoryPath(value["oldPath"], value["newPath"])
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = valueNo+1
-            Dialogs.showState(translate("Amarok/Operations", "Changing Paths In Amarok Database"),
-                              valueNo+1,allItemNumber, True) 
-            if isContinueThreadAction==False:
-                break
-        Universals.finishThreadAction()
-        
-    def changeTags(_values):
-        Universals.startThreadAction()
-        allItemNumber = len(_values)
-        for valueNo,value in enumerate(_values):
-            isContinueThreadAction = Universals.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    Commands.changeTag(value)
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = valueNo+1
-            Dialogs.showState(translate("Amarok/Operations", "Changing Tags In Amarok Database"),
-                              valueNo+1,allItemNumber, True) 
-            if isContinueThreadAction==False:
-                break
-        Universals.finishThreadAction()
-            
-    def changeArtistValues(_values):
-        Universals.startThreadAction()
-        allItemNumber = len(_values)
-        Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
-        for x, value in enumerate(_values):
-            isContinueThreadAction = Universals.isContinueThreadAction()
-            if isContinueThreadAction:
-                musicFilePathAndArtist = Commands.changeArtistValue(value)
-                if musicFilePathAndArtist!=None:
-                    artistName = musicFilePathAndArtist[1]
-                    for musicFilePath in musicFilePathAndArtist[0]:
-                        if InputOutputs.isWritableFileOrDir(musicFilePath, False, True):
-                            Records.add(str(translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
-                            currentArtistName = ""
-                            tagger = Taggers.getTagger()
-                            if tagger is not None:
-                                try:
-                                    tagger.loadFileForWrite(musicFilePath)
-                                    currentArtistName = tagger.getArtist()
-                                except: 
-                                    tagger.loadFileForWrite(musicFilePath)
-                                tagger.setArtist(artistName)
-                                tagger.update()
-                                Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
-            else:
-                allItemNumber = x+1
-            Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)
-            if isContinueThreadAction==False:
-                break
-        Universals.finishThreadAction()
-                        
-            
-            
-            
-            
+def getDirectoriesAndValues(_filter = ""):
+    db = Amarok.checkAndGetDB()
+    if db!=None:
+        return Commands.getDirectoriesAndValues(_filter)
+    return None
+
+def getAllMusicFileValuesWithNames(_filter = ""):
+    db = Amarok.checkAndGetDB()
+    if db!=None:
+        return Commands.getAllMusicFileValuesWithNames(_filter)
+    return None
+
+def getAllArtistsValues(_filter = "", _isOnlyArtistFilter = False):
+    db = Amarok.checkAndGetDB()
+    if db!=None:
+        return Commands.getAllArtistsValues(_filter, _isOnlyArtistFilter)
+    return None
+
+def changePaths(_values, _type="auto"):
+    Universals.startThreadAction()
+    allItemNumber = len(_values)
+    for valueNo,value in enumerate(_values):
+        isContinueThreadAction = Universals.isContinueThreadAction()
+        if isContinueThreadAction:
+            try:
+                if _type == "file" or (_type=="auto" and InputOutputs.isFile(value["newPath"])):
+                    Commands.changeFilePath(value["oldPath"], value["newPath"])
+                else:
+                    Commands.changeDirectoryPath(value["oldPath"], value["newPath"])
+            except:
+                ReportBug.ReportBug()
+        else:
+            allItemNumber = valueNo+1
+        Dialogs.showState(translate("Amarok/Operations", "Changing Paths In Amarok Database"),
+                          valueNo+1,allItemNumber, True)
+        if isContinueThreadAction==False:
+            break
+    Universals.finishThreadAction()
+
+def changeTags(_values):
+    Universals.startThreadAction()
+    allItemNumber = len(_values)
+    for valueNo,value in enumerate(_values):
+        isContinueThreadAction = Universals.isContinueThreadAction()
+        if isContinueThreadAction:
+            try:
+                Commands.changeTag(value)
+            except:
+                ReportBug.ReportBug()
+        else:
+            allItemNumber = valueNo+1
+        Dialogs.showState(translate("Amarok/Operations", "Changing Tags In Amarok Database"),
+                          valueNo+1,allItemNumber, True)
+        if isContinueThreadAction==False:
+            break
+    Universals.finishThreadAction()
+
+def changeArtistValues(_values):
+    Universals.startThreadAction()
+    allItemNumber = len(_values)
+    Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
+    for x, value in enumerate(_values):
+        isContinueThreadAction = Universals.isContinueThreadAction()
+        if isContinueThreadAction:
+            musicFilePathAndArtist = Commands.changeArtistValue(value)
+            if musicFilePathAndArtist!=None:
+                artistName = musicFilePathAndArtist[1]
+                for musicFilePath in musicFilePathAndArtist[0]:
+                    if InputOutputs.isWritableFileOrDir(musicFilePath, False, True):
+                        Records.add(str(translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
+                        currentArtistName = ""
+                        tagger = Taggers.getTagger()
+                        if tagger is not None:
+                            try:
+                                tagger.loadFileForWrite(musicFilePath)
+                                currentArtistName = tagger.getArtist()
+                            except:
+                                tagger.loadFileForWrite(musicFilePath)
+                            tagger.setArtist(artistName)
+                            tagger.update()
+                            Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
+        else:
+            allItemNumber = x+1
+        Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)
+        if isContinueThreadAction==False:
+            break
+    Universals.finishThreadAction()
+
+
+
+
+
             
 

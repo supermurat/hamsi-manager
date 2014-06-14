@@ -48,7 +48,7 @@ class Search(MDialog):
         self.setModal(True)
         self.prgbState = MProgressBar()
         self.prgbAllState = MProgressBar()
-        self.prgbStateLabel = MLabel(translate("SearchEngines", "Current Proccess"))
+        self.prgbStateLabel = MLabel(translate("SearchEngines", "Current Process"))
         self.prgbAllStateLabel = MLabel(translate("SearchEngines", "General"))
         self.pbtnApply = MPushButton(translate("SearchEngines", "Apply"))
         self.pbtnApply.setMaximumWidth(120)

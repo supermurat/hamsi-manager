@@ -29,7 +29,6 @@ from Core import Universals
 pluginName = "eyeD3"
 
 class Tagger():
-    global getImageTypes, getImageTypesNo, getTaggerTypes, getTaggerTypesName, getAvailableLabelsForTable, getAvailableKeysForTable
     
     def __init__(self):
         self.filePath = None
@@ -211,44 +210,44 @@ class Tagger():
     def removeImage(self, _description):
         if Taggers.getSelectedTaggerTypeForRead()==eyeD3.ID3_V2:
             self.tag.addImage(int(_description), False)
-        
-    def getImageTypes():
-        return ["Other (Default)","Icon","Other Icon","Front Cover","Back Cover","Leaflet","Media",
-            "Lead Artist","Artist","Leader","Band","Composer","Lyrics By","Recorded At",
-            "Recording","Performing","Video","Made Famous","Example","Band Logo","Publisher Logo"]
-            
-    def getImageTypesNo():
-        return ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","10","11","12","13","14"] 
-        
-    def getTaggerTypes():
-        return [eyeD3.ID3_V2, eyeD3.ID3_V1]
-        
-    def getTaggerTypesName():
-        return ["ID3 V2", "ID3 V1"]
-        
-    def getAvailableKeysForTable():
-        keys = ["Directory", "File Name", "Artist", "Title", "Album", 
-                              "Track No", "Year", "Genre", "Comment", "Lyrics"]
-        if Taggers.getSelectedTaggerTypeForRead()!=getTaggerTypes()[0]:
-            t = keys.pop()
-        return keys
-        
-    def getAvailableLabelsForTable():
-        labels = [translate("MusicTable", "Directory"), 
-            translate("MusicTable", "File Name"), 
-            translate("MusicTable", "Artist"), 
-            translate("MusicTable", "Title"), 
-            translate("MusicTable", "Album"), 
-            translate("MusicTable", "Track No"), 
-            translate("MusicTable", "Year"), 
-            translate("MusicTable", "Genre"), 
-            translate("MusicTable", "Comment"), 
-            translate("MusicTable", "Lyrics")]
-        if Taggers.getSelectedTaggerTypeForRead()!=getTaggerTypes()[0]:
-            t = labels.pop()
-        return labels
-        
-        
+
+def getImageTypes():
+    return ["Other (Default)","Icon","Other Icon","Front Cover","Back Cover","Leaflet","Media",
+        "Lead Artist","Artist","Leader","Band","Composer","Lyrics By","Recorded At",
+        "Recording","Performing","Video","Made Famous","Example","Band Logo","Publisher Logo"]
+
+def getImageTypesNo():
+    return ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","10","11","12","13","14"]
+
+def getTaggerTypes():
+    return [eyeD3.ID3_V2, eyeD3.ID3_V1]
+
+def getTaggerTypesName():
+    return ["ID3 V2", "ID3 V1"]
+
+def getAvailableKeysForTable():
+    keys = ["Directory", "File Name", "Artist", "Title", "Album",
+                          "Track No", "Year", "Genre", "Comment", "Lyrics"]
+    if Taggers.getSelectedTaggerTypeForRead()!=getTaggerTypes()[0]:
+        t = keys.pop()
+    return keys
+
+def getAvailableLabelsForTable():
+    labels = [translate("MusicTable", "Directory"),
+        translate("MusicTable", "File Name"),
+        translate("MusicTable", "Artist"),
+        translate("MusicTable", "Title"),
+        translate("MusicTable", "Album"),
+        translate("MusicTable", "Track No"),
+        translate("MusicTable", "Year"),
+        translate("MusicTable", "Genre"),
+        translate("MusicTable", "Comment"),
+        translate("MusicTable", "Lyrics")]
+    if Taggers.getSelectedTaggerTypeForRead()!=getTaggerTypes()[0]:
+        t = labels.pop()
+    return labels
+
+
         
         
         

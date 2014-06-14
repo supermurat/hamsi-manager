@@ -28,7 +28,6 @@ import InputOutputs
 import Options
 
 class ScriptManager(MDialog):
-    global checkScriptManager
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
         from PyQt4.Qsci import QsciScintilla, QsciLexerPython, QsciAPIs
@@ -102,7 +101,8 @@ class ScriptManager(MDialog):
     def closeEvent(self, _event):
         if self.checkForSave()==False:
             _event.ignore() 
-    
+
+    @staticmethod
     def checkScriptManager(_isAlertIfNotAvailable=True):
         try:
             from PyQt4.Qsci import QsciScintilla

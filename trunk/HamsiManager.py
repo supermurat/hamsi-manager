@@ -18,12 +18,11 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import sys
-import os
 try: 
-    if float(sys.version[:3])<3.0: 
+    if float(sys.version[:3]) < 3.0:
         reload(sys)
         sys.setdefaultencoding("utf-8")
-except:pass
+except: pass
 
 from Core import RoutineChecks
 if RoutineChecks.checkMandatoryModules():
@@ -229,27 +228,27 @@ if RoutineChecks.checkMandatoryModules():
                                     if Universals.isContinueThreadAction():
                                         Universals.cancelThreadAction()
                                         _event.ignore()
-                                Universals.isStartedCloseProcces = True
+                                Universals.isStartedCloseProcess = True
                                 Universals.printForDevelopers("Started closeEvent")
                                 MApplication.setQuitOnLastWindowClosed(True)
                                 try:self.PlayerBar.MusicPlayer.stop()
                                 except:pass
                                 from Core import ReportBug, Records
                                 from Details import MusicDetails, TextDetails, CoverDetails
-                                MusicDetails.closeAllMusicDialogs()
-                                TextDetails.closeAllTextDialogs()
-                                CoverDetails.closeAllCoverDialogs()
+                                MusicDetails.MusicDetails.closeAllMusicDialogs()
+                                TextDetails.TextDetails.closeAllTextDialogs()
+                                CoverDetails.CoverDetails.closeAllCoverDialogs()
                                 Universals.printForDevelopers("Closed Dialogs")
                                 if Universals.isRaisedAnError==False:
                                     if self.Table.checkUnSavedValues()==False:
-                                        Universals.isStartedCloseProcces=False
+                                        Universals.isStartedCloseProcess=False
                                         Universals.printForDevelopers("Close ignored")
                                         _event.ignore() 
-                                Universals.printForDevelopers("Before RoutineChecks.checkBeforeCloseProccess")
-                                if RoutineChecks.checkBeforeCloseProccess()==False:
+                                Universals.printForDevelopers("Before RoutineChecks.checkBeforeCloseProcess")
+                                if RoutineChecks.checkBeforeCloseProcess()==False:
                                     _event.ignore()
                                     return None
-                                Universals.printForDevelopers("After RoutineChecks.checkBeforeCloseProccess")
+                                Universals.printForDevelopers("After RoutineChecks.checkBeforeCloseProcess")
                                 if isActivePyKDE4==True:
                                     Universals.printForDevelopers("Before Save KDE Configs")
                                     kconf = MGlobal.config()
@@ -266,8 +265,8 @@ if RoutineChecks.checkMandatoryModules():
                                     subFixForStateFile = Universals.windowMode
                                 InputOutputs.writeToBinaryFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "LastState" + subFixForStateFile), self.saveState())
                                 Records.restoreRecordType()
-                                geometri = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
-                                Universals.setMySetting("MainWindowGeometries",geometri)
+                                geometry = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
+                                Universals.setMySetting("MainWindowGeometries", geometry)
                                 Universals.setMySetting("lastDirectory",self.FileManager.currentDirectory)
                                 Universals.setMySetting("isMainWindowMaximized",self.isMaximized())
                                 Universals.setMySetting("isShowAdvancedSelections",self.SpecialTools.isShowAdvancedSelections)
@@ -282,9 +281,9 @@ if RoutineChecks.checkMandatoryModules():
                                     import Amarok
                                     Amarok.stopEmbeddedDB()
                                 Universals.printForDevelopers("After Save Configs")
-                                Universals.printForDevelopers("Before RoutineChecks.checkAfterCloseProccess")
-                                RoutineChecks.checkAfterCloseProccess()
-                                Universals.printForDevelopers("After RoutineChecks.checkAfterCloseProccess")
+                                Universals.printForDevelopers("Before RoutineChecks.checkAfterCloseProcess")
+                                RoutineChecks.checkAfterCloseProcess()
+                                Universals.printForDevelopers("After RoutineChecks.checkAfterCloseProcess")
                             except:
                                 from Core import ReportBug
                                 if ReportBug.isClose==False:
@@ -296,7 +295,7 @@ if RoutineChecks.checkMandatoryModules():
                     Universals.printForDevelopers("After Main")
                     if str(MainWindow.windowTitle()) == "":
                         MainWindow.setWindowTitle("Hamsi Manager "+ Variables.version)
-                    if isActivePyKDE4==True:
+                    if isActivePyKDE4:
                         Universals.printForDevelopers("Before MGlobal.config")
                         kconf = MGlobal.config()
                         kconfGroup = MConfigGroup(kconf,"Universals")
@@ -320,9 +319,9 @@ if RoutineChecks.checkMandatoryModules():
                         geometries = Universals.getListValue("MainWindowGeometries")
                         MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
                         MainWindow.show()
-                    Universals.printForDevelopers("Before RoutineChecks.checkAfterRunProccess")
-                    RoutineChecks.checkAfterRunProccess()
-                    Universals.printForDevelopers("After RoutineChecks.checkAfterRunProccess")
+                    Universals.printForDevelopers("Before RoutineChecks.checkAfterRunProcess")
+                    RoutineChecks.checkAfterRunProcess()
+                    Universals.printForDevelopers("After RoutineChecks.checkAfterRunProcess")
                     Universals.setMySetting("isMakeAutoDesign", "False")
                     Universals.isStartingSuccessfully = True
                     Universals.isCanBeShowOnMainWindow = True
