@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
@@ -118,15 +117,15 @@ class SearchAndReplace(MWidget):
         while len(replaceStrings)!=len(searchStrings):
             replaceStrings.append("")
         if self.columns.currentIndex()==0:
-            columns = list(range(0,uni.MainWindow.Table.columnCount()))
+            columns = list(range(0,getMainWindow().Table.columnCount()))
         else:
             columns = [self.columns.currentIndex()-1]
         for columnNo in columns:
-            if uni.MainWindow.Table.isColumnHidden(columnNo)==True:
+            if getMainWindow().Table.isColumnHidden(columnNo)==True:
                 continue
-            for rowNo in range(uni.MainWindow.Table.rowCount()):
-                if uni.MainWindow.Table.isChangeableItem(rowNo, columnNo, None, True):
-                    newString = str(uni.MainWindow.Table.item(rowNo,columnNo).text())
+            for rowNo in range(getMainWindow().Table.rowCount()):
+                if getMainWindow().Table.isChangeableItem(rowNo, columnNo, None, True):
+                    newString = str(getMainWindow().Table.item(rowNo,columnNo).text())
                     newString = str(newString)
                     myString = ""
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
@@ -163,7 +162,7 @@ class SearchAndReplace(MWidget):
                         myString += newString[informationSectionX:informationSectionY]
                         myString += Organizer.searchAndReplace(newString[informationSectionY:], searchStrings, 
                                                 replaceStrings, isCaseInsensitive, isRegExp)
-                    uni.MainWindow.Table.item(rowNo,columnNo).setText(str(myString))
+                    getMainWindow().Table.item(rowNo,columnNo).setText(str(myString))
     
     
 

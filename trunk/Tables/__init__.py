@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Dialogs
 from Core import Universals as uni
 import FileUtils as fu
@@ -105,7 +104,7 @@ class Tables(MTableWidget):
             self.mContextMenu.addAction(actName).setObjectName(actName)
         self.mContextMenuOpenWithNames = [translate("Tables", "File Manager"),
                             translate("Tables", "Default Application")]
-        if var.isWindows == False:
+        if uni.isWindows == False:
             self.mContextMenuOpenWithNames.append(translate("Tables", "Konsole"))
         for actName in self.mContextMenuOpenWithNames:
             self.mContextMenuOpenWith.addAction(actName).setObjectName(actName)
@@ -135,7 +134,7 @@ class Tables(MTableWidget):
             from Tables import SubFolderTable
             self.SubTable = SubFolderTable.SubFolderTable(self)
         elif uni.tableType=="4":
-            if var.isActiveDirectoryCover:
+            if uni.isActiveDirectoryCover:
                 from Tables import CoverTable
                 self.SubTable = CoverTable.CoverTable(self)
             else:
@@ -306,7 +305,7 @@ class Tables(MTableWidget):
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         from Core import Execute
                         Execute.openWith([self.currentTableContentValues[currentItem.row()]["path"]])
-                    elif var.isWindows == False and selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
+                    elif uni.isWindows == False and selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
                         Execute.execute(["konsole","--workdir", fu.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
         except:
@@ -365,8 +364,8 @@ class Tables(MTableWidget):
         
     def setCurrentDirectory(self, _path):
         if _path=="":
-            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None:
-                _path = uni.MainWindow.FileManager.getCurrentDirectoryPath()
+            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None:
+                _path = getMainWindow().FileManager.getCurrentDirectoryPath()
             else:
                 _path = fu.userDirectoryPath
         self.currentDirectoryPath = _path
@@ -376,8 +375,8 @@ class Tables(MTableWidget):
         if _path=="":
             _path = self.currentDirectoryPath
         if _path=="":
-            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None:
-                _path = uni.MainWindow.FileManager.getCurrentDirectoryPath()
+            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None:
+                _path = getMainWindow().FileManager.getCurrentDirectoryPath()
             else:
                 _path = fu.userDirectoryPath
         self.newDirectoryPath = _path
@@ -389,7 +388,7 @@ class Tables(MTableWidget):
         self.clear()
         self.setColumnCount(len(self.tableColumns))
         self.setHorizontalHeaderLabels(self.tableColumns)
-        columnWidth = (uni.MainWindow.CentralWidget.width()-90)/len(self.tableColumns)
+        columnWidth = (getMainWindow().CentralWidget.width()-90)/len(self.tableColumns)
         if columnWidth>110:
             for x in range(len(self.tableColumns)):
                 self.setColumnWidth(x,columnWidth)
@@ -404,12 +403,12 @@ class Tables(MTableWidget):
         self.refreshShowedAndHiddenColumns()
         if uni.getBoolValue("isResizeTableColumnsToContents"):
             self.resizeColumnsToContents()
-        uni.MainWindow.StatusBar.setTableInfo(var.tableTypesNames[uni.tableType] + str(" : ") + str(str(self.rowCount())))
+        getMainWindow().StatusBar.setTableInfo(uni.tableTypesNames[uni.tableType] + str(" : ") + str(str(self.rowCount())))
         
     def save(self):
         try:
             from Core import Records
-            Records.setTitle(var.tableTypesNames[uni.tableType])
+            Records.setTitle(uni.tableTypesNames[uni.tableType])
             fu.activateSmartCheckIcon()
             fu.activateSmartCheckEmptyDirectories()
             from Core import MyThread
@@ -429,7 +428,7 @@ class Tables(MTableWidget):
                             isGoUpDirectoryWithFileTable = True
                 if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
                     if uni.tableType in ["0", "1", "3", "4", "9"]:
-                        if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                        if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                             fu.checkIcon(self.newDirectoryPath)
                 fu.completeSmartCheckIcon()
                 fu.completeSmartCheckEmptyDirectories(True, True)
@@ -442,11 +441,11 @@ class Tables(MTableWidget):
                         Dialogs.show(translate("Tables", "Transaction Details"), 
                                      str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
                 if isGoUpDirectoryWithFileTable and self.currentDirectoryPath == self.newDirectoryPath:
-                    uni.MainWindow.FileManager.goUp()
+                    getMainWindow().FileManager.goUp()
                 elif isGoUpDirectoryWithFileTable and self.currentDirectoryPath != self.newDirectoryPath:
-                    uni.MainWindow.FileManager.makeRefresh(self.newDirectoryPath)
+                    getMainWindow().FileManager.makeRefresh(self.newDirectoryPath)
                 else:
-                    uni.MainWindow.FileManager.makeRefresh("")
+                    getMainWindow().FileManager.makeRefresh("")
                     if uni.tableType in ["5", "6", "7", "8"]:
                         self.refresh(self.newDirectoryPath)
         except:
@@ -653,7 +652,7 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
-                                    fu.joinPath(var.userDirectoryPath, fu.getBaseName(self.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
+                                    fu.joinPath(uni.userDirectoryPath, fu.getBaseName(self.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
             if filePath is not None:
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
@@ -663,7 +662,7 @@ class Tables(MTableWidget):
                 Dialogs.show(translate("Tables", "Table Exported"),
                             str(translate("Tables", "Table contents are exported to file: \"%s\".")) % Organizer.getLink(filePath))
         elif _actionType=="dialog":
-            dDialog = MDialog(uni.MainWindow)
+            dDialog = MDialog(getMainWindow())
             if isActivePyKDE4:
                 dDialog.setButtons(MDialog.NoDefault)
             dDialog.setWindowTitle(translate("Tables", "Table Contents"))
@@ -692,10 +691,10 @@ class Tables(MTableWidget):
 
     @staticmethod
     def getThisTableType(_tableType):
-        if _tableType in var.tableTypesNames:
+        if _tableType in uni.tableTypesNames:
             return _tableType
         else:
-            for (x, name) in var.tableTypesNames.items():
+            for (x, name) in uni.tableTypesNames.items():
                 if str(name) == str(_tableType):
                     return x
         return "1"

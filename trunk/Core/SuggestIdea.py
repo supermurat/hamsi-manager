@@ -18,21 +18,20 @@
 
 
 import sys,os
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
 from Core import ReportBug
 import Options
 from Options import OptionsForm
-if var.isPython3k:
+if uni.isPython3k:
     from urllib.parse import unquote, quote
 else:
     from urllib import unquote, quote
 
 class SuggestIdea(MDialog):
     def __init__(self):
-        MDialog.__init__(self, uni.MainWindow)
+        MDialog.__init__(self, getMainWindow())
         if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         pnlMain = MWidget(self)
@@ -93,7 +92,7 @@ class SuggestIdea(MDialog):
             self.namMain = MNetworkAccessManager(self)
             self.connect(self.namMain, SIGNAL("finished (QNetworkReply *)"), self.sendFinished)
             self.nrqPost = MNetworkRequest(MUrl("http://hamsiapps.com/ForMyProjects/SuggestIdea.php"))
-            self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(uni.MySettings["language"]) + "&v=" + str(var.intversion) +
+            self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(uni.MySettings["language"]) + "&v=" + str(uni.intversion) +
                                             "&thankYouMessages=new style" + 
                                             "&userNotes=" + quote(str(self.teIdea.toHtml())) + 
                                             "&nameAndSurname=" + quote(str(self.leName.text())) + 
@@ -139,7 +138,7 @@ class SuggestIdea(MDialog):
             if self.cckbIsSendMySettings.checkState() == Mt.Checked:
                 settingText = "<br><br>"
                 for keyName in uni.MySettings:
-                    if var.willNotReportSettings.count(keyName)==0:
+                    if uni.willNotReportSettings.count(keyName)==0:
                         settingText += "<b>" + str(keyName) + " :</b> " + str(uni.MySettings[keyName]) + "<br>"
                 self.teIdea.setHtml(str(currenText + "<br>----------------------////////----------------------<br><br><b>" + str(translate("SuggestIdea", "Note : You can check and delete your personal informations.")) + "</b>" + settingText))
             else:

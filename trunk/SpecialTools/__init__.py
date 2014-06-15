@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
@@ -169,13 +168,13 @@ class SpecialTools(MWidget):
         self.clear.columns.addItem(translate("SpecialTools", "All"))
         self.characterState.columns.addItem(translate("SpecialTools", "All"))
         self.characterEncoding.columns.addItem(translate("SpecialTools", "All"))
-        for columnName in uni.MainWindow.Table.tableColumns:
+        for columnName in getMainWindow().Table.tableColumns:
             self.searchAndReplace.columns.addItem(columnName)
             self.fill.columns.addItem(columnName)
             self.clear.columns.addItem(columnName)
             self.characterState.columns.addItem(columnName)
             self.characterEncoding.columns.addItem(columnName)
-            tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, uni.MainWindow.Table.getColumnKeyFromName(columnName))
+            tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, getMainWindow().Table.getColumnKeyFromName(columnName))
             self.specialActions.pbtnAddObjects.append(tb)
             lbl = MLabel(columnName + ":")
             self.quickFill.lblColumns.append(lbl)
@@ -265,7 +264,7 @@ class SpecialTools(MWidget):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Simple"))
         self.pnlAdvancedSelections.setVisible(True)
         self.isShowAdvancedSelections = True
-        if var.isWindows:
+        if uni.isWindows:
             self.tabwTabs.setMaximumHeight(215)
             self.setMaximumHeight(215)
         else:
@@ -298,7 +297,7 @@ class SpecialTools(MWidget):
         try:
             self.checkCompleters()
             self.reFillCompleters()
-            uni.MainWindow.Table.createHistoryPoint()
+            getMainWindow().Table.createHistoryPoint()
             if self.tabwTabs.currentIndex()==0:
                 if SpecialActions.whatDoesSpecialCommandDo(self.specialActions.getActionCommand())==True:
                     self.specialActions.apply()

@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
@@ -26,7 +25,7 @@ class StatusBar(MStatusBar):
     
     def __init__(self, _parent):
         MStatusBar.__init__(self, _parent)
-        if var.isRunningAsRoot():
+        if uni.isRunningAsRoot():
             lblInfo = MLabel(str("<span style=\"color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+"</span>"))
             self.addWidget(lblInfo)
         self.connectionToCancel = None
@@ -66,7 +65,7 @@ class StatusBar(MStatusBar):
     
     def setTableInfo(self, _info):
         self.lblTableInfo.setText(str(_info))
-        uni.MainWindow.setWindowTitle("Hamsi Manager " + var.version + " - " + str(_info))
+        getMainWindow().setWindowTitle("Hamsi Manager " + uni.version + " - " + str(_info))
     
     def setImportantInfo(self, _info):
         self.lblImportantInfo.setText(str("<span style=\"color: #FF0000\">" + _info + "</span>"))
@@ -85,8 +84,8 @@ class StatusBar(MStatusBar):
         
     def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
         MApplication.processEvents()
-        if uni.MainWindow.isLockedMainForm==False:
-            uni.MainWindow.lockForm()
+        if getMainWindow().isLockedMainForm==False:
+            getMainWindow().lockForm()
         self.prgbState.setVisible(True)
         if _isShowCancel:
             if self.connectionToCancel!=None:
@@ -108,6 +107,6 @@ class StatusBar(MStatusBar):
             self.prgbState.setVisible(False)
             self.pbtnCancel.setVisible(False)
             self.prgbState.setRange(0, 100)
-            if uni.MainWindow.isLockedMainForm:
-                uni.MainWindow.unlockForm()
+            if getMainWindow().isLockedMainForm:
+                getMainWindow().unlockForm()
         

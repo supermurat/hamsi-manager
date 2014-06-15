@@ -25,7 +25,6 @@ import re
 import tempfile
 import mimetypes
 from Core.MyObjects import *
-from Core import Variables as var
 from Core import Universals as uni
 from Core import Records
 from Core import Organizer
@@ -132,7 +131,7 @@ def isHidden(_path, _name=None):
         _name = getBaseName(_path)
     if _name.startswith('.'):
         return True
-    if var.isWindows:
+    if uni.isWindows:
         try:
             import win32api, win32con
             try:attr = win32api.GetFileAttributes(uni.trEncode(_path, fileSystemEncoding))
@@ -175,7 +174,7 @@ def getAvailablePathByPath(_newPath):
         if pathPart!="":
             badchars = re.compile(r'[/]')
             pathPart = badchars.sub('_', pathPart)
-            if var.isWindows:
+            if uni.isWindows:
                 if isFirstPart :
                     pathPart += sep
                 else:
@@ -198,7 +197,7 @@ def getAvailableNameByName(_newPath):
         if pathPart!="":
             badchars = re.compile(r'[/]')
             pathPart = badchars.sub('_', pathPart)
-            if var.isWindows:
+            if uni.isWindows:
                 badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|\.$|^ | $|^$', re.U)
                 pathPart = re.sub(badchars,'_', uni.trUnicode(pathPart), re.U)
                 badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
@@ -255,7 +254,7 @@ def readLink(_oldPath):
 def getRealDirName(_oldPath, isGetParent=False):
     _oldPath = str(_oldPath)
     if len(_oldPath)==0:
-        if var.isWindows: return "C:" + sep
+        if uni.isWindows: return "C:" + sep
         return sep
     if _oldPath[-1]==sep:
         _oldPath = _oldPath[:-1]
@@ -267,7 +266,7 @@ def getRealDirName(_oldPath, isGetParent=False):
         if isDir(realDirName):
             break
         if realDirName=="":
-            if var.isWindows: realDirName = "C:" + sep
+            if uni.isWindows: realDirName = "C:" + sep
             else: realDirName = sep
             break
         realDirName = getDirName(realDirName)
@@ -275,10 +274,10 @@ def getRealDirName(_oldPath, isGetParent=False):
 
 def getRealPath(_path, _parentPath=None):
     _path = str(_path)
-    if var.isWindows:
+    if uni.isWindows:
         _path = _path.replace("\\", sep).replace("/", sep)
     if len(_path)==0:
-        if var.isWindows: return "C:" + sep
+        if uni.isWindows: return "C:" + sep
         return sep
     if _parentPath!=None:
         _parentPath = getRealPath(_parentPath)
@@ -321,11 +320,11 @@ def checkExtension(_oldPath, _extension):
 def getFileExtension(_fileName):
     _fileName = str(_fileName).lower()
     if _fileName.find(".")!=-1:
-        if uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[0]:
+        if uni.MySettings["fileExtensionIs"]==uni.fileExtensionIsKeys[0]:
             return _fileName.split(".", 1)[1]
-        elif uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[1]:
+        elif uni.MySettings["fileExtensionIs"]==uni.fileExtensionIsKeys[1]:
             return _fileName.rsplit(".", 1)[1]
-        elif uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[2]:
+        elif uni.MySettings["fileExtensionIs"]==uni.fileExtensionIsKeys[2]:
             try:
                 m = re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName)
                 if m is not None:
@@ -340,11 +339,11 @@ def getFileNameParts(_fileNameOrPath):
     fileName, fileExtension = "", ""
     if _fileName.find(".")!=-1:
         fParts = [_fileName, fileExtension]
-        if uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[0]:
+        if uni.MySettings["fileExtensionIs"]==uni.fileExtensionIsKeys[0]:
             fParts = _fileName.split(".", 1)
-        elif uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[1]:
+        elif uni.MySettings["fileExtensionIs"]==uni.fileExtensionIsKeys[1]:
             fParts = _fileName.rsplit(".", 1)
-        elif uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[2]:
+        elif uni.MySettings["fileExtensionIs"]==uni.fileExtensionIsKeys[2]:
             try:
                 m = re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName)
                 if m is not None:
@@ -362,11 +361,11 @@ def getFileNameParts(_fileNameOrPath):
 
 def moveFileOrDir(_oldPath, _newPath, _isQuiet=True):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    if var.isWindows:
+    if uni.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     try:
-        if getDirName(_oldPath)==getDirName(_newPath) or (var.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, var.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, var.validSentenceStructureKeys[1])):
+        if getDirName(_oldPath)==getDirName(_newPath) or (uni.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, uni.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, uni.validSentenceStructureKeys[1])):
             try:os.rename(uni.trEncode(_oldPath, fileSystemEncoding),uni.trEncode(_newPath, fileSystemEncoding))
             except:os.rename(_oldPath,_newPath)
         else:
@@ -420,7 +419,7 @@ def copyDirContent(_oldPath, _newPath):
 
 def createSymLink(_oldPath, _newPath):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    if var.isAvailableSymLink():
+    if uni.isAvailableSymLink():
         from os import symlink
         if isExist(_newPath):
             removeFileOrDir(_newPath)
@@ -494,7 +493,7 @@ def moveToPathOfDeleted(_oldPath):
 
 def trSort(_info):
     import locale
-    if var.isPython3k:
+    if uni.isPython3k:
         _info = str(_info)
     try:
         return locale.strxfrm(uni.trEncode(_info, fileSystemEncoding))
@@ -565,7 +564,7 @@ def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
 
 def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
     oldPath = str(_oldPath)
-    if var.isWindows:
+    if uni.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
     if _objectType=="file" and isFile(oldPath):
         return oldPath
@@ -573,7 +572,7 @@ def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
         return oldPath
     elif _objectType=="fileAndDirectory" and (isDir(oldPath) or isFile(oldPath)):
         return oldPath
-    if var.isWindows:
+    if uni.isWindows:
         oldPath = "\\\\?\\" + oldPath # for wrong name such as "C:\Temp \test.txt", "C:\Temp\test.txt "
         if _objectType=="file" and isFile(oldPath):
             return oldPath
@@ -604,7 +603,7 @@ def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
 
 def checkDestination(_oldPath, _newPath, _isQuiet=False):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    if var.isWindows:
+    if uni.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     while isAvailableNameForEncoding(_newPath) == False:
@@ -621,7 +620,7 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
         availableNameByName = getAvailablePathByPath(_newPath)
     if isExist(_newPath):
         if isWritableFileOrDir(_newPath):
-            if var.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, var.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, var.validSentenceStructureKeys[1]):
+            if uni.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, uni.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, uni.validSentenceStructureKeys[1]):
                 return _newPath
             else:
                 if isFile(_newPath):
@@ -700,7 +699,7 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
 
 def checkNewDestination(_newPath, _isQuiet=False):
     _newPath = str(_newPath)
-    if var.isWindows:
+    if uni.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     while isAvailableNameForEncoding(_newPath) == False:
@@ -851,7 +850,7 @@ def readDirectoryWithSubDirectoriesThread(_path, _subDirectoryDeep=-1, _objectTy
 def readFromFile(_path, _contentEncoding = fileSystemEncoding):
     _path = str(_path)
     if _contentEncoding is not None:
-        if var.isPython3k:
+        if uni.isPython3k:
             try:f = open(uni.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
             except:f = open(_path , encoding = _contentEncoding)
         else:
@@ -873,7 +872,7 @@ def readFromFile(_path, _contentEncoding = fileSystemEncoding):
 def readLinesFromFile(_path, _contentEncoding = fileSystemEncoding):
     _path = str(_path)
     if _contentEncoding is not None:
-        if var.isPython3k:
+        if uni.isPython3k:
             try:f = open(uni.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
             except:f = open(_path , encoding = _contentEncoding)
         else:
@@ -1085,10 +1084,10 @@ def moveOrChange(_oldPath, _newPath, _objectType="file", _actionType="auto", _is
                 if checkEmptyDirectories(_newPath, True, True, uni.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                     return _newPath
         if isDir(_newPath)==True and _actionType=="auto":
-            if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
+            if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                 checkIcon(_newPath)
         elif _actionType=="auto":
-            if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+            if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                 if isDir(getDirName(_oldPath)):
                     checkIcon(getDirName(_oldPath))
                 if isDir(getDirName(_newPath)):
@@ -1117,7 +1116,7 @@ def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQu
         if isChange==True:
             copyFileOrDir(_oldPath,_newPath)
         if isDir(_newPath)==True and _actionType=="auto":
-            if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
+            if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                 checkIcon(_newPath)
         return _newPath
     else:
@@ -1134,7 +1133,7 @@ def changeDirectories(_values):
             newFilesPath.append(values)
             if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
                 checkEmptyDirectories(getDirName(values["oldPath"]), True, True, uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
-            if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+            if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                 checkIcon(getDirName(values["oldPath"]))
                 checkIcon(getDirName(values["newPath"]))
             Dialogs.showState(translate("FileUtils", "Changing The Folder (Of The Files)"),no+1,len(_values))
@@ -1618,7 +1617,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             Dialogs.show(translate("Tables", "File Tree Created"),
                         str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
     elif _outputTarget=="dialog":
-        dDialog = MDialog(uni.MainWindow)
+        dDialog = MDialog(getMainWindow())
         if isActivePyKDE4:
             dDialog.setButtons(MDialog.NoDefault)
         dDialog.setWindowTitle(translate("Tables", "File Tree"))

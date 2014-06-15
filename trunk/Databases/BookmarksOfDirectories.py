@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Universals as uni
 import FileUtils as fu
 from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
@@ -86,7 +85,7 @@ def getDeleteTableQuery():
 def getDefaultsQueries():
     sqlQueries = []
     sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'Home'", "value" : "'"+fu.userDirectoryPath+"'", "type" : "''"}, ["value"])
-    if var.isWindows:
+    if uni.isWindows:
         sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'C:\\'", "value" : "'C:\\'", "type" : "''"}, ["value"])
     else:
         sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'MNT'", "value" : "'/mnt'", "type" : "''"}, ["value"])

@@ -18,7 +18,6 @@
 
 import os, sys, platform
 from Core.MyObjects import *
-from Core import Variables as var
 from Core import Universals as uni
 from Core import Dialogs
 from Core import Execute
@@ -31,13 +30,13 @@ pluginDirectory = ""
 setupDirectory = ""
 
 def isInstallable():
-    if var.isWindows:
+    if uni.isWindows:
         if platform.release()=="7":
             return True
     return False
 
 def installThisPlugin():
-    if var.isPython3k:
+    if uni.isPython3k:
         import winreg
     else:
         import _winreg as winreg
@@ -277,7 +276,7 @@ def installThisPlugin():
             mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
             for action in object["actions"]:
                 if action["key"]=="checkIcon":
-                    if var.isActiveDirectoryCover==False:
+                    if uni.isActiveDirectoryCover==False:
                         continue
                 winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"])
                 actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
@@ -312,7 +311,7 @@ def installThisPlugin():
 
 def uninstallThisPlugin():
     isAlreadyUninstalled = False
-    if var.isPython3k:
+    if uni.isPython3k:
         import winreg
     else:
         import _winreg as winreg

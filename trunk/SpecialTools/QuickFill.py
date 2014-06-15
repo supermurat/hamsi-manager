@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
@@ -73,7 +72,7 @@ class QuickFill(MWidget):
         try:
             self.checkCompleters()
             self.reFillCompleters()
-            uni.MainWindow.Table.createHistoryPoint()
+            getMainWindow().Table.createHistoryPoint()
             self.apply()
         except:
             from Core import ReportBug
@@ -81,22 +80,22 @@ class QuickFill(MWidget):
             
     def apply(self):
         _newString = str(self.fillFrom.text())
-        uni.MainWindow.Table.isAskShowHiddenColumn = True
-        for No, columnName in enumerate(uni.MainWindow.Table.tableColumns):
+        getMainWindow().Table.isAskShowHiddenColumn = True
+        for No, columnName in enumerate(getMainWindow().Table.tableColumns):
             if str(self.fillFrom.objectName()) == str(columnName):
                 columnNo=No
                 break
-        if uni.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
+        if getMainWindow().Table.checkHiddenColumn(columnNo,False)==False:
             return False
-        for rowNo in range(uni.MainWindow.Table.rowCount()):
-            if uni.MainWindow.Table.isChangeableItem(rowNo, columnNo):
+        for rowNo in range(getMainWindow().Table.rowCount()):
+            if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                 myString = str(_newString)
                 if self.specialTools.btChange.isChecked()==True:
                     pass
                 elif self.specialTools.tbAddToBefore.isChecked()==True:
-                    myString += str(uni.MainWindow.Table.item(rowNo,columnNo).text())
+                    myString += str(getMainWindow().Table.item(rowNo,columnNo).text())
                 elif self.specialTools.tbAddToAfter.isChecked()==True:
-                    myString = str(uni.MainWindow.Table.item(rowNo,columnNo).text()) + myString
-                uni.MainWindow.Table.item(rowNo,columnNo).setText(str(uni.trUnicode(myString)))
+                    myString = str(getMainWindow().Table.item(rowNo,columnNo).text()) + myString
+                getMainWindow().Table.item(rowNo,columnNo).setText(str(uni.trUnicode(myString)))
                     
     

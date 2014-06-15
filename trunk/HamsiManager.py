@@ -30,7 +30,6 @@ if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
     import FileUtils as fu
     fu.initStartupVariables()
-    from Core import Variables as var
     from Core import Universals as uni
     uni.printForDevelopers("Before uni.setPaths")
     uni.printForDevelopers("Before RoutineChecks.checkParameters")
@@ -45,11 +44,11 @@ if RoutineChecks.checkMandatoryModules():
             uni.printForDevelopers("ActivePyKDE4")
             appName = "HamsiManager"
             programName = ki18n("Hamsi Manager")
-            version = var.version
+            version = uni.version
             license = MAboutData.License_GPL_V3
             copyright = ki18n(str("Murat Demir (mopened@gmail.com)"))
-            kde4LangCode = (str(MLocale(var.Catalog).language()) + "_" +
-                            str(MLocale(var.Catalog).country()).upper())
+            kde4LangCode = (str(MLocale(uni.Catalog).language()) + "_" +
+                            str(MLocale(uni.Catalog).country()).upper())
             text = ki18n(str(""))
             homePage = str("hamsiapps.com")
             bugEmail = str("Murat Demir (mopened@gmail.com)")
@@ -59,7 +58,7 @@ if RoutineChecks.checkMandatoryModules():
                 aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
             description = ki18n(str(aboutFileContent))
             uni.printForDevelopers("Before MAboutData")
-            aboutOfHamsiManager = MAboutData(appName, var.Catalog, programName, version, description,
+            aboutOfHamsiManager = MAboutData(appName, uni.Catalog, programName, version, description,
                                     license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor(ki18n(str("Murat Demir")), ki18n(str("Project Manager and Developer")),
                                 "mopened@gmail.com", "hamsiapps.com")
@@ -78,8 +77,8 @@ if RoutineChecks.checkMandatoryModules():
             HamsiManagerApp = MApplication()
             kde4LangCode = str(MGlobal.locale().language())
             if len(kde4LangCode) != 5: kde4LangCode += "_"+str(MGlobal.locale().country()).upper()
-            if var.getInstalledLanguagesCodes().count(kde4LangCode)==0:
-                for lcode in var.getInstalledLanguagesCodes():
+            if uni.getInstalledLanguagesCodes().count(kde4LangCode)==0:
+                for lcode in uni.getInstalledLanguagesCodes():
                     if lcode.find(kde4LangCode[:2]) != -1:
                         kde4LangCode = lcode
             kconf = MGlobal.config()
@@ -88,7 +87,7 @@ if RoutineChecks.checkMandatoryModules():
                 languageFile = MTranslator()
                 languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+kde4LangCode+".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
-            var.aboutOfHamsiManager = aboutOfHamsiManager
+            uni.aboutOfHamsiManager = aboutOfHamsiManager
         else:
             uni.printForDevelopers("NotActivePyKDE4")
             HamsiManagerApp = MApplication(sys.argv)  
@@ -96,7 +95,7 @@ if RoutineChecks.checkMandatoryModules():
                 aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+ uni.MySettings["language"]), "utf-8")
             else:
                 aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
-            var.aboutOfHamsiManager = str(aboutFileContent)
+            uni.aboutOfHamsiManager = str(aboutFileContent)
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+uni.MySettings["language"]+".qm")):
                 languageFile = MTranslator()
                 languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+uni.MySettings["language"]+".qm")))
@@ -107,7 +106,7 @@ if RoutineChecks.checkMandatoryModules():
                 HamsiManagerApp.installTranslator(languageFile)
         uni.printForDevelopers("Before MTextCodec setCodecFor..")
         HamsiManagerApp.setApplicationName("HamsiManager")
-        HamsiManagerApp.setApplicationVersion(var.version)
+        HamsiManagerApp.setApplicationVersion(uni.version)
         HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
         HamsiManagerApp.setOrganizationName("Hamsi Apps")
         MApplication.setQuitOnLastWindowClosed(True)
@@ -131,7 +130,7 @@ if RoutineChecks.checkMandatoryModules():
             if RoutineChecks.isQuickMake:
                 uni.printForDevelopers("QuickMake")
                 try:
-                    uni.setApp(HamsiManagerApp)
+                    setApplication(HamsiManagerApp)
                     from Core import QuickMake
                     quickMake = QuickMake.QuickMake()
                     if RoutineChecks.isQuickMake:
@@ -157,8 +156,8 @@ if RoutineChecks.checkMandatoryModules():
                             MMainWindow.__init__(self, None)
                             uni.printForDevelopers("Started __init__")
                             self.setObjectName("RealMainWindow")
-                            uni.setApp(HamsiManagerApp)
-                            uni.setMainWindow(self)
+                            setApplication(HamsiManagerApp)
+                            setMainWindow(self)
                             self.isLockedMainForm = False
                             self.Menu = None
                             self.Table = None
@@ -264,7 +263,7 @@ if RoutineChecks.checkMandatoryModules():
                                 self.Bars.setAllBarsStyleToMySettings()
                                 Records.setRecordType(1)
                                 subFixForStateFile = ""
-                                if uni.windowMode!=var.windowModeKeys[0]:
+                                if uni.windowMode!=uni.windowModeKeys[0]:
                                     subFixForStateFile = uni.windowMode
                                 fu.writeToBinaryFile(fu.joinPath(fu.pathOfSettingsDirectory, "LastState" + subFixForStateFile), self.saveState())
                                 Records.restoreRecordType()
@@ -280,7 +279,7 @@ if RoutineChecks.checkMandatoryModules():
                                 uni.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 uni.saveSettings()
                                 Settings.saveUniversalSettings()
-                                if var.isActiveAmarok and uni.getBoolValue("amarokIsUseHost")==False:
+                                if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost")==False:
                                     import Amarok
                                     Amarok.stopEmbeddedDB()
                                 uni.printForDevelopers("After Save Configs")
@@ -294,34 +293,34 @@ if RoutineChecks.checkMandatoryModules():
                                     _event.ignore()
                     
                     uni.printForDevelopers("Before Main")
-                    MainWindow=Main()
+                    currentMainWindow = Main()
                     uni.printForDevelopers("After Main")
-                    if str(MainWindow.windowTitle()) == "":
-                        MainWindow.setWindowTitle("Hamsi Manager "+ var.version)
+                    if str(currentMainWindow.windowTitle()) == "":
+                        currentMainWindow.setWindowTitle("Hamsi Manager "+ uni.version)
                     if isActivePyKDE4:
                         uni.printForDevelopers("Before MGlobal.config")
                         kconf = MGlobal.config()
                         kconfGroup = MConfigGroup(kconf,"Universals")
-                        MainWindow.setAutoSaveSettings(kconfGroup)
+                        currentMainWindow.setAutoSaveSettings(kconfGroup)
                         uni.printForDevelopers("After MGlobal.config")
                     else:
                         try:
                             uni.printForDevelopers("Before MainWindow.restoreState")
                             state = MByteArray()
                             subFixForStateFile = ""
-                            if uni.windowMode!=var.windowModeKeys[0]:
+                            if uni.windowMode!=uni.windowModeKeys[0]:
                                 subFixForStateFile = uni.windowMode
                             state.append(fu.readFromBinaryFile(fu.joinPath(fu.pathOfSettingsDirectory, "LastState" + subFixForStateFile)))
-                            MainWindow.restoreState(state)
+                            currentMainWindow.restoreState(state)
                             uni.printForDevelopers("After MainWindow.restoreState")
                         except:pass
                     uni.printForDevelopers("Before Show")
                     if uni.getBoolValue("isMainWindowMaximized"):
-                        MainWindow.showMaximized()
+                        currentMainWindow.showMaximized()
                     else:
                         geometries = uni.getListValue("MainWindowGeometries")
-                        MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
-                        MainWindow.show()
+                        currentMainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
+                        currentMainWindow.show()
                     uni.printForDevelopers("Before RoutineChecks.checkAfterRunProcess")
                     RoutineChecks.checkAfterRunProcess()
                     uni.printForDevelopers("After RoutineChecks.checkAfterRunProcess")

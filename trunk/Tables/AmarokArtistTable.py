@@ -37,7 +37,7 @@ class AmarokArtistTable():
         self.hiddenTableColumnsSettingKey = "hiddenAmarokArtistTableColumns"
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
-        uni.MainWindow.MainLayout.addWidget(self.wFilter)
+        getMainWindow().MainLayout.addWidget(self.wFilter)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []

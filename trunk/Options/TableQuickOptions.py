@@ -18,7 +18,6 @@
 
 
 import sys,os
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Universals as uni
@@ -67,7 +66,7 @@ class TableQuickOptions(MMenu):
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
-        if var.isActiveAmarok == False:
+        if uni.isActiveAmarok == False:
             self.hiddenKeys += ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
@@ -187,9 +186,9 @@ class TableQuickOptions(MMenu):
                 selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][valueIndex]
             uni.setMySetting(self.keysOfSettings[indexNo], selectedValue)
             self.checkEnableStates()
-            uni.MainWindow.StatusBar.fillSelectionInfo()
-            if uni.MainWindow.Table is not None:
-                uni.MainWindow.Table.fillSelectionInfo()
+            getMainWindow().StatusBar.fillSelectionInfo()
+            if getMainWindow().Table is not None:
+                getMainWindow().Table.fillSelectionInfo()
         except:
             ReportBug.ReportBug()
         

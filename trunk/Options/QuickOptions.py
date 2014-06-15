@@ -18,7 +18,6 @@
 
 
 import sys,os
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Universals as uni
@@ -94,8 +93,8 @@ class QuickOptions(MMenu):
                                 [translate("QuickOptions", "After The First Point"), 
                                     translate("QuickOptions", "After The Last Point"), 
                                     translate("Options/Correct", "Be Smart")]]
-        self.valuesOfOptionsKeys = [var.validSentenceStructureKeys,
-                                    var.fileExtensionIsKeys]
+        self.valuesOfOptionsKeys = [uni.validSentenceStructureKeys,
+                                    uni.fileExtensionIsKeys]
         if uni.tableType=="0":
             self.hiddenKeys = ["isShowHiddensInSubFolderTable", "isShowHiddensInFileTable", 
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", 
@@ -123,7 +122,7 @@ class QuickOptions(MMenu):
                                 "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInSubFolderMusicTable", 
                                 "isActiveClearGeneral", "isClearEmptyDirectoriesWhenSave", "isAutoCleanSubFolderWhenSave", 
                                 "isActiveAutoMakeIconToDirectory"]
-        if var.isActiveDirectoryCover==False:
+        if uni.isActiveDirectoryCover==False:
             self.hiddenKeys += ["isActiveAutoMakeIconToDirectory"]
         self.createActions()
         self.checkEnableStates()

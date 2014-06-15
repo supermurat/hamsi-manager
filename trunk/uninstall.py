@@ -30,7 +30,6 @@ if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
     import FileUtils as fu
     fu.initStartupVariables()
-    from Core import Variables as var
     from Core import Universals as uni
     from Core import Settings
     uni.fillMySettings(False, False, False)
@@ -51,15 +50,15 @@ if RoutineChecks.checkMandatoryModules():
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
     HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))
     HamsiManagerApp.setApplicationName("UninstallHamsiManager")
-    HamsiManagerApp.setApplicationVersion(var.version)
+    HamsiManagerApp.setApplicationVersion(uni.version)
     HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
     HamsiManagerApp.setOrganizationName("Hamsi Apps")
     from Core import MyConfigure
     class Main(MMainWindow):
         def __init__(self, parent=None):
             MMainWindow.__init__(self, parent)
-            uni.setApp(HamsiManagerApp)
-            uni.setMainWindow(self)
+            setApplication(HamsiManagerApp)
+            setMainWindow(self)
             self.isUninstallFinised = False
             self.pageNo, self.pageSize = 0, 3
             self.vblMain = MVBoxLayout()
@@ -212,13 +211,13 @@ if RoutineChecks.checkMandatoryModules():
             
         def finish(self):
             try:
-                if var.isRunningAsRoot():
+                if uni.isRunningAsRoot():
                     executableLink = Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", str("/usr/bin/hamsi"))
                     if fu.isFile(executableLink) or fu.isLink(executableLink):
                         fu.removeFileOrDir(executableLink)
                 else:
-                    desktopPath = var.getUserDesktopPath()
-                    if var.isWindows:
+                    desktopPath = uni.getUserDesktopPath()
+                    if uni.isWindows:
                         if fu.isFile(fu.joinPath(desktopPath, "Hamsi Manager.lnk")):
                             fu.removeFileOrDir(fu.joinPath(desktopPath, "Hamsi Manager.lnk"))
                     else:
@@ -232,14 +231,14 @@ if RoutineChecks.checkMandatoryModules():
                 from Core import ReportBug
                 ReportBug.ReportBug()
             
-    if var.isRunningAsRoot()==False and var.isRunableAsRoot():
+    if uni.isRunningAsRoot()==False and uni.isRunableAsRoot():
         answer = Dialogs.askSpecial(translate("Uninstall", "Are You Want To Run As Root?"), translate("Uninstall", "Hamsi Manager Uninstaller is running with user privileges.<br>Do you want to run Hamsi Manager Uninstaller with root rights?"), translate("Uninstall", "Yes"), translate("Uninstall", "No (Continue as is)"), None)
         if answer==translate("Uninstall", "Yes"):
             NewApp = Execute.executeAsRootWithThread([], "HamsiManagerUninstaller")
             sys.exit()
     try:
         MainWidget=Main()
-        MainWidget.setWindowTitle(translate("Uninstall", "Hamsi Manager Uninstaller") + " " + var.version)
+        MainWidget.setWindowTitle(translate("Uninstall", "Hamsi Manager Uninstaller") + " " + uni.version)
         MainWidget.setGeometry(300, 300, 650, 350)
         MainWidget.show()
         uni.isStartingSuccessfully = True

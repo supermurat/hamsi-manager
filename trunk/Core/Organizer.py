@@ -22,10 +22,9 @@ import string
 import math
 import re
 from Core.MyObjects import *
-from Core import Variables as var
 from Core import Universals as uni
 import FileUtils as fu
-if var.isPython3k:
+if uni.isPython3k:
     from urllib.parse import unquote, quote
 else:
     from urllib import unquote, quote
@@ -90,14 +89,14 @@ def emendBaseName(_baseName, _type, _isCorrectCaseSensitive):
             baseName = makeCorrectCaseSensitive(baseName, uni.MySettings["validSentenceStructureForFile"])
         elif _type=="directory":
             baseName = makeCorrectCaseSensitive(baseName, uni.MySettings["validSentenceStructureForDirectory"])
-    if uni.MySettings["fileReNamerType"]==var.fileReNamerTypeNamesKeys[1] or uni.MySettings["fileReNamerType"]==var.fileReNamerTypeNamesKeys[2]:
+    if uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[1] or uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[2]:
         baseName = ''.join(c for c in unicodedata.normalize('NFKD', uni.trUnicode(baseName)) if unicodedata.category(c) != 'Mn')
         baseName = str(uni.trEncode(baseName, "utf-8", "ignore")).replace(uni.getUtf8Data("little+I"), "i")
-    if uni.MySettings["fileReNamerType"]==var.fileReNamerTypeNamesKeys[1]:
+    if uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[1]:
         baseName = replaceList(baseName,
                                [" "],
                                ["_"])
-    if uni.MySettings["fileReNamerType"]==var.fileReNamerTypeNamesKeys[1]:
+    if uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[1]:
         baseName = quote(baseName)
     return baseName
 
@@ -113,8 +112,8 @@ def replaceList(_s, _chars, _newChars):
     return _s
 
 def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
-    if _cbCharacterType==var.validSentenceStructureKeys[0]:
-        if var.isPython3k:
+    if _cbCharacterType==uni.validSentenceStructureKeys[0]:
+        if uni.isPython3k:
             return str(uni.trUnicode(_inputString)).title()
         else:
             s = []
@@ -135,18 +134,18 @@ def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
                 s.append(c)
             return ''.join(s)
             #return string.capwords(uni.trUnicode(_inputString)) #don't use this. Because; it clears whitespaces, it doesn't upper the letters whick is after ()[]-/*......
-    elif _cbCharacterType==var.validSentenceStructureKeys[1]:
-        if var.isPython3k:
+    elif _cbCharacterType==uni.validSentenceStructureKeys[1]:
+        if uni.isPython3k:
             return str(uni.trUnicode(_inputString)).lower()
         else:
             return string.lower(uni.trUnicode(_inputString))
-    elif _cbCharacterType==var.validSentenceStructureKeys[2]:
-        if var.isPython3k:
+    elif _cbCharacterType==uni.validSentenceStructureKeys[2]:
+        if uni.isPython3k:
             return str(uni.trUnicode(_inputString)).upper()
         else:
             return string.upper(uni.trUnicode(_inputString))
-    elif _cbCharacterType==var.validSentenceStructureKeys[3]:
-        if var.isPython3k:
+    elif _cbCharacterType==uni.validSentenceStructureKeys[3]:
+        if uni.isPython3k:
             return str(uni.trUnicode(_inputString)).capitalize()
         else:
             return string.capitalize(uni.trUnicode(_inputString))
@@ -155,7 +154,7 @@ def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
 
 def getLink(_stringPath):
     _stringPath = str(_stringPath)
-    if var.isWindows:
+    if uni.isWindows:
         return "<a href=\"%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
     return "<a href=\"file://%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
 
@@ -174,10 +173,10 @@ def getCorrectedTime(_timeValue):
 
 def getIconName(_artist, _album, _year, _genre):
     iconName = uni.MySettings["iconNameFormat"]
-    iconName = iconName.replace(var.iconNameFormatKeys[0], _artist)
-    iconName = iconName.replace(var.iconNameFormatKeys[1], _album)
-    iconName = iconName.replace(var.iconNameFormatKeys[2], _year)
-    iconName = iconName.replace(var.iconNameFormatKeys[3], _genre)
+    iconName = iconName.replace(uni.iconNameFormatKeys[0], _artist)
+    iconName = iconName.replace(uni.iconNameFormatKeys[1], _album)
+    iconName = iconName.replace(uni.iconNameFormatKeys[2], _year)
+    iconName = iconName.replace(uni.iconNameFormatKeys[3], _genre)
     return iconName + "." + uni.MySettings["iconFileType"]
 
 def searchAndReplaceFromSearchAndReplaceTable(_oldString):

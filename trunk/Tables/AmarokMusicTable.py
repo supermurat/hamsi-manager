@@ -48,7 +48,7 @@ class AmarokMusicTable():
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.isPlayNow)
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnVerifyTableValues)
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
-        uni.MainWindow.MainLayout.addWidget(self.wFilter)
+        getMainWindow().MainLayout.addWidget(self.wFilter)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []

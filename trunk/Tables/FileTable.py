@@ -25,7 +25,6 @@ from Core import Dialogs
 import Options
 from time import gmtime
 from Core import Universals as uni
-from Core import Variables as var
 from Core import ReportBug
 
 class FileTable():
@@ -64,7 +63,7 @@ class FileTable():
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
-        if var.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB"):
+        if uni.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -103,7 +102,7 @@ class FileTable():
                 break
         uni.finishThreadAction()
         pathValues = fu.changeDirectories(changingFileDirectories)
-        if var.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB"):
+        if uni.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changePaths(pathValues, "file")

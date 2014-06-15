@@ -22,7 +22,6 @@ import sys
 from time import gmtime
 from Core.MyObjects import *
 import FileUtils as fu
-from Core import Variables as var
 from Core import Dialogs
 from Core import Organizer
 from Core import Universals as uni
@@ -49,7 +48,7 @@ def getMySQLModule():
     return None
 
 def checkAmarok(_isAlertIfNotAvailable=True, _isUseReadOnly=True):
-    if isLoadedMysql and var.isAvailableKDE4():
+    if isLoadedMysql and uni.isAvailableKDE4():
         if uni.getBoolValue("amarokIsUseHost"):
             if _isUseReadOnly==True or uni.getBoolValue("isReadOnlyAmarokDBHost")==False:
                 return True
@@ -85,8 +84,8 @@ def checkEmbeddedDB():
             else:
                 return False
     else:
-        if (fu.isFile(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql/db.frm") and
-            fu.isFile(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")):
+        if (fu.isFile(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql/db.frm") and
+            fu.isFile(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")):
             return startEmbeddedDB()
         else:
             if isAskEmbeddedDBConfiguration:
@@ -112,7 +111,7 @@ def connectAndGetDB():
             if uni.getBoolValue("isReadOnlyAmarokDB"):
                 dbConnection = mdb.connect(read_default_file=fu.pathOfSettingsDirectory+"/Amarok/my.cnf", read_default_group="client", db="amarok")
             else:
-                dbConnection = mdb.connect(read_default_file=var.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf", read_default_group="client", db="amarok")
+                dbConnection = mdb.connect(read_default_file=uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf", read_default_group="client", db="amarok")
     return dbConnection
 
 def checkAndGetDB(_isNoAlertIfSuccesfully=True, _isReCheck=False):
@@ -149,7 +148,7 @@ def checkAndGetDB(_isNoAlertIfSuccesfully=True, _isReCheck=False):
     else:
         if isLoadedMysql==False:
             Dialogs.showError(translate("Amarok", "Amarok Module Is Not Usable"), translate("Amarok", "\"python-mysql\" (MySQLdb / _mysql) named module is not installed on your system. Please install this module and try again."))
-        elif var.isAvailableKDE4()==False:
+        elif uni.isAvailableKDE4()==False:
             Dialogs.showError(translate("Amarok", "Amarok Module Is Not Usable"), translate("Amarok", "Please open user session with KDE4 once."))
         else:
             Dialogs.showError(translate("Amarok", "Amarok Module Is Not Usable"), translate("Amarok", "Please run Amarok once."))
@@ -196,9 +195,9 @@ def setSelectedTagTargetType(_type, _tableName="AmarokMusicTable"):
 def configureEmbeddedDB(_isNoAlertIfSuccesfully=True):
     stopEmbeddedDB()
     backupEmbeddedDB()
-    fu.copyDirContent(fu.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", var.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql")
-    fu.copyFileOrDir(fu.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my.cnf", var.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
-    MyConfigure.reConfigureFile(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
+    fu.copyDirContent(fu.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/mysql", uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysql")
+    fu.copyFileOrDir(fu.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my.cnf", uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
+    MyConfigure.reConfigureFile(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf")
     if _isNoAlertIfSuccesfully==False:
         Dialogs.show(translate("EmbeddedDBCore", "Created Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server created and generated."))
     return True
@@ -207,8 +206,8 @@ def startEmbeddedDB(_isNoAlertIfSuccesfully=True):
     global isStarted
     if isStarted:
         return True
-    if var.checkMysqldSafe():
-        Execute.executeWithThread([uni.MySettings["pathOfMysqldSafe"], "--defaults-file=" + var.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf"])
+    if uni.checkMysqldSafe():
+        Execute.executeWithThread([uni.MySettings["pathOfMysqldSafe"], "--defaults-file=" + uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/my.cnf"])
         Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
         if _isNoAlertIfSuccesfully==False:
             Dialogs.show(translate("EmbeddedDBCore", "Started Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server started."))
@@ -232,9 +231,9 @@ def stopEmbeddedDB(_isNoAlertIfSuccesfully=True):
 
 def getPID():
     global isStarted
-    if fu.isFile(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysqld.pid"):
+    if fu.isFile(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysqld.pid"):
         isStarted = True
-        return fu.readFromFile(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysqld.pid").split("\n")[0]
+        return fu.readFromFile(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/mysqld.pid").split("\n")[0]
     isStarted = False
     return None
 
@@ -248,15 +247,15 @@ def isRunning():
     return False
 
 def backupEmbeddedDB():
-    if fu.isDir(var.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi"):
-        fu.removeFileOrDir(var.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
-    fu.copyFileOrDir(var.getKDE4HomePath() +"/share/apps/amarok/mysqle", var.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
+    if fu.isDir(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi"):
+        fu.removeFileOrDir(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
+    fu.copyFileOrDir(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle", uni.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
 
 def restoreEmbeddedDB():
-    fu.copyDirContent(var.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi", var.getKDE4HomePath() +"/share/apps/amarok/mysqle")
+    fu.copyDirContent(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi", uni.getKDE4HomePath() +"/share/apps/amarok/mysqle")
 
 def isHasEmbeddedDBBackup():
-    return fu.isDir(var.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
+    return fu.isDir(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle_backup_for_hamsi")
 
 
 def createReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
@@ -268,9 +267,9 @@ def createReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
     fu.copyFileOrDir(fu.HamsiManagerDirectory+"/Amarok/EmbeddedDBFiles/my-readOnly.cnf", fu.pathOfSettingsDirectory+"/Amarok/my.cnf")
     MyConfigure.reConfigureFile(fu.pathOfSettingsDirectory+"/Amarok/my.cnf")
     fu.makeDirs(fu.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
-    fu.copyFileOrDir(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile0", fu.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile0")
-    fu.copyFileOrDir(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile1", fu.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile1")
-    fu.copyFileOrDir(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/ibdata1", fu.pathOfSettingsDirectory+"/Amarok/mysqle/ibdata1")
+    fu.copyFileOrDir(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile0", fu.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile0")
+    fu.copyFileOrDir(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/ib_logfile1", fu.pathOfSettingsDirectory+"/Amarok/mysqle/ib_logfile1")
+    fu.copyFileOrDir(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/ibdata1", fu.pathOfSettingsDirectory+"/Amarok/mysqle/ibdata1")
     generateReadOnlyEmbeddedD()
     if _isNoAlertIfSuccesfully==False:
         Dialogs.show(translate("EmbeddedDBCore", "Created Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server created and generated."))
@@ -280,7 +279,7 @@ def generateReadOnlyEmbeddedD(_isNoAlertIfSuccesfully=True):
     stopReadOnlyEmbeddedDB()
     if fu.isExist(fu.pathOfSettingsDirectory+"/Amarok/mysqle/amarok"):
         fu.removeFileOrDir(fu.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
-    fu.copyFileOrDir(var.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", fu.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
+    fu.copyFileOrDir(uni.getKDE4HomePath() +"/share/apps/amarok/mysqle/amarok", fu.pathOfSettingsDirectory+"/Amarok/mysqle/amarok")
     if _isNoAlertIfSuccesfully==False:
         Dialogs.show(translate("EmbeddedDBCore", "Generated Embedded Server"), translate("EmbeddedDBCore", "Embedded Amarok database server generated."))
     return True
@@ -289,7 +288,7 @@ def startReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
     global isReadOnlyStarted
     if isReadOnlyStarted:
         return True
-    if var.checkMysqldSafe():
+    if uni.checkMysqldSafe():
         Execute.executeWithThread([uni.MySettings["pathOfMysqldSafe"], "--defaults-file=" + fu.pathOfSettingsDirectory+"/Amarok/my.cnf"])
         Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
         if _isNoAlertIfSuccesfully==False:
@@ -339,7 +338,7 @@ class EmbeddedDBConfigurator(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("EmbeddedDBConfigurator")
-            uni.setMainWindow(self)
+            setMainWindow(self)
         self.pbtnBackup = MPushButton(translate("EmbeddedDBConfigurator", "Backup"))
         self.pbtnRestore = MPushButton(translate("EmbeddedDBConfigurator", "Restore"))
         self.pbtnConfigureEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Configure Embedded Database Files"))
@@ -445,7 +444,7 @@ class ReadOnlyEmbeddedDBConfigurator(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("ReadOnlyEmbeddedDBConfigurator")
-            uni.setMainWindow(self)
+            setMainWindow(self)
         self.pbtnCreateEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Create Embedded Database Files"))
         self.pbtnGenerateEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Generate Embedded Database From Amarok"))
         self.pbtnStartEmbeddedDB = MPushButton(translate("EmbeddedDBConfigurator", "Start Embedded Database Server"))

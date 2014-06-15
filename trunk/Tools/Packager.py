@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
@@ -37,7 +36,7 @@ class Packager(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
-            uni.setMainWindow(self)
+            setMainWindow(self)
         newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "pack", None, newOrChangedKeys)
         lblPleaseSelect = MLabel(translate("Packager", "Path Of The Directory"))
@@ -49,7 +48,7 @@ class Packager(MyDialog):
         self.cbPackageType = Options.MyComboBox(self, 
                                     [translate("Packager", "Archive Without Compression"), ".tar.gz", ".tar.bz2", ".amarokscript.tar.gz"], 
                                     1, "PackagerPackageType", self.packageTypeChanged)
-        self.cbHash = Options.MyComboBox(self, [translate("Packager", "No Hash")] + var.getHashTypes(), 0, "PackagerHash", self.hashChanged)
+        self.cbHash = Options.MyComboBox(self, [translate("Packager", "No Hash")] + uni.getHashTypes(), 0, "PackagerHash", self.hashChanged)
         self.cbHashOutput = Options.MyComboBox(self, [translate("Packager", "File"), translate("Packager", "Clipboard")], 0, "PackagerHashOutput", self.hashOutputChanged)
         self.leHashDigestFile = MLineEdit(str(_directory))
         self.pbtnClearAndPack = MPushButton(translate("Packager", "Clear And Pack"))

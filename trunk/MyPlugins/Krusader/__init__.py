@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core.MyObjects import *
-from Core import Variables as var
 from Core import Universals as uni
 import FileUtils as fu
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
@@ -27,7 +26,7 @@ pluginDirectory = ""
 setupDirectory = ""
 
 def isInstallable():
-    return var.isAvailableKDE4()
+    return uni.isAvailableKDE4()
 
 def installThisPlugin():
     from Core import Execute
@@ -177,10 +176,10 @@ def installThisPlugin():
                 "  <command>" + executeCommandOfHamsiManager + " --qm --search %aCurrent%</command>\n"+
                 "  <defaultshortcut></defaultshortcut>\n"+
                 " </action>\n")]
-    if var.isRunningAsRoot():
+    if uni.isRunningAsRoot():
         destinationPath = "/usr/share/apps/krusader/"
     else:
-        destinationPath = var.getKDE4HomePath() +"/share/apps/krusader/"
+        destinationPath = uni.getKDE4HomePath() +"/share/apps/krusader/"
     try:
         pluginStrings = fu.readFromFile(destinationPath + "useractions.xml")
     except:
@@ -205,10 +204,10 @@ def installThisPlugin():
 
 def uninstallThisPlugin():
     isAlreadyuninstalled = True
-    if var.isRunningAsRoot():
+    if uni.isRunningAsRoot():
         destinationPath = "/usr/share/apps/krusader/"
     else:
-        destinationPath = var.getKDE4HomePath() +"/share/apps/krusader/"
+        destinationPath = uni.getKDE4HomePath() +"/share/apps/krusader/"
     if fu.isFile(fu.joinPath(destinationPath, "useractions.xml")):
         import xml.etree.ElementTree as ET
         doc = ET.parse(fu.joinPath(destinationPath, "useractions.xml"))

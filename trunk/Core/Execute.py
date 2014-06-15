@@ -22,13 +22,12 @@ import subprocess
 from threading import Thread
 import time
 from Core.MyObjects import *
-from Core import Variables as var
 from Core import Universals as uni
 import FileUtils as fu
 from Core import Records
 
 def getCommandResult(_command):
-    if var.isWindows:
+    if uni.isWindows:
         _command = ["start"] + _command
     Records.add("Execute >>> " + str(_command))
     try:correctedCommand = uni.trEncodeList(_command, fu.fileSystemEncoding)
@@ -39,7 +38,7 @@ def getCommandResult(_command):
     return pi.read()
 
 def executeStringCommand(_command):
-    if var.isWindows:
+    if uni.isWindows:
         _command = "start" + _command
     Records.add("Execute >>> " + str(_command))
     try:correctedCommand = uni.trEncode(_command, fu.fileSystemEncoding)
@@ -80,7 +79,7 @@ def findExecutableBaseName(_executableName):
         for fName in fileList:
             if (fName.lower().split(".")[0].find("hamsi")>-1) and (fName.lower().split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
                 return fName
-        if var.isWindows:
+        if uni.isWindows:
             return "hamsi.exe"
         else:
             return "hamsi"
@@ -103,7 +102,7 @@ def getPythonPath():
     """Use this only if runnig .py(.py3,.pyw)"""
     try:pathOfPython = uni.trDecode(sys.executable, fu.fileSystemEncoding)
     except:pathOfPython = sys.executable
-    if var.isWindows:
+    if uni.isWindows:
         pathOfPythonWindows = pathOfPython.replace("python.exe", "pythonw.exe")
         if fu.isFile(pathOfPythonWindows):
             pathOfPython = pathOfPythonWindows
@@ -130,7 +129,7 @@ def executeWithThread(_command=[], _executableName=None):
     return True
 
 def openWith(_command):
-    if var.isWindows:
+    if uni.isWindows:
         Records.add("Open With >>> " + str(_command))
         try:_command = uni.trEncodeList(_command, fu.fileSystemEncoding)
         except:_command = _command
@@ -147,17 +146,17 @@ def openWith(_command):
         return subprocess.Popen(correctedCommand)
 
 def executeAsRoot(_command=[], _executableName=None):
-    if var.isRunableAsRoot():
+    if uni.isRunableAsRoot():
         pathOfExecutable = None
         if _executableName in ["HamsiManager", "HamsiManagerInstaller"]:
             pathOfExecutable = findExecutablePath(_executableName)
         if pathOfExecutable != None:
             _command = [pathOfExecutable] + _command
-        return execute([fu.joinPath(var.getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")] + _command)
+        return execute([fu.joinPath(uni.getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")] + _command)
     return False
 
 def executeAsRootWithThread(_command=[], _executableName=None):
-    if var.isRunableAsRoot():
+    if uni.isRunableAsRoot():
         roar = RunAsRootWithThread(_command, _executableName)
         roar.start()
         time.sleep(1)

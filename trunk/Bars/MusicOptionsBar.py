@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
@@ -57,11 +56,11 @@ class MusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
-                if uni.MainWindow.Table.checkUnSavedValues()==True:
+                if getMainWindow().Table.checkUnSavedValues()==True:
                     setSelectedTaggerTypeForReadName(selectedType)
-                    uni.MainWindow.Table.refreshForColumns()
-                    uni.MainWindow.SpecialTools.refreshForColumns()
-                    uni.MainWindow.Table.refresh(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+                    getMainWindow().Table.refreshForColumns()
+                    getMainWindow().SpecialTools.refreshForColumns()
+                    getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
                 self.cbMusicTagTypeForRead.setCurrentIndex(self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
                 if self.cbMusicTagTypeForReadForMenu != None:
@@ -74,7 +73,7 @@ class MusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
-                if uni.MainWindow.Table.checkUnSavedValues()==True:
+                if getMainWindow().Table.checkUnSavedValues()==True:
                     setSelectedTaggerTypeForWriteName(selectedType)
                 self.isActiveChanging = False
                 self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))

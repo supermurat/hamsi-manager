@@ -19,12 +19,11 @@
 
 import sys
 import os
+import platform
 from datetime import timedelta, datetime
-from Core import Variables as var
 import FileUtils as fu
 from Core.MyObjects import *
 
-MainWindow = None
 isStartingSuccessfully = False
 isStartedCloseProcess = False
 MySettings = {}
@@ -39,27 +38,59 @@ tableType = None
 fileOfSettings = "mySettings.ini"
 isRaisedAnError = False
 Utf8Contents = {}
+installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
+osName = os.name
+machineType = platform.machine()
+isPython3k = float(sys.version[:3]) >= 3.0
+isWindows = os.name == "nt"
+Catalog = "HamsiManager"
+version = "1.3.7"
+intversion = 1372
+settingVersion = "1372"
+aboutOfHamsiManager = ""
+fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
+validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
+fileExtensionIsKeys = ["After The First Point", "After The Last Point", "Be Smart"]
+mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
+imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
+windowModeKeys = ["Normal", "Mini"]
+tableTypeIcons = {"0": "folderTable.png",
+                  "1": "fileTable.png",
+                  "2": "musicTable.png",
+                  "3": "subFolderTable.png",
+                  "4": "coverTable.png",
+                  "5": "amarokCoverTable.png",
+                  "6": "amarokMusicTable.png",
+                  "7": "amarokMusicTable.png",
+                  "8": "amarokCopyTable.png",
+                  "9": "subFolderMusicTable.png"}
+iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
+iconNameFormatLabels = [translate("Variables", "%Artist%"),
+                        translate("Variables", "%Album%"),
+                        translate("Variables", "%Year%"),
+                        translate("Variables", "%Genre%")]
+willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"]
 
-def __init__(self):
-    pass
+isActiveDirectoryCover = True
+isActiveAmarok = True
 
-def setApp(_app):
-    global HamsiManagerApp
-    HamsiManagerApp = _app
+if isWindows == "nt":
+    isActiveDirectoryCover = False
+    isActiveAmarok = False
 
-def setMainWindow(_mainWindow):
-    global MainWindow
-    MainWindow = _mainWindow
-    MainWindow.StateDialog = None
-    MainWindow.StateDialogStateBar = None
-    MainWindow.StateDialogTitle = None
-    MainWindow.Menu = None
-    MainWindow.Bars = None
-    MainWindow.StatusBar = None
-    MainWindow.ToolsBar = None
-    MainWindow.TableToolsBar = None
-    MainWindow.FileManager = None
-    MainWindow.CentralWidget = None
+tableTypesNames = {"0": translate("Tables", "Folder Table"),
+                   "1": translate("Tables", "File Table"),
+                   "2": translate("Tables", "Music Table"),
+                   "3": translate("Tables", "Subfolder Table"),
+                   "9": translate("Tables", "Subfolder Music Table")}
+if isActiveDirectoryCover:
+    tableTypesNames.update({"4": translate("Tables", "Cover Table")})
+if isActiveAmarok:
+    tableTypesNames.update({"5": translate("Tables", "Amarok Cover Table"),
+                            "6": translate("Tables", "Amarok Music Table"),
+                            "7": translate("Tables", "Amarok Artist Table"),
+                            "8": translate("Tables", "Amarok Copy Table")})
+
 
 def setPathOfSettingsDirectory(_path):
     _path = str(_path)
@@ -68,19 +99,19 @@ def setPathOfSettingsDirectory(_path):
     fu.pathOfSettingsDirectory = _path
 
 def trUnicode(_s, _e = "utf-8"):
-    if var.isPython3k:
+    if isPython3k:
         return _s
     if isinstance(_s, unicode):
         return _s
     return unicode(_s, _e)
 
 def trDecode(_s, _e = "utf-8", _p = "strict"):
-    if var.isPython3k:
+    if isPython3k:
         return _s
     return _s.decode(_e, _p)
 
 def trDecodeList(_s, _e = "utf-8", _p = "strict"):
-    if var.isPython3k:
+    if isPython3k:
         return _s
     sList =[]
     for x in _s:
@@ -88,12 +119,12 @@ def trDecodeList(_s, _e = "utf-8", _p = "strict"):
     return sList
 
 def trEncode(_s, _e = "utf-8", _p = "strict"):
-    if var.isPython3k:
+    if isPython3k:
         return _s
     return _s.encode(_e, _p)
 
 def trEncodeList(_s, _e = "utf-8", _p = "strict"):
-    if var.isPython3k:
+    if isPython3k:
         return _s
     sList =[]
     for x in _s:
@@ -113,7 +144,7 @@ def getUtf8Data(_key):
         if _key=="replacementChars":
             return {}
         else:
-            if var.isPython3k:
+            if isPython3k:
                 return ""
             else:
                 return unicode("")
@@ -123,9 +154,9 @@ def fillMySettings(_setAgain=False, _isCheckUpdate=True):
     from Core import Settings
     sets = Settings.setting()
     settingVersion = trStr(sets.value("settingsVersion"))
-    defaultValues = var.getDefaultValues()
-    valueTypesAndValues = var.getValueTypesAndValues()
-    for keyValue in var.keysOfSettings:
+    defaultValues = Settings.getDefaultValues()
+    valueTypesAndValues = Settings.getValueTypesAndValues()
+    for keyValue in Settings.getKeysOfSettings():
         value = trStr(sets.value(keyValue, trQVariant(defaultValues[keyValue])))
         if keyValue not in MySettings.keys() or _setAgain:
             MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
@@ -144,7 +175,7 @@ def fillMySettings(_setAgain=False, _isCheckUpdate=True):
     fu.themePath = fu.joinPath(fu.HamsiManagerDirectory, "Themes", MySettings["themeName"])
     if tableType == None:
         tableType = MySettings["tableType"]
-        if tableType not in var.tableTypesNames:
+        if tableType not in tableTypesNames:
             tableType = "1"
     if getBoolValue("isInstalledKDE4Language")==False:
         from Core import MyConfigure
@@ -209,12 +240,6 @@ def saveSettings(_key=None):
     for value in keys:
         sets.setValue(value,trQVariant(MySettings[value]))
 
-def activeWindow():
-    if MApplication.activeModalWidget()!=None:
-        return MApplication.activeModalWidget()
-    else:
-        return MainWindow
-
 def startThreadAction():
     global threadActionState
     threadActionState = True
@@ -260,6 +285,310 @@ def getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType=1, _last
     elif _isUseLastPathKeyType==6 and _lastPathKey is not None: pathKey = _directory + " - " + _lastPathKey
     else: pathKey = _isUseLastPathKeyType
     return pathKey
+
+
+def isBuilt():
+    return fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
+
+
+def isUpdatable():
+    if isBuilt():
+        buildType = getBuildType()
+        if buildType in ["rpm", "msi"]:
+            return True
+    return False
+
+
+def isAvailableKDE4():
+    if fu.isFile("/usr/bin/kde4"):
+        return True
+    else:
+        return False
+
+
+def isAvailableSymLink():
+    try:
+        from os import symlink
+
+        return True
+    except:
+        return False
+
+
+def isRunableAsRoot():
+    try:
+        if fu.isFile(fu.joinPath(getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")):
+            if isRunningAsRoot():
+                return False
+            return True
+        return False
+    except:
+        return False
+
+
+def isRunningAsRoot():
+    if fu.userDirectoryPath == "/root":
+        return True
+    return False
+
+
+def getBuildType():
+    if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt")):
+        firstRow = fu.readLinesFromFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))[0]
+        if firstRow.find("bdist_rpm") > -1:
+            return "rpm"
+        elif firstRow.find("bdist_msi") > -1:
+            return "msi"
+        elif firstRow.find("bdist") > -1:
+            return "bdist"
+        elif firstRow.find("install_exe") > -1:
+            return "install_exe"
+        elif firstRow.find("install") > -1:
+            return "install"
+        elif firstRow.find("build_exe") > -1:
+            return "build_exe"
+        elif firstRow.find("build") > -1:
+            return "build"
+    return str(None)
+
+
+def getAvailablePlayers():
+    playerNames = ["Mplayer"]
+    try:
+        import tkSnack
+
+        playerNames.append("tkSnack")
+    except: pass
+    try:
+        from PySide.phonon import Phonon
+
+        playerNames.append("Phonon (PySide)")
+    except: pass
+    try:
+        from PyQt4.phonon import Phonon
+
+        playerNames.append("Phonon")
+    except: pass
+    return playerNames
+
+
+def getCharSets():
+    from encodings import aliases
+
+    charSets = []
+    for k, v in aliases.aliases.items():
+        key = v.replace("_", "-")
+        if v.find("iso") > -1 and v.find("iso-") == -1:
+            key = key.replace("iso", "iso-")
+        if charSets.count(key) == 0:
+            charSets.append(key)
+    charSets.sort()
+    return charSets
+
+
+def getStyles():
+    styles = [""]
+    for stil in MQtGui.QStyleFactory.keys():
+        styles.append(str(stil))
+    return styles
+
+
+def getColorSchemesAndPath():
+    from Core import Settings
+
+    colorSchemes, colorSchemePaths = [], []
+    colorSchemes.append("Default")
+    colorSchemePaths.append("")
+    if isActivePyKDE4:
+        from PyKDE4.kdecore import KStandardDirs, KGlobal
+
+        schemeFiles = KGlobal.dirs().findAllResources("data", "color-schemes/*.colors", KStandardDirs.NoDuplicates)
+        for scheme in schemeFiles:
+            sets = Settings.getSettings(scheme)
+            colorSchemes.append(trStr(sets.value("Name", fu.getBaseName(scheme))))
+            colorSchemePaths.append(scheme)
+    return colorSchemes, colorSchemePaths
+
+
+def getScreenSize():
+    if getMainWindow() != None:
+        return MQtGui.QDesktopWidget().screenGeometry()
+    else:
+        return None
+
+
+def getUserDesktopPath():
+    if isActivePyKDE4:
+        from PyKDE4.kdeui import KGlobalSettings
+
+        desktopPath = str(KGlobalSettings.desktopPath())
+    elif isAvailableKDE4():
+        from Core import Execute
+
+        desktopPath = Execute.getCommandResult(["kde4-config", "--userpath", "desktop"])[:-2]
+    elif isWindows:
+        from win32com.shell import shell, shellcon
+
+        desktopPath = shell.SHGetFolderPath(0, shellcon.CSIDL_DESKTOP, 0, 0)
+    else:
+        desktopNames = [str(translate("Variables", "Desktop")), "Desktop"]
+        for dirName in desktopNames:
+            if fu.isDir(fu.joinPath(fu.userDirectoryPath, dirName)):
+                desktopPath = fu.joinPath(fu.userDirectoryPath, dirName)
+                break
+            else:
+                desktopPath = fu.userDirectoryPath
+    return desktopPath
+
+
+def getKDE4HomePath():
+    if isAvailableKDE4():
+        try:
+            if isActivePyKDE4:
+                from PyKDE4.kdecore import KStandardDirs
+
+                kdedirPath = str(KStandardDirs().localkdedir())
+                if kdedirPath[-1] == os.sep:
+                    kdedirPath = kdedirPath[:-1]
+            else:
+                from Core import Execute
+
+                kdedirPath = Execute.getCommandResult(["kde4-config", "--localprefix"])[:-2]
+            return kdedirPath
+        except: pass
+    if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".kde4", "share", "config")):
+        return fu.joinPath(fu.userDirectoryPath, ".kde4")
+    else:
+        return fu.joinPath(fu.userDirectoryPath, ".kde")
+
+
+def getLibraryDirectoryPath():
+    global libPath
+    if libPath == None:
+        if isActivePyKDE4:
+            from PyKDE4 import pykdeconfig
+
+            libPath = pykdeconfig._pkg_config["kdelibdir"]
+        else:
+            try:
+                from Core import Execute
+
+                libPath = Execute.getCommandResult(["kde4-config", "--path", "lib"]).split(":")[1][:-2]
+            except:
+                if fu.isDir("/usr/lib64"):
+                    libPath = "/usr/lib64"
+                else:
+                    libPath = "/usr/lib"
+    return libPath
+
+
+def getSearchEnginesNames():
+    engines = []
+    for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "SearchEngines")):
+        try:
+            moduleName = name.split(".")[0]
+            moduleNameExt = name.split(".")[1]
+            if engines.count(moduleName) == 0:
+                if name[:1] != "." and moduleName != "__init__" and ["py", "pyc", "pyd"].count(
+                    moduleNameExt) == 1 and fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "SearchEngines", name)):
+                    engines.append(moduleName)
+        except: pass
+    return engines
+
+
+def getTaggersNames():
+    taggers = []
+    for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Taggers")):
+        try:
+            moduleName = name.split(".")[0]
+            moduleNameExt = name.split(".")[1]
+            if taggers.count(moduleName) == 0:
+                if name[:1] != "." and moduleName != "__init__" and ["py", "pyc", "pyd"].count(
+                    moduleNameExt) == 1 and fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Taggers", name)):
+                    taggers.append(moduleName)
+        except: pass
+    return taggers
+
+
+def getMyPluginsNames():
+    plugins = []
+    for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins")):
+        try:
+            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and fu.isDir(
+                fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins", name)):
+                plugins.append(name)
+        except: pass
+    return plugins
+
+
+def getInstalledThemes():
+    themes = []
+    for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Themes")):
+        try:
+            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and fu.isDir(
+                fu.joinPath(fu.HamsiManagerDirectory, "Themes", name)):
+                themes.append(name)
+        except: pass
+    return themes
+
+
+def getDefaultLanguageCode():
+    if getInstalledLanguagesCodes().count(str(MQtCore.QLocale.system().name())) > 0:
+        return str(MQtCore.QLocale.system().name())
+    return "en_GB"
+
+
+def getInstalledLanguagesCodes():
+    global installedLanguagesCodes
+    if installedLanguagesCodes == None:
+        languages = []
+        for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Languages")):
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", name)) and name[-3:] == ".qm":
+                langCode = name[-8:-3]
+                if languages.count(langCode) == 0:
+                    languages.append(langCode)
+        if languages.count("en_GB") == 0:
+            languages.append("en_GB")
+        installedLanguagesNames = languages
+    return installedLanguagesNames
+
+
+def getInstalledLanguagesNames():
+    global installedLanguagesNames
+    if installedLanguagesNames == None:
+        languages = []
+        for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Languages")):
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", name)) and name[-3:] == ".qm":
+                langCode = name[-8:-3]
+                if languages.count(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language()))) == 0:
+                    languages.append(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))
+        if languages.count("English") == 0:
+            languages.append("English")
+        installedLanguagesNames = languages
+    return installedLanguagesNames
+
+
+def getHashTypes():
+    return ["MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512"]
+
+
+def checkMysqldSafe(_isAskIfNotFound=True):
+    from Core import Dialogs
+
+    if fu.isFile(MySettings["pathOfMysqldSafe"]) == False and fu.isFile(
+            "/usr/bin/" + MySettings["pathOfMysqldSafe"]) == False:
+        if _isAskIfNotFound:
+            answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
+                                 translate("EmbeddedDBCore",
+                                           "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
+            if answer == Dialogs.Yes:
+                from Options import OptionsForm
+
+                OptionsForm.OptionsForm(getMainWindow(), _focusTo="pathOfMysqldSafe")
+        else:
+            return False
+    else:
+        return True
 
 
 

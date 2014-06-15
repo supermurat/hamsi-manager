@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
@@ -38,17 +37,17 @@ class TextCorrector(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
-            uni.setMainWindow(self)
+            setMainWindow(self)
         newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "textCorrector", None, newOrChangedKeys)
         self.setWindowTitle(translate("TextCorrector", "Text Corrector")) 
         self.fileValues = None
         self.isChangeSourceCharSetChanged = False
         self.charSet = MComboBox()
-        self.charSet.addItems(var.getCharSets())
+        self.charSet.addItems(uni.getCharSets())
         self.charSet.setCurrentIndex(self.charSet.findText(uni.MySettings["fileSystemEncoding"]))
         self.sourceCharSet = MComboBox()
-        self.sourceCharSet.addItems(var.getCharSets())
+        self.sourceCharSet.addItems(uni.getCharSets())
         self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(uni.MySettings["fileSystemEncoding"]))
         self.pbtnSelectFilePath = MPushButton(translate("TextCorrector", "Browse"))
         self.connect(self.pbtnSelectFilePath,SIGNAL("clicked()"), self.selectFilePath)
@@ -150,7 +149,7 @@ class TextCorrector(MyDialog):
                 newPath = fu.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
                 if newPath!=self.fileValues["path"]:
                     self.changeFile(newPath)
-                if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
+                if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
                 Records.saveAllRecords()
             else:
                 Dialogs.showError(translate("TextCorrector", "File Does Not Exist"), 

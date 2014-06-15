@@ -18,7 +18,6 @@
 
 
 import sys,os
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Settings
 from Core import Dialogs
@@ -39,7 +38,7 @@ class OptionsForm(MDialog):
         self.focusTo = _focusTo
         self.focusToCategory = None
         self.markedKeys = _markedKeys
-        self.defaultValues = var.getDefaultValues()
+        self.defaultValues = Settings.getDefaultValues()
         self.checkVisibility(self.showType)
         if self.showType=="Normal":
             self.tboxCategories = MToolBox()
@@ -129,9 +128,9 @@ class OptionsForm(MDialog):
                             OptionsFormContent.Cleaner(self, _showType), 
                             OptionsFormContent.HiddenObjects(self, _showType), 
                             OptionsFormContent.MySettings(self, _showType, [])]
-            if var.isActiveAmarok:
+            if uni.isActiveAmarok:
                 self.categories.insert(len(self.categories)-2, OptionsFormContent.Amarok(self, _showType))
-            if var.isActiveDirectoryCover:
+            if uni.isActiveDirectoryCover:
                 self.categories.insert(5, OptionsFormContent.Cover(self, _showType))
         elif _showType=="pack":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
@@ -146,7 +145,7 @@ class OptionsForm(MDialog):
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Correct(self, _showType), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
-            if var.isActiveDirectoryCover:
+            if uni.isActiveDirectoryCover:
                 self.categories.insert(1, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon"]))
         elif _showType=="clearEmptyDirectories":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
@@ -172,7 +171,7 @@ class OptionsForm(MDialog):
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Correct(self, _showType), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
-            if var.isActiveDirectoryCover:
+            if uni.isActiveDirectoryCover:
                 self.categories.insert(1, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenFileMove"]))
         elif _showType=="emendDirectory":
@@ -186,7 +185,7 @@ class OptionsForm(MDialog):
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"]), 
                             OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
-            if var.isActiveDirectoryCover:
+            if uni.isActiveDirectoryCover:
                 self.categories.insert(2, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenMoveOrChange"]))
         elif _showType=="emendDirectoryWithContents":
@@ -200,7 +199,7 @@ class OptionsForm(MDialog):
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"]), 
                             OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
-            if var.isActiveDirectoryCover:
+            if uni.isActiveDirectoryCover:
                 self.categories.insert(2, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenMoveOrChange", 
                                 "isAutoMakeIconToDirectoryWhenFileMove"]))
@@ -246,7 +245,7 @@ class OptionsForm(MDialog):
                     translate("Options", "In order to apply the changes you have to restart Hamsi Manager.<br>Do you want to restart now?"))
         if answer==Dialogs.Yes:
             self.close()
-            if uni.MainWindow.close():
+            if getMainWindow().close():
                 from Core.Execute import execute
                 execute([], "HamsiManager")
     
@@ -307,7 +306,7 @@ class OptionsForm(MDialog):
             if requestInfos[1]=="image":
                 directory = fu.getRealDirName(leValue.text())
                 filePath = Dialogs.getOpenFileName(translate("Options", "Choose Image"),
-                                            directory, str(translate("Options", "Images")) + " " + var.imageExtStringOnlyPNGAndJPG, 0)
+                                            directory, str(translate("Options", "Images")) + " " + uni.imageExtStringOnlyPNGAndJPG, 0)
                 if filePath is not None:
                     leValue.setText(str(filePath))
             if requestInfos[1]=="executable":
@@ -417,8 +416,8 @@ class OptionsForm(MDialog):
             isNeededRestart = False
             isDontClose = False
             isSaveSearchAndReplaceTable, searchAndReplaceCategoryNo = False, 0
-            defaultValues = var.getDefaultValues()
-            valueTypesAndValues = var.getValueTypesAndValues(True)
+            defaultValues = Settings.getDefaultValues()
+            valueTypesAndValues = Settings.getValueTypesAndValues(True)
             for categoryNo, category in enumerate(self.categories):
                 for x, keyValue in enumerate(category.keysOfSettings):
                     if category.visibleKeys.count(keyValue)>0:
@@ -486,8 +485,8 @@ class OptionsForm(MDialog):
             uni.saveSettings()
             if isSaveSearchAndReplaceTable:
                 self.categories[searchAndReplaceCategoryNo].searchAndReplaceTable.save()
-            if uni.MainWindow.Menu!=None:
-                uni.MainWindow.Menu.refreshQuickOptions()
+            if getMainWindow().Menu!=None:
+                getMainWindow().Menu.refreshQuickOptions()
             Records.checkSize()
             if isDontClose:return False
             if isNeededRestart==True:
@@ -498,8 +497,8 @@ class OptionsForm(MDialog):
             
     def applySetting(self, _category, _keyValue):
         try:
-            defaultValues = var.getDefaultValues()
-            valueTypesAndValues = var.getValueTypesAndValues(True)
+            defaultValues = Settings.getDefaultValues()
+            valueTypesAndValues = Settings.getValueTypesAndValues(True)
             x = _category.keysOfSettings.index(_keyValue)
             if _category.visibleKeys.count(_keyValue)>0:
                 if _category.typesOfValues[x]=="string":

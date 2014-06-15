@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from FileUtils import Musics
 import FileUtils as fu
 import os,sys
@@ -92,7 +91,7 @@ class MusicDetails(MDialog):
             Dialogs.showError(translate("MusicDetails", "File Does Not Exist"), 
                     str(translate("MusicDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
                         ) % Organizer.getLink(str(_filePath)))
-            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
+            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
@@ -261,7 +260,7 @@ class MusicDetails(MDialog):
             newPath = Musics.writeMusicFile(self.musicValues, newMusicValues)
             if newPath!=self.musicValues["path"]:
                 self.changeFile(newPath)
-            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
+            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()
@@ -340,7 +339,7 @@ class MusicDetails(MDialog):
     def selectImage(self):
         try:
             imagePath = Dialogs.getOpenFileName(translate("MusicDetails", "Choose Image"),
-                fu.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + var.imageExtStringOnlyPNGAndJPG, 0)
+                fu.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + uni.imageExtStringOnlyPNGAndJPG, 0)
             if imagePath is not None:
                 self.leImagePath.setText(imagePath)
         except:

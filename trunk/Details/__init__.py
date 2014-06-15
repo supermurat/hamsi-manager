@@ -16,7 +16,6 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from Core import Variables as var
 import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
