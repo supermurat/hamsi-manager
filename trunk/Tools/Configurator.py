@@ -18,7 +18,8 @@
 
 
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
+from Core import Variables as var
 from Core import Dialogs
 from Core import Settings
 from Core import MyConfigure
@@ -36,7 +37,7 @@ class Configurator(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
-            Universals.setMainWindow(self)
+            uni.setMainWindow(self)
         activePageNo = 0
         if _page=="configurePage":
             activePageNo = 2
@@ -89,7 +90,7 @@ class Configurator(MyDialog):
         elif MyDialogType=="MMainWindow":
             self.setCentralWidget(self.pnlMain)
             moveToCenter(self)
-        self.setWindowTitle(translate("Reconfigure", "Hamsi Manager Configurator") + " " + Variables.version)
+        self.setWindowTitle(translate("Reconfigure", "Hamsi Manager Configurator") + " " + var.version)
         self.setWindowIcon(MIcon("Images:hamsi.png"))
         self.setMinimumWidth(650)
         self.setMinimumHeight(350)
@@ -107,13 +108,13 @@ class Configurator(MyDialog):
         pnlPage = MWidget()
         HBox = MHBoxLayout()
         pnlPage.setLayout(HBox)
-        defaultLangCode = Variables.getDefaultLanguageCode()
+        defaultLangCode = var.getDefaultLanguageCode()
         if _pageNo==0:
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode)):
                 aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
             else:
                 aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
-            lblAbout = MLabel(trForUI(aboutFileContent))
+            lblAbout = MLabel(str(aboutFileContent))
             lblAbout.setWordWrap(True)
             HBox.addWidget(lblAbout)
         elif _pageNo==1:
@@ -122,7 +123,7 @@ class Configurator(MyDialog):
             else:
                 lisenceFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
             teCopying = MTextEdit()
-            teCopying.setPlainText(trForUI(lisenceFileContent))
+            teCopying.setPlainText(str(lisenceFileContent))
             HBox.addWidget(teCopying)
         elif _pageNo==2:
             VBox = MVBoxLayout()
@@ -134,11 +135,11 @@ class Configurator(MyDialog):
             self.vblAvailableModules = MVBoxLayout()
             self.checkAvailableModules()
             VBox.addStretch(1)
-            if Variables.isRunningAsRoot():
+            if var.isRunningAsRoot():
                 self.isCreateExecutableLink = MCheckBox(translate("Reconfigure", "Add To The System"))
                 self.isCreateExecutableLink.setCheckState(Mt.Checked)
                 lblExecutableLink = MLabel(translate("Reconfigure", "Executable Link Path : "))
-                self.leExecutableLink = MLineEdit(trForUI(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
+                self.leExecutableLink = MLineEdit(str(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
                 self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                 VBox.addWidget(self.isCreateExecutableLink)
                 HBox1 = MHBoxLayout()
@@ -191,13 +192,13 @@ class Configurator(MyDialog):
                 from PyQt4.Qsci import QsciScintilla
                 scintillaIsAvailable = True
             except:pass
-            if Variables.isWindows:
+            if var.isWindows:
                 try:
                     import win32api, win32con, win32com
                     pywin32IsAvailable = True
                 except:pass
                 
-            Universals.clearAllChilds(self.wAvailableModules)
+            clearAllChildren(self.wAvailableModules)
             
             if eyeD3IsAvailable==False:
                 lblEyeD3 = MLabel(translate("Reconfigure", "<a href='http://eyed3.nicfit.net/'>'eyeD3'</a> (python-eyed3) named module has NOT installed in your system."))
@@ -215,13 +216,13 @@ class Configurator(MyDialog):
                 lblScintilla = MLabel(translate("Reconfigure", "<a href='http://www.riverbankcomputing.com/software/qscintilla/download'>'QScintilla'</a> (python-qt4-qscintilla) named module has NOT installed on your system."))
                 lblScintilla.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblScintilla)
-            if Variables.isWindows:
+            if var.isWindows:
                 if pywin32IsAvailable==False:
                     lblPywin32 = MLabel(translate("Reconfigure", "<a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system."))
                     lblPywin32.setOpenExternalLinks(True)
                     self.vblAvailableModules.addWidget(lblPywin32)
             
-            if eyeD3IsAvailable==False or mysqlIsAvailable==False or musicbrainzIsAvailable==False or scintillaIsAvailable==False or (Variables.isWindows and (mysqlIsAvailable==False)):
+            if eyeD3IsAvailable==False or mysqlIsAvailable==False or musicbrainzIsAvailable==False or scintillaIsAvailable==False or (var.isWindows and (mysqlIsAvailable==False)):
                 lblAlert = MLabel(translate("Reconfigure", "<b>You have to install above modules to use some features.<br>If you don't want to use all features, you can continue without these modules.</b>"))
                 self.vblAvailableModules.addWidget(lblAlert)
                 btnCheckAvailableModules = MPushButton(translate("Reconfigure", "Check Again"))
@@ -282,13 +283,13 @@ class Configurator(MyDialog):
                     MyConfigure.reConfigureFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManager.desktop"))
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
-                    desktopPath = Variables.getUserDesktopPath()
-                    if Variables.isWindows:
+                    desktopPath = var.getUserDesktopPath()
+                    if var.isWindows:
                         MyConfigure.createShortCutFile(fu.joinPath(desktopPath, "Hamsi Manager.lnk"))
                     else:
                         fileContent = MyConfigure.getConfiguredDesktopFileContent()
                         fu.writeToFile(fu.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
-            if Variables.isRunningAsRoot():
+            if var.isRunningAsRoot():
                 executableLink = str(self.leExecutableLink.text())
                 if self.isCreateExecutableLink!=None:
                     if self.isCreateExecutableLink.checkState()==Mt.Checked:
@@ -307,7 +308,7 @@ class Configurator(MyDialog):
                         if fu.isDir("/usr/share/applications/"):
                             fileContent = MyConfigure.getConfiguredDesktopFileContent()
                             fu.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
-            if Variables.isRunningAsRoot()==False:
+            if var.isRunningAsRoot()==False:
                 if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))==False:
                     fu.makeDirs(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))
                 fileContent = MyConfigure.getConfiguredDesktopFileContent()

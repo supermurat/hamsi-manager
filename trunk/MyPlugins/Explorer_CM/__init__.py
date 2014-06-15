@@ -18,8 +18,8 @@
 
 import os, sys, platform
 from Core.MyObjects import *
-from Core import Variables
-from Core import Universals
+from Core import Variables as var
+from Core import Universals as uni
 from Core import Dialogs
 from Core import Execute
 from Core import ReportBug
@@ -31,13 +31,13 @@ pluginDirectory = ""
 setupDirectory = ""
 
 def isInstallable():
-    if Variables.isWindows:
+    if var.isWindows:
         if platform.release()=="7":
             return True
     return False
 
 def installThisPlugin():
-    if Variables.isPython3k:
+    if var.isPython3k:
         import winreg
     else:
         import _winreg as winreg
@@ -269,25 +269,25 @@ def installThisPlugin():
             mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
             winreg.CreateKey(mainKey, object["key"])
             hamsiKey = winreg.OpenKey(mainKey, object["key"], 0, winreg.KEY_WRITE)
-            winreg.SetValueEx(hamsiKey,"MUIVerb",0, winreg.REG_SZ, Universals.trEncode(str(object["title"]), fu.defaultFileSystemEncoding))
+            winreg.SetValueEx(hamsiKey,"MUIVerb",0, winreg.REG_SZ, uni.trEncode(str(object["title"]), fu.defaultFileSystemEncoding))
             winreg.SetValueEx(hamsiKey,"ExtendedSubCommandsKey",0, winreg.REG_SZ, object["object"] + "\\ContextMenus\\" + object["key"])
-            try:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(object["icon"]), fu.defaultFileSystemEncoding))
+            try:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, uni.trEncode(str(object["icon"]), fu.defaultFileSystemEncoding))
             except:winreg.SetValueEx(hamsiKey,"Icon",0, winreg.REG_SZ, str(object["icon"]))
             winreg.CreateKey(rootReg, object["object"] + "\\ContextMenus")
             mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
             for action in object["actions"]:
                 if action["key"]=="checkIcon":
-                    if Variables.isActiveDirectoryCover==False:
+                    if var.isActiveDirectoryCover==False:
                         continue
                 winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"])
                 actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0, winreg.KEY_WRITE)
-                try:winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, Universals.trEncode(str(action["title"]), fu.defaultFileSystemEncoding))
+                try:winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, uni.trEncode(str(action["title"]), fu.defaultFileSystemEncoding))
                 except:winreg.SetValueEx(actionKey,"MUIVerb",0, winreg.REG_SZ, str(action["title"]))
-                try:winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, Universals.trEncode(str(action["icon"]), fu.defaultFileSystemEncoding))
+                try:winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, uni.trEncode(str(action["icon"]), fu.defaultFileSystemEncoding))
                 except:winreg.SetValueEx(actionKey,"Icon",0, winreg.REG_SZ, str(action["icon"]))
                 winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"] + "\\command")
                 actionCommandKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"] + "\\command", 0, winreg.KEY_WRITE)
-                try:winreg.SetValueEx(actionCommandKey,"",0, winreg.REG_SZ, Universals.trEncode(str(action["command"]), fu.defaultFileSystemEncoding))
+                try:winreg.SetValueEx(actionCommandKey,"",0, winreg.REG_SZ, uni.trEncode(str(action["command"]), fu.defaultFileSystemEncoding))
                 except:winreg.SetValueEx(actionCommandKey,"",0, winreg.REG_SZ, str(action["command"]))
                 winreg.CloseKey(actionCommandKey)
                 winreg.CloseKey(actionKey)
@@ -312,7 +312,7 @@ def installThisPlugin():
 
 def uninstallThisPlugin():
     isAlreadyUninstalled = False
-    if Variables.isPython3k:
+    if var.isPython3k:
         import winreg
     else:
         import _winreg as winreg

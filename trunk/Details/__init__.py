@@ -16,19 +16,19 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from Core import Variables
+from Core import Variables as var
 import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 
 class Details():
     
     def __init__(self,_filePath, _isOpenDetailsOnNewWindow):
         try:
-            if Universals.getBoolValue("isForceOpenWithDefaultApplication"):
+            if uni.getBoolValue("isForceOpenWithDefaultApplication"):
                 _path = fu.checkSource(_filePath)
                 from Core import Execute
                 Execute.openWith([_path])
@@ -62,14 +62,14 @@ class Details():
                             TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
                             isOpened = True
                     if isOpened == False:
-                        if Universals.getBoolValue("isOpenWithDefaultApplication"):
+                        if uni.getBoolValue("isOpenWithDefaultApplication"):
                             from Core import Execute
                             Execute.openWith([_path])
                         else:
                             Dialogs.showError(translate("Details", "File Is Not Supported"), 
                                  str(translate("Details", "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(str(_path)))
                 elif fu.isDir(_filePath):
-                    if Universals.getBoolValue("isOpenWithDefaultApplication"):
+                    if uni.getBoolValue("isOpenWithDefaultApplication"):
                         from Core import Execute
                         Execute.openWith([_filePath])
                     else:

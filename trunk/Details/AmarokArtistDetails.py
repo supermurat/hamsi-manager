@@ -17,14 +17,14 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from FileUtils import Musics
 import FileUtils as fu
 import os,sys
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 import Amarok
 from Amarok import Operations, Commands
@@ -90,22 +90,22 @@ class AmarokArtistDetails(MDialog):
         else:
             Dialogs.showError(translate("AmarokArtistDetails", "Artist Does Not Exist"), 
                     str(translate("AmarokArtistDetails", "\"%s\" does not exist in \"id\" column of \"artist\" table.<br>Table will be refreshed automatically!<br>Please retry.")
-                        ) % Organizer.getLink(trForUI(_artistId)))
-            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
+                        ) % Organizer.getLink(str(_artistId)))
+            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
     
     def changeArtist(self, _artistId, _isNew=False):
         self.artistId = _artistId
         self.artistName = Commands.getArtistName(self.artistId)
-        self.setWindowTitle(trForUI(self.artistName))  
+        self.setWindowTitle(str(self.artistName))
         if self.pnlClearable != None:
-            Universals.clearAllChilds(self.pnlClearable, True)
+            clearAllChildren(self.pnlClearable, True)
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)
         vblClearable = MVBoxLayout(self.pnlClearable)    
         self.infoLabels["currentArtist"] = MLabel(self.labels[0]) 
         self.infoLabels["correctedArtist"] = MLabel(self.labels[1]) 
-        self.infoValues["currentArtist"] = MLineEdit(trForUI(self.artistName))
-        self.infoValues["correctedArtist"] = MLineEdit(trForUI(Organizer.emend(self.artistName)))
+        self.infoValues["currentArtist"] = MLineEdit(str(self.artistName))
+        self.infoValues["correctedArtist"] = MLineEdit(str(Organizer.emend(self.artistName)))
         self.songTableContentValues = Commands.getAllMusicFileValuesWithNamesByArtistId(self.artistId)
         self.twSongs = MTableWidget()
         self.twSongs.clear()
@@ -113,23 +113,23 @@ class AmarokArtistDetails(MDialog):
         self.twSongs.setHorizontalHeaderLabels(self.songTableColumns)
         self.twSongs.setRowCount(len(self.songTableContentValues))
         for rowNo in range(self.twSongs.rowCount()):
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["filePath"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["filePath"]))
             self.twSongs.setItem(rowNo, 0, item)
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["artist"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["artist"]))
             self.twSongs.setItem(rowNo, 1, item)
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["title"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["title"]))
             self.twSongs.setItem(rowNo, 2, item)
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["album"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["album"]))
             self.twSongs.setItem(rowNo, 3, item)
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["albumartist"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["albumartist"]))
             self.twSongs.setItem(rowNo, 4, item)
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["tracknumber"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["tracknumber"]))
             self.twSongs.setItem(rowNo, 5, item)
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["year"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["year"]))
             self.twSongs.setItem(rowNo, 6, item)
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["genre"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["genre"]))
             self.twSongs.setItem(rowNo, 7, item)
-            item = MTableWidgetItem(trForUI(self.songTableContentValues[rowNo]["comment"]))
+            item = MTableWidgetItem(str(self.songTableContentValues[rowNo]["comment"]))
             self.twSongs.setItem(rowNo, 8, item)
             for x in range(self.twSongs.columnCount()):
                 self.twSongs.item(rowNo, x).setFlags(Mt.ItemIsSelectable | Mt.ItemIsEnabled)
@@ -162,7 +162,7 @@ class AmarokArtistDetails(MDialog):
             Operations.changeArtistValues([{"id" : self.artistId, "name" : str(self.infoValues["correctedArtist"].text())}])
             if self.artistName!=str(self.infoValues["correctedArtist"].text()):
                 self.changeArtist(Commands.getArtistId(str(self.infoValues["correctedArtist"].text())))
-            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
+            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()

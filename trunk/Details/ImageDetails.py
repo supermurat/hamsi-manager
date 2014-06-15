@@ -22,7 +22,7 @@ from Core.MyObjects import *
 from Viewers import ImageViewer
 from Core import Dialogs
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 
 class ImageDetails(MDialog):
     global imageDialogs
@@ -73,7 +73,7 @@ class ImageDetails(MDialog):
         if _valueType=="data":
             self.setWindowTitle(translate("ImageDetails", "Image Details"))
         else:
-            self.setWindowTitle(trForUI(str(translate("ImageDetails", "Image Details ( %s )")) % (_file)))
+            self.setWindowTitle(str(str(translate("ImageDetails", "Image Details ( %s )")) % (_file)))
         self.wImage.changeCoverValues(_file, _valueType)
 
     @staticmethod

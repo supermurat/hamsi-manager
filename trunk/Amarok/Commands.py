@@ -20,7 +20,7 @@ from urllib import unquote, quote
 import re
 import Amarok
 import Databases
-from Core import Universals
+from Core import Universals as uni
 
 def getSQLConditionPartByPartOfFilter(_partOfFilterString = "", _isValueTable = True):
     _partOfFilterString = _partOfFilterString.strip()
@@ -274,7 +274,7 @@ SELECT `valueTableForID`.`id` FROM (
 ) 
 order by 'dirPath'
 """
-    Universals.printForDevelopers("Query - getDirectoriesAndValues : " + query)
+    uni.printForDevelopers("Query - getDirectoriesAndValues : " + query)
     db.query(query)
     r = db.store_result()
     directoriesValues = {}
@@ -325,7 +325,7 @@ FROM `tracks`
 INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
 LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
 """
-    Universals.printForDevelopers("Query - getAllMusicFileValues : " + query)
+    uni.printForDevelopers("Query - getAllMusicFileValues : " + query)
     db.query(query)
     r = db.store_result()
     musicFileValues = []
@@ -396,7 +396,7 @@ LEFT JOIN `statistics` ON `statistics`.`url` = `tracks`.`url`
 ) as `valueTable`
 LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
 """ + getSQLConditionByFilter(_filter)
-    Universals.printForDevelopers("Query - getAllMusicFileValuesWithNames : " + query)
+    uni.printForDevelopers("Query - getAllMusicFileValuesWithNames : " + query)
     db.query(query)
     r = db.store_result()
     musicFileValues = []
@@ -473,7 +473,7 @@ WHERE `tracks`.`artist`=""" + _artistId + """ OR `albums`.`artist`=""" + _artist
 ) as `valueTable`
 LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
 """
-    Universals.printForDevelopers("Query - getAllMusicFileValuesWithNamesByArtistId : " + query)
+    uni.printForDevelopers("Query - getAllMusicFileValuesWithNamesByArtistId : " + query)
     db.query(query)
     r = db.store_result()
     musicFileValues = []
@@ -527,7 +527,7 @@ FROM `tracks`
 INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
 LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
 WHERE `tracks`.`artist`=""" + _artistId
-    Universals.printForDevelopers("Query - getAllMusicFilePathsByArtistId : " + query)
+    uni.printForDevelopers("Query - getAllMusicFilePathsByArtistId : " + query)
     db.query(query)
     r = db.store_result()
     musicFileValues = []
@@ -574,7 +574,7 @@ INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
 LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
 ) as `valueTable` WHERE `valueTable`.`filePath` = '%s'
 """ % Databases.correctForSql(_path)
-    Universals.printForDevelopers("Query - getMusicFileValues : " + query)
+    uni.printForDevelopers("Query - getMusicFileValues : " + query)
     db.query(query)
     r = db.store_result()
     musicFileValues = {}
@@ -656,7 +656,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
 """ + getSQLConditionByFilter(_filter) + """
 ) as `artistTable`
 """
-    Universals.printForDevelopers("Query - getAllArtistsValues : " + query)
+    uni.printForDevelopers("Query - getAllArtistsValues : " + query)
     db.query(query)
     r = db.store_result()
     musicFileValues = []
@@ -670,7 +670,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
 def getArtistName(_artistId):
     db = Amarok.checkAndGetDB()
     query = "SELECT `name` FROM `artists` WHERE `id`=%s" % _artistId
-    Universals.printForDevelopers("Query - getArtistName : " + query)
+    uni.printForDevelopers("Query - getArtistName : " + query)
     db.query(query)
     r = db.store_result()
     musicFileValues = []
@@ -682,7 +682,7 @@ def getArtistName(_artistId):
 def getDevices():
     db = Amarok.checkAndGetDB()
     query = "SELECT id,lastmountpoint FROM devices"
-    Universals.printForDevelopers("Query - getDevices : " + query)
+    uni.printForDevelopers("Query - getDevices : " + query)
     db.query(query)
     r = db.store_result()
     return r.fetch_row(0)
@@ -690,7 +690,7 @@ def getDevices():
 def getArtistId(_artist):
     db = Amarok.checkAndGetDB()
     query = "SELECT `id` FROM `artists` WHERE `name`='%s'" % (Databases.correctForSql(_artist))
-    Universals.printForDevelopers("Query - getArtistId : " + query)
+    uni.printForDevelopers("Query - getArtistId : " + query)
     db.query(query)
     r = db.store_result()
     rows = r.fetch_row(0)
@@ -701,7 +701,7 @@ def getArtistId(_artist):
 def getOrInsertArtist(_artist):
     db = Amarok.checkAndGetDB()
     for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("artists", "id", {"name" : "'" + Databases.correctForSql(_artist) + "'"}):
-        Universals.printForDevelopers("Query - getOrInsertArtist : " + sqlCommand)
+        uni.printForDevelopers("Query - getOrInsertArtist : " + sqlCommand)
         db.query(sqlCommand)
     r = db.store_result()
     return r.fetch_row(0)[0][0]
@@ -709,7 +709,7 @@ def getOrInsertArtist(_artist):
 def getOrInsertAlbum(_album, _artistId):
     db = Amarok.checkAndGetDB()
     for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("albums", "id", {"name" : "'" + Databases.correctForSql(_album) + "'", "artist" : "'" + _artistId + "'"}):
-        Universals.printForDevelopers("Query - getOrInsertAlbum : " + sqlCommand)
+        uni.printForDevelopers("Query - getOrInsertAlbum : " + sqlCommand)
         db.query(sqlCommand)
     r = db.store_result()
     return r.fetch_row(0)[0][0]
@@ -717,7 +717,7 @@ def getOrInsertAlbum(_album, _artistId):
 def getOrInsertYear(_year):
     db = Amarok.checkAndGetDB()
     for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("years", "id", {"name" : "'" + Databases.correctForSql(_year) + "'"}):
-        Universals.printForDevelopers("Query - getOrInsertYear : " + sqlCommand)
+        uni.printForDevelopers("Query - getOrInsertYear : " + sqlCommand)
         db.query(sqlCommand)
     r = db.store_result()
     return r.fetch_row(0)[0][0]
@@ -725,7 +725,7 @@ def getOrInsertYear(_year):
 def getOrInsertGenre(_genre):
     db = Amarok.checkAndGetDB()
     for sqlCommand in Databases.getAmendedSQLSelectOrInsertAndSelectQueries("genres", "id", {"name" : "'" + Databases.correctForSql(_genre) + "'"}):
-        Universals.printForDevelopers("Query - getOrInsertGenre : " + sqlCommand)
+        uni.printForDevelopers("Query - getOrInsertGenre : " + sqlCommand)
         db.query(sqlCommand)
     r = db.store_result()
     return r.fetch_row(0)[0][0]
@@ -735,15 +735,15 @@ def getOrInsertDirectory(_directory, _deviceId):
     if _directory[0]!=".": _directory = "." + _directory
     db = Amarok.checkAndGetDB()
     sqlSelectCommand = "SELECT id FROM directories WHERE deviceid=" + _deviceId + " AND dir='" + Databases.correctForSql(_directory) + "'"
-    Universals.printForDevelopers("Query - getOrInsertDirectory - sqlSelectCommand - 1 : " + sqlSelectCommand)
+    uni.printForDevelopers("Query - getOrInsertDirectory - sqlSelectCommand - 1 : " + sqlSelectCommand)
     db.query(sqlSelectCommand)
     r = db.store_result()
     rows = r.fetch_row(0)
     if len(rows)==0:
         sqlInsertCommand = "INSERT INTO directories(deviceid,dir) VALUES (" + _deviceId + ",'" + Databases.correctForSql(_directory) + "')"
-        Universals.printForDevelopers("Query - getOrInsertDirectory - sqlInsertCommand : " + sqlInsertCommand)
+        uni.printForDevelopers("Query - getOrInsertDirectory - sqlInsertCommand : " + sqlInsertCommand)
         db.query(sqlInsertCommand)
-        Universals.printForDevelopers("Query - getOrInsertDirectory - sqlSelectCommand - 2 : " + sqlSelectCommand)
+        uni.printForDevelopers("Query - getOrInsertDirectory - sqlSelectCommand - 2 : " + sqlSelectCommand)
         db.query(sqlSelectCommand)
         r = db.store_result()
         rows = r.fetch_row(0)

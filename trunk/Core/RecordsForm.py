@@ -20,7 +20,7 @@
 from Core.MyObjects import *
 import sys
 from Core import Dialogs
-from Core import Universals
+from Core import Universals as uni
 from Core import Records
 import FileUtils as fu
 import Options
@@ -67,9 +67,9 @@ class RecordsForm(MDialog):
     def setRecordsFile(self, _filePath=None):
         try:
             if _filePath is None:
-                self.teRecords.setPlainText(trForUI(Records.read()))
+                self.teRecords.setPlainText(str(Records.read()))
             else:
-                self.teRecords.setPlainText(trForUI(Records.read(_filePath)))
+                self.teRecords.setPlainText(str(Records.read(_filePath)))
         except:
             ReportBug.ReportBug()
             

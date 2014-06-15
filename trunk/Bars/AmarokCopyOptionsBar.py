@@ -17,8 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
-from Core import Universals
+from Core import Variables as var
+from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
@@ -65,11 +65,11 @@ class AmarokCopyOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagSourceTypes[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedValues()==True:
+                if uni.MainWindow.Table.checkUnSavedValues()==True:
                     Amarok.setSelectedTagSourseType(selectedType, "AmarokCopyTable")
-                    Universals.MainWindow.Table.refreshForColumns()
-                    Universals.MainWindow.SpecialTools.refreshForColumns()
-                    Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    uni.MainWindow.Table.refreshForColumns()
+                    uni.MainWindow.SpecialTools.refreshForColumns()
+                    uni.MainWindow.Table.refresh(uni.MainWindow.FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
                 self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
                 if self.cbTagSourceTypeForMenu != None:
@@ -103,9 +103,9 @@ class AmarokCopyOptionsBar(MToolBar):
         MObject.connect(self.cbTagSourceTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
         MObject.connect(self.cbTagTargetTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
         wactSourceLabel = MWidgetAction(_menu)
-        wactSourceLabel.setDefaultWidget(MLabel(trForUI(translate("AmarokCopyOptionsBar", "Read From : "))))
+        wactSourceLabel.setDefaultWidget(MLabel(str(translate("AmarokCopyOptionsBar", "Read From : "))))
         wactTargetLabel = MWidgetAction(_menu)
-        wactTargetLabel.setDefaultWidget(MLabel(trForUI(translate("AmarokCopyOptionsBar", "Write To : "))))
+        wactTargetLabel.setDefaultWidget(MLabel(str(translate("AmarokCopyOptionsBar", "Write To : "))))
         wactSource = MWidgetAction(_menu)
         wactSource.setDefaultWidget(self.cbTagSourceTypeForMenu)
         wactTarget = MWidgetAction(_menu)

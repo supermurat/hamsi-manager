@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core.MyObjects import *
 import Tables
 from Core import Dialogs
@@ -38,11 +38,11 @@ class CharacterEncoding(MWidget):
         lblDestinationEncoding = MLabel(translate("SpecialTools", "Destination Encoding : "))
         self.columns = MComboBox()
         self.cbSourceEncoding = MComboBox()
-        self.cbSourceEncoding.addItems(Variables.getCharSets())
+        self.cbSourceEncoding.addItems(var.getCharSets())
         self.cbDestinationEncoding = MComboBox()
-        self.cbDestinationEncoding.addItems(Variables.getCharSets())
-        self.cbSourceEncoding.setCurrentIndex(self.cbSourceEncoding.findText(Universals.MySettings["fileSystemEncoding"]))
-        self.cbDestinationEncoding.setCurrentIndex(self.cbDestinationEncoding.findText(Universals.MySettings["fileSystemEncoding"]))
+        self.cbDestinationEncoding.addItems(var.getCharSets())
+        self.cbSourceEncoding.setCurrentIndex(self.cbSourceEncoding.findText(uni.MySettings["fileSystemEncoding"]))
+        self.cbDestinationEncoding.setCurrentIndex(self.cbDestinationEncoding.findText(uni.MySettings["fileSystemEncoding"]))
         self.cbSourceValues = MComboBox()
         self.cbSourceValues.addItems([translate("Options", "Real Values"), 
                             translate("Options", "Table Contents")])
@@ -76,28 +76,28 @@ class CharacterEncoding(MWidget):
         pass
             
     def apply(self):
-        Universals.MainWindow.Table.isAskShowHiddenColumn = True
+        uni.MainWindow.Table.isAskShowHiddenColumn = True
         sourceEncoding = str(self.cbSourceEncoding.currentText())
         destinationEncoding = str(self.cbDestinationEncoding.currentText())
         sourceValues = str(self.cbSourceValues.currentText())
         isUseRealValues = (sourceValues == translate("Options", "Real Values"))
         if self.columns.currentIndex()==0:
-            columns = list(range(0,Universals.MainWindow.Table.columnCount()))
+            columns = list(range(0,uni.MainWindow.Table.columnCount()))
         else:
             columns = [self.columns.currentIndex()-1]
         for columnNo in columns:
-            if Universals.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
+            if uni.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
                 continue
-            for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
+            for rowNo in range(uni.MainWindow.Table.rowCount()):
+                if uni.MainWindow.Table.isChangeableItem(rowNo, columnNo):
                     if isUseRealValues:
-                        newString = Universals.MainWindow.Table.SubTable.getValueByRowAndColumn(rowNo, columnNo)
+                        newString = uni.MainWindow.Table.SubTable.getValueByRowAndColumn(rowNo, columnNo)
                     else:
-                        newString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                        newString = str(uni.MainWindow.Table.item(rowNo,columnNo).text())
                     myString = ""
-                    try:myString = Universals.trDecode(newString, sourceEncoding, "ignore")
+                    try:myString = uni.trDecode(newString, sourceEncoding, "ignore")
                     except:pass
-                    try:myString = str(Universals.trEncode(newString, destinationEncoding, "ignore"))
+                    try:myString = str(uni.trEncode(newString, destinationEncoding, "ignore"))
                     except:pass
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
+                    uni.MainWindow.Table.item(rowNo,columnNo).setText(str(myString))
             

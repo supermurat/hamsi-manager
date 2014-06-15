@@ -28,15 +28,15 @@ optionList = None
 def checkParameters():
     from optparse import OptionParser, OptionGroup
     import logging
-    from Core import Variables
-    from Core import Universals
+    from Core import Variables as var
+    from Core import Universals as uni
     import FileUtils as fu
     global isQuickMake, QuickMakeParameters, myArgvs, parser, optionList
     myArgvs = sys.argv
     isDontRun = False
     optionList = []
     parser = OptionParser(
-    usage="%prog [options] [<arg1>...]", version="HamsiManager " + Variables.version, 
+    usage="%prog [options] [<arg1>...]", version="HamsiManager " + var.version,
 
     epilog="""\
 Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com> ,
@@ -91,7 +91,7 @@ the Free Software Foundation; either version 2 of the License, or
                       'Example : "1" or "True" for Yes '
                       'Example : "0" or "False" for No ')
     optionList.append("qmw <o>")
-    qmgroup.add_option('--qm', help='Are you want to run Quick Make by some parametres?', 
+    qmgroup.add_option('--qm', help='Are you want to run Quick Make by some parameters?',
                       action='store_const', const=True)
     optionList.append("qm")
     qmgroup.add_option('--configurator', help='Open Hamsi Manager Configurator', action='store_const', const=True)
@@ -170,27 +170,28 @@ the Free Software Foundation; either version 2 of the License, or
     parser.set_defaults(loggingLevel=logging.WARNING, runAsRoot=False, qm=False, plugins=False)
     options, remainderParameters = parser.parse_args()
     if len(remainderParameters)==1:
-        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainderParameters[0]), fu.defaultFileSystemEncoding))
-        except:Universals.setMySetting("lastDirectory", str(remainderParameters[0]))
+        try:uni.setMySetting("lastDirectory", uni.trDecode(str(remainderParameters[0]), fu.defaultFileSystemEncoding))
+        except:uni.setMySetting("lastDirectory", str(remainderParameters[0]))
     if options.directory:
-        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(options.directory), fu.defaultFileSystemEncoding))
-        except:Universals.setMySetting("lastDirectory", str(options.directory))
+        try:uni.setMySetting("lastDirectory", uni.trDecode(str(options.directory), fu.defaultFileSystemEncoding))
+        except:uni.setMySetting("lastDirectory", str(options.directory))
     if options.loggingLevel:
-        Universals.loggingLevel = options.loggingLevel
+        uni.loggingLevel = options.loggingLevel
     if options.sFileName:
-        Universals.fileOfSettings = options.sFileName
+        uni.fileOfSettings = options.sFileName
     if options.sDirectoryPath:
-        Universals.setPathOfSettingsDirectory(options.sDirectoryPath)
+        uni.setPathOfSettingsDirectory(options.sDirectoryPath)
     if options.tableType:
-        Universals.setMySetting("tableType", Universals.getThisTableType(options.tableType))
+        import Tables
+        uni.setMySetting("tableType", Tables.Tables.getThisTableType(options.tableType))
     if options.fileReNamerType:
-        Universals.setMySetting("fileReNamerType", options.fileReNamerType)
+        uni.setMySetting("fileReNamerType", options.fileReNamerType)
     if options.qm:
         if options.qmw:
             if options.qmw.lower()=="false" or options.qmw=="0":
-                Universals.setMySetting("isShowQuickMakeWindow", False)
+                uni.setMySetting("isShowQuickMakeWindow", False)
             else:
-                Universals.setMySetting("isShowQuickMakeWindow", True)
+                uni.setMySetting("isShowQuickMakeWindow", True)
         if options.configurator:
             QuickMakeParameters.append("configurator")
             isQuickMake = True
@@ -260,7 +261,7 @@ the Free Software Foundation; either version 2 of the License, or
         QuickMakeParameters.append(remainderParameters)
     if options.runAsRoot:
         from Core import Execute
-        if Variables.isRunningAsRoot()==False:
+        if var.isRunningAsRoot()==False:
             strArgvs = []
             for tempArg in sys.argv:
                 if tempArg.find("-runAsRoot")==-1 and tempArg.find(Execute.findExecutablePath("HamsiManager"))==-1 and tempArg != "./" + Execute.findExecutableBaseName("HamsiManager") and tempArg != Execute.findExecutableBaseName("HamsiManager"):
@@ -272,92 +273,93 @@ the Free Software Foundation; either version 2 of the License, or
     return True
 
 def checkAfterRunProcess():
-    from Core import Variables
-    from Core import Universals
-    from Core import Dialogs, UpdateControl
+    from Core import Variables as var
+    from Core import Universals as uni
+    from Core import Dialogs
+    from Core import UpdateControl
     from Core.MyObjects import translate, isActivePyKDE4
     import FileUtils as fu
-    if str(fu.defaultFileSystemEncoding) != str(Universals.MySettings["fileSystemEncoding"]):
+    if str(fu.defaultFileSystemEncoding) != str(uni.MySettings["fileSystemEncoding"]):
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
         if answer==Dialogs.No: 
             from Options import OptionsForm
-            OptionsForm.OptionsForm(Universals.MainWindow, _focusTo="fileSystemEncoding")
-    if Universals.getBoolValue("isMakeAutoDesign") or Universals.getBoolValue("isShowWindowModeSuggestion"):
-        Universals.MainWindow.TableToolsBar.setVisible(False)
-        Universals.MainWindow.ToolsBar.setVisible(False)
+            OptionsForm.OptionsForm(uni.MainWindow, _focusTo="fileSystemEncoding")
+    if uni.getBoolValue("isMakeAutoDesign") or uni.getBoolValue("isShowWindowModeSuggestion"):
+        uni.MainWindow.TableToolsBar.setVisible(False)
+        uni.MainWindow.ToolsBar.setVisible(False)
         if isActivePyKDE4:
-            Universals.MainWindow.Browser.setVisible(False)
-            Universals.MainWindow.TreeBrowser.setVisible(False)
-            Universals.MainWindow.FileManager.urlNavigator.setMinimumWidth(150)
-            try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
-            except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
-        try:Universals.MainWindow.PlayerBar.setVisible(False)
+            uni.MainWindow.Browser.setVisible(False)
+            uni.MainWindow.TreeBrowser.setVisible(False)
+            uni.MainWindow.FileManager.urlNavigator.setMinimumWidth(150)
+            try:uni.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
+            except:uni.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
+        try:uni.MainWindow.PlayerBar.setVisible(False)
         except:pass
     checkAndCorrectWindowMode()
-    if Universals.isShowVerifySettings and Universals.changedDefaultValuesKeys==[] and Universals.newSettingsKeys==[]:
+    if uni.isShowVerifySettings and uni.changedDefaultValuesKeys==[] and uni.newSettingsKeys==[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes: 
             from Options import OptionsForm
-            OptionsForm.OptionsForm(Universals.MainWindow)
-    elif Universals.changedDefaultValuesKeys!=[] or Universals.newSettingsKeys!=[]:
+            OptionsForm.OptionsForm(uni.MainWindow)
+    elif uni.changedDefaultValuesKeys!=[] or uni.newSettingsKeys!=[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes:
             from Options import OptionsForm
-            newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
-            OptionsForm.OptionsForm(Universals.MainWindow, "Normal", None, newOrChangedKeys)
-    elif Universals.getBoolValue("isShowReconfigureWizard") and Variables.isBuilt() == False:
+            newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
+            OptionsForm.OptionsForm(uni.MainWindow, "Normal", None, newOrChangedKeys)
+    elif uni.getBoolValue("isShowReconfigureWizard") and var.isBuilt() == False:
         from Tools import Configurator
         Configurator.Configurator()
-        Universals.setMySetting("isShowReconfigureWizard", "False")
+        uni.setMySetting("isShowReconfigureWizard", "False")
     
 def checkWindowMode(_isCheck=False):
-    from Core import Variables
-    from Core import Universals
-    if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
-        if Universals.windowMode == Variables.windowModeKeys[0]:
-            screenSize = Variables.getScreenSize()
+    from Core import Variables as var
+    from Core import Universals as uni
+    if uni.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
+        if uni.windowMode == var.windowModeKeys[0]:
+            screenSize = var.getScreenSize()
             if screenSize!=None:
                 if screenSize.width()<1024:
-                    Universals.windowMode = Variables.windowModeKeys[1]
+                    uni.windowMode = var.windowModeKeys[1]
     
 def checkAndCorrectWindowMode(_isCheck=False):
-    from Core import Variables
-    from Core import Universals
+    from Core import Variables as var
+    from Core import Universals as uni
     from Core import Dialogs 
     from Core.MyObjects import translate, MToolBar
-    if Universals.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
-        if Universals.windowMode == Variables.windowModeKeys[1]:
-            if len(Universals.MainWindow.findChildren(MToolBar))>0:
-                firstToolBar = Universals.MainWindow.findChildren(MToolBar)[0]
-                Universals.MainWindow.removeToolBar(Universals.MainWindow.FileManager.tbarBrowserTools)
-                Universals.MainWindow.insertToolBar(firstToolBar, Universals.MainWindow.FileManager.tbarBrowserTools)
-                Universals.MainWindow.FileManager.tbarBrowserTools.setVisible(True)
+    if uni.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
+        if uni.windowMode == var.windowModeKeys[1]:
+            if len(uni.MainWindow.findChildren(MToolBar))>0:
+                firstToolBar = uni.MainWindow.findChildren(MToolBar)[0]
+                uni.MainWindow.removeToolBar(uni.MainWindow.FileManager.tbarBrowserTools)
+                uni.MainWindow.insertToolBar(firstToolBar, uni.MainWindow.FileManager.tbarBrowserTools)
+                uni.MainWindow.FileManager.tbarBrowserTools.setVisible(True)
             try:
-                if Universals.MainWindow.Browser!=None and Universals.MainWindow.Places!=None:
-                    Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.Places)
-                if Universals.MainWindow.Browser!=None and Universals.MainWindow.TreeBrowser!=None:
-                    Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.TreeBrowser)
-                if Universals.MainWindow.Browser!=None and Universals.MainWindow.DirOperator!=None:
-                    Universals.MainWindow.tabifyDockWidget(Universals.MainWindow.Browser, Universals.MainWindow.DirOperator)
-                try:Universals.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
-                except:Universals.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
-                geometries = Universals.getListValue("MainWindowGeometries")
-                Universals.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
+                if uni.MainWindow.Browser!=None and uni.MainWindow.Places!=None:
+                    uni.MainWindow.tabifyDockWidget(uni.MainWindow.Browser, uni.MainWindow.Places)
+                if uni.MainWindow.Browser!=None and uni.MainWindow.TreeBrowser!=None:
+                    uni.MainWindow.tabifyDockWidget(uni.MainWindow.Browser, uni.MainWindow.TreeBrowser)
+                if uni.MainWindow.Browser!=None and uni.MainWindow.DirOperator!=None:
+                    uni.MainWindow.tabifyDockWidget(uni.MainWindow.Browser, uni.MainWindow.DirOperator)
+                try:uni.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
+                except:uni.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
+                geometries = uni.getListValue("MainWindowGeometries")
+                uni.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
             except:pass
-            Universals.setMySetting("isShowWindowModeSuggestion", False)
+            uni.setMySetting("isShowWindowModeSuggestion", False)
      
 def checkBeforeCloseProcess():
-    from Core import Variables
-    from Core import Universals
+    from Core import Variables as var
+    from Core import Universals as uni
     from Core import UpdateControl
-    if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
+    if uni.getBoolValue("isDontDeleteFileAndDirectory"):
         import FileUtils as fu
         fu.checkSizeOfDeletedFiles()
     if UpdateControl.UpdateControl.isMakeUpdateControl():
-        UpdateControl.UpdateControl(Universals.MainWindow, _isCloseParent=True)
+        UpdateControl.UpdateControl(uni.MainWindow, _isCloseParent=True)
         return False
     return True
 
@@ -386,7 +388,7 @@ def checkMyModules(_HamsiManagerApp):
             title = str(QtGui.QApplication.translate("ReportBug", "Error In Module"))
             startNumber=19
             details = str(QtGui.QApplication.translate("ReportBug", "\"%s\" is not in this module.Please download and install Hamsi Manager again."))
-        lblDetails = QtGui.QLabel(Universals.trForUI("<b>"+title+":</b><br>"+ (details % (str(error)[startNumber:]))))
+        lblDetails = QtGui.QLabel(str("<b>"+title+":</b><br>"+ (details % (str(error)[startNumber:]))))
         pbtnOk = QtGui.QPushButton(QtGui.QApplication.translate("ReportBug", "OK"))
         errorForm.connect(pbtnOk,QtCore.SIGNAL("clicked()"), _HamsiManagerApp.quit)
         hbox0 = QtGui.QHBoxLayout()

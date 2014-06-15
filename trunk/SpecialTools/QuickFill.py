@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core.MyObjects import *
 import Tables
 from Core import Dialogs
@@ -73,7 +73,7 @@ class QuickFill(MWidget):
         try:
             self.checkCompleters()
             self.reFillCompleters()
-            Universals.MainWindow.Table.createHistoryPoint()
+            uni.MainWindow.Table.createHistoryPoint()
             self.apply()
         except:
             from Core import ReportBug
@@ -81,22 +81,22 @@ class QuickFill(MWidget):
             
     def apply(self):
         _newString = str(self.fillFrom.text())
-        Universals.MainWindow.Table.isAskShowHiddenColumn = True
-        for No, columnName in enumerate(Universals.MainWindow.Table.tableColumns):
+        uni.MainWindow.Table.isAskShowHiddenColumn = True
+        for No, columnName in enumerate(uni.MainWindow.Table.tableColumns):
             if str(self.fillFrom.objectName()) == str(columnName):
                 columnNo=No
                 break
-        if Universals.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
+        if uni.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
             return False
-        for rowNo in range(Universals.MainWindow.Table.rowCount()):
-            if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
+        for rowNo in range(uni.MainWindow.Table.rowCount()):
+            if uni.MainWindow.Table.isChangeableItem(rowNo, columnNo):
                 myString = str(_newString)
                 if self.specialTools.btChange.isChecked()==True:
                     pass
                 elif self.specialTools.tbAddToBefore.isChecked()==True:
-                    myString += str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+                    myString += str(uni.MainWindow.Table.item(rowNo,columnNo).text())
                 elif self.specialTools.tbAddToAfter.isChecked()==True:
-                    myString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text()) + myString
-                Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(Universals.trUnicode(myString)))
+                    myString = str(uni.MainWindow.Table.item(rowNo,columnNo).text()) + myString
+                uni.MainWindow.Table.item(rowNo,columnNo).setText(str(uni.trUnicode(myString)))
                     
     

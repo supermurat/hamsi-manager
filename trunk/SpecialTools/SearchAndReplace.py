@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core.MyObjects import *
 import Tables
 from Core import Dialogs
@@ -44,17 +44,17 @@ class SearchAndReplace(MWidget):
         self.cckbCaseInsensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
         self.cckbCaseInsensitive.setChecked(True)
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
-        self.leSearch.setToolTip(trForUI(srExamples+sExample+"</table>"))
-        self.leReplace.setToolTip(trForUI(srExamples+rExample+"</table>"))
+        self.leSearch.setToolTip(str(srExamples+sExample+"</table>"))
+        self.leReplace.setToolTip(str(srExamples+rExample+"</table>"))
         self.columns = MComboBox()
         self.columns.addItem(translate("SpecialTools", "All"))
         self.pbtnEditValueForSearch = MPushButton(translate("Options", "*"))
-        self.pbtnEditValueForSearch.setObjectName(trForUI(translate("Options", "Edit Values With Advanced Value Editor") + "For Search"))
+        self.pbtnEditValueForSearch.setObjectName(str(translate("Options", "Edit Values With Advanced Value Editor") + "For Search"))
         self.pbtnEditValueForSearch.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForSearch.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForSearch, SIGNAL("clicked()"), self.pbtnEditValueClicked)
         self.pbtnEditValueForReplace = MPushButton(translate("Options", "*"))
-        self.pbtnEditValueForReplace.setObjectName(trForUI(translate("Options", "Edit Values With Advanced Value Editor") + "For Replace"))
+        self.pbtnEditValueForReplace.setObjectName(str(translate("Options", "Edit Values With Advanced Value Editor") + "For Replace"))
         self.pbtnEditValueForReplace.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForReplace.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForReplace, SIGNAL("clicked()"), self.pbtnEditValueClicked)
@@ -118,16 +118,16 @@ class SearchAndReplace(MWidget):
         while len(replaceStrings)!=len(searchStrings):
             replaceStrings.append("")
         if self.columns.currentIndex()==0:
-            columns = list(range(0,Universals.MainWindow.Table.columnCount()))
+            columns = list(range(0,uni.MainWindow.Table.columnCount()))
         else:
             columns = [self.columns.currentIndex()-1]
         for columnNo in columns:
-            if Universals.MainWindow.Table.isColumnHidden(columnNo)==True:
+            if uni.MainWindow.Table.isColumnHidden(columnNo)==True:
                 continue
-            for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo, None, True):
-                    newString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
-                    newString = trForUI(newString)
+            for rowNo in range(uni.MainWindow.Table.rowCount()):
+                if uni.MainWindow.Table.isChangeableItem(rowNo, columnNo, None, True):
+                    newString = str(uni.MainWindow.Table.item(rowNo,columnNo).text())
+                    newString = str(newString)
                     myString = ""
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
                     informationSectionY = self.specialTools.cbInformationSectionY.value()
@@ -163,7 +163,7 @@ class SearchAndReplace(MWidget):
                         myString += newString[informationSectionX:informationSectionY]
                         myString += Organizer.searchAndReplace(newString[informationSectionY:], searchStrings, 
                                                 replaceStrings, isCaseInsensitive, isRegExp)
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
+                    uni.MainWindow.Table.item(rowNo,columnNo).setText(str(myString))
     
     
 
@@ -177,14 +177,14 @@ class SearchAndReplaceListEditDialog(MDialog):
         currentValueForReplace = str(self.parent().leReplace.text())
         if isActivePyKDE4:
             self.EditorWidgetForSearch = MEditListBox(self)
-            self.EditorWidgetForSearch.setItems([trForUI(x) for x in currentValueForSearch.split(";")])
+            self.EditorWidgetForSearch.setItems([str(x) for x in currentValueForSearch.split(";")])
             self.EditorWidgetForReplace = MEditListBox(self)
-            self.EditorWidgetForReplace.setItems([trForUI(x) for x in currentValueForReplace.split(";")])
+            self.EditorWidgetForReplace.setItems([str(x) for x in currentValueForReplace.split(";")])
         else:
             self.EditorWidgetForSearch = MTextEdit(self)
-            self.EditorWidgetForSearch.setText(trForUI(currentValueForSearch.replace(";", "\n")))
+            self.EditorWidgetForSearch.setText(str(currentValueForSearch.replace(";", "\n")))
             self.EditorWidgetForReplace = MTextEdit(self)
-            self.EditorWidgetForReplace.setText(trForUI(currentValueForReplace.replace(";", "\n")))
+            self.EditorWidgetForReplace.setText(str(currentValueForReplace.replace(";", "\n")))
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
         pbtnCancel = MPushButton(translate("SearchAndReplaceListEditDialog", "Cancel"))
@@ -221,7 +221,7 @@ class SearchAndReplaceListEditDialog(MDialog):
         else:
             valueForSearch = str(self.EditorWidgetForSearch.toPlainText()).replace("\n", ";")
             valueForReplace = str(self.EditorWidgetForReplace.toPlainText()).replace("\n", ";")
-        self.parent().leSearch.setText(trForUI(valueForSearch))
-        self.parent().leReplace.setText(trForUI(valueForReplace))
+        self.parent().leSearch.setText(str(valueForSearch))
+        self.parent().leReplace.setText(str(valueForReplace))
         self.close()
         

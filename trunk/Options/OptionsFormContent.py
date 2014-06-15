@@ -17,9 +17,12 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import sys,os
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Settings, Dialogs, Universals, Records
+from Core import Settings
+from Core import Dialogs
+from Core import Universals as uni
+from Core import Records
 import FileUtils as fu
 import Databases
 from Core import ReportBug
@@ -57,9 +60,9 @@ class General(MWidget):
                     translate("Options/General", "You can select Hamsi Manager`s language.")]
         self.typesOfValues = ["Yes/No", "Yes/No", ["number", 2], 
                                 ["number", 1], ["options", 0]]
-        self.valuesOfOptions = [Variables.getInstalledLanguagesNames(), 
+        self.valuesOfOptions = [var.getInstalledLanguagesNames(),
                                 ["1", "30"], ["10", "100000"]]
-        self.valuesOfOptionsKeys = [Variables.getInstalledLanguagesCodes(), 
+        self.valuesOfOptionsKeys = [var.getInstalledLanguagesCodes(),
                                 ["1", "30"], ["10", "100000"]]
         _parent.createOptions(self)
         if isActivePyKDE4:
@@ -115,9 +118,9 @@ class Appearance(MWidget):
                     translate("Options/Appearance", "Are you want to resize table columns to contents?")]
         self.typesOfValues = [["options", 0], ["options", 1], ["options", 3], 
                                 "Yes/No", "Yes/No", "Yes/No", ["options", 2], "Yes/No"]
-        styles = Variables.getStyles()
-        themes = Variables.getInstalledThemes()
-        schemes, schemePaths  = Variables.getColorSchemesAndPath()
+        styles = var.getStyles()
+        themes = var.getInstalledThemes()
+        schemes, schemePaths  = var.getColorSchemesAndPath()
         if isActivePyKDE4==False:
             keyNo = self.keysOfSettings.index("colorSchemes")
             del self.keysOfSettings[keyNo]
@@ -128,7 +131,7 @@ class Appearance(MWidget):
                                 [translate("Options/Appearance", "Normal"), 
                                     translate("Options/Appearance", "Mini")], schemes]
         self.valuesOfOptionsKeys = [styles, themes, 
-                                Variables.windowModeKeys, schemePaths]
+                                var.windowModeKeys, schemePaths]
         _parent.createOptions(self)
         if self.visibleKeys.count("applicationStyle")>0:
             MObject.connect(self.values[self.keysOfSettings.index("applicationStyle")], SIGNAL("currentIndexChanged(int)"), self.styleChanged)
@@ -151,7 +154,7 @@ class Appearance(MWidget):
         MApplication.setPalette(plt)
         
     def windowModeChanged(self, _value):
-        Universals.setMySetting("isShowWindowModeSuggestion", True)
+        uni.setMySetting("isShowWindowModeSuggestion", True)
         
         
 class Correct(MWidget):
@@ -165,7 +168,7 @@ class Correct(MWidget):
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["isActiveCompleter", "isShowAllForCompleter",
             "validSentenceStructure", "validSentenceStructureForFile", "validSentenceStructureForDirectory", 
-            "validSentenceStructureForFileExtension", "fileExtesionIs", "isEmendIncorrectChars", 
+            "validSentenceStructureForFileExtension", "fileExtensionIs", "isEmendIncorrectChars",
             "isCorrectFileNameWithSearchAndReplaceTable", "isCorrectValueWithSearchAndReplaceTable", "isClearFirstAndLastSpaceChars", "isCorrectDoubleSpaceChars", "isDecodeURLStrings"]
         self.tabsOfSettings = [None, None, None, None, 
                                 None, None, None, 
@@ -214,8 +217,8 @@ class Correct(MWidget):
                                 [translate("Options/Correct", "After The First Point"), 
                                     translate("Options/Correct", "After The Last Point"), 
                                     translate("Options/Correct", "Be Smart")]]
-        self.valuesOfOptionsKeys = [Variables.validSentenceStructureKeys, 
-                        Variables.fileExtesionIsKeys]
+        self.valuesOfOptionsKeys = [var.validSentenceStructureKeys,
+                        var.fileExtensionIsKeys]
         _parent.createOptions(self)
         if self.visibleKeys.count("isActiveCompleter")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isActiveCompleter")], SIGNAL("currentIndexChanged(int)"), self.activeCompleterChanged)
@@ -291,7 +294,7 @@ class SearchAndReplace(MWidget):
                         twiItem.setCheckState(checkState)
                         self.setItem(rowNo, columnNo, twiItem)
                     else:
-                        self.setItem(rowNo, columnNo, MTableWidgetItem(trForUI(info[columnNo])))
+                        self.setItem(rowNo, columnNo, MTableWidgetItem(str(info[columnNo])))
             self.setItem(len(self.searchAndReplaceTableValues), 1, MTableWidgetItem(""))
             self.setItem(len(self.searchAndReplaceTableValues), 2, MTableWidgetItem(""))
             self.setItem(len(self.searchAndReplaceTableValues), 3, MTableWidgetItem(""))
@@ -536,13 +539,13 @@ class Cover(MWidget):
                     ["trString", 0], ["options", 0]]
         self.valuesOfOptions = [["png", "jpg"]]
         self.valuesOfOptionsKeys = [["png", "jpg"]]
-        self.stringSearchList = [Variables.iconNameFormatKeys]
-        self.stringReplaceList = [Variables.iconNameFormatLabels]
+        self.stringSearchList = [var.iconNameFormatKeys]
+        self.stringReplaceList = [var.iconNameFormatLabels]
         _parent.createOptions(self) 
         if self.visibleKeys.count("isActiveAutoMakeIconToDirectory")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")], SIGNAL("currentIndexChanged(int)"), self.activeAutoMakeIconToDirectory)
             self.activeAutoMakeIconToDirectory()
-        if Variables.isActiveAmarok==False:
+        if var.isActiveAmarok==False:
             self.tabwTabs.setTabEnabled(1, False)
             
     def activeAutoMakeIconToDirectory(self):
@@ -582,14 +585,14 @@ class Advanced(MWidget):
                     translate("Options/Advanced", "Never Delete Files And Directories"), 
                     translate("Options/Advanced", "Path Of Deleted Files And Directories"), 
                     translate("Options/Advanced", "Max Size Of Directory Of Deleted")]
-        self.toolTips = [trForUI(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (fu.defaultFileSystemEncoding)),
+        self.toolTips = [str(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (fu.defaultFileSystemEncoding)),
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"),
                     translate("Options/Advanced", "Would you like to move files to specific directory to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
                     translate("Options/Advanced", "You can select a directory to move files to it."), 
                     translate("Options/Advanced", "You can select size of directory of deleted to get notification when it is over.(Megabytes)")]
         self.typesOfValues = [["options", 0], "list", "list", "Yes/No", ["directory", "exist"], ["number", 1]]
-        charSets = Variables.getCharSets()
+        charSets = var.getCharSets()
         self.valuesOfOptions = [charSets, ["10", "100000"]]
         self.valuesOfOptionsKeys = [charSets, ["10", "100000"]]
         _parent.createOptions(self) 
@@ -636,8 +639,8 @@ class Player(MWidget):
                     translate("Options/Player", "The argument used to point to the sound device you want to use.<br><font color=red>Default value: -ao</font>"),
                     translate("Options/Player", "The sound device you want to use.<br><font color=red>Default value: alsa</font>")]
         self.typesOfValues = [["options", 0], ["file", "executable"], "string", "string", ["options", 1]]
-        self.valuesOfOptions = [Variables.getAvailablePlayers(), Variables.mplayerSoundDevices]
-        self.valuesOfOptionsKeys = [Variables.getAvailablePlayers(), Variables.mplayerSoundDevices]
+        self.valuesOfOptions = [var.getAvailablePlayers(), var.mplayerSoundDevices]
+        self.valuesOfOptionsKeys = [var.getAvailablePlayers(), var.mplayerSoundDevices]
         _parent.createOptions(self)
         if self.visibleKeys.count("playerName")>0:
             MObject.connect(self.values[self.keysOfSettings.index("playerName")], SIGNAL("currentIndexChanged(int)"), self.playerChanged)
@@ -819,7 +822,7 @@ class Amarok(MWidget):
                 answer = Dialogs.ask(translate("Options/Amarok", "Are You Want To Save"), 
                                              translate("Options/Amarok", "Are you want to save this Amarok settings?"))
                 if answer==Dialogs.Yes:
-                    Universals.saveSettings()
+                    uni.saveSettings()
             amarokDb = None
         except:
             ReportBug.ReportBug()
@@ -856,7 +859,7 @@ class HiddenObjects(MWidget):
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
-        if Variables.isActiveDirectoryCover==False:
+        if var.isActiveDirectoryCover==False:
             self.visibleKeys.remove("isShowHiddensInCoverTable")
         _parent.createOptions(self)
 
@@ -892,9 +895,9 @@ class MySettings(MWidget):
         self.toolTips = []
         self.typesOfValues = []
         self.valuesOfOptions = []
-        lblBackUp = MLabel(trForUI("<b>" + translate("Options/MySettings", "Backup Settings") + "</b>"))
-        lblRestore = MLabel(trForUI("<b>" + translate("Options/MySettings", "Restore Settings") + "</b>"))
-        reFillSettings = MLabel(trForUI("<b>" + translate("Options/MySettings", "Reset Settings") + "</b>"))
+        lblBackUp = MLabel(str("<b>" + translate("Options/MySettings", "Backup Settings") + "</b>"))
+        lblRestore = MLabel(str("<b>" + translate("Options/MySettings", "Restore Settings") + "</b>"))
+        reFillSettings = MLabel(str("<b>" + translate("Options/MySettings", "Reset Settings") + "</b>"))
         lblBackUp.setAlignment(Mt.AlignHCenter)
         lblRestore.setAlignment(Mt.AlignHCenter)
         reFillSettings.setAlignment(Mt.AlignHCenter)

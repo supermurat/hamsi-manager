@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 from Core import Settings
 import FileUtils as fu
@@ -38,7 +38,7 @@ class MyPlugins(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Searcher")
-            Universals.setMainWindow(self)
+            uni.setMainWindow(self)
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))
         self.pbtnUninstall = MPushButton(translate("MyPlugins", "Uninstall The Selected Plug-in"))
@@ -74,17 +74,17 @@ class MyPlugins(MyDialog):
     def fillPlugins(self):
         self.lstwPluginList.clear()
         self.myPluginsNames = []
-        for plugin in Variables.getMyPluginsNames():
+        for plugin in var.getMyPluginsNames():
             pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], 0)
             if pluginModule.isInstallable():
-                installedVersion = Settings.getUniversalSetting(trForUI(pluginModule.pluginName), "")
+                installedVersion = Settings.getUniversalSetting(str(pluginModule.pluginName), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
                 elif installedVersion != pluginModule.pluginVersion:
                     details = translate("MyPlugins", "Have A New Version")
                 else:
                     details = translate("MyPlugins", "Installed")
-                self.lstwPluginList.addItem(trForUI(pluginModule.pluginName) + "\n\t" + details)
+                self.lstwPluginList.addItem(str(pluginModule.pluginName) + "\n\t" + details)
                 self.myPluginsNames.append(plugin)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
@@ -123,7 +123,7 @@ class MyPlugins(MyDialog):
         else:
             isInstalled = pluginModule.installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(trForUI(pluginModule.pluginName), str(pluginModule.pluginVersion))
+            Settings.setUniversalSetting(str(pluginModule.pluginName), str(pluginModule.pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginModule.pluginName))
@@ -152,7 +152,7 @@ class MyPlugins(MyDialog):
         else:
             isUninstalled = pluginModule.uninstallThisPlugin()
         if isUninstalled:
-            Settings.setUniversalSetting(trForUI(pluginModule.pluginName), str(""))
+            Settings.setUniversalSetting(str(pluginModule.pluginName), str(""))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Uninstallation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is uninstalled on your system.")) % (pluginModule.pluginName))
@@ -173,7 +173,7 @@ class MyPluginsForSystem(MWidget):
         MWidget.__init__(self, _parent)
         self.pbtnInstall = None
         self.pbtnUninstall = None
-        lblHeader = MLabel(trForUI("<b>" + translate("MyPlugins", "My Plugins") + "</b>"))
+        lblHeader = MLabel(str("<b>" + translate("MyPlugins", "My Plugins") + "</b>"))
         lblNote = MLabel(translate("MyPlugins", "You can manage plugins in your system"))
         self.lstwPluginList = MListWidget()
         self.fillPlugins()
@@ -199,17 +199,17 @@ class MyPluginsForSystem(MWidget):
     def fillPlugins(self):
         self.lstwPluginList.clear()
         self.myPluginsNames = []
-        for plugin in Variables.getMyPluginsNames():
+        for plugin in var.getMyPluginsNames():
             pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], 0)
             if pluginModule.isInstallable():
-                installedVersion = Settings.getUniversalSetting(trForUI(pluginModule.pluginName), "")
+                installedVersion = Settings.getUniversalSetting(str(pluginModule.pluginName), "")
                 if installedVersion == "":
                     details = translate("MyPlugins", "Could Not Be Determined")
                 elif installedVersion != pluginModule.pluginVersion:
                     details = translate("MyPlugins", "Have A New Version")
                 else:
                     details = translate("MyPlugins", "Installed")
-                self.lstwPluginList.addItem(trForUI(pluginModule.pluginName) + "\n\t" + details)
+                self.lstwPluginList.addItem(str(pluginModule.pluginName) + "\n\t" + details)
                 self.myPluginsNames.append(plugin)
         if self.lstwPluginList.count()==0:
             self.lstwPluginList.addItem(translate("MyPlugins", "Could not find the appropriate plug-in to your system"))
@@ -251,7 +251,7 @@ class MyPluginsForSystem(MWidget):
         else:
             isInstalled = pluginModule.installThisPlugin()
         if isInstalled:
-            Settings.setUniversalSetting(trForUI(pluginModule.pluginName), str(pluginModule.pluginVersion))
+            Settings.setUniversalSetting(str(pluginModule.pluginName), str(pluginModule.pluginVersion))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (pluginModule.pluginName))
@@ -280,7 +280,7 @@ class MyPluginsForSystem(MWidget):
         else:
             isUninstalled = pluginModule.uninstallThisPlugin()
         if isUninstalled:
-            Settings.setUniversalSetting(trForUI(pluginModule.pluginName), str(""))
+            Settings.setUniversalSetting(str(pluginModule.pluginName), str(""))
             if _isQuiet==False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Uninstallation Is Complete"), 
                          str(translate("MyPlugins", "\"%s\" is uninstalled on your system.")) % (pluginModule.pluginName))

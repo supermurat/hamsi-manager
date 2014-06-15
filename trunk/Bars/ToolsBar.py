@@ -17,8 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
-from Core import Universals
+from Core import Variables as var
+from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 
@@ -32,7 +32,7 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Clear Empty Directories"),self)
         self.clearEmptyDirectories.setObjectName(translate("ToolsBar", "Clear Empty Directories"))
         self.clearEmptyDirectories.setToolTip(translate("ToolsBar", "Clears the folder contents based on the criteria set."))
-        if Variables.isActiveDirectoryCover:
+        if var.isActiveDirectoryCover:
             self.actCheckIcon = MAction(MIcon("Images:checkIcon.png"),
                                                 translate("ToolsBar", "Check Icon"),self)
             self.actCheckIcon.setObjectName(translate("ToolsBar", "Check Icon"))
@@ -69,12 +69,12 @@ class ToolsBar(MToolBar):
                                                 translate("ToolsBar", "Script Manager"),self)
         self.actScriptManager.setObjectName(translate("ToolsBar", "Script Manager"))
         self.actScriptManager.setToolTip(translate("ToolsBar", "You can do what you want."))
-        if Universals.getBoolValue("isSaveActions"):
+        if uni.getBoolValue("isSaveActions"):
             self.actLastActions = MAction(MIcon("Images:lastActions.png"),
                                                     translate("ToolsBar", "Show Last Actions"),self)
             self.actLastActions.setObjectName(translate("ToolsBar", "Show Last Actions"))
             self.actLastActions.setToolTip(translate("ToolsBar", "You can see last actions."))
-        if Variables.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
+        if var.isActiveAmarok and uni.getBoolValue("amarokIsUseHost")==False:
             self.actAmarokEmbeddedDBConfigurator = MAction(MIcon("Images:amarokEmbeddedDBConfigurator.png"),
                                                     translate("ToolsBar", "Amarok Embedded Database Configurator"),self)
             self.actAmarokEmbeddedDBConfigurator.setObjectName(translate("ToolsBar", "Amarok Embedded Database Configurator"))
@@ -86,54 +86,54 @@ class ToolsBar(MToolBar):
         self.addAction(self.actTextCorrector)
         self.addAction(self.actSearch)
         self.addAction(self.actScriptManager)
-        if Universals.getBoolValue("isSaveActions"):
+        if uni.getBoolValue("isSaveActions"):
             self.addAction(self.actLastActions)
-        if Variables.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
+        if var.isActiveAmarok and uni.getBoolValue("amarokIsUseHost")==False:
             self.addAction(self.actAmarokEmbeddedDBConfigurator)
         self.addSeparator()
         self.addAction(self.clearEmptyDirectories)
         self.addAction(self.actRemoveOnlySubFiles)
-        if Variables.isActiveDirectoryCover:
+        if var.isActiveDirectoryCover:
             self.addAction(self.actCheckIcon)
-        if Universals.windowMode==Variables.windowModeKeys[1]:
+        if uni.windowMode==var.windowModeKeys[1]:
             self.setIconSize(MSize(16,16))
         else:
             self.setIconSize(MSize(32,32))
-        Universals.MainWindow.Menu.mTools = MMenu(translate("MenuBar", "Tools"), self)
-        Universals.MainWindow.Menu.mTools.setObjectName(translate("MenuBar", "Tools"))
-        Universals.MainWindow.Menu.mTools.addAction(self.actHash)
-        Universals.MainWindow.Menu.mTools.addAction(self.actPack)
-        Universals.MainWindow.Menu.mTools.addAction(self.actFileTree)
-        Universals.MainWindow.Menu.mTools.addAction(self.actClear)
-        Universals.MainWindow.Menu.mTools.addAction(self.actTextCorrector)
-        Universals.MainWindow.Menu.mTools.addAction(self.actSearch)
-        Universals.MainWindow.Menu.mTools.addAction(self.actScriptManager)
-        if Universals.getBoolValue("isSaveActions"):
-            Universals.MainWindow.Menu.mTools.addAction(self.actLastActions)
-        if Variables.isActiveAmarok and Universals.getBoolValue("amarokIsUseHost")==False:
-            Universals.MainWindow.Menu.mTools.addAction(self.actAmarokEmbeddedDBConfigurator)
-        Universals.MainWindow.Menu.mTools.addSeparator()
-        Universals.MainWindow.Menu.mTools.addAction(self.clearEmptyDirectories)
-        Universals.MainWindow.Menu.mTools.addAction(self.actRemoveOnlySubFiles)
-        if Variables.isActiveDirectoryCover:
-            Universals.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
-        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mTools)
+        uni.MainWindow.Menu.mTools = MMenu(translate("MenuBar", "Tools"), self)
+        uni.MainWindow.Menu.mTools.setObjectName(translate("MenuBar", "Tools"))
+        uni.MainWindow.Menu.mTools.addAction(self.actHash)
+        uni.MainWindow.Menu.mTools.addAction(self.actPack)
+        uni.MainWindow.Menu.mTools.addAction(self.actFileTree)
+        uni.MainWindow.Menu.mTools.addAction(self.actClear)
+        uni.MainWindow.Menu.mTools.addAction(self.actTextCorrector)
+        uni.MainWindow.Menu.mTools.addAction(self.actSearch)
+        uni.MainWindow.Menu.mTools.addAction(self.actScriptManager)
+        if uni.getBoolValue("isSaveActions"):
+            uni.MainWindow.Menu.mTools.addAction(self.actLastActions)
+        if var.isActiveAmarok and uni.getBoolValue("amarokIsUseHost")==False:
+            uni.MainWindow.Menu.mTools.addAction(self.actAmarokEmbeddedDBConfigurator)
+        uni.MainWindow.Menu.mTools.addSeparator()
+        uni.MainWindow.Menu.mTools.addAction(self.clearEmptyDirectories)
+        uni.MainWindow.Menu.mTools.addAction(self.actRemoveOnlySubFiles)
+        if var.isActiveDirectoryCover:
+            uni.MainWindow.Menu.mTools.addAction(self.actCheckIcon)
+        uni.MainWindow.Menu.insertMenu(uni.MainWindow.Menu.mSettings.menuAction(), uni.MainWindow.Menu.mTools)
         self.createScriptsMenu(_parent)
     
     def createScriptsMenu(self, _parent):
-        Universals.MainWindow.Menu.mScripts = MMenu(translate("MenuBar", "Scripts"), self)
-        Universals.MainWindow.Menu.mScripts.setObjectName(translate("MenuBar", "Scripts"))
+        uni.MainWindow.Menu.mScripts = MMenu(translate("MenuBar", "Scripts"), self)
+        uni.MainWindow.Menu.mScripts.setObjectName(translate("MenuBar", "Scripts"))
         from Core import Scripts
         _parent.scriptList = Scripts.getScriptList()
         for scriptName in _parent.scriptList:
-            actScript = MAction(trForUI(scriptName), Universals.MainWindow.Menu.mScripts)
-            actScript.setObjectName(trForUI(scriptName))
-            actScript.setToolTip(trForUI(str(translate("ToolsBar", "Execute \"%s\" Named Script")) % scriptName))
-            Universals.MainWindow.Menu.mScripts.addAction(actScript)
+            actScript = MAction(str(scriptName), uni.MainWindow.Menu.mScripts)
+            actScript.setObjectName(str(scriptName))
+            actScript.setToolTip(str(str(translate("ToolsBar", "Execute \"%s\" Named Script")) % scriptName))
+            uni.MainWindow.Menu.mScripts.addAction(actScript)
         actScriptManager = MAction(MIcon("Images:scriptManager.png"),
                                                 translate("ToolsBar", "Script Manager"),self)
         actScriptManager.setObjectName(translate("ToolsBar", "Script Manager"))
         actScriptManager.setToolTip(translate("ToolsBar", "You can do what you want."))
-        Universals.MainWindow.Menu.mScripts.addAction(actScriptManager)
-        Universals.MainWindow.Menu.insertMenu(Universals.MainWindow.Menu.mSettings.menuAction(), Universals.MainWindow.Menu.mScripts)
+        uni.MainWindow.Menu.mScripts.addAction(actScriptManager)
+        uni.MainWindow.Menu.insertMenu(uni.MainWindow.Menu.mSettings.menuAction(), uni.MainWindow.Menu.mScripts)
         

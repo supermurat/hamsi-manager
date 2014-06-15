@@ -23,7 +23,7 @@ from time import gmtime
 from Core import Dialogs
 from Core import Organizer
 from Core import Records
-from Core import Universals
+from Core import Universals as uni
 import Taggers
 
 def readMusicFile(_filePath, _isAlertWhenNotAvailable=True):

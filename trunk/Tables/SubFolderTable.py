@@ -24,8 +24,8 @@ from Details import Details
 from Core import Dialogs
 import Options
 from time import gmtime
-from Core import Universals
-from Core import Variables
+from Core import Universals as uni
+from Core import Variables as var
 from Core import ReportBug
 
 class SubFolderTable():
@@ -38,11 +38,11 @@ class SubFolderTable():
     def readContents(self, _directoryPath):
         currentTableContentValues = []
         allFilesAndDirectories = fu.readDirectoryWithSubDirectoriesThread(_directoryPath,
-                    int(Universals.MySettings["subDirectoryDeep"]), "file", Universals.getBoolValue("isShowHiddensInSubFolderTable"))
+                    int(uni.MySettings["subDirectoryDeep"]), "file", uni.getBoolValue("isShowHiddensInSubFolderTable"))
         allItemNumber = len(allFilesAndDirectories)
-        Universals.startThreadAction()
+        uni.startThreadAction()
         for fileNo,fileName in enumerate(allFilesAndDirectories):
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     if fu.isReadableFileOrDir(fileName, False, True):
@@ -59,21 +59,21 @@ class SubFolderTable():
                               fileNo+1,allItemNumber, True) 
             if isContinueThreadAction==False:
                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         return currentTableContentValues
     
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
-        if Variables.isActiveAmarok and Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if var.isActiveAmarok and uni.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
-        Universals.startThreadAction()
+        uni.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("FileUtils/SubFolders", "Writing File Informations"),0,allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     if fu.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
@@ -83,12 +83,12 @@ class SubFolderTable():
                         else:
                             baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
                             baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                            if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                            if self.Table.isChangeableItem(rowNo, 0, baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
                                 self.Table.changedValueNumber += 1
                                 newDirectoryPath = fu.joinPath(fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
                                 self.Table.setNewDirectory(newDirectoryPath)
-                            if self.Table.isChangableItem(rowNo, 1, baseName, False):
+                            if self.Table.isChangeableItem(rowNo, 1, baseName, False):
                                 baseName = str(self.Table.item(rowNo,1).text())
                                 self.Table.changedValueNumber += 1
                             newFilePath = fu.joinPath(str(self.Table.currentTableContentValues[rowNo]["path"]).replace(fu.joinPath(str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"]), str(self.Table.currentTableContentValues[rowNo]["baseName"])), ""), baseNameOfDirectory, baseName)
@@ -102,16 +102,16 @@ class SubFolderTable():
             Dialogs.showState(translate("FileUtils/SubFolders", "Writing File Informations"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         pathValues = fu.changeDirectories(changingFileDirectories)
-        if Variables.isActiveAmarok and Universals.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if var.isActiveAmarok and uni.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changePaths(pathValues, "file")
         return True
         
     def showDetails(self, _fileNo, _infoNo):
-        Details(self.Table.currentTableContentValues[_fileNo]["path"], Universals.getBoolValue("isOpenDetailsInNewWindow"))
+        Details(self.Table.currentTableContentValues[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
         
     def cellClicked(self,_row,_column):
         currentItem = self.Table.currentItem()
@@ -122,7 +122,7 @@ class SubFolderTable():
     
     def cellDoubleClicked(self,_row,_column):
         try:
-            if Universals.getBoolValue("isRunOnDoubleClick"):
+            if uni.getBoolValue("isRunOnDoubleClick"):
                 self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("SubFolderTable", "Cannot Open File"), 
@@ -158,12 +158,12 @@ class SubFolderTable():
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
-                if self.Table.isChangableItem(rowNo, itemNo):
+                if self.Table.isChangeableItem(rowNo, itemNo):
                     if itemNo==0:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                     else:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
-                    self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+                    self.Table.item(rowNo,itemNo).setText(str(newString))
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo==0:

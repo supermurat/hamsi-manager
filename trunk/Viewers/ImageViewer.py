@@ -22,7 +22,7 @@ import os,sys
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 
 class ImageViewer(MWidget):
     def __init__(self, _parent, _image = None, _valueType="file", _isCorrectedWhenNotExist=False, _defaultMaxSize=[150, 150]):
@@ -74,7 +74,7 @@ class ImageViewer(MWidget):
         if _valueType=="data":
             self.pmapImage.loadFromData(_image)
         else:
-            self.pmapImage.load(trForUI(_image))
+            self.pmapImage.load(str(_image))
         self.lblImage.setPixmap(self.pmapImage)
         self.width = self.pmapImage.width()
         self.height = self.pmapImage.height()

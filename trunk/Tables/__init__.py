@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core import Dialogs
-from Core import Universals
+from Core import Universals as uni
 import FileUtils as fu
 from Core import Organizer
 from Core.MyObjects import *
@@ -89,7 +89,7 @@ class Tables(MTableWidget):
         self.hblBox.addWidget(self.pbtnShowDetails, 1)
         self.hblBox.addWidget(self.pbtnSave, 2)
         self.setSubTable()
-        self.hiddenTableColumns = Universals.getListValue(self.SubTable.hiddenTableColumnsSettingKey)
+        self.hiddenTableColumns = uni.getListValue(self.SubTable.hiddenTableColumnsSettingKey)
         _parent.MainLayout.addLayout(self.hblBox)
         self.mContextMenuColumns = MMenu()
         self.mContextMenuColumns.setTitle(translate("Tables", "Show Fields"))
@@ -105,7 +105,7 @@ class Tables(MTableWidget):
             self.mContextMenu.addAction(actName).setObjectName(actName)
         self.mContextMenuOpenWithNames = [translate("Tables", "File Manager"),
                             translate("Tables", "Default Application")]
-        if Variables.isWindows == False:
+        if var.isWindows == False:
             self.mContextMenuOpenWithNames.append(translate("Tables", "Konsole"))
         for actName in self.mContextMenuOpenWithNames:
             self.mContextMenuOpenWith.addAction(actName).setObjectName(actName)
@@ -116,77 +116,77 @@ class Tables(MTableWidget):
         self.fillSelectionInfo()
     
     def setSubTable(self):
-        if Universals.tableType=="0":
+        if uni.tableType=="0":
             from Tables import FolderTable
             self.SubTable = FolderTable.FolderTable(self)
-        elif Universals.tableType=="1":
+        elif uni.tableType=="1":
             from Tables import FileTable
             self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType=="2":
+        elif uni.tableType=="2":
             import Taggers
             if Taggers.getTagger(True)!=None:
                 from Tables import MusicTable
                 self.SubTable = MusicTable.MusicTable(self)
             else:
-                Universals.tableType = "1"
+                uni.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType=="3":
+        elif uni.tableType=="3":
             from Tables import SubFolderTable
             self.SubTable = SubFolderTable.SubFolderTable(self)
-        elif Universals.tableType=="4":
-            if Variables.isActiveDirectoryCover:
+        elif uni.tableType=="4":
+            if var.isActiveDirectoryCover:
                 from Tables import CoverTable
                 self.SubTable = CoverTable.CoverTable(self)
             else:
                 Dialogs.showError(translate("Tables", "Directory Cover Not Usable"), translate("Tables", "Any icon can not set to any directory. This feature is not usable in your system."))
-                Universals.tableType = "1"
+                uni.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType=="5":
+        elif uni.tableType=="5":
             import Amarok
             if Amarok.checkAmarok(True,  False):
-                Universals.tableType = "5"
+                uni.tableType = "5"
                 import AmarokCoverTable
                 self.SubTable = AmarokCoverTable.AmarokCoverTable(self)
             else:
-                Universals.tableType = "1"
+                uni.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType=="6":
+        elif uni.tableType=="6":
             import Taggers, Amarok
             if Taggers.getTagger(True)!=None and Amarok.checkAmarok(True,  False):
                 import AmarokMusicTable
                 self.SubTable = AmarokMusicTable.AmarokMusicTable(self)
             else:
-                Universals.tableType = "1"
+                uni.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType=="7":
+        elif uni.tableType=="7":
             import Amarok
             if Amarok.checkAmarok(True,  False):
                 import AmarokArtistTable
                 self.SubTable = AmarokArtistTable.AmarokArtistTable(self)
             else:
-                Universals.tableType = "1"
+                uni.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType=="8":
+        elif uni.tableType=="8":
             import Taggers, Amarok
             if Taggers.getTagger(True)!=None and Amarok.checkAmarok(True,  False):
                 import AmarokCopyTable
                 self.SubTable = AmarokCopyTable.AmarokCopyTable(self)
             else:
-                Universals.tableType = "1"
+                uni.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
-        elif Universals.tableType=="9":
+        elif uni.tableType=="9":
             import Taggers
             if Taggers.getTagger(True)!=None:
                 from Tables import SubFolderMusicTable
                 self.SubTable = SubFolderMusicTable.SubFolderMusicTable(self)
             else:
-                Universals.tableType = "1"
+                uni.tableType = "1"
                 from Tables import FileTable
                 self.SubTable = FileTable.FileTable(self)
 
@@ -306,7 +306,7 @@ class Tables(MTableWidget):
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         from Core import Execute
                         Execute.openWith([self.currentTableContentValues[currentItem.row()]["path"]])
-                    elif Variables.isWindows == False and selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
+                    elif var.isWindows == False and selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
                         Execute.execute(["konsole","--workdir", fu.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
         except:
@@ -365,8 +365,8 @@ class Tables(MTableWidget):
         
     def setCurrentDirectory(self, _path):
         if _path=="":
-            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None:
-                _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None:
+                _path = uni.MainWindow.FileManager.getCurrentDirectoryPath()
             else:
                 _path = fu.userDirectoryPath
         self.currentDirectoryPath = _path
@@ -376,8 +376,8 @@ class Tables(MTableWidget):
         if _path=="":
             _path = self.currentDirectoryPath
         if _path=="":
-            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None:
-                _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None:
+                _path = uni.MainWindow.FileManager.getCurrentDirectoryPath()
             else:
                 _path = fu.userDirectoryPath
         self.newDirectoryPath = _path
@@ -389,7 +389,7 @@ class Tables(MTableWidget):
         self.clear()
         self.setColumnCount(len(self.tableColumns))
         self.setHorizontalHeaderLabels(self.tableColumns)
-        columnWidth = (Universals.MainWindow.CentralWidget.width()-90)/len(self.tableColumns)
+        columnWidth = (uni.MainWindow.CentralWidget.width()-90)/len(self.tableColumns)
         if columnWidth>110:
             for x in range(len(self.tableColumns)):
                 self.setColumnWidth(x,columnWidth)
@@ -402,14 +402,14 @@ class Tables(MTableWidget):
             if self.isRowHidden(rowNo):
                 self.showRow(rowNo)
         self.refreshShowedAndHiddenColumns()
-        if Universals.getBoolValue("isResizeTableColumnsToContents"):
+        if uni.getBoolValue("isResizeTableColumnsToContents"):
             self.resizeColumnsToContents()
-        Universals.MainWindow.StatusBar.setTableInfo(Variables.tableTypesNames[Universals.tableType] + trForUI(" : ") + trForUI(str(self.rowCount())))
+        uni.MainWindow.StatusBar.setTableInfo(var.tableTypesNames[uni.tableType] + str(" : ") + str(str(self.rowCount())))
         
     def save(self):
         try:
             from Core import Records
-            Records.setTitle(Variables.tableTypesNames[Universals.tableType])
+            Records.setTitle(var.tableTypesNames[uni.tableType])
             fu.activateSmartCheckIcon()
             fu.activateSmartCheckEmptyDirectories()
             from Core import MyThread
@@ -423,13 +423,13 @@ class Tables(MTableWidget):
             if _returned:
                 from Core import Records
                 isGoUpDirectoryWithFileTable = False
-                if Universals.tableType in ["0", "1", "2", "3", "4", "9"]:
-                    if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                        if fu.checkEmptyDirectories(self.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                if uni.tableType in ["0", "1", "2", "3", "4", "9"]:
+                    if uni.getBoolValue("isClearEmptyDirectoriesWhenSave"):
+                        if fu.checkEmptyDirectories(self.currentDirectoryPath, True, True, uni.getBoolValue("isAutoCleanSubFolderWhenSave")):
                             isGoUpDirectoryWithFileTable = True
                 if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
-                    if Universals.tableType in ["0", "1", "3", "4", "9"]:
-                        if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
+                    if uni.tableType in ["0", "1", "3", "4", "9"]:
+                        if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
                             fu.checkIcon(self.newDirectoryPath)
                 fu.completeSmartCheckIcon()
                 fu.completeSmartCheckEmptyDirectories(True, True)
@@ -438,36 +438,36 @@ class Tables(MTableWidget):
                     Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
                                  translate("Tables", "Did not change any things in this table.Please check the criteria you select."))
                 else:
-                    if Universals.getBoolValue("isShowTransactionDetails"):
+                    if uni.getBoolValue("isShowTransactionDetails"):
                         Dialogs.show(translate("Tables", "Transaction Details"), 
                                      str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
                 if isGoUpDirectoryWithFileTable and self.currentDirectoryPath == self.newDirectoryPath:
-                    Universals.MainWindow.FileManager.goUp()
+                    uni.MainWindow.FileManager.goUp()
                 elif isGoUpDirectoryWithFileTable and self.currentDirectoryPath != self.newDirectoryPath:
-                    Universals.MainWindow.FileManager.makeRefresh(self.newDirectoryPath)
+                    uni.MainWindow.FileManager.makeRefresh(self.newDirectoryPath)
                 else:
-                    Universals.MainWindow.FileManager.makeRefresh("")
-                    if Universals.tableType in ["5", "6", "7", "8"]:
+                    uni.MainWindow.FileManager.makeRefresh("")
+                    if uni.tableType in ["5", "6", "7", "8"]:
                         self.refresh(self.newDirectoryPath)
         except:
             ReportBug.ReportBug()
         
     def fillSelectionInfo(self):
-        if Universals.getBoolValue("isChangeAll"):
+        if uni.getBoolValue("isChangeAll"):
             self.pbtnSave.setText(translate("Tables", "Save"))
             self.pbtnSave.setToolTip(translate("Tables", "All informations will be changed"))
         else:
             self.pbtnSave.setText(str(" ! " + translate("Tables", "Save") + " ! "))
-            if Universals.getBoolValue("isChangeSelected"):
+            if uni.getBoolValue("isChangeSelected"):
                 self.pbtnSave.setToolTip(translate("Tables", "Just selected informations will be changed"))
             else:
                 self.pbtnSave.setToolTip(translate("Tables", "Just unselected informations will be changed"))
         
-    def isChangableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
+    def isChangeableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
         item = self.item(_rowNo, _columnNo)
         if item is not None:
             if item.isReadOnly == False:
-                if self.isColumnHidden(_columnNo)!=True and item.isSelected()==Universals.getBoolValue("isChangeSelected") or Universals.getBoolValue("isChangeAll"):
+                if self.isColumnHidden(_columnNo)!=True and item.isSelected()==uni.getBoolValue("isChangeSelected") or uni.getBoolValue("isChangeAll"):
                     if _isCheckLike and _checkLikeThis!=None:
                         if str(_checkLikeThis)!=str(item.text()):
                             if isCanBeEmpty==False:
@@ -488,7 +488,7 @@ class Tables(MTableWidget):
         
     def createTableWidgetItem(self, _value, _currentValue=None, _isReadOnly = False):
         item = MyTableWidgetItem(_currentValue)
-        item.setText(trForUI(_value))
+        item.setText(str(_value))
         item.isReadOnly = _isReadOnly
         if _isReadOnly:
             item.setToolTip(translate("Tables", "This value is NOT changeable!"))
@@ -501,7 +501,7 @@ class Tables(MTableWidget):
             _item.setBackground(MBrush(MColor(142,199,255)))
         
     def checkUnSavedValues(self, _isForceToCheck=False):
-        if Universals.getBoolValue("isCheckUnSavedValues") or _isForceToCheck:
+        if uni.getBoolValue("isCheckUnSavedValues") or _isForceToCheck:
             isClose=True
             for rowNo in range(self.rowCount()):
                 if isClose==False:
@@ -562,7 +562,7 @@ class Tables(MTableWidget):
                         isNoToAll=True
                         answer = Dialogs.No
                     if answer==Dialogs.Yes or answer==translate("Dialogs", "Yes"):
-                        self.item(rowNo,_columnNo).setText(trForUI(cFileName + "." + sFileExt))
+                        self.item(rowNo,_columnNo).setText(str(cFileName + "." + sFileExt))
 
     def askHiddenColumn(self, _columnNo, _isYesToAll=True):
         if _isYesToAll==False:
@@ -653,7 +653,7 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
-                                    fu.joinPath(Variables.userDirectoryPath, fu.getBaseName(self.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
+                                    fu.joinPath(var.userDirectoryPath, fu.getBaseName(self.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
             if filePath is not None:
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
@@ -663,7 +663,7 @@ class Tables(MTableWidget):
                 Dialogs.show(translate("Tables", "Table Exported"),
                             str(translate("Tables", "Table contents are exported to file: \"%s\".")) % Organizer.getLink(filePath))
         elif _actionType=="dialog":
-            dDialog = MDialog(Universals.MainWindow)
+            dDialog = MDialog(uni.MainWindow)
             if isActivePyKDE4:
                 dDialog.setButtons(MDialog.NoDefault)
             dDialog.setWindowTitle(translate("Tables", "Table Contents"))
@@ -672,10 +672,10 @@ class Tables(MTableWidget):
             if _formatType=="html":
                 QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
-                wvWeb.setHtml(trForUI(info))
+                wvWeb.setHtml(str(info))
             elif _formatType=="plainText":
                 wvWeb = MTextEdit()
-                wvWeb.setPlainText(trForUI(info))
+                wvWeb.setPlainText(str(info))
             pbtnClose = MPushButton(translate("Tables", "OK"))
             MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
             vblMain.addWidget(wvWeb)
@@ -688,16 +688,24 @@ class Tables(MTableWidget):
             dDialog.setMinimumHeight(400)
             dDialog.show()
         elif _actionType=="clipboard":
-            MApplication.clipboard().setText(trForUI(info))
-            
+            MApplication.clipboard().setText(str(info))
 
+    @staticmethod
+    def getThisTableType(_tableType):
+        if _tableType in var.tableTypesNames:
+            return _tableType
+        else:
+            for (x, name) in var.tableTypesNames.items():
+                if str(name) == str(_tableType):
+                    return x
+        return "1"
             
             
 class MyTableWidgetItem(MTableWidgetItem):
     
     def __init__(self, _value):
-        MTableWidgetItem.__init__(self, trForUI(_value))
-        self.currentText = trForUI(_value)
+        MTableWidgetItem.__init__(self, str(_value))
+        self.currentText = str(_value)
         self.isReadOnly = False
 
 

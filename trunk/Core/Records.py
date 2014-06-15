@@ -19,7 +19,7 @@
 
 import time
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 import FileUtils as fu
 import logging
 
@@ -34,21 +34,21 @@ def create():
 
 def setTitle(_title):
     global isSetedTitle, recordContents
-    if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
+    if "isSaveActions" not in uni.MySettings.keys() or uni.getBoolValue("isSaveActions"):
         recordContents += str(_title) + "\n"
-    if Universals.loggingLevel==logging.DEBUG:
+    if uni.loggingLevel==logging.DEBUG:
         print (_title)
     isSetedTitle = True
 
 def add(_action, _previous="", _now=None):
     global recordContents
-    if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
-        if recordType==0 or (recordType==1 and Universals.loggingLevel==logging.DEBUG):
+    if "isSaveActions" not in uni.MySettings.keys() or uni.getBoolValue("isSaveActions"):
+        if recordType==0 or (recordType==1 and uni.loggingLevel==logging.DEBUG):
             if _now is not None:
                 recordContents += str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
             else:
                 recordContents += str(_action + " ::::::: '") + str(_previous) + "' " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n"
-    if Universals.loggingLevel==logging.DEBUG:
+    if uni.loggingLevel==logging.DEBUG:
         if _now is not None:
             print (str(_action + " ::::::: '") + str(_previous) + "' >>>>>>>> '" + str(_now) + "' <<<<<<< " + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
         else:
@@ -65,7 +65,7 @@ def restoreRecordType():
 
 def saveAllRecords():
     global recordContents, isSetedTitle
-    if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
+    if "isSaveActions" not in uni.MySettings.keys() or uni.getBoolValue("isSaveActions"):
         if fu.isFile(fu.recordFilePath)==False:
             create()
         setRecordType(1)
@@ -77,7 +77,7 @@ def saveAllRecords():
 def checkSize():
     setRecordType(1)
     if fu.isFile(fu.recordFilePath):
-        if fu.getSize(fu.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
+        if fu.getSize(fu.recordFilePath) > (int(uni.MySettings["maxRecordFileSize"])*1024):
             fu.moveFileOrDir(fu.recordFilePath, fu.joinPath(fu.oldRecordsDirectoryPath, str(time.strftime("%Y%m%d_%H%M%S")) + ".txt"))
     restoreRecordType()
 

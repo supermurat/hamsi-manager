@@ -19,7 +19,7 @@
 
 import sys
 import sqlite3 as sqlite
-from Core import Universals
+from Core import Universals as uni
 import FileUtils as fu
 
 defaultConnection = None
@@ -31,16 +31,16 @@ def getDefaultConnection():
     return defaultConnection
 
 def getAllDatabases():
-	from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
-	return [BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable]
+    from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
+    return [BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable]
 
 def getDBPropertiesCreateQuery():
     return "CREATE TABLE IF NOT EXISTS dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)"
 
 def reFillDatabases(_table="All", _actionType="dropAndInsert", _makeBackUp=False):
     if _makeBackUp==True:
-	    from Core import Settings
-	    Settings.makeBackUp(_table)
+        from Core import Settings
+        Settings.makeBackUp(_table)
     tableCreateQueries, sqlCommands, tableInsertImportantQueries = [], [], []
     tableCreateQueries.append(getDBPropertiesCreateQuery())
     for database in getAllDatabases():

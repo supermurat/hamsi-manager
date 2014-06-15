@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core.MyObjects import *
 import Tables
 from Core import Dialogs
@@ -92,22 +92,22 @@ class CharacterState(MWidget):
         setCompleter(self.leSearch, self.cckbCorrectText.text())
         
     def apply(self):
-        Universals.MainWindow.Table.isAskShowHiddenColumn = True
+        uni.MainWindow.Table.isAskShowHiddenColumn = True
         searchStrings = str(self.leSearch.text()).split(";")
         if self.columns.currentIndex()==0:
-            columns = list(range(0,Universals.MainWindow.Table.columnCount()))
+            columns = list(range(0,uni.MainWindow.Table.columnCount()))
         else:
             columns = [self.columns.currentIndex()-1]
         for columnNo in columns:
-            if Universals.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
+            if uni.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
                 continue
-            for rowNo in range(Universals.MainWindow.Table.rowCount()):
-                if Universals.MainWindow.Table.isChangableItem(rowNo, columnNo):
-                    newString = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
+            for rowNo in range(uni.MainWindow.Table.rowCount()):
+                if uni.MainWindow.Table.isChangeableItem(rowNo, columnNo):
+                    newString = str(uni.MainWindow.Table.item(rowNo,columnNo).text())
                     myString = ""
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
                     informationSectionY = self.specialTools.cbInformationSectionY.value()
-                    cbCharacterType = Variables.validSentenceStructureKeys[self.cbCharacterType.currentIndex()]
+                    cbCharacterType = var.validSentenceStructureKeys[self.cbCharacterType.currentIndex()]
                     isCaseInsensitive = self.cckbCaseInsensitive.isChecked()
                     isRegExp = self.cckbRegExp.isChecked()
                     isCorrectText = self.cckbCorrectText.isChecked()
@@ -133,6 +133,6 @@ class CharacterState(MWidget):
                         myString = Organizer.correctCaseSensitive(newString[:informationSectionX], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:informationSectionY]
                         myString += Organizer.correctCaseSensitive(newString[informationSectionY:], cbCharacterType, isCorrectText, searchStrings, isCaseInsensitive, isRegExp)
-                    Universals.MainWindow.Table.item(rowNo,columnNo).setText(trForUI(myString))
+                    uni.MainWindow.Table.item(rowNo,columnNo).setText(str(myString))
             
     

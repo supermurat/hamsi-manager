@@ -30,36 +30,36 @@ if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
     import FileUtils as fu
     fu.initStartupVariables()
-    from Core import Variables
-    from Core import Universals
+    from Core import Variables as var
+    from Core import Universals as uni
     from Core import Settings
-    Universals.fillMySettings(False, False, False)
+    uni.fillMySettings(False, False, False)
     from Core import Dialogs
     from Core import Execute
     defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForUI(fu.joinPath(fu.themePath, "Images"))))
+    MDir.setSearchPaths("Images", MStringList(str(fu.joinPath(fu.themePath, "Images"))))
     StyleFile = open(fu.joinPath(fu.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
     if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
+            languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
     elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
+            languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
     HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
     HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))
     HamsiManagerApp.setApplicationName("UninstallHamsiManager")
-    HamsiManagerApp.setApplicationVersion(Variables.version)
+    HamsiManagerApp.setApplicationVersion(var.version)
     HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
     HamsiManagerApp.setOrganizationName("Hamsi Apps")
     from Core import MyConfigure
     class Main(MMainWindow):
         def __init__(self, parent=None):
             MMainWindow.__init__(self, parent)
-            Universals.setApp(HamsiManagerApp)
-            Universals.setMainWindow(self)
+            uni.setApp(HamsiManagerApp)
+            uni.setMainWindow(self)
             self.isUninstallFinised = False
             self.pageNo, self.pageSize = 0, 3
             self.vblMain = MVBoxLayout()
@@ -114,8 +114,8 @@ if RoutineChecks.checkMandatoryModules():
                 HBox.addLayout(VBox)
             if _pageNo==1:
                 lblPleaseSelect = MLabel(translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."))
-                UninstallationDirPath = fu.getDirName(trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(fu.HamsiManagerDirectory))))
-                self.leUninstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(UninstallationDirPath))))
+                UninstallationDirPath = fu.getDirName(str(Settings.getUniversalSetting("HamsiManagerPath", str(fu.HamsiManagerDirectory))))
+                self.leUninstallationDirectory = MLineEdit(str(Settings.getUniversalSetting("pathOfInstallationDirectory", str(UninstallationDirPath))))
                 self.pbtnSelectUninstallationDirectory = MPushButton(translate("Uninstall", "Browse"))
                 self.connect(self.pbtnSelectUninstallationDirectory,SIGNAL("clicked()"),self.selectUninstallationDirectory)
                 VBox = MVBoxLayout()
@@ -143,7 +143,7 @@ if RoutineChecks.checkMandatoryModules():
         def selectUninstallationDirectory(self):
             insDir = Dialogs.getExistingDirectory(translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."),self.leUninstallationDirectory.text())
             if insDir is not None:
-                self.leUninstallationDirectory.setText(trForUI(insDir))
+                self.leUninstallationDirectory.setText(str(insDir))
             
         def pageChanged(self, _isRunningManual=False):
             try:
@@ -212,13 +212,13 @@ if RoutineChecks.checkMandatoryModules():
             
         def finish(self):
             try:
-                if Variables.isRunningAsRoot():
-                    executableLink = Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", trForUI("/usr/bin/hamsi"))
+                if var.isRunningAsRoot():
+                    executableLink = Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", str("/usr/bin/hamsi"))
                     if fu.isFile(executableLink) or fu.isLink(executableLink):
                         fu.removeFileOrDir(executableLink)
                 else:
-                    desktopPath = Variables.getUserDesktopPath()
-                    if Variables.isWindows:
+                    desktopPath = var.getUserDesktopPath()
+                    if var.isWindows:
                         if fu.isFile(fu.joinPath(desktopPath, "Hamsi Manager.lnk")):
                             fu.removeFileOrDir(fu.joinPath(desktopPath, "Hamsi Manager.lnk"))
                     else:
@@ -232,17 +232,17 @@ if RoutineChecks.checkMandatoryModules():
                 from Core import ReportBug
                 ReportBug.ReportBug()
             
-    if Variables.isRunningAsRoot()==False and Variables.isRunableAsRoot():
+    if var.isRunningAsRoot()==False and var.isRunableAsRoot():
         answer = Dialogs.askSpecial(translate("Uninstall", "Are You Want To Run As Root?"), translate("Uninstall", "Hamsi Manager Uninstaller is running with user privileges.<br>Do you want to run Hamsi Manager Uninstaller with root rights?"), translate("Uninstall", "Yes"), translate("Uninstall", "No (Continue as is)"), None)
         if answer==translate("Uninstall", "Yes"):
             NewApp = Execute.executeAsRootWithThread([], "HamsiManagerUninstaller")
             sys.exit()
     try:
         MainWidget=Main()
-        MainWidget.setWindowTitle(translate("Uninstall", "Hamsi Manager Uninstaller") + " " + Variables.version)
+        MainWidget.setWindowTitle(translate("Uninstall", "Hamsi Manager Uninstaller") + " " + var.version)
         MainWidget.setGeometry(300, 300, 650, 350)
         MainWidget.show()
-        Universals.isStartingSuccessfully = True
+        uni.isStartingSuccessfully = True
     except:
         from Core import ReportBug
         ReportBug.ReportBug()

@@ -26,7 +26,7 @@ except:pass
 from Core.MyObjects import *
 from Core import Dialogs
 import time
-from Core import Universals
+from Core import Universals as uni
 pluginName = "MusicBrainz"
 
 class Search(MDialog):
@@ -60,7 +60,7 @@ class Search(MDialog):
         self.pbtnClose.setVisible(False)
         MObject.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
         MObject.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
-        MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
+        MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), uni.cancelThreadAction)
         pnlMain = MWidget(self)
         self.saPanel = MScrollArea(pnlMain)
         self.vblPanel = MVBoxLayout()
@@ -99,8 +99,8 @@ class Search(MDialog):
         myProcs.start()
         
     def closeEvent(self, _event):
-        if Universals.isContinueThreadAction():
-            Universals.cancelThreadAction()
+        if uni.isContinueThreadAction():
+            uni.cancelThreadAction()
             _event.ignore()
         
     def changeProgressBarValue(self, _progressBarName, _value):
@@ -114,23 +114,23 @@ class Search(MDialog):
     def startSearch(self):
         if self.isCheckSingleFile:
             self.prgbAllState.setRange(0,1)
-            self.rows = list(range(Universals.MainWindow.Table.currentRow(), Universals.MainWindow.Table.currentRow()+1))
+            self.rows = list(range(uni.MainWindow.Table.currentRow(), uni.MainWindow.Table.currentRow()+1))
             self.heightValue = 150
         else:
-            self.prgbAllState.setRange(0,Universals.MainWindow.Table.rowCount())
-            self.rows = list(range(Universals.MainWindow.Table.rowCount()))
-            if Universals.MainWindow.Table.rowCount()<7:
+            self.prgbAllState.setRange(0,uni.MainWindow.Table.rowCount())
+            self.rows = list(range(uni.MainWindow.Table.rowCount()))
+            if uni.MainWindow.Table.rowCount()<7:
                 self.heightValue = 300
             else:
                 self.heightValue = 500
         tagsOfSongs = []
         for rowNo in self.rows:
-            tagsOfSongs.append([str(Universals.MainWindow.Table.item(rowNo,2).text()),
-                               str(Universals.MainWindow.Table.item(rowNo,3).text()),
-                               str(Universals.MainWindow.Table.item(rowNo,4).text()), rowNo])
-        Universals.startThreadAction()
+            tagsOfSongs.append([str(uni.MainWindow.Table.item(rowNo,2).text()),
+                               str(uni.MainWindow.Table.item(rowNo,3).text()),
+                               str(uni.MainWindow.Table.item(rowNo,4).text()), rowNo])
+        uni.startThreadAction()
         for tagsOfSong in tagsOfSongs:
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     self.checkIt(tagsOfSong, self.searchDepth)
@@ -140,9 +140,9 @@ class Search(MDialog):
                 except ValueError as errorDetails:
                     Dialogs.showError(translate("SearchEngines", "An Error Occured"),
                                 str(translate("SearchEngines", "Fetching information for the music file that caused the error is canceled.<br>If you receive the same error, please try the other search engines.<br><b>Error details:</b><br>%s")) % (str(errorDetails)))
-                    self.incorrectSongs.append([[Universals.MainWindow.Table.item(tagsOfSong[3],1).text()], [tagsOfSong[0]], [tagsOfSong[1]], [tagsOfSong[2]], tagsOfSong[3]])
+                    self.incorrectSongs.append([[uni.MainWindow.Table.item(tagsOfSong[3],1).text()], [tagsOfSong[0]], [tagsOfSong[1]], [tagsOfSong[2]], tagsOfSong[3]])
                 self.emit(SIGNAL("changedProgressBarValue"), "AllState", tagsOfSong[3]+1)
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         return True
             
     def finishSearch(self, _isContinue):
@@ -515,9 +515,9 @@ class Search(MDialog):
                         self.cbTags[-1].setEditable(True)
                         self.cbTags[-1].setMaximumWidth(200)
                         self.cbTags[-1].setMinimumWidth(200)
-                        self.cbTags[-1].setToolTip(trForUI(song[no+4]))
+                        self.cbTags[-1].setToolTip(str(song[no+4]))
                         for tag in song[no]:
-                            self.cbTags[-1].addItem(trForUI(tag))
+                            self.cbTags[-1].addItem(str(tag))
                         HBoxs[-1].addWidget(self.cbTags[-1])
             if len(self.falseSongs)>0:
                 HBoxs.append(MHBoxLayout())
@@ -530,9 +530,9 @@ class Search(MDialog):
                         self.cbTags[-1].setEditable(True)
                         self.cbTags[-1].setMaximumWidth(200)
                         self.cbTags[-1].setMinimumWidth(200)
-                        self.cbTags[-1].setToolTip(trForUI(song[no+4]))
+                        self.cbTags[-1].setToolTip(str(song[no+4]))
                         for tag in song[no]:
-                            self.cbTags[-1].addItem(trForUI(tag))
+                            self.cbTags[-1].addItem(str(tag))
                         HBoxs[-1].addWidget(self.cbTags[-1])
             if len(self.songsOfAlbum)>0:
                 HBoxs.append(MHBoxLayout())
@@ -545,25 +545,25 @@ class Search(MDialog):
                         self.cbTags[-1].setEditable(True)
                         self.cbTags[-1].setMaximumWidth(200)
                         self.cbTags[-1].setMinimumWidth(200)
-                        self.cbTags[-1].setToolTip(trForUI(song[no+4]))
+                        self.cbTags[-1].setToolTip(str(song[no+4]))
                         HBoxs[-1].addWidget(self.cbTags[-1])
                         if no==0:
                             for tag in song[no]:
-                                if self.cbTags[-1].findText(trForUI(tag))==-1:
-                                    self.cbTags[-1].addItem(trForUI(tag))
+                                if self.cbTags[-1].findText(str(tag))==-1:
+                                    self.cbTags[-1].addItem(str(tag))
                             self.cbTags[-1].addItem(translate("SearchEngines", "All Artists"))
                             MObject.connect(self.cbTags[-1],SIGNAL("currentIndexChanged(int)"),self.artistChanged)
                         elif no==1:
                             for tag in song[no]:
                                 for t in tag:
                                     for bil in t:
-                                        if self.cbTags[-1].findText(trForUI(bil))==-1:
-                                            self.cbTags[-1].addItem(trForUI(bil))
+                                        if self.cbTags[-1].findText(str(bil))==-1:
+                                            self.cbTags[-1].addItem(str(bil))
                         elif no==2:
                             for tag in song[no]:
                                 for t in tag:
-                                    if self.cbTags[-1].findText(trForUI(t))==-1:
-                                        self.cbTags[-1].addItem(trForUI(t))
+                                    if self.cbTags[-1].findText(str(t))==-1:
+                                        self.cbTags[-1].addItem(str(t))
                             self.cbTags[-1].addItem(translate("SearchEngines", "All Albums"))   
                             MObject.connect(self.cbTags[-1],SIGNAL("currentIndexChanged(int)"),self.albumChanged)
             if len(self.songsOfArtist)>0:
@@ -577,25 +577,25 @@ class Search(MDialog):
                         self.cbTags[-1].setEditable(True)
                         self.cbTags[-1].setMaximumWidth(200)
                         self.cbTags[-1].setMinimumWidth(200)
-                        self.cbTags[-1].setToolTip(trForUI(song[no+4]))
+                        self.cbTags[-1].setToolTip(str(song[no+4]))
                         HBoxs[-1].addWidget(self.cbTags[-1])
                         if no==0:
                             for tag in song[no]:
-                                if self.cbTags[-1].findText(trForUI(tag))==-1:
-                                    self.cbTags[-1].addItem(trForUI(tag))
+                                if self.cbTags[-1].findText(str(tag))==-1:
+                                    self.cbTags[-1].addItem(str(tag))
                             self.cbTags[-1].addItem(translate("SearchEngines", "All Artists"))
                             MObject.connect(self.cbTags[-1],SIGNAL("currentIndexChanged(int)"),self.artistChanged)
                         elif no==1:
                             for tag in song[no]:
                                 for t in tag:
                                     for s in t:
-                                        if self.cbTags[-1].findText(trForUI(s))==-1:
-                                            self.cbTags[-1].addItem(trForUI(s))
+                                        if self.cbTags[-1].findText(str(s))==-1:
+                                            self.cbTags[-1].addItem(str(s))
                         elif no==2:
                             for tag in song[no]:
                                 for t in tag:
-                                    if self.cbTags[-1].findText(trForUI(t))==-1:
-                                        self.cbTags[-1].addItem(trForUI(t))
+                                    if self.cbTags[-1].findText(str(t))==-1:
+                                        self.cbTags[-1].addItem(str(t))
                             self.cbTags[-1].addItem(translate("SearchEngines", "All Albums"))    
                             MObject.connect(self.cbTags[-1],SIGNAL("currentIndexChanged(int)"),self.albumChanged)
         if len(self.nullSongs)>0:
@@ -620,7 +620,7 @@ class Search(MDialog):
                     self.cbTags[-1].setMaximumWidth(150)
                     self.cbTags[-1].setMinimumWidth(150)
                     for tag in song[no]:
-                        self.cbTags[-1].addItem(trForUI(tag))
+                        self.cbTags[-1].addItem(str(tag))
                     HBoxs[-1].addWidget(self.cbTags[-1])
         if len(self.incorrectSongs)>0:
             tagNames= [tagNames[0], tagNames[1], tagNames[2], translate("MusicTable", "File Name")]
@@ -639,9 +639,9 @@ class Search(MDialog):
                     self.cbTags[-1].setEditable(True)
                     self.cbTags[-1].setMaximumWidth(150)
                     self.cbTags[-1].setMinimumWidth(150)
-                    self.cbTags[-1].setToolTip(trForUI(song[no+4]))
+                    self.cbTags[-1].setToolTip(str(song[no+4]))
                     for tag in song[no]:
-                        self.cbTags[-1].addItem(trForUI(tag))
+                        self.cbTags[-1].addItem(str(tag))
                     HBoxs[-1].addWidget(self.cbTags[-1])
         for box in HBoxs:
             self.vblPanel.addLayout(box)
@@ -712,54 +712,54 @@ class Search(MDialog):
         self.parent().createHistoryPoint()
         songs=[]
         for tag in self.trueSongs:
-            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[3]))).currentText())
-            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[3]))).currentText())
-            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[3]))).currentText())
+            artist = str(self.findChild(MComboBox, str("Artist"+str(tag[3]))).currentText())
+            title = str(self.findChild(MComboBox, str("Title"+str(tag[3]))).currentText())
+            album = str(self.findChild(MComboBox, str("Album"+str(tag[3]))).currentText())
             songs.append([artist,title,album,tag[3]])   
         for tag in self.falseSongs:
-            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[3]))).currentText())
-            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[3]))).currentText())
-            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[3]))).currentText())
+            artist = str(self.findChild(MComboBox, str("Artist"+str(tag[3]))).currentText())
+            title = str(self.findChild(MComboBox, str("Title"+str(tag[3]))).currentText())
+            album = str(self.findChild(MComboBox, str("Album"+str(tag[3]))).currentText())
             songs.append([artist,title,album,tag[3]])
         for tag in self.songsOfAlbum:
-            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[3]))).currentText())
-            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[3]))).currentText())
-            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[3]))).currentText())
+            artist = str(self.findChild(MComboBox, str("Artist"+str(tag[3]))).currentText())
+            title = str(self.findChild(MComboBox, str("Title"+str(tag[3]))).currentText())
+            album = str(self.findChild(MComboBox, str("Album"+str(tag[3]))).currentText())
             songs.append([artist,title,album,tag[3]])
         for tag in self.songsOfArtist:
-            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[3]))).currentText())
-            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[3]))).currentText())
-            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[3]))).currentText())
+            artist = str(self.findChild(MComboBox, str("Artist"+str(tag[3]))).currentText())
+            title = str(self.findChild(MComboBox, str("Title"+str(tag[3]))).currentText())
+            album = str(self.findChild(MComboBox, str("Album"+str(tag[3]))).currentText())
             songs.append([artist,title,album,tag[3]])
         for tag in self.nullSongs:
-            dosya = str(self.findChild(MComboBox, trForUI("File Name"+str(tag[4]))).currentText())
-            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[4]))).currentText())
-            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[4]))).currentText())
-            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[4]))).currentText())
+            dosya = str(self.findChild(MComboBox, str("File Name"+str(tag[4]))).currentText())
+            artist = str(self.findChild(MComboBox, str("Artist"+str(tag[4]))).currentText())
+            title = str(self.findChild(MComboBox, str("Title"+str(tag[4]))).currentText())
+            album = str(self.findChild(MComboBox, str("Album"+str(tag[4]))).currentText())
             songs.append([dosya,artist,title,album,tag[4]])
         for tag in self.incorrectSongs:
-            dosya = str(self.findChild(MComboBox, trForUI("File Name"+str(tag[4]))).currentText())
-            artist = str(self.findChild(MComboBox, trForUI("Artist"+str(tag[4]))).currentText())
-            title = str(self.findChild(MComboBox, trForUI("Title"+str(tag[4]))).currentText())
-            album = str(self.findChild(MComboBox, trForUI("Album"+str(tag[4]))).currentText())
+            dosya = str(self.findChild(MComboBox, str("File Name"+str(tag[4]))).currentText())
+            artist = str(self.findChild(MComboBox, str("Artist"+str(tag[4]))).currentText())
+            title = str(self.findChild(MComboBox, str("Title"+str(tag[4]))).currentText())
+            album = str(self.findChild(MComboBox, str("Album"+str(tag[4]))).currentText())
             songs.append([dosya,artist,title,album,tag[4]])
         for song in songs:
             if len(song)==4:
                 if str(self.parent().item(song[3],2).text())!=song[0]:
-                    self.parent().setItem(song[3],2,MTableWidgetItem(trForUI(song[0])))
+                    self.parent().setItem(song[3],2,MTableWidgetItem(str(song[0])))
                 if str(self.parent().item(song[3],3).text())!=song[1]:
-                    self.parent().setItem(song[3],3,MTableWidgetItem(trForUI(song[1])))
+                    self.parent().setItem(song[3],3,MTableWidgetItem(str(song[1])))
                 if str(self.parent().item(song[3],4).text())!=song[2]:
-                    self.parent().setItem(song[3],4,MTableWidgetItem(trForUI(song[2])))
+                    self.parent().setItem(song[3],4,MTableWidgetItem(str(song[2])))
             else:
                 if str(self.parent().item(song[4],1).text())!=song[0]:
-                    self.parent().setItem(song[4],2,MTableWidgetItem(trForUI(song[0])))
+                    self.parent().setItem(song[4],2,MTableWidgetItem(str(song[0])))
                 if str(self.parent().item(song[4],2).text())!=song[1]:
-                    self.parent().setItem(song[4],2,MTableWidgetItem(trForUI(song[1])))
+                    self.parent().setItem(song[4],2,MTableWidgetItem(str(song[1])))
                 if str(self.parent().item(song[4],3).text())!=song[2]:
-                    self.parent().setItem(song[4],3,MTableWidgetItem(trForUI(song[2])))
+                    self.parent().setItem(song[4],3,MTableWidgetItem(str(song[2])))
                 if str(self.parent().item(song[4],4).text())!=song[3]:
-                    self.parent().setItem(song[4],4,MTableWidgetItem(trForUI(song[3])))
+                    self.parent().setItem(song[4],4,MTableWidgetItem(str(song[3])))
         self.close()
 
     def artistChanged(self, _index):
@@ -782,13 +782,13 @@ class Search(MDialog):
                                     if song[0][x]==str(cbTag.currentText()):
                                         for t in tag:
                                             for s in t:
-                                                if object.findText(trForUI(s))==-1:
-                                                    object.addItem(trForUI(s))
+                                                if object.findText(str(s))==-1:
+                                                    object.addItem(str(s))
                                 else:
                                     for t in tag:
                                         for s in t:
-                                            if object.findText(trForUI(s))==-1:
-                                                object.addItem(trForUI(s))
+                                            if object.findText(str(s))==-1:
+                                                object.addItem(str(s))
                             break
                     for song in self.songsOfAlbum:
                         if song[3]==rowNo:
@@ -797,13 +797,13 @@ class Search(MDialog):
                                     if song[0][x]==str(cbTag.currentText()):
                                         for t in tag:
                                             for s in t:
-                                                if object.findText(trForUI(s))==-1:
-                                                    object.addItem(trForUI(s))
+                                                if object.findText(str(s))==-1:
+                                                    object.addItem(str(s))
                                 else:
                                     for t in tag:
                                         for s in t:
-                                            if object.findText(trForUI(s))==-1:
-                                                object.addItem(trForUI(s))
+                                            if object.findText(str(s))==-1:
+                                                object.addItem(str(s))
                             break
                 if str(object.objectName())=="Album"+str(rowNo):
                     object.clear()
@@ -813,12 +813,12 @@ class Search(MDialog):
                                 if _index!=cbTag.count()-1:
                                     if song[0][x]==str(cbTag.currentText()):
                                         for t in tag:
-                                            if object.findText(trForUI(t))==-1:
-                                                object.addItem(trForUI(t))
+                                            if object.findText(str(t))==-1:
+                                                object.addItem(str(t))
                                 else:
                                     for t in tag:
-                                        if object.findText(trForUI(t))==-1:
-                                            object.addItem(trForUI(t))
+                                        if object.findText(str(t))==-1:
+                                            object.addItem(str(t))
                             object.addItem(translate("SearchEngines", "All Albums"))
                             break
                     for song in self.songsOfAlbum:
@@ -827,12 +827,12 @@ class Search(MDialog):
                                 if _index!=cbTag.count()-1:
                                     if song[0][x]==str(cbTag.currentText()):
                                         for t in tag:
-                                            if object.findText(trForUI(t))==-1:
-                                                object.addItem(trForUI(t))
+                                            if object.findText(str(t))==-1:
+                                                object.addItem(str(t))
                                 else:
                                     for t in tag:
-                                        if object.findText(trForUI(t))==-1:
-                                            object.addItem(trForUI(t))
+                                        if object.findText(str(t))==-1:
+                                            object.addItem(str(t))
                             object.addItem(translate("SearchEngines", "All Albums"))
                             break
             self.isAlterAlbum=False
@@ -859,27 +859,27 @@ class Search(MDialog):
                                 if artistObject.currentIndex() != artistObject.count()-1:
                                     if _index!=cbTag.count()-1:
                                         for t in song[1][artistObject.currentIndex()][cbTag.currentIndex()]:
-                                            if object.findText(trForUI(t))==-1:
-                                                object.addItem(trForUI(t))
+                                            if object.findText(str(t))==-1:
+                                                object.addItem(str(t))
                                     else:
                                         for y, tag in enumerate(song[2][artistObject.currentIndex()]):
                                             for t in song[1][artistObject.currentIndex()][y]:
-                                                if object.findText(trForUI(t))==-1:
-                                                    object.addItem(trForUI(t))
+                                                if object.findText(str(t))==-1:
+                                                    object.addItem(str(t))
                                 else:
                                     if _index!=cbTag.count()-1:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]): 
                                                 if song[2][x][y]==cbTag.currentText():
                                                     for t in song[1][x][y]:
-                                                        if object.findText(trForUI(t))==-1:
-                                                            object.addItem(trForUI(t))
+                                                        if object.findText(str(t))==-1:
+                                                            object.addItem(str(t))
                                     else:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]):
                                                 for t in song[1][x][y]:
-                                                    if object.findText(trForUI(t))==-1:
-                                                        object.addItem(trForUI(t))
+                                                    if object.findText(str(t))==-1:
+                                                        object.addItem(str(t))
                             else:
                                 for x, tag in enumerate(song[1]):
                                     for y, tagm in enumerate(tag):
@@ -888,35 +888,35 @@ class Search(MDialog):
                                             artistObject.setCurrentIndex(x)
                                             self.isAlterArtist = True
                                             for t in song[1][x][y]:
-                                                if object.findText(trForUI(t))==-1:
-                                                    object.addItem(trForUI(t))
+                                                if object.findText(str(t))==-1:
+                                                    object.addItem(str(t))
                     for song in self.songsOfAlbum:
                         if song[3]==rowNo:
                             if self.isArtistImportant==True and self.isArtistChanged==True:
                                 if artistObject.currentIndex() != artistObject.count()-1:
                                     if _index!=cbTag.count()-1:
                                         for t in song[1][artistObject.currentIndex()][cbTag.currentIndex()]:
-                                            if object.findText(trForUI(t))==-1:
-                                                object.addItem(trForUI(t))
+                                            if object.findText(str(t))==-1:
+                                                object.addItem(str(t))
                                     else:
                                         for y, tag in enumerate(song[2][artistObject.currentIndex()]):
                                             for t in song[1][artistObject.currentIndex()][y]:
-                                                if object.findText(trForUI(t))==-1:
-                                                    object.addItem(trForUI(t))
+                                                if object.findText(str(t))==-1:
+                                                    object.addItem(str(t))
                                 else:
                                     if _index!=cbTag.count()-1:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]): 
                                                 if song[2][x][y]==cbTag.currentText():
                                                     for t in song[1][x][y]:
-                                                        if object.findText(trForUI(t))==-1:
-                                                            object.addItem(trForUI(t))
+                                                        if object.findText(str(t))==-1:
+                                                            object.addItem(str(t))
                                     else:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]):
                                                 for t in song[1][x][y]:
-                                                    if object.findText(trForUI(t))==-1:
-                                                        object.addItem(trForUI(t))
+                                                    if object.findText(str(t))==-1:
+                                                        object.addItem(str(t))
                             else:
                                 for x, tag in enumerate(song[1]):
                                     for y, tagm in enumerate(tag):
@@ -925,8 +925,8 @@ class Search(MDialog):
                                             artistObject.setCurrentIndex(x)
                                             self.isAlterArtist = True
                                             for t in song[1][x][y]:
-                                                if object.findText(trForUI(t))==-1:
-                                                    object.addItem(trForUI(t))
+                                                if object.findText(str(t))==-1:
+                                                    object.addItem(str(t))
                     break
         if _index == self.sender().count()-1:
             self.isArtistChanged = self.isArtistChangedTemp

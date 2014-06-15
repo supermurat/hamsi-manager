@@ -17,10 +17,10 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 import FileUtils as fu
 import Tables
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 from Core.MyObjects import *
 from Core import ReportBug
@@ -33,10 +33,10 @@ class FileManager():
         self.bookmarks = Bookmarks(self)
         self.history = []
         self.future = []
-        Universals.MainWindow.DirOperator = None
-        Universals.MainWindow.Browser = None
-        Universals.MainWindow.Places = None
-        Universals.MainWindow.TreeBrowser = None
+        uni.MainWindow.DirOperator = None
+        uni.MainWindow.Browser = None
+        uni.MainWindow.Places = None
+        uni.MainWindow.TreeBrowser = None
         if isActivePyKDE4:
             self.dirModelMain = MDirModel()
             self.dirLister = MDirLister()
@@ -66,7 +66,7 @@ class FileManager():
         self.lstvFileManager = MListView()
         self.trvFileManager.setModel(self.dirModelForTree)
         self.lstvFileManager.setModel(self.dirModel)
-        self.currentDirectory = trForUI(fu.getRealDirName(Universals.MySettings["lastDirectory"]))
+        self.currentDirectory = str(fu.getRealDirName(uni.MySettings["lastDirectory"]))
         if fu.isDir(str(self.currentDirectory))==False:
             self.currentDirectory = MDir.homePath()
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndexByTree)
@@ -108,12 +108,12 @@ class FileManager():
             self.actCollection.readSettings(kconfGroup)
             self.actCollection.associateWidget(toolsFull)
             
-            Universals.MainWindow.DirOperator = MDockWidget(translate("FileManager", "Directory Operator"))
-            Universals.MainWindow.DirOperator.setObjectName(translate("FileManager", "Directory Operator"))
-            Universals.MainWindow.DirOperator.setWidget(self.dirOperator)
-            Universals.MainWindow.DirOperator.setAllowedAreas(Mt.AllDockWidgetAreas)
-            Universals.MainWindow.DirOperator.setFeatures(MDockWidget.AllDockWidgetFeatures)
-            _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.DirOperator)
+            uni.MainWindow.DirOperator = MDockWidget(translate("FileManager", "Directory Operator"))
+            uni.MainWindow.DirOperator.setObjectName(translate("FileManager", "Directory Operator"))
+            uni.MainWindow.DirOperator.setWidget(self.dirOperator)
+            uni.MainWindow.DirOperator.setAllowedAreas(Mt.AllDockWidgetAreas)
+            uni.MainWindow.DirOperator.setFeatures(MDockWidget.AllDockWidgetFeatures)
+            _parent.addDockWidget(Mt.LeftDockWidgetArea, uni.MainWindow.DirOperator)
             MObject.connect(self.dirOperator, SIGNAL("urlEntered(KUrl)"),self.dirOperatorUrlChanged)
             self.isGoToFromDirOperator = True
             self.filePlacesModel = MFilePlacesModel()
@@ -138,7 +138,7 @@ class FileManager():
         self.actForward.setEnabled(False)
         self.goTo(self.currentDirectory)
         self.trvFileManager.setColumnWidth(0, 250)
-        if Universals.windowMode==Variables.windowModeKeys[1]:
+        if uni.windowMode==var.windowModeKeys[1]:
             tools.setIconSize(MSize(16, 16))
             self.tbarBrowserTools = MToolBar(_parent)
             self.tbarBrowserTools.setWindowTitle(translate("FileManager", "Browser Tools"))
@@ -194,28 +194,28 @@ class FileManager():
                 self.tbarLocationBar.setIconSize(MSize(16,16))
                 self.tbarLocationBar.addWidget(self.urlNavigator)
                 _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
-        Universals.MainWindow.Browser = MDockWidget(translate("FileManager", "Browser"))
-        Universals.MainWindow.Browser.setObjectName(translate("FileManager", "Browser"))
-        Universals.MainWindow.Browser.setWidget(self.lstvFileManager)
-        Universals.MainWindow.Browser.setAllowedAreas(Mt.AllDockWidgetAreas)
-        Universals.MainWindow.Browser.setFeatures(MDockWidget.AllDockWidgetFeatures)
-        _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.Browser)
-        Universals.MainWindow.TreeBrowser = MDockWidget(translate("FileManager", "Tree Browser"))
-        Universals.MainWindow.TreeBrowser.setObjectName(translate("FileManager", "Tree Browser"))
-        Universals.MainWindow.TreeBrowser.setWidget(self.trvFileManager)
-        Universals.MainWindow.TreeBrowser.setAllowedAreas(Mt.AllDockWidgetAreas)
-        Universals.MainWindow.TreeBrowser.setFeatures(MDockWidget.AllDockWidgetFeatures)
-        _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.TreeBrowser)
+        uni.MainWindow.Browser = MDockWidget(translate("FileManager", "Browser"))
+        uni.MainWindow.Browser.setObjectName(translate("FileManager", "Browser"))
+        uni.MainWindow.Browser.setWidget(self.lstvFileManager)
+        uni.MainWindow.Browser.setAllowedAreas(Mt.AllDockWidgetAreas)
+        uni.MainWindow.Browser.setFeatures(MDockWidget.AllDockWidgetFeatures)
+        _parent.addDockWidget(Mt.LeftDockWidgetArea, uni.MainWindow.Browser)
+        uni.MainWindow.TreeBrowser = MDockWidget(translate("FileManager", "Tree Browser"))
+        uni.MainWindow.TreeBrowser.setObjectName(translate("FileManager", "Tree Browser"))
+        uni.MainWindow.TreeBrowser.setWidget(self.trvFileManager)
+        uni.MainWindow.TreeBrowser.setAllowedAreas(Mt.AllDockWidgetAreas)
+        uni.MainWindow.TreeBrowser.setFeatures(MDockWidget.AllDockWidgetFeatures)
+        _parent.addDockWidget(Mt.LeftDockWidgetArea, uni.MainWindow.TreeBrowser)
         if isActivePyKDE4:
-            Universals.MainWindow.Places = MDockWidget(translate("FileManager", "Places"))
-            Universals.MainWindow.Places.setObjectName(translate("FileManager", "Places"))
-            Universals.MainWindow.Places.setWidget(self.fpvPlaces)
-            Universals.MainWindow.Places.setAllowedAreas(Mt.AllDockWidgetAreas)
-            Universals.MainWindow.Places.setFeatures(MDockWidget.AllDockWidgetFeatures)
-            _parent.addDockWidget(Mt.LeftDockWidgetArea, Universals.MainWindow.Places)
-            _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.Places)
-            _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.TreeBrowser)
-            _parent.tabifyDockWidget(Universals.MainWindow.DirOperator, Universals.MainWindow.Browser)
+            uni.MainWindow.Places = MDockWidget(translate("FileManager", "Places"))
+            uni.MainWindow.Places.setObjectName(translate("FileManager", "Places"))
+            uni.MainWindow.Places.setWidget(self.fpvPlaces)
+            uni.MainWindow.Places.setAllowedAreas(Mt.AllDockWidgetAreas)
+            uni.MainWindow.Places.setFeatures(MDockWidget.AllDockWidgetFeatures)
+            _parent.addDockWidget(Mt.LeftDockWidgetArea, uni.MainWindow.Places)
+            _parent.tabifyDockWidget(uni.MainWindow.DirOperator, uni.MainWindow.Places)
+            _parent.tabifyDockWidget(uni.MainWindow.DirOperator, uni.MainWindow.TreeBrowser)
+            _parent.tabifyDockWidget(uni.MainWindow.DirOperator, uni.MainWindow.Browser)
 
     def goTo(self, _path, _isRemember = True, _isOnlyBrowser = False):
         try:
@@ -227,7 +227,7 @@ class FileManager():
                             self.future = []
                             self.history.append(self.currentDirectory)
                         if _path[-1]==fu.sep: _path = _path[:-1]
-                        self.currentDirectory = trForUI(_path)
+                        self.currentDirectory = str(_path)
                         if isActivePyKDE4:
                             self.dirLister.openUrl(MUrl(self.currentDirectory))
                             self.trvFileManager.setCurrentIndex(self.dirModelForTree.index(_path))
@@ -250,14 +250,14 @@ class FileManager():
                             self.actUp.setEnabled(True)
                     elif fu.isFile(_path):
                         isOpened = False
-                        for ext in Universals.getListValue("musicExtensions"):
+                        for ext in uni.getListValue("musicExtensions"):
                             if str(_path).split(".")[-1].lower() == str(ext).lower():
-                                if (Universals.tableType=="2" or Universals.tableType=="9") and Universals.MainWindow.PlayerBar.MusicPlayer.playInBar.isChecked():
-                                    Universals.MainWindow.PlayerBar.MusicPlayer.play(str(_path))
+                                if (uni.tableType=="2" or uni.tableType=="9") and uni.MainWindow.PlayerBar.MusicPlayer.playInBar.isChecked():
+                                    uni.MainWindow.PlayerBar.MusicPlayer.play(str(_path))
                                 isOpened = True
                         if isOpened==False:
                             from Details import Details
-                            Details(str(_path),Universals.getBoolValue("isOpenDetailsInNewWindow"))
+                            Details(str(_path),uni.getBoolValue("isOpenDetailsInNewWindow"))
         except:
             ReportBug.ReportBug()
 
@@ -287,7 +287,7 @@ class FileManager():
 
     def goUp(self):
         try:
-            self.goTo(trForUI(fu.getDirName(self.currentDirectory)))
+            self.goTo(str(fu.getDirName(self.currentDirectory)))
         except:
             ReportBug.ReportBug()
 
@@ -304,7 +304,7 @@ class FileManager():
             else:
                 sourcePath = fu.checkSource(str(self.currentDirectory), "directory")
                 if sourcePath is not None:
-                    if self.currentDirectory != trForUI(sourcePath):
+                    if self.currentDirectory != str(sourcePath):
                         self.goTo(sourcePath, False)
                     else:
                         self.makeRefreshOnlyFileList()
@@ -385,10 +385,10 @@ class FileManager():
     
     def showInTable(self):
         try:
-            if Universals.tableType in ["0", "1", "2", "3", "4", "9"]:
-                Universals.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
+            if uni.tableType in ["0", "1", "2", "3", "4", "9"]:
+                uni.MainWindow.Table.refresh(self.getCurrentDirectoryPath())
             else:
-                Universals.MainWindow.StatusBar.setTableInfo(Variables.tableTypesNames[Universals.tableType] + trForUI(" : ~ "))
+                uni.MainWindow.StatusBar.setTableInfo(var.tableTypesNames[uni.tableType] + str(" : ~ "))
         except:
             ReportBug.ReportBug()
             
@@ -409,7 +409,7 @@ class BookmarksMenu(MMenu):
         try:
             self.clear()
             for fav in Databases.BookmarksOfDirectories.fetchAll():
-                self.addAction(trForUI(fav[1])).setObjectName(trForUI(fav[1]))
+                self.addAction(str(fav[1])).setObjectName(str(fav[1]))
             self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(translate("BookmarksMenu", "Edit Bookmarks"))
         except:
             ReportBug.ReportBug()
@@ -417,13 +417,13 @@ class BookmarksMenu(MMenu):
     def triggered(self, _action):
         try:
             if _action.objectName()==translate("BookmarksMenu", "Edit Bookmarks"):
-                Universals.MainWindow.FileManager.bookmarks.makeRefresh()
-                Universals.MainWindow.FileManager.bookmarks.show()
+                uni.MainWindow.FileManager.bookmarks.makeRefresh()
+                uni.MainWindow.FileManager.bookmarks.show()
                 return
             for info in Databases.BookmarksOfDirectories.fetchAll():
                 if info[1]==str(_action.objectName()):
                     if fu.isDir(str(info[2]))==True:
-                        Universals.MainWindow.FileManager.goTo(trForUI(info[2]))
+                        uni.MainWindow.FileManager.goTo(str(info[2]))
                         return
                     else:
                         answer = Dialogs.ask(translate("BookmarksMenu", "Cannot Find Folder"), 
@@ -431,9 +431,9 @@ class BookmarksMenu(MMenu):
                         if answer==Dialogs.Yes:
                             Databases.BookmarksOfDirectories.delete(str(info[0]))
                             self.makeRefresh()
-                            Universals.MainWindow.FileManager.bookmarks.makeRefresh()
-            Universals.MainWindow.FileManager.makeRefreshOnlyFileList() 
-            Universals.MainWindow.FileManager.makeRefreshOnlyFileListByTree()     
+                            uni.MainWindow.FileManager.bookmarks.makeRefresh()
+            uni.MainWindow.FileManager.makeRefreshOnlyFileList()
+            uni.MainWindow.FileManager.makeRefreshOnlyFileListByTree()
         except:
             ReportBug.ReportBug()
         
@@ -474,19 +474,19 @@ class Bookmarks(MDialog):
         self.makeRefresh()
 
     def closeEvent(self, _event):
-        Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
+        uni.MainWindow.FileManager.bookmarksMenu.makeRefresh()
         
     def bookmarksChanged(self, _index):
         try:
-            self.pathOfBookmark.setText(trForUI(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
+            self.pathOfBookmark.setText(str(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
         except:
             ReportBug.ReportBug()
             
     def addBookmark(self):
         try:
-            currentPath = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+            currentPath = uni.MainWindow.FileManager.getCurrentDirectoryPath()
             Databases.BookmarksOfDirectories.insert(fu.splitPath(currentPath)[-1], currentPath)
-            Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
+            uni.MainWindow.FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:
             ReportBug.ReportBug()
@@ -496,7 +496,7 @@ class Bookmarks(MDialog):
             info = Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
             Databases.BookmarksOfDirectories.update(info[0], str(self.cbBookmarks.currentText()), str(self.pathOfBookmark.text()))
             self.makeRefresh()
-            Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
+            uni.MainWindow.FileManager.bookmarksMenu.makeRefresh()
         except:
             ReportBug.ReportBug()
             
@@ -506,7 +506,7 @@ class Bookmarks(MDialog):
                 info = Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
                 Databases.BookmarksOfDirectories.delete(str(info[0]))
                 self.makeRefresh()
-                Universals.MainWindow.FileManager.bookmarksMenu.makeRefresh()
+                uni.MainWindow.FileManager.bookmarksMenu.makeRefresh()
         except:
             ReportBug.ReportBug()
             
@@ -514,7 +514,7 @@ class Bookmarks(MDialog):
         try:
             self.cbBookmarks.clear()
             for fav in Databases.BookmarksOfDirectories.fetchAll():
-                self.cbBookmarks.addItem(trForUI(fav[1])) 
+                self.cbBookmarks.addItem(str(fav[1]))
         except:
             ReportBug.ReportBug()
             

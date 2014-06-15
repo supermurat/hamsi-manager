@@ -20,10 +20,10 @@
 from Core.MyObjects import *
 import sys
 from Core import Dialogs
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 from Core import Scripts
-from Core import Variables
+from Core import Variables as var
 import FileUtils as fu
 import Options
 
@@ -118,7 +118,7 @@ class ScriptManager(MDialog):
             if self.checkForSave():
                 self.currentScriptFileName = self.scriptList[self.lwScriptList.currentRow()]
                 codes = Scripts.getScript(fu.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
-                self.sciCommand.setText(trForUI(codes))
+                self.sciCommand.setText(str(codes))
         except:
             ReportBug.ReportBug()
         

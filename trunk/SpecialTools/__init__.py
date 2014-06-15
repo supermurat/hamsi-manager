@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core.MyObjects import *
 import Tables
 from Core import Dialogs
@@ -40,7 +40,7 @@ class SpecialTools(MWidget):
         self.tbAddToBefore = MToolButton(self)
         self.btChange = MToolButton(self)
         self.tbAddToAfter = MToolButton(self)
-        self.isShowAdvancedSelections = Universals.getBoolValue("isShowAdvancedSelections")
+        self.isShowAdvancedSelections = uni.getBoolValue("isShowAdvancedSelections")
         self.tabwTabs = MTabWidget(self)
         self.specialActions = SpecialActions.SpecialActions(self)
         self.searchAndReplace = SearchAndReplace.SearchAndReplace(self)
@@ -124,8 +124,8 @@ class SpecialTools(MWidget):
         self.cbInformationSectionX.setEnabled(False)
         self.cbInformationSectionY.setEnabled(False)
         self.cbInformationSection.setFixedWidth(175)
-        self.tabwTabs.setCurrentIndex(int(Universals.MySettings["activeTabNoOfSpecialTools"]))
-        self.tabChanged(int(Universals.MySettings["activeTabNoOfSpecialTools"]))
+        self.tabwTabs.setCurrentIndex(int(uni.MySettings["activeTabNoOfSpecialTools"]))
+        self.tabChanged(int(uni.MySettings["activeTabNoOfSpecialTools"]))
         MObject.connect(self.pbtnApply, SIGNAL("clicked()"), self.apply)
         MObject.connect(self.pbtnAdvancedSelections, SIGNAL("clicked()"), self.showOrHideAdvancedSelections)
         MObject.connect(self.tabwTabs, SIGNAL("currentChanged(int)"), self.tabChanged)
@@ -169,13 +169,13 @@ class SpecialTools(MWidget):
         self.clear.columns.addItem(translate("SpecialTools", "All"))
         self.characterState.columns.addItem(translate("SpecialTools", "All"))
         self.characterEncoding.columns.addItem(translate("SpecialTools", "All"))
-        for columnName in Universals.MainWindow.Table.tableColumns:
+        for columnName in uni.MainWindow.Table.tableColumns:
             self.searchAndReplace.columns.addItem(columnName)
             self.fill.columns.addItem(columnName)
             self.clear.columns.addItem(columnName)
             self.characterState.columns.addItem(columnName)
             self.characterEncoding.columns.addItem(columnName)
-            tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, Universals.MainWindow.Table.getColumnKeyFromName(columnName))
+            tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, uni.MainWindow.Table.getColumnKeyFromName(columnName))
             self.specialActions.pbtnAddObjects.append(tb)
             lbl = MLabel(columnName + ":")
             self.quickFill.lblColumns.append(lbl)
@@ -214,7 +214,7 @@ class SpecialTools(MWidget):
         self.tbAddToAfter.setChecked(False)
     
     def tabChanged(self, _index):
-        Universals.setMySetting("activeTabNoOfSpecialTools", str(_index))
+        uni.setMySetting("activeTabNoOfSpecialTools", str(_index))
         self.pbtnApply.setEnabled(True)
         self.tbAddToBefore.setEnabled(True)
         self.tbAddToAfter.setEnabled(True)
@@ -265,7 +265,7 @@ class SpecialTools(MWidget):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Simple"))
         self.pnlAdvancedSelections.setVisible(True)
         self.isShowAdvancedSelections = True
-        if Variables.isWindows:
+        if var.isWindows:
             self.tabwTabs.setMaximumHeight(215)
             self.setMaximumHeight(215)
         else:
@@ -298,7 +298,7 @@ class SpecialTools(MWidget):
         try:
             self.checkCompleters()
             self.reFillCompleters()
-            Universals.MainWindow.Table.createHistoryPoint()
+            uni.MainWindow.Table.createHistoryPoint()
             if self.tabwTabs.currentIndex()==0:
                 if SpecialActions.whatDoesSpecialCommandDo(self.specialActions.getActionCommand())==True:
                     self.specialActions.apply()
@@ -318,7 +318,7 @@ class SpecialTools(MWidget):
             ReportBug.ReportBug()
     
     def checkCompleters(self):
-        if Universals.getBoolValue("isActiveCompleter"):
+        if uni.getBoolValue("isActiveCompleter"):
             self.specialActions.checkCompleters()
             self.searchAndReplace.checkCompleters()
             self.fill.checkCompleters()
@@ -328,7 +328,7 @@ class SpecialTools(MWidget):
             self.quickFill.checkCompleters()
     
     def reFillCompleters(self):
-        if Universals.getBoolValue("isActiveCompleter"):
+        if uni.getBoolValue("isActiveCompleter"):
             self.specialActions.reFillCompleters()
             self.searchAndReplace.reFillCompleters()
             self.fill.reFillCompleters()

@@ -21,7 +21,7 @@ import FileUtils as fu
 import SearchEngines
 from Core.MyObjects import *
 from Details import AmarokArtistDetails
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 import Taggers
 from time import gmtime
@@ -37,27 +37,27 @@ class AmarokArtistTable():
         self.hiddenTableColumnsSettingKey = "hiddenAmarokArtistTableColumns"
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
-        Universals.MainWindow.MainLayout.addWidget(self.wFilter)
+        uni.MainWindow.MainLayout.addWidget(self.wFilter)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        Universals.startThreadAction()
+        uni.startThreadAction()
         import Amarok
         Dialogs.showState(translate("AmarokArtistTable", "Checking For Amarok..."), 0, 2)
         if Amarok.checkAmarok():
             Dialogs.showState(translate("AmarokArtistTable", "Getting Values From Amarok"), 1, 2)
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
-                artistValues = Operations.getAllArtistsValues(Universals.MySettings[self.amarokFilterKeyName])
+                artistValues = Operations.getAllArtistsValues(uni.MySettings[self.amarokFilterKeyName])
                 Dialogs.showState(translate("AmarokArtistTable", "Values Are Being Processed"), 2, 2)
-                isContinueThreadAction = Universals.isContinueThreadAction()
+                isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
                     if artistValues!=None:
                         allItemNumber = len(artistValues)
                         musicFileNo = 0
                         for musicFileRow in artistValues:
-                            isContinueThreadAction = Universals.isContinueThreadAction()
+                            isContinueThreadAction = uni.isContinueThreadAction()
                             if isContinueThreadAction:
                                 try:
                                     content = {}
@@ -73,22 +73,22 @@ class AmarokArtistTable():
                             musicFileNo += 1
                             if isContinueThreadAction==False:
                                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         return currentTableContentValues
     
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changedArtistValues=[]
-        Universals.startThreadAction()
+        uni.startThreadAction()
         import Amarok
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),0,allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     if self.Table.isRowHidden(rowNo)==False:
-                        if self.Table.isChangableItem(rowNo, 1, str(self.Table.currentTableContentValues[rowNo]["name"])):
+                        if self.Table.isChangeableItem(rowNo, 1, str(self.Table.currentTableContentValues[rowNo]["name"])):
                             changedArtistValues.append({})
                             changedArtistValues[-1]["id"] = str(self.Table.currentTableContentValues[rowNo]["id"])
                             value = str(self.Table.item(rowNo, 1).text())
@@ -102,13 +102,13 @@ class AmarokArtistTable():
             Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         from Amarok import Operations
         Operations.changeArtistValues(changedArtistValues)
         return True
         
     def showDetails(self, _fileNo, _infoNo):
-        AmarokArtistDetails.AmarokArtistDetails(self.Table.currentTableContentValues[_fileNo]["id"], Universals.getBoolValue("isOpenDetailsInNewWindow"))
+        AmarokArtistDetails.AmarokArtistDetails(self.Table.currentTableContentValues[_fileNo]["id"], uni.getBoolValue("isOpenDetailsInNewWindow"))
     
     def cellClicked(self,_row,_column):
         currentItem = self.Table.currentItem()
@@ -118,7 +118,7 @@ class AmarokArtistTable():
                 self.Table.setColumnWidth(_column,cellLenght)
         
     def cellDoubleClicked(self,_row,_column):
-        if Universals.getBoolValue("isRunOnDoubleClick"):
+        if uni.getBoolValue("isRunOnDoubleClick"):
             self.showDetails(_row, _column)
        
     def refreshColumns(self):
@@ -146,12 +146,12 @@ class AmarokArtistTable():
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
-                if self.Table.isChangableItem(rowNo, itemNo):
+                if self.Table.isChangeableItem(rowNo, itemNo):
                     if itemNo==0:
                         continue                
                     elif itemNo==1:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()))
-                    self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+                    self.Table.item(rowNo,itemNo).setText(str(newString))
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo==0:

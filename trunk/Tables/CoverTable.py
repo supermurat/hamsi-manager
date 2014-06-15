@@ -23,8 +23,8 @@ from Core.MyObjects import *
 from Details import CoverDetails
 from Core import Dialogs
 from time import gmtime
-from Core import Universals
-from Core import Variables
+from Core import Universals as uni
+from Core import Variables as var
 from Core import ReportBug
 
 class CoverTable():
@@ -33,7 +33,7 @@ class CoverTable():
         self.keyName = "cover"
         self.hiddenTableColumnsSettingKey = "hiddenCoverTableColumns"
         self.refreshColumns()
-        if Variables.isActiveAmarok:
+        if var.isActiveAmarok:
             pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
             MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
             self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnGetFromAmarok)
@@ -41,11 +41,11 @@ class CoverTable():
     def readContents(self, _directoryPath):
         currentTableContentValues = []
         allFilesAndDirectories = fu.readDirectoryWithSubDirectoriesThread(_directoryPath,
-                    int(Universals.MySettings["CoversSubDirectoryDeep"]), "directory", Universals.getBoolValue("isShowHiddensInCoverTable"))
+                    int(uni.MySettings["CoversSubDirectoryDeep"]), "directory", uni.getBoolValue("isShowHiddensInCoverTable"))
         allItemNumber = len(allFilesAndDirectories)
-        Universals.startThreadAction()
+        uni.startThreadAction()
         for dirNo,dirName in enumerate(allFilesAndDirectories):
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     if fu.isReadableFileOrDir(dirName, False, True) and fu.isReadableFileOrDir(fu.joinPath(dirName, ".directory"), False, True):
@@ -79,7 +79,7 @@ class CoverTable():
                               dirNo+1,allItemNumber, True) 
             if isContinueThreadAction==False:
                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         return currentTableContentValues
     
     def writeContents(self):
@@ -90,11 +90,11 @@ class CoverTable():
         currentDirectoryPath = ""
         newDirectoryPath = ""
         startRowNo,rowStep=0,1
-        Universals.startThreadAction()
+        uni.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"),0,allItemNumber, True)
         for rowNo in range(startRowNo,self.Table.rowCount(),rowStep):
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     if fu.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
@@ -104,12 +104,12 @@ class CoverTable():
                         else:
                             baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
                             baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                            if self.Table.isChangableItem(rowNo, 3) or self.Table.isChangableItem(rowNo, 4):
+                            if self.Table.isChangeableItem(rowNo, 3) or self.Table.isChangeableItem(rowNo, 4):
                                 sourcePath = self.Table.currentTableContentValues[rowNo]["sourceCover"]
                                 destinationPath = self.Table.currentTableContentValues[rowNo]["destinationCover"]
-                                if self.Table.isChangableItem(rowNo, 3):
+                                if self.Table.isChangeableItem(rowNo, 3):
                                     sourcePath = str(self.Table.item(rowNo,3).text()).strip()
-                                if self.Table.isChangableItem(rowNo, 4):
+                                if self.Table.isChangeableItem(rowNo, 4):
                                     destinationPath = str(self.Table.item(rowNo,4).text()).strip()
                                 if (str(self.Table.item(rowNo,2).text())!=sourcePath or sourcePath!=destinationPath or str(self.Table.item(rowNo,2).text())!=destinationPath) or (str(self.Table.item(rowNo,2).text())!=self.Table.currentTableContentValues[rowNo]["currentCover"] and (str(self.Table.item(rowNo,2).text())!=sourcePath and str(self.Table.item(rowNo,2).text())!=destinationPath)):
                                     if str(self.Table.item(rowNo,3).text()).strip()!="":
@@ -127,7 +127,7 @@ class CoverTable():
                                     else:
                                         fu.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], "")
                                         self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                            if self.Table.isChangeableItem(rowNo, 0, baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
                                 self.Table.changedValueNumber += 1
                                 isMovedToNewDirectory = True
@@ -137,7 +137,7 @@ class CoverTable():
                                 if rowNo>0:
                                     if str(self.Table.item(rowNo-1,0).text()) != baseNameOfDirectory:
                                         isNewDirectoriesSame = False
-                            if self.Table.isChangableItem(rowNo, 1, baseName, False):
+                            if self.Table.isChangeableItem(rowNo, 1, baseName, False):
                                 baseName = str(self.Table.item(rowNo,1).text())
                                 self.Table.changedValueNumber += 1
                             newFilePath = fu.joinPath(fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
@@ -151,7 +151,7 @@ class CoverTable():
             Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         fu.changeDirectories(changingFileDirectories)
         if self.Table.rowCount() == len(changingFileDirectories) and isMovedToNewDirectory and isNewDirectoriesSame:
             otherFileNames = fu.readDirectory(currentDirectoryPath, "fileAndDirectory", True)
@@ -171,7 +171,7 @@ class CoverTable():
                        fu.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover),
                        fu.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover),
                        fu.getRealPath(str(self.Table.item(_fileNo, 4).text()), directoryPathOfCover)]
-        CoverDetails.CoverDetails(coverValues, Universals.getBoolValue("isOpenDetailsInNewWindow"), _infoNo)
+        CoverDetails.CoverDetails(coverValues, uni.getBoolValue("isOpenDetailsInNewWindow"), _infoNo)
         
     def cellClicked(self,_row,_column):
         currentItem = self.Table.currentItem()
@@ -182,7 +182,7 @@ class CoverTable():
     
     def cellDoubleClicked(self,_row,_column):
         try:
-            if Universals.getBoolValue("isRunOnDoubleClick"):
+            if uni.getBoolValue("isRunOnDoubleClick"):
                 self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("CoverTable", "Cannot Open File"), 
@@ -215,11 +215,11 @@ class CoverTable():
                     newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseName"], "directory")
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseName"])
                 elif itemNo==2:
-                    newString = trForUI(self.Table.currentTableContentValues[rowNo]["currentCover"])
+                    newString = str(self.Table.currentTableContentValues[rowNo]["currentCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
                     item = self.Table.createTableWidgetItem(newString, newString, True)
                 elif itemNo==3:
-                    newString = trForUI(self.Table.currentTableContentValues[rowNo]["sourceCover"])
+                    newString = str(self.Table.currentTableContentValues[rowNo]["sourceCover"])
                     newString = newString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
                     oldString = self.Table.currentTableContentValues[rowNo]["currentCover"]
                     oldString = oldString.replace(self.Table.currentTableContentValues[rowNo]["path"], ".")
@@ -242,14 +242,14 @@ class CoverTable():
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
-                if self.Table.isChangableItem(rowNo, itemNo):
+                if self.Table.isChangeableItem(rowNo, itemNo):
                     if itemNo==0 or itemNo==1:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                     elif itemNo==2 or itemNo==3:
-                        newString = trForUI(str(self.Table.item(rowNo,itemNo).text()))
+                        newString = str(str(self.Table.item(rowNo,itemNo).text()))
                     else:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
-                    self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+                    self.Table.item(rowNo,itemNo).setText(str(newString))
         
     def getFromAmarok(self):
         try:
@@ -262,8 +262,8 @@ class CoverTable():
                 Dialogs.showState(translate("CoverTable", "Values Are Being Processed"), 2, 2)
                 if directoriesAndValues!=None:
                     for rowNo in range(self.Table.rowCount()):
-                        if Universals.MainWindow.Table.checkHiddenColumn(3) and Universals.MainWindow.Table.checkHiddenColumn(4):
-                            if self.Table.isChangableItem(rowNo, 3):
+                        if uni.MainWindow.Table.checkHiddenColumn(3) and uni.MainWindow.Table.checkHiddenColumn(4):
+                            if self.Table.isChangeableItem(rowNo, 3):
                                 directoryPath = fu.joinPath(fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), str(self.Table.item(rowNo,0).text()), str(self.Table.item(rowNo,1).text()))
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]

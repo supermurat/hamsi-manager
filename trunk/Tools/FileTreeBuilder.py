@@ -18,7 +18,7 @@
 
 
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 import FileUtils as fu
 import Options
@@ -35,8 +35,8 @@ class FileTreeBuilder(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
-            Universals.setMainWindow(self)
-        newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
+            uni.setMainWindow(self)
+        newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "fileTree", None, newOrChangedKeys)
         lblDirectory = MLabel(translate("FileTreeBuilder", "Directory : "))
         lblOutputTarget = MLabel(translate("FileTreeBuilder", "Output Target : "))
@@ -65,7 +65,7 @@ class FileTreeBuilder(MyDialog):
         self.cckbLastModified = Options.MyCheckBox(self, translate("FileTreeBuilder", "Last Modified"), None, "isAppendLastModifiedToFileTree")
         pbtnBuild = MPushButton(translate("FileTreeBuilder", "Build"))
         pbtnClose = MPushButton(translate("FileTreeBuilder", "Close"))
-        self.lePath = MLineEdit(trForUI(_directory))
+        self.lePath = MLineEdit(str(_directory))
         pbtnSelectPath = MPushButton(translate("FileTreeBuilder", "Browse"))
         self.connect(pbtnSelectPath,SIGNAL("clicked()"),self.selectPath)
         self.connect(pbtnBuild,SIGNAL("clicked()"), self.build)
@@ -133,7 +133,7 @@ class FileTreeBuilder(MyDialog):
     
     def build(self):
         try:
-            Universals.isCanBeShowOnMainWindow = False
+            uni.isCanBeShowOnMainWindow = False
             outputTarget = "file"
             outputType = "html"
             contentType = "fileTree"
@@ -151,7 +151,7 @@ class FileTreeBuilder(MyDialog):
             if self.cbOutputTarget.currentIndex()==2:
                 Dialogs.show(translate("FileTreeBuilder", "Builded File Tree"),
                             translate("FileTreeBuilder", "File tree copied to clipboard."))
-            Universals.isCanBeShowOnMainWindow = True
+            uni.isCanBeShowOnMainWindow = True
         except:
             ReportBug.ReportBug()
     
@@ -159,7 +159,7 @@ class FileTreeBuilder(MyDialog):
         try:
             dirPath = Dialogs.getExistingDirectory(translate("FileTreeBuilder", "Please Select"),self.lePath.text(), 0)
             if dirPath is not None:
-                self.lePath.setText(trForUI(dirPath))
+                self.lePath.setText(str(dirPath))
         except:
             ReportBug.ReportBug()
     

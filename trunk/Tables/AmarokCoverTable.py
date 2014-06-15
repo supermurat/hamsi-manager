@@ -23,7 +23,7 @@ from Core.MyObjects import *
 from Details import CoverDetails
 from Core import Dialogs
 from time import gmtime
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 
 class AmarokCoverTable():
@@ -35,27 +35,27 @@ class AmarokCoverTable():
         self.hiddenTableColumnsSettingKey = "hiddenAmarokCoverTableColumns"
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
-        Universals.MainWindow.MainLayout.addWidget(self.wFilter)
+        uni.MainWindow.MainLayout.addWidget(self.wFilter)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        Universals.startThreadAction()
+        uni.startThreadAction()
         import Amarok
         Dialogs.showState(translate("AmarokCoverTable", "Checking For Amarok..."), 0, 2)
         if Amarok.checkAmarok():
             Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2)
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
-                directoriesAndValues = Operations.getDirectoriesAndValues(Universals.MySettings[self.amarokFilterKeyName])
+                directoriesAndValues = Operations.getDirectoriesAndValues(uni.MySettings[self.amarokFilterKeyName])
                 Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
-                isContinueThreadAction = Universals.isContinueThreadAction()
+                isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
                     if directoriesAndValues!=None:
                         allItemNumber = len(directoriesAndValues)
                         dirNo = 0
                         for dirPath,dirRow in directoriesAndValues.items():
-                            isContinueThreadAction = Universals.isContinueThreadAction()
+                            isContinueThreadAction = uni.isContinueThreadAction()
                             if isContinueThreadAction:
                                 try:
                                     if fu.isReadableFileOrDir(dirPath, False, True) and fu.isReadableFileOrDir(fu.joinPath(dirPath, ".directory"), False, True):
@@ -88,18 +88,18 @@ class AmarokCoverTable():
                             dirNo += 1
                             if isContinueThreadAction==False:
                                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         return currentTableContentValues
     
     def writeContents(self):
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
         startRowNo,rowStep=0,1
-        Universals.startThreadAction()
+        uni.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"),0,allItemNumber, True)
         for rowNo in range(startRowNo,self.Table.rowCount(),rowStep):
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     if fu.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
@@ -109,12 +109,12 @@ class AmarokCoverTable():
                         else:
                             pathOfParentDirectory = str(self.Table.currentTableContentValues[rowNo]["pathOfParentDirectory"])
                             baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                            if self.Table.isChangableItem(rowNo, 3) or self.Table.isChangableItem(rowNo, 4):
+                            if self.Table.isChangeableItem(rowNo, 3) or self.Table.isChangeableItem(rowNo, 4):
                                 sourcePath = self.Table.currentTableContentValues[rowNo]["sourceCover"]
                                 destinationPath = self.Table.currentTableContentValues[rowNo]["destinationCover"]
-                                if self.Table.isChangableItem(rowNo, 3):
+                                if self.Table.isChangeableItem(rowNo, 3):
                                     sourcePath = str(self.Table.item(rowNo,3).text()).strip()
-                                if self.Table.isChangableItem(rowNo, 4):
+                                if self.Table.isChangeableItem(rowNo, 4):
                                     destinationPath = str(self.Table.item(rowNo,4).text()).strip()
                                 if (str(self.Table.item(rowNo,2).text())!=sourcePath or sourcePath!=destinationPath or str(self.Table.item(rowNo,2).text())!=destinationPath) or (str(self.Table.item(rowNo,2).text())!=self.Table.currentTableContentValues[rowNo]["currentCover"] and (str(self.Table.item(rowNo,2).text())!=sourcePath and str(self.Table.item(rowNo,2).text())!=destinationPath)):
                                     if str(self.Table.item(rowNo,3).text()).strip()!="":
@@ -132,10 +132,10 @@ class AmarokCoverTable():
                                     else:
                                         fu.setIconToDirectory(self.Table.currentTableContentValues[rowNo]["path"], "")
                                         self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 0, pathOfParentDirectory):
+                            if self.Table.isChangeableItem(rowNo, 0, pathOfParentDirectory):
                                 pathOfParentDirectory = str(self.Table.item(rowNo,0).text())
                                 self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 1, baseName, False):
+                            if self.Table.isChangeableItem(rowNo, 1, baseName, False):
                                 baseName = str(self.Table.item(rowNo,1).text())
                                 self.Table.changedValueNumber += 1
                             newFilePath = fu.joinPath(pathOfParentDirectory, baseName)
@@ -149,7 +149,7 @@ class AmarokCoverTable():
             Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         pathValues = fu.changeDirectories(changingFileDirectories)
         from Amarok import Operations
         Operations.changePaths(pathValues)
@@ -161,7 +161,7 @@ class AmarokCoverTable():
                        fu.getRealPath(str(self.Table.item(_fileNo, 2).text()), directoryPathOfCover),
                        fu.getRealPath(str(self.Table.item(_fileNo, 3).text()), directoryPathOfCover),
                        fu.getRealPath(str(self.Table.item(_fileNo, 4).text()), directoryPathOfCover)]
-        CoverDetails.CoverDetails(coverValues, Universals.getBoolValue("isOpenDetailsInNewWindow"), _infoNo)
+        CoverDetails.CoverDetails(coverValues, uni.getBoolValue("isOpenDetailsInNewWindow"), _infoNo)
         
     def cellClicked(self,_row,_column):
         currentItem = self.Table.currentItem()
@@ -172,7 +172,7 @@ class AmarokCoverTable():
     
     def cellDoubleClicked(self,_row,_column):
         try:
-            if Universals.getBoolValue("isRunOnDoubleClick"):
+            if uni.getBoolValue("isRunOnDoubleClick"):
                 self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("AmarokCoverTable", "Cannot Open File"), 
@@ -229,14 +229,14 @@ class AmarokCoverTable():
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
-                if self.Table.isChangableItem(rowNo, itemNo):
+                if self.Table.isChangeableItem(rowNo, itemNo):
                     if itemNo==0 or itemNo==1:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                     elif itemNo==2 or itemNo==3:
-                        newString = trForUI(str(self.Table.item(rowNo,itemNo).text()))
+                        newString = str(str(self.Table.item(rowNo,itemNo).text()))
                     else:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
-                    self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+                    self.Table.item(rowNo,itemNo).setText(str(newString))
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo==0:

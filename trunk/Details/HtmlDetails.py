@@ -22,7 +22,7 @@ from Core.MyObjects import *
 from Viewers import ImageViewer
 from Core import Dialogs
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 
 class HtmlDetails(MDialog):
     global htmlDialogs
@@ -72,10 +72,10 @@ class HtmlDetails(MDialog):
     def changeFile(self, _file, _valueType):
         if _valueType=="data":
             self.setWindowTitle(translate("HtmlDetails", "Html Details"))
-            self.wvWeb.setHtml(trForUI(_file))
+            self.wvWeb.setHtml(str(_file))
         else:
-            self.setWindowTitle(trForUI(str(translate("HtmlDetails", "Html Details ( %s )")) % (_file)))
-            self.wvWeb.setUrl(MUrl(trForUI(_file)))
+            self.setWindowTitle(str(str(translate("HtmlDetails", "Html Details ( %s )")) % (_file)))
+            self.wvWeb.setUrl(MUrl(str(_file)))
 
     @staticmethod
     def closeAllHtmlDialogs():

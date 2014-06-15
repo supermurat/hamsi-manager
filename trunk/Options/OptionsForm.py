@@ -18,9 +18,12 @@
 
 
 import sys,os
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Settings, Dialogs, Universals, Records
+from Core import Settings
+from Core import Dialogs
+from Core import Universals as uni
+from Core import Records
 import FileUtils as fu
 import Databases
 from Options import OptionsFormContent
@@ -36,7 +39,7 @@ class OptionsForm(MDialog):
         self.focusTo = _focusTo
         self.focusToCategory = None
         self.markedKeys = _markedKeys
-        self.defaultValues = Variables.getDefaultValues()
+        self.defaultValues = var.getDefaultValues()
         self.checkVisibility(self.showType)
         if self.showType=="Normal":
             self.tboxCategories = MToolBox()
@@ -126,9 +129,9 @@ class OptionsForm(MDialog):
                             OptionsFormContent.Cleaner(self, _showType), 
                             OptionsFormContent.HiddenObjects(self, _showType), 
                             OptionsFormContent.MySettings(self, _showType, [])]
-            if Variables.isActiveAmarok:
+            if var.isActiveAmarok:
                 self.categories.insert(len(self.categories)-2, OptionsFormContent.Amarok(self, _showType))
-            if Variables.isActiveDirectoryCover:
+            if var.isActiveDirectoryCover:
                 self.categories.insert(5, OptionsFormContent.Cover(self, _showType))
         elif _showType=="pack":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
@@ -143,7 +146,7 @@ class OptionsForm(MDialog):
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Correct(self, _showType), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
-            if Variables.isActiveDirectoryCover:
+            if var.isActiveDirectoryCover:
                 self.categories.insert(1, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon"]))
         elif _showType=="clearEmptyDirectories":
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
@@ -169,7 +172,7 @@ class OptionsForm(MDialog):
             self.categories = [OptionsFormContent.General(self, _showType, ["isSaveActions"]), 
                             OptionsFormContent.Correct(self, _showType), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
-            if Variables.isActiveDirectoryCover:
+            if var.isActiveDirectoryCover:
                 self.categories.insert(1, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenFileMove"]))
         elif _showType=="emendDirectory":
@@ -183,7 +186,7 @@ class OptionsForm(MDialog):
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"]), 
                             OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
-            if Variables.isActiveDirectoryCover:
+            if var.isActiveDirectoryCover:
                 self.categories.insert(2, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenMoveOrChange"]))
         elif _showType=="emendDirectoryWithContents":
@@ -197,7 +200,7 @@ class OptionsForm(MDialog):
                                 "isClearEmptyDirectoriesWhenMoveOrChange", "isAutoCleanSubFolderWhenMoveOrChange"]), 
                             OptionsFormContent.Advanced(self, _showType, ["isDontDeleteFileAndDirectory", "pathOfDeletedFilesAndDirectories"]), 
                             OptionsFormContent.SearchAndReplace(self, _showType)]
-            if Variables.isActiveDirectoryCover:
+            if var.isActiveDirectoryCover:
                 self.categories.insert(2, OptionsFormContent.Cover(self, _showType, ["priorityIconNames", "isChangeExistIcon", 
                                 "isAutoMakeIconToDirectoryWhenMoveOrChange", 
                                 "isAutoMakeIconToDirectoryWhenFileMove"]))
@@ -224,7 +227,7 @@ class OptionsForm(MDialog):
             self.categories = []
     
     def closeEvent(self, _event):
-        MApplication.setStyle(Universals.MySettings["applicationStyle"])
+        MApplication.setStyle(uni.MySettings["applicationStyle"])
     
     def save(self):
         if self.apply():
@@ -243,7 +246,7 @@ class OptionsForm(MDialog):
                     translate("Options", "In order to apply the changes you have to restart Hamsi Manager.<br>Do you want to restart now?"))
         if answer==Dialogs.Yes:
             self.close()
-            if Universals.MainWindow.close():
+            if uni.MainWindow.close():
                 from Core.Execute import execute
                 execute([], "HamsiManager")
     
@@ -304,15 +307,15 @@ class OptionsForm(MDialog):
             if requestInfos[1]=="image":
                 directory = fu.getRealDirName(leValue.text())
                 filePath = Dialogs.getOpenFileName(translate("Options", "Choose Image"),
-                                            directory, str(translate("Options", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG, 0)
+                                            directory, str(translate("Options", "Images")) + " " + var.imageExtStringOnlyPNGAndJPG, 0)
                 if filePath is not None:
-                    leValue.setText(trForUI(filePath))   
+                    leValue.setText(str(filePath))
             if requestInfos[1]=="executable":
                 directory = fu.getRealDirName(leValue.text())
                 filePath = Dialogs.getOpenFileName(translate("Options", "Choose Executable File"),
                                             directory, translate("Options", "Executable Files") + " (*)", 0)
                 if filePath is not None:
-                    leValue.setText(trForUI(filePath))  
+                    leValue.setText(str(filePath))
                     
     def pbtnDirectoryClicked(self):
         requestInfos = str(self.sender().objectName()).split("_")
@@ -323,7 +326,7 @@ class OptionsForm(MDialog):
                 dirPath = Dialogs.getExistingDirectory(self,translate("Options", "Choose Image"),
                                                 directory, 0)
                 if dirPath is not None:
-                    leValue.setText(trForUI(dirPath))
+                    leValue.setText(str(dirPath))
                 
     def pbtnDefaultValueClicked(self):
         requestInfos = str(self.sender().objectName()).split("_")
@@ -333,21 +336,21 @@ class OptionsForm(MDialog):
         keyNo = int(requestInfos[2])
         leValue = self.categories[categoryNo].values[keyNo]
         if typeOfValue=="string":
-            self.categories[categoryNo].values[keyNo].setText(trForUI(self.defaultValues[keyValue]))
+            self.categories[categoryNo].values[keyNo].setText(str(self.defaultValues[keyValue]))
         elif typeOfValue=="richtext":
-            self.categories[categoryNo].values[keyNo].setPlainText(trForUI(self.defaultValues[keyValue]))
+            self.categories[categoryNo].values[keyNo].setPlainText(str(self.defaultValues[keyValue]))
         elif typeOfValue=="list":
             value = ""
-            for y, info in enumerate(Universals.getListFromListString(self.defaultValues[keyValue])):
+            for y, info in enumerate(uni.getListFromListString(self.defaultValues[keyValue])):
                 if y!=0:
                     value += ";"
                 value += str(info)
-            self.categories[categoryNo].values[keyNo].setText(trForUI(value))
+            self.categories[categoryNo].values[keyNo].setText(str(value))
         elif typeOfValue=="trString":
             value = self.defaultValues[keyValue]
             for y, info in enumerate(self.categories[categoryNo].stringSearchList[self.categories[categoryNo].typesOfValues[keyNo][1]]):
                 value = value.replace(str(info), str(self.categories[categoryNo].stringReplaceList[self.categories[categoryNo].typesOfValues[keyNo][1]][y]))
-            self.categories[categoryNo].values[keyNo].setText(trForUI(value))
+            self.categories[categoryNo].values[keyNo].setText(str(value))
         elif typeOfValue=="options":
             self.categories[categoryNo].values[keyNo].setCurrentIndex(self.categories[categoryNo].valuesOfOptionsKeys[self.categories[categoryNo].typesOfValues[keyNo][1]].index(self.defaultValues[keyValue]))
         elif typeOfValue=="number":
@@ -371,7 +374,7 @@ class OptionsForm(MDialog):
         elif _typeOfValue=="richtext":
             toolTips += self.defaultValues[_keyValue]
         elif _typeOfValue=="list":
-            for y, info in enumerate(Universals.getListFromListString(self.defaultValues[_keyValue])):
+            for y, info in enumerate(uni.getListFromListString(self.defaultValues[_keyValue])):
                 if y!=0:
                     toolTips += ";"
                 toolTips += str(info)
@@ -393,7 +396,7 @@ class OptionsForm(MDialog):
             toolTips += self.defaultValues[_keyValue]
         elif _typeOfValue=="directory":
             toolTips += self.defaultValues[_keyValue]
-        pbtnDefaultValue.setToolTip(trForUI(toolTips))
+        pbtnDefaultValue.setToolTip(str(toolTips))
         pbtnDefaultValue.setFixedWidth(25)
         MObject.connect(pbtnDefaultValue, SIGNAL("clicked()"), _category.parent().pbtnDefaultValueClicked)
         return pbtnDefaultValue
@@ -414,8 +417,8 @@ class OptionsForm(MDialog):
             isNeededRestart = False
             isDontClose = False
             isSaveSearchAndReplaceTable, searchAndReplaceCategoryNo = False, 0
-            defaultValues = Variables.getDefaultValues()
-            valueTypesAndValues = Variables.getValueTypesAndValues(True)
+            defaultValues = var.getDefaultValues()
+            valueTypesAndValues = var.getValueTypesAndValues(True)
             for categoryNo, category in enumerate(self.categories):
                 for x, keyValue in enumerate(category.keysOfSettings):
                     if category.visibleKeys.count(keyValue)>0:
@@ -450,22 +453,22 @@ class OptionsForm(MDialog):
                         elif category.typesOfValues[x]=="password":
                             value = str(category.values[x].text())
                         category.values[x].setStyleSheet("")
-                        if Universals.MySettings[keyValue]!=value:
+                        if uni.MySettings[keyValue]!=value:
                             emendedValue = Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue])
                             if emendedValue != value:
                                 answer = Dialogs.ask(translate("Options", "Incorrect Value"), 
                                                      str(translate("Options", "\"%s\" been set incorrectly.Are you want to set it automatically emend?")) % (str(category.labels[x])))
                                 if answer==Dialogs.Yes:
-                                    Universals.setMySetting(keyValue, emendedValue)
+                                    uni.setMySetting(keyValue, emendedValue)
                                     if category.typesOfValues[x]=="string":
-                                        category.values[x].setText(trForUI(emendedValue))
+                                        category.values[x].setText(str(emendedValue))
                                     elif category.typesOfValues[x]=="list":
                                         value = ""
-                                        for y, info in enumerate(Universals.getListFromListString(emendedValue)):
+                                        for y, info in enumerate(uni.getListFromListString(emendedValue)):
                                             if y!=0:
                                                 value += ";"
                                             value += str(info)
-                                        category.values[x].setText(trForUI(value))
+                                        category.values[x].setText(str(value))
                                 else:
                                     if self.showType=="Normal":
                                         self.tboxCategories.setCurrentIndex(categoryNo)
@@ -474,17 +477,17 @@ class OptionsForm(MDialog):
                                     category.values[x].setStyleSheet("background-color: #FF5E5E;")
                                     isDontClose = True
                             else:
-                                Universals.setMySetting(keyValue, value) 
+                                uni.setMySetting(keyValue, value)
                             if category.neededRestartSettingKeys.count(keyValue)>0:
                                 isNeededRestart = True
                 if str(category).find("SearchAndReplace")!=-1:
                     isSaveSearchAndReplaceTable = True
                     searchAndReplaceCategoryNo = categoryNo
-            Universals.saveSettings()
+            uni.saveSettings()
             if isSaveSearchAndReplaceTable:
                 self.categories[searchAndReplaceCategoryNo].searchAndReplaceTable.save()
-            if Universals.MainWindow.Menu!=None:
-                Universals.MainWindow.Menu.refreshQuickOptions()
+            if uni.MainWindow.Menu!=None:
+                uni.MainWindow.Menu.refreshQuickOptions()
             Records.checkSize()
             if isDontClose:return False
             if isNeededRestart==True:
@@ -495,8 +498,8 @@ class OptionsForm(MDialog):
             
     def applySetting(self, _category, _keyValue):
         try:
-            defaultValues = Variables.getDefaultValues()
-            valueTypesAndValues = Variables.getValueTypesAndValues(True)
+            defaultValues = var.getDefaultValues()
+            valueTypesAndValues = var.getValueTypesAndValues(True)
             x = _category.keysOfSettings.index(_keyValue)
             if _category.visibleKeys.count(_keyValue)>0:
                 if _category.typesOfValues[x]=="string":
@@ -530,22 +533,22 @@ class OptionsForm(MDialog):
                 elif _category.typesOfValues[x]=="password":
                     value = str(_category.values[x].text())
                 _category.values[x].setStyleSheet("")
-                if Universals.MySettings[_keyValue]!=value:
+                if uni.MySettings[_keyValue]!=value:
                     emendedValue = Settings.emendValue(_keyValue, value, defaultValues[_keyValue], valueTypesAndValues[_keyValue])
                     if emendedValue != value:
                         answer = Dialogs.ask(translate("Options", "Incorrect Value"), 
                                              str(translate("Options", "\"%s\" been set incorrectly.Are you want to set it automatically emend?")) % (str(_category.labels[x])))
                         if answer==Dialogs.Yes:
-                            Universals.setMySetting(_keyValue, emendedValue)
+                            uni.setMySetting(_keyValue, emendedValue)
                             if _category.typesOfValues[x]=="string":
-                                _category.values[x].setText(trForUI(emendedValue))
+                                _category.values[x].setText(str(emendedValue))
                             elif _category.typesOfValues[x]=="list":
                                 value = ""
-                                for y, info in enumerate(Universals.getListFromListString(emendedValue)):
+                                for y, info in enumerate(uni.getListFromListString(emendedValue)):
                                     if y!=0:
                                         value += ";"
                                     value += str(info)
-                                _category.values[x].setText(trForUI(value))
+                                _category.values[x].setText(str(value))
                         else:
                             if self.showType=="Normal":
                                 self.tboxCategories.setCurrentIndex(_category.categoryNo)
@@ -553,7 +556,7 @@ class OptionsForm(MDialog):
                             _category.values[x].setStyleSheet("background-color: #FF5E5E;")
                             isDontClose = True
                     else:
-                        Universals.setMySetting(_keyValue, value) 
+                        uni.setMySetting(_keyValue, value)
         except:
             ReportBug.ReportBug()
             
@@ -578,50 +581,50 @@ class OptionsForm(MDialog):
                     isNeededRestart = True
                 if _category.typesOfValues[x]=="string":
                     _category.values.append(MLineEdit())
-                    _category.values[x].setText(trForUI(Universals.MySettings[keyValue]))
+                    _category.values[x].setText(str(uni.MySettings[keyValue]))
                 elif _category.typesOfValues[x]=="richtext":
                     typeOfValue = "richtext"
                     _category.values.append(MTextEdit())
-                    _category.values[x].setPlainText(trForUI(Universals.MySettings[keyValue]))
+                    _category.values[x].setPlainText(str(uni.MySettings[keyValue]))
                 elif _category.typesOfValues[x]=="list":
                     typeOfValue = "list"
                     _category.values.append(MLineEdit())
                     value = ""
-                    for y, info in enumerate(Universals.getListValue(keyValue)):
+                    for y, info in enumerate(uni.getListValue(keyValue)):
                         if y!=0:
                             value += ";"
                         value += str(info)
-                    _category.values[x].setText(trForUI(value))
+                    _category.values[x].setText(str(value))
                 elif _category.typesOfValues[x][0]=="trString":
                     typeOfValue = "trString"
                     _category.values.append(MLineEdit())
-                    value = Universals.MySettings[keyValue]
+                    value = uni.MySettings[keyValue]
                     for y, info in enumerate(_category.stringSearchList[_category.typesOfValues[x][1]]):
                         value = value.replace(str(info), str(_category.stringReplaceList[_category.typesOfValues[x][1]][y]))
-                    _category.values[x].setText(trForUI(value))
+                    _category.values[x].setText(str(value))
                 elif _category.typesOfValues[x][0]=="options":
                     typeOfValue = "options"
                     _category.values.append(MComboBox())
                     for info in _category.valuesOfOptions[_category.typesOfValues[x][1]]:
                         _category.values[x].addItem(info)
-                    try:_category.values[x].setCurrentIndex(_category.valuesOfOptionsKeys[_category.typesOfValues[x][1]].index(Universals.MySettings[keyValue]))
+                    try:_category.values[x].setCurrentIndex(_category.valuesOfOptionsKeys[_category.typesOfValues[x][1]].index(uni.MySettings[keyValue]))
                     except:pass#pass for unknown values
                 elif _category.typesOfValues[x][0]=="number":
                     typeOfValue = "number"
                     _category.values.append(MSpinBox())
                     _category.values[x].setRange(int(_category.valuesOfOptions[_category.typesOfValues[x][1]][0]), int(_category.valuesOfOptions[_category.typesOfValues[x][1]][1]))
-                    try:_category.values[x].setValue(int(Universals.MySettings[keyValue])) 
+                    try:_category.values[x].setValue(int(uni.MySettings[keyValue]))
                     except:pass#pass for unknown values
                 elif _category.typesOfValues[x]=="Yes/No":
                     typeOfValue = "Yes/No"
                     _category.values.append(MComboBox())
                     _category.values[x].addItems([translate("Dialogs", "No"),translate("Dialogs", "Yes")])
-                    if Universals.getBoolValue(keyValue):
+                    if uni.getBoolValue(keyValue):
                         _category.values[x].setCurrentIndex(1)
                 elif _category.typesOfValues[x][0]=="file":
                     typeOfValue = "file"
                     _category.values.append(MLineEdit())
-                    _category.values[x].setText(Universals.MySettings[keyValue])
+                    _category.values[x].setText(uni.MySettings[keyValue])
                     pbtnFile = MPushButton(translate("Options", "...."))
                     pbtnFile.setObjectName("file_"+_category.typesOfValues[x][1]+"_"+str(x))
                     pbtnFile.setToolTip(_category.toolTips[x])
@@ -630,7 +633,7 @@ class OptionsForm(MDialog):
                 elif _category.typesOfValues[x][0]=="directory":
                     typeOfValue = "directory"
                     _category.values.append(MLineEdit())
-                    _category.values[x].setText(Universals.MySettings[keyValue])
+                    _category.values[x].setText(uni.MySettings[keyValue])
                     pbtnDirectory = MPushButton(translate("Options", "...."))
                     pbtnDirectory.setObjectName("directory_"+_category.typesOfValues[x][1]+"_"+str(x))
                     pbtnDirectory.setToolTip(_category.toolTips[x])
@@ -638,7 +641,7 @@ class OptionsForm(MDialog):
                     valueLayout.addWidget(pbtnDirectory)
                 if _category.typesOfValues[x]=="password":
                     _category.values.append(MLineEdit())
-                    _category.values[x].setText(trForUI(Universals.MySettings[keyValue]))
+                    _category.values[x].setText(str(uni.MySettings[keyValue]))
                     _category.values[x].setEchoMode(MLineEdit.Password)
                 if typeOfValue=="list":
                     pbtnEditValue = _category.parent().createEditValueButton(_category, typeOfValue, keyValue, x)
@@ -647,7 +650,7 @@ class OptionsForm(MDialog):
                 valueLayout.addWidget(pbtnDefaultValue)
                 valueLayout.insertWidget(0, _category.values[x])
                 _category.values[x].setToolTip(_category.toolTips[x])
-                lblLabel = MLabel(trForUI(_category.labels[x]+" : "))
+                lblLabel = MLabel(str(_category.labels[x]+" : "))
                 lblLabel.setToolTip(_category.toolTips[x])
                 _category.lblLabels.append(lblLabel)
                 if _category.tabsOfSettings[x]==None:
@@ -712,21 +715,21 @@ class EditDialog(MDialog):
             #This Is Not Used (For only future)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
             self.EditorWidget = MTextEdit(self)
-            self.EditorWidget.setText(trForUI(currentValue))
+            self.EditorWidget.setText(str(currentValue))
         elif self.typeOfValue=="richtext":
             #This Is Not Used (For only future)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].plainText())
             self.EditorWidget = MTextEdit(self)
             self.EditorWidget.setAcceptRichText(True)
-            self.EditorWidget.setPlainText(trForUI(currentValue))
+            self.EditorWidget.setPlainText(str(currentValue))
         elif self.typeOfValue=="list":
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].text())
             if isActivePyKDE4:
                 self.EditorWidget = MEditListBox(self)
-                self.EditorWidget.setItems([trForUI(x) for x in currentValue.split(";")])
+                self.EditorWidget.setItems([str(x) for x in currentValue.split(";")])
             else:
                 self.EditorWidget = MTextEdit(self)
-                self.EditorWidget.setText(trForUI(currentValue.replace(";", "\n")))
+                self.EditorWidget.setText(str(currentValue.replace(";", "\n")))
         elif self.typeOfValue=="options":
             #This Is Not Used (For only future)
             currentValue = str(self.parent().categories[self.categoryNo].values[self.keyNo].currentIndex())
@@ -764,11 +767,11 @@ class EditDialog(MDialog):
         if self.typeOfValue=="string":
             #This Is Not Used (For only future)
             newValue = "" #NotUsed
-            self.parent().categories[self.categoryNo].values[self.keyNo].setText(trForUI(newValue))
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(str(newValue))
         elif self.typeOfValue=="richtext":
             #This Is Not Used (For only future)
             newValue = "" #NotUsed
-            self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(trForUI(newValue))
+            self.parent().categories[self.categoryNo].values[self.keyNo].setPlainText(str(newValue))
         elif self.typeOfValue=="list":
             value = ""
             if isActivePyKDE4:
@@ -778,7 +781,7 @@ class EditDialog(MDialog):
                     value += str(info)
             else:
                 value = str(self.EditorWidget.toPlainText()).replace("\n", ";")
-            self.parent().categories[self.categoryNo].values[self.keyNo].setText(trForUI(value))
+            self.parent().categories[self.categoryNo].values[self.keyNo].setText(str(value))
         elif self.typeOfValue=="options":
             #This Is Not Used (For only future)
             newValue = "" #NotUsed

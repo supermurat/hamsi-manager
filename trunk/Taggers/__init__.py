@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 from Core import ReportBug
 
@@ -30,7 +30,7 @@ def getTagger(_isAlertIfNotExist=False):
     global taggersNames, loaddedTagger
     try:
         if len(taggersNames)==0:
-            taggersNames = Variables.getTaggersNames()
+            taggersNames = var.getTaggersNames()
         for tagger in taggersNames:
             taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger"], 0)
             TaggerLoaded = __import__("Taggers." + tagger, globals(), locals(), [tagger], 0)
@@ -67,14 +67,14 @@ def setSelectedTaggerTypeForRead(_type, _isSetTypeName=True):
         setSelectedTaggerTypeForReadName(typeName, False)
 
 def getSelectedTaggerTypeForReadName():
-    return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", getTaggerTypesName()[0])
+    return uni.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", getTaggerTypesName()[0])
 
 def setSelectedTaggerTypeForReadName(_typeName, _isSetType=True):
     type = getLoaddedTagger().getTaggerTypes()[0]
     for x, v in enumerate(getTaggerTypesName()):
         if _typeName==v:
             type = getLoaddedTagger().getTaggerTypes()[x]
-    Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", _typeName)
+    uni.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", _typeName)
     if _isSetType:
         setSelectedTaggerTypeForRead(type, False)
 
@@ -94,14 +94,14 @@ def setSelectedTaggerTypeForWrite(_type, _isSetTypeName=True):
         setSelectedTaggerTypeForWriteName(typeName, False)
 
 def getSelectedTaggerTypeForWriteName():
-    return Universals.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", getTaggerTypesName()[0])
+    return uni.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", getTaggerTypesName()[0])
 
 def setSelectedTaggerTypeForWriteName(_typeName, _isSetType=True):
     type = getLoaddedTagger().getTaggerTypes()[0]
     for x, v in enumerate(getTaggerTypesName()):
         if _typeName==v:
             type = getLoaddedTagger().getTaggerTypes()[x]
-    Universals.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", _typeName)
+    uni.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", _typeName)
     if _isSetType:
         setSelectedTaggerTypeForWrite(type, False)
 

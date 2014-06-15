@@ -26,7 +26,7 @@ except: pass
 import Taggers
 from Core.MyObjects import *
 import FileUtils as fu
-from Core import Universals
+from Core import Universals as uni
 
 pluginName = "eyeD3"
 
@@ -41,13 +41,13 @@ class Tagger():
         self.filePath = _filePath
         try:
             self.tag = eyeD3.Tag()
-            self.tag.link(Universals.trEncode(self.filePath, fu.fileSystemEncoding),
+            self.tag.link(uni.trEncode(self.filePath, fu.fileSystemEncoding),
                           Taggers.getSelectedTaggerTypeForRead())
         except:
             self.tag = eyeD3.Tag()
             self.tag.link(self.filePath, Taggers.getSelectedTaggerTypeForRead())
         try:
-            self.Mp3AudioFile = eyeD3.Mp3AudioFile(Universals.trEncode(self.filePath, fu.fileSystemEncoding))
+            self.Mp3AudioFile = eyeD3.Mp3AudioFile(uni.trEncode(self.filePath, fu.fileSystemEncoding))
         except:
             try:
                 self.Mp3AudioFile = eyeD3.Mp3AudioFile(self.filePath)
@@ -58,7 +58,7 @@ class Tagger():
         self.filePath = _filePath
         try:
             self.tag = eyeD3.Tag()
-            self.tag.link(Universals.trEncode(self.filePath, fu.fileSystemEncoding),
+            self.tag.link(uni.trEncode(self.filePath, fu.fileSystemEncoding),
                           Taggers.getSelectedTaggerTypeForWrite())
         except:
             self.tag = eyeD3.Tag()
@@ -82,7 +82,7 @@ class Tagger():
     def getCorrectedValuesForMusicTagType(self, _value):
         _value = self.getCorrectedValues(_value)
         if Taggers.getSelectedTaggerTypeForRead() == eyeD3.ID3_V1:
-            return Universals.trEncode(Universals.trUnicode(_value), "latin1")
+            return uni.trEncode(uni.trUnicode(_value), "latin1")
         else:
             return _value
 
@@ -97,9 +97,9 @@ class Tagger():
 
     def correctValuesForMusicTagType(self, _value):
         if Taggers.getSelectedTaggerTypeForWrite() == eyeD3.ID3_V1:
-            return Universals.trUnicode(str(_value), "latin1")
+            return uni.trUnicode(str(_value), "latin1")
         else:
-            return Universals.trUnicode(str(_value))
+            return uni.trUnicode(str(_value))
 
     def correctForMusicTagType(self):
         self.tag.setVersion(Taggers.getSelectedTaggerTypeForWrite())
@@ -210,7 +210,7 @@ class Tagger():
 
     def addImage(self, _ImageType, _ImagePath, _description):
         if Taggers.getSelectedTaggerTypeForRead() == eyeD3.ID3_V2:
-            try: self.tag.addImage(int(_ImageType), Universals.trEncode(_ImagePath, fu.fileSystemEncoding))
+            try: self.tag.addImage(int(_ImageType), uni.trEncode(_ImagePath, fu.fileSystemEncoding))
             except: self.tag.addImage(int(_ImageType), _ImagePath)
 
     def removeImage(self, _description):

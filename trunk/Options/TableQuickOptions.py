@@ -18,9 +18,11 @@
 
 
 import sys,os
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Dialogs, Universals, Records
+from Core import Dialogs
+from Core import Universals as uni
+from Core import Records
 import FileUtils as fu
 import Databases
 from Core import ReportBug  
@@ -65,33 +67,33 @@ class TableQuickOptions(MMenu):
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
-        if Variables.isActiveAmarok == False:
+        if var.isActiveAmarok == False:
             self.hiddenKeys += ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB"]
         else:
-            if Universals.tableType=="0":
+            if uni.tableType=="0":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB", 
                                "isSubFolderMusicTableValuesChangeInAmarokDB"]
-            elif Universals.tableType=="1":
+            elif uni.tableType=="1":
                 self.hiddenKeys = ["isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB", 
                                "isSubFolderMusicTableValuesChangeInAmarokDB"]
-            elif Universals.tableType=="2":
+            elif uni.tableType=="2":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isSubFolderTableValuesChangeInAmarokDB", 
                                "isSubFolderMusicTableValuesChangeInAmarokDB"]
-            elif Universals.tableType=="3":
+            elif uni.tableType=="3":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
                                "isSubFolderMusicTableValuesChangeInAmarokDB"]
-            elif Universals.tableType=="9":
+            elif uni.tableType=="9":
                 self.hiddenKeys = ["isFileTableValuesChangeInAmarokDB", 
                                "isFolderTableValuesChangeInAmarokDB", 
                                "isMusicTableValuesChangeInAmarokDB", 
@@ -106,7 +108,7 @@ class TableQuickOptions(MMenu):
         self.checkEnableStates()
         
     def checkEnableStates(self):
-        if Universals.getBoolValue("isForceOpenWithDefaultApplication"):
+        if uni.getBoolValue("isForceOpenWithDefaultApplication"):
             actED = self.getActionByKey("isOpenDetailsInNewWindow")
             if actED != None:
                 actED.setEnabled(False)
@@ -120,7 +122,7 @@ class TableQuickOptions(MMenu):
             actED = self.getActionByKey("isOpenWithDefaultApplication")
             if actED != None:
                 actED.setEnabled(True)
-        if Universals.getBoolValue("isChangeAll"):
+        if uni.getBoolValue("isChangeAll"):
             actED = self.getActionByKey("isChangeSelected")
             if actED != None:
                 actED.setEnabled(False)
@@ -143,13 +145,13 @@ class TableQuickOptions(MMenu):
                 if self.typesOfValues[x][0]=="options":
                     actionLabelList, selectedIndex = [], 0
                     actionLabelList = self.valuesOfOptions[self.typesOfValues[x][1]]
-                    selectedIndex = self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(Universals.MySettings[keyValue])
+                    selectedIndex = self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(uni.MySettings[keyValue])
                     self.values.append(MMenu(self.labels[x], self))
                     actgActionGroupTableTypes = MActionGroup(self.values[-1])
                     for y, actionLabel in enumerate(actionLabelList):
                         actAction = actgActionGroupTableTypes.addAction(actionLabel)
                         actAction.setCheckable(True)
-                        actAction.setObjectName(trForUI(self.keysOfSettings[x]+";"+str(y)))
+                        actAction.setObjectName(str(self.keysOfSettings[x]+";"+str(y)))
                         if selectedIndex==y:
                             actAction.setChecked(True)
                     self.values[-1].addActions(actgActionGroupTableTypes.actions())
@@ -158,7 +160,7 @@ class TableQuickOptions(MMenu):
                 elif self.typesOfValues[x]=="Yes/No":
                     self.values.append(MAction(self.labels[x],self))
                     self.values[-1].setCheckable(True)
-                    self.values[-1].setChecked(Universals.getBoolValue(keyValue))
+                    self.values[-1].setChecked(uni.getBoolValue(keyValue))
                     self.addAction(self.values[-1])
                     MObject.connect(self.values[-1], SIGNAL("changed()"), self.valueChanged)
                     self.values[-1].setStatusTip(self.toolTips[x])
@@ -183,11 +185,11 @@ class TableQuickOptions(MMenu):
             elif self.typesOfValues[indexNo][0] =="options":
                 valueIndex = int(_action.objectName().split(";")[1])
                 selectedValue = self.valuesOfOptionsKeys[self.typesOfValues[indexNo][1]][valueIndex]
-            Universals.setMySetting(self.keysOfSettings[indexNo], selectedValue)
+            uni.setMySetting(self.keysOfSettings[indexNo], selectedValue)
             self.checkEnableStates()
-            Universals.MainWindow.StatusBar.fillSelectionInfo()
-            if Universals.MainWindow.Table is not None:
-                Universals.MainWindow.Table.fillSelectionInfo()
+            uni.MainWindow.StatusBar.fillSelectionInfo()
+            if uni.MainWindow.Table is not None:
+                uni.MainWindow.Table.fillSelectionInfo()
         except:
             ReportBug.ReportBug()
         
