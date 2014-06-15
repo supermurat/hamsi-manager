@@ -20,7 +20,7 @@
 from Core import Variables
 from Core import Dialogs
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 from Core import Organizer
 from Core.MyObjects import *
 from Core import ReportBug
@@ -302,13 +302,13 @@ class Tables(MTableWidget):
                         self.showDetails()
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[0]:
                         from Core import Execute
-                        Execute.openWith([InputOutputs.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
+                        Execute.openWith([fu.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
                     elif selectedItem.objectName()==self.mContextMenuOpenWithNames[1]:
                         from Core import Execute
                         Execute.openWith([self.currentTableContentValues[currentItem.row()]["path"]])
                     elif Variables.isWindows == False and selectedItem.objectName()==self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
-                        Execute.execute(["konsole","--workdir", InputOutputs.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
+                        Execute.execute(["konsole","--workdir", fu.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
         except:
             ReportBug.ReportBug()
     
@@ -368,7 +368,7 @@ class Tables(MTableWidget):
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None:
                 _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
             else:
-                _path = InputOutputs.userDirectoryPath
+                _path = fu.userDirectoryPath
         self.currentDirectoryPath = _path
         self.newDirectoryPath = _path
     
@@ -379,7 +379,7 @@ class Tables(MTableWidget):
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None:
                 _path = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
             else:
-                _path = InputOutputs.userDirectoryPath
+                _path = fu.userDirectoryPath
         self.newDirectoryPath = _path
         
     def refresh(self, _path = ""):
@@ -410,8 +410,8 @@ class Tables(MTableWidget):
         try:
             from Core import Records
             Records.setTitle(Variables.tableTypesNames[Universals.tableType])
-            InputOutputs.activateSmartCheckIcon()
-            InputOutputs.activateSmartCheckEmptyDirectories()
+            fu.activateSmartCheckIcon()
+            fu.activateSmartCheckEmptyDirectories()
             from Core import MyThread
             myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
             myProcs.run()
@@ -425,14 +425,14 @@ class Tables(MTableWidget):
                 isGoUpDirectoryWithFileTable = False
                 if Universals.tableType in ["0", "1", "2", "3", "4", "9"]:
                     if Universals.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                        if InputOutputs.checkEmptyDirectories(self.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
+                        if fu.checkEmptyDirectories(self.currentDirectoryPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenSave")):
                             isGoUpDirectoryWithFileTable = True
                 if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
                     if Universals.tableType in ["0", "1", "3", "4", "9"]:
                         if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenSave"):
-                            InputOutputs.checkIcon(self.newDirectoryPath)
-                InputOutputs.completeSmartCheckIcon()
-                InputOutputs.completeSmartCheckEmptyDirectories(True, True)
+                            fu.checkIcon(self.newDirectoryPath)
+                fu.completeSmartCheckIcon()
+                fu.completeSmartCheckEmptyDirectories(True, True)
                 Records.saveAllRecords()
                 if self.changedValueNumber==0:
                     Dialogs.show(translate("Tables", "Did Not Change Any Things"), 
@@ -533,17 +533,17 @@ class Tables(MTableWidget):
         isYesToAll, isNoToAll=False, False
         for rowNo in range(self.rowCount()):
             if _isCheckFile:
-                if InputOutputs.isFile(self.currentTableContentValues[rowNo]["path"])==False:
+                if fu.isFile(self.currentTableContentValues[rowNo]["path"])==False:
                     continue
             if destinationParameterType == "fileNameKey":
-                sFileExt = InputOutputs.getFileExtension(self.currentTableContentValues[rowNo][_fileNameKeyOrDestinationColumnNo])
+                sFileExt = fu.getFileExtension(self.currentTableContentValues[rowNo][_fileNameKeyOrDestinationColumnNo])
                 sFilePath = self.currentTableContentValues[rowNo]["path"]
             else:
-                sFileExt = InputOutputs.getFileExtension(str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text()))
+                sFileExt = fu.getFileExtension(str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text()))
                 sFilePath = str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text())
             cFileName = str(self.item(rowNo,_columnNo).text())
             if sFileExt!="":
-                if InputOutputs.getFileExtension(cFileName)!=sFileExt:
+                if fu.getFileExtension(cFileName)!=sFileExt:
                     if isYesToAll:
                         answer = Dialogs.Yes
                     elif isNoToAll:
@@ -653,18 +653,18 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt="txt"
             filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
-                                    InputOutputs.joinPath(Variables.userDirectoryPath, InputOutputs.getBaseName(self.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
+                                    fu.joinPath(Variables.userDirectoryPath, fu.getBaseName(self.currentDirectoryPath) + "." + fileExt), formatTypeName+" (*."+fileExt+")", 2)
             if filePath is not None:
                 if _formatType=="html" and filePath[-5:]!=".html":
                     filePath += ".html"
                 elif _formatType=="plainText" and filePath[-4:]!=".txt":
                     filePath += ".txt"
-                InputOutputs.writeToFile(filePath, info)
+                fu.writeToFile(filePath, info)
                 Dialogs.show(translate("Tables", "Table Exported"),
                             str(translate("Tables", "Table contents are exported to file: \"%s\".")) % Organizer.getLink(filePath))
         elif _actionType=="dialog":
             dDialog = MDialog(Universals.MainWindow)
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 dDialog.setButtons(MDialog.NoDefault)
             dDialog.setWindowTitle(translate("Tables", "Table Contents"))
             mainPanel = MWidget(dDialog)
@@ -680,7 +680,7 @@ class Tables(MTableWidget):
             MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
             vblMain.addWidget(wvWeb)
             vblMain.addWidget(pbtnClose)
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 dDialog.setMainWidget(mainPanel)
             else:
                 dDialog.setLayout(vblMain)

@@ -23,7 +23,7 @@ from Viewers import ImageViewer
 from Core import Dialogs
 from Core import Organizer
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 
 class CoverDetails(MDialog):
     global coverDialogs
@@ -50,7 +50,7 @@ class CoverDetails(MDialog):
         if _isOpenDetailsOnNewWindow==True:
             coverDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MDialog.NoDefault)
             self.vblCurrent = MVBoxLayout()
             self.vblSource = MVBoxLayout()
@@ -105,16 +105,16 @@ class CoverDetails(MDialog):
             vblMain = MVBoxLayout(self.pnlMain)
             vblMain.addLayout(self.hblImages)
             vblMain.addLayout(HBOXs[0])
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(self.pnlMain)
             else:
                 self.setLayout(vblMain)
             self.show()
                   
     def changeCoverValues(self, _coverValues):
-        if _coverValues[1].strip()==InputOutputs.sep: _coverValues[1] = _coverValues[0] + InputOutputs.sep
-        if _coverValues[2].strip()==InputOutputs.sep: _coverValues[2] = _coverValues[0] + InputOutputs.sep
-        if _coverValues[3].strip()==InputOutputs.sep: _coverValues[3] = _coverValues[0] + InputOutputs.sep
+        if _coverValues[1].strip()==fu.sep: _coverValues[1] = _coverValues[0] + fu.sep
+        if _coverValues[2].strip()==fu.sep: _coverValues[2] = _coverValues[0] + fu.sep
+        if _coverValues[3].strip()==fu.sep: _coverValues[3] = _coverValues[0] + fu.sep
         self.setWindowTitle(trForUI(str(translate("ImageDetails", "Cover Details ( %s )")) % (_coverValues[0])))
         self.lePathOfCurrent.setText(trForUI(_coverValues[1]))
         self.lePathOfSource.setText(trForUI(_coverValues[2]))

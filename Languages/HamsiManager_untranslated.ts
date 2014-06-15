@@ -910,32 +910,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="513"/>
+        <location filename="FileUtils/__init__.py" line="513"/>
         <source>Continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="530"/>
+        <location filename="FileUtils/__init__.py" line="530"/>
         <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="610"/>
+        <location filename="FileUtils/__init__.py" line="610"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="659"/>
+        <location filename="FileUtils/__init__.py" line="659"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="656"/>
+        <location filename="FileUtils/__init__.py" line="656"/>
         <source>Yes, Add Into</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="351"/>
+        <location filename="FileUtils/__init__.py" line="351"/>
         <source>Show Error Details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1612,49 +1612,49 @@
     </message>
 </context>
 <context>
-    <name>InputOutputs</name>
+    <name>FileUtils</name>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1281"/>
+        <location filename="FileUtils/__init__.py" line="1281"/>
         <source>Checking Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1302"/>
+        <location filename="FileUtils/__init__.py" line="1302"/>
         <source>Deleting Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1305"/>
+        <location filename="FileUtils/__init__.py" line="1305"/>
         <source>Empty Directories Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="605"/>
+        <location filename="FileUtils/__init__.py" line="605"/>
         <source>Current File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1318"/>
+        <location filename="FileUtils/__init__.py" line="1318"/>
         <source>Current Directory Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="564"/>
+        <location filename="FileUtils/__init__.py" line="564"/>
         <source>Cannot Find File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="568"/>
+        <location filename="FileUtils/__init__.py" line="568"/>
         <source>Cannot Find Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="526"/>
+        <location filename="FileUtils/__init__.py" line="526"/>
         <source>Access Denied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1038"/>
+        <location filename="FileUtils/__init__.py" line="1038"/>
         <source>Changing The Folder (Of The Files)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1674,203 +1674,203 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="518"/>
+        <location filename="FileUtils/__init__.py" line="518"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="526"/>
+        <location filename="FileUtils/__init__.py" line="526"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to change this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="564"/>
+        <location filename="FileUtils/__init__.py" line="564"/>
         <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="568"/>
+        <location filename="FileUtils/__init__.py" line="568"/>
         <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="572"/>
+        <location filename="FileUtils/__init__.py" line="572"/>
         <source>Cannot Find File Or Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="572"/>
+        <location filename="FileUtils/__init__.py" line="572"/>
         <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Please make sure that it exists and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="605"/>
+        <location filename="FileUtils/__init__.py" line="605"/>
         <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the current one?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="624"/>
+        <location filename="FileUtils/__init__.py" line="624"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;&quot;%s&quot; Add this file to the current folder?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1318"/>
+        <location filename="FileUtils/__init__.py" line="1318"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="893"/>
+        <location filename="FileUtils/__init__.py" line="893"/>
         <source>Directory Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1306"/>
+        <location filename="FileUtils/__init__.py" line="1306"/>
         <source>Project Directory Deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1308"/>
+        <location filename="FileUtils/__init__.py" line="1308"/>
         <source>Project Directory Cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="485"/>
+        <location filename="FileUtils/__init__.py" line="485"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this directory.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="493"/>
+        <location filename="FileUtils/__init__.py" line="493"/>
         <source>&quot;%s&quot; : you do not have the necessary permissions to read this file.&lt;br&gt;Please check your access controls and retry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1306"/>
+        <location filename="FileUtils/__init__.py" line="1306"/>
         <source>&quot;%s&quot; deleted.Because this directory is empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1117"/>
+        <location filename="FileUtils/__init__.py" line="1117"/>
         <source>Select A Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1117"/>
+        <location filename="FileUtils/__init__.py" line="1117"/>
         <source>Please select a cover for &quot;%s&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="888"/>
+        <location filename="FileUtils/__init__.py" line="888"/>
         <source>Cleaning Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="895"/>
+        <location filename="FileUtils/__init__.py" line="895"/>
         <source>Directories Cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="590"/>
+        <location filename="FileUtils/__init__.py" line="590"/>
         <source>Unavailable Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="583"/>
+        <location filename="FileUtils/__init__.py" line="583"/>
         <source>&quot;%s&quot; : can not encoded by %s.&lt;br&gt;Please review and correct the name!&lt;br&gt;You can correct your file system encoding name in Options/Advanced, If you want.&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="632"/>
+        <location filename="FileUtils/__init__.py" line="632"/>
         <source>Select A New Name For File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="632"/>
+        <location filename="FileUtils/__init__.py" line="632"/>
         <source>All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="651"/>
+        <location filename="FileUtils/__init__.py" line="651"/>
         <source>&quot;%s&quot; : there already exists a directory with the same name.&lt;br&gt;Add your files to the current directory?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="660"/>
+        <location filename="FileUtils/__init__.py" line="660"/>
         <source>Select A Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="885"/>
+        <location filename="FileUtils/__init__.py" line="885"/>
         <source>Checked Empty Directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1325"/>
+        <location filename="FileUtils/__init__.py" line="1325"/>
         <source>Creating Tar File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="590"/>
+        <location filename="FileUtils/__init__.py" line="590"/>
         <source>&quot;%s&quot; : this file path is not valid.&lt;br&gt;Please review and correct the path of file!&lt;br&gt;You can click cancel to cancel this action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1491"/>
+        <location filename="FileUtils/__init__.py" line="1491"/>
         <source>inaccessible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="344"/>
+        <location filename="FileUtils/__init__.py" line="344"/>
         <source>An Error Has Occurred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="344"/>
+        <location filename="FileUtils/__init__.py" line="344"/>
         <source>&quot;%s&quot; &gt; &quot;%s&quot; : an unknown error has occurred.&lt;br&gt;Please check it and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1630"/>
+        <location filename="FileUtils/__init__.py" line="1630"/>
         <source>Size Of Directory Of Deleted Is Over</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1630"/>
+        <location filename="FileUtils/__init__.py" line="1630"/>
         <source>Size of directory of deleted is over. You can check and remove them. &lt;br&gt; Directory Of Deleted : &quot;%s&quot; ( %s )</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1632"/>
+        <location filename="FileUtils/__init__.py" line="1632"/>
         <source>Open With Default File Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1630"/>
+        <location filename="FileUtils/__init__.py" line="1630"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1635"/>
+        <location filename="FileUtils/__init__.py" line="1635"/>
         <source>Remove All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1639"/>
+        <location filename="FileUtils/__init__.py" line="1639"/>
         <source>Directory Of Deleted Has Been Removed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1639"/>
+        <location filename="FileUtils/__init__.py" line="1639"/>
         <source>Directory of deleted has been removed successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="744"/>
+        <location filename="FileUtils/__init__.py" line="744"/>
         <source>Reading Directory...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>InputOutputs/Covers</name>
+    <name>FileUtils/Covers</name>
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="86"/>
         <source>Reading Cover Informations</source>
@@ -1888,7 +1888,7 @@
     </message>
 </context>
 <context>
-    <name>InputOutputs/Files</name>
+    <name>FileUtils/Files</name>
     <message>
         <location filename="Tables/FileTable.py" line="57"/>
         <source>Reading File Informations</source>
@@ -1901,7 +1901,7 @@
     </message>
 </context>
 <context>
-    <name>InputOutputs/Folders</name>
+    <name>FileUtils/Folders</name>
     <message>
         <location filename="Tables/FolderTable.py" line="57"/>
         <source>Reading Directory Informations</source>
@@ -1914,7 +1914,7 @@
     </message>
 </context>
 <context>
-    <name>InputOutputs/Musics</name>
+    <name>FileUtils/Musics</name>
     <message>
         <location filename="Tables/MusicTable.py" line="88"/>
         <source>Reading Music Tags</source>
@@ -1957,7 +1957,7 @@
     </message>
 </context>
 <context>
-    <name>InputOutputs/SubFolders</name>
+    <name>FileUtils/SubFolders</name>
     <message>
         <location filename="Tables/SubFolderTable.py" line="58"/>
         <source>Reading File Informations</source>
@@ -1970,7 +1970,7 @@
     </message>
 </context>
 <context>
-    <name>InputOutputs/Tables</name>
+    <name>FileUtils/Tables</name>
     <message>
         <location filename="Tables/AmarokArtistTable.py" line="144"/>
         <source>Generating Table...</source>
@@ -6764,17 +6764,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1527"/>
+        <location filename="FileUtils/__init__.py" line="1527"/>
         <source>File Tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1520"/>
+        <location filename="FileUtils/__init__.py" line="1520"/>
         <source>File Tree Created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1520"/>
+        <location filename="FileUtils/__init__.py" line="1520"/>
         <source>File tree created in file: &quot;%s&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6879,12 +6879,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1488"/>
+        <location filename="FileUtils/__init__.py" line="1488"/>
         <source>Last Modified : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InputOutputs/__init__.py" line="1455"/>
+        <location filename="FileUtils/__init__.py" line="1455"/>
         <source>File List</source>
         <translation type="unfinished"></translation>
     </message>

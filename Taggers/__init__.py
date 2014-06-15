@@ -39,7 +39,9 @@ def getTagger(_isAlertIfNotExist=False):
                 return taggerModule.Tagger()
         if _isAlertIfNotExist:
             Dialogs.show(translate("Taggers", "You Have Not Any Tagger"),
-                                translate("Taggers", "Not found any tagger in your system. Please install a tagger module. Now supporting only eyeD3 module (python-eyed3)."))
+                                translate("Taggers", "Not found any tagger in your system. "
+                                                     "Please install a tagger module. "
+                                                     "Now supporting only eyeD3 module (python-eyed3)."))
         return None
     except:
         ReportBug.ReportBug()

@@ -21,7 +21,7 @@ import Amarok
 from Amarok import Commands
 from Core.MyObjects import *
 import Taggers
-import InputOutputs 
+import FileUtils as fu
 from Core import Universals
 from Core import Dialogs
 from Core import Records
@@ -52,7 +52,7 @@ def changePaths(_values, _type="auto"):
         isContinueThreadAction = Universals.isContinueThreadAction()
         if isContinueThreadAction:
             try:
-                if _type == "file" or (_type=="auto" and InputOutputs.isFile(value["newPath"])):
+                if _type == "file" or (_type=="auto" and fu.isFile(value["newPath"])):
                     Commands.changeFilePath(value["oldPath"], value["newPath"])
                 else:
                     Commands.changeDirectoryPath(value["oldPath"], value["newPath"])
@@ -95,7 +95,7 @@ def changeArtistValues(_values):
             if musicFilePathAndArtist!=None:
                 artistName = musicFilePathAndArtist[1]
                 for musicFilePath in musicFilePathAndArtist[0]:
-                    if InputOutputs.isWritableFileOrDir(musicFilePath, False, True):
+                    if fu.isWritableFileOrDir(musicFilePath, False, True):
                         Records.add(str(translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
                         currentArtistName = ""
                         tagger = Taggers.getTagger()

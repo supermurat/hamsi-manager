@@ -21,7 +21,7 @@ from Core import Variables
 from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
-import InputOutputs
+import FileUtils as fu
 import Options
 from Options import OptionsForm
 from Core import Organizer
@@ -33,7 +33,7 @@ class Packager(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
@@ -115,7 +115,7 @@ class Packager(MyDialog):
         vblMain.addWidget(tabwTabs)
         self.hashChanged(self.cbHash.currentIndex())
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -171,14 +171,14 @@ class Packager(MyDialog):
             hashType =  str(self.cbHash.currentText())
         if hashType!=None:
             if self.cbHashOutput.currentIndex()==0:
-                if InputOutputs.createHashDigestFile(str(self.lePathOfPackage.text()), str(self.leHashDigestFile.text()), hashType, False):
+                if fu.createHashDigestFile(str(self.lePathOfPackage.text()), str(self.leHashDigestFile.text()), hashType, False):
                     Dialogs.show(translate("Packager", "Hash Digest File Created"),
                                 str(translate("Packager", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
                 else:
                     Dialogs.showError(translate("Packager", "Hash Digest File Is Not Created"),
                                 translate("Packager", "Hash digest file not cteated."))
             else:
-                hashDigestContent = InputOutputs.getHashDigest(str(self.lePathOfPackage.text()), hashType)
+                hashDigestContent = fu.getHashDigest(str(self.lePathOfPackage.text()), hashType)
                 if hashDigestContent!=False:
                     MApplication.clipboard().setText(trForUI(hashDigestContent))
                     Dialogs.show(translate("Packager", "Hash Digest Copied To Clipboard"),
@@ -192,13 +192,13 @@ class Packager(MyDialog):
         try:
             Universals.isCanBeShowOnMainWindow = False
             import random
-            tempDir = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-" + str(random.randrange(0, 1000000)))
+            tempDir = fu.joinPath(fu.getTempDir(), "HamsiManager-" + str(random.randrange(0, 1000000)))
             pathOfProject = str(self.lePathOfProject.text())
-            pathOfTempSource = InputOutputs.joinPath(tempDir, InputOutputs.getBaseName(pathOfProject))
-            InputOutputs.copyFileOrDir(pathOfProject, pathOfTempSource)
-            InputOutputs.clearPackagingDirectory(tempDir, True, True)
-            if InputOutputs.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource, InputOutputs.getBaseName(pathOfProject)):
-                InputOutputs.removeFileOrDir(tempDir)
+            pathOfTempSource = fu.joinPath(tempDir, fu.getBaseName(pathOfProject))
+            fu.copyFileOrDir(pathOfProject, pathOfTempSource)
+            fu.clearPackagingDirectory(tempDir, True, True)
+            if fu.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource, fu.getBaseName(pathOfProject)):
+                fu.removeFileOrDir(tempDir)
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
                             translate("Packager", "You can now start sharing it."))
@@ -216,8 +216,8 @@ class Packager(MyDialog):
                     "This action will delete the files completely, without any chance to recover.<br>"+
                     "Are you sure you want to perform the action?")) % Organizer.getLink(str(self.lePathOfProject.text())))
             if answer==Dialogs.Yes:
-                if InputOutputs.isWritableFileOrDir(str(self.lePathOfProject.text())):
-                    if InputOutputs.clearPackagingDirectory(str(self.lePathOfProject.text()), True, True):
+                if fu.isWritableFileOrDir(str(self.lePathOfProject.text())):
+                    if fu.clearPackagingDirectory(str(self.lePathOfProject.text()), True, True):
                         Dialogs.show(translate("Packager", "Project Is Cleared"),
                                     translate("Packager", "You can now pack your project."))
             Universals.isCanBeShowOnMainWindow = True
@@ -227,8 +227,8 @@ class Packager(MyDialog):
     def Pack(self):
         try:
             Universals.isCanBeShowOnMainWindow = False
-            if InputOutputs.makePack(str(self.lePathOfPackage.text()), 
-                                self.getPackageType(), str(self.lePathOfProject.text()), InputOutputs.getBaseName(self.lePathOfProject.text())):
+            if fu.makePack(str(self.lePathOfPackage.text()),
+                                self.getPackageType(), str(self.lePathOfProject.text()), fu.getBaseName(self.lePathOfProject.text())):
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
                             translate("Packager", "You can now share your project."))

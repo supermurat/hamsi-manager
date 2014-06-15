@@ -21,7 +21,7 @@ import sys,os
 from Core import Variables
 from Core.MyObjects import *
 from Core import Dialogs, Universals, Records
-import InputOutputs
+import FileUtils as fu
 import Databases
 from Core import ReportBug  
 

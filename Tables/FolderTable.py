@@ -18,7 +18,7 @@
 
 
 from Core import Organizer
-import InputOutputs
+import FileUtils as fu
 from Core.MyObjects import *
 from Details import Details
 from Core import Dialogs
@@ -37,17 +37,17 @@ class FolderTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        fileAndDirectoryNames = InputOutputs.readDirectory(_directoryPath, "fileAndDirectory", Universals.getBoolValue("isShowHiddensInFolderTable"))
+        fileAndDirectoryNames = fu.readDirectory(_directoryPath, "fileAndDirectory", Universals.getBoolValue("isShowHiddensInFolderTable"))
         allItemNumber = len(fileAndDirectoryNames)
         Universals.startThreadAction()
-        baseNameOfDirectory = InputOutputs.getBaseName(_directoryPath)
+        baseNameOfDirectory = fu.getBaseName(_directoryPath)
         for dirNo,dirName in enumerate(fileAndDirectoryNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(_directoryPath, dirName), False, True):
+                    if fu.isReadableFileOrDir(fu.joinPath(_directoryPath, dirName), False, True):
                         content = {}
-                        content["path"] = InputOutputs.joinPath(_directoryPath, dirName)
+                        content["path"] = fu.joinPath(_directoryPath, dirName)
                         content["baseNameOfDirectory"] = baseNameOfDirectory
                         content["baseName"] = dirName
                         currentTableContentValues.append(content)
@@ -55,7 +55,7 @@ class FolderTable():
                     ReportBug.ReportBug()
             else:
                 allItemNumber = dirNo+1
-            Dialogs.showState(translate("InputOutputs/Folders", "Reading Directory Informations"),dirNo+1,allItemNumber, True) 
+            Dialogs.showState(translate("FileUtils/Folders", "Reading Directory Informations"),dirNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
@@ -70,14 +70,14 @@ class FolderTable():
             if Amarok.checkAmarok(True, False) == False:
                 return False
         allItemNumber = len(self.Table.currentTableContentValues)
-        Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),0,allItemNumber, True)
+        Dialogs.showState(translate("FileUtils/Folders", "Writing Directory Informations"),0,allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                    if fu.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                         if self.Table.isRowHidden(rowNo):
-                            InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                            fu.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                             self.Table.changedValueNumber += 1
                         else:
                             baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -85,24 +85,24 @@ class FolderTable():
                             if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
                                 self.Table.changedValueNumber += 1
-                                newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
+                                newDirectoryPath = fu.joinPath(fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
                                 self.Table.setNewDirectory(newDirectoryPath)
                             if self.Table.isChangableItem(rowNo, 1, baseName, False):
                                 baseName = str(self.Table.item(rowNo,1).text())
                                 self.Table.changedValueNumber += 1
-                            newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
-                            if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
+                            newFilePath = fu.joinPath(fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
+                            if fu.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != fu.getRealPath(newFilePath):
                                 changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
                                                                 newFilePath])
                 except:
                     ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo+1
-            Dialogs.showState(translate("InputOutputs/Folders", "Writing Directory Informations"),rowNo+1,allItemNumber, True)
+            Dialogs.showState(translate("FileUtils/Folders", "Writing Directory Informations"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.changeDirectories(changingFileDirectories)
+        pathValues = fu.changeDirectories(changingFileDirectories)
         if Variables.isActiveAmarok and Universals.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
@@ -148,11 +148,11 @@ class FolderTable():
                     newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"], "directory")
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
                 elif itemNo==1:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseName"], InputOutputs.getObjectType(self.Table.currentTableContentValues[rowNo]["path"]))
+                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseName"], fu.getObjectType(self.Table.currentTableContentValues[rowNo]["path"]))
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["baseName"])
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
-            Dialogs.showState(translate("InputOutputs/Tables", "Generating Table..."), rowNo+1, allItemNumber) 
+            Dialogs.showState(translate("FileUtils/Tables", "Generating Table..."), rowNo+1, allItemNumber)
                     
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
@@ -161,7 +161,7 @@ class FolderTable():
                     if itemNo==0:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                     else:
-                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), InputOutputs.getObjectType(self.Table.currentTableContentValues[rowNo]["path"]))
+                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), fu.getObjectType(self.Table.currentTableContentValues[rowNo]["path"]))
                     self.Table.item(rowNo,itemNo).setText(trForUI(newString))
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):

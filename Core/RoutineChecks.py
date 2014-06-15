@@ -30,7 +30,7 @@ def checkParameters():
     import logging
     from Core import Variables
     from Core import Universals
-    import InputOutputs
+    import FileUtils as fu
     global isQuickMake, QuickMakeParameters, myArgvs, parser, optionList
     myArgvs = sys.argv
     isDontRun = False
@@ -170,10 +170,10 @@ the Free Software Foundation; either version 2 of the License, or
     parser.set_defaults(loggingLevel=logging.WARNING, runAsRoot=False, qm=False, plugins=False)
     options, remainderParameters = parser.parse_args()
     if len(remainderParameters)==1:
-        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainderParameters[0]), InputOutputs.defaultFileSystemEncoding))
+        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(remainderParameters[0]), fu.defaultFileSystemEncoding))
         except:Universals.setMySetting("lastDirectory", str(remainderParameters[0]))
     if options.directory:
-        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(options.directory), InputOutputs.defaultFileSystemEncoding))
+        try:Universals.setMySetting("lastDirectory", Universals.trDecode(str(options.directory), fu.defaultFileSystemEncoding))
         except:Universals.setMySetting("lastDirectory", str(options.directory))
     if options.loggingLevel:
         Universals.loggingLevel = options.loggingLevel
@@ -276,8 +276,8 @@ def checkAfterRunProcess():
     from Core import Universals
     from Core import Dialogs, UpdateControl
     from Core.MyObjects import translate, isActivePyKDE4
-    import InputOutputs
-    if str(InputOutputs.defaultFileSystemEncoding) != str(Universals.MySettings["fileSystemEncoding"]):
+    import FileUtils as fu
+    if str(fu.defaultFileSystemEncoding) != str(Universals.MySettings["fileSystemEncoding"]):
         answer = Dialogs.ask(translate("HamsiManager", "Your System's \"File System Encoding\" Type Different"),
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
         if answer==Dialogs.No: 
@@ -286,7 +286,7 @@ def checkAfterRunProcess():
     if Universals.getBoolValue("isMakeAutoDesign") or Universals.getBoolValue("isShowWindowModeSuggestion"):
         Universals.MainWindow.TableToolsBar.setVisible(False)
         Universals.MainWindow.ToolsBar.setVisible(False)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             Universals.MainWindow.Browser.setVisible(False)
             Universals.MainWindow.TreeBrowser.setVisible(False)
             Universals.MainWindow.FileManager.urlNavigator.setMinimumWidth(150)
@@ -354,8 +354,8 @@ def checkBeforeCloseProcess():
     from Core import Universals
     from Core import UpdateControl
     if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
-        import InputOutputs
-        InputOutputs.checkSizeOfDeletedFiles()
+        import FileUtils as fu
+        fu.checkSizeOfDeletedFiles()
     if UpdateControl.UpdateControl.isMakeUpdateControl():
         UpdateControl.UpdateControl(Universals.MainWindow, _isCloseParent=True)
         return False

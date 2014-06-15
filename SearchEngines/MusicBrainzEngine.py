@@ -33,7 +33,7 @@ class Search(MDialog):
 
     def __init__(self, _parent, _isCheckSingleFile=False, _searchDepth=3):
         MDialog.__init__(self, _parent)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         self.isCheckSingleFile = _isCheckSingleFile
         self.searchDepth = _searchDepth
@@ -85,7 +85,7 @@ class Search(MDialog):
         hblBox.addWidget(self.pbtnClose)
         hblBox.addWidget(self.pbtnApply)
         vblBox.addLayout(hblBox)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblBox)

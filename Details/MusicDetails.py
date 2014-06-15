@@ -18,8 +18,8 @@
 
 
 from Core import Variables
-from InputOutputs import Musics
-import InputOutputs
+from FileUtils import Musics
+import FileUtils as fu
 import os,sys
 from Core.MyObjects import *
 from Core import Dialogs
@@ -35,7 +35,7 @@ class MusicDetails(MDialog):
     musicDialogs = []
     def __init__(self, _filePath, _isOpenDetailsOnNewWindow=True, _isPlayNow=False):
         global musicDialogs
-        _filePath = InputOutputs.checkSource(_filePath, "file")
+        _filePath = fu.checkSource(_filePath, "file")
         if _filePath is not None:
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
@@ -53,7 +53,7 @@ class MusicDetails(MDialog):
             if _isOpenDetailsOnNewWindow==True:
                 musicDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
-                if isActivePyKDE4==True:
+                if isActivePyKDE4:
                     self.setButtons(MDialog.NoDefault)
                 self.isActiveAddImage = False
                 self.infoLabels = {}
@@ -82,7 +82,7 @@ class MusicDetails(MDialog):
                 buttonHBOXs.addWidget(self.pbtnSave)
                 buttonHBOXs.addWidget(self.pbtnClose)
                 self.vblMain.addLayout(buttonHBOXs)
-                if isActivePyKDE4==True:
+                if isActivePyKDE4:
                     self.setMainWidget(self.pnlMain)
                 else:
                     self.setLayout(self.vblMain)
@@ -97,7 +97,7 @@ class MusicDetails(MDialog):
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
         self.musicValues = Musics.readMusicFile(self.musicFile)
-        self.setWindowTitle(trForUI(InputOutputs.getBaseName(self.musicFile)))  
+        self.setWindowTitle(trForUI(fu.getBaseName(self.musicFile)))
         if self.pnlClearable != None:
             Universals.clearAllChilds(self.pnlClearable, True)
         self.pnlClearable = MWidget()
@@ -286,7 +286,7 @@ class MusicDetails(MDialog):
                 self.pbtnDeleteImage.hide()
                 self.pbtnSaveAsImage.hide()
             else:
-                if InputOutputs.isFile(self.leImagePath.text())==True:
+                if fu.isFile(self.leImagePath.text())==True:
                     ImageDetails.closeAllImageDialogs()
                     imageType = Taggers.getImageTypesNo()[self.cbImageType.currentIndex()]
                     description = str(imageType)
@@ -314,11 +314,11 @@ class MusicDetails(MDialog):
         try:
             if self.lstwImages.currentRow()!=-1:
                 imagePath = Dialogs.getSaveFileName(translate("MusicDetails", "Save As"),
-                                    InputOutputs.getDirName(self.musicValues["path"]), str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1]), 0)
+                                    fu.getDirName(self.musicValues["path"]), str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1]), 0)
                 if imagePath is not None:
-                    sourceFile = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1])
-                    InputOutputs.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
-                    InputOutputs.moveOrChange(sourceFile, imagePath)
+                    sourceFile = fu.joinPath(fu.getTempDir(), "HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1])
+                    fu.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
+                    fu.moveOrChange(sourceFile, imagePath)
         except:
             ReportBug.ReportBug()
             
@@ -340,7 +340,7 @@ class MusicDetails(MDialog):
     def selectImage(self):
         try:
             imagePath = Dialogs.getOpenFileName(translate("MusicDetails", "Choose Image"),
-                InputOutputs.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG, 0)
+                fu.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG, 0)
             if imagePath is not None:
                 self.leImagePath.setText(imagePath)
         except:

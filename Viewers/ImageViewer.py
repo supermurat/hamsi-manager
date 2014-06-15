@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import InputOutputs
+import FileUtils as fu
 import os,sys
 from Core.MyObjects import *
 from Core import Dialogs
@@ -62,14 +62,14 @@ class ImageViewer(MWidget):
     def changeCoverValues(self, _image=None, _valueType="file"):
         self.zoomValue = 1.0
         if _image!=None and _valueType=="file":
-            _image = InputOutputs.checkSource(_image, "file", False)
+            _image = fu.checkSource(_image, "file", False)
             if _image is None:
                 if self.isCorrectedWhenNotExist==True:
-                    _image = InputOutputs.joinPath(InputOutputs.themePath, "Images", "ok.png")
+                    _image = fu.joinPath(fu.themePath, "Images", "ok.png")
                 else:
-                    _image = InputOutputs.joinPath(InputOutputs.themePath, "Images", "notExist.png")
+                    _image = fu.joinPath(fu.themePath, "Images", "notExist.png")
         elif _valueType=="file":
-            _image = InputOutputs.joinPath(InputOutputs.themePath, "Images", "notExist.png")
+            _image = fu.joinPath(fu.themePath, "Images", "notExist.png")
         self.pmapImage.detach()
         if _valueType=="data":
             self.pmapImage.loadFromData(_image)

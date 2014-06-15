@@ -23,7 +23,7 @@ from Core import Dialogs
 from Core import Settings
 from Core import MyConfigure
 from Core import Execute
-import InputOutputs
+import FileUtils as fu
 from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
@@ -32,7 +32,7 @@ class Configurator(MyDialog):
     def __init__(self, _page=None):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
@@ -82,7 +82,7 @@ class Configurator(MyDialog):
         self.vblMain.addLayout(self.hblButtons)
         self.pageChanged(True)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(self.pnlMain)
             else:
                 self.setLayout(self.vblMain)
@@ -109,18 +109,18 @@ class Configurator(MyDialog):
         pnlPage.setLayout(HBox)
         defaultLangCode = Variables.getDefaultLanguageCode()
         if _pageNo==0:
-            if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode)):
-                aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode)):
+                aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
             else:
-                aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
+                aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
             lblAbout = MLabel(trForUI(aboutFileContent))
             lblAbout.setWordWrap(True)
             HBox.addWidget(lblAbout)
         elif _pageNo==1:
-            if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode)):
-                lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode), "utf-8")
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode)):
+                lisenceFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode), "utf-8")
             else:
-                lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
+                lisenceFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
             teCopying = MTextEdit()
             teCopying.setPlainText(trForUI(lisenceFileContent))
             HBox.addWidget(teCopying)
@@ -277,41 +277,41 @@ class Configurator(MyDialog):
     def reConfigure(self):
         try:
             oldPathOfExecutableHamsi = Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")
-            if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManager.desktop")):
-                if InputOutputs.isWritableFileOrDir(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManager.desktop")):
-                    MyConfigure.reConfigureFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManager.desktop"))
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManager.desktop")):
+                if fu.isWritableFileOrDir(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManager.desktop")):
+                    MyConfigure.reConfigureFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManager.desktop"))
             if self.isCreateDesktopShortcut!=None:
                 if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                     desktopPath = Variables.getUserDesktopPath()
                     if Variables.isWindows:
-                        MyConfigure.createShortCutFile(InputOutputs.joinPath(desktopPath, "Hamsi Manager.lnk"))
+                        MyConfigure.createShortCutFile(fu.joinPath(desktopPath, "Hamsi Manager.lnk"))
                     else:
                         fileContent = MyConfigure.getConfiguredDesktopFileContent()
-                        InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
+                        fu.writeToFile(fu.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
             if Variables.isRunningAsRoot():
                 executableLink = str(self.leExecutableLink.text())
                 if self.isCreateExecutableLink!=None:
                     if self.isCreateExecutableLink.checkState()==Mt.Checked:
                         if executableLink.strip()!="":
                             HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
-                            if InputOutputs.isFile(executableLink):
-                                InputOutputs.removeFileOrDir(executableLink)
-                            InputOutputs.createSymLink(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, HamsiManagerFileName), executableLink)
+                            if fu.isFile(executableLink):
+                                fu.removeFileOrDir(executableLink)
+                            fu.createSymLink(fu.joinPath(fu.HamsiManagerDirectory, HamsiManagerFileName), executableLink)
                             Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
                             if oldPathOfExecutableHamsi!=executableLink:
-                                if InputOutputs.isFile(oldPathOfExecutableHamsi):
+                                if fu.isFile(oldPathOfExecutableHamsi):
                                     answer = Dialogs.ask(translate("Reconfigure", "Other Hamsi Manager Was Detected"), 
                                         str(translate("Reconfigure", "Other Hamsi Manager executable file was detected. Are you want to delete old executable file? You can delete this old executable file : \"%s\"")) % (oldPathOfExecutableHamsi))
                                     if answer!=Dialogs.Yes:
-                                        InputOutputs.removeFile(oldPathOfExecutableHamsi)
-                        if InputOutputs.isDir("/usr/share/applications/"):
+                                        fu.removeFile(oldPathOfExecutableHamsi)
+                        if fu.isDir("/usr/share/applications/"):
                             fileContent = MyConfigure.getConfiguredDesktopFileContent()
-                            InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
+                            fu.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
             if Variables.isRunningAsRoot()==False:
-                if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications"))==False:
-                    InputOutputs.makeDirs(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications"))
+                if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))==False:
+                    fu.makeDirs(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))
                 fileContent = MyConfigure.getConfiguredDesktopFileContent()
-                InputOutputs.writeToFile(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"), fileContent)
+                fu.writeToFile(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"), fileContent)
             MyConfigure.installKDE4Languages()
             self.isInstallFinised = True
         except:

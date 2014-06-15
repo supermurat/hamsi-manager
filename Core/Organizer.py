@@ -24,7 +24,7 @@ import re
 from Core.MyObjects import *
 from Core import Variables
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 if Variables.isPython3k:
     from urllib.parse import unquote, quote
 else:
@@ -47,20 +47,20 @@ def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=
         _inputString = unquote(_inputString)
     _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore"))
     if _type=="file" or _type=="directory":
-        _inputString = InputOutputs.getAvailableNameByName(_inputString)
+        _inputString = fu.getAvailableNameByName(_inputString)
         preString, extString, ext2String = "", "", ""
-        if _inputString[-1]==InputOutputs.sep:
+        if _inputString[-1]==fu.sep:
             _inputString = _inputString[:-1]
-            ext2String = InputOutputs.sep
-        if _inputString.find(InputOutputs.sep)!=-1:
-            tStr = _inputString.rsplit(InputOutputs.sep, 1)
-            for ps in tStr[0].split(InputOutputs.sep):
+            ext2String = fu.sep
+        if _inputString.find(fu.sep)!=-1:
+            tStr = _inputString.rsplit(fu.sep, 1)
+            for ps in tStr[0].split(fu.sep):
                 if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
                     ps = searchAndReplaceFromSearchAndReplaceTable(ps)
-                preString += emendBaseName(ps, "directory", _isCorrectCaseSensitive) + InputOutputs.sep
+                preString += emendBaseName(ps, "directory", _isCorrectCaseSensitive) + fu.sep
             _inputString = tStr[1]
         if _type=="file":
-            _inputString, extString = InputOutputs.getFileNameParts(_inputString)
+            _inputString, extString = fu.getFileNameParts(_inputString)
         if Universals.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
             _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
         _inputString = emendBaseName(_inputString, _type, _isCorrectCaseSensitive)
@@ -68,7 +68,7 @@ def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=
         if extString!="":
             extString = "." + extString
         if preString!="":
-            _inputString = InputOutputs.joinPath(preString, _inputString)
+            _inputString = fu.joinPath(preString, _inputString)
         _inputString = str(Universals.trDecode(_inputString, "utf-8", "ignore")) + str(Universals.trDecode(extString, "utf-8", "ignore")) + str(Universals.trDecode(ext2String, "utf-8", "ignore"))
     else:
         if Universals.getBoolValue("isCorrectValueWithSearchAndReplaceTable"):

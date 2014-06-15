@@ -18,8 +18,8 @@
 
 
 from Core import Variables
-from InputOutputs import Musics
-import InputOutputs
+from FileUtils import Musics
+import FileUtils as fu
 import os
 from Core.MyObjects import *
 from Core import Dialogs
@@ -157,7 +157,7 @@ class MusicPlayer(MWidget):
                 _filePath = self.file
             else:
                 self.file = _filePath
-            _filePath = InputOutputs.checkSource(_filePath, "file")
+            _filePath = fu.checkSource(_filePath, "file")
             if _filePath is not None:
                 import Taggers
                 if Taggers.getTagger(True)!=None:
@@ -204,8 +204,8 @@ class MusicPlayer(MWidget):
         
     def runTo(self):
         try:
-            temp=nesne_adi().split(";")
-            self.Player.runTo(temp[1])
+            second = 0 #TODO: add slider or something
+            self.Player.runTo(second)
         except:
             ReportBug.ReportBug()
         
@@ -254,8 +254,8 @@ class M_Phonon():
             self.m_media.stop()
         self.paused = False
     
-    def runTo(self, _saniye):
-        self.m_media.seek(_saniye)
+    def runTo(self, _second):
+        self.m_media.seek(_second)
     
     def seek(self, _state):
         pass
@@ -304,8 +304,8 @@ class M_Phonon_PySide():
             self.m_media.stop()
         self.paused = False
     
-    def runTo(self, _saniye):
-        self.m_media.seek(_saniye)
+    def runTo(self, _second):
+        self.m_media.seek(_second)
     
     def seek(self, _state):
         pass
@@ -340,7 +340,7 @@ class M_tkSnack():
         if self.tada!=None:
             self.tada.stop()
 
-    def runTo(self, _saniye):
+    def runTo(self, _second):
         pass
 
     def seek(self, _state):
@@ -380,8 +380,8 @@ class M_MPlayer():
         except:pass
         self.popen = False
         
-    def runTo(self, _saniye):
-        self.runCommand("seek " + str(_saniye))
+    def runTo(self, _second):
+        self.runCommand("seek " + str(_second))
     
     def seek(self, _state):
         self.runCommand("seek " + str(_state) + " 100")

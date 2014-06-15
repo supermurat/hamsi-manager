@@ -23,7 +23,7 @@ from Core import Variables
 from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
-import InputOutputs
+import FileUtils as fu
 from Core import Records
 from Core import Settings
 import Options
@@ -106,7 +106,7 @@ class ReportBug():
             errorDetails += "<b>" + str(translate("ReportBug", "My Parameters : ")) + "</b>"
             errorDetails += str(myArgvs) + "<br>"
             errorDetails += "<b>FileSystemCharSet : </b>"
-            errorDetails += str(InputOutputs.defaultFileSystemEncoding) + " / " + str(sys.getfilesystemencoding()).lower() + "<br>"
+            errorDetails += str(fu.defaultFileSystemEncoding) + " / " + str(sys.getfilesystemencoding()).lower() + "<br>"
             errorDetails += "<b>SystemCharSet : </b>"
             errorDetails += str(sys.getdefaultencoding().lower()) + "<br>"
             try:
@@ -191,8 +191,8 @@ class ReportBug():
                     _errorDetails)
         if self.pathOfReportFile is None:
             import random
-            self.pathOfReportFile = InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html")
-            InputOutputs.writeToFile(self.pathOfReportFile, htmlString)
+            self.pathOfReportFile = fu.joinPath(fu.getTempDir(), "HamsiManager-ErrorOutput-"+ str(random.randrange(0, 1000000))+".html")
+            fu.writeToFile(self.pathOfReportFile, htmlString)
         
 
 class ReportBugDialog(MDialog):
@@ -213,7 +213,7 @@ class ReportBugDialog(MDialog):
         self.nrpBack = None
         isClose=False
         try:
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MDialog.NoDefault)
         except:pass
         
@@ -273,7 +273,7 @@ class ReportBugDialog(MDialog):
         self.vblMain.addWidget(gboxContactInformations, 1)
         self.vblMain.addLayout(hbox0, 1)
         try:
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(self.vblMain)
@@ -296,7 +296,7 @@ class ReportBugDialog(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
-                    Settings.setting().setValue("lastDirectory", Universals.trQVariant(InputOutputs.userDirectoryPath))
+                    Settings.setting().setValue("lastDirectory", Universals.trQVariant(fu.userDirectoryPath))
                 elif answer==translate("ReportBug", "Settings"):
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):
@@ -379,7 +379,7 @@ class ReportBugDialog(MDialog):
                 settingText += "<hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
                 try:
                     for rowValues in Universals.MainWindow.Table.currentTableContentValues:
-                        settingText +="<tr><td>" + str(Universals.trUnicode(rowValues["path"], InputOutputs.fileSystemEncoding)) + "</td></tr>"
+                        settingText +="<tr><td>" + str(Universals.trUnicode(rowValues["path"], fu.fileSystemEncoding)) + "</td></tr>"
                     settingText +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3>"
                     if len(Universals.MainWindow.Table.currentTableContentValues)>0:
                         settingText +="<table border=1><tr>"

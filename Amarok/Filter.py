@@ -21,7 +21,7 @@ from Core import Variables
 from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
-import InputOutputs
+import FileUtils as fu
 import Options
 from Core import Organizer
 import Amarok
@@ -65,7 +65,7 @@ class FilterEditor(MDialog):
     def __init__(self, _parent, _filterKeyName):
         MDialog.__init__(self, _parent)
         self.fWidget = _parent
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
@@ -101,7 +101,7 @@ class FilterEditor(MDialog):
         self.hblBox.addWidget(self.pbtnApply)
         vblMain.addLayout(self.hblBox)
         vblMain.addWidget(gboxUsableInformations)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)

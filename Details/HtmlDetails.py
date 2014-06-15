@@ -45,7 +45,7 @@ class HtmlDetails(MDialog):
             QtWebKit = getMyObject("QtWebKit")   
             htmlDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MDialog.NoDefault)
             self.wvWeb = QtWebKit.QWebView()
             self.wvWeb.setMinimumWidth(520)
@@ -63,7 +63,7 @@ class HtmlDetails(MDialog):
             vblMain = MVBoxLayout(self.pnlMain)
             vblMain.addWidget(self.wvWeb)
             vblMain.addLayout(HBOXs[0])
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(self.pnlMain)
             else:
                 self.setLayout(vblMain)

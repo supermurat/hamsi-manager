@@ -20,11 +20,14 @@ import sys
 import os
 from Core.RoutineChecks import QuickMakeParameters
 from Core import RoutineChecks
-from Core import Dialogs, Records, Organizer
-import InputOutputs
+from Core import Dialogs
+from Core import Records
+from Core import Organizer
+import FileUtils as fu
 from Core.MyObjects import *
 from Core import Universals
 from Core import ReportBug
+from Core import Variables
 
 class QuickMake():
     def __init__(self):
@@ -130,7 +133,7 @@ class QuickMakeWindow(MyDialog):
         newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, QuickMakeParameters[0], None, newOrChangedKeys)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
@@ -144,16 +147,16 @@ class QuickMakeWindow(MyDialog):
         if _isShowEmendWidgets:
             lblOldValue = MLabel(translate("QuickMake", "Old Value : "))
             lblNewValue = MLabel(translate("QuickMake", "New Value : "))
-            leOldValue = MLineEdit(trForUI(InputOutputs.getRealPath(QuickMakeParameters[1])))
+            leOldValue = MLineEdit(trForUI(fu.getRealPath(QuickMakeParameters[1])))
             leOldValue.setEnabled(False)
-            self.leNewValue = MLineEdit(trForUI(Organizer.emend(InputOutputs.getRealPath(QuickMakeParameters[1]), InputOutputs.getObjectType(InputOutputs.getRealPath(QuickMakeParameters[1])))))
+            self.leNewValue = MLineEdit(trForUI(Organizer.emend(fu.getRealPath(QuickMakeParameters[1]), fu.getObjectType(fu.getRealPath(QuickMakeParameters[1])))))
             vblInfo.addWidget(lblOldValue)
             vblInfo.addWidget(leOldValue)
             vblInfo.addWidget(lblNewValue)
             vblInfo.addWidget(self.leNewValue)
         else:
             lblValue = MLabel(translate("QuickMake", "Value : "))
-            leValue = MLineEdit(trForUI(InputOutputs.getRealPath(QuickMakeParameters[1])))
+            leValue = MLineEdit(trForUI(fu.getRealPath(QuickMakeParameters[1])))
             leValue.setEnabled(False)
             vblInfo.addWidget(lblValue)
             vblInfo.addWidget(leValue)
@@ -171,7 +174,7 @@ class QuickMakeWindow(MyDialog):
         hblBox.addWidget(pbtnApply, 3)
         vblInfo.addLayout(hblBox)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -184,33 +187,33 @@ class QuickMakeWindow(MyDialog):
         MApplication.setQuitOnLastWindowClosed(True)
     
     def checkSource(self, _oldPath, _objectType="fileAndDirectory", _isCheckWritable=True):
-        _path = InputOutputs.checkSource(_oldPath, _objectType, False)
+        _path = fu.checkSource(_oldPath, _objectType, False)
         if _path is None:
             if _objectType=="file":
                 answer = Dialogs.ask(translate("QuickMake", "Cannot Find File"),
-                        str(translate("InputOutputs", "\"%s\" : cannot find a file with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(_oldPath))
+                        str(translate("FileUtils", "\"%s\" : cannot find a file with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(_oldPath))
                 if answer==Dialogs.Yes:
                     self.organizeWithHamsiManager(_oldPath)
                 return None
             elif _objectType=="directory":
                 answer = Dialogs.ask(translate("QuickMake", "Cannot Find Directory"),
-                        str(translate("InputOutputs", "\"%s\" : cannot find a folder with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(_oldPath))
+                        str(translate("FileUtils", "\"%s\" : cannot find a folder with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(_oldPath))
                 if answer==Dialogs.Yes:
                     self.organizeWithHamsiManager(_oldPath)
                 return None
             else:
                 answer = Dialogs.ask(translate("QuickMake", "Cannot Find File Or Directory"),
-                        str(translate("InputOutputs", "\"%s\" : cannot find a file or directory with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(_oldPath))
+                        str(translate("FileUtils", "\"%s\" : cannot find a file or directory with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(_oldPath))
                 if answer==Dialogs.Yes:
                     self.organizeWithHamsiManager(_oldPath)
                 return None
         if _isCheckWritable:
-            if InputOutputs.isWritableFileOrDir(_oldPath)==False:
+            if fu.isWritableFileOrDir(_oldPath)==False:
                 return None
         return _path
         
     def organizeWithHamsiManager(self, _oldPath):
-        Universals.setMySetting("lastDirectory", InputOutputs.getRealDirName(_oldPath, True))
+        Universals.setMySetting("lastDirectory", fu.getRealDirName(_oldPath, True))
         RoutineChecks.isQuickMake = False
         self.close()
     
@@ -250,7 +253,7 @@ class QuickMakeWindow(MyDialog):
         try:
             _path = self.checkSource(str(QuickMakeParameters[1]), "directory")
             if _path is not None:
-                InputOutputs.checkIcon(_path)
+                fu.checkIcon(_path)
                 Dialogs.show(translate("QuickMake", "Directory Icon Checked"),
                         str(translate("QuickMake", "\"%s\"`s icon checked.<br>The default action based on the data is executed.")) % Organizer.getLink(_path))
             self.close()
@@ -261,11 +264,11 @@ class QuickMakeWindow(MyDialog):
         try:
             _path = self.checkSource(str(QuickMakeParameters[1]), "directory")
             if _path is not None:
-                if InputOutputs.isWritableFileOrDir(_path):
-                    InputOutputs.activateSmartCheckIcon()
-                    InputOutputs.checkEmptyDirectories(_path, True, True, True, True)
-                    if InputOutputs.isDir(_path):
-                        InputOutputs.completeSmartCheckIcon()
+                if fu.isWritableFileOrDir(_path):
+                    fu.activateSmartCheckIcon()
+                    fu.checkEmptyDirectories(_path, True, True, True, True)
+                    if fu.isDir(_path):
+                        fu.completeSmartCheckIcon()
                     Dialogs.show(translate("QuickMake", "Directory Cleaned"),
                             str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(_path))
             self.close()
@@ -276,7 +279,7 @@ class QuickMakeWindow(MyDialog):
         try:
             _path = self.checkSource(str(QuickMakeParameters[1]), "directory")
             if _path is not None:
-                InputOutputs.clearUnneededs(_path)
+                fu.clearUnneededs(_path)
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
                         str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(_path))
             self.close()
@@ -287,7 +290,7 @@ class QuickMakeWindow(MyDialog):
         try:
             _path = self.checkSource(str(QuickMakeParameters[1]), "directory")
             if _path is not None:
-                InputOutputs.clearIgnoreds(_path)
+                fu.clearIgnoreds(_path)
                 Dialogs.show(translate("QuickMake", "Directory Cleaned"),
                         str(translate("QuickMake", "\"%s\" is cleaned based on the criteria you set.")) % Organizer.getLink(_path))
             self.close()
@@ -301,9 +304,9 @@ class QuickMakeWindow(MyDialog):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(_path, InputOutputs.getObjectType(_path))
+                    newEmendedName = Organizer.emend(_path, fu.getObjectType(_path))
                 oldFileName = _path
-                newFileName = InputOutputs.moveOrChange(oldFileName, newEmendedName)
+                newFileName = fu.moveOrChange(oldFileName, newEmendedName)
                 if newFileName!=oldFileName:
                     Dialogs.show(translate("QuickMake", "File Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This file is \"%s\" now.")) % 
@@ -319,9 +322,9 @@ class QuickMakeWindow(MyDialog):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(_path, InputOutputs.getObjectType(_path))
+                    newEmendedName = Organizer.emend(_path, fu.getObjectType(_path))
                 oldFileName = _path
-                newDirName = InputOutputs.moveOrChange(oldFileName, newEmendedName, "directory")
+                newDirName = fu.moveOrChange(oldFileName, newEmendedName, "directory")
                 if newDirName!=oldFileName:
                     Dialogs.show(translate("QuickMake", "Directory Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
@@ -337,20 +340,20 @@ class QuickMakeWindow(MyDialog):
                 if Universals.getBoolValue("isShowQuickMakeWindow"):
                     newEmendedName = str(self.leNewValue.text())
                 else:
-                    newEmendedName = Organizer.emend(_path, InputOutputs.getObjectType(_path))
-                InputOutputs.activateSmartCheckIcon()
+                    newEmendedName = Organizer.emend(_path, fu.getObjectType(_path))
+                fu.activateSmartCheckIcon()
                 oldFileName = _path
-                newDirName = InputOutputs.moveOrChange(oldFileName, newEmendedName, "directory")
+                newDirName = fu.moveOrChange(oldFileName, newEmendedName, "directory")
                 if newDirName!=oldFileName:
-                    fileAndDirectoryNames = InputOutputs.readDirectory(newDirName, "fileAndDirectory")
+                    fileAndDirectoryNames = fu.readDirectory(newDirName, "fileAndDirectory")
                     for fileAndDirs in fileAndDirectoryNames:
-                        objectType = InputOutputs.getObjectType(InputOutputs.joinPath(newDirName, fileAndDirs))
-                        InputOutputs.moveOrChange(InputOutputs.joinPath(newDirName, fileAndDirs), 
-                                  InputOutputs.joinPath(newDirName,  Organizer.emend(fileAndDirs, objectType)), objectType)
+                        objectType = fu.getObjectType(fu.joinPath(newDirName, fileAndDirs))
+                        fu.moveOrChange(fu.joinPath(newDirName, fileAndDirs),
+                                  fu.joinPath(newDirName,  Organizer.emend(fileAndDirs, objectType)), objectType)
                     if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
-                        InputOutputs.checkIcon(newDirName)
-                    if InputOutputs.isDir(newDirName):
-                        InputOutputs.completeSmartCheckIcon()
+                        fu.checkIcon(newDirName)
+                    if fu.isDir(newDirName):
+                        fu.completeSmartCheckIcon()
                     Dialogs.show(translate("QuickMake", "Directory And Contents Emended"),
                             str(translate("QuickMake", "\"%s\" is emended based on the criteria you set.This directory is \"%s\" now.")) % 
                             (Organizer.getLink(_path), Organizer.getLink(newDirName)))
@@ -386,7 +389,7 @@ class QuickMakeWindow(MyDialog):
                         str(translate("QuickMake", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(_path))
                 if answer==Dialogs.Yes:
                     Universals.MainWindow.setEnabled(False)
-                    InputOutputs.removeOnlySubFiles(_path)
+                    fu.removeOnlySubFiles(_path)
                     Universals.MainWindow.setEnabled(True)
                     Dialogs.show(translate("QuickMake", "Removed Only All Files"),
                         str(translate("QuickMake", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(_path))

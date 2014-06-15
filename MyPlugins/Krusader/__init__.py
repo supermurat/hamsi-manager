@@ -19,7 +19,7 @@
 from Core.MyObjects import *
 from Core import Variables
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 pluginName = str(translate("MyPlugins/Krusader", "Krusader`s User Actions Menu"))
 pluginVersion = "0.6"
 pluginFiles = []
@@ -32,7 +32,7 @@ def isInstallable():
 def installThisPlugin():
     from Core import Execute
     executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
-    iconPath =  InputOutputs.joinPath(InputOutputs.themePath, "Images", "hamsi.png")
+    iconPath =  fu.joinPath(fu.themePath, "Images", "hamsi.png")
     myPluginStrings = [(" <action name=\"hamsimanager_Organize\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Organize With Hamsi Manager")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "You can organize with Hamsi Manager")) + "</tooltip>\n"+
@@ -45,7 +45,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_emendDirectory\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Auto Emend Directory")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "emendDirectory.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "emendDirectory.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --emendDirectory %aCurrent%</command>\n"+
@@ -54,7 +54,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_emendDirectoryWithContents\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Auto Emend Directory (With Contents)")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager (With Contents)")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "emendDirectoryWithContents.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "emendDirectoryWithContents.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager (With Contents)")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --emendDirectoryWithContents %aCurrent%</command>\n"+
@@ -63,7 +63,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_emendFile\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Auto Emend File")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "emendFile.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "emendFile.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Auto emend with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --emendFile %aCurrent%</command>\n"+
@@ -72,7 +72,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_pack\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Pack It")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Pack it with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "pack.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "pack.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Pack it with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --pack %aCurrent%</command>\n"+
@@ -81,7 +81,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_checkIcon\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Check Directory Icon")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Check directory icon with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "checkIcon.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "checkIcon.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Check directory icon with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --checkIcon %aCurrent%</command>\n"+
@@ -90,7 +90,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_clearEmptyDirectories\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Clear Empty Directories")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Clear empty directories with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "clearEmptyDirectories.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "clearEmptyDirectories.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Clear empty directories with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --clearEmptyDirectories %aCurrent%</command>\n"+
@@ -99,7 +99,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_clearUnneededs\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Clear Unneededs")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Clear unneededs with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "clearUnneededs.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "clearUnneededs.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Clear unneededs with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --clearUnneededs %aCurrent%</command>\n"+
@@ -108,7 +108,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_clearIgnoreds\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Clear Ignoreds")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Clear ignoreds with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "clearIgnoreds.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "clearIgnoreds.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Clear ignoreds with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --clearIgnoreds %aCurrent%</command>\n"+
@@ -117,7 +117,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_copyPath\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Copy Path To Clipboard")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Copy path to clipboard with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "copyPath.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "copyPath.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Copy path to clipboard with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --copyPath %aCurrent%</command>\n"+
@@ -126,7 +126,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_fileTree\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Build File Tree")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Build file tree with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "fileTree.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "fileTree.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Build file tree with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --fileTree %aCurrent%</command>\n"+
@@ -135,7 +135,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_removeOnlySubFiles\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Remove Sub Files")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Remove sub files with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "removeOnlySubFiles.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "removeOnlySubFiles.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Remove sub files with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --removeOnlySubFiles %aCurrent%</command>\n"+
@@ -144,7 +144,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_pack\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Clear It")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Clear it with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "pack.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "pack.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Clear it with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --clear %aCurrent%</command>\n"+
@@ -153,7 +153,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_hash\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Hash Digest")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Get hash digest with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "hash.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "hash.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Get hash digest with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --hash %aCurrent%</command>\n"+
@@ -162,7 +162,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_textCorrector\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Correct Content")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Correct content with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "textCorrector.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "textCorrector.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Correct content with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --textCorrector %aCurrent%</command>\n"+
@@ -171,7 +171,7 @@ def installThisPlugin():
                 (" <action name=\"hamsimanager_search\" >\n"+
                 "  <title>" + str(translate("MyPlugins/Krusader", "Search")) + "</title>\n"+
                 "  <tooltip>" + str(translate("MyPlugins/Krusader", "Search with Hamsi Manager")) + "</tooltip>\n"+
-                "  <icon>" + InputOutputs.joinPath(InputOutputs.themePath, "Images", "search.png") + "</icon>\n"+
+                "  <icon>" + fu.joinPath(fu.themePath, "Images", "search.png") + "</icon>\n"+
                 "  <category>Hamsi Manager</category>\n"+
                 "  <description>" + str(translate("MyPlugins/Krusader", "Search with Hamsi Manager")) + ".</description>\n"+
                 "  <command>" + executeCommandOfHamsiManager + " --qm --search %aCurrent%</command>\n"+
@@ -182,12 +182,12 @@ def installThisPlugin():
     else:
         destinationPath = Variables.getKDE4HomePath() +"/share/apps/krusader/"
     try:
-        pluginStrings = InputOutputs.readFromFile(destinationPath + "useractions.xml")
+        pluginStrings = fu.readFromFile(destinationPath + "useractions.xml")
     except:
-        if InputOutputs.isDir(destinationPath)==False:
-            InputOutputs.makeDirs(destinationPath)
-        if InputOutputs.isFile("/usr/share/apps/krusader/useraction_examples.xml"):
-            pluginStrings = InputOutputs.readFromFile("/usr/share/apps/krusader/useraction_examples.xml")
+        if fu.isDir(destinationPath)==False:
+            fu.makeDirs(destinationPath)
+        if fu.isFile("/usr/share/apps/krusader/useraction_examples.xml"):
+            pluginStrings = fu.readFromFile("/usr/share/apps/krusader/useraction_examples.xml")
         else:
             pluginStrings = ("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
                             "<!DOCTYPE KrusaderUserActions>\n" +
@@ -198,7 +198,7 @@ def installThisPlugin():
         if pluginStrings.find(pstr.split("\n")[0])==-1:
             pluginString += pstr
     pluginStrings = pluginStrings.replace("</KrusaderUserActions>", pluginString + "</KrusaderUserActions>")
-    InputOutputs.writeToFile(destinationPath + "useractions.xml", pluginStrings)
+    fu.writeToFile(destinationPath + "useractions.xml", pluginStrings)
     if pluginString=="":
         return "AlreadyInstalled"
     return True
@@ -209,9 +209,9 @@ def uninstallThisPlugin():
         destinationPath = "/usr/share/apps/krusader/"
     else:
         destinationPath = Variables.getKDE4HomePath() +"/share/apps/krusader/"
-    if InputOutputs.isFile(InputOutputs.joinPath(destinationPath, "useractions.xml")):
+    if fu.isFile(fu.joinPath(destinationPath, "useractions.xml")):
         import xml.etree.ElementTree as ET
-        doc = ET.parse(InputOutputs.joinPath(destinationPath, "useractions.xml"))
+        doc = ET.parse(fu.joinPath(destinationPath, "useractions.xml"))
         KrusaderUserActions = doc.getroot()
         actions = doc.findall("action")
         for act in doc.findall("action"):
@@ -219,7 +219,7 @@ def uninstallThisPlugin():
                 KrusaderUserActions.remove(act)
                 isAlreadyuninstalled = False
         actions = doc.findall("action")
-        doc.write(InputOutputs.joinPath(destinationPath, "useractions.xml"))
+        doc.write(fu.joinPath(destinationPath, "useractions.xml"))
     if isAlreadyuninstalled:
         return "AlreadyUninstalled"
     return True

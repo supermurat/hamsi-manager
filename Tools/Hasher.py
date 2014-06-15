@@ -21,7 +21,7 @@ from Core import Variables
 from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
-import InputOutputs
+import FileUtils as fu
 import Options
 from Options import OptionsForm
 from Core import Organizer
@@ -33,7 +33,7 @@ class Hasher(MyDialog):
     def __init__(self, _file=None):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Hasher")
@@ -99,7 +99,7 @@ class Hasher(MyDialog):
         self.pathOfPackageChanged("")
         self.hashOutputChanged(self.cbHashOutput.currentIndex())
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -129,15 +129,15 @@ class Hasher(MyDialog):
     
     def hash(self):
         sourceFile = str(self.lePathOfPackage.text())
-        sourceFile = InputOutputs.checkSource(sourceFile, "file")
+        sourceFile = fu.checkSource(sourceFile, "file")
         if sourceFile is not None:
             hashType = str(self.cbHash.currentText())
             if hashType!=None:
-                hashDigestContent = InputOutputs.getHashDigest(sourceFile, hashType)
+                hashDigestContent = fu.getHashDigest(sourceFile, hashType)
                 if hashDigestContent!=False:
                     self.teHashDigest.setText(trForUI(hashDigestContent))
                     if self.cbHashOutput.currentIndex()==1:
-                        if InputOutputs.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
+                        if fu.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
                                         str(translate("Hasher", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
                         else:

@@ -19,7 +19,7 @@
 
 import os, sys, platform
 from Core.MyObjects import *
-import InputOutputs
+import FileUtils as fu
 
 installedLanguagesCodes, installedLanguagesNames, libPath = None, None, None
 osName = os.name
@@ -132,7 +132,7 @@ if isActiveAmarok:
                         "8" : translate("Tables", "Amarok Copy Table")})
 
 def isBuilt():
-    return InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
+    return fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))
 
 def isUpdatable():
     if isBuilt():
@@ -142,7 +142,7 @@ def isUpdatable():
     return False
 
 def isAvailableKDE4():
-    if InputOutputs.isFile("/usr/bin/kde4"):
+    if fu.isFile("/usr/bin/kde4"):
         return True
     else:
         return False
@@ -156,7 +156,7 @@ def isAvailableSymLink():
 
 def isRunableAsRoot():
     try:
-        if InputOutputs.isFile(InputOutputs.joinPath(getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")):
+        if fu.isFile(fu.joinPath(getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")):
             if isRunningAsRoot():
                 return False
             return True
@@ -165,13 +165,13 @@ def isRunableAsRoot():
         return False
 
 def isRunningAsRoot():
-    if InputOutputs.userDirectoryPath=="/root":
+    if fu.userDirectoryPath=="/root":
         return True
     return False
 
 def getBuildType():
-    if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt")):
-        firstRow = InputOutputs.readLinesFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))[0]
+    if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt")):
+        firstRow = fu.readLinesFromFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManagerHasBeenBuilt"))[0]
         if firstRow.find("bdist_rpm")>-1:
             return "rpm"
         elif firstRow.find("bdist_msi")>-1:
@@ -197,7 +197,7 @@ def getDefaultValues():
     myStyle , PlayerName = "", getAvailablePlayers().pop()
     if isWindows: myStyle = "Plastique"
     return {
-            "lastDirectory": str(InputOutputs.userDirectoryPath),
+            "lastDirectory": str(fu.userDirectoryPath),
             "isMainWindowMaximized": "False",
             "isShowAdvancedSelections": "False",
             "isRunOnDoubleClick": "False",
@@ -232,7 +232,7 @@ def getDefaultValues():
             "mplayerAudioDevicePointer": "-ao",
             "mplayerAudioDevice": mplayerSoundDevices[0],
             "isSaveActions": "True",
-            "fileSystemEncoding": InputOutputs.defaultFileSystemEncoding,
+            "fileSystemEncoding": fu.defaultFileSystemEncoding,
             "applicationStyle": myStyle,
             "playerName": PlayerName,
             "isMinimumWindowMode": "False",
@@ -317,7 +317,7 @@ def getDefaultValues():
             "colorSchemes": "",
             "isActiveAutoMakeIconToDirectory": "True",
             "isDontDeleteFileAndDirectory": "False",
-            "pathOfDeletedFilesAndDirectories": InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"),
+            "pathOfDeletedFilesAndDirectories": fu.joinPath(fu.userDirectoryPath, ".HamsiApps", "HamsiManager", "Deleted"),
             "isReadOnlyAmarokDB": "False",
             "isReadOnlyAmarokDBHost": "False",
             "isResizeTableColumnsToContents": "False",
@@ -543,7 +543,7 @@ def getColorSchemesAndPath():
         schemeFiles = KGlobal.dirs().findAllResources("data", "color-schemes/*.colors", KStandardDirs.NoDuplicates)
         for scheme in schemeFiles:
             sets = Settings.getSettings(scheme)
-            colorSchemes.append(Universals.trStr(sets.value("Name", InputOutputs.getBaseName(scheme))))
+            colorSchemes.append(Universals.trStr(sets.value("Name", fu.getBaseName(scheme))))
             colorSchemePaths.append(scheme)
     return colorSchemes, colorSchemePaths
 
@@ -567,11 +567,11 @@ def getUserDesktopPath():
     else:
         desktopNames = [str(translate("Variables", "Desktop")), "Desktop"]
         for dirName in desktopNames:
-            if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, dirName)):
-                desktopPath = InputOutputs.joinPath(InputOutputs.userDirectoryPath, dirName)
+            if fu.isDir(fu.joinPath(fu.userDirectoryPath, dirName)):
+                desktopPath = fu.joinPath(fu.userDirectoryPath, dirName)
                 break
             else:
-                desktopPath = InputOutputs.userDirectoryPath
+                desktopPath = fu.userDirectoryPath
     return desktopPath
 
 def getKDE4HomePath():
@@ -587,10 +587,10 @@ def getKDE4HomePath():
                 kdedirPath = Execute.getCommandResult(["kde4-config", "--localprefix"])[:-2]
             return kdedirPath
         except:pass
-    if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".kde4", "share", "config")):
-        return InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".kde4")
+    if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".kde4", "share", "config")):
+        return fu.joinPath(fu.userDirectoryPath, ".kde4")
     else:
-        return InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".kde")
+        return fu.joinPath(fu.userDirectoryPath, ".kde")
 
 def getLibraryDirectoryPath():
     global libPath
@@ -603,7 +603,7 @@ def getLibraryDirectoryPath():
                 from Core import Execute
                 libPath = Execute.getCommandResult(["kde4-config", "--path", "lib"]).split(":")[1][:-2]
             except:
-                if InputOutputs.isDir("/usr/lib64"):
+                if fu.isDir("/usr/lib64"):
                     libPath = "/usr/lib64"
                 else:
                     libPath = "/usr/lib"
@@ -611,42 +611,42 @@ def getLibraryDirectoryPath():
 
 def getSearchEnginesNames():
     engines = []
-    for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "SearchEngines")):
+    for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "SearchEngines")):
         try:
             moduleName = name.split(".")[0]
             moduleNameExt = name.split(".")[1]
             if engines.count(moduleName)==0:
-                if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "SearchEngines", name)):
+                if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "SearchEngines", name)):
                     engines.append(moduleName)
         except:pass
     return engines
 
 def getTaggersNames():
     taggers = []
-    for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Taggers")):
+    for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Taggers")):
         try:
             moduleName = name.split(".")[0]
             moduleNameExt = name.split(".")[1]
             if taggers.count(moduleName)==0:
-                if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Taggers", name)):
+                if name[:1] != "." and moduleName!="__init__" and ["py", "pyc", "pyd"].count(moduleNameExt)==1 and fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Taggers", name)):
                     taggers.append(moduleName)
         except:pass
     return taggers
 
 def getMyPluginsNames():
     plugins = []
-    for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins")):
+    for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins")):
         try:
-            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", name)):
+            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and fu.isDir(fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins", name)):
                 plugins.append(name)
         except:pass
     return plugins
 
 def getInstalledThemes():
     themes = []
-    for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes")):
+    for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Themes")):
         try:
-            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes", name)):
+            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and fu.isDir(fu.joinPath(fu.HamsiManagerDirectory, "Themes", name)):
                 themes.append(name)
         except:pass
     return themes
@@ -660,8 +660,8 @@ def getInstalledLanguagesCodes():
     global installedLanguagesCodes
     if installedLanguagesCodes==None:
         languages = []
-        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages")):
-            if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
+        for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Languages")):
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
                 langCode = name[-8:-3]
                 if languages.count(langCode)==0:
                     languages.append(langCode)
@@ -674,8 +674,8 @@ def getInstalledLanguagesNames():
     global installedLanguagesNames
     if installedLanguagesNames==None:
         languages = []
-        for name in InputOutputs.readDirectoryAll(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages")):
-            if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
+        for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Languages")):
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", name)) and name[-3:]==".qm":
                 langCode = name[-8:-3]
                 if languages.count(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))==0:
                     languages.append(str(MQtCore.QLocale.languageToString(MQtCore.QLocale(langCode).language())))
@@ -685,26 +685,12 @@ def getInstalledLanguagesNames():
     return installedLanguagesNames
 
 def getHashTypes():
-    try:
-        import hashlib
-        return ["MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512"]
-    except:
-        #for python < 2.5
-        hashTypes = []
-        try:
-            import md5
-            hashTypes.append("MD5")
-        except:pass
-        try:
-            import md5
-            hashTypes.append("SHA1")
-        except:pass
-        return hashTypes
+    return ["MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512"]
 
 
 def checkMysqldSafe(_isAskIfNotFound=True):
     from Core import Dialogs, Universals
-    if InputOutputs.isFile(Universals.MySettings["pathOfMysqldSafe"])==False and InputOutputs.isFile("/usr/bin/" + Universals.MySettings["pathOfMysqldSafe"])==False:
+    if fu.isFile(Universals.MySettings["pathOfMysqldSafe"])==False and fu.isFile("/usr/bin/" + Universals.MySettings["pathOfMysqldSafe"])==False:
         if _isAskIfNotFound:
             answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
                     translate("EmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))

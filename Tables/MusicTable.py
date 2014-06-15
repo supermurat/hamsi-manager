@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core import Organizer
-import InputOutputs
+import FileUtils as fu
 import SearchEngines
 from Core.MyObjects import *
 from Details import MusicDetails
@@ -50,27 +50,27 @@ class MusicTable():
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
-        musicFileNames = InputOutputs.readDirectory(_directoryPath, "music", Universals.getBoolValue("isShowHiddensInMusicTable"))
+        musicFileNames = fu.readDirectory(_directoryPath, "music", Universals.getBoolValue("isShowHiddensInMusicTable"))
         isCanNoncompatible = False
         allItemNumber = len(musicFileNames)
         Universals.startThreadAction()
-        baseNameOfDirectory = InputOutputs.getBaseName(_directoryPath)
+        baseNameOfDirectory = fu.getBaseName(_directoryPath)
         for musicNo,musicName in enumerate(musicFileNames):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if InputOutputs.isReadableFileOrDir(InputOutputs.joinPath(_directoryPath, musicName), False, True):
+                    if fu.isReadableFileOrDir(fu.joinPath(_directoryPath, musicName), False, True):
                         tagger = Taggers.getTagger()
                         try:
-                            tagger.loadFile(InputOutputs.joinPath(_directoryPath, musicName))
+                            tagger.loadFile(fu.joinPath(_directoryPath, musicName))
                         except:
-                            Dialogs.showError(translate("InputOutputs/Musics", "Incorrect Tag"), 
-                                str(translate("InputOutputs/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
-                                ) % Organizer.getLink(InputOutputs.joinPath(_directoryPath, musicName)))
+                            Dialogs.showError(translate("FileUtils/Musics", "Incorrect Tag"),
+                                str(translate("FileUtils/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
+                                ) % Organizer.getLink(fu.joinPath(_directoryPath, musicName)))
                         if tagger.isAvailableFile() == False:
                             isCanNoncompatible=True
                         content = {}
-                        content["path"] = InputOutputs.joinPath(_directoryPath, musicName)
+                        content["path"] = fu.joinPath(_directoryPath, musicName)
                         content["baseNameOfDirectory"] = baseNameOfDirectory
                         content["baseName"] = musicName
                         content["artist"] = tagger.getArtist()
@@ -86,13 +86,13 @@ class MusicTable():
                     ReportBug.ReportBug()
             else:
                 allItemNumber = musicNo+1
-            Dialogs.showState(translate("InputOutputs/Musics", "Reading Music Tags"),musicNo+1,allItemNumber, True)
+            Dialogs.showState(translate("FileUtils/Musics", "Reading Music Tags"),musicNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
         if isCanNoncompatible == True:
-            Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
-                translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
+            Dialogs.show(translate("FileUtils/Musics", "Possible ID3 Mismatch"),
+                translate("FileUtils/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
         return currentTableContentValues
     
     def writeContents(self):
@@ -109,15 +109,15 @@ class MusicTable():
                 return False
         Universals.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
-        Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,allItemNumber, True)
+        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),0,allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     changingTag = {"path" : self.Table.currentTableContentValues[rowNo]["path"]}
-                    if InputOutputs.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                    if fu.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
                         if self.Table.isRowHidden(rowNo):
-                            InputOutputs.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
+                            fu.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
                             self.Table.changedValueNumber += 1
                         else:
                             baseNameOfDirectory = str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
@@ -180,8 +180,8 @@ class MusicTable():
                                 baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
                                 self.Table.changedValueNumber += 1
                                 isMovedToNewDirectory = True
-                                currentDirectoryPath = InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])
-                                newDirectoryPath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
+                                currentDirectoryPath = fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])
+                                newDirectoryPath = fu.joinPath(fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
                                 self.Table.setNewDirectory(newDirectoryPath)
                                 if rowNo>0:
                                     if str(self.Table.item(rowNo-1,0).text()) != baseNameOfDirectory:
@@ -189,29 +189,29 @@ class MusicTable():
                             if self.Table.isChangableItem(rowNo, 1, baseName, False):
                                 baseName = str(self.Table.item(rowNo,1).text())
                                 self.Table.changedValueNumber += 1
-                            newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
-                            if InputOutputs.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != InputOutputs.getRealPath(newFilePath):
+                            newFilePath = fu.joinPath(fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory, baseName)
+                            if fu.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != fu.getRealPath(newFilePath):
                                 changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"], 
                                                                 newFilePath])
                 except:
                     ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo+1
-            Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
-        pathValues = InputOutputs.changeDirectories(changingFileDirectories)
+        pathValues = fu.changeDirectories(changingFileDirectories)
         if self.Table.rowCount() == len(changingFileDirectories) and isMovedToNewDirectory and isNewDirectoriesSame:
-            otherFileNames = InputOutputs.readDirectory(currentDirectoryPath, "fileAndDirectory", True)
+            otherFileNames = fu.readDirectory(currentDirectoryPath, "fileAndDirectory", True)
             if len(otherFileNames)>0:
-                answer = Dialogs.ask(translate("InputOutputs/Musics", "There Are More Files"),
-                                    str(translate("InputOutputs/Musics", "\"%s\" : there are more files in this directory.<br>Are you want to move all found files into new directory?<br>New Directory : \"%s\"")) % (Organizer.getLink(currentDirectoryPath), Organizer.getLink(newDirectoryPath)))
+                answer = Dialogs.ask(translate("FileUtils/Musics", "There Are More Files"),
+                                    str(translate("FileUtils/Musics", "\"%s\" : there are more files in this directory.<br>Are you want to move all found files into new directory?<br>New Directory : \"%s\"")) % (Organizer.getLink(currentDirectoryPath), Organizer.getLink(newDirectoryPath)))
                 if answer==Dialogs.Yes:
                     changingOtherFileDirectories=[]
                     for fileName in otherFileNames:
-                        changingOtherFileDirectories.append([InputOutputs.joinPath(currentDirectoryPath, fileName), InputOutputs.joinPath(newDirectoryPath, fileName)])
-                    pathValues += InputOutputs.changeDirectories(changingOtherFileDirectories)
+                        changingOtherFileDirectories.append([fu.joinPath(currentDirectoryPath, fileName), fu.joinPath(newDirectoryPath, fileName)])
+                    pathValues += fu.changeDirectories(changingOtherFileDirectories)
         if Variables.isActiveAmarok and Universals.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
@@ -296,7 +296,7 @@ class MusicTable():
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["firstLyrics"])
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
-            Dialogs.showState(translate("InputOutputs/Tables", "Generating Table..."), rowNo+1, allItemNumber) 
+            Dialogs.showState(translate("FileUtils/Tables", "Generating Table..."), rowNo+1, allItemNumber)
                         
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):

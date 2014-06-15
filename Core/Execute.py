@@ -23,14 +23,14 @@ from threading import Thread
 import time
 from Core.MyObjects import *
 from Core import Variables, Universals
-import InputOutputs
+import FileUtils as fu
 from Core import Records
 
 def getCommandResult(_command):
     if Variables.isWindows:
         _command = ["start"] + _command
     Records.add("Execute >>> " + str(_command))
-    try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+    try:correctedCommand = Universals.trEncodeList(_command, fu.fileSystemEncoding)
     except:correctedCommand = _command
     myPopen = subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
     po, pi = myPopen.stdin, myPopen.stdout
@@ -41,7 +41,7 @@ def executeStringCommand(_command):
     if Variables.isWindows:
         _command = "start" + _command
     Records.add("Execute >>> " + str(_command))
-    try:correctedCommand = Universals.trEncode(_command, InputOutputs.fileSystemEncoding)
+    try:correctedCommand = Universals.trEncode(_command, fu.fileSystemEncoding)
     except:correctedCommand = _command
     return os.popen(correctedCommand)
 
@@ -58,17 +58,17 @@ def execute(_command=[], _executableName=None):
         else:
             pathOfExecutable = [pathOfExecutable]
         Records.add("Execute >>> " + str(pathOfExecutable + _command))
-        try:correctedCommand = Universals.trEncodeList(pathOfExecutable + _command, InputOutputs.fileSystemEncoding)
+        try:correctedCommand = Universals.trEncodeList(pathOfExecutable + _command, fu.fileSystemEncoding)
         except:correctedCommand = pathOfExecutable + _command
         return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
     else:
         Records.add("Execute >>> " + str(_command))
-        try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+        try:correctedCommand = Universals.trEncodeList(_command, fu.fileSystemEncoding)
         except:correctedCommand = _command
         return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
 
 def findExecutableBaseName(_executableName):
-    fileList = InputOutputs.readDirectory(InputOutputs.HamsiManagerDirectory, "file")
+    fileList = fu.readDirectory(fu.HamsiManagerDirectory, "file")
     for fName in fileList:
         if fName.split(".")[0]==_executableName and (fName.split(".")[-1] in ["py", "py3", "pyw", "exe"] or len(fName.split("."))==1):
             return fName
@@ -95,16 +95,16 @@ def findExecutableBaseName(_executableName):
 def findExecutablePath(_executableName):
     executableBaseName = findExecutableBaseName(_executableName)
     if executableBaseName != None:
-        return InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, executableBaseName)
+        return fu.joinPath(fu.HamsiManagerDirectory, executableBaseName)
     return None
 
 def getPythonPath():
     """Use this only if runnig .py(.py3,.pyw)"""
-    try:pathOfPython = Universals.trDecode(sys.executable, InputOutputs.fileSystemEncoding)
+    try:pathOfPython = Universals.trDecode(sys.executable, fu.fileSystemEncoding)
     except:pathOfPython = sys.executable
     if Variables.isWindows:
         pathOfPythonWindows = pathOfPython.replace("python.exe", "pythonw.exe")
-        if InputOutputs.isFile(pathOfPythonWindows):
+        if fu.isFile(pathOfPythonWindows):
             pathOfPython = pathOfPythonWindows
     return pathOfPython
 
@@ -131,7 +131,7 @@ def executeWithThread(_command=[], _executableName=None):
 def openWith(_command):
     if Variables.isWindows:
         Records.add("Open With >>> " + str(_command))
-        try:_command = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+        try:_command = Universals.trEncodeList(_command, fu.fileSystemEncoding)
         except:_command = _command
         correctedCommand = ""
         for x, commandPart in enumerate(_command):
@@ -141,7 +141,7 @@ def openWith(_command):
     else:
         _command = ["xdg-open"] + _command
         Records.add("Open With >>> " + str(_command))
-        try:correctedCommand = Universals.trEncodeList(_command, InputOutputs.fileSystemEncoding)
+        try:correctedCommand = Universals.trEncodeList(_command, fu.fileSystemEncoding)
         except:correctedCommand = _command
         return subprocess.Popen(correctedCommand)
 
@@ -152,7 +152,7 @@ def executeAsRoot(_command=[], _executableName=None):
             pathOfExecutable = findExecutablePath(_executableName)
         if pathOfExecutable != None:
             _command = [pathOfExecutable] + _command
-        return execute([InputOutputs.joinPath(Variables.getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")] + _command)
+        return execute([fu.joinPath(Variables.getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")] + _command)
     return False
 
 def executeAsRootWithThread(_command=[], _executableName=None):

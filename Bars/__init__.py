@@ -28,7 +28,7 @@ from Core import Organizer
 from Core import Execute
 from Core import Records
 from Core import Settings
-import InputOutputs
+import FileUtils as fu
 from Options import QuickOptions
 from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
 from Bars import SubDirectoryOptionsBar, PlayerBar, MusicOptionsBar, CoverOptionsBar, AmarokMusicOptionsBar, AmarokCopyOptionsBar
@@ -46,17 +46,17 @@ class Bars():
             actionName = _action.objectName()
             if actionName==translate("MenuBar", "Open State"):
                 f = Dialogs.getOpenFileName(translate("MenuBar", "Open State Of Hamsi Manager"),
-                                    InputOutputs.userDirectoryPath,translate("MenuBar", "Application Runner") + " (*.desktop)")
+                                    fu.userDirectoryPath,translate("MenuBar", "Application Runner") + " (*.desktop)")
                 if f is not None:
                     Settings.openStateOfSettings(f)
             elif actionName==translate("MenuBar", "Save State"):
-                f = Dialogs.getSaveFileName(translate("MenuBar", "Save State Of Hamsi Manager"), InputOutputs.joinPath(InputOutputs.userDirectoryPath, "HamsiManager.desktop"),translate("MenuBar", "Application Runner") + " (*.desktop)")
+                f = Dialogs.getSaveFileName(translate("MenuBar", "Save State Of Hamsi Manager"), fu.joinPath(fu.userDirectoryPath, "HamsiManager.desktop"),translate("MenuBar", "Application Runner") + " (*.desktop)")
                 if f is not None:
                     Settings.saveStateOfSettings(f)
                     Dialogs.show(translate("MenuBar", "Current State Saved"), 
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
-                if Execute.executeAsRootWithThread(["--sDirectoryPath", InputOutputs.pathOfSettingsDirectory], "HamsiManager"):
+                if Execute.executeAsRootWithThread(["--sDirectoryPath", fu.pathOfSettingsDirectory], "HamsiManager"):
                     Universals.MainWindow.close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
@@ -83,20 +83,20 @@ class Bars():
                     Universals.MainWindow.Table.exportValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "fileTree", "title")
+                    fu.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "html", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "fileTree", "title")
+                    fu.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "fileTree", "title")
+                    fu.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "fileTree", "title")
             elif actionName==translate("MenuBar", "Text Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "fileTree", "title")
+                    fu.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "fileTree", "title")
+                    fu.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    InputOutputs.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "fileTree", "title")
+                    fu.getFileTree((Universals.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "fileTree", "title")
             elif actionName==translate("MenuBar", "About QT"):
-                if isActivePyKDE4==True:
+                if isActivePyKDE4:
                     QMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
                 else:
                     MMessageBox.aboutQt(Universals.MainWindow, translate("MenuBar", "About QT"))
@@ -126,7 +126,7 @@ class Bars():
                     MMessageBox.about(Universals.MainWindow, translate("MenuBar", "About Hamsi Manager"), Variables.aboutOfHamsiManager)
             elif actionName==translate("ToolsBar", "Check Icon"):
                 Universals.MainWindow.setEnabled(False)
-                InputOutputs.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                fu.checkIcon(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                 Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
                         translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
                 Universals.MainWindow.setEnabled(True)
@@ -139,8 +139,8 @@ class Bars():
                 if answer==Dialogs.Yes:
                     Universals.MainWindow.setEnabled(False)
                     currentDirPath = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
-                    if InputOutputs.isWritableFileOrDir(currentDirPath):
-                        InputOutputs.checkEmptyDirectories(currentDirPath, True, True, True, True)
+                    if fu.isWritableFileOrDir(currentDirPath):
+                        fu.checkEmptyDirectories(currentDirPath, True, True, True, True)
                         Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
                             translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))
                     Universals.MainWindow.setEnabled(True)
@@ -175,7 +175,7 @@ class Bars():
                         str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
                 if answer==Dialogs.Yes:
                     Universals.MainWindow.setEnabled(False)
-                    InputOutputs.removeOnlySubFiles(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    fu.removeOnlySubFiles(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
                     Universals.MainWindow.setEnabled(True)
                     Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
                         str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(Universals.MainWindow.FileManager.getCurrentDirectoryPath()))
@@ -189,7 +189,7 @@ class Bars():
                 self.changeReNamerType(_action)
             elif _action.parent().objectName()==translate("MenuBar", "Scripts"):
                 from Core import Scripts
-                Scripts.runScriptFile(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, actionName))
+                Scripts.runScriptFile(fu.joinPath(Scripts.pathOfScripsDirectory, actionName))
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()

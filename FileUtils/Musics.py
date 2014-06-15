@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import InputOutputs
+import FileUtils as fu
 from Core.MyObjects import *
 from time import gmtime
 from Core import Dialogs
@@ -27,22 +27,22 @@ from Core import Universals
 import Taggers
 
 def readMusicFile(_filePath, _isAlertWhenNotAvailable=True):
-    _directoryPath = InputOutputs.getDirName(_filePath)
+    _directoryPath = fu.getDirName(_filePath)
     isCanNoncompatible = False
-    if InputOutputs.isReadableFileOrDir(_filePath):
+    if fu.isReadableFileOrDir(_filePath):
         tagger = Taggers.getTagger()
         try:
             tagger.loadFile(_filePath)
         except:
-            Dialogs.showError(translate("InputOutputs/Musics", "Incorrect Tag"),
-                str(translate("InputOutputs/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
+            Dialogs.showError(translate("FileUtils/Musics", "Incorrect Tag"),
+                str(translate("FileUtils/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
                 ) % Organizer.getLink(_filePath))
         if tagger.isAvailableFile() == False:
             isCanNoncompatible=True
         content = {}
         content["path"] = _filePath
-        content["baseNameOfDirectory"] = InputOutputs.getBaseName(_directoryPath)
-        content["baseName"] = InputOutputs.getBaseName(_filePath)
+        content["baseNameOfDirectory"] = fu.getBaseName(_directoryPath)
+        content["baseName"] = fu.getBaseName(_filePath)
         content["artist"] = tagger.getArtist()
         content["title"] = tagger.getTitle()
         content["album"] = tagger.getAlbum()
@@ -53,12 +53,12 @@ def readMusicFile(_filePath, _isAlertWhenNotAvailable=True):
         content["firstLyrics"] = tagger.getFirstLyrics()
         content["images"] = tagger.getImages()
         if isCanNoncompatible and _isAlertWhenNotAvailable:
-            Dialogs.show(translate("InputOutputs/Musics", "Possible ID3 Mismatch"),
-                translate("InputOutputs/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
+            Dialogs.show(translate("FileUtils/Musics", "Possible ID3 Mismatch"),
+                translate("FileUtils/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
         return content
 
 def writeMusicFile(_oldMusicTagsValues, _newMusicTagsValues, _isImageAction=False, _ImageType=False, _ImagePath=False, _imageDescription=u""):
-    if InputOutputs.isWritableFileOrDir(_oldMusicTagsValues["path"]):
+    if fu.isWritableFileOrDir(_oldMusicTagsValues["path"]):
         baseNameOfDirectory = _oldMusicTagsValues["baseNameOfDirectory"]
         baseName = _oldMusicTagsValues["baseName"]
         tagger = Taggers.getTagger()
@@ -85,9 +85,9 @@ def writeMusicFile(_oldMusicTagsValues, _newMusicTagsValues, _isImageAction=Fals
                 baseNameOfDirectory = str(_newMusicTagsValues["baseNameOfDirectory"])
             if _newMusicTagsValues["baseName"]!=_oldMusicTagsValues["baseName"]:
                 baseName = str(_newMusicTagsValues["baseName"])
-            newFilePath = InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.getDirName(_oldMusicTagsValues["path"])), baseNameOfDirectory, baseName)
-            if InputOutputs.getRealPath(_oldMusicTagsValues["path"]) != InputOutputs.getRealPath(newFilePath):
-                return InputOutputs.moveOrChange(_oldMusicTagsValues["path"], newFilePath, InputOutputs.getObjectType(_oldMusicTagsValues["path"]))
+            newFilePath = fu.joinPath(fu.getDirName(fu.getDirName(_oldMusicTagsValues["path"])), baseNameOfDirectory, baseName)
+            if fu.getRealPath(_oldMusicTagsValues["path"]) != fu.getRealPath(newFilePath):
+                return fu.moveOrChange(_oldMusicTagsValues["path"], newFilePath, fu.getObjectType(_oldMusicTagsValues["path"]))
         #Making changes on image files
         else:
             if _ImagePath==False:

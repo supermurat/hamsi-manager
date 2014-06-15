@@ -20,7 +20,7 @@
 from Core import Variables
 from Core import Universals
 from Core.MyObjects import *
-import InputOutputs
+import FileUtils as fu
 from Databases import sqlite, getDefaultConnection, getAllDatabases, getDBPropertiesCreateQuery, reFillDatabases, getAmendedSQLInsertOrUpdateQueries, checkDatabases
 from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
 
@@ -28,23 +28,23 @@ def getSettings(_settingsFilePath):
     return MQtCore.QSettings(Universals.trForUI(_settingsFilePath), MQtCore.QSettings.IniFormat)
 
 def setting():
-    return getSettings(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, Universals.fileOfSettings))
+    return getSettings(fu.joinPath(fu.pathOfSettingsDirectory, Universals.fileOfSettings))
 
 def settingForPaths():
-    return getSettings(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "paths.ini"))
+    return getSettings(fu.joinPath(fu.pathOfSettingsDirectory, "paths.ini"))
 
 def universalSetting():
-    return getSettings(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".HamsiApps", "universalSettings.ini"))
+    return getSettings(fu.joinPath(fu.userDirectoryPath, ".HamsiApps", "universalSettings.ini"))
 
 def checkSettings():
-    if InputOutputs.isDir(InputOutputs.pathOfSettingsDirectory)==False:
-        InputOutputs.makeDirs(InputOutputs.pathOfSettingsDirectory)
+    if fu.isDir(fu.pathOfSettingsDirectory)==False:
+        fu.makeDirs(fu.pathOfSettingsDirectory)
         reFillSettings()
         reFillDatabases()
     else:
-        if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "database.sqlite"))==False:
+        if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, "database.sqlite"))==False:
             reFillDatabases()
-        if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, Universals.fileOfSettings))==False:
+        if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, Universals.fileOfSettings))==False:
             reFillSettings()
         checkDatabases()
 
@@ -152,8 +152,8 @@ def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mir
         files.append("database.sqlite")
     if _settingType=="Settings" or _settingType=="All":
         files.append(Universals.fileOfSettings)
-    if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory))==False:
-        InputOutputs.makeDirs(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory))
+    if fu.isDir(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory))==False:
+        fu.makeDirs(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory))
     isReturn = False
     for file in files:
         if _newFileName=="mirror":
@@ -163,14 +163,14 @@ def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mir
             import random
             while 1==1:
                 newFileName = file[:file.find(".")] +"_"+ str(random.randrange(0, 100000000))+file[file.find("."):]
-                if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory, newFileName))==False:
+                if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName))==False:
                     break
         else:
             newFileName = _newFileName
-        if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory, newFileName)):
-            InputOutputs.removeFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory, newFileName))
+        if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName)):
+            fu.removeFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName))
         try:
-            InputOutputs.copyFileOrDir(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, file), InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, _backUpDirectory, newFileName))
+            fu.copyFileOrDir(fu.joinPath(fu.pathOfSettingsDirectory, file), fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName))
             if isReturn==True:
                 return newFileName
         except:pass
@@ -184,19 +184,19 @@ def restoreBackUp(_settingType="All", _isMakeBackUp=True):
         files.append(Universals.fileOfSettings)
     for file in files:
         if _isMakeBackUp==True:
-            oldInfo = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, file))
+            oldInfo = fu.readFromFile(fu.joinPath(fu.pathOfSettingsDirectory, file))
         else:
             try:
-                InputOutputs.removeFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, file))
+                fu.removeFile(fu.joinPath(fu.pathOfSettingsDirectory, file))
             except:pass
         try:
-            if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "BackUps", file)):
-                InputOutputs.moveFileOrDir(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "BackUps", file), InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, file))
+            if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file)):
+                fu.moveFileOrDir(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file), fu.joinPath(fu.pathOfSettingsDirectory, file))
             else:
                 isSuccesfully = False
         except:pass
         if _isMakeBackUp==True:
-            InputOutputs.writeToFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "BackUps", file), oldInfo)
+            fu.writeToFile(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file), oldInfo)
     return isSuccesfully
 
 def saveStateOfSettings(_file):
@@ -206,16 +206,16 @@ def saveStateOfSettings(_file):
     newInfo = []
     for row in info.split("\n"):
         if row [:4]=="Exec":
-            row  = row + " -s SettingFiles" + InputOutputs.sep + newFile
+            row  = row + " -s SettingFiles" + fu.sep + newFile
         newInfo.append(row )
     info = ""
     for row in newInfo:
         info += row + "\n"
-    InputOutputs.writeToFile(_file, info)
+    fu.writeToFile(_file, info)
 
 def openStateOfSettings(_file):
     from Core import Execute
-    for rowNo, row in enumerate(InputOutputs.readLinesFromFile(_file)):
+    for rowNo, row in enumerate(fu.readLinesFromFile(_file)):
         if row [:5]=="Exec=":
             t = Execute.executeStringCommand(row[5:])
             Universals.HamsiManagerApp.closeAllWindows()
@@ -228,7 +228,7 @@ def updateOldSettings(_oldVersion, _newVersion):
     except:
         oldVersion = _newVersion
     if oldVersion<810:
-        con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
         cur = con.cursor()
         cur.execute(str("ALTER TABLE searchAndReplaceTable RENAME TO tmpSearchAndReplaceTable;"))
         cur.execute(str("CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsRegExp' INTEGER);"))
@@ -236,7 +236,7 @@ def updateOldSettings(_oldVersion, _newVersion):
         cur.execute(str("DROP TABLE tmpSearchAndReplaceTable;"))
         con.commit()
     if oldVersion<811:
-        con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
         cur = con.cursor()
         cur.execute(str("ALTER TABLE searchAndReplaceTable RENAME TO tmpSearchAndReplaceTable;"))
         cur.execute(str("CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER);"))
@@ -249,38 +249,38 @@ def updateOldSettings(_oldVersion, _newVersion):
     if oldVersion<819:
         newSettingsKeys = newSettingsKeys + ["isClearEmptyDirectoriesWhenSave", "isClearEmptyDirectoriesWhenMoveOrChange", "isClearEmptyDirectoriesWhenCopyOrChange", "isClearEmptyDirectoriesWhenFileMove", "isAutoCleanSubFolderWhenSave", "isAutoCleanSubFolderWhenMoveOrChange", "isAutoCleanSubFolderWhenCopyOrChange", "isAutoCleanSubFolderWhenFileMove", "isAutoMakeIconToDirectoryWhenSave", "isAutoMakeIconToDirectoryWhenMoveOrChange", "isAutoMakeIconToDirectoryWhenCopyOrChange", "isAutoMakeIconToDirectoryWhenFileMove"]
     if oldVersion<820:
-        if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "LastState")):
-            InputOutputs.removeFile(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "LastState"))
+        if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, "LastState")):
+            fu.removeFile(fu.joinPath(fu.pathOfSettingsDirectory, "LastState"))
     if oldVersion<821:
         newSettingsKeys = newSettingsKeys + ["isDeleteEmptyDirectories", "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories"]
     if oldVersion<822:
         if Variables.isAvailableKDE4():
             KDE4HomePath = Variables.getKDE4HomePath()
-            if InputOutputs.isFile(InputOutputs.joinPath(KDE4HomePath, "share", "config", "HamsiManagerrc")):
-                InputOutputs.removeFile(InputOutputs.joinPath(KDE4HomePath, "share", "config", "HamsiManagerrc"))
+            if fu.isFile(fu.joinPath(KDE4HomePath, "share", "config", "HamsiManagerrc")):
+                fu.removeFile(fu.joinPath(KDE4HomePath, "share", "config", "HamsiManagerrc"))
     if oldVersion<840:
         try:
-            con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "bookmarks.sqlite"))
+            con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "bookmarks.sqlite"))
             cur = con.cursor()
             cur.execute("SELECT * FROM dbProperties where keyName='version'")
             bookmarksDBVersion = int(cur.fetchall()[0][1])
         except:
             bookmarksDBVersion = 0
         try:
-            con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
+            con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
             cur = con.cursor()
             cur.execute("SELECT * FROM dbProperties where keyName='version'")
             searchAndReplaceTableDBVersion = int(cur.fetchall()[0][1])
         except:
             searchAndReplaceTableDBVersion = 0
         if bookmarksDBVersion<1:
-            con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "bookmarks.sqlite"))
+            con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "bookmarks.sqlite"))
             cur = con.cursor()
             cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
             cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
             con.commit()
         if searchAndReplaceTableDBVersion<1:
-            con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
+            con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "searchAndReplaceTable.sqlite"))
             cur = con.cursor()
             cur.execute(str("CREATE TABLE dbProperties ('keyName' TEXT NOT NULL,'value' TEXT);"))
             cur.execute(str("insert into dbProperties (keyName, value) values ('version', '1');"))
@@ -293,7 +293,7 @@ def updateOldSettings(_oldVersion, _newVersion):
         newSettingsKeys = newSettingsKeys + ["isAskIfHasManyImagesInAlbumDirectory"]
         Universals.setMySetting("isShowReconfigureWizard", True)
     if oldVersion<890:
-        con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "bookmarks.sqlite"))
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "bookmarks.sqlite"))
         cur = con.cursor()
         cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Directory Name , Directory  ;right;102', 'cover')"))
         cur.execute(str("insert into bookmarksOfSpecialTools (bookmark, value, label) values ('', 'Source Cover , Current Cover  ;right;102', 'cover')"))
@@ -302,7 +302,7 @@ def updateOldSettings(_oldVersion, _newVersion):
         con.commit()
     if oldVersion<905:
         conNewDB = getDefaultConnection()
-        con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "bookmarks.sqlite"))
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "bookmarks.sqlite"))
         cur = con.cursor()
         cur.execute("SELECT bookmark,value FROM bookmarksOfDirectories")
         for row in cur.fetchall():
@@ -311,7 +311,7 @@ def updateOldSettings(_oldVersion, _newVersion):
             for sqlCommand in sqlCommands:
                 cur.execute(str(sqlCommand))
             conNewDB.commit()
-        con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "bookmarks.sqlite"))
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "bookmarks.sqlite"))
         cur = con.cursor()
         cur.execute("SELECT bookmark,value,label FROM bookmarksOfSpecialTools")
         for row in cur.fetchall():
@@ -320,7 +320,7 @@ def updateOldSettings(_oldVersion, _newVersion):
             for sqlCommand in sqlCommands:
                 cur.execute(str(sqlCommand))
             conNewDB.commit()
-        con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "/searchAndReplaceTable.sqlite"))
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "/searchAndReplaceTable.sqlite"))
         cur = con.cursor()
         cur.execute("SELECT searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp FROM searchAndReplaceTable")
         for row in cur.fetchall():
@@ -348,7 +348,7 @@ def updateOldSettings(_oldVersion, _newVersion):
     if oldVersion<1081:
         newSettingsKeys = newSettingsKeys + ["isCheckUnSavedValues"]
     if oldVersion<1082:
-        con = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "database.sqlite"))
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "database.sqlite"))
         cur = con.cursor()
         cur.execute(str("ALTER TABLE searchAndReplaceTable RENAME TO tmpSearchAndReplaceTable;"))
         cur.execute(str("CREATE TABLE searchAndReplaceTable ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'label' TEXT,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER);"))

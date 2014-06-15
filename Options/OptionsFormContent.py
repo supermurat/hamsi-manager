@@ -20,7 +20,7 @@ import sys,os
 from Core import Variables
 from Core.MyObjects import *
 from Core import Settings, Dialogs, Universals, Records
-import InputOutputs
+import FileUtils as fu
 import Databases
 from Core import ReportBug
 
@@ -62,7 +62,7 @@ class General(MWidget):
         self.valuesOfOptionsKeys = [Variables.getInstalledLanguagesCodes(), 
                                 ["1", "30"], ["10", "100000"]]
         _parent.createOptions(self)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             _parent.setVisibleFormItems(self, "language", False)
         if self.visibleKeys.count("isSaveActions")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isSaveActions")], SIGNAL("currentIndexChanged(int)"), self.saveActionsChanged)
@@ -143,7 +143,7 @@ class Appearance(MWidget):
     def schemeChanged(self, _value):
         x = self.keysOfSettings.index("colorSchemes")
         schemePath = self.valuesOfOptionsKeys[self.typesOfValues[x][1]][self.values[x].currentIndex()]
-        if InputOutputs.isFile(schemePath):
+        if fu.isFile(schemePath):
             config = MSharedConfig.openConfig(schemePath)
             plt = MGlobalSettings.createApplicationPalette(config)
         else:
@@ -582,7 +582,7 @@ class Advanced(MWidget):
                     translate("Options/Advanced", "Never Delete Files And Directories"), 
                     translate("Options/Advanced", "Path Of Deleted Files And Directories"), 
                     translate("Options/Advanced", "Max Size Of Directory Of Deleted")]
-        self.toolTips = [trForUI(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (InputOutputs.defaultFileSystemEncoding)), 
+        self.toolTips = [trForUI(str(translate("Options/Advanced", "You can choose the character set of your operating system and/or file system. The records will be saved according to the character set of your choice.<br><font color=red><b>If you think the character set is wrong, you can change it. However we do not recommend to make any changes if you are not definitely sure. Else, proceed at your own responsibility!<br>Default is \"%s\".</b></font>")) % (fu.defaultFileSystemEncoding)),
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as graphics files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: png;jpg;gif;...</font>"), 
                     translate("Options/Advanced", "The files with the extension you have selected will be recognized as music files.<br><font color=red><b>We do not recommend to make any changes if you are not definitely sure. Proceed at your own responsibility!</b></font><br><font color=blue>Example: mp3;...</font>"),
                     translate("Options/Advanced", "Would you like to move files to specific directory to be deleted?<br><font color=red><b>This process can cause slow!</b></font>"), 
@@ -955,7 +955,7 @@ class MySettings(MWidget):
         gboxErrors = MGroupBox(translate("Options/MySettings", "Error Logs"))
         gboxErrors.setLayout(hbox1)
         self.Panel.addWidget(gboxErrors)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             pbtnClearMyAnswers = MPushButton(translate("Options/MySettings", "Clear My Answers"))
             pbtnClearMyAnswers.setToolTip(translate("Options/MySettings", "Clear my answers to the notification messages"))
             MObject.connect(pbtnClearMyAnswers, SIGNAL("clicked()"), self.clearMyAnswers)
@@ -966,7 +966,7 @@ class MySettings(MWidget):
         
     def clearErrorFiles(self):
         try:
-            InputOutputs.clearTempFiles()
+            fu.clearTempFiles()
             Records.saveAllRecords()
             Dialogs.show(translate("Options/General", "Error Logs Deleted"), translate("Options/General", "All created by Hamsi Manager error logs and temp files is deleted."))
         except:
