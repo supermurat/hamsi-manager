@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 
 class MyComboBox(MComboBox):
     
@@ -29,8 +29,8 @@ class MyComboBox(MComboBox):
         self.addItems(_items)
         if len(_items)>0:
             if _settingKey is not None:
-                item = Universals.getValue(_settingKey, _items[0])
-                item = trForUI(item)
+                item = uni.getValue(_settingKey, _items[0])
+                item = str(item)
                 if item in _items:
                     _defaultItemIndex = _items.index(item)
             self.setCurrentIndex(_defaultItemIndex)
@@ -39,7 +39,7 @@ class MyComboBox(MComboBox):
             
     def cbMCurrentIndexChanged(self, _index = None):
         if self.settingKey is not None:
-            Universals.setMySetting(self.settingKey, self.items[self.currentIndex()])
+            uni.setMySetting(self.settingKey, self.items[self.currentIndex()])
         if self.currentIndexChanged is not None:
             self.currentIndexChanged(_index)
 
@@ -53,7 +53,7 @@ class MyListWidget(MListWidget):
         self.addItems(_items)
         if len(_items)>0:
             if _settingKey is not None:
-                self.setCurrentRow(_items.index(Universals.MySettings[self.settingKey]))
+                self.setCurrentRow(_items.index(uni.MySettings[self.settingKey]))
             else:
                 self.setCurrentRow(_defaultItemIndex)
         if _currentRowChanged is not None or _settingKey is not None:
@@ -61,7 +61,7 @@ class MyListWidget(MListWidget):
             
     def cbMCurrentRowChanged(self, _index = None):
         if self.settingKey is not None:
-            Universals.setMySetting(self.settingKey, self.items[self.currentRow()])
+            uni.setMySetting(self.settingKey, self.items[self.currentRow()])
         if self.currentRowChanged is not None:
             self.currentRowChanged()
     
@@ -71,7 +71,7 @@ class MyListWidget(MListWidget):
         self.addItems(_items)
         if len(_items)>0:
             if self.settingKey is not None:
-                self.setCurrentRow(_items.index(Universals.MySettings[self.settingKey]))
+                self.setCurrentRow(_items.index(uni.MySettings[self.settingKey]))
             else:
                 self.setCurrentRow(_defaultItemIndex)
     
@@ -83,7 +83,7 @@ class MyCheckBox(MCheckBox):
         self.settingKey = _settingKey
         self.stateChanged = _stateChanged
         if _settingKey is not None:
-            if Universals.getBoolValue(_settingKey, _defaultState):
+            if uni.getBoolValue(_settingKey, _defaultState):
                 self.setCheckState(Mt.Checked)
             else:
                 self.setCheckState(Mt.Unchecked)
@@ -95,9 +95,9 @@ class MyCheckBox(MCheckBox):
     def cckbMStateChanged(self, _index = None):
         if self.settingKey is not None:
             if self.checkState() == Mt.Checked:
-                Universals.setMySetting(self.settingKey, True)
+                uni.setMySetting(self.settingKey, True)
             else:
-                Universals.setMySetting(self.settingKey, False)
+                uni.setMySetting(self.settingKey, False)
         if self.stateChanged is not None:
             self.stateChanged()
         

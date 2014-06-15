@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 from datetime import datetime
 
 Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
@@ -30,10 +30,10 @@ def show(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK
     if _detail=="":
         _detail = _title
         _title = "Hamsi Manager"
-    if len(Universals.MySettings)>0 and isActivePyKDE4:
-        MMessageBox.information(Universals.activeWindow(), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), trForUI(str(_title)+"!.."))
+    if len(uni.MySettings)>0 and isActivePyKDE4:
+        MMessageBox.information(uni.activeWindow(), str("<b>" + str(_title) + " : </b><br>" + str(_detail)), str(str(_title)+"!.."))
     else:
-        MMessageBox.information(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),_btnString)
+        MMessageBox.information(uni.activeWindow(), str(str(_title)+"!.."), str("<b>" + str(_title) + " : </b><br>" + str(_detail)),_btnString)
     return True
 
 def showError(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
@@ -41,10 +41,10 @@ def showError(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs"
     if _detail=="":
         _detail = _title
         _title = "Hamsi Manager"
-    if len(Universals.MySettings)>0 and isActivePyKDE4:
-        MMessageBox.error(Universals.activeWindow(), trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)), trForUI(str(_title)+"!.."))
+    if len(uni.MySettings)>0 and isActivePyKDE4:
+        MMessageBox.error(uni.activeWindow(), str("<b>" + str(_title) + " : </b><br>" + str(_detail)), str(str(_title)+"!.."))
     else:
-        MMessageBox.critical(Universals.activeWindow(),trForUI(str(_title)+"!.."),trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),_btnString)
+        MMessageBox.critical(uni.activeWindow(),str(str(_title)+"!.."),str("<b>" + str(_title) + " : </b><br>" + str(_detail)),_btnString)
     return True
 
 def ask(_title="Hamsi Manager", _detail="", _isShowCancel=False, _showAgainKeyName=""):
@@ -52,50 +52,50 @@ def ask(_title="Hamsi Manager", _detail="", _isShowCancel=False, _showAgainKeyNa
     if _detail=="":
         _detail = _title
         _title = "Hamsi Manager"
-    if len(Universals.MySettings)>0 and isActivePyKDE4:
+    if len(uni.MySettings)>0 and isActivePyKDE4:
         if _isShowCancel:
             if _showAgainKeyName!="":
-                return MMessageBox.messageBox(Universals.activeWindow(),
+                return MMessageBox.messageBox(uni.activeWindow(),
                         MMessageBox.QuestionYesNoCancel,
-                        trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),
-                        trForUI(_title),
+                        str("<b>" + str(_title) + " : </b><br>" + str(_detail)),
+                        str(_title),
                         MStandardGuiItem.yes(), MStandardGuiItem.no(), MStandardGuiItem.cancel(),
-                        trForUI(_showAgainKeyName),
+                        str(_showAgainKeyName),
                         MMessageBox.AllowLink )
             else:
-                return MMessageBox.questionYesNoCancel(Universals.activeWindow(),
-                        trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),
-                        trForUI(_title),
+                return MMessageBox.questionYesNoCancel(uni.activeWindow(),
+                        str("<b>" + str(_title) + " : </b><br>" + str(_detail)),
+                        str(_title),
                         MStandardGuiItem.yes(), MStandardGuiItem.no(), MStandardGuiItem.cancel(), "",
                         MMessageBox.AllowLink )
         else:
             if _showAgainKeyName!="":
-                return MMessageBox.messageBox(Universals.activeWindow(),
+                return MMessageBox.messageBox(uni.activeWindow(),
                         MMessageBox.QuestionYesNo,
-                        trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),
-                        trForUI(_title),
+                        str("<b>" + str(_title) + " : </b><br>" + str(_detail)),
+                        str(_title),
                         MStandardGuiItem.yes(), MStandardGuiItem.no(), MStandardGuiItem.cancel(),
-                        trForUI(_showAgainKeyName),
+                        str(_showAgainKeyName),
                         MMessageBox.AllowLink )
             else:
-                return MMessageBox.questionYesNo(Universals.activeWindow(),
-                        trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)),
-                        trForUI(_title),
+                return MMessageBox.questionYesNo(uni.activeWindow(),
+                        str("<b>" + str(_title) + " : </b><br>" + str(_detail)),
+                        str(_title),
                         MStandardGuiItem.yes(), MStandardGuiItem.no(), "",
                         MMessageBox.AllowLink )
     else:
         if _isShowCancel:
-            try:mboxDialog = MMessageBox(Universals.activeWindow())
+            try:mboxDialog = MMessageBox(uni.activeWindow())
             except:mboxDialog = MMessageBox(None)
-            mboxDialog.setWindowTitle(trForUI(_title))
-            mboxDialog.setText(trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)))
+            mboxDialog.setWindowTitle(str(_title))
+            mboxDialog.setText(str("<b>" + str(_title) + " : </b><br>" + str(_detail)))
             mboxDialog.setStandardButtons(MMessageBox.Yes | MMessageBox.No | MMessageBox.Cancel)
             pressedButtonNo = mboxDialog.exec_()
         else:
-            try:mboxDialog = MMessageBox(Universals.activeWindow())
+            try:mboxDialog = MMessageBox(uni.activeWindow())
             except:mboxDialog = MMessageBox(None)
-            mboxDialog.setWindowTitle(trForUI(_title))
-            mboxDialog.setText(trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)))
+            mboxDialog.setWindowTitle(str(_title))
+            mboxDialog.setText(str("<b>" + str(_title) + " : </b><br>" + str(_detail)))
             mboxDialog.setStandardButtons(MMessageBox.Yes | MMessageBox.No)
             pressedButtonNo = mboxDialog.exec_()
         if pressedButtonNo==16384 : return Yes
@@ -107,12 +107,12 @@ def ask(_title="Hamsi Manager", _detail="", _isShowCancel=False, _showAgainKeyNa
 def askSpecial(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "Yes"), _btnString1=translate("Dialogs", "No"), _btnString2=translate("Dialogs", "Cancel"), _btnString3=None):
     MApplication.processEvents()
     MyMessageBox = MMessageBox
-    if len(Universals.MySettings)>0 and isActivePyKDE4:
+    if len(uni.MySettings)>0 and isActivePyKDE4:
         MyMessageBox = QMessageBox
-    try:mboxDialog = MyMessageBox(Universals.activeWindow())
+    try:mboxDialog = MyMessageBox(uni.activeWindow())
     except:mboxDialog = MyMessageBox(None)
-    mboxDialog.setWindowTitle(trForUI(_title))
-    mboxDialog.setText(trForUI("<b>" + str(_title) + " : </b><br>" + str(_detail)))
+    mboxDialog.setWindowTitle(str(_title))
+    mboxDialog.setText(str("<b>" + str(_title) + " : </b><br>" + str(_detail)))
     btn = mboxDialog.addButton(_btnString, MyMessageBox.ActionRole)
     if _btnString2!=None:
         btn2 = mboxDialog.addButton(_btnString2, MyMessageBox.ActionRole)
@@ -147,67 +147,67 @@ def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCa
             return None
         else:
             lastInfoTime = (datetime.now().microsecond / 60000)
-    if Universals.windowMode==Variables.windowModeKeys[1] and Universals.isCanBeShowOnMainWindow:
-        return Universals.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel, _connectToCancel)
+    if uni.windowMode==var.windowModeKeys[1] and uni.isCanBeShowOnMainWindow:
+        return uni.MainWindow.StatusBar.showState(_title, _value, _maxValue, _isShowCancel, _connectToCancel)
     MApplication.processEvents()
-    if Universals.MainWindow.StateDialog==None:
-        Universals.MainWindow.StateDialogStateBar = MProgressBar()
+    if uni.MainWindow.StateDialog==None:
+        uni.MainWindow.StateDialogStateBar = MProgressBar()
         HBoxs=[]
-        if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
-            if Universals.MainWindow.isLockedMainForm==False:
-                Universals.MainWindow.lockForm()
-            Universals.MainWindow.StateDialog = MDockWidget(translate("Dialogs", "Progress Bar"))
-            Universals.MainWindow.StateDialog.setObjectName(translate("Dialogs", "Progress Bar"))
-            pnlState2 = MWidget(Universals.MainWindow.StateDialog)
-            Universals.MainWindow.StateDialogTitle = MLabel()
+        if uni.getBoolValue("isMinimumWindowMode") and uni.isCanBeShowOnMainWindow:
+            if uni.MainWindow.isLockedMainForm==False:
+                uni.MainWindow.lockForm()
+            uni.MainWindow.StateDialog = MDockWidget(translate("Dialogs", "Progress Bar"))
+            uni.MainWindow.StateDialog.setObjectName(translate("Dialogs", "Progress Bar"))
+            pnlState2 = MWidget(uni.MainWindow.StateDialog)
+            uni.MainWindow.StateDialogTitle = MLabel()
             HBoxs.append(MHBoxLayout(pnlState2))
-            HBoxs[0].addWidget(Universals.MainWindow.StateDialogTitle)
-            HBoxs[0].addWidget(Universals.MainWindow.StateDialogStateBar)
-            Universals.MainWindow.StateDialog.setWidget(pnlState2)
-            Universals.MainWindow.StateDialog.setAllowedAreas(Mt.AllDockWidgetAreas)
-            Universals.MainWindow.StateDialog.setFeatures(MDockWidget.AllDockWidgetFeatures)
-            Universals.MainWindow.addDockWidget(Mt.TopDockWidgetArea, Universals.MainWindow.StateDialog)
-            Universals.MainWindow.StateDialog.setMaximumHeight(60)
+            HBoxs[0].addWidget(uni.MainWindow.StateDialogTitle)
+            HBoxs[0].addWidget(uni.MainWindow.StateDialogStateBar)
+            uni.MainWindow.StateDialog.setWidget(pnlState2)
+            uni.MainWindow.StateDialog.setAllowedAreas(Mt.AllDockWidgetAreas)
+            uni.MainWindow.StateDialog.setFeatures(MDockWidget.AllDockWidgetFeatures)
+            uni.MainWindow.addDockWidget(Mt.TopDockWidgetArea, uni.MainWindow.StateDialog)
+            uni.MainWindow.StateDialog.setMaximumHeight(60)
         else:
-            Universals.MainWindow.StateDialog = MDialog(Universals.MainWindow)
-            if len(Universals.MySettings)>0 and isActivePyKDE4:
-                Universals.MainWindow.StateDialog.setButtons(MDialog.NoDefault)
-            Universals.MainWindow.StateDialog.setModal(True)
-            Universals.MainWindow.StateDialog.setMinimumWidth(500)
-            pnlMain = MWidget(Universals.MainWindow.StateDialog)
+            uni.MainWindow.StateDialog = MDialog(uni.MainWindow)
+            if len(uni.MySettings)>0 and isActivePyKDE4:
+                uni.MainWindow.StateDialog.setButtons(MDialog.NoDefault)
+            uni.MainWindow.StateDialog.setModal(True)
+            uni.MainWindow.StateDialog.setMinimumWidth(500)
+            pnlMain = MWidget(uni.MainWindow.StateDialog)
             HBoxs.append(MHBoxLayout(pnlMain))
-            HBoxs[0].addWidget(Universals.MainWindow.StateDialogStateBar)
-            if len(Universals.MySettings)>0 and isActivePyKDE4:
-                Universals.MainWindow.StateDialog.setMainWidget(pnlMain)
+            HBoxs[0].addWidget(uni.MainWindow.StateDialogStateBar)
+            if len(uni.MySettings)>0 and isActivePyKDE4:
+                uni.MainWindow.StateDialog.setMainWidget(pnlMain)
             else:
-                Universals.MainWindow.StateDialog.setLayout(HBoxs[0])
-            Universals.MainWindow.StateDialog.show()
+                uni.MainWindow.StateDialog.setLayout(HBoxs[0])
+            uni.MainWindow.StateDialog.show()
         if _isShowCancel:
-            pbtnCancel = MPushButton(translate("Dialogs", "Cancel"), Universals.MainWindow.StateDialog)
+            pbtnCancel = MPushButton(translate("Dialogs", "Cancel"), uni.MainWindow.StateDialog)
             if _connectToCancel==None:
-                MObject.connect(pbtnCancel, SIGNAL("clicked()"), Universals.cancelThreadAction)
+                MObject.connect(pbtnCancel, SIGNAL("clicked()"), uni.cancelThreadAction)
             else:
                 MObject.connect(pbtnCancel, SIGNAL("clicked()"), _connectToCancel)
             HBoxs[0].addWidget(pbtnCancel)
-    Universals.MainWindow.StateDialogStateBar.setRange(0, _maxValue)
-    Universals.MainWindow.StateDialogStateBar.setValue(_value)
-    if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
-        Universals.MainWindow.StateDialog.setVisible(True)
-        Universals.MainWindow.StateDialogTitle.setText(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
+    uni.MainWindow.StateDialogStateBar.setRange(0, _maxValue)
+    uni.MainWindow.StateDialogStateBar.setValue(_value)
+    if uni.getBoolValue("isMinimumWindowMode") and uni.isCanBeShowOnMainWindow:
+        uni.MainWindow.StateDialog.setVisible(True)
+        uni.MainWindow.StateDialogTitle.setText(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
     else:
-        Universals.MainWindow.StateDialog.open()
-        Universals.MainWindow.StateDialog.setModal(True)
-        Universals.MainWindow.StateDialog.setWindowTitle(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
+        uni.MainWindow.StateDialog.open()
+        uni.MainWindow.StateDialog.setModal(True)
+        uni.MainWindow.StateDialog.setWindowTitle(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
     if _value==_maxValue:
-        if Universals.getBoolValue("isMinimumWindowMode") and Universals.isCanBeShowOnMainWindow:
-            if Universals.MainWindow.isLockedMainForm:
-                Universals.MainWindow.unlockForm()
-            Universals.MainWindow.StateDialog.setVisible(False)
-            Universals.MainWindow.removeDockWidget(Universals.MainWindow.StateDialog)
+        if uni.getBoolValue("isMinimumWindowMode") and uni.isCanBeShowOnMainWindow:
+            if uni.MainWindow.isLockedMainForm:
+                uni.MainWindow.unlockForm()
+            uni.MainWindow.StateDialog.setVisible(False)
+            uni.MainWindow.removeDockWidget(uni.MainWindow.StateDialog)
         else:
-            Universals.MainWindow.StateDialog.setModal(False)
-            Universals.MainWindow.StateDialog.close()
-        Universals.MainWindow.StateDialog = None
+            uni.MainWindow.StateDialog.setModal(False)
+            uni.MainWindow.StateDialog.close()
+        uni.MainWindow.StateDialog = None
 
 def sleep(_title, _value=0, _isShowCancel=False):
     import time
@@ -222,10 +222,10 @@ def getItem(_title="Hamsi Cover", _detail="", _itemList=[""], _currentItem=0):
     if _detail=="":
         _detail = _title
         _title = "Hamsi Cover"
-    if len(Universals.MySettings)>0 and isActivePyKDE4:
-        selectedValue, isSelected = MInputDialog.getItem(trForUI(str(_title)+"!.."), trForUI(str(_detail)), [trForUI(str(x)) for x in _itemList], _currentItem, False)
+    if len(uni.MySettings)>0 and isActivePyKDE4:
+        selectedValue, isSelected = MInputDialog.getItem(str(str(_title)+"!.."), str(str(_detail)), [str(str(x)) for x in _itemList], _currentItem, False)
     else:
-        selectedValue, isSelected = MInputDialog.getItem(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI(str(_detail)), [trForUI(str(x)) for x in _itemList], _currentItem, False)
+        selectedValue, isSelected = MInputDialog.getItem(uni.activeWindow(), str(str(_title)+"!.."), str(str(_detail)), [str(str(x)) for x in _itemList], _currentItem, False)
     if isSelected==False:
         return None
     return str(selectedValue)
@@ -234,10 +234,10 @@ def getText(_title="Hamsi Cover", _detail="", _default=""):
     if _detail=="":
         _detail = _title
         _title = "Hamsi Cover"
-    if len(Universals.MySettings)>0 and isActivePyKDE4:
-        selectedValue, isSelected = MInputDialog.getText(trForUI(str(_title)+"!.."), trForUI(str(_detail)), trForUI(_default))
+    if len(uni.MySettings)>0 and isActivePyKDE4:
+        selectedValue, isSelected = MInputDialog.getText(str(str(_title)+"!.."), str(str(_detail)), str(_default))
     else:
-        selectedValue, isSelected = MInputDialog.getText(Universals.activeWindow(), trForUI(str(_title)+"!.."), trForUI(str(_detail)), MLineEdit.Normal, trForUI(_default))
+        selectedValue, isSelected = MInputDialog.getText(uni.activeWindow(), str(str(_title)+"!.."), str(str(_detail)), MLineEdit.Normal, str(_default))
     if isSelected==False:
         return None
     return str(selectedValue)
@@ -253,50 +253,50 @@ def getSaveFileName(_caption, _directory, _filter=None, _isUseLastPathKeyType=1,
                 _filter = "*.* (*.*)"
         else:
             _filter = "*.* (*.*)"
-    pathKey = Universals.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
-    if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
-    filePath = QFileDialog.getSaveFileName(Universals.activeWindow(), trForUI(_caption),
-                                trForUI(_directory), trForUI(_filter))
+    pathKey = uni.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
+    if pathKey is not None: _directory = uni.getLastPathByEvent(pathKey, _directory)
+    filePath = QFileDialog.getSaveFileName(uni.activeWindow(), str(_caption),
+                                str(_directory), str(_filter))
     if filePath=="":
         return None
-    if pathKey is not None: Universals.setLastPathByEvent(pathKey, str(filePath))
+    if pathKey is not None: uni.setLastPathByEvent(pathKey, str(filePath))
     return str(filePath)
 
 def getOpenFileName(_caption, _directory, _filter, _isUseLastPathKeyType=1, _lastPathKey=None):
-    pathKey = Universals.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
-    if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
-    filePath = QFileDialog.getOpenFileName(Universals.activeWindow(), trForUI(_caption),
-                                trForUI(_directory), trForUI(_filter))
+    pathKey = uni.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
+    if pathKey is not None: _directory = uni.getLastPathByEvent(pathKey, _directory)
+    filePath = QFileDialog.getOpenFileName(uni.activeWindow(), str(_caption),
+                                str(_directory), str(_filter))
     if filePath=="":
         return None
-    if pathKey is not None: Universals.setLastPathByEvent(pathKey, str(filePath))
+    if pathKey is not None: uni.setLastPathByEvent(pathKey, str(filePath))
     return str(filePath)
 
 def getOpenFileNames(_caption, _directory, _filter, _isUseLastPathKeyType=1, _lastPathKey=None):
-    pathKey = Universals.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
-    if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
-    filePaths = QFileDialog.getOpenFileNames(Universals.activeWindow(), trForUI(_caption),
-                                trForUI(_directory), trForUI(_filter))
+    pathKey = uni.getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType, _lastPathKey)
+    if pathKey is not None: _directory = uni.getLastPathByEvent(pathKey, _directory)
+    filePaths = QFileDialog.getOpenFileNames(uni.activeWindow(), str(_caption),
+                                str(_directory), str(_filter))
     if filePaths==[]:
         return None
-    if pathKey is not None: Universals.setLastPathByEvent(pathKey, str(filePath))
+    if pathKey is not None: uni.setLastPathByEvent(pathKey, str(filePath))
     return list(filePaths)
 
 def getExistingDirectory(_caption, _directory, _isUseLastPathKeyType=1, _lastPathKey=None):
-    pathKey = Universals.getLastPathKey(_caption, _directory, "", _isUseLastPathKeyType, _lastPathKey)
-    if pathKey is not None: _directory = Universals.getLastPathByEvent(pathKey, _directory)
-    filePath = QFileDialog.getExistingDirectory(Universals.activeWindow(), trForUI(_caption),
-                                trForUI(_directory))
+    pathKey = uni.getLastPathKey(_caption, _directory, "", _isUseLastPathKeyType, _lastPathKey)
+    if pathKey is not None: _directory = uni.getLastPathByEvent(pathKey, _directory)
+    filePath = QFileDialog.getExistingDirectory(uni.activeWindow(), str(_caption),
+                                str(_directory))
     if filePath=="":
         return None
-    if pathKey is not None: Universals.setLastPathByEvent(pathKey, str(filePath))
+    if pathKey is not None: uni.setLastPathByEvent(pathKey, str(filePath))
     return str(filePath)
 
 class MyStateDialog(MDialog):
     
     def __init__(self, _title="", _isShowCancel=False, _connectToCancel=None, _isCheckLastShowTime=True):
-        MDialog.__init__(self, Universals.MainWindow)
-        if len(Universals.MySettings)>0 and isActivePyKDE4:
+        MDialog.__init__(self, uni.MainWindow)
+        if len(uni.MySettings)>0 and isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         self.title = _title
         self.isShowCancel = _isShowCancel

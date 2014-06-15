@@ -17,12 +17,12 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 import Options
 from Options import OptionsForm
@@ -38,18 +38,18 @@ class TextCorrector(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
-            Universals.setMainWindow(self)
-        newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
+            uni.setMainWindow(self)
+        newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "textCorrector", None, newOrChangedKeys)
         self.setWindowTitle(translate("TextCorrector", "Text Corrector")) 
         self.fileValues = None
         self.isChangeSourceCharSetChanged = False
         self.charSet = MComboBox()
-        self.charSet.addItems(Variables.getCharSets())
-        self.charSet.setCurrentIndex(self.charSet.findText(Universals.MySettings["fileSystemEncoding"]))
+        self.charSet.addItems(var.getCharSets())
+        self.charSet.setCurrentIndex(self.charSet.findText(uni.MySettings["fileSystemEncoding"]))
         self.sourceCharSet = MComboBox()
-        self.sourceCharSet.addItems(Variables.getCharSets())
-        self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(Universals.MySettings["fileSystemEncoding"]))
+        self.sourceCharSet.addItems(var.getCharSets())
+        self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(uni.MySettings["fileSystemEncoding"]))
         self.pbtnSelectFilePath = MPushButton(translate("TextCorrector", "Browse"))
         self.connect(self.pbtnSelectFilePath,SIGNAL("clicked()"), self.selectFilePath)
         pbtnClose = MPushButton(translate("TextCorrector", "Close"))
@@ -66,8 +66,8 @@ class TextCorrector(MyDialog):
         vblMain = MVBoxLayout(pnlMain)
         self.lblFilePath = MLabel(self.labels[0]) 
         self.lblFileContent = MLabel(self.labels[1])
-        self.leFilePath = MLineEdit(trForUI(_filePath))
-        self.pteFileContent = MPlainTextEdit(trForUI(""))
+        self.leFilePath = MLineEdit(str(_filePath))
+        self.pteFileContent = MPlainTextEdit(str(""))
         self.pteFileContent.setLineWrapMode(MPlainTextEdit.NoWrap)
         self.fillValues()
         MObject.connect(self.sourceCharSet, SIGNAL("currentIndexChanged(int)"), self.sourceCharSetChanged)
@@ -109,7 +109,7 @@ class TextCorrector(MyDialog):
         if fu.isFile(filePath) and fu.isReadableFileOrDir(filePath):
             
             self.fileValues = fu.readTextFile(filePath, str(self.sourceCharSet.currentText()))
-            self.pteFileContent.setPlainText(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
+            self.pteFileContent.setPlainText(str(Organizer.emend(self.fileValues["content"], "text", False, True)))
             self.isChangeSourceCharSetChanged = True
             self.pbtnSave.setEnabled(True)
         else:
@@ -124,16 +124,16 @@ class TextCorrector(MyDialog):
             self.pbtnSave.setEnabled(False)
             Dialogs.showError(translate("TextCorrector", "Incorrect File Encoding"), 
                         str(translate("TextCorrector", "File can not decode by \"%s\" codec.<br>Please select another file encoding type.")
-                            )% trForUI(self.sourceCharSet.currentText()))
+                            )% str(self.sourceCharSet.currentText()))
 
     def selectFilePath(self):
         try:
             filePath = Dialogs.getOpenFileName(translate("TextCorrector", "Please Select A Text File To Correct"), self.leFilePath.text(),
                         translate("TextCorrector", "All Files (*)"))
             if filePath is not None:
-                self.leFilePath.setText(trForUI(filePath))
+                self.leFilePath.setText(str(filePath))
                 self.isChangeSourceCharSetChanged = False
-                self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(Universals.MySettings["fileSystemEncoding"]))
+                self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(uni.MySettings["fileSystemEncoding"]))
                 self.fillValues()
         except:
             ReportBug.ReportBug()
@@ -150,12 +150,12 @@ class TextCorrector(MyDialog):
                 newPath = fu.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
                 if newPath!=self.fileValues["path"]:
                     self.changeFile(newPath)
-                if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
+                if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
                 Records.saveAllRecords()
             else:
                 Dialogs.showError(translate("TextCorrector", "File Does Not Exist"), 
                         str(translate("TextDetails", "\"%s\" does not exist.<br>Please select an exist file and try again.")
-                            )% Organizer.getLink(trForUI(filePath)))
+                            )% Organizer.getLink(str(filePath)))
         except:
             ReportBug.ReportBug()
     

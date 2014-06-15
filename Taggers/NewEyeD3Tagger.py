@@ -28,7 +28,7 @@ except: pass
 import Taggers
 from Core.MyObjects import *
 import FileUtils as fu
-from Core import Universals
+from Core import Universals as uni
 
 pluginName = "eyed3"
 
@@ -43,7 +43,7 @@ class Tagger():
         self.filePath = _filePath
         self.isCorrect = True
         try:
-            self.tag = id3.TagFile(Universals.trEncode(self.filePath, fu.fileSystemEncoding),
+            self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding),
                                    Taggers.getSelectedTaggerTypeForRead()).tag
         except:
             self.tag = id3.TagFile(self.filePath, Taggers.getSelectedTaggerTypeForRead()).tag
@@ -52,7 +52,7 @@ class Tagger():
         self.filePath = _filePath
         self.isCorrect = _isCorrect
         try:
-            self.tag = id3.TagFile(Universals.trEncode(self.filePath, fu.fileSystemEncoding),
+            self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding),
                                    Taggers.getSelectedTaggerTypeForWrite()).tag
         except:
             self.tag = id3.TagFile(self.filePath, Taggers.getSelectedTaggerTypeForWrite()).tag
@@ -77,15 +77,15 @@ class Tagger():
     def getCorrectedValuesForMusicTagType(self, _value):
         _value = self.getCorrectedValues(_value)
         if Taggers.getSelectedTaggerTypeForRead() in (id3.ID3_V1_1, id3.ID3_V1_0, id3.ID3_V1):
-            return Universals.trEncode(Universals.trUnicode(_value), "latin1")
+            return uni.trEncode(uni.trUnicode(_value), "latin1")
         else:
             return _value
 
     def correctValuesForMusicTagType(self, _value):
         if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V1_1, id3.ID3_V1_0, id3.ID3_V1):
-            return Universals.trUnicode(str(_value), "latin1")
+            return uni.trUnicode(str(_value), "latin1")
         else:
-            return Universals.trUnicode(str(_value))
+            return uni.trUnicode(str(_value))
 
     def getArtist(self):
         try: return self.getCorrectedValuesForMusicTagType(str(self.tag._getArtist()))
@@ -196,11 +196,11 @@ class Tagger():
         if Taggers.getSelectedTaggerTypeForRead() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
             imageData = fu.readFromBinaryFile(_imagePath)
             mimeType = fu.getMimeType(_imagePath)[0]
-            self.tag.images.set(int(_imageType), imageData, mimeType, Universals.trUnicode(_description))
+            self.tag.images.set(int(_imageType), imageData, mimeType, uni.trUnicode(_description))
 
     def removeImage(self, _description):
         if Taggers.getSelectedTaggerTypeForRead() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
-            self.tag.images.remove(Universals.trUnicode(_description))
+            self.tag.images.remove(uni.trUnicode(_description))
 
 
 def getImageTypes():

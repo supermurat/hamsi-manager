@@ -1109,12 +1109,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Variables.py" line="765"/>
+        <location filename="Core/var.py" line="765"/>
         <source>&quot;mysqld_safe&quot; Not Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Variables.py" line="765"/>
+        <location filename="Core/var.py" line="765"/>
         <source>Executable &quot;mysqld_safe&quot; file is not found. Are you want to set path of this file?&lt;br&gt;&lt;b&gt;Note :&lt;/b&gt; &quot;mysql-common&quot; must be installed on your system.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6659,22 +6659,22 @@
 <context>
     <name>Tables</name>
     <message>
-        <location filename="Core/Universals.py" line="292"/>
+        <location filename="Core/uni.py" line="292"/>
         <source>Folder Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="293"/>
+        <location filename="Core/uni.py" line="293"/>
         <source>File Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="294"/>
+        <location filename="Core/uni.py" line="294"/>
         <source>Music Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="295"/>
+        <location filename="Core/uni.py" line="295"/>
         <source>Subfolder Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6854,7 +6854,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="297"/>
+        <location filename="Core/uni.py" line="297"/>
         <source>Cover Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6869,12 +6869,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="299"/>
+        <location filename="Core/uni.py" line="299"/>
         <source>Amarok Cover Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="300"/>
+        <location filename="Core/uni.py" line="300"/>
         <source>Amarok Music Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6889,12 +6889,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="301"/>
+        <location filename="Core/uni.py" line="301"/>
         <source>Amarok Artist Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="302"/>
+        <location filename="Core/uni.py" line="302"/>
         <source>Amarok Copy Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7392,32 +7392,32 @@
 <context>
     <name>Universals</name>
     <message>
-        <location filename="Core/Universals.py" line="336"/>
+        <location filename="Core/uni.py" line="336"/>
         <source>Are You Sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="336"/>
+        <location filename="Core/uni.py" line="336"/>
         <source>Are you want to cancel these transactions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="303"/>
+        <location filename="Core/uni.py" line="303"/>
         <source>%Artist%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="304"/>
+        <location filename="Core/uni.py" line="304"/>
         <source>%Album%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="305"/>
+        <location filename="Core/uni.py" line="305"/>
         <source>%Year%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="306"/>
+        <location filename="Core/uni.py" line="306"/>
         <source>%Genre%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7568,7 +7568,7 @@
 <context>
     <name>Variables</name>
     <message>
-        <location filename="Core/Variables.py" line="614"/>
+        <location filename="Core/var.py" line="614"/>
         <source>Desktop</source>
         <translation type="unfinished"></translation>
     </message>

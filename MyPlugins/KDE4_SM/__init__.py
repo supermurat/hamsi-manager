@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core.MyObjects import *
-from Core import Variables
+from Core import Variables as var
 pluginName = str(translate("MyPlugins/KDE4_SM", "For KDE4 Applications` Service Menus"))
 pluginVersion = "0.9"
 pluginFiles = ["HamsiManager_KDE4_SM.desktop", 
@@ -27,10 +27,10 @@ pluginDirectory = ""
 installThisPlugin = None
 uninstallThisPlugin = None
 
-if Variables.isRunningAsRoot():
+if var.isRunningAsRoot():
     setupDirectory = "/usr/share/kde4/services/ServiceMenus"
 else:
-    setupDirectory = Variables.getKDE4HomePath() + "/share/kde4/services/ServiceMenus"
+    setupDirectory = var.getKDE4HomePath() + "/share/kde4/services/ServiceMenus"
 
 def isInstallable():
-    return Variables.isAvailableKDE4()
+    return var.isAvailableKDE4()

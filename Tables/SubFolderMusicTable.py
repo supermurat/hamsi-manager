@@ -21,8 +21,8 @@ import FileUtils as fu
 import SearchEngines
 from Core.MyObjects import *
 from Details import MusicDetails
-from Core import Universals
-from Core import Variables
+from Core import Universals as uni
+from Core import Variables as var
 from Core import Dialogs
 import Options
 import Taggers
@@ -44,19 +44,19 @@ class SubFolderMusicTable():
         self.isPlayNow.setIcon(MIcon("Images:playNow.png"))
         self.isPlayNow.setCheckable(True)
         self.isPlayNow.setAutoRaise(True)
-        self.isPlayNow.setChecked(Universals.getBoolValue("isPlayNow"))
+        self.isPlayNow.setChecked(uni.getBoolValue("isPlayNow"))
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-3, self.isPlayNow)
         self.Table.hblBox.insertWidget(self.Table.hblBox.count()-1, pbtnVerifyTableValues)
         
     def readContents(self, _directoryPath):
         currentTableContentValues = []
         musicFileNames = fu.readDirectoryWithSubDirectoriesThread(_directoryPath,
-                    int(Universals.MySettings["subDirectoryDeep"]), "music", Universals.getBoolValue("isShowHiddensInSubFolderMusicTable"))
+                    int(uni.MySettings["subDirectoryDeep"]), "music", uni.getBoolValue("isShowHiddensInSubFolderMusicTable"))
         isCanNoncompatible = False
         allItemNumber = len(musicFileNames)
-        Universals.startThreadAction()
+        uni.startThreadAction()
         for musicNo,musicName in enumerate(musicFileNames):
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     if fu.isReadableFileOrDir(musicName, False, True):
@@ -89,7 +89,7 @@ class SubFolderMusicTable():
             Dialogs.showState(translate("FileUtils/Musics", "Reading Music Tags"),musicNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         if isCanNoncompatible == True:
             Dialogs.show(translate("FileUtils/Musics", "Possible ID3 Mismatch"),
                 translate("FileUtils/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
@@ -102,15 +102,15 @@ class SubFolderMusicTable():
         isMovedToNewDirectory = False
         currentDirectoryPath = ""
         newDirectoryPath = ""
-        if Variables.isActiveAmarok and Universals.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
+        if var.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
-        Universals.startThreadAction()
+        uni.startThreadAction()
         allItemNumber = len(self.Table.currentTableContentValues)
         Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),0,allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
-            isContinueThreadAction = Universals.isContinueThreadAction()
+            isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
                     changingTag = {"path" : self.Table.currentTableContentValues[rowNo]["path"]}
@@ -124,49 +124,49 @@ class SubFolderMusicTable():
                             tagger = Taggers.getTagger()
                             tagger.loadFileForWrite(self.Table.currentTableContentValues[rowNo]["path"])
                             isCheckLike = Taggers.getSelectedTaggerTypeForRead()==Taggers.getSelectedTaggerTypeForWrite()
-                            if self.Table.isChangableItem(rowNo, 2, self.Table.currentTableContentValues[rowNo]["artist"], True, isCheckLike):
+                            if self.Table.isChangeableItem(rowNo, 2, self.Table.currentTableContentValues[rowNo]["artist"], True, isCheckLike):
                                 value = str(self.Table.item(rowNo,2).text())
                                 tagger.setArtist(value)
                                 changingTag["artist"] = value
                                 Records.add(str(translate("SubFolderMusicTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["artist"]), value)
                                 self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 3, self.Table.currentTableContentValues[rowNo]["title"], True, isCheckLike):
+                            if self.Table.isChangeableItem(rowNo, 3, self.Table.currentTableContentValues[rowNo]["title"], True, isCheckLike):
                                 value = str(self.Table.item(rowNo,3).text())
                                 tagger.setTitle(value)
                                 changingTag["title"] = value
                                 Records.add(str(translate("SubFolderMusicTable", "Title")), str(self.Table.currentTableContentValues[rowNo]["title"]), value)
                                 self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 4, self.Table.currentTableContentValues[rowNo]["album"], True, isCheckLike):
+                            if self.Table.isChangeableItem(rowNo, 4, self.Table.currentTableContentValues[rowNo]["album"], True, isCheckLike):
                                 value = str(self.Table.item(rowNo,4).text())
                                 tagger.setAlbum(value)
                                 changingTag["album"] = value
                                 Records.add(str(translate("SubFolderMusicTable", "Album")), str(self.Table.currentTableContentValues[rowNo]["album"]), value)
                                 self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 5, self.Table.currentTableContentValues[rowNo]["trackNum"], True, isCheckLike):
+                            if self.Table.isChangeableItem(rowNo, 5, self.Table.currentTableContentValues[rowNo]["trackNum"], True, isCheckLike):
                                 value = str(self.Table.item(rowNo,5).text())
                                 tagger.setTrackNum(value)
                                 changingTag["trackNum"] = value
                                 Records.add(str(translate("SubFolderMusicTable", "Track No")), str(self.Table.currentTableContentValues[rowNo]["trackNum"]), value)
                                 self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 6, self.Table.currentTableContentValues[rowNo]["year"], True, isCheckLike):
+                            if self.Table.isChangeableItem(rowNo, 6, self.Table.currentTableContentValues[rowNo]["year"], True, isCheckLike):
                                 value = str(self.Table.item(rowNo,6).text())
                                 tagger.setDate(value)
                                 changingTag["year"] = value
                                 Records.add(str(translate("SubFolderMusicTable", "Year")), str(self.Table.currentTableContentValues[rowNo]["year"]), value)
                                 self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 7, self.Table.currentTableContentValues[rowNo]["genre"], True, isCheckLike):
+                            if self.Table.isChangeableItem(rowNo, 7, self.Table.currentTableContentValues[rowNo]["genre"], True, isCheckLike):
                                 value = str(self.Table.item(rowNo,7).text())
                                 tagger.setGenre(value)
                                 changingTag["genre"] = value
                                 Records.add(str(translate("SubFolderMusicTable", "Genre")), str(self.Table.currentTableContentValues[rowNo]["genre"]), value)
                                 self.Table.changedValueNumber += 1
-                            if self.Table.isChangableItem(rowNo, 8, self.Table.currentTableContentValues[rowNo]["firstComment"], True, isCheckLike):
+                            if self.Table.isChangeableItem(rowNo, 8, self.Table.currentTableContentValues[rowNo]["firstComment"], True, isCheckLike):
                                 value = str(self.Table.item(rowNo,8).text())
                                 tagger.setFirstComment(value)
                                 changingTag["firstComment"] = value
                                 Records.add(str(translate("SubFolderMusicTable", "Comment")), str(self.Table.currentTableContentValues[rowNo]["firstComment"]), value)
                                 self.Table.changedValueNumber += 1
-                            if len(self.Table.tableColumns)>9 and self.Table.isChangableItem(rowNo, 9, self.Table.currentTableContentValues[rowNo]["firstLyrics"], True, isCheckLike):
+                            if len(self.Table.tableColumns)>9 and self.Table.isChangeableItem(rowNo, 9, self.Table.currentTableContentValues[rowNo]["firstLyrics"], True, isCheckLike):
                                 value = str(self.Table.item(rowNo,9).text())
                                 tagger.setFirstLyrics(value)
                                 changingTag["firstLyrics"] = value
@@ -175,14 +175,14 @@ class SubFolderMusicTable():
                             if len(changingTag)>1:
                                 changingTags.append(changingTag)
                             tagger.update()
-                            if self.Table.isChangableItem(rowNo, 0, baseNameOfDirectory):
+                            if self.Table.isChangeableItem(rowNo, 0, baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.Table.item(rowNo,0).text())
                                 self.Table.changedValueNumber += 1
                                 isMovedToNewDirectory = True
                                 currentDirectoryPath = fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])
                                 newDirectoryPath = fu.joinPath(fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])), baseNameOfDirectory)
                                 self.Table.setNewDirectory(newDirectoryPath)
-                            if self.Table.isChangableItem(rowNo, 1, baseName, False):
+                            if self.Table.isChangeableItem(rowNo, 1, baseName, False):
                                 baseName = str(self.Table.item(rowNo,1).text())
                                 self.Table.changedValueNumber += 1
                             newFilePath = fu.joinPath(str(self.Table.currentTableContentValues[rowNo]["path"]).replace(fu.joinPath(str(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"]), str(self.Table.currentTableContentValues[rowNo]["baseName"])), ""), baseNameOfDirectory, baseName)
@@ -196,9 +196,9 @@ class SubFolderMusicTable():
             Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
-        Universals.finishThreadAction()
+        uni.finishThreadAction()
         pathValues = fu.changeDirectories(changingFileDirectories)
-        if Variables.isActiveAmarok and Universals.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
+        if var.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changeTags(changingTags)
@@ -206,7 +206,7 @@ class SubFolderMusicTable():
         return True
         
     def showDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"], Universals.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
+        MusicDetails.MusicDetails(self.Table.currentTableContentValues[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
     
     def cellClicked(self,_row,_column):
         currentItem = self.Table.currentItem()
@@ -225,7 +225,7 @@ class SubFolderMusicTable():
             if _column==8 or _column==9:
                 self.showDetails(_row, _column)
             else:
-                if Universals.getBoolValue("isRunOnDoubleClick"):
+                if uni.getBoolValue("isRunOnDoubleClick"):
                     self.showDetails(_row, _column)
         except:
             Dialogs.showError(translate("SubFolderMusicTable", "Cannot Open Music File"), 
@@ -287,14 +287,14 @@ class SubFolderMusicTable():
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
-                if self.Table.isChangableItem(rowNo, itemNo):
+                if self.Table.isChangeableItem(rowNo, itemNo):
                     if itemNo==0:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "directory")
                     elif itemNo==1:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()), "file")
                     else:
                         newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()))
-                    self.Table.item(rowNo,itemNo).setText(trForUI(newString))
+                    self.Table.item(rowNo,itemNo).setText(str(newString))
           
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo==0:

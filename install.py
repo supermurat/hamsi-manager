@@ -30,37 +30,37 @@ if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
     import FileUtils as fu
     fu.initStartupVariables()
-    from Core import Variables
-    from Core import Universals
+    from Core import Variables as var
+    from Core import Universals as uni
     from Core import Settings
-    Universals.fillMySettings(False, False, False)
+    uni.fillMySettings(False, False, False)
     isActivePyKDE4 = False
     from Core import Dialogs
     from Core import Execute
     defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForUI(fu.joinPath(fu.themePath, "Images"))))
+    MDir.setSearchPaths("Images", MStringList(str(fu.joinPath(fu.themePath, "Images"))))
     StyleFile = open(fu.joinPath(fu.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
     if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
+            languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
     elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
+            languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
     HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
     HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))
     HamsiManagerApp.setApplicationName("InstallHamsiManager")
-    HamsiManagerApp.setApplicationVersion(Variables.version)
+    HamsiManagerApp.setApplicationVersion(var.version)
     HamsiManagerApp.setOrganizationDomain("hamsiapps.com")
     HamsiManagerApp.setOrganizationName("Hamsi Apps")
     from Core import MyConfigure
     class Main(MMainWindow):
         def __init__(self, parent=None):
             MMainWindow.__init__(self, parent)
-            Universals.setApp(HamsiManagerApp)
-            Universals.setMainWindow(self)
+            uni.setApp(HamsiManagerApp)
+            uni.setMainWindow(self)
             self.isInstallFinised = False
             self.pageNo, self.pageSize = 0, 5
             self.vblMain = MVBoxLayout()
@@ -118,7 +118,7 @@ if RoutineChecks.checkMandatoryModules():
                     aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
                 else:
                     aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
-                lblAbout = MLabel(trForUI(aboutFileContent))
+                lblAbout = MLabel(str(aboutFileContent))
                 lblAbout.setWordWrap(True)
                 HBox.addWidget(lblAbout)
             elif _pageNo==1:
@@ -127,12 +127,12 @@ if RoutineChecks.checkMandatoryModules():
                 else:
                     lisenceFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
                 teCopying = MTextEdit()
-                teCopying.setPlainText(trForUI(lisenceFileContent))
+                teCopying.setPlainText(str(lisenceFileContent))
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(translate("Install", "Please Select A Folder For Installation."))
-                installationDirPath = trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(fu.joinPath(fu.getDirName(fu.HamsiManagerDirectory), "Hamsi"))))
-                self.leInstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
+                installationDirPath = str(Settings.getUniversalSetting("HamsiManagerPath", str(fu.joinPath(fu.getDirName(fu.HamsiManagerDirectory), "Hamsi"))))
+                self.leInstallationDirectory = MLineEdit(str(Settings.getUniversalSetting("pathOfInstallationDirectory", str(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
                 VBox = MVBoxLayout()
@@ -158,11 +158,11 @@ if RoutineChecks.checkMandatoryModules():
                 VBox.addWidget(self.lblFinished)
                 self.isCreateDesktopShortcut = None
                 self.isCreateExecutableLink = None
-                if Variables.isRunningAsRoot():
+                if var.isRunningAsRoot():
                     self.isCreateExecutableLink = MCheckBox(translate("Install", "Add To The System"))
                     self.isCreateExecutableLink.setCheckState(Mt.Checked)
                     lblExecutableLink = MLabel(translate("Install", "Executable Link Path : "))
-                    self.leExecutableLink = MLineEdit(trForUI(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
+                    self.leExecutableLink = MLineEdit(str(Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", "/usr/bin/hamsi")))
                     self.connect(self.isCreateExecutableLink, SIGNAL("stateChanged(int)"),self.createExecutableLinkChanged)
                     VBox.addWidget(self.isCreateExecutableLink)
                     HBox1 = MHBoxLayout()
@@ -186,7 +186,7 @@ if RoutineChecks.checkMandatoryModules():
         def selectInstallationDirectory(self):
             insDir = Dialogs.getExistingDirectory(translate("Install", "Please select a folder for installation."),self.leInstallationDirectory.text())
             if insDir is not None:
-                self.leInstallationDirectory.setText(trForUI(insDir))
+                self.leInstallationDirectory.setText(str(insDir))
             
         def pageChanged(self, _isRunningManual=False):
             try:
@@ -316,8 +316,8 @@ if RoutineChecks.checkMandatoryModules():
                     MyConfigure.reConfigureFile(fu.joinPath(self.installationDirectory, "HamsiManager.desktop"), self.installationDirectory)
                 if self.isCreateDesktopShortcut!=None:
                     if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
-                        desktopPath = Variables.getUserDesktopPath()
-                        if Variables.isWindows:
+                        desktopPath = var.getUserDesktopPath()
+                        if var.isWindows:
                             MyConfigure.createShortCutFile(fu.joinPath(desktopPath, "Hamsi Manager.lnk"), self.installationDirectory)
                         else:
                             fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
@@ -334,7 +334,7 @@ if RoutineChecks.checkMandatoryModules():
                         if fu.isDir("/usr/share/applications/"):
                             fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                             fu.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
-                if Variables.isRunningAsRoot()==False:
+                if var.isRunningAsRoot()==False:
                     if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))==False:
                         fu.makeDirs(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
@@ -345,17 +345,17 @@ if RoutineChecks.checkMandatoryModules():
                 from Core import ReportBug
                 ReportBug.ReportBug()
             
-    if Variables.isRunningAsRoot()==False and Variables.isRunableAsRoot():
+    if var.isRunningAsRoot()==False and var.isRunableAsRoot():
         answer = Dialogs.askSpecial(translate("Install", "Are You Want To Run As Root?"), translate("Install", "Hamsi Manager Installer is running with user privileges.<br>Do you want to run Hamsi Manager installer with root rights?<br><b>Note: </b>The other users on your system has to inherit these permissions and install the program to a location other than their /home directories."), translate("Install", "Yes"), translate("Install", "No (Continue as is)"), None)
         if answer==translate("Install", "Yes"):
             NewApp = Execute.executeAsRootWithThread([], "HamsiManagerInstaller")
             sys.exit()
     try:
         MainWidget=Main()
-        MainWidget.setWindowTitle(translate("Install", "Hamsi Manager Installer") + " " + Variables.version)
+        MainWidget.setWindowTitle(translate("Install", "Hamsi Manager Installer") + " " + var.version)
         MainWidget.setGeometry(300, 300, 650, 350)
         MainWidget.show()
-        Universals.isStartingSuccessfully = True
+        uni.isStartingSuccessfully = True
     except:
         from Core import ReportBug
         ReportBug.ReportBug()

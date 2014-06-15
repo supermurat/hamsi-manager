@@ -17,8 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
-from Core import Universals
+from Core import Variables as var
+from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
@@ -57,11 +57,11 @@ class MusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedValues()==True:
+                if uni.MainWindow.Table.checkUnSavedValues()==True:
                     setSelectedTaggerTypeForReadName(selectedType)
-                    Universals.MainWindow.Table.refreshForColumns()
-                    Universals.MainWindow.SpecialTools.refreshForColumns()
-                    Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                    uni.MainWindow.Table.refreshForColumns()
+                    uni.MainWindow.SpecialTools.refreshForColumns()
+                    uni.MainWindow.Table.refresh(uni.MainWindow.FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
                 self.cbMusicTagTypeForRead.setCurrentIndex(self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
                 if self.cbMusicTagTypeForReadForMenu != None:
@@ -74,7 +74,7 @@ class MusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedValues()==True:
+                if uni.MainWindow.Table.checkUnSavedValues()==True:
                     setSelectedTaggerTypeForWriteName(selectedType)
                 self.isActiveChanging = False
                 self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
@@ -98,9 +98,9 @@ class MusicOptionsBar(MToolBar):
         MObject.connect(self.cbMusicTagTypeForReadForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForReadChanged)
         MObject.connect(self.cbMusicTagTypeForWriteForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForWriteChanged)
         wactLabelForRead = MWidgetAction(_menu)
-        wactLabelForRead.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "Read From : "))))
+        wactLabelForRead.setDefaultWidget(MLabel(str(translate("MusicOptionsBar", "Read From : "))))
         wactLabelForWrite = MWidgetAction(_menu)
-        wactLabelForWrite.setDefaultWidget(MLabel(trForUI(translate("MusicOptionsBar", "Write To : "))))
+        wactLabelForWrite.setDefaultWidget(MLabel(str(translate("MusicOptionsBar", "Write To : "))))
         wactForRead = MWidgetAction(_menu)
         wactForWrite = MWidgetAction(_menu)
         wactForRead.setDefaultWidget(self.cbMusicTagTypeForReadForMenu)

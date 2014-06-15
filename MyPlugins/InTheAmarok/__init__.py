@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core.MyObjects import *
-from Core import Variables
+from Core import Variables as var
 pluginName = str(translate("MyPlugins/InTheAmarok", "Hamsi Manager In The Amarok"))
 pluginVersion = "0.4"
 pluginFiles = []
@@ -25,10 +25,10 @@ pluginDirectory = "HamsiManagerInTheAmarok"
 installThisPlugin = None
 uninstallThisPlugin = None
 
-if Variables.isRunningAsRoot():
+if var.isRunningAsRoot():
     setupDirectory = "/usr/share/apps/amarok/scripts"
 else:
-    setupDirectory = Variables.getKDE4HomePath() + "/share/apps/amarok/scripts"
+    setupDirectory = var.getKDE4HomePath() + "/share/apps/amarok/scripts"
 
 def isInstallable():
-    return Variables.isAvailableKDE4()
+    return var.isAvailableKDE4()

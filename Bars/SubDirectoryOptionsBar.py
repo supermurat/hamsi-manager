@@ -17,8 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
-from Core import Universals
+from Core import Variables as var
+from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 
@@ -30,12 +30,12 @@ class SubDirectoryOptionsBar(MToolBar):
         self.setWindowTitle(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         self.setObjectName(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         lblDetails = translate("SubDirectoryOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : "))
+        lblSubDirectoryDeep = MLabel(str(translate("SubDirectoryOptionsBar", "Deep") + " : "))
         self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) ]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
         self.isActiveChanging = False
-        self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(Universals.MySettings["subDirectoryDeep"]))
+        self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(uni.MySettings["subDirectoryDeep"]))
         self.isActiveChanging = True
         self.cbSubDirectoryDeep.setToolTip(lblDetails)
         pnlSubDirectoryDeep = MWidget()
@@ -51,15 +51,15 @@ class SubDirectoryOptionsBar(MToolBar):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
             if self.isActiveChanging:
-                if Universals.MainWindow.Table.checkUnSavedValues()==True:
-                    Universals.setMySetting("subDirectoryDeep", int(selectedDeep))
-                    Universals.MainWindow.Table.refreshForColumns()
-                    Universals.MainWindow.SpecialTools.refreshForColumns()
-                    Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+                if uni.MainWindow.Table.checkUnSavedValues()==True:
+                    uni.setMySetting("subDirectoryDeep", int(selectedDeep))
+                    uni.MainWindow.Table.refreshForColumns()
+                    uni.MainWindow.SpecialTools.refreshForColumns()
+                    uni.MainWindow.Table.refresh(uni.MainWindow.FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
-                self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(Universals.MySettings["subDirectoryDeep"])))
+                self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(uni.MySettings["subDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
-                    self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["subDirectoryDeep"])))
+                    self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["subDirectoryDeep"])))
                 self.isActiveChanging = True
         except:
             ReportBug.ReportBug()
@@ -68,14 +68,14 @@ class SubDirectoryOptionsBar(MToolBar):
         self.cbSubDirectoryDeepForMenu = MComboBox(self)
         self.cbSubDirectoryDeepForMenu.addItems(self.SubDirectoryDeeps)
         self.isActiveChanging = False
-        self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(Universals.MySettings["subDirectoryDeep"])))
+        self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["subDirectoryDeep"])))
         self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
         wactLabel = MWidgetAction(_menu)
-        wactLabel.setObjectName(trForUI(translate("SubDirectoryOptionsBar", "Label Deep") + " : "))
-        wactLabel.setDefaultWidget(MLabel(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : ")))
+        wactLabel.setObjectName(str(translate("SubDirectoryOptionsBar", "Label Deep") + " : "))
+        wactLabel.setDefaultWidget(MLabel(str(translate("SubDirectoryOptionsBar", "Deep") + " : ")))
         wact = MWidgetAction(_menu)
-        wact.setObjectName(trForUI(translate("SubDirectoryOptionsBar", "Deep") + " : "))
+        wact.setObjectName(str(translate("SubDirectoryOptionsBar", "Deep") + " : "))
         wact.setDefaultWidget(self.cbSubDirectoryDeepForMenu)
         _menu.addAction(wactLabel)
         _menu.addAction(wact)

@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from FileUtils import Musics
 import FileUtils as fu
 import os,sys
@@ -26,7 +26,7 @@ from Core import Dialogs
 from Core import Organizer
 from Viewers import MusicPlayer
 from Details.ImageDetails import ImageDetails
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 import Taggers
 
@@ -91,15 +91,15 @@ class MusicDetails(MDialog):
         else:
             Dialogs.showError(translate("MusicDetails", "File Does Not Exist"), 
                     str(translate("MusicDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
-                        ) % Organizer.getLink(trForUI(_filePath)))
-            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
+                        ) % Organizer.getLink(str(_filePath)))
+            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
         self.musicValues = Musics.readMusicFile(self.musicFile)
-        self.setWindowTitle(trForUI(fu.getBaseName(self.musicFile)))
+        self.setWindowTitle(str(fu.getBaseName(self.musicFile)))
         if self.pnlClearable != None:
-            Universals.clearAllChilds(self.pnlClearable, True)
+            clearAllChildren(self.pnlClearable, True)
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)
         vblClearable = MVBoxLayout(self.pnlClearable)
@@ -112,16 +112,16 @@ class MusicDetails(MDialog):
         self.infoLabels["trackNum"] = MLabel(self.labels[5]) 
         self.infoLabels["year"] = MLabel(self.labels[6]) 
         self.infoLabels["genre"] = MLabel(self.labels[7]) 
-        self.infoValues["baseNameOfDirectory"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["baseNameOfDirectory"], "directory", False)))
-        self.infoValues["baseName"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["baseName"], "file")))
-        self.infoValues["artist"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["artist"])))
-        self.infoValues["title"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["title"])))
-        self.infoValues["album"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["album"])))
-        self.infoValues["trackNum"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["trackNum"])))
-        self.infoValues["year"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["year"])))
-        self.infoValues["genre"] = MLineEdit(trForUI(Organizer.emend(self.musicValues["genre"])))
-        self.infoValues["firstComment"] = MPlainTextEdit(trForUI(Organizer.emend(self.musicValues["firstComment"])))
-        self.infoValues["firstLyrics"] = MPlainTextEdit(trForUI(Organizer.emend(self.musicValues["firstLyrics"])))
+        self.infoValues["baseNameOfDirectory"] = MLineEdit(str(Organizer.emend(self.musicValues["baseNameOfDirectory"], "directory", False)))
+        self.infoValues["baseName"] = MLineEdit(str(Organizer.emend(self.musicValues["baseName"], "file")))
+        self.infoValues["artist"] = MLineEdit(str(Organizer.emend(self.musicValues["artist"])))
+        self.infoValues["title"] = MLineEdit(str(Organizer.emend(self.musicValues["title"])))
+        self.infoValues["album"] = MLineEdit(str(Organizer.emend(self.musicValues["album"])))
+        self.infoValues["trackNum"] = MLineEdit(str(Organizer.emend(self.musicValues["trackNum"])))
+        self.infoValues["year"] = MLineEdit(str(Organizer.emend(self.musicValues["year"])))
+        self.infoValues["genre"] = MLineEdit(str(Organizer.emend(self.musicValues["genre"])))
+        self.infoValues["firstComment"] = MPlainTextEdit(str(Organizer.emend(self.musicValues["firstComment"])))
+        self.infoValues["firstLyrics"] = MPlainTextEdit(str(Organizer.emend(self.musicValues["firstLyrics"])))
         self.infoValues["firstComment"].setLineWrapMode(MPlainTextEdit.NoWrap)
         self.infoValues["firstLyrics"].setLineWrapMode(MPlainTextEdit.NoWrap)
 
@@ -261,7 +261,7 @@ class MusicDetails(MDialog):
             newPath = Musics.writeMusicFile(self.musicValues, newMusicValues)
             if newPath!=self.musicValues["path"]:
                 self.changeFile(newPath)
-            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
+            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()
@@ -296,7 +296,7 @@ class MusicDetails(MDialog):
                 else:
                     Dialogs.showError(translate("MusicDetails", "Image Does Not Exist"),
                         str(translate("MusicDetails", "\"%s\" does not exist.")
-                            ) % Organizer.getLink(trForUI(self.leImagePath.text())))
+                            ) % Organizer.getLink(str(self.leImagePath.text())))
         except:
             ReportBug.ReportBug()
     
@@ -340,7 +340,7 @@ class MusicDetails(MDialog):
     def selectImage(self):
         try:
             imagePath = Dialogs.getOpenFileName(translate("MusicDetails", "Choose Image"),
-                fu.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + Variables.imageExtStringOnlyPNGAndJPG, 0)
+                fu.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + var.imageExtStringOnlyPNGAndJPG, 0)
             if imagePath is not None:
                 self.leImagePath.setText(imagePath)
         except:

@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from FileUtils import Musics
 import FileUtils as fu
 import os
@@ -25,7 +25,7 @@ from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
 import time
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 
 class MusicPlayer(MWidget):
@@ -61,7 +61,7 @@ class MusicPlayer(MWidget):
         MObject.connect(self.tbMute, SIGNAL("clicked()"), self.mute)
         MObject.connect(self.tbPlay, SIGNAL("clicked()"), self.play)
         MObject.connect(self.tbStop, SIGNAL("clicked()"), self.stop)
-        if _type == "bar" and Universals.windowMode==Variables.windowModeKeys[1]:
+        if _type == "bar" and uni.windowMode==var.windowModeKeys[1]:
             pass
         else:
             self.info = MLabel(translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
@@ -81,7 +81,7 @@ class MusicPlayer(MWidget):
             HBOXs[0].addWidget(self.tbMute)
             HBOXs[0].addWidget(self.playInBar)
             HBOXs.append(MHBoxLayout())
-            if Universals.windowMode==Variables.windowModeKeys[1]:
+            if uni.windowMode==var.windowModeKeys[1]:
                 self.playInBar.setMaximumHeight(16)
                 self.tbPause.setMaximumHeight(16)
                 self.tbMute.setMaximumHeight(16)
@@ -122,13 +122,13 @@ class MusicPlayer(MWidget):
             self.tbPlay.setMinimumHeight(22)
             self.tbStop.setMinimumHeight(22)
             self.setMaximumSize(390, 44)
-        if self.type != "bar" or Universals.windowMode!=Variables.windowModeKeys[1]:
+        if self.type != "bar" or uni.windowMode!=var.windowModeKeys[1]:
             self.infoScroller = InfoScroller(self)
             self.infoScroller.start()
             
     def setInfoText(self, _info):
-        if self.type == "bar" and Universals.windowMode==Variables.windowModeKeys[1]:
-            Universals.MainWindow.StatusBar.showMessage(_info)
+        if self.type == "bar" and uni.windowMode==var.windowModeKeys[1]:
+            uni.MainWindow.StatusBar.showMessage(_info)
         else:
             MApplication.processEvents()
             if self.info!=None:
@@ -138,7 +138,7 @@ class MusicPlayer(MWidget):
     def play(self, _filePath="", _isPlayNow=True):
         try:
             MApplication.processEvents()
-            playerName = Universals.MySettings["playerName"]
+            playerName = uni.MySettings["playerName"]
             if self.Player==None or self.PlayerName != playerName:
                 self.stop()
                 self.PlayerName = playerName
@@ -152,7 +152,7 @@ class MusicPlayer(MWidget):
                     self.Player = M_MPlayer()
             self.stop()
             if _filePath=="":
-                _filePath = Universals.MainWindow.Table.currentTableContentValues[Universals.MainWindow.Table.currentRow()]["path"]
+                _filePath = uni.MainWindow.Table.currentTableContentValues[uni.MainWindow.Table.currentRow()]["path"]
             if _filePath=="" and self.file!="":
                 _filePath = self.file
             else:
@@ -162,10 +162,10 @@ class MusicPlayer(MWidget):
                 import Taggers
                 if Taggers.getTagger(True)!=None:
                     self.musicTags = Musics.readMusicFile(_filePath, False)
-                    self.setInfoText(trForUI(("%s - %s (%s)") % (self.musicTags["artist"] , self.musicTags["title"], self.musicTags["album"])))
+                    self.setInfoText(str(("%s - %s (%s)") % (self.musicTags["artist"] , self.musicTags["title"], self.musicTags["album"])))
                 else:
                     self.musicTags = None
-                    self.setInfoText(trForUI("- - -"))
+                    self.setInfoText(str("- - -"))
                 if _isPlayNow==True:
                     if self.Player.play(_filePath):
                         self.tbPause.setEnabled(True)
@@ -232,11 +232,11 @@ class M_Phonon():
                         translate("Player", "We could not find the Phonon(PyQt4) module installed on your system.<br>Please choose another player from the options or <br>check your Phonon installation."))
             return False
         if not self.m_media:
-            self.m_media = Phonon.MediaObject(Universals.MainWindow)
-            self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, Universals.MainWindow)
+            self.m_media = Phonon.MediaObject(uni.MainWindow)
+            self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, uni.MainWindow)
             Phonon.createPath(self.m_media, self.audioOutput)
         self.m_media.setCurrentSource(
-            Phonon.MediaSource(trForUI(_filePath)))
+            Phonon.MediaSource(str(_filePath)))
         self.m_media.play()
         self.paused = False
         return True
@@ -286,7 +286,7 @@ class M_Phonon_PySide():
             self.m_media = Phonon.MediaObject()
             self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory)
             Phonon.createPath(self.m_media, self.audioOutput)
-        self.m_media.setCurrentSource(Phonon.MediaSource(trForUI(_filePath)))
+        self.m_media.setCurrentSource(Phonon.MediaSource(str(_filePath)))
         self.m_media.play()
         self.paused = False
         return True
@@ -363,10 +363,10 @@ class M_MPlayer():
         from Core import Execute
         if self.popen!=False:
             self.runCommand("quit")
-        command = [Universals.MySettings["mplayerPath"]] 
-        command += Universals.MySettings["mplayerArgs"].split(" ")
-        command += [Universals.MySettings["mplayerAudioDevicePointer"], 
-                   Universals.MySettings["mplayerAudioDevice"], 
+        command = [uni.MySettings["mplayerPath"]]
+        command += uni.MySettings["mplayerArgs"].split(" ")
+        command += [uni.MySettings["mplayerAudioDevicePointer"],
+                   uni.MySettings["mplayerAudioDevice"],
                    str(_filePath)]
         self.popen = Execute.execute(command)
         return True
@@ -400,7 +400,7 @@ class InfoScroller(MThread):
             breakCount = 0
             while 1==1:
                 try:
-                    if Universals.isStartingSuccessfully and Universals.isStartedCloseProcess==False:
+                    if uni.isStartingSuccessfully and uni.isStartedCloseProcess==False:
                         if self.parent.parent().isVisible():
                             try:
                                 self.parent.info.move(x, 0)

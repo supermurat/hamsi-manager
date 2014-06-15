@@ -19,9 +19,9 @@
 
 import sys,os
 
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 import FileUtils as fu
 from Core import Records
@@ -31,7 +31,7 @@ import traceback
 import logging
 from Core.RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
 
-if Variables.isPython3k:
+if var.isPython3k:
     from urllib.parse import unquote, quote
 else:
     from urllib import unquote, quote
@@ -52,12 +52,12 @@ class ReportBug():
         errorDetails = "<b>" + str(translate("ReportBug", "Note : You can check and delete your personal informations."))+"</b><br>"
         try:Records.saveAllRecords()
         except:pass
-        try:Universals.saveSettings()
+        try:uni.saveSettings()
         except:pass
         
         if _isOnlyReport==False:
             lastErrorDetailsValues = sys.exc_info()
-            Universals.isRaisedAnError = True
+            uni.isRaisedAnError = True
             cla, error, trbk = lastErrorDetailsValues
             try:
                 excArgs = error.__dict__["args"]
@@ -73,10 +73,10 @@ class ReportBug():
                             str(translate("ReportBug", "Error : ")) + "</b>"+str(error)+"<br><b>" +
                             str(translate("ReportBug", "Error arguments : ")) + "</b>"+str(excArgs)+"</p><hr><p><b>" +
                             str(translate("ReportBug", "Last Signal Sender (Object Name,Object Text) : ")) + "</b>&quot;")
-            try:realErrorDetails +=Universals.trUnicode(Universals.MainWindow.sender().objectName())
+            try:realErrorDetails +=uni.trUnicode(uni.MainWindow.sender().objectName())
             except:pass
             realErrorDetails +="&quot;,&quot;"
-            try:realErrorDetails +=Universals.trUnicode(Universals.MainWindow.sender().text())
+            try:realErrorDetails +=uni.trUnicode(uni.MainWindow.sender().text())
             except:pass
             realErrorDetails +="&quot;"
             realErrorDetails += "</p>"
@@ -84,21 +84,21 @@ class ReportBug():
             lastErrorDetails = realErrorDetails
             
         errorDetails +="<hr><b>" + str(translate("ReportBug", "Active Dialog`s Titles : ")) + "</b>"
-        try:errorDetails += str(Universals.HamsiManagerApp.activeModalWidget().windowTitle())+","
+        try:errorDetails += str(uni.HamsiManagerApp.activeModalWidget().windowTitle())+","
         except:pass
-        try:errorDetails += str(Universals.HamsiManagerApp.activePopupWidget().windowTitle())+","
+        try:errorDetails += str(uni.HamsiManagerApp.activePopupWidget().windowTitle())+","
         except:pass
-        try:errorDetails += str(Universals.HamsiManagerApp.activeWindow().windowTitle())+","
+        try:errorDetails += str(uni.HamsiManagerApp.activeWindow().windowTitle())+","
         except:pass
         errorDetails += "<br>"
         try:
             errorDetails += "<b>" + str(translate("ReportBug", "Application Version : ")) + "</b>"
-            errorDetails += str(Variables.version)+"<br>"
+            errorDetails += str(var.version)+"<br>"
         except:
             errorDetails += "<br>"
         try:
             errorDetails += "<b>" + str(translate("ReportBug", "Is Starting Successfully : ")) + "</b>"
-            errorDetails += str(Universals.isStartingSuccessfully) + "<br>"
+            errorDetails += str(uni.isStartingSuccessfully) + "<br>"
             errorDetails += "<b>" + str(translate("ReportBug", "Is Quick Make : ")) + "</b>"
             errorDetails += str(isQuickMake) + "<br>"
             errorDetails += "<b>" + str(translate("ReportBug", "Quick Make Parameters : ")) + "</b>"
@@ -138,16 +138,16 @@ class ReportBug():
                 errorDetails += str(kdecore.versionString()) + "<br>"
             except:
                 errorDetails += "<br>"
-            settingKeys = list(Universals.MySettings.keys())
+            settingKeys = list(uni.MySettings.keys())
             settingKeys.sort()
             for keyName in settingKeys:
-                if Variables.willNotReportSettings.count(keyName)==0:
+                if var.willNotReportSettings.count(keyName)==0:
                     errorDetails += "<b>" + str(keyName) + " : " + "</b>"
-                    errorDetails += str(Universals.MySettings[keyName]) + "<br>"
+                    errorDetails += str(uni.MySettings[keyName]) + "<br>"
         except:pass
         try:
             import Tables
-            errorDetails += "<b>" + str(translate("ReportBug", "Table Type No : ")) + "</b>" + str(Universals.tableType) +"<br>"
+            errorDetails += "<b>" + str(translate("ReportBug", "Table Type No : ")) + "</b>" + str(uni.tableType) +"<br>"
         except:pass
         errorDetails += str(realErrorDetails)
         self.createErrorPage(errorDetails)
@@ -155,7 +155,7 @@ class ReportBug():
             bugDialog = ReportBugDialog(errorDetails, self.pathOfReportFile)
         else:
             try:
-                bugDialog.teErrorDetails.setHtml(trForUI(errorDetails.replace("<hr>", "")))
+                bugDialog.teErrorDetails.setHtml(str(errorDetails.replace("<hr>", "")))
             except:
                 bugDialog.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>To see the details, please click on the \"Show details file\" button."))
                 bugDialog.teErrorDetails.setEnabled(False)
@@ -164,8 +164,8 @@ class ReportBug():
     def createErrorPage(self, _errorDetails):
         _errorDetails = _errorDetails.replace("\"", "&quot;").replace("\'", "&#39;")
         language = "en_GB"
-        if "language" in Universals.MySettings:
-            language = Universals.MySettings["language"]
+        if "language" in uni.MySettings:
+            language = uni.MySettings["language"]
         htmlString=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
                     '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Hamsi Manager</title></head><body>'+
                     '<center>'+
@@ -179,7 +179,7 @@ class ReportBug():
                     '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
                     '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
                     '<INPUT TYPE="hidden" name="l" value="' + str(language) + '" />'+
-                    '<INPUT TYPE="hidden" name="v" value="' + str(Variables.intversion) + '" /></form>'+
+                    '<INPUT TYPE="hidden" name="v" value="' + str(var.intversion) + '" /></form>'+
                     '%s</center></body></html>'
                     ) % (
                     str(translate("ReportBug", "<b>Error description :</b> <br>(Be can null)<br><b>Note:</b>Please write what you did before you received the error here.")), 
@@ -200,8 +200,8 @@ class ReportBugDialog(MDialog):
     isClose=False
     def __init__(self, _errorDetails="", _pathOfReportFile=None):
         global isClose
-        MainWindow = Universals.MainWindow
-        if Universals.isStartingSuccessfully==True:
+        MainWindow = uni.MainWindow
+        if uni.isStartingSuccessfully==True:
             isShowFixMe = False
         else:
             isShowFixMe = True
@@ -232,7 +232,7 @@ class ReportBugDialog(MDialog):
         self.cckbIsSendTableContents = Options.MyCheckBox(self, translate("ReportBug", "Send Table Contents For More Details"), 0, _stateChanged = self.isSendTableContents)
         self.teErrorDetails = MTextEdit() 
         try:
-            self.teErrorDetails.setHtml(trForUI(_errorDetails.replace("<hr>", "")))
+            self.teErrorDetails.setHtml(str(_errorDetails.replace("<hr>", "")))
         except:
             self.teErrorDetails.setHtml(translate("ReportBug", "I cannot send the error details due to some character errors.<br>To see the details, please click on the \"Show details file\" button."))
             self.teErrorDetails.setEnabled(False)
@@ -283,7 +283,7 @@ class ReportBugDialog(MDialog):
         self.setMaximumSize(600, 375)  
         self.show()
         self.setMaximumSize(10000, 10000)
-        if isShowFixMe == True and isQuickMake==False and Universals.loggingLevel!=logging.DEBUG:
+        if isShowFixMe == True and isQuickMake==False and uni.loggingLevel!=logging.DEBUG:
             try:
                 answer = Dialogs.askSpecial(translate("ReportBug", "I Have A Suggestion!"),
                             translate("ReportBug", "<b>Please check the following: ;</b><br>"+
@@ -296,7 +296,7 @@ class ReportBugDialog(MDialog):
                             translate("ReportBug", "Settings"), 
                             translate("ReportBug", "Ignore"))
                 if answer==translate("ReportBug", "Last Directory"):
-                    Settings.setting().setValue("lastDirectory", Universals.trQVariant(fu.userDirectoryPath))
+                    Settings.setting().setValue("lastDirectory", trQVariant(fu.userDirectoryPath))
                 elif answer==translate("ReportBug", "Settings"):
                     Settings.reFillSettings(True)
                 elif answer==translate("ReportBug", "All"):
@@ -304,14 +304,14 @@ class ReportBugDialog(MDialog):
             except:pass
     
     def sendAndClose(self):
-        Universals.isCanBeShowOnMainWindow = False
+        uni.isCanBeShowOnMainWindow = False
         language = "en_GB"
-        if "language" in Universals.MySettings:
-            language = Universals.MySettings["language"]
+        if "language" in uni.MySettings:
+            language = uni.MySettings["language"]
         self.namMain = MNetworkAccessManager(self)
         self.connect(self.namMain, SIGNAL("finished (QNetworkReply *)"), self.sendFinished)
         self.nrqPost = MNetworkRequest(MUrl("http://hamsiapps.com/ForMyProjects/ReportBug.php"))
-        self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(language) + "&v=" + str(Variables.intversion) +
+        self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(language) + "&v=" + str(var.intversion) +
                                         "&thankYouMessages=new style" + 
                                         "&userNotes=" + quote(str(self.teUserNotes.toHtml())) + 
                                         "&error=" + quote(str(self.teErrorDetails.toHtml())) + 
@@ -337,7 +337,7 @@ class ReportBugDialog(MDialog):
             Dialogs.show(translate("ReportBug", "Report Sending Canceled"), translate("ReportBug", "Report sending canceled successfully."))
         else:
             Dialogs.show(translate("ReportBug", "An Error Has Occurred."), translate("ReportBug", "An unknown error has occurred. Please try again."))
-        Universals.isCanBeShowOnMainWindow = True
+        uni.isCanBeShowOnMainWindow = True
         self.namMain = None
         self.nrqPost = None
         self.nrpBack = None
@@ -356,7 +356,7 @@ class ReportBugDialog(MDialog):
         isClose=True
         try:
             self.close()
-            if Universals.isStartingSuccessfully == False:
+            if uni.isStartingSuccessfully == False:
                 self.parent().close()
         except:pass
             
@@ -369,35 +369,35 @@ class ReportBugDialog(MDialog):
             currenText = str(self.teErrorDetails.toHtml())
             if self.cckbIsSendTableContents.checkState() == Mt.Checked:
                 currentDirectoryPath = ""
-                try:currentDirectoryPath = Universals.MainWindow.FileManager.getCurrentDirectoryPath()
+                try:currentDirectoryPath = uni.MainWindow.FileManager.getCurrentDirectoryPath()
                 except:pass
                 settingText = "<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + currentDirectoryPath + "</p>"
                 settingText += "<p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
                 try:
-                    settingText += Universals.MainWindow.Table.exportValues("return", "html", "no")
+                    settingText += uni.MainWindow.Table.exportValues("return", "html", "no")
                 except:pass
                 settingText += "<hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
                 try:
-                    for rowValues in Universals.MainWindow.Table.currentTableContentValues:
-                        settingText +="<tr><td>" + str(Universals.trUnicode(rowValues["path"], fu.fileSystemEncoding)) + "</td></tr>"
+                    for rowValues in uni.MainWindow.Table.currentTableContentValues:
+                        settingText +="<tr><td>" + str(uni.trUnicode(rowValues["path"], fu.fileSystemEncoding)) + "</td></tr>"
                     settingText +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3>"
-                    if len(Universals.MainWindow.Table.currentTableContentValues)>0:
+                    if len(uni.MainWindow.Table.currentTableContentValues)>0:
                         settingText +="<table border=1><tr>"
-                        for key, value in Universals.MainWindow.Table.currentTableContentValues[0].items():
+                        for key, value in uni.MainWindow.Table.currentTableContentValues[0].items():
                             settingText += "<td><b>" + key + "</b></td>"
                         settingText +="</tr>"
-                        for rowValues in Universals.MainWindow.Table.currentTableContentValues:
+                        for rowValues in uni.MainWindow.Table.currentTableContentValues:
                             settingText +="<tr>"
                             for key, value in rowValues.items():
                                 settingText += "<td>" + str(value) + "</td>"
                             settingText +="</tr>"
                         settingText +="</table>"
                 except:pass
-                self.teErrorDetails.setHtml(trForUI(currenText + "<br>----------------------////////----------------------<br><br><a name='tableContents'><b>" + str(translate("ReportBug", "Note : You can check and delete your personal informations.")) + "</b></a>" + settingText))
+                self.teErrorDetails.setHtml(str(currenText + "<br>----------------------////////----------------------<br><br><a name='tableContents'><b>" + str(translate("ReportBug", "Note : You can check and delete your personal informations.")) + "</b></a>" + settingText))
                 self.teErrorDetails.scrollToAnchor("tableContents")
             else:
                 currenText = currenText.split("----------------------////////----------------------")[0]
-                self.teErrorDetails.setHtml(trForUI(currenText))
+                self.teErrorDetails.setHtml(str(currenText))
         except:
             pass
         

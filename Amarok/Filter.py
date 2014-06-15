@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 import FileUtils as fu
 import Options
@@ -34,7 +34,7 @@ class FilterWidget(MWidget):
         vblMain = MVBoxLayout(self)
         self.filterKeyName = _filterKeyName
         lblFilter = MLabel(translate("Amarok/FilterWidget", "Filter : "))
-        self.leFilter = MLineEdit(Universals.MySettings[self.filterKeyName])
+        self.leFilter = MLineEdit(uni.MySettings[self.filterKeyName])
         self.pbtnEditFilter = MPushButton(translate("Amarok/FilterDialog", "Edit"))
         self.pbtnApply = MPushButton(translate("Amarok/FilterDialog", "Apply Filter"))
         _parent.connect(self.pbtnEditFilter,SIGNAL("clicked()"),self.editFilter)
@@ -56,8 +56,8 @@ class FilterWidget(MWidget):
         
     def apply(self):
         try:
-            Universals.setMySetting(self.filterKeyName, str(self.leFilter.text()))
-            Universals.MainWindow.Table.refresh(Universals.MainWindow.FileManager.getCurrentDirectoryPath())
+            uni.setMySetting(self.filterKeyName, str(self.leFilter.text()))
+            uni.MainWindow.Table.refresh(uni.MainWindow.FileManager.getCurrentDirectoryPath())
         except:
             ReportBug.ReportBug()
 
@@ -71,7 +71,7 @@ class FilterEditor(MDialog):
         vblMain = MVBoxLayout(pnlMain)
         self.filterKeyName = _filterKeyName
         lblFilter = MLabel(translate("Amarok/FilterEditor", "Filter"), self)
-        self.leFilter = MLineEdit(Universals.MySettings[self.filterKeyName], self)
+        self.leFilter = MLineEdit(uni.MySettings[self.filterKeyName], self)
         self.pbtnApply = MPushButton(translate("Amarok/FilterEditor", "Apply Filter"), self)
         _parent.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
         teUsableInformations = MTextEdit("")

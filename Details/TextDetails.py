@@ -17,12 +17,12 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 
 class TextDetails(MDialog):
@@ -51,8 +51,8 @@ class TextDetails(MDialog):
                 if isActivePyKDE4:
                     self.setButtons(MDialog.NoDefault)
                 self.charSet = MComboBox()
-                self.charSet.addItems(Variables.getCharSets())
-                self.charSet.setCurrentIndex(self.charSet.findText(Universals.MySettings["fileSystemEncoding"]))
+                self.charSet.addItems(var.getCharSets())
+                self.charSet.setCurrentIndex(self.charSet.findText(uni.MySettings["fileSystemEncoding"]))
                 self.infoLabels = {}
                 self.infoValues = {}
                 self.fileValues = {}
@@ -85,14 +85,14 @@ class TextDetails(MDialog):
         else:
             Dialogs.showError(translate("TextDetails", "File Does Not Exist"), 
                         str(translate("TextDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
-                            )% Organizer.getLink(trForUI(_filePath)))
-            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
+                            )% Organizer.getLink(str(_filePath)))
+            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
-        self.fileValues = fu.readTextFile(_filePath, Universals.MySettings["fileSystemEncoding"])
-        self.setWindowTitle(trForUI(fu.getBaseName(self.fileValues["path"])))
+        self.fileValues = fu.readTextFile(_filePath, uni.MySettings["fileSystemEncoding"])
+        self.setWindowTitle(str(fu.getBaseName(self.fileValues["path"])))
         if self.pnlClearable != None:
-            Universals.clearAllChilds(self.pnlClearable, True)
+            clearAllChildren(self.pnlClearable, True)
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)
         vblClearable = MVBoxLayout(self.pnlClearable)
@@ -100,12 +100,12 @@ class TextDetails(MDialog):
         self.infoLabels["content"] = MLabel(self.labels[1]) 
         dirPath = fu.getDirName(self.fileValues["path"])
         baseName = fu.getBaseName(self.fileValues["path"])
-        self.infoValues["path"] = MLineEdit(trForUI(fu.joinPath(dirPath, Organizer.emend(baseName, "file"))))
-        self.infoValues["content"] = MPlainTextEdit(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
+        self.infoValues["path"] = MLineEdit(str(fu.joinPath(dirPath, Organizer.emend(baseName, "file"))))
+        self.infoValues["content"] = MPlainTextEdit(str(Organizer.emend(self.fileValues["content"], "text", False, True)))
         self.infoValues["content"].setLineWrapMode(MPlainTextEdit.NoWrap)
         self.sourceCharSet = MComboBox()
-        self.sourceCharSet.addItems(Variables.getCharSets())
-        self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(Universals.MySettings["fileSystemEncoding"]))
+        self.sourceCharSet.addItems(var.getCharSets())
+        self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(uni.MySettings["fileSystemEncoding"]))
         MObject.connect(self.sourceCharSet, SIGNAL("currentIndexChanged(int)"), self.sourceCharSetChanged)
         HBOXs = []
         HBOXs.append(MHBoxLayout())
@@ -120,11 +120,11 @@ class TextDetails(MDialog):
     def sourceCharSetChanged(self):
         try:
             self.fileValues = fu.readTextFile(self.fileValues["path"], str(self.sourceCharSet.currentText()))
-            self.infoValues["content"].setPlainText(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
+            self.infoValues["content"].setPlainText(str(Organizer.emend(self.fileValues["content"], "text", False, True)))
         except:
             Dialogs.showError(translate("TextDetails", "Incorrect File Encoding"), 
                         str(translate("TextDetails", "File can not decode by \"%s\" codec.<br>Please select another file encoding type.")
-                            )% trForUI(self.sourceCharSet.currentText()))
+                            )% str(self.sourceCharSet.currentText()))
 
     @staticmethod
     def closeAllTextDialogs():
@@ -145,7 +145,7 @@ class TextDetails(MDialog):
             newPath = fu.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
             if newPath!=self.fileValues["path"]:
                 self.changeFile(newPath)
-            if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
+            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()

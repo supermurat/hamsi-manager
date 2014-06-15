@@ -22,7 +22,7 @@ from Core.MyObjects import *
 from Viewers import ImageViewer
 from Core import Dialogs
 from Core import Organizer
-from Core import Universals
+from Core import Universals as uni
 import FileUtils as fu
 
 class CoverDetails(MDialog):
@@ -115,10 +115,10 @@ class CoverDetails(MDialog):
         if _coverValues[1].strip()==fu.sep: _coverValues[1] = _coverValues[0] + fu.sep
         if _coverValues[2].strip()==fu.sep: _coverValues[2] = _coverValues[0] + fu.sep
         if _coverValues[3].strip()==fu.sep: _coverValues[3] = _coverValues[0] + fu.sep
-        self.setWindowTitle(trForUI(str(translate("ImageDetails", "Cover Details ( %s )")) % (_coverValues[0])))
-        self.lePathOfCurrent.setText(trForUI(_coverValues[1]))
-        self.lePathOfSource.setText(trForUI(_coverValues[2]))
-        self.lePathOfDestination.setText(trForUI(_coverValues[3]))
+        self.setWindowTitle(str(str(translate("ImageDetails", "Cover Details ( %s )")) % (_coverValues[0])))
+        self.lePathOfCurrent.setText(str(_coverValues[1]))
+        self.lePathOfSource.setText(str(_coverValues[2]))
+        self.lePathOfDestination.setText(str(_coverValues[3]))
         self.wCurrent.changeCoverValues(_coverValues[1])
         self.wSource.changeCoverValues(_coverValues[2])
         self.wDestination.changeCoverValues(_coverValues[3])
@@ -131,13 +131,13 @@ class CoverDetails(MDialog):
         
     def sourceClicked(self):
         imagePath = Dialogs.getOpenFileName(translate("ImageDetails", "Choose Image"),
-                                    self.lePathOfSource.text(),str(translate("ImageDetails", "Images (*.%s)")) % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *."), 0)
+                                    self.lePathOfSource.text(),str(translate("ImageDetails", "Images (*.%s)")) % uni.getStringFromList(uni.getListValue("imageExtensions"), " *."), 0)
         if imagePath is not None:
             self.lePathOfSource.setText(imagePath)
         
     def destinationClicked(self):
         imagePath = Dialogs.getSaveFileName(translate("ImageDetails", "Save As"),
-                                    self.lePathOfDestination.text(),str(translate("ImageDetails", "Images (*.%s)") % Universals.getStringFromList(Universals.getListValue("imageExtensions"), " *.")), 0)
+                                    self.lePathOfDestination.text(),str(translate("ImageDetails", "Images (*.%s)") % uni.getStringFromList(uni.getListValue("imageExtensions"), " *.")), 0)
         if imagePath is not None:
             self.lePathOfDestination.setText(imagePath)
 

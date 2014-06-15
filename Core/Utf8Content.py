@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from Core import Universals, Variables
+from Core import Universals as uni
+from Core import Variables as var
 
 def getUtf8Data(_key):
     unicodeData = ""
@@ -19,7 +20,7 @@ def getUtf8Data(_key):
         elif _key=="":
             return ""
     except Exception as err:
-        Universals.printForDevelopers(str(err))
+        uni.printForDevelopers(str(err))
     return unicodeData
 
 

@@ -22,7 +22,7 @@ from Amarok import Commands
 from Core.MyObjects import *
 import Taggers
 import FileUtils as fu
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 from Core import Records
 from Core import ReportBug
@@ -46,10 +46,10 @@ def getAllArtistsValues(_filter = "", _isOnlyArtistFilter = False):
     return None
 
 def changePaths(_values, _type="auto"):
-    Universals.startThreadAction()
+    uni.startThreadAction()
     allItemNumber = len(_values)
     for valueNo,value in enumerate(_values):
-        isContinueThreadAction = Universals.isContinueThreadAction()
+        isContinueThreadAction = uni.isContinueThreadAction()
         if isContinueThreadAction:
             try:
                 if _type == "file" or (_type=="auto" and fu.isFile(value["newPath"])):
@@ -64,13 +64,13 @@ def changePaths(_values, _type="auto"):
                           valueNo+1,allItemNumber, True)
         if isContinueThreadAction==False:
             break
-    Universals.finishThreadAction()
+    uni.finishThreadAction()
 
 def changeTags(_values):
-    Universals.startThreadAction()
+    uni.startThreadAction()
     allItemNumber = len(_values)
     for valueNo,value in enumerate(_values):
-        isContinueThreadAction = Universals.isContinueThreadAction()
+        isContinueThreadAction = uni.isContinueThreadAction()
         if isContinueThreadAction:
             try:
                 Commands.changeTag(value)
@@ -82,14 +82,14 @@ def changeTags(_values):
                           valueNo+1,allItemNumber, True)
         if isContinueThreadAction==False:
             break
-    Universals.finishThreadAction()
+    uni.finishThreadAction()
 
 def changeArtistValues(_values):
-    Universals.startThreadAction()
+    uni.startThreadAction()
     allItemNumber = len(_values)
     Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
     for x, value in enumerate(_values):
-        isContinueThreadAction = Universals.isContinueThreadAction()
+        isContinueThreadAction = uni.isContinueThreadAction()
         if isContinueThreadAction:
             musicFilePathAndArtist = Commands.changeArtistValue(value)
             if musicFilePathAndArtist!=None:
@@ -113,7 +113,7 @@ def changeArtistValues(_values):
         Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)
         if isContinueThreadAction==False:
             break
-    Universals.finishThreadAction()
+    uni.finishThreadAction()
 
 
 

@@ -18,7 +18,7 @@
 
 
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 import FileUtils as fu
 from Options import OptionsForm
@@ -35,13 +35,13 @@ class Cleaner(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
-            Universals.setMainWindow(self)
-        newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
+            uni.setMainWindow(self)
+        newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "clear", None, newOrChangedKeys)
         lblPleaseSelect = MLabel(translate("Cleaner", "Directory"))
         self.pbtnClear = MPushButton(translate("Cleaner", "Clear"))
         self.pbtnClose = MPushButton(translate("Cleaner", "Close"))
-        self.lePathOfProject = MLineEdit(trForUI(_directory))
+        self.lePathOfProject = MLineEdit(str(_directory))
         self.pbtnClear.setToolTip(translate("Cleaner", "Directory you selected will is cleared"))
         self.pbtnSelectProjectPath = MPushButton(translate("Cleaner", "Browse"))
         self.connect(self.pbtnSelectProjectPath,SIGNAL("clicked()"),self.selectProjectPath)
@@ -82,7 +82,7 @@ class Cleaner(MyDialog):
     
     def Clear(self):
         try:
-            Universals.isCanBeShowOnMainWindow = False
+            uni.isCanBeShowOnMainWindow = False
             answer = Dialogs.ask(translate("Cleaner", "Your Files Will Be Removed"),
                     str(translate("Cleaner", "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>"+
                     "This action will delete the files completely, without any chance to recover.<br>"+
@@ -92,7 +92,7 @@ class Cleaner(MyDialog):
                     if fu.clearCleaningDirectory(str(self.lePathOfProject.text()), True, True):
                         Dialogs.show(translate("Cleaner", "Directory Is Cleared"),
                                     str(translate("Cleaner", "This directory is cleared : \"%s\"")) % Organizer.getLink(str(self.lePathOfProject.text())))
-            Universals.isCanBeShowOnMainWindow = True
+            uni.isCanBeShowOnMainWindow = True
         except:
             ReportBug.ReportBug()
 
@@ -100,7 +100,7 @@ class Cleaner(MyDialog):
         try:
             ProjectPath = Dialogs.getExistingDirectory(translate("Cleaner", "Please Select Directory"),self.lePathOfProject.text(), 0)
             if ProjectPath is not None:
-                self.lePathOfProject.setText(trForUI(ProjectPath))
+                self.lePathOfProject.setText(str(ProjectPath))
         except:
             ReportBug.ReportBug()
     

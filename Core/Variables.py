@@ -28,12 +28,12 @@ isPython3k = float(sys.version[:3])>=3.0
 isWindows = os.name=="nt"
 Catalog = "HamsiManager"
 version = "1.3.7"
-intversion = 1370
-settingVersion = "1370"
+intversion = 1371
+settingVersion = "1371"
 aboutOfHamsiManager = ""
 fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
 validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
-fileExtesionIsKeys = ["After The First Point", "After The Last Point", "Be Smart"]
+fileExtensionIsKeys = ["After The First Point", "After The Last Point", "Be Smart"]
 mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
 imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
 windowModeKeys = ["Normal", "Mini"]
@@ -75,7 +75,7 @@ keysOfSettings = ["lastDirectory", "isMainWindowMaximized", "isShowAdvancedSelec
               "language", "isShowQuickMakeWindow", "isChangeExistIcon",
               "isClearFirstAndLastSpaceChars", "isEmendIncorrectChars", "validSentenceStructureForFile", "validSentenceStructureForDirectory",
               "validSentenceStructureForFileExtension", "isCorrectFileNameWithSearchAndReplaceTable", "isCorrectValueWithSearchAndReplaceTable",
-              "isCorrectDoubleSpaceChars", "fileExtesionIs", "settingsVersion", "subDirectoryDeep",
+              "isCorrectDoubleSpaceChars", "fileExtensionIs", "settingsVersion", "subDirectoryDeep",
               "maxRecordFileSize", "themeName",
               "unneededDirectories", "ignoredDirectories",
               "unneededDirectoriesIfIsEmpty",
@@ -261,7 +261,7 @@ def getDefaultValues():
             "isCorrectFileNameWithSearchAndReplaceTable": "True",
             "isCorrectValueWithSearchAndReplaceTable": "True",
             "isCorrectDoubleSpaceChars": "True",
-            "fileExtesionIs": "Be Smart",
+            "fileExtensionIs": "Be Smart",
             "settingsVersion": settingVersion,
             "subDirectoryDeep": "-1",
             "maxRecordFileSize": "256",
@@ -415,7 +415,7 @@ def getValueTypesAndValues(_isAfterDefineApplication=False):
             "isCorrectFileNameWithSearchAndReplaceTable": "bool",
             "isCorrectValueWithSearchAndReplaceTable": "bool",
             "isCorrectDoubleSpaceChars": "bool",
-            "fileExtesionIs": ["options", fileExtesionIsKeys],
+            "fileExtensionIs": ["options", fileExtensionIsKeys],
             "settingsVersion": ["options", [settingVersion]],
             "subDirectoryDeep": ["int", list(range(-1, 10))],
             "maxRecordFileSize": "int",
@@ -534,7 +534,7 @@ def getStyles():
     return styles
 
 def getColorSchemesAndPath():
-    from Core import Settings, Universals
+    from Core import Settings
     colorSchemes, colorSchemePaths = [], []
     colorSchemes.append("Default")
     colorSchemePaths.append("")
@@ -543,13 +543,13 @@ def getColorSchemesAndPath():
         schemeFiles = KGlobal.dirs().findAllResources("data", "color-schemes/*.colors", KStandardDirs.NoDuplicates)
         for scheme in schemeFiles:
             sets = Settings.getSettings(scheme)
-            colorSchemes.append(Universals.trStr(sets.value("Name", fu.getBaseName(scheme))))
+            colorSchemes.append(trStr(sets.value("Name", fu.getBaseName(scheme))))
             colorSchemePaths.append(scheme)
     return colorSchemes, colorSchemePaths
 
 def getScreenSize():
-    from Core import Universals
-    if Universals.MainWindow!=None:
+    from Core import Universals as uni
+    if uni.MainWindow!=None:
         return MQtGui.QDesktopWidget().screenGeometry()
     else:
         return None
@@ -689,14 +689,15 @@ def getHashTypes():
 
 
 def checkMysqldSafe(_isAskIfNotFound=True):
-    from Core import Dialogs, Universals
-    if fu.isFile(Universals.MySettings["pathOfMysqldSafe"])==False and fu.isFile("/usr/bin/" + Universals.MySettings["pathOfMysqldSafe"])==False:
+    from Core import Dialogs
+    from Core import Universals as uni
+    if fu.isFile(uni.MySettings["pathOfMysqldSafe"])==False and fu.isFile("/usr/bin/" + uni.MySettings["pathOfMysqldSafe"])==False:
         if _isAskIfNotFound:
             answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
                     translate("EmbeddedDBCore", "Executable \"mysqld_safe\" file is not found. Are you want to set path of this file?<br><b>Note :</b> \"mysql-common\" must be installed on your system."))
             if answer==Dialogs.Yes:
                 from Options import OptionsForm
-                OptionsForm.OptionsForm(Universals.MainWindow, _focusTo="pathOfMysqldSafe")
+                OptionsForm.OptionsForm(uni.MainWindow, _focusTo="pathOfMysqldSafe")
         else:
             return False
     else:

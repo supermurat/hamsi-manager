@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import ReportBug
@@ -28,13 +28,13 @@ class SearchEngines(MMenu):
         MMenu.__init__(self, _parent)
         self.setTitle(translate("SearchEngines", "Verify On The Internet"))
         self.actions, self.searchDepths = [], []
-        self.searchEnginesNames = Variables.getSearchEnginesNames()
+        self.searchEnginesNames = var.getSearchEnginesNames()
         isAnyAvailable = False
         for sEngine in self.searchEnginesNames:
             sEngineModule = __import__("SearchEngines." + sEngine, globals(), locals(), ["isAvailable", "pluginName"], 0)
             if sEngineModule.isAvailable:
                 isAnyAvailable = True
-                self.actions.append(MAction(trForUI(sEngineModule.pluginName), self))
+                self.actions.append(MAction(str(sEngineModule.pluginName), self))
                 self.actions[-1].setObjectName(str(len(self.actions)-1))
                 self.addAction(self.actions[-1])
                 if sEngineModule.pluginName=="MusicBrainz":

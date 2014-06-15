@@ -25,8 +25,8 @@ import re
 import tempfile
 import mimetypes
 from Core.MyObjects import *
-from Core import Variables
-from Core import Universals
+from Core import Variables as var
+from Core import Universals as uni
 from Core import Records
 from Core import Organizer
 from Core import Dialogs
@@ -54,7 +54,7 @@ def initStartupVariables():
         executableAppPath = readLink(executableAppPath)
     HamsiManagerDirectory = getDirName(executableAppPath)
     userDirectoryPath = os.path.expanduser("~")
-    try:userDirectoryPath = Universals.trDecode(userDirectoryPath, fileSystemEncoding)
+    try:userDirectoryPath = uni.trDecode(userDirectoryPath, fileSystemEncoding)
     except:pass
     themePath = joinPath(HamsiManagerDirectory, "Themes", "Default")
     pathOfSettingsDirectory = joinPath(userDirectoryPath, ".HamsiApps", "HamsiManager")
@@ -78,37 +78,37 @@ def joinPath(_a, *_b):
     _a = str(_a)
     c = []
     for x in _b:
-        try:c.append(Universals.trEncode(str(x), fileSystemEncoding))
+        try:c.append(uni.trEncode(str(x), fileSystemEncoding))
         except:c.append(str(x))
     c = tuple(c)
-    try:returnValue = os.path.join(Universals.trEncode(_a, fileSystemEncoding), *c)
+    try:returnValue = os.path.join(uni.trEncode(_a, fileSystemEncoding), *c)
     except:returnValue = os.path.join(_a, *c)
-    try:return Universals.trDecode(returnValue, fileSystemEncoding)
+    try:return uni.trDecode(returnValue, fileSystemEncoding)
     except:return returnValue
 
 def splitPath(_a):
     _a = str(_a)
-    try:returnValue = os.path.split(Universals.trEncode(_a, fileSystemEncoding))
+    try:returnValue = os.path.split(uni.trEncode(_a, fileSystemEncoding))
     except:returnValue = os.path.split(_a)
     c = []
     for x in returnValue:
-        try:c.append(Universals.trDecode(x, fileSystemEncoding))
+        try:c.append(uni.trDecode(x, fileSystemEncoding))
         except:c.append(x)
     return c
 
 def isFile(_oldPath):
     _oldPath = str(_oldPath)
-    try:return os.path.isfile(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:return os.path.isfile(uni.trEncode(_oldPath, fileSystemEncoding))
     except:return os.path.isfile(_oldPath)
 
 def isDir(_oldPath):
     _oldPath = str(_oldPath)
-    try:return os.path.isdir(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:return os.path.isdir(uni.trEncode(_oldPath, fileSystemEncoding))
     except:return os.path.isdir(_oldPath)
 
 def isLink(_oldPath):
     _oldPath = str(_oldPath)
-    try:return os.path.islink(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:return os.path.islink(uni.trEncode(_oldPath, fileSystemEncoding))
     except:return os.path.islink(_oldPath)
 
 def isDirEmpty(_oldPath):
@@ -132,10 +132,10 @@ def isHidden(_path, _name=None):
         _name = getBaseName(_path)
     if _name.startswith('.'):
         return True
-    if Variables.isWindows:
+    if var.isWindows:
         try:
             import win32api, win32con
-            try:attr = win32api.GetFileAttributes(Universals.trEncode(_path, fileSystemEncoding))
+            try:attr = win32api.GetFileAttributes(uni.trEncode(_path, fileSystemEncoding))
             except:attr = win32api.GetFileAttributes(_path)
             if attr & win32con.FILE_ATTRIBUTE_HIDDEN:
                 return True
@@ -145,7 +145,7 @@ def isHidden(_path, _name=None):
 
 def isBinary(_path):
     _path = str(_path)
-    try:f = open(Universals.trEncode(_path, fileSystemEncoding), 'rb')
+    try:f = open(uni.trEncode(_path, fileSystemEncoding), 'rb')
     except:f = open(_path, 'rb')
     try:
         CHUNKSIZE = 1024
@@ -162,7 +162,7 @@ def isBinary(_path):
 def isAvailableNameForEncoding(_newPath):
     try:
         _newPath = str(_newPath)
-        t = Universals.trEncode(_newPath, fileSystemEncoding)
+        t = uni.trEncode(_newPath, fileSystemEncoding)
         return True
     except:
         return False
@@ -175,12 +175,12 @@ def getAvailablePathByPath(_newPath):
         if pathPart!="":
             badchars = re.compile(r'[/]')
             pathPart = badchars.sub('_', pathPart)
-            if Variables.isWindows:
+            if var.isWindows:
                 if isFirstPart :
                     pathPart += sep
                 else:
                     badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|\.$|^ | $|^$', re.U)
-                    pathPart = re.sub(badchars,'_', Universals.trUnicode(pathPart), re.U)
+                    pathPart = re.sub(badchars,'_', uni.trUnicode(pathPart), re.U)
                     badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
                     if badnames.match(pathPart):
                         pathPart = "_" + pathPart
@@ -198,9 +198,9 @@ def getAvailableNameByName(_newPath):
         if pathPart!="":
             badchars = re.compile(r'[/]')
             pathPart = badchars.sub('_', pathPart)
-            if Variables.isWindows:
+            if var.isWindows:
                 badchars = re.compile(r'[^A-Za-z0-9_.\- \w\s]+|\.$|^ | $|^$', re.U)
-                pathPart = re.sub(badchars,'_', Universals.trUnicode(pathPart), re.U)
+                pathPart = re.sub(badchars,'_', uni.trUnicode(pathPart), re.U)
                 badnames= re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
                 if badnames.match(pathPart):
                     pathPart = "_" + pathPart
@@ -210,11 +210,11 @@ def getAvailableNameByName(_newPath):
     return newPath
 
 def getSize(_oldPath):
-    try:return os.path.getsize(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:return os.path.getsize(uni.trEncode(_oldPath, fileSystemEncoding))
     except:return os.path.getsize(_oldPath)
 
 def getMimeType(_oldPath):
-    try:return mimetypes.guess_type(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:return mimetypes.guess_type(uni.trEncode(_oldPath, fileSystemEncoding))
     except:return mimetypes.guess_type(_oldPath)
 
 def getDirectorySize(_oldPath):
@@ -227,7 +227,7 @@ def getDirectorySize(_oldPath):
     return total_size
 
 def getDetails(_oldPath):
-    try:return os.stat(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:return os.stat(uni.trEncode(_oldPath, fileSystemEncoding))
     except:
         try:return os.stat(_oldPath)
         except:return None
@@ -240,22 +240,22 @@ def getObjectType(_oldPath):
 
 def getDirName(_oldPath):
     _oldPath = str(_oldPath)
-    try:returnValue = os.path.dirname(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:returnValue = os.path.dirname(uni.trEncode(_oldPath, fileSystemEncoding))
     except:returnValue = os.path.dirname(_oldPath)
-    try:return Universals.trDecode(returnValue, fileSystemEncoding)
+    try:return uni.trDecode(returnValue, fileSystemEncoding)
     except:return returnValue
 
 def readLink(_oldPath):
     _oldPath = str(_oldPath)
-    try:returnValue = os.readlink(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:returnValue = os.readlink(uni.trEncode(_oldPath, fileSystemEncoding))
     except:returnValue = os.readlink(_oldPath)
-    try:return Universals.trDecode(returnValue, fileSystemEncoding)
+    try:return uni.trDecode(returnValue, fileSystemEncoding)
     except:return returnValue
 
 def getRealDirName(_oldPath, isGetParent=False):
     _oldPath = str(_oldPath)
     if len(_oldPath)==0:
-        if Variables.isWindows: return "C:" + sep
+        if var.isWindows: return "C:" + sep
         return sep
     if _oldPath[-1]==sep:
         _oldPath = _oldPath[:-1]
@@ -267,7 +267,7 @@ def getRealDirName(_oldPath, isGetParent=False):
         if isDir(realDirName):
             break
         if realDirName=="":
-            if Variables.isWindows: realDirName = "C:" + sep
+            if var.isWindows: realDirName = "C:" + sep
             else: realDirName = sep
             break
         realDirName = getDirName(realDirName)
@@ -275,10 +275,10 @@ def getRealDirName(_oldPath, isGetParent=False):
 
 def getRealPath(_path, _parentPath=None):
     _path = str(_path)
-    if Variables.isWindows:
+    if var.isWindows:
         _path = _path.replace("\\", sep).replace("/", sep)
     if len(_path)==0:
-        if Variables.isWindows: return "C:" + sep
+        if var.isWindows: return "C:" + sep
         return sep
     if _parentPath!=None:
         _parentPath = getRealPath(_parentPath)
@@ -296,14 +296,14 @@ def getShortPath(_path, _parentPath):
 
 def getBaseName(_oldPath):
     _oldPath = str(_oldPath)
-    try:returnValue = os.path.basename(Universals.trEncode(_oldPath, fileSystemEncoding))
+    try:returnValue = os.path.basename(uni.trEncode(_oldPath, fileSystemEncoding))
     except:returnValue = os.path.basename(_oldPath)
-    try:return Universals.trDecode(returnValue, fileSystemEncoding)
+    try:return uni.trDecode(returnValue, fileSystemEncoding)
     except:return returnValue
 
 def getTempDir():
     returnValue = tempfile.gettempdir()
-    try:return Universals.trDecode(returnValue, fileSystemEncoding)
+    try:return uni.trDecode(returnValue, fileSystemEncoding)
     except:return returnValue
 
 def checkExtension(_oldPath, _extension):
@@ -321,11 +321,11 @@ def checkExtension(_oldPath, _extension):
 def getFileExtension(_fileName):
     _fileName = str(_fileName).lower()
     if _fileName.find(".")!=-1:
-        if Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[0]:
+        if uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[0]:
             return _fileName.split(".", 1)[1]
-        elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
+        elif uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[1]:
             return _fileName.rsplit(".", 1)[1]
-        elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[2]:
+        elif uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[2]:
             try:
                 m = re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName)
                 if m is not None:
@@ -340,11 +340,11 @@ def getFileNameParts(_fileNameOrPath):
     fileName, fileExtension = "", ""
     if _fileName.find(".")!=-1:
         fParts = [_fileName, fileExtension]
-        if Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[0]:
+        if uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[0]:
             fParts = _fileName.split(".", 1)
-        elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[1]:
+        elif uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[1]:
             fParts = _fileName.rsplit(".", 1)
-        elif Universals.MySettings["fileExtesionIs"]==Variables.fileExtesionIsKeys[2]:
+        elif uni.MySettings["fileExtensionIs"]==var.fileExtensionIsKeys[2]:
             try:
                 m = re.compile(r'^.*?[.](?P<ext>tar\.gz|tar\.bz2|\w+)$').match(_fileName)
                 if m is not None:
@@ -362,17 +362,17 @@ def getFileNameParts(_fileNameOrPath):
 
 def moveFileOrDir(_oldPath, _newPath, _isQuiet=True):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    if Variables.isWindows:
+    if var.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     try:
-        if getDirName(_oldPath)==getDirName(_newPath) or (Variables.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, Variables.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, Variables.validSentenceStructureKeys[1])):
-            try:os.rename(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
+        if getDirName(_oldPath)==getDirName(_newPath) or (var.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, var.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, var.validSentenceStructureKeys[1])):
+            try:os.rename(uni.trEncode(_oldPath, fileSystemEncoding),uni.trEncode(_newPath, fileSystemEncoding))
             except:os.rename(_oldPath,_newPath)
         else:
             if isDir(getDirName(_newPath))==False:
                 makeDirs(getDirName(_newPath))
-            try:shutil.move(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
+            try:shutil.move(uni.trEncode(_oldPath, fileSystemEncoding),uni.trEncode(_newPath, fileSystemEncoding))
             except:shutil.move(_oldPath,_newPath)
         Records.add("Moved", _oldPath, _newPath)
     except:
@@ -396,7 +396,7 @@ def copyFileOrDir(_oldPath, _newPath):
     if isDir(getDirName(_newPath))==False:
         makeDirs(getDirName(_newPath))
     if isFile(_oldPath):
-        try:shutil.copy(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
+        try:shutil.copy(uni.trEncode(_oldPath, fileSystemEncoding),uni.trEncode(_newPath, fileSystemEncoding))
         except:shutil.copy(_oldPath,_newPath)
     else:
         copyDirTree(_oldPath, _newPath)
@@ -404,7 +404,7 @@ def copyFileOrDir(_oldPath, _newPath):
 
 def copyDirTree(_oldPath, _newPath):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    try:shutil.copytree(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
+    try:shutil.copytree(uni.trEncode(_oldPath, fileSystemEncoding),uni.trEncode(_newPath, fileSystemEncoding))
     except:shutil.copytree(_oldPath,_newPath)
     Records.add("Copied", _oldPath, _newPath)
 
@@ -420,11 +420,11 @@ def copyDirContent(_oldPath, _newPath):
 
 def createSymLink(_oldPath, _newPath):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    if Variables.isAvailableSymLink():
+    if var.isAvailableSymLink():
         from os import symlink
         if isExist(_newPath):
             removeFileOrDir(_newPath)
-        try:symlink(Universals.trEncode(_oldPath, fileSystemEncoding),Universals.trEncode(_newPath, fileSystemEncoding))
+        try:symlink(uni.trEncode(_oldPath, fileSystemEncoding),uni.trEncode(_newPath, fileSystemEncoding))
         except:symlink(_oldPath,_newPath)
         Records.add("Created Link", _oldPath, _newPath)
         return True
@@ -437,7 +437,7 @@ def listDir(_oldPath):
     names = []
     _oldPath = checkSource(_oldPath, "directory")
     if _oldPath is not None:
-        try:names = os.listdir(Universals.trEncode(_oldPath, fileSystemEncoding))
+        try:names = os.listdir(uni.trEncode(_oldPath, fileSystemEncoding))
         except:names = os.listdir(_oldPath)
         names.sort(key=trSort)
     return names
@@ -446,43 +446,43 @@ def walk(_oldPath):
     names = None
     _oldPath = checkSource(_oldPath, "directory")
     if _oldPath is not None:
-        try:names = os.walk(Universals.trEncode(_oldPath, fileSystemEncoding))
+        try:names = os.walk(uni.trEncode(_oldPath, fileSystemEncoding))
         except:names = os.walk(_oldPath)
     return names
 
 def makeDirs(_newPath):
     if isWritableFileOrDir(getRealDirName(_newPath)):
-        try:os.makedirs(Universals.trEncode(_newPath, fileSystemEncoding))
+        try:os.makedirs(uni.trEncode(_newPath, fileSystemEncoding))
         except:os.makedirs(_newPath)
         Records.add("Created", _newPath)
         return True
     return False
 
 def onRMTreeError( _func, _path, _excInfo):
-    try:os.chmod(Universals.trEncode(getDirName(_path), fileSystemEncoding), stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+    try:os.chmod(uni.trEncode(getDirName(_path), fileSystemEncoding), stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
     except:os.chmod(getDirName(_path), stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
     Records.add("CHmod Changed To Remove", getDirName(_path))
-    try:os.chmod(Universals.trEncode(_path, fileSystemEncoding), stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+    try:os.chmod(uni.trEncode(_path, fileSystemEncoding), stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
     except:os.chmod(_path, stat.S_IWRITE | stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
     Records.add("CHmod Changed To Remove", _path)
-    try:os.unlink(Universals.trEncode(_path, fileSystemEncoding))
+    try:os.unlink(uni.trEncode(_path, fileSystemEncoding))
     except:os.unlink(_path)
     Records.add("Removed", _path)
 
 def removeDir(_oldPath):
-    if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
+    if uni.getBoolValue("isDontDeleteFileAndDirectory"):
         moveToPathOfDeleted(_oldPath)
     else:
-        try:shutil.rmtree(Universals.trEncode(_oldPath, fileSystemEncoding), ignore_errors=False, onerror = onRMTreeError)
+        try:shutil.rmtree(uni.trEncode(_oldPath, fileSystemEncoding), ignore_errors=False, onerror = onRMTreeError)
         except:shutil.rmtree(_oldPath, ignore_errors=False, onerror = onRMTreeError)
     Records.add("Removed", _oldPath)
     return True
 
 def removeFile(_oldPath):
-    if Universals.getBoolValue("isDontDeleteFileAndDirectory"):
+    if uni.getBoolValue("isDontDeleteFileAndDirectory"):
         moveToPathOfDeleted(_oldPath)
     else:
-        try:os.remove(Universals.trEncode(_oldPath, fileSystemEncoding))
+        try:os.remove(uni.trEncode(_oldPath, fileSystemEncoding))
         except:os.remove(_oldPath)
     Records.add("Removed", _oldPath)
     return True
@@ -490,14 +490,14 @@ def removeFile(_oldPath):
 def moveToPathOfDeleted(_oldPath):
     from time import strftime
     import random
-    moveFileOrDir(_oldPath, joinPath(Universals.MySettings["pathOfDeletedFilesAndDirectories"], strftime("%Y%m%d_%H%M%S") + "_" + str(random.randrange(0, 9999999)) + "_" + getBaseName(_oldPath)))
+    moveFileOrDir(_oldPath, joinPath(uni.MySettings["pathOfDeletedFilesAndDirectories"], strftime("%Y%m%d_%H%M%S") + "_" + str(random.randrange(0, 9999999)) + "_" + getBaseName(_oldPath)))
 
 def trSort(_info):
     import locale
-    if Variables.isPython3k:
+    if var.isPython3k:
         _info = str(_info)
     try:
-        return locale.strxfrm(Universals.trEncode(_info, fileSystemEncoding))
+        return locale.strxfrm(uni.trEncode(_info, fileSystemEncoding))
     except:
         return locale.strxfrm(_info)
 
@@ -506,7 +506,7 @@ def isReadableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
     if isFile(realPath)==False:
         realPath = getRealDirName(realPath)
     try:
-        if os.access(Universals.trEncode(realPath, fileSystemEncoding), os.R_OK):
+        if os.access(uni.trEncode(realPath, fileSystemEncoding), os.R_OK):
             return True
     except:
         if os.access(realPath, os.R_OK):
@@ -537,7 +537,7 @@ def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
     if isFile(realPath)==False:
         realPath = getRealDirName(realPath)
     try:
-        if os.access(Universals.trEncode(realPath, fileSystemEncoding), os.W_OK):
+        if os.access(uni.trEncode(realPath, fileSystemEncoding), os.W_OK):
             return True
     except:
         if os.access(realPath, os.W_OK):
@@ -565,7 +565,7 @@ def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
 
 def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
     oldPath = str(_oldPath)
-    if Variables.isWindows:
+    if var.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
     if _objectType=="file" and isFile(oldPath):
         return oldPath
@@ -573,7 +573,7 @@ def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
         return oldPath
     elif _objectType=="fileAndDirectory" and (isDir(oldPath) or isFile(oldPath)):
         return oldPath
-    if Variables.isWindows:
+    if var.isWindows:
         oldPath = "\\\\?\\" + oldPath # for wrong name such as "C:\Temp \test.txt", "C:\Temp\test.txt "
         if _objectType=="file" and isFile(oldPath):
             return oldPath
@@ -604,7 +604,7 @@ def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
 
 def checkDestination(_oldPath, _newPath, _isQuiet=False):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    if Variables.isWindows:
+    if var.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     while isAvailableNameForEncoding(_newPath) == False:
@@ -621,7 +621,7 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
         availableNameByName = getAvailablePathByPath(_newPath)
     if isExist(_newPath):
         if isWritableFileOrDir(_newPath):
-            if Variables.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, Variables.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, Variables.validSentenceStructureKeys[1]):
+            if var.isWindows and Organizer.makeCorrectCaseSensitive(_oldPath, var.validSentenceStructureKeys[1])==Organizer.makeCorrectCaseSensitive(_newPath, var.validSentenceStructureKeys[1]):
                 return _newPath
             else:
                 if isFile(_newPath):
@@ -700,7 +700,7 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
 
 def checkNewDestination(_newPath, _isQuiet=False):
     _newPath = str(_newPath)
-    if Variables.isWindows:
+    if var.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     while isAvailableNameForEncoding(_newPath) == False:
@@ -767,10 +767,10 @@ def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=False):
     fileAndDirectoryNames,fileNames,directoryNames=[],[],[]
     if _objectType=="music":
         musicFileNames = []
-        musicExtensions = Universals.getListValue("musicExtensions")
+        musicExtensions = uni.getListValue("musicExtensions")
     for name in listDir(_path):
         if _isShowHiddens or isHidden(joinPath(_path, name), name)==False:
-            try:fileAndDirectoryNames.append(Universals.trDecode(name, fileSystemEncoding))
+            try:fileAndDirectoryNames.append(uni.trDecode(name, fileSystemEncoding))
             except:fileAndDirectoryNames.append(name)
     for name in fileAndDirectoryNames:
         if isDir(joinPath(_path, name)):
@@ -798,7 +798,7 @@ def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=False):
 def readDirectoryAll(_path):
     tFileAndDirs=[]
     for name in listDir(_path):
-        try:tFileAndDirs.append(str(Universals.trDecode(name, fileSystemEncoding)))
+        try:tFileAndDirs.append(str(uni.trDecode(name, fileSystemEncoding)))
         except:
             try:tFileAndDirs.append(str(name))
             except:tFileAndDirs.append(name)
@@ -827,7 +827,7 @@ def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _objectType="fi
             for name in files:
                 allFilesAndDirectories.append(joinPath(_path, name))
         elif _objectType=="music":
-            musicExtensions = Universals.getListValue("musicExtensions")
+            musicExtensions = uni.getListValue("musicExtensions")
             for name in files:
                 for ext in musicExtensions:
                     try:
@@ -851,12 +851,12 @@ def readDirectoryWithSubDirectoriesThread(_path, _subDirectoryDeep=-1, _objectTy
 def readFromFile(_path, _contentEncoding = fileSystemEncoding):
     _path = str(_path)
     if _contentEncoding is not None:
-        if Variables.isPython3k:
-            try:f = open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+        if var.isPython3k:
+            try:f = open(uni.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
             except:f = open(_path , encoding = _contentEncoding)
         else:
             import codecs
-            try:f = codecs.open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+            try:f = codecs.open(uni.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
             except:f = codecs.open(_path , encoding = _contentEncoding)
         try:
             info = f.read()
@@ -864,7 +864,7 @@ def readFromFile(_path, _contentEncoding = fileSystemEncoding):
         except:
             info = readFromFile(_path, None)
     else:
-        try:f = open(Universals.trEncode(_path, fileSystemEncoding))
+        try:f = open(uni.trEncode(_path, fileSystemEncoding))
         except:f = open(_path)
         info = f.read()
         f.close()
@@ -873,12 +873,12 @@ def readFromFile(_path, _contentEncoding = fileSystemEncoding):
 def readLinesFromFile(_path, _contentEncoding = fileSystemEncoding):
     _path = str(_path)
     if _contentEncoding is not None:
-        if Variables.isPython3k:
-            try:f = open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+        if var.isPython3k:
+            try:f = open(uni.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
             except:f = open(_path , encoding = _contentEncoding)
         else:
             import codecs
-            try:f = codecs.open(Universals.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
+            try:f = codecs.open(uni.trEncode(_path, fileSystemEncoding) , encoding = _contentEncoding)
             except:f = codecs.open(_path , encoding = _contentEncoding)
         try:
             info = f.readlines()
@@ -886,7 +886,7 @@ def readLinesFromFile(_path, _contentEncoding = fileSystemEncoding):
         except:
             info = readLinesFromFile(_path, None)
     else:
-        try:f = open(Universals.trEncode(_path, fileSystemEncoding))
+        try:f = open(uni.trEncode(_path, fileSystemEncoding))
         except:f = open(_path)
         info = f.readlines()
         f.close()
@@ -894,7 +894,7 @@ def readLinesFromFile(_path, _contentEncoding = fileSystemEncoding):
 
 def readFromBinaryFile(_path):
     _path = str(_path)
-    try:f = open(Universals.trEncode(_path, fileSystemEncoding), "rb")
+    try:f = open(uni.trEncode(_path, fileSystemEncoding), "rb")
     except:f = open(_path, "rb")
     info = f.read()
     f.close()
@@ -904,7 +904,7 @@ def writeToFile(_path, _contents=""):
     _path = str(_path)
     if isDir(getDirName(_path)) == False:
         makeDirs(getDirName(_path))
-    try:f = open(Universals.trEncode(_path, fileSystemEncoding), "w")
+    try:f = open(uni.trEncode(_path, fileSystemEncoding), "w")
     except:f = open(_path, "w")
     f.write(_contents)
     f.close()
@@ -914,7 +914,7 @@ def writeToBinaryFile(_path, _contents=""):
     _path = str(_path)
     if isDir(getDirName(_path)) == False:
         makeDirs(getDirName(_path))
-    try:f = open(Universals.trEncode(_path, fileSystemEncoding), "wb")
+    try:f = open(uni.trEncode(_path, fileSystemEncoding), "wb")
     except:f = open(_path, "wb")
     f.write(_contents)
     f.flush()
@@ -923,7 +923,7 @@ def writeToBinaryFile(_path, _contents=""):
 
 def addToFile(_path, _contents=""):
     _path = str(_path)
-    try:f = open(Universals.trEncode(_path, fileSystemEncoding), "a")
+    try:f = open(uni.trEncode(_path, fileSystemEncoding), "a")
     except:f = open(_path, "a")
     f.write(_contents)
     f.close()
@@ -938,7 +938,7 @@ def readTextFile(_path, _contentEncoding = fileSystemEncoding):
 
 def writeTextFile(_oldFileValues, _newFileValues, _charSet="utf-8"):
     if _oldFileValues["content"]!=_newFileValues["content"] or _charSet!="utf-8":
-        writeToFile(_oldFileValues["path"], Universals.trEncode(_newFileValues["content"], _charSet))
+        writeToFile(_oldFileValues["path"], uni.trEncode(_newFileValues["content"], _charSet))
     if getRealPath(_oldFileValues["path"]) != getRealPath(_newFileValues["path"]):
         return moveOrChange(_oldFileValues["path"], _newFileValues["path"])
     return _oldFileValues["path"]
@@ -950,22 +950,22 @@ def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAut
     dontRemovingFilesCount = 0
     filesAndDirectories = readDirectoryAll(_path)
     filesAndDirectoriesCount = len(filesAndDirectories)
-    if _isShowState and _isCloseState:Universals.startThreadAction()
+    if _isShowState and _isCloseState:uni.startThreadAction()
     for nameNo, name in enumerate(filesAndDirectories):
-        if _isShowState:isContinueThreadAction = Universals.isContinueThreadAction()
+        if _isShowState:isContinueThreadAction = uni.isContinueThreadAction()
         else: isContinueThreadAction = True
         if isContinueThreadAction:
             if _isShowState: Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo, filesAndDirectoriesCount, True)
             if isFile(joinPath(_path, name)):
                 dontRemovingFilesCount+=1
-                if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                    for f in Universals.getListValue("ignoredFiles"):
+                if uni.getBoolValue("isDeleteEmptyDirectories"):
+                    for f in uni.getListValue("ignoredFiles"):
                         try:
                             if str(f)==name:
                                 dontRemovingFilesCount-=1
                                 break
                         except:pass
-                    for ext in Universals.getListValue("ignoredFileExtensions"):
+                    for ext in uni.getListValue("ignoredFileExtensions"):
                         try:
                             if checkExtension(name, ext):
                                 dontRemovingFilesCount-=1
@@ -975,8 +975,8 @@ def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAut
                 dontRemovingFilesCount+=1
                 if _isAutoCleanSubFolder==False:
                     break
-                if Universals.getBoolValue("isDeleteEmptyDirectories"):
-                    for f in Universals.getListValue("ignoredDirectories"):
+                if uni.getBoolValue("isDeleteEmptyDirectories"):
+                    for f in uni.getListValue("ignoredDirectories"):
                         try:
                             if str(f)==name:
                                 dontRemovingFilesCount-=1
@@ -986,8 +986,8 @@ def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAut
                     dontRemovingFilesCount-=1
         else:
             if _isShowState: Dialogs.showState(translate("FileUtils", "Checked Empty Directories"), filesAndDirectoriesCount, filesAndDirectoriesCount, True)
-    if _isShowState and _isCloseState:Universals.finishThreadAction()
-    if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
+    if _isShowState and _isCloseState:uni.finishThreadAction()
+    if dontRemovingFilesCount==0 and uni.getBoolValue("isDeleteEmptyDirectories"):
         if _isShowState: Dialogs.showState(translate("FileUtils", "Cleaning Empty Directories"), 0, 1, True)
         clearIgnoreds(_path)
         removeDir(_path)
@@ -1001,24 +1001,24 @@ def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAut
 def clearUnneededs(_path):
     _path = checkSource(_path, "directory", False)
     if _path is not None:
-        for f in Universals.getListValue("unneededFiles"):
+        for f in uni.getListValue("unneededFiles"):
             try:
                 if isFile(joinPath(_path, str(f))):
                     removeFile(joinPath(_path, str(f)))
             except:pass
-        for f in Universals.getListValue("unneededDirectoriesIfIsEmpty"):
+        for f in uni.getListValue("unneededDirectoriesIfIsEmpty"):
             try:
                 if isDirEmpty(joinPath(_path, str(f))) and f.strip()!="":
                     removeDir(joinPath(_path, str(f)))
             except:pass
-        for f in Universals.getListValue("unneededDirectories"):
+        for f in uni.getListValue("unneededDirectories"):
             try:
                 if isDir(joinPath(_path, str(f))) and f.strip()!="":
                     removeFileOrDir(joinPath(_path, str(f)))
             except:pass
         for name in readDirectoryAll(_path):
             if isFile(joinPath(_path, name)):
-                for ext in Universals.getListValue("unneededFileExtensions"):
+                for ext in uni.getListValue("unneededFileExtensions"):
                     try:
                         if checkExtension(name, ext):
                             removeFile(joinPath(_path, name))
@@ -1027,19 +1027,19 @@ def clearUnneededs(_path):
 def clearIgnoreds(_path):
     _path = checkSource(_path, "directory", False)
     if _path is not None:
-        for f in Universals.getListValue("ignoredFiles"):
+        for f in uni.getListValue("ignoredFiles"):
             try:
                 if isFile(joinPath(_path, str(f))):
                     removeFile(joinPath(_path, str(f)))
             except:pass
-        for f in Universals.getListValue("ignoredDirectories"):
+        for f in uni.getListValue("ignoredDirectories"):
             try:
                 if isDir(joinPath(_path, str(f))) and f.strip()!="":
                     removeFileOrDir(joinPath(_path, str(f)))
             except:pass
         for name in readDirectoryAll(_path):
             if isFile(joinPath(_path, name)):
-                for ext in Universals.getListValue("ignoredFileExtensions"):
+                for ext in uni.getListValue("ignoredFileExtensions"):
                     try:
                         if checkExtension(name, ext):
                             removeFile(joinPath(_path, name))
@@ -1070,8 +1070,8 @@ def moveOrChange(_oldPath, _newPath, _objectType="file", _actionType="auto", _is
         _newPath = checkDestination(_oldPath, _newPath, _isQuiet)
     if isChange==True and _newPath:
         if _objectType=="directory" and _actionType=="auto":
-            if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
-                if checkEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
+            if uni.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
+                if checkEmptyDirectories(_oldPath, True, True, uni.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                     return _oldPath
         for tDir in appendingDirectories:
             if _newPath==tDir:
@@ -1081,14 +1081,14 @@ def moveOrChange(_oldPath, _newPath, _objectType="file", _actionType="auto", _is
         if isChange==True:
             moveFileOrDir(_oldPath,_newPath, _isQuiet)
         if _objectType=="directory" and _actionType=="auto":
-            if Universals.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
-                if checkEmptyDirectories(_newPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
+            if uni.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
+                if checkEmptyDirectories(_newPath, True, True, uni.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                     return _newPath
         if isDir(_newPath)==True and _actionType=="auto":
-            if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
+            if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                 checkIcon(_newPath)
         elif _actionType=="auto":
-            if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+            if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                 if isDir(getDirName(_oldPath)):
                     checkIcon(getDirName(_oldPath))
                 if isDir(getDirName(_newPath)):
@@ -1106,8 +1106,8 @@ def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQu
         _newPath = checkDestination(_oldPath, _newPath, _isQuiet)
     if isChange==True and _newPath:
         if _objectType=="directory" and _actionType=="auto":
-            if Universals.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
-                if checkEmptyDirectories(_oldPath, True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
+            if uni.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
+                if checkEmptyDirectories(_oldPath, True, True, uni.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
                     return _oldPath
         for tDir in appendingDirectories:
             if _newPath==tDir:
@@ -1117,7 +1117,7 @@ def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQu
         if isChange==True:
             copyFileOrDir(_oldPath,_newPath)
         if isDir(_newPath)==True and _actionType=="auto":
-            if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
+            if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                 checkIcon(_newPath)
         return _newPath
     else:
@@ -1132,9 +1132,9 @@ def changeDirectories(_values):
             values["oldPath"] = _values[no][0]
             values["newPath"] = moveOrChange(values["oldPath"], _values[no][1], getObjectType(_values[no][0]))
             newFilesPath.append(values)
-            if Universals.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                checkEmptyDirectories(getDirName(values["oldPath"]), True, True, Universals.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
-            if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+            if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                checkEmptyDirectories(getDirName(values["oldPath"]), True, True, uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
+            if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                 checkIcon(getDirName(values["oldPath"]))
                 checkIcon(getDirName(values["newPath"]))
             Dialogs.showState(translate("FileUtils", "Changing The Folder (Of The Files)"),no+1,len(_values))
@@ -1156,7 +1156,7 @@ def completeSmartCheckEmptyDirectories(_isShowState=False, _isCloseState=False):
 
 def checkEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAutoCleanSubFolder=True, _isClear=False):
     global isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus
-    if Universals.getBoolValue("isActiveClearGeneral") or _isClear:
+    if uni.getBoolValue("isActiveClearGeneral") or _isClear:
         if isSmartCheckEmptyDirectories:
             if willCheckEmptyDirectories.count(_path)==0:
                 willCheckEmptyDirectories.append(_path)
@@ -1204,14 +1204,14 @@ def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False
             if isFile(joinPath(_path, fileName)):
                 if str(fileName.split(".")[0]).lower()==str(_coverNameIfExist).lower():
                     cover = fileName
-                if Universals.getListValue("imageExtensions").count((fileName.split(".")[-1]).lower()) != 0:
+                if uni.getListValue("imageExtensions").count((fileName.split(".")[-1]).lower()) != 0:
                     imageFiles.append(fileName)
                     if cover == None:
-                        for coverName in Universals.getListValue("priorityIconNames"):
+                        for coverName in uni.getListValue("priorityIconNames"):
                             if str(fileName.split(".")[0]).lower()==str(coverName).lower():
                                 cover = fileName
                                 break
-        if _isAsk and eval(Universals.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title())==True and len(imageFiles)>1:
+        if _isAsk and eval(uni.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title())==True and len(imageFiles)>1:
             selectedIndex = 0
             if cover!=None:
                 selectedIndex = imageFiles.index(cover)
@@ -1223,7 +1223,7 @@ def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False
                     break
         if _isCheckDelete and cover!=None:
             if isWritableFileOrDir(_path):
-                if eval(Universals.MySettings["isDeleteOtherImages"].title())==True:
+                if eval(uni.MySettings["isDeleteOtherImages"].title())==True:
                     for imgFile in imageFiles:
                         if cover != imgFile:
                             removeFile(joinPath(_path, imgFile))
@@ -1257,7 +1257,7 @@ def setIconToDirectory(_path, _iconName=""):
                             elif rows[rowNo][5]!="." and isFile(rows[rowNo][5:]):
                                 isFileExist=True
                             if isFileExist:
-                                if Universals.getBoolValue("isChangeExistIcon")==False:
+                                if uni.getBoolValue("isChangeExistIcon")==False:
                                     isChange = False
                         isChanging = True
                         rows[rowNo] = "Icon=" + _iconName
@@ -1324,12 +1324,12 @@ def getIconFromDirectory(_path):
 def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
     _path = checkSource(_path, "directory", False)
     if _path is not None:
-        if Universals.getBoolValue("isClearEmptyDirectoriesWhenPath"):
-            checkEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenPath"))
-        for f in Universals.getListValue("packagerUnneededFiles"):
+        if uni.getBoolValue("isClearEmptyDirectoriesWhenPath"):
+            checkEmptyDirectories(_path, _isShowState, _isShowState, uni.getBoolValue("isAutoCleanSubFolderWhenPath"))
+        for f in uni.getListValue("packagerUnneededFiles"):
             if isFile(joinPath(_path, f)):
                 removeFile(joinPath(_path, f))
-        for d in Universals.getListValue("packagerUnneededDirectories"):
+        for d in uni.getListValue("packagerUnneededDirectories"):
             if isExist(joinPath(_path, d)):
                 removeFileOrDir(joinPath(_path, d))
         dontRemovingFilesCount = 0
@@ -1339,7 +1339,7 @@ def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
             if isFile(joinPath(_path, name)):
                 dontRemovingFilesCount+=1
                 isDeleted = False
-                for ext in Universals.getListValue("packagerUnneededFileExtensions"):
+                for ext in uni.getListValue("packagerUnneededFileExtensions"):
                     if checkExtension(name, ext):
                         removeFile(joinPath(_path, name))
                         dontRemovingFilesCount-=1
@@ -1354,7 +1354,7 @@ def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
                 dontRemovingFilesCount+=1
                 if clearPackagingDirectory(joinPath(_path, name))==False:
                     dontRemovingFilesCount-=1
-        if dontRemovingFilesCount==0 and Universals.getBoolValue("isPackagerDeleteEmptyDirectories"):
+        if dontRemovingFilesCount==0 and uni.getBoolValue("isPackagerDeleteEmptyDirectories"):
             if _isShowState: Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
             removeDir(_path)
             if _isCloseState:
@@ -1369,12 +1369,12 @@ def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
 def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
     _path = checkSource(_path, "directory", False)
     if _path is not None:
-        if Universals.getBoolValue("isClearEmptyDirectoriesWhenClear"):
-            checkEmptyDirectories(_path, _isShowState, _isShowState, Universals.getBoolValue("isAutoCleanSubFolderWhenClear"))
-        for f in Universals.getListValue("cleanerUnneededFiles"):
+        if uni.getBoolValue("isClearEmptyDirectoriesWhenClear"):
+            checkEmptyDirectories(_path, _isShowState, _isShowState, uni.getBoolValue("isAutoCleanSubFolderWhenClear"))
+        for f in uni.getListValue("cleanerUnneededFiles"):
             if isFile(joinPath(_path, f)):
                 removeFile(joinPath(_path, f))
-        for d in Universals.getListValue("cleanerUnneededDirectories"):
+        for d in uni.getListValue("cleanerUnneededDirectories"):
             if isExist(joinPath(_path, d)):
                 removeFileOrDir(joinPath(_path, d))
         dontRemovingFilesCount = 0
@@ -1383,7 +1383,7 @@ def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
             if _isShowState: Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
             if isFile(joinPath(_path, name)):
                 dontRemovingFilesCount+=1
-                for ext in Universals.getListValue("cleanerUnneededFileExtensions"):
+                for ext in uni.getListValue("cleanerUnneededFileExtensions"):
                     try:
                         if checkExtension(name, ext):
                             removeFile(joinPath(_path, name))
@@ -1400,7 +1400,7 @@ def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
                 dontRemovingFilesCount+=1
                 if clearCleaningDirectory(joinPath(_path, name))==False:
                     dontRemovingFilesCount-=1
-        if dontRemovingFilesCount==0 and Universals.getBoolValue("isCleanerDeleteEmptyDirectories"):
+        if dontRemovingFilesCount==0 and uni.getBoolValue("isCleanerDeleteEmptyDirectories"):
             if _isShowState: Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
             removeDir(_path)
             if _isCloseState:
@@ -1420,13 +1420,13 @@ def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
                     str(translate("FileUtils", "\"%s\" : there already exists a folder with the same name.<br>Please choose another file name!")) % Organizer.getLink(_filePath))
         return False
     import tarfile
-    try:tar = tarfile.open(Universals.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
+    try:tar = tarfile.open(uni.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
     except:tar = tarfile.open(_filePath, "w:" + _packageType)
     maxMembers = len(readDirectoryWithSubDirectoriesThread(_sourcePath, -1, "fileAndDirectory", True))+1
     dlgState = Dialogs.MyStateDialog(translate("FileUtils", "Creating Tar File"))
     infoProcess = MyThread.MyTarPackStateThread(tar, maxMembers, dlgState)
     try:
-        myProcs = MyThread.MyThread(tar.add, infoProcess.finish, args=[Universals.trEncode(_sourcePath, fileSystemEncoding)], kwargs={"arcname":Universals.trEncode(_realSourceBaseName, fileSystemEncoding)})
+        myProcs = MyThread.MyThread(tar.add, infoProcess.finish, args=[uni.trEncode(_sourcePath, fileSystemEncoding)], kwargs={"arcname":uni.trEncode(_realSourceBaseName, fileSystemEncoding)})
         myProcs.start()
     except:
         myProcs = MyThread.MyThread(tar.add, infoProcess.finish, args=[_sourcePath], kwargs={"arcname":_realSourceBaseName})
@@ -1439,9 +1439,9 @@ def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
 def extractPack(_oldPath, _newPath):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
     import tarfile
-    try:tar = tarfile.open(Universals.trEncode(_oldPath, fileSystemEncoding), "r:gz")
+    try:tar = tarfile.open(uni.trEncode(_oldPath, fileSystemEncoding), "r:gz")
     except:tar = tarfile.open(_oldPath, "r:gz")
-    try:tar.extractall(Universals.trEncode(_newPath, fileSystemEncoding), members=tar.getmembers())
+    try:tar.extractall(uni.trEncode(_newPath, fileSystemEncoding), members=tar.getmembers())
     except:tar.extractall(_newPath, members=tar.getmembers())
     tar.close()
     Records.add("Extracted", _oldPath, _newPath)
@@ -1457,7 +1457,7 @@ def clearTempFiles():
 
 def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType="html", _contentType="fileTree", _extInfo="no"):
     _path = str(_path)
-    files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, "fileAndDirectory", Universals.getBoolValue("isShowHiddensInFileTree"))
+    files = readDirectoryWithSubDirectories(_path, _subDirectoryDeep, "fileAndDirectory", uni.getBoolValue("isShowHiddensInFileTree"))
     info = ""
     if _contentType=="fileTree":
         if _outputType=="html":
@@ -1471,7 +1471,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             for x, file in enumerate(files):
                 if isDir(file):
                     findStrings.append(file)
-                    replaceStrings.append((Universals.getUtf8Data("upright") + "&nbsp;&nbsp;&nbsp;"*(file.count(sep)-dirNumber)) + Universals.getUtf8Data("upright+right") + "&nbsp;")
+                    replaceStrings.append((uni.getUtf8Data("upright") + "&nbsp;&nbsp;&nbsp;"*(file.count(sep)-dirNumber)) + uni.getUtf8Data("upright+right") + "&nbsp;")
             findStrings.reverse()
             replaceStrings.reverse()
             fileList = list(range(len(files)))
@@ -1481,23 +1481,23 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                     if file!=fstr:
                         fileList[x] = fileList[x].replace(fstr + sep, replaceStrings[y])
                 if x>0:
-                    tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
-                    tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
+                    tin = fileList[x-1].find(uni.getUtf8Data("upright+right"))
+                    tin2 = fileList[x].find(uni.getUtf8Data("upright+right"))
                     if tin>tin2:
-                        fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
+                        fileList[x-1] = fileList[x-1].replace(uni.getUtf8Data("upright+right"), uni.getUtf8Data("up+right"))
             for x, fileName in enumerate(fileList):
                 if x!=len(fileList)-1:
-                    info += fileName.replace(_path + sep, Universals.getUtf8Data("upright+right") + "&nbsp;")
+                    info += fileName.replace(_path + sep, uni.getUtf8Data("upright+right") + "&nbsp;")
                 else:
-                    info += fileName.replace(_path + sep, Universals.getUtf8Data("up+right") + "&nbsp;")
-                if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                    info += fileName.replace(_path + sep, uni.getUtf8Data("up+right") + "&nbsp;")
+                if uni.getBoolValue("isAppendFileSizeToFileTree") or uni.getBoolValue("isAppendLastModifiedToFileTree"):
                     details = getDetails(files[x])
                     if details is not None:
                         info += " ( "
-                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                        if uni.getBoolValue("isAppendFileSizeToFileTree"):
                             info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                            if uni.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                        if uni.getBoolValue("isAppendLastModifiedToFileTree"):
                             info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     else:
@@ -1514,7 +1514,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             for x, file in enumerate(files):
                 if isDir(file):
                     findStrings.append(file)
-                    replaceStrings.append((Universals.getUtf8Data("upright") + "   "*(file.count(sep)-dirNumber)) + Universals.getUtf8Data("upright+right") + " ")
+                    replaceStrings.append((uni.getUtf8Data("upright") + "   "*(file.count(sep)-dirNumber)) + uni.getUtf8Data("upright+right") + " ")
             findStrings.reverse()
             replaceStrings.reverse()
             fileList = list(range(len(files)))
@@ -1524,23 +1524,23 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                     if file!=fstr:
                         fileList[x] = fileList[x].replace(fstr + sep, replaceStrings[y])
                 if x>0:
-                    tin = fileList[x-1].find(Universals.getUtf8Data("upright+right"))
-                    tin2 = fileList[x].find(Universals.getUtf8Data("upright+right"))
+                    tin = fileList[x-1].find(uni.getUtf8Data("upright+right"))
+                    tin2 = fileList[x].find(uni.getUtf8Data("upright+right"))
                     if tin>tin2:
-                        fileList[x-1] = fileList[x-1].replace(Universals.getUtf8Data("upright+right"), Universals.getUtf8Data("up+right"))
+                        fileList[x-1] = fileList[x-1].replace(uni.getUtf8Data("upright+right"), uni.getUtf8Data("up+right"))
             for x, fileName in enumerate(fileList):
                 if x!=len(fileList)-1:
-                    info += fileName.replace(_path + sep, Universals.getUtf8Data("upright+right") + " ")
+                    info += fileName.replace(_path + sep, uni.getUtf8Data("upright+right") + " ")
                 else:
-                    info += fileName.replace(_path + sep, Universals.getUtf8Data("up+right") + " ")
-                if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                    info += fileName.replace(_path + sep, uni.getUtf8Data("up+right") + " ")
+                if uni.getBoolValue("isAppendFileSizeToFileTree") or uni.getBoolValue("isAppendLastModifiedToFileTree"):
                     details = getDetails(files[x])
                     if details is not None:
                         info += " ( "
-                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                        if uni.getBoolValue("isAppendFileSizeToFileTree"):
                             info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                            if uni.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                        if uni.getBoolValue("isAppendLastModifiedToFileTree"):
                             info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     else:
@@ -1555,14 +1555,14 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                 info += " %s<br> \n" % (_path)
             for x, fileName in enumerate(files):
                 info += fileName
-                if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                if uni.getBoolValue("isAppendFileSizeToFileTree") or uni.getBoolValue("isAppendLastModifiedToFileTree"):
                     details = getDetails(files[x])
                     if details is not None:
                         info += " ( "
-                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                        if uni.getBoolValue("isAppendFileSizeToFileTree"):
                             info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                            if uni.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                        if uni.getBoolValue("isAppendLastModifiedToFileTree"):
                             info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     else:
@@ -1576,20 +1576,20 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                 info += _path + "\n"
             for x, fileName in enumerate(files):
                 info += fileName
-                if Universals.getBoolValue("isAppendFileSizeToFileTree") or Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                if uni.getBoolValue("isAppendFileSizeToFileTree") or uni.getBoolValue("isAppendLastModifiedToFileTree"):
                     details = getDetails(files[x])
                     if details is not None:
                         info += " ( "
-                        if Universals.getBoolValue("isAppendFileSizeToFileTree"):
+                        if uni.getBoolValue("isAppendFileSizeToFileTree"):
                             info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
-                            if Universals.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
-                        if Universals.getBoolValue("isAppendLastModifiedToFileTree"):
+                            if uni.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
+                        if uni.getBoolValue("isAppendLastModifiedToFileTree"):
                             info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     else:
                         info += " ( " + str(translate("FileUtils", "inaccessible")) + " ) "
                 info += "\n"
-    info = trForUI(info)
+    info = str(info)
     if _outputTarget=="return":
         return info
     elif _outputTarget=="file":
@@ -1618,7 +1618,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             Dialogs.show(translate("Tables", "File Tree Created"),
                         str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
     elif _outputTarget=="dialog":
-        dDialog = MDialog(Universals.MainWindow)
+        dDialog = MDialog(uni.MainWindow)
         if isActivePyKDE4:
             dDialog.setButtons(MDialog.NoDefault)
         dDialog.setWindowTitle(translate("Tables", "File Tree"))
@@ -1627,10 +1627,10 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
         if _outputType=="html":
             QtWebKit = getMyObject("QtWebKit")
             wvWeb = QtWebKit.QWebView()
-            wvWeb.setHtml(trForUI(info))
+            wvWeb.setHtml(str(info))
         elif _outputType=="plainText":
             wvWeb = MTextEdit()
-            wvWeb.setPlainText(trForUI(info))
+            wvWeb.setPlainText(str(info))
         pbtnClose = MPushButton(translate("Tables", "OK"))
         MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
         vblMain.addWidget(wvWeb)
@@ -1643,7 +1643,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
         dDialog.setMinimumHeight(400)
         dDialog.show()
     elif _outputTarget=="clipboard":
-        MApplication.clipboard().setText(trForUI(info))
+        MApplication.clipboard().setText(str(info))
 
 def fixToSize(_path, _size, _clearFrom="head"):
     if isFile(_path):
@@ -1689,20 +1689,20 @@ def createHashDigestFile(_filePath, _digestFilePath=None, _hashType="MD5", _isAd
     return True
 
 def checkSizeOfDeletedFiles():
-    pathOfDeletedFilesAndDirectories = Universals.MySettings["pathOfDeletedFilesAndDirectories"]
+    pathOfDeletedFilesAndDirectories = uni.MySettings["pathOfDeletedFilesAndDirectories"]
     pathOfDeletedFilesAndDirectories = checkSource(pathOfDeletedFilesAndDirectories, "directory", False)
     if pathOfDeletedFilesAndDirectories is not None:
         deletedDirectorySize = getDirectorySize(pathOfDeletedFilesAndDirectories)
-        if deletedDirectorySize > (int(Universals.MySettings["maxDeletedDirectorySize"])*1024*1024):
+        if deletedDirectorySize > (int(uni.MySettings["maxDeletedDirectorySize"])*1024*1024):
             answer = Dialogs.askSpecial(translate("FileUtils", "Size Of Directory Of Deleted Is Over"),
                         str(translate("FileUtils", "Size of directory of deleted is over. You can check and remove them. <br> Directory Of Deleted : \"%s\" ( %s )")) % (Organizer.getLink(pathOfDeletedFilesAndDirectories), Organizer.getCorrectedFileSize(deletedDirectorySize)), translate("FileUtils", "Open With Default File Manager"), translate("FileUtils", "Close"), translate("FileUtils", "Remove All Files"))
             if answer==translate("FileUtils", "Open With Default File Manager"):
                 from Core import Execute
                 Execute.openWith([getRealDirName(pathOfDeletedFilesAndDirectories)])
             if answer==translate("FileUtils", "Remove All Files"):
-                Universals.MySettings["isDontDeleteFileAndDirectory"] = "false"
+                uni.MySettings["isDontDeleteFileAndDirectory"] = "false"
                 removeDir(pathOfDeletedFilesAndDirectories)
-                Universals.MySettings["isDontDeleteFileAndDirectory"] = "true"
+                uni.MySettings["isDontDeleteFileAndDirectory"] = "true"
                 Dialogs.show(translate("FileUtils", "Directory Of Deleted Has Been Removed"), translate("FileUtils", "Directory of deleted has been removed successfully."))
 
 

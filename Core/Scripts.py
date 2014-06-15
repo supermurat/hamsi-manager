@@ -20,7 +20,7 @@
 import sys
 from Core.MyObjects import *
 from Core import Dialogs
-from Core import Universals
+from Core import Universals as uni
 from Core import ReportBug
 import FileUtils as fu
 

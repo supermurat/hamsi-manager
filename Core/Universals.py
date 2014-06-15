@@ -20,7 +20,7 @@
 import sys
 import os
 from datetime import timedelta, datetime
-from Core import Variables
+from Core import Variables as var
 import FileUtils as fu
 from Core.MyObjects import *
 
@@ -67,28 +67,20 @@ def setPathOfSettingsDirectory(_path):
         _path = _path[:-1]
     fu.pathOfSettingsDirectory = _path
 
-def trForUI(_s):
-    return str(_s)
-
-def trStr(_s):
-    if Variables.isPython3k:
-        return _s
-    return _s.toString()
-
 def trUnicode(_s, _e = "utf-8"):
-    if Variables.isPython3k:
+    if var.isPython3k:
         return _s
     if isinstance(_s, unicode):
         return _s
     return unicode(_s, _e)
 
 def trDecode(_s, _e = "utf-8", _p = "strict"):
-    if Variables.isPython3k:
+    if var.isPython3k:
         return _s
     return _s.decode(_e, _p)
 
 def trDecodeList(_s, _e = "utf-8", _p = "strict"):
-    if Variables.isPython3k:
+    if var.isPython3k:
         return _s
     sList =[]
     for x in _s:
@@ -96,12 +88,12 @@ def trDecodeList(_s, _e = "utf-8", _p = "strict"):
     return sList
 
 def trEncode(_s, _e = "utf-8", _p = "strict"):
-    if Variables.isPython3k:
+    if var.isPython3k:
         return _s
     return _s.encode(_e, _p)
 
 def trEncodeList(_s, _e = "utf-8", _p = "strict"):
-    if Variables.isPython3k:
+    if var.isPython3k:
         return _s
     sList =[]
     for x in _s:
@@ -121,24 +113,19 @@ def getUtf8Data(_key):
         if _key=="replacementChars":
             return {}
         else:
-            if Variables.isPython3k:
+            if var.isPython3k:
                 return ""
             else:
                 return unicode("")
-
-def trQVariant(_s):
-    if Variables.isPython3k:
-        return _s
-    return MQtCore.QVariant(trForUI(_s))
 
 def fillMySettings(_setAgain=False, _isCheckUpdate=True):
     global MySettings, isShowVerifySettings, changedDefaultValuesKeys, newSettingsKeys, windowMode, tableType
     from Core import Settings
     sets = Settings.setting()
     settingVersion = trStr(sets.value("settingsVersion"))
-    defaultValues = Variables.getDefaultValues()
-    valueTypesAndValues = Variables.getValueTypesAndValues()
-    for keyValue in Variables.keysOfSettings:
+    defaultValues = var.getDefaultValues()
+    valueTypesAndValues = var.getValueTypesAndValues()
+    for keyValue in var.keysOfSettings:
         value = trStr(sets.value(keyValue, trQVariant(defaultValues[keyValue])))
         if keyValue not in MySettings.keys() or _setAgain:
             MySettings[keyValue] = str(Settings.emendValue(keyValue, value, defaultValues[keyValue], valueTypesAndValues[keyValue]))
@@ -157,7 +144,7 @@ def fillMySettings(_setAgain=False, _isCheckUpdate=True):
     fu.themePath = fu.joinPath(fu.HamsiManagerDirectory, "Themes", MySettings["themeName"])
     if tableType == None:
         tableType = MySettings["tableType"]
-        if tableType not in Variables.tableTypesNames:
+        if tableType not in var.tableTypesNames:
             tableType = "1"
     if getBoolValue("isInstalledKDE4Language")==False:
         from Core import MyConfigure
@@ -227,42 +214,6 @@ def activeWindow():
         return MApplication.activeModalWidget()
     else:
         return MainWindow
-
-def getThisTableType(_tableType):
-    if _tableType in Variables.tableTypesNames:
-        return _tableType
-    else:
-        for (x, name) in Variables.tableTypesNames.items():
-            if str(name) == str(_tableType):
-                return x
-    return "1"
-
-def clearAllChilds(_object, _isClearThis=False):
-    childs = _object.children()
-    for child in childs:
-        clearAllChilds(child, True)
-    if _isClearThis:
-        try:
-            _object.hide()
-            _object.deleteLater()
-        except:pass
-
-def getAllChildren(_object, _objectName=None):
-    children = _object.children()
-    if _objectName is not None:
-        selectedChildren = []
-        for child in children:
-            if str(child.objectName()).find(_objectName)>-1:
-                selectedChildren.append()
-        return selectedChildren
-    return children
-
-def getChild(_object, _objectName):
-    children = getAllChildren(_object)
-    for child in children:
-        if str(child.objectName()) == str(_objectName):
-            return child
-    return None
 
 def startThreadAction():
     global threadActionState

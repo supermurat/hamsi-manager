@@ -23,12 +23,12 @@ import os, sys
 HamsiManagerDirectory = os.getcwd()
 sys.path.insert(0,HamsiManagerDirectory)
 try:
-    from Core import Variables
+    from Core import Variables as var
     import FileUtils as fu
 except:
     HamsiManagerDirectory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(HamsiManagerDirectory)))))
     sys.path.insert(0,HamsiManagerDirectory)
-    from Core import Variables
+    from Core import Variables as var
     import FileUtils as fu
 
 from cx_Freeze import setup, Executable
@@ -58,13 +58,13 @@ data_files = []
 
 if os.name=="posix":
     from Core import MyConfigure
-    installationDirectory = fu.joinPath("/", "usr", "lib", "HamsiManager-" + Variables.version)
+    installationDirectory = fu.joinPath("/", "usr", "lib", "HamsiManager-" + var.version)
     fileContent = MyConfigure.getConfiguredDesktopFileContent(installationDirectory, "/usr/bin/hamsi")
     fu.writeToFile(fu.joinPath(fu.getTempDir(), "HamsiManager.desktop"), fileContent)
     data_files.append((fu.joinPath("/", "usr", "share", "applications"), [fu.joinPath(fu.getTempDir(), "HamsiManager.desktop")]))
     
-    if Variables.isAvailableKDE4():
-        for langCode in Variables.getInstalledLanguagesCodes():
+    if var.isAvailableKDE4():
+        for langCode in var.getInstalledLanguagesCodes():
             KDELocalateDir = fu.joinPath("/", "usr", "share", "locale", str(langCode[:2]), "LC_MESSAGES")
             langFile = fu.joinPath(fu.HamsiManagerDirectory, "Languages", "DontTranslate", str(langCode), "HamsiManager.mo")
             if fu.isFile(langFile):
@@ -125,7 +125,7 @@ MainExe = Executable(
 
 setup(
     name = "HamsiManager",
-    version = Variables.version,
+    version = var.version,
     description  = "Hamsi Manager is a file manager which was developed for extra operations.",
     long_description = fu.readFromFile(os.path.join(HamsiManagerDirectory, "Languages/About_en_GB"), "utf-8"),
     author = "Murat Demir",

@@ -17,9 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
+from Core import Variables as var
 from Core.MyObjects import *
-from Core import Universals
+from Core import Universals as uni
 from Core import Dialogs
 import FileUtils as fu
 import Options
@@ -37,8 +37,8 @@ class Hasher(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Hasher")
-            Universals.setMainWindow(self)
-        newOrChangedKeys = Universals.newSettingsKeys + Universals.changedDefaultValuesKeys
+            uni.setMainWindow(self)
+        newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "hash", None, newOrChangedKeys)
         lblPathOfPackage = MLabel(translate("Hasher", "Path Of The File : "))
         lblHash = MLabel(translate("Hasher", "Hash Type : "))
@@ -46,14 +46,14 @@ class Hasher(MyDialog):
         lblHashDigestFile = MLabel(translate("Hasher", "Hash Digest File : "))
         lblHashDigest = MLabel(translate("Hasher", "Hash Digest : "))
         self.teHashDigest = MTextEdit("")
-        self.cbHash = Options.MyComboBox(self, Variables.getHashTypes(), 0, "HasherHash", self.pathOfPackageChanged)
+        self.cbHash = Options.MyComboBox(self, var.getHashTypes(), 0, "HasherHash", self.pathOfPackageChanged)
         self.cbHashOutput = Options.MyComboBox(self, 
                                 [translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")], 
                                 0, "HasherHashOutput", self.hashOutputChanged)
-        self.leHashDigestFile = MLineEdit(trForUI(_file))
+        self.leHashDigestFile = MLineEdit(str(_file))
         self.pbtnHash = MPushButton(translate("Hasher", "Hash"))
         self.pbtnClose = MPushButton(translate("Hasher", "Close"))
-        self.lePathOfPackage = MLineEdit(trForUI(_file))
+        self.lePathOfPackage = MLineEdit(str(_file))
         self.pbtnHash.setToolTip(translate("Hasher", "Hash the selected file"))
         self.pbtnSelectProjectPath = MPushButton(translate("Hasher", "Browse"))
         self.pbtnSelectPackagePath = MPushButton(translate("Hasher", "Browse"))
@@ -135,7 +135,7 @@ class Hasher(MyDialog):
             if hashType!=None:
                 hashDigestContent = fu.getHashDigest(sourceFile, hashType)
                 if hashDigestContent!=False:
-                    self.teHashDigest.setText(trForUI(hashDigestContent))
+                    self.teHashDigest.setText(str(hashDigestContent))
                     if self.cbHashOutput.currentIndex()==1:
                         if fu.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
@@ -144,7 +144,7 @@ class Hasher(MyDialog):
                             Dialogs.showError(translate("Hasher", "Hash Digest File Is Not Created"),
                                         translate("Hasher", "Hash digest file not cteated."))
                     elif self.cbHashOutput.currentIndex()==2:
-                            MApplication.clipboard().setText(trForUI(hashDigestContent))
+                            MApplication.clipboard().setText(str(hashDigestContent))
                             Dialogs.show(translate("Hasher", "Hash Digest Copied To Clipboard"),
                                         str(translate("Hasher", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:
@@ -157,7 +157,7 @@ class Hasher(MyDialog):
             PathOfPackage = Dialogs.getOpenFileName(translate("Hasher", "Please Select The Pack To Be Created"), self.lePathOfPackage.text(),
                         translate("Hasher", "All Files (*.*)"))
             if PathOfPackage is not None:
-                self.lePathOfPackage.setText(trForUI(PathOfPackage))    
+                self.lePathOfPackage.setText(str(PathOfPackage))
         except:
             ReportBug.ReportBug()
     

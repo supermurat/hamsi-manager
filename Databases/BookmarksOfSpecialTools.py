@@ -17,8 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables
-from Core import Universals
+from Core import Variables as var
+from Core import Universals as uni
 from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
 
 tableName = "bookmarksOfSpecialTools"
@@ -37,7 +37,7 @@ def fetchAll():
 def fetchAllByType(_type=None):
     global allForFetchByType
     if _type==None:
-        _type = Universals.MainWindow.Table.SubTable.keyName
+        _type = uni.MainWindow.Table.SubTable.keyName
     if _type not in allForFetchByType or allForFetchByType[_type]==None:
         from SpecialTools import SpecialActions
         con = getDefaultConnection()
@@ -64,7 +64,7 @@ def checkValues(_value, _type):
 def insert(_value, _type=None):
     global allForFetch, allForFetchByType
     if _type==None:
-        _type = Universals.MainWindow.Table.SubTable.keyName
+        _type = uni.MainWindow.Table.SubTable.keyName
     if checkValues(_value, _type):
         allForFetch, allForFetchByType[_type] = None, None
         con = getDefaultConnection()
@@ -80,7 +80,7 @@ def insert(_value, _type=None):
 def update(_id, _value, _type=None):
     global allForFetch, allForFetchByType
     if _type==None:
-        _type = Universals.MainWindow.Table.SubTable.keyName
+        _type = uni.MainWindow.Table.SubTable.keyName
     if checkValues(_value, _type):
         allForFetch, allForFetchByType[_type] = None, None
         con = getDefaultConnection()
@@ -90,7 +90,7 @@ def update(_id, _value, _type=None):
 
 def delete(_id, _type=None):
     if _type==None:
-        _type = Universals.MainWindow.Table.SubTable.keyName
+        _type = uni.MainWindow.Table.SubTable.keyName
     global allForFetch, allForFetchByType
     allForFetch, allForFetchByType[_type] = None, None
     con = getDefaultConnection()

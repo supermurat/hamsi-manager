@@ -19,9 +19,9 @@
 
 import sys
 import os
-from Core import Variables
+from Core import Variables as var
 import FileUtils as fu
-from Core import Universals
+from Core import Universals as uni
 
 def reConfigureFile(_filePath, _installationDirectory=fu.HamsiManagerDirectory, _executeCommandOfHamsiManager=None):
     fileContent = getConfiguredContent(fu.readFromFile(_filePath), _executeCommandOfHamsiManager)
@@ -29,17 +29,17 @@ def reConfigureFile(_filePath, _installationDirectory=fu.HamsiManagerDirectory, 
     fu.writeToFile(_filePath, fileContent)
 
 def installKDE4Languages():
-    if Variables.isAvailableKDE4():
-        for langCode in Variables.getInstalledLanguagesCodes():
+    if var.isAvailableKDE4():
+        for langCode in var.getInstalledLanguagesCodes():
             installKDE4Language(langCode)
-        Universals.setMySetting("isInstalledKDE4Language", True)
+        uni.setMySetting("isInstalledKDE4Language", True)
         return True
     return False
 
 def installKDE4Language(_language="tr_TR"):
-    if Variables.isAvailableKDE4():
-        KDELocalateDir = fu.joinPath(Variables.getKDE4HomePath(), "share", "locale", str(_language[:2]), "LC_MESSAGES")
-        if Variables.isRunningAsRoot():
+    if var.isAvailableKDE4():
+        KDELocalateDir = fu.joinPath(var.getKDE4HomePath(), "share", "locale", str(_language[:2]), "LC_MESSAGES")
+        if var.isRunningAsRoot():
             KDELocalateDir = fu.joinPath("/usr", "share", "locale", str(_language[:2]), "LC_MESSAGES")
         KDELocalateDir = str(KDELocalateDir)
         langFile = fu.joinPath(fu.HamsiManagerDirectory, "Languages", "DontTranslate", str(_language), "HamsiManager.mo")
