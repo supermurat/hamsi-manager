@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import sys,os
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Settings
 from Core import Dialogs
@@ -60,9 +59,9 @@ class General(MWidget):
                     translate("Options/General", "You can select Hamsi Manager`s language.")]
         self.typesOfValues = ["Yes/No", "Yes/No", ["number", 2], 
                                 ["number", 1], ["options", 0]]
-        self.valuesOfOptions = [var.getInstalledLanguagesNames(),
+        self.valuesOfOptions = [uni.getInstalledLanguagesNames(),
                                 ["1", "30"], ["10", "100000"]]
-        self.valuesOfOptionsKeys = [var.getInstalledLanguagesCodes(),
+        self.valuesOfOptionsKeys = [uni.getInstalledLanguagesCodes(),
                                 ["1", "30"], ["10", "100000"]]
         _parent.createOptions(self)
         if isActivePyKDE4:
@@ -118,9 +117,9 @@ class Appearance(MWidget):
                     translate("Options/Appearance", "Are you want to resize table columns to contents?")]
         self.typesOfValues = [["options", 0], ["options", 1], ["options", 3], 
                                 "Yes/No", "Yes/No", "Yes/No", ["options", 2], "Yes/No"]
-        styles = var.getStyles()
-        themes = var.getInstalledThemes()
-        schemes, schemePaths  = var.getColorSchemesAndPath()
+        styles = uni.getStyles()
+        themes = uni.getInstalledThemes()
+        schemes, schemePaths  = uni.getColorSchemesAndPath()
         if isActivePyKDE4==False:
             keyNo = self.keysOfSettings.index("colorSchemes")
             del self.keysOfSettings[keyNo]
@@ -131,7 +130,7 @@ class Appearance(MWidget):
                                 [translate("Options/Appearance", "Normal"), 
                                     translate("Options/Appearance", "Mini")], schemes]
         self.valuesOfOptionsKeys = [styles, themes, 
-                                var.windowModeKeys, schemePaths]
+                                uni.windowModeKeys, schemePaths]
         _parent.createOptions(self)
         if self.visibleKeys.count("applicationStyle")>0:
             MObject.connect(self.values[self.keysOfSettings.index("applicationStyle")], SIGNAL("currentIndexChanged(int)"), self.styleChanged)
@@ -217,8 +216,8 @@ class Correct(MWidget):
                                 [translate("Options/Correct", "After The First Point"), 
                                     translate("Options/Correct", "After The Last Point"), 
                                     translate("Options/Correct", "Be Smart")]]
-        self.valuesOfOptionsKeys = [var.validSentenceStructureKeys,
-                        var.fileExtensionIsKeys]
+        self.valuesOfOptionsKeys = [uni.validSentenceStructureKeys,
+                        uni.fileExtensionIsKeys]
         _parent.createOptions(self)
         if self.visibleKeys.count("isActiveCompleter")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isActiveCompleter")], SIGNAL("currentIndexChanged(int)"), self.activeCompleterChanged)
@@ -539,13 +538,13 @@ class Cover(MWidget):
                     ["trString", 0], ["options", 0]]
         self.valuesOfOptions = [["png", "jpg"]]
         self.valuesOfOptionsKeys = [["png", "jpg"]]
-        self.stringSearchList = [var.iconNameFormatKeys]
-        self.stringReplaceList = [var.iconNameFormatLabels]
+        self.stringSearchList = [uni.iconNameFormatKeys]
+        self.stringReplaceList = [uni.iconNameFormatLabels]
         _parent.createOptions(self) 
         if self.visibleKeys.count("isActiveAutoMakeIconToDirectory")>0:
             MObject.connect(self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")], SIGNAL("currentIndexChanged(int)"), self.activeAutoMakeIconToDirectory)
             self.activeAutoMakeIconToDirectory()
-        if var.isActiveAmarok==False:
+        if uni.isActiveAmarok==False:
             self.tabwTabs.setTabEnabled(1, False)
             
     def activeAutoMakeIconToDirectory(self):
@@ -592,7 +591,7 @@ class Advanced(MWidget):
                     translate("Options/Advanced", "You can select a directory to move files to it."), 
                     translate("Options/Advanced", "You can select size of directory of deleted to get notification when it is over.(Megabytes)")]
         self.typesOfValues = [["options", 0], "list", "list", "Yes/No", ["directory", "exist"], ["number", 1]]
-        charSets = var.getCharSets()
+        charSets = uni.getCharSets()
         self.valuesOfOptions = [charSets, ["10", "100000"]]
         self.valuesOfOptionsKeys = [charSets, ["10", "100000"]]
         _parent.createOptions(self) 
@@ -639,8 +638,8 @@ class Player(MWidget):
                     translate("Options/Player", "The argument used to point to the sound device you want to use.<br><font color=red>Default value: -ao</font>"),
                     translate("Options/Player", "The sound device you want to use.<br><font color=red>Default value: alsa</font>")]
         self.typesOfValues = [["options", 0], ["file", "executable"], "string", "string", ["options", 1]]
-        self.valuesOfOptions = [var.getAvailablePlayers(), var.mplayerSoundDevices]
-        self.valuesOfOptionsKeys = [var.getAvailablePlayers(), var.mplayerSoundDevices]
+        self.valuesOfOptions = [uni.getAvailablePlayers(), uni.mplayerSoundDevices]
+        self.valuesOfOptionsKeys = [uni.getAvailablePlayers(), uni.mplayerSoundDevices]
         _parent.createOptions(self)
         if self.visibleKeys.count("playerName")>0:
             MObject.connect(self.values[self.keysOfSettings.index("playerName")], SIGNAL("currentIndexChanged(int)"), self.playerChanged)
@@ -859,7 +858,7 @@ class HiddenObjects(MWidget):
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
-        if var.isActiveDirectoryCover==False:
+        if uni.isActiveDirectoryCover==False:
             self.visibleKeys.remove("isShowHiddensInCoverTable")
         _parent.createOptions(self)
 

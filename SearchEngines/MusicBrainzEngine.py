@@ -114,20 +114,20 @@ class Search(MDialog):
     def startSearch(self):
         if self.isCheckSingleFile:
             self.prgbAllState.setRange(0,1)
-            self.rows = list(range(uni.MainWindow.Table.currentRow(), uni.MainWindow.Table.currentRow()+1))
+            self.rows = list(range(getMainWindow().Table.currentRow(), getMainWindow().Table.currentRow()+1))
             self.heightValue = 150
         else:
-            self.prgbAllState.setRange(0,uni.MainWindow.Table.rowCount())
-            self.rows = list(range(uni.MainWindow.Table.rowCount()))
-            if uni.MainWindow.Table.rowCount()<7:
+            self.prgbAllState.setRange(0,getMainWindow().Table.rowCount())
+            self.rows = list(range(getMainWindow().Table.rowCount()))
+            if getMainWindow().Table.rowCount()<7:
                 self.heightValue = 300
             else:
                 self.heightValue = 500
         tagsOfSongs = []
         for rowNo in self.rows:
-            tagsOfSongs.append([str(uni.MainWindow.Table.item(rowNo,2).text()),
-                               str(uni.MainWindow.Table.item(rowNo,3).text()),
-                               str(uni.MainWindow.Table.item(rowNo,4).text()), rowNo])
+            tagsOfSongs.append([str(getMainWindow().Table.item(rowNo,2).text()),
+                               str(getMainWindow().Table.item(rowNo,3).text()),
+                               str(getMainWindow().Table.item(rowNo,4).text()), rowNo])
         uni.startThreadAction()
         for tagsOfSong in tagsOfSongs:
             isContinueThreadAction = uni.isContinueThreadAction()
@@ -140,7 +140,7 @@ class Search(MDialog):
                 except ValueError as errorDetails:
                     Dialogs.showError(translate("SearchEngines", "An Error Occured"),
                                 str(translate("SearchEngines", "Fetching information for the music file that caused the error is canceled.<br>If you receive the same error, please try the other search engines.<br><b>Error details:</b><br>%s")) % (str(errorDetails)))
-                    self.incorrectSongs.append([[uni.MainWindow.Table.item(tagsOfSong[3],1).text()], [tagsOfSong[0]], [tagsOfSong[1]], [tagsOfSong[2]], tagsOfSong[3]])
+                    self.incorrectSongs.append([[getMainWindow().Table.item(tagsOfSong[3],1).text()], [tagsOfSong[0]], [tagsOfSong[1]], [tagsOfSong[2]], tagsOfSong[3]])
                 self.emit(SIGNAL("changedProgressBarValue"), "AllState", tagsOfSong[3]+1)
         uni.finishThreadAction()
         return True

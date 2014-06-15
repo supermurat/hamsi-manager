@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
@@ -57,7 +56,7 @@ class FilterWidget(MWidget):
     def apply(self):
         try:
             uni.setMySetting(self.filterKeyName, str(self.leFilter.text()))
-            uni.MainWindow.Table.refresh(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+            getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
         except:
             ReportBug.ReportBug()
 

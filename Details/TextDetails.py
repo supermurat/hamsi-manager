@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
@@ -51,7 +50,7 @@ class TextDetails(MDialog):
                 if isActivePyKDE4:
                     self.setButtons(MDialog.NoDefault)
                 self.charSet = MComboBox()
-                self.charSet.addItems(var.getCharSets())
+                self.charSet.addItems(uni.getCharSets())
                 self.charSet.setCurrentIndex(self.charSet.findText(uni.MySettings["fileSystemEncoding"]))
                 self.infoLabels = {}
                 self.infoValues = {}
@@ -86,7 +85,7 @@ class TextDetails(MDialog):
             Dialogs.showError(translate("TextDetails", "File Does Not Exist"), 
                         str(translate("TextDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
                             )% Organizer.getLink(str(_filePath)))
-            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
+            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
         self.fileValues = fu.readTextFile(_filePath, uni.MySettings["fileSystemEncoding"])
@@ -104,7 +103,7 @@ class TextDetails(MDialog):
         self.infoValues["content"] = MPlainTextEdit(str(Organizer.emend(self.fileValues["content"], "text", False, True)))
         self.infoValues["content"].setLineWrapMode(MPlainTextEdit.NoWrap)
         self.sourceCharSet = MComboBox()
-        self.sourceCharSet.addItems(var.getCharSets())
+        self.sourceCharSet.addItems(uni.getCharSets())
         self.sourceCharSet.setCurrentIndex(self.sourceCharSet.findText(uni.MySettings["fileSystemEncoding"]))
         MObject.connect(self.sourceCharSet, SIGNAL("currentIndexChanged(int)"), self.sourceCharSetChanged)
         HBOXs = []
@@ -145,7 +144,7 @@ class TextDetails(MDialog):
             newPath = fu.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
             if newPath!=self.fileValues["path"]:
                 self.changeFile(newPath)
-            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
+            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()

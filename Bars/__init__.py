@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 import Tables
 import SpecialTools
 from Core import Universals as uni
@@ -35,11 +34,11 @@ from Bars import SubDirectoryOptionsBar, PlayerBar, MusicOptionsBar, CoverOption
 
 class Bars():
     def __init__(self):
-        uni.MainWindow.MusicOptionsBar = None
-        uni.MainWindow.AmarokMusicOptionsBar = None
-        uni.MainWindow.AmarokCopyOptionsBar = None
-        uni.MainWindow.SubDirectoryOptionsBar = None
-        uni.MainWindow.CoverOptionsBar = None
+        getMainWindow().MusicOptionsBar = None
+        getMainWindow().AmarokMusicOptionsBar = None
+        getMainWindow().AmarokCopyOptionsBar = None
+        getMainWindow().SubDirectoryOptionsBar = None
+        getMainWindow().CoverOptionsBar = None
         
     def click(self, _action):
         try:
@@ -57,52 +56,52 @@ class Bars():
                             translate("MenuBar", "Current state saved with preferences.<br>You can continue where you left off."))
             elif actionName==translate("MenuBar", "With This Profile (My Settings)"):
                 if Execute.executeAsRootWithThread(["--sDirectoryPath", fu.pathOfSettingsDirectory], "HamsiManager"):
-                    uni.MainWindow.close()
+                    getMainWindow().close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
             elif actionName==translate("MenuBar", "With Root Profile (Own Settings)"):
                 if Execute.executeAsRootWithThread([], "HamsiManager"):
-                    uni.MainWindow.close()
+                    getMainWindow().close()
                 else:
                     Dialogs.showError(translate("MenuBar", "Can Not Run As Root"), translate("MenuBar", "Hamsi Manager can not run as root."))
             elif actionName==translate("MenuBar", "Quit"):
-                uni.MainWindow.close()
+                getMainWindow().close()
             elif actionName==translate("MenuBar", "HTML Format"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    uni.MainWindow.Table.exportValues("file", "html", "title")
+                    getMainWindow().Table.exportValues("file", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    uni.MainWindow.Table.exportValues("dialog", "html", "title")
+                    getMainWindow().Table.exportValues("dialog", "html", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    uni.MainWindow.Table.exportValues("clipboard", "html", "title")
+                    getMainWindow().Table.exportValues("clipboard", "html", "title")
             elif actionName==translate("MenuBar", "Text Format"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    uni.MainWindow.Table.exportValues("file", "plainText", "title")
+                    getMainWindow().Table.exportValues("file", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    uni.MainWindow.Table.exportValues("dialog", "plainText", "title")
+                    getMainWindow().Table.exportValues("dialog", "plainText", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    uni.MainWindow.Table.exportValues("clipboard", "plainText", "title")
+                    getMainWindow().Table.exportValues("clipboard", "plainText", "title")
             elif actionName==translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    fu.getFileTree((uni.MainWindow.FileManager.currentDirectory), 0, "file", "html", "fileTree", "title")
+                    fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "file", "html", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    fu.getFileTree((uni.MainWindow.FileManager.currentDirectory), 0, "dialog", "html", "fileTree", "title")
+                    fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "dialog", "html", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    fu.getFileTree((uni.MainWindow.FileManager.currentDirectory), 0, "clipboard", "html", "fileTree", "title")
+                    fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "clipboard", "html", "fileTree", "title")
             elif actionName==translate("MenuBar", "Text Format (File Tree)"):
                 if _action.parent().objectName()==translate("MenuBar", "Export To File"):
-                    fu.getFileTree((uni.MainWindow.FileManager.currentDirectory), 0, "file", "plainText", "fileTree", "title")
+                    fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "file", "plainText", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Show In New Window"):
-                    fu.getFileTree((uni.MainWindow.FileManager.currentDirectory), 0, "dialog", "plainText", "fileTree", "title")
+                    fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "dialog", "plainText", "fileTree", "title")
                 elif _action.parent().objectName()==translate("MenuBar", "Copy To Clipboard"):
-                    fu.getFileTree((uni.MainWindow.FileManager.currentDirectory), 0, "clipboard", "plainText", "fileTree", "title")
+                    fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "clipboard", "plainText", "fileTree", "title")
             elif actionName==translate("MenuBar", "About QT"):
                 if isActivePyKDE4:
-                    QMessageBox.aboutQt(uni.MainWindow, translate("MenuBar", "About QT"))
+                    QMessageBox.aboutQt(getMainWindow(), translate("MenuBar", "About QT"))
                 else:
-                    MMessageBox.aboutQt(uni.MainWindow, translate("MenuBar", "About QT"))
+                    MMessageBox.aboutQt(getMainWindow(), translate("MenuBar", "About QT"))
             elif actionName==translate("MenuBar", "Options"):
                 from Options import OptionsForm
-                OptionsForm.OptionsForm(uni.MainWindow)
+                OptionsForm.OptionsForm(getMainWindow())
             elif actionName==translate("MenuBar", "My Plugins"):
                 import MyPlugins
                 MyPlugins.MyPlugins()
@@ -115,7 +114,7 @@ class Bars():
                 Execute.execute(["--qm", "--configurator", "--runAsRoot"], "HamsiManager")
             elif actionName==translate("MenuBar", "Update"):
                 from Core import UpdateControl
-                UpdateControl.UpdateControl(uni.MainWindow)
+                UpdateControl.UpdateControl(getMainWindow())
             elif actionName==translate("MenuBar", "Report Bug"):
                 ReportBug.ReportBug(True)
             elif actionName==translate("MenuBar", "Suggest Idea"):
@@ -123,62 +122,62 @@ class Bars():
                 SuggestIdea.SuggestIdea()
             elif actionName==translate("MenuBar", "About Hamsi Manager"):
                 if isActivePyKDE4==False:
-                    MMessageBox.about(uni.MainWindow, translate("MenuBar", "About Hamsi Manager"), var.aboutOfHamsiManager)
+                    MMessageBox.about(getMainWindow(), translate("MenuBar", "About Hamsi Manager"), uni.aboutOfHamsiManager)
             elif actionName==translate("ToolsBar", "Check Icon"):
-                uni.MainWindow.setEnabled(False)
-                fu.checkIcon(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+                getMainWindow().setEnabled(False)
+                fu.checkIcon(getMainWindow().FileManager.getCurrentDirectoryPath())
                 Dialogs.show(translate("ToolsBar", "Directory Icon Checked"),
                         translate("ToolsBar", "Current directory icon checked.<br>The default action based on the data is executed."))
-                uni.MainWindow.setEnabled(True)
+                getMainWindow().setEnabled(True)
             elif actionName==translate("ToolsBar", "Clear Empty Directories"):
-                if uni.MainWindow.Table.checkUnSavedValues()==False:
+                if getMainWindow().Table.checkUnSavedValues()==False:
                     _action.setChecked(False)
                     return False
                 answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
-                        str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(uni.MainWindow.FileManager.getCurrentDirectoryPath()))
+                        str(translate("ToolsBar", "Are you sure you want to remove empty directories based on the criteria you set in \"%s\"?")) % Organizer.getLink(getMainWindow().FileManager.getCurrentDirectoryPath()))
                 if answer==Dialogs.Yes:
-                    uni.MainWindow.setEnabled(False)
-                    currentDirPath = uni.MainWindow.FileManager.getCurrentDirectoryPath()
+                    getMainWindow().setEnabled(False)
+                    currentDirPath = getMainWindow().FileManager.getCurrentDirectoryPath()
                     if fu.isWritableFileOrDir(currentDirPath):
                         fu.checkEmptyDirectories(currentDirPath, True, True, True, True)
                         Dialogs.show(translate("ToolsBar", "Directory Cleaned"),
                             translate("ToolsBar", "The current directory is cleaned based on the criteria you set."))
-                    uni.MainWindow.setEnabled(True)
-                    uni.MainWindow.FileManager.makeRefresh()
+                    getMainWindow().setEnabled(True)
+                    getMainWindow().FileManager.makeRefresh()
             elif actionName==translate("ToolsBar", "Pack"):
                 from Tools import Packager
-                Packager.Packager(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+                Packager.Packager(getMainWindow().FileManager.getCurrentDirectoryPath())
             elif actionName==translate("ToolsBar", "Hash"):
                 from Tools import Hasher
-                Hasher.Hasher(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+                Hasher.Hasher(getMainWindow().FileManager.getCurrentDirectoryPath())
             elif actionName==translate("ToolsBar", "Clear"):
                 from Tools import Cleaner
-                Cleaner.Cleaner(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+                Cleaner.Cleaner(getMainWindow().FileManager.getCurrentDirectoryPath())
             elif actionName==translate("ToolsBar", "Text Corrector"):
                 from Tools import TextCorrector
-                TextCorrector.TextCorrector(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+                TextCorrector.TextCorrector(getMainWindow().FileManager.getCurrentDirectoryPath())
             elif actionName==translate("ToolsBar", "File Tree"):
                 from Tools import FileTreeBuilder
-                FileTreeBuilder.FileTreeBuilder(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+                FileTreeBuilder.FileTreeBuilder(getMainWindow().FileManager.getCurrentDirectoryPath())
             elif actionName==translate("ToolsBar", "Search"):
                 from Tools import Searcher
-                Searcher.Searcher([uni.MainWindow.FileManager.getCurrentDirectoryPath()])
+                Searcher.Searcher([getMainWindow().FileManager.getCurrentDirectoryPath()])
             elif actionName==translate("ToolsBar", "Script Manager"):
                 from Tools import ScriptManager
                 if ScriptManager.ScriptManager.checkScriptManager():
-                    ScriptManager.ScriptManager(uni.MainWindow)
+                    ScriptManager.ScriptManager(getMainWindow())
             elif actionName==translate("ToolsBar", "Show Last Actions"):
                 from Core import RecordsForm
-                RecordsForm.RecordsForm(uni.MainWindow)
+                RecordsForm.RecordsForm(getMainWindow())
             elif actionName==translate("ToolsBar", "Remove Sub Files"):
                 answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
-                        str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(uni.MainWindow.FileManager.getCurrentDirectoryPath()))
+                        str(translate("ToolsBar", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(getMainWindow().FileManager.getCurrentDirectoryPath()))
                 if answer==Dialogs.Yes:
-                    uni.MainWindow.setEnabled(False)
-                    fu.removeOnlySubFiles(uni.MainWindow.FileManager.getCurrentDirectoryPath())
-                    uni.MainWindow.setEnabled(True)
+                    getMainWindow().setEnabled(False)
+                    fu.removeOnlySubFiles(getMainWindow().FileManager.getCurrentDirectoryPath())
+                    getMainWindow().setEnabled(True)
                     Dialogs.show(translate("ToolsBar", "Removed Only All Files"),
-                        str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(uni.MainWindow.FileManager.getCurrentDirectoryPath()))
+                        str(translate("ToolsBar", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(getMainWindow().FileManager.getCurrentDirectoryPath()))
             elif actionName==translate("ToolsBar", "Amarok Embedded Database Configurator"):
                 import Amarok
                 if Amarok.checkAmarok():
@@ -195,101 +194,101 @@ class Bars():
             ReportBug.ReportBug()
     
     def refreshBars(self):
-        uni.MainWindow.Table = Tables.Tables(uni.MainWindow)
-        uni.MainWindow.SpecialTools = SpecialTools.SpecialTools(uni.MainWindow)
-        uni.MainWindow.Menu.mSpecialOptions.clear()
+        getMainWindow().Table = Tables.Tables(getMainWindow())
+        getMainWindow().SpecialTools = SpecialTools.SpecialTools(getMainWindow())
+        getMainWindow().Menu.mSpecialOptions.clear()
         if uni.tableType=="2":
-            uni.MainWindow.PlayerBar = PlayerBar.PlayerBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.PlayerBar)
-            uni.MainWindow.MusicOptionsBar = MusicOptionsBar.MusicOptionsBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.MusicOptionsBar)
-            uni.MainWindow.MusicOptionsBar.getSpecialOptions(uni.MainWindow.Menu.mSpecialOptions)
+            getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().PlayerBar)
+            getMainWindow().MusicOptionsBar = MusicOptionsBar.MusicOptionsBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().MusicOptionsBar)
+            getMainWindow().MusicOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
         elif uni.tableType=="3":
-            uni.MainWindow.SubDirectoryOptionsBar = SubDirectoryOptionsBar.SubDirectoryOptionsBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.SubDirectoryOptionsBar)
-            uni.MainWindow.SubDirectoryOptionsBar.getSpecialOptions(uni.MainWindow.Menu.mSpecialOptions)
+            getMainWindow().SubDirectoryOptionsBar = SubDirectoryOptionsBar.SubDirectoryOptionsBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().SubDirectoryOptionsBar)
+            getMainWindow().SubDirectoryOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
         elif uni.tableType=="4":
-            uni.MainWindow.CoverOptionsBar = CoverOptionsBar.CoverOptionsBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.CoverOptionsBar)
-            uni.MainWindow.CoverOptionsBar.getSpecialOptions(uni.MainWindow.Menu.mSpecialOptions)
+            getMainWindow().CoverOptionsBar = CoverOptionsBar.CoverOptionsBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().CoverOptionsBar)
+            getMainWindow().CoverOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
         elif uni.tableType=="6":
-            uni.MainWindow.PlayerBar = PlayerBar.PlayerBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.PlayerBar)
-            uni.MainWindow.AmarokMusicOptionsBar = AmarokMusicOptionsBar.AmarokMusicOptionsBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.AmarokMusicOptionsBar)
-            uni.MainWindow.AmarokMusicOptionsBar.getSpecialOptions(uni.MainWindow.Menu.mSpecialOptions)
+            getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().PlayerBar)
+            getMainWindow().AmarokMusicOptionsBar = AmarokMusicOptionsBar.AmarokMusicOptionsBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().AmarokMusicOptionsBar)
+            getMainWindow().AmarokMusicOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
         elif uni.tableType=="8":
-            uni.MainWindow.PlayerBar = PlayerBar.PlayerBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.PlayerBar)
-            uni.MainWindow.AmarokCopyOptionsBar = AmarokCopyOptionsBar.AmarokCopyOptionsBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.AmarokCopyOptionsBar)
-            uni.MainWindow.AmarokCopyOptionsBar.getSpecialOptions(uni.MainWindow.Menu.mSpecialOptions)
+            getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().PlayerBar)
+            getMainWindow().AmarokCopyOptionsBar = AmarokCopyOptionsBar.AmarokCopyOptionsBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().AmarokCopyOptionsBar)
+            getMainWindow().AmarokCopyOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
         elif uni.tableType=="9":
-            uni.MainWindow.PlayerBar = PlayerBar.PlayerBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.PlayerBar)
-            uni.MainWindow.MusicOptionsBar = MusicOptionsBar.MusicOptionsBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.MusicOptionsBar)
-            uni.MainWindow.MusicOptionsBar.getSpecialOptions(uni.MainWindow.Menu.mSpecialOptions)
-            uni.MainWindow.SubDirectoryOptionsBar = SubDirectoryOptionsBar.SubDirectoryOptionsBar(uni.MainWindow)
-            uni.MainWindow.addToolBar(Mt.TopToolBarArea,uni.MainWindow.SubDirectoryOptionsBar)
-            uni.MainWindow.SubDirectoryOptionsBar.getSpecialOptions(uni.MainWindow.Menu.mSpecialOptions)
-        if len(uni.MainWindow.Menu.mSpecialOptions.actions())==0:
-            uni.MainWindow.Menu.mSpecialOptions.setEnabled(False)
+            getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().PlayerBar)
+            getMainWindow().MusicOptionsBar = MusicOptionsBar.MusicOptionsBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().MusicOptionsBar)
+            getMainWindow().MusicOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
+            getMainWindow().SubDirectoryOptionsBar = SubDirectoryOptionsBar.SubDirectoryOptionsBar(getMainWindow())
+            getMainWindow().addToolBar(Mt.TopToolBarArea,getMainWindow().SubDirectoryOptionsBar)
+            getMainWindow().SubDirectoryOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
+        if len(getMainWindow().Menu.mSpecialOptions.actions())==0:
+            getMainWindow().Menu.mSpecialOptions.setEnabled(False)
         else:
-            uni.MainWindow.Menu.mSpecialOptions.setEnabled(True)
-        uni.MainWindow.Menu.refreshForTableType()
+            getMainWindow().Menu.mSpecialOptions.setEnabled(True)
+        getMainWindow().Menu.refreshForTableType()
         
     def changeTableTypeByType(self, _tableType):
         try:
             if uni.tableType != _tableType:
-                if uni.MainWindow.Table.checkUnSavedValues()==False:
+                if getMainWindow().Table.checkUnSavedValues()==False:
                     return False
-                uni.setMySetting(uni.MainWindow.Table.SubTable.hiddenTableColumnsSettingKey,uni.MainWindow.Table.hiddenTableColumns)
+                uni.setMySetting(getMainWindow().Table.SubTable.hiddenTableColumnsSettingKey,getMainWindow().Table.hiddenTableColumns)
                 if uni.tableType=="2":
-                    uni.MainWindow.removeToolBar(uni.MainWindow.PlayerBar)
-                    uni.MainWindow.PlayerBar.deleteLater()
-                    uni.MainWindow.PlayerBar = None
-                    uni.MainWindow.removeToolBar(uni.MainWindow.MusicOptionsBar)
-                    uni.MainWindow.MusicOptionsBar.deleteLater()
-                    uni.MainWindow.MusicOptionsBar = None
+                    getMainWindow().removeToolBar(getMainWindow().PlayerBar)
+                    getMainWindow().PlayerBar.deleteLater()
+                    getMainWindow().PlayerBar = None
+                    getMainWindow().removeToolBar(getMainWindow().MusicOptionsBar)
+                    getMainWindow().MusicOptionsBar.deleteLater()
+                    getMainWindow().MusicOptionsBar = None
                 elif uni.tableType=="3":
-                    uni.MainWindow.removeToolBar(uni.MainWindow.SubDirectoryOptionsBar)
-                    uni.MainWindow.SubDirectoryOptionsBar.deleteLater()
-                    uni.MainWindow.SubDirectoryOptionsBar = None
+                    getMainWindow().removeToolBar(getMainWindow().SubDirectoryOptionsBar)
+                    getMainWindow().SubDirectoryOptionsBar.deleteLater()
+                    getMainWindow().SubDirectoryOptionsBar = None
                 elif uni.tableType=="4":
-                    uni.MainWindow.removeToolBar(uni.MainWindow.CoverOptionsBar)
-                    uni.MainWindow.CoverOptionsBar.deleteLater()
-                    uni.MainWindow.CoverOptionsBar = None
+                    getMainWindow().removeToolBar(getMainWindow().CoverOptionsBar)
+                    getMainWindow().CoverOptionsBar.deleteLater()
+                    getMainWindow().CoverOptionsBar = None
                 elif uni.tableType=="6":
-                    uni.MainWindow.removeToolBar(uni.MainWindow.PlayerBar)
-                    uni.MainWindow.PlayerBar.deleteLater()
-                    uni.MainWindow.PlayerBar = None
-                    uni.MainWindow.removeToolBar(uni.MainWindow.AmarokMusicOptionsBar)
-                    uni.MainWindow.AmarokMusicOptionsBar.deleteLater()
-                    uni.MainWindow.AmarokMusicOptionsBar = None
+                    getMainWindow().removeToolBar(getMainWindow().PlayerBar)
+                    getMainWindow().PlayerBar.deleteLater()
+                    getMainWindow().PlayerBar = None
+                    getMainWindow().removeToolBar(getMainWindow().AmarokMusicOptionsBar)
+                    getMainWindow().AmarokMusicOptionsBar.deleteLater()
+                    getMainWindow().AmarokMusicOptionsBar = None
                 elif uni.tableType=="8":
-                    uni.MainWindow.removeToolBar(uni.MainWindow.PlayerBar)
-                    uni.MainWindow.PlayerBar.deleteLater()
-                    uni.MainWindow.PlayerBar = None
-                    uni.MainWindow.removeToolBar(uni.MainWindow.AmarokCopyOptionsBar)
-                    uni.MainWindow.AmarokCopyOptionsBar.deleteLater()
-                    uni.MainWindow.AmarokCopyOptionsBar = None
+                    getMainWindow().removeToolBar(getMainWindow().PlayerBar)
+                    getMainWindow().PlayerBar.deleteLater()
+                    getMainWindow().PlayerBar = None
+                    getMainWindow().removeToolBar(getMainWindow().AmarokCopyOptionsBar)
+                    getMainWindow().AmarokCopyOptionsBar.deleteLater()
+                    getMainWindow().AmarokCopyOptionsBar = None
                 elif uni.tableType=="9":
-                    uni.MainWindow.removeToolBar(uni.MainWindow.PlayerBar)
-                    uni.MainWindow.PlayerBar.deleteLater()
-                    uni.MainWindow.PlayerBar = None
-                    uni.MainWindow.removeToolBar(uni.MainWindow.MusicOptionsBar)
-                    uni.MainWindow.MusicOptionsBar.deleteLater()
-                    uni.MainWindow.MusicOptionsBar = None
-                    uni.MainWindow.removeToolBar(uni.MainWindow.SubDirectoryOptionsBar)
-                    uni.MainWindow.SubDirectoryOptionsBar.deleteLater()
-                    uni.MainWindow.SubDirectoryOptionsBar = None
-                try:uni.MainWindow.removeDockWidget(uni.MainWindow.dckSpecialTools)
+                    getMainWindow().removeToolBar(getMainWindow().PlayerBar)
+                    getMainWindow().PlayerBar.deleteLater()
+                    getMainWindow().PlayerBar = None
+                    getMainWindow().removeToolBar(getMainWindow().MusicOptionsBar)
+                    getMainWindow().MusicOptionsBar.deleteLater()
+                    getMainWindow().MusicOptionsBar = None
+                    getMainWindow().removeToolBar(getMainWindow().SubDirectoryOptionsBar)
+                    getMainWindow().SubDirectoryOptionsBar.deleteLater()
+                    getMainWindow().SubDirectoryOptionsBar = None
+                try:getMainWindow().removeDockWidget(getMainWindow().dckSpecialTools)
                 except:pass
-                uni.MainWindow.resetCentralWidget()
+                getMainWindow().resetCentralWidget()
                 uni.tableType = _tableType
                 self.refreshBars()
-                uni.MainWindow.FileManager.makeRefresh()
+                getMainWindow().FileManager.makeRefresh()
                 MApplication.processEvents()
                 return True
             else:
@@ -312,59 +311,59 @@ class Bars():
             ReportBug.ReportBug()
     
     def getAllBarsStyleFromMySettings(self):
-        uni.MainWindow.TableToolsBar.setToolButtonStyle(int(uni.MySettings["TableToolsBarButtonStyle"]))
-        uni.MainWindow.ToolsBar.setToolButtonStyle(int(uni.MySettings["ToolsBarButtonStyle"]))
+        getMainWindow().TableToolsBar.setToolButtonStyle(int(uni.MySettings["TableToolsBarButtonStyle"]))
+        getMainWindow().ToolsBar.setToolButtonStyle(int(uni.MySettings["ToolsBarButtonStyle"]))
         if uni.tableType=="2":
-            uni.MainWindow.PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
-            uni.MainWindow.MusicOptionsBar.setToolButtonStyle(int(uni.MySettings["MusicOptionsBarButtonStyle"]))
+            getMainWindow().PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
+            getMainWindow().MusicOptionsBar.setToolButtonStyle(int(uni.MySettings["MusicOptionsBarButtonStyle"]))
         elif uni.tableType=="3":
-            uni.MainWindow.SubDirectoryOptionsBar.setToolButtonStyle(int(uni.MySettings["SubDirectoryOptionsBarButtonStyle"]))
+            getMainWindow().SubDirectoryOptionsBar.setToolButtonStyle(int(uni.MySettings["SubDirectoryOptionsBarButtonStyle"]))
         elif uni.tableType=="4":
-            uni.MainWindow.CoverOptionsBar.setToolButtonStyle(int(uni.MySettings["CoverOptionsBarButtonStyle"]))
+            getMainWindow().CoverOptionsBar.setToolButtonStyle(int(uni.MySettings["CoverOptionsBarButtonStyle"]))
         elif uni.tableType=="6":
-            uni.MainWindow.PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
-            uni.MainWindow.AmarokMusicOptionsBar.setToolButtonStyle(int(uni.MySettings["AmarokMusicOptionsBarButtonStyle"]))
+            getMainWindow().PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
+            getMainWindow().AmarokMusicOptionsBar.setToolButtonStyle(int(uni.MySettings["AmarokMusicOptionsBarButtonStyle"]))
         elif uni.tableType=="8":
-            uni.MainWindow.PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
-            uni.MainWindow.AmarokCopyOptionsBar.setToolButtonStyle(int(uni.MySettings["AmarokCopyOptionsBarButtonStyle"]))
+            getMainWindow().PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
+            getMainWindow().AmarokCopyOptionsBar.setToolButtonStyle(int(uni.MySettings["AmarokCopyOptionsBarButtonStyle"]))
         elif uni.tableType=="9":
-            uni.MainWindow.PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
-            uni.MainWindow.MusicOptionsBar.setToolButtonStyle(int(uni.MySettings["MusicOptionsBarButtonStyle"]))
-            uni.MainWindow.SubDirectoryOptionsBar.setToolButtonStyle(int(uni.MySettings["SubDirectoryOptionsBarButtonStyle"]))
+            getMainWindow().PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
+            getMainWindow().MusicOptionsBar.setToolButtonStyle(int(uni.MySettings["MusicOptionsBarButtonStyle"]))
+            getMainWindow().SubDirectoryOptionsBar.setToolButtonStyle(int(uni.MySettings["SubDirectoryOptionsBarButtonStyle"]))
         
     def setAllBarsStyleToMySettings(self):
-        uni.setMySetting("TableToolsBarButtonStyle", uni.MainWindow.TableToolsBar.toolButtonStyle())
-        uni.setMySetting("ToolsBarButtonStyle", uni.MainWindow.ToolsBar.toolButtonStyle())
+        uni.setMySetting("TableToolsBarButtonStyle", getMainWindow().TableToolsBar.toolButtonStyle())
+        uni.setMySetting("ToolsBarButtonStyle", getMainWindow().ToolsBar.toolButtonStyle())
         if uni.tableType=="2":
-            uni.setMySetting("PlayerBarButtonStyle", uni.MainWindow.PlayerBar.toolButtonStyle())
-            uni.setMySetting("MusicOptionsBarButtonStyle", uni.MainWindow.MusicOptionsBar.toolButtonStyle())
+            uni.setMySetting("PlayerBarButtonStyle", getMainWindow().PlayerBar.toolButtonStyle())
+            uni.setMySetting("MusicOptionsBarButtonStyle", getMainWindow().MusicOptionsBar.toolButtonStyle())
         elif uni.tableType=="3":
-            uni.setMySetting("SubDirectoryOptionsBarButtonStyle", uni.MainWindow.SubDirectoryOptionsBar.toolButtonStyle())
+            uni.setMySetting("SubDirectoryOptionsBarButtonStyle", getMainWindow().SubDirectoryOptionsBar.toolButtonStyle())
         elif uni.tableType=="4":
-            uni.setMySetting("CoverOptionsBarButtonStyle", uni.MainWindow.CoverOptionsBar.toolButtonStyle())
+            uni.setMySetting("CoverOptionsBarButtonStyle", getMainWindow().CoverOptionsBar.toolButtonStyle())
         elif uni.tableType=="6":
-            uni.setMySetting("PlayerBarButtonStyle", uni.MainWindow.PlayerBar.toolButtonStyle())
-            uni.setMySetting("AmarokMusicOptionsBarButtonStyle", uni.MainWindow.AmarokMusicOptionsBar.toolButtonStyle())
+            uni.setMySetting("PlayerBarButtonStyle", getMainWindow().PlayerBar.toolButtonStyle())
+            uni.setMySetting("AmarokMusicOptionsBarButtonStyle", getMainWindow().AmarokMusicOptionsBar.toolButtonStyle())
         elif uni.tableType=="8":
-            uni.setMySetting("PlayerBarButtonStyle", uni.MainWindow.PlayerBar.toolButtonStyle())
-            uni.setMySetting("AmarokCopyOptionsBarButtonStyle", uni.MainWindow.AmarokCopyOptionsBar.toolButtonStyle())
+            uni.setMySetting("PlayerBarButtonStyle", getMainWindow().PlayerBar.toolButtonStyle())
+            uni.setMySetting("AmarokCopyOptionsBarButtonStyle", getMainWindow().AmarokCopyOptionsBar.toolButtonStyle())
         elif uni.tableType=="9":
-            uni.setMySetting("PlayerBarButtonStyle", uni.MainWindow.PlayerBar.toolButtonStyle())
-            uni.setMySetting("MusicOptionsBarButtonStyle", uni.MainWindow.MusicOptionsBar.toolButtonStyle())
-            uni.setMySetting("SubDirectoryOptionsBarButtonStyle", uni.MainWindow.SubDirectoryOptionsBar.toolButtonStyle())
+            uni.setMySetting("PlayerBarButtonStyle", getMainWindow().PlayerBar.toolButtonStyle())
+            uni.setMySetting("MusicOptionsBarButtonStyle", getMainWindow().MusicOptionsBar.toolButtonStyle())
+            uni.setMySetting("SubDirectoryOptionsBarButtonStyle", getMainWindow().SubDirectoryOptionsBar.toolButtonStyle())
         
     def changeReNamerType(self, _action):
         try:
-            if uni.MainWindow.Table.checkUnSavedValues()==False:
+            if getMainWindow().Table.checkUnSavedValues()==False:
                 _action.setChecked(False)
-                for x, typeName in enumerate(var.fileReNamerTypeNamesKeys):
+                for x, typeName in enumerate(uni.fileReNamerTypeNamesKeys):
                     if typeName == uni.MySettings["fileReNamerType"]:
-                        MainWindow.TableToolsBar.actsFileReNamerTypes[x].setChecked(True)
+                        getMainWindow().TableToolsBar.actsFileReNamerTypes[x].setChecked(True)
                 return False
-            for x, typeName in enumerate(var.fileReNamerTypeNamesKeys):
-                if MainWindow.TableToolsBar.actsFileReNamerTypes[x].isChecked():
+            for x, typeName in enumerate(uni.fileReNamerTypeNamesKeys):
+                if getMainWindow().TableToolsBar.actsFileReNamerTypes[x].isChecked():
                     uni.setMySetting("fileReNamerType", typeName)
-            uni.MainWindow.FileManager.makeRefresh()
+            getMainWindow().FileManager.makeRefresh()
             MApplication.processEvents()
         except:
             ReportBug.ReportBug()

@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from FileUtils import Musics
 import FileUtils as fu
 import os
@@ -61,7 +60,7 @@ class MusicPlayer(MWidget):
         MObject.connect(self.tbMute, SIGNAL("clicked()"), self.mute)
         MObject.connect(self.tbPlay, SIGNAL("clicked()"), self.play)
         MObject.connect(self.tbStop, SIGNAL("clicked()"), self.stop)
-        if _type == "bar" and uni.windowMode==var.windowModeKeys[1]:
+        if _type == "bar" and uni.windowMode==uni.windowModeKeys[1]:
             pass
         else:
             self.info = MLabel(translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
@@ -81,7 +80,7 @@ class MusicPlayer(MWidget):
             HBOXs[0].addWidget(self.tbMute)
             HBOXs[0].addWidget(self.playInBar)
             HBOXs.append(MHBoxLayout())
-            if uni.windowMode==var.windowModeKeys[1]:
+            if uni.windowMode==uni.windowModeKeys[1]:
                 self.playInBar.setMaximumHeight(16)
                 self.tbPause.setMaximumHeight(16)
                 self.tbMute.setMaximumHeight(16)
@@ -122,13 +121,13 @@ class MusicPlayer(MWidget):
             self.tbPlay.setMinimumHeight(22)
             self.tbStop.setMinimumHeight(22)
             self.setMaximumSize(390, 44)
-        if self.type != "bar" or uni.windowMode!=var.windowModeKeys[1]:
+        if self.type != "bar" or uni.windowMode!=uni.windowModeKeys[1]:
             self.infoScroller = InfoScroller(self)
             self.infoScroller.start()
             
     def setInfoText(self, _info):
-        if self.type == "bar" and uni.windowMode==var.windowModeKeys[1]:
-            uni.MainWindow.StatusBar.showMessage(_info)
+        if self.type == "bar" and uni.windowMode==uni.windowModeKeys[1]:
+            getMainWindow().StatusBar.showMessage(_info)
         else:
             MApplication.processEvents()
             if self.info!=None:
@@ -152,7 +151,7 @@ class MusicPlayer(MWidget):
                     self.Player = M_MPlayer()
             self.stop()
             if _filePath=="":
-                _filePath = uni.MainWindow.Table.currentTableContentValues[uni.MainWindow.Table.currentRow()]["path"]
+                _filePath = getMainWindow().Table.currentTableContentValues[getMainWindow().Table.currentRow()]["path"]
             if _filePath=="" and self.file!="":
                 _filePath = self.file
             else:
@@ -232,8 +231,8 @@ class M_Phonon():
                         translate("Player", "We could not find the Phonon(PyQt4) module installed on your system.<br>Please choose another player from the options or <br>check your Phonon installation."))
             return False
         if not self.m_media:
-            self.m_media = Phonon.MediaObject(uni.MainWindow)
-            self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, uni.MainWindow)
+            self.m_media = Phonon.MediaObject(getMainWindow())
+            self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, getMainWindow())
             Phonon.createPath(self.m_media, self.audioOutput)
         self.m_media.setCurrentSource(
             Phonon.MediaSource(str(_filePath)))

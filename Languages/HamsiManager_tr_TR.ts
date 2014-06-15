@@ -1110,12 +1110,12 @@
         <translation>Gömülü Amarok veritabanı sunucusu türetildi.</translation>
     </message>
     <message>
-        <location filename="Core/var.py" line="765"/>
+        <location filename="Core/Universals.py" line="765"/>
         <source>&quot;mysqld_safe&quot; Not Found</source>
         <translation>&quot;mysqld_safe&quot; Bulunamadı</translation>
     </message>
     <message>
-        <location filename="Core/var.py" line="765"/>
+        <location filename="Core/Universals.py" line="765"/>
         <source>Executable &quot;mysqld_safe&quot; file is not found. Are you want to set path of this file?&lt;br&gt;&lt;b&gt;Note :&lt;/b&gt; &quot;mysql-common&quot; must be installed on your system.</source>
         <translation>Çalıştırılabilir &quot;mysqld_safe&quot; dosyası bulunamadı. Bu dosyanın yolunu belirtmek ister misiniz?&lt;br&gt;&lt;b&gt;Not : &lt;/b&gt; &quot;mysql-common&quot; sisteminizde kurulu olmalıdır.</translation>
     </message>
@@ -1627,7 +1627,7 @@
     <message>
         <location filename="FileUtils/__init__.py" line="605"/>
         <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the current one?</source>
-        <translation>&quot;%s&quot; isimli bir dosya zaten var.&lt;br&gt;Mevcut dosya ile değiştirilsin mi?</translation>
+        <translation>&quot;%s&quot; isimli bir dosya zaten uni.&lt;br&gt;Mevcut dosya ile değiştirilsin mi?</translation>
     </message>
     <message>
         <location filename="FileUtils/__init__.py" line="624"/>
@@ -1682,7 +1682,7 @@
     <message>
         <location filename="FileUtils/__init__.py" line="1318"/>
         <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another file name!</source>
-        <translation>&quot;%s&quot; isimli bir dosya var.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!</translation>
+        <translation>&quot;%s&quot; isimli bir dosya uni.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!</translation>
     </message>
     <message>
         <location filename="FileUtils/__init__.py" line="518"/>
@@ -1954,7 +1954,7 @@
     <message>
         <location filename="Tables/CoverTable.py" line="158"/>
         <source>&quot;%s&quot; : there are more files in this directory.&lt;br&gt;Are you want to move all found files into new directory?&lt;br&gt;New Directory : &quot;%s&quot;</source>
-        <translation>&quot;%s&quot; dizininde başka dosyalarda var.&lt;br&gt;Bulunan tüm dosyaları yeni dizine taşımak ister misiniz?&lt;br&gt;Yeni Dizin :&quot;%s&quot; </translation>
+        <translation>&quot;%s&quot; dizininde başka dosyalarda uni.&lt;br&gt;Bulunan tüm dosyaları yeni dizine taşımak ister misiniz?&lt;br&gt;Yeni Dizin :&quot;%s&quot; </translation>
     </message>
 </context>
 <context>
@@ -6660,22 +6660,22 @@
 <context>
     <name>Tables</name>
     <message>
-        <location filename="Core/uni.py" line="292"/>
+        <location filename="Core/Universals.py" line="292"/>
         <source>Folder Table</source>
         <translation>Dizin Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="293"/>
+        <location filename="Core/Universals.py" line="293"/>
         <source>File Table</source>
         <translation>Dosya Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="294"/>
+        <location filename="Core/Universals.py" line="294"/>
         <source>Music Table</source>
         <translation>Müzik Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="295"/>
+        <location filename="Core/Universals.py" line="295"/>
         <source>Subfolder Table</source>
         <translation>Altdizin Tablosu</translation>
     </message>
@@ -6855,7 +6855,7 @@
         <translation>Konsol</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="297"/>
+        <location filename="Core/Universals.py" line="297"/>
         <source>Cover Table</source>
         <translation>Kapak Tablosu</translation>
     </message>
@@ -6870,12 +6870,12 @@
         <translation>&quot;%s&quot;: dosya uzantısı kaynak dosyanın uzantısından farklı.&lt;br&gt;Kaynak dosyanın uzantısını ayarlamak ister misiniz?&lt;br&gt;&lt;b&gt;Kaynak dosya : &lt;/b&gt;&quot;%s&quot;</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="299"/>
+        <location filename="Core/Universals.py" line="299"/>
         <source>Amarok Cover Table</source>
         <translation>Amarok Kapak Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="300"/>
+        <location filename="Core/Universals.py" line="300"/>
         <source>Amarok Music Table</source>
         <translation>Amarok Müzik Tablosu</translation>
     </message>
@@ -6890,12 +6890,12 @@
         <translation>Dosya Listesi</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="301"/>
+        <location filename="Core/Universals.py" line="301"/>
         <source>Amarok Artist Table</source>
         <translation>Amarok Sanatçı Tablosu</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="302"/>
+        <location filename="Core/Universals.py" line="302"/>
         <source>Amarok Copy Table</source>
         <translation>Amarok Kopyalama Tablosu</translation>
     </message>
@@ -7393,32 +7393,32 @@
 <context>
     <name>Universals</name>
     <message>
-        <location filename="Core/uni.py" line="336"/>
+        <location filename="Core/Universals.py" line="336"/>
         <source>Are You Sure?</source>
         <translation>Emin Misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="336"/>
+        <location filename="Core/Universals.py" line="336"/>
         <source>Are you want to cancel these transactions?</source>
         <translation>Bu işlemleri iptal etmek ister misiniz?</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="303"/>
+        <location filename="Core/Universals.py" line="303"/>
         <source>%Artist%</source>
         <translation>%Sanatçı%</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="304"/>
+        <location filename="Core/Universals.py" line="304"/>
         <source>%Album%</source>
         <translation>%Albüm%</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="305"/>
+        <location filename="Core/Universals.py" line="305"/>
         <source>%Year%</source>
         <translation>%Yıl%</translation>
     </message>
     <message>
-        <location filename="Core/uni.py" line="306"/>
+        <location filename="Core/Universals.py" line="306"/>
         <source>%Genre%</source>
         <translation>%Tarz%</translation>
     </message>
@@ -7569,7 +7569,7 @@
 <context>
     <name>Variables</name>
     <message>
-        <location filename="Core/var.py" line="614"/>
+        <location filename="Core/Universals.py" line="614"/>
         <source>Desktop</source>
         <translation>Masaüstü</translation>
     </message>

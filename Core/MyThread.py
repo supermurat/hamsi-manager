@@ -25,7 +25,7 @@ import time
 class MyThread(MThread):
     
     def __init__(self, action, callback=None, args=[], kwargs={}):
-        MThread.__init__(self, uni.activeWindow())
+        MThread.__init__(self, getActiveWindow())
         self.action = action
         self.callback = callback
         self.args = args
@@ -52,7 +52,7 @@ class MyThread(MThread):
 class MyTarPackStateThread(MThread):
     
     def __init__(self, _tarFile, _maxMembers, _dlgState):
-        MThread.__init__(self, uni.activeWindow())
+        MThread.__init__(self, getActiveWindow())
         self.isFinished = False
         self.tarFile = _tarFile
         self.maxMembers = _maxMembers
@@ -70,7 +70,7 @@ class MyTarPackStateThread(MThread):
 class MyWaitThread(MThread):
     
     def __init__(self, _title):
-        MThread.__init__(self, uni.activeWindow())
+        MThread.__init__(self, getActiveWindow())
         self.isFinished = False
         self.dlgState = dlgState = Dialogs.MyStateDialog(_title, False, None, False)
         

@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
@@ -98,17 +97,17 @@ class Clear(MWidget):
         setCompleter(self.leClear, self.lblClear.text())
           
     def apply(self):
-        uni.MainWindow.Table.isAskShowHiddenColumn = True
+        getMainWindow().Table.isAskShowHiddenColumn = True
         if self.columns.currentIndex()==0:
-            columns = list(range(0,uni.MainWindow.Table.columnCount()))
+            columns = list(range(0,getMainWindow().Table.columnCount()))
         else:
             columns = [self.columns.currentIndex()-1]
         for columnNo in columns:
-            if uni.MainWindow.Table.checkHiddenColumn(columnNo,False)==False:
+            if getMainWindow().Table.checkHiddenColumn(columnNo,False)==False:
                 continue
-            for rowNo in range(uni.MainWindow.Table.rowCount()):
-                if uni.MainWindow.Table.isChangeableItem(rowNo, columnNo):
-                    newString = str(uni.MainWindow.Table.item(rowNo,columnNo).text())
+            for rowNo in range(getMainWindow().Table.rowCount()):
+                if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
+                    newString = str(getMainWindow().Table.item(rowNo,columnNo).text())
                     newString = uni.trDecode(newString, "utf-8")
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
                     informationSectionY = self.specialTools.cbInformationSectionY.value()
@@ -146,6 +145,6 @@ class Clear(MWidget):
                         myString += newString[informationSectionX:informationSectionY]
                         myString += Organizer.clear(cbClearType, newString[informationSectionY:], 
                                                 oldString, isCaseInsensitive, isRegExp)
-                    uni.MainWindow.Table.item(rowNo,columnNo).setText(str(myString))
+                    getMainWindow().Table.item(rowNo,columnNo).setText(str(myString))
     
     

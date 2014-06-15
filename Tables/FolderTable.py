@@ -25,7 +25,6 @@ from Core import Dialogs
 import Options
 from time import gmtime
 from Core import Universals as uni
-from Core import Variables as var
 from Core import ReportBug
 
 class FolderTable():
@@ -65,7 +64,7 @@ class FolderTable():
         self.Table.changedValueNumber = 0
         changingFileDirectories=[]
         uni.startThreadAction()
-        if var.isActiveAmarok and uni.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
+        if uni.isActiveAmarok and uni.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -103,7 +102,7 @@ class FolderTable():
                 break
         uni.finishThreadAction()
         pathValues = fu.changeDirectories(changingFileDirectories)
-        if var.isActiveAmarok and uni.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
+        if uni.isActiveAmarok and uni.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changePaths(pathValues)

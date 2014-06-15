@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
@@ -38,7 +37,7 @@ class MyPlugins(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Searcher")
-            uni.setMainWindow(self)
+            setMainWindow(self)
         self.lstwPluginList = MListWidget()
         self.pbtnInstall = MPushButton(translate("MyPlugins", "Install The Selected Plug-in"))
         self.pbtnUninstall = MPushButton(translate("MyPlugins", "Uninstall The Selected Plug-in"))
@@ -74,7 +73,7 @@ class MyPlugins(MyDialog):
     def fillPlugins(self):
         self.lstwPluginList.clear()
         self.myPluginsNames = []
-        for plugin in var.getMyPluginsNames():
+        for plugin in uni.getMyPluginsNames():
             pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], 0)
             if pluginModule.isInstallable():
                 installedVersion = Settings.getUniversalSetting(str(pluginModule.pluginName), "")
@@ -199,7 +198,7 @@ class MyPluginsForSystem(MWidget):
     def fillPlugins(self):
         self.lstwPluginList.clear()
         self.myPluginsNames = []
-        for plugin in var.getMyPluginsNames():
+        for plugin in uni.getMyPluginsNames():
             pluginModule = __import__("MyPlugins." + plugin, globals(), locals(), ["pluginName", "pluginVersion", "isInstallable"], 0)
             if pluginModule.isInstallable():
                 installedVersion = Settings.getUniversalSetting(str(pluginModule.pluginName), "")

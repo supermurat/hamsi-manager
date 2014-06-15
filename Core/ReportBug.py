@@ -19,7 +19,6 @@
 
 import sys,os
 
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
@@ -31,7 +30,7 @@ import traceback
 import logging
 from Core.RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
 
-if var.isPython3k:
+if uni.isPython3k:
     from urllib.parse import unquote, quote
 else:
     from urllib import unquote, quote
@@ -73,10 +72,10 @@ class ReportBug():
                             str(translate("ReportBug", "Error : ")) + "</b>"+str(error)+"<br><b>" +
                             str(translate("ReportBug", "Error arguments : ")) + "</b>"+str(excArgs)+"</p><hr><p><b>" +
                             str(translate("ReportBug", "Last Signal Sender (Object Name,Object Text) : ")) + "</b>&quot;")
-            try:realErrorDetails +=uni.trUnicode(uni.MainWindow.sender().objectName())
+            try:realErrorDetails +=uni.trUnicode(getMainWindow().sender().objectName())
             except:pass
             realErrorDetails +="&quot;,&quot;"
-            try:realErrorDetails +=uni.trUnicode(uni.MainWindow.sender().text())
+            try:realErrorDetails +=uni.trUnicode(getMainWindow().sender().text())
             except:pass
             realErrorDetails +="&quot;"
             realErrorDetails += "</p>"
@@ -84,16 +83,16 @@ class ReportBug():
             lastErrorDetails = realErrorDetails
             
         errorDetails +="<hr><b>" + str(translate("ReportBug", "Active Dialog`s Titles : ")) + "</b>"
-        try:errorDetails += str(uni.HamsiManagerApp.activeModalWidget().windowTitle())+","
+        try:errorDetails += str(getApplication().activeModalWidget().windowTitle())+","
         except:pass
-        try:errorDetails += str(uni.HamsiManagerApp.activePopupWidget().windowTitle())+","
+        try:errorDetails += str(getApplication().activePopupWidget().windowTitle())+","
         except:pass
-        try:errorDetails += str(uni.HamsiManagerApp.activeWindow().windowTitle())+","
+        try:errorDetails += str(getApplication().activeWindow().windowTitle())+","
         except:pass
         errorDetails += "<br>"
         try:
             errorDetails += "<b>" + str(translate("ReportBug", "Application Version : ")) + "</b>"
-            errorDetails += str(var.version)+"<br>"
+            errorDetails += str(uni.version)+"<br>"
         except:
             errorDetails += "<br>"
         try:
@@ -141,7 +140,7 @@ class ReportBug():
             settingKeys = list(uni.MySettings.keys())
             settingKeys.sort()
             for keyName in settingKeys:
-                if var.willNotReportSettings.count(keyName)==0:
+                if uni.willNotReportSettings.count(keyName)==0:
                     errorDetails += "<b>" + str(keyName) + " : " + "</b>"
                     errorDetails += str(uni.MySettings[keyName]) + "<br>"
         except:pass
@@ -179,7 +178,7 @@ class ReportBug():
                     '<INPUT TYPE="hidden" name="thankYouMessages" value="%s" />'+
                     '<INPUT TYPE="hidden" name="p" value="HamsiManager" />'+
                     '<INPUT TYPE="hidden" name="l" value="' + str(language) + '" />'+
-                    '<INPUT TYPE="hidden" name="v" value="' + str(var.intversion) + '" /></form>'+
+                    '<INPUT TYPE="hidden" name="v" value="' + str(uni.intversion) + '" /></form>'+
                     '%s</center></body></html>'
                     ) % (
                     str(translate("ReportBug", "<b>Error description :</b> <br>(Be can null)<br><b>Note:</b>Please write what you did before you received the error here.")), 
@@ -200,12 +199,12 @@ class ReportBugDialog(MDialog):
     isClose=False
     def __init__(self, _errorDetails="", _pathOfReportFile=None):
         global isClose
-        MainWindow = uni.MainWindow
+        currentMainWindow = getMainWindow()
         if uni.isStartingSuccessfully==True:
             isShowFixMe = False
         else:
             isShowFixMe = True
-        try:MDialog.__init__(self, MainWindow)
+        try:MDialog.__init__(self, currentMainWindow)
         except:MDialog.__init__(self, None)
         self.pathOfReportFile = _pathOfReportFile
         self.namMain = None
@@ -311,7 +310,7 @@ class ReportBugDialog(MDialog):
         self.namMain = MNetworkAccessManager(self)
         self.connect(self.namMain, SIGNAL("finished (QNetworkReply *)"), self.sendFinished)
         self.nrqPost = MNetworkRequest(MUrl("http://hamsiapps.com/ForMyProjects/ReportBug.php"))
-        self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(language) + "&v=" + str(var.intversion) +
+        self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(language) + "&v=" + str(uni.intversion) +
                                         "&thankYouMessages=new style" + 
                                         "&userNotes=" + quote(str(self.teUserNotes.toHtml())) + 
                                         "&error=" + quote(str(self.teErrorDetails.toHtml())) + 
@@ -369,24 +368,24 @@ class ReportBugDialog(MDialog):
             currenText = str(self.teErrorDetails.toHtml())
             if self.cckbIsSendTableContents.checkState() == Mt.Checked:
                 currentDirectoryPath = ""
-                try:currentDirectoryPath = uni.MainWindow.FileManager.getCurrentDirectoryPath()
+                try:currentDirectoryPath = getMainWindow().FileManager.getCurrentDirectoryPath()
                 except:pass
                 settingText = "<p><b>"+str(translate("ReportBug", "Contents Directory : "))+"</b>" + currentDirectoryPath + "</p>"
                 settingText += "<p><h3>"+str(translate("ReportBug", "Table Contents : "))+"</h3>"
                 try:
-                    settingText += uni.MainWindow.Table.exportValues("return", "html", "no")
+                    settingText += getMainWindow().Table.exportValues("return", "html", "no")
                 except:pass
                 settingText += "<hr><p><h3>"+str(translate("ReportBug", "File Information : "))+"</h3><table border=1>"
                 try:
-                    for rowValues in uni.MainWindow.Table.currentTableContentValues:
+                    for rowValues in getMainWindow().Table.currentTableContentValues:
                         settingText +="<tr><td>" + str(uni.trUnicode(rowValues["path"], fu.fileSystemEncoding)) + "</td></tr>"
                     settingText +="</table></p><hr><p><h3>"+str(translate("ReportBug", "File Details : "))+"</h3>"
-                    if len(uni.MainWindow.Table.currentTableContentValues)>0:
+                    if len(getMainWindow().Table.currentTableContentValues)>0:
                         settingText +="<table border=1><tr>"
-                        for key, value in uni.MainWindow.Table.currentTableContentValues[0].items():
+                        for key, value in getMainWindow().Table.currentTableContentValues[0].items():
                             settingText += "<td><b>" + key + "</b></td>"
                         settingText +="</tr>"
-                        for rowValues in uni.MainWindow.Table.currentTableContentValues:
+                        for rowValues in getMainWindow().Table.currentTableContentValues:
                             settingText +="<tr>"
                             for key, value in rowValues.items():
                                 settingText += "<td>" + str(value) + "</td>"

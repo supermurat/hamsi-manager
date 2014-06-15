@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
@@ -59,11 +58,11 @@ class AmarokMusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagSourceTypes[_action])
             if self.isActiveChanging:
-                if uni.MainWindow.Table.checkUnSavedValues()==True:
+                if getMainWindow().Table.checkUnSavedValues()==True:
                     Amarok.setSelectedTagSourseType(selectedType, "AmarokMusicTable")
-                    uni.MainWindow.Table.refreshForColumns()
-                    uni.MainWindow.SpecialTools.refreshForColumns()
-                    uni.MainWindow.Table.refresh(uni.MainWindow.FileManager.getCurrentDirectoryPath())
+                    getMainWindow().Table.refreshForColumns()
+                    getMainWindow().SpecialTools.refreshForColumns()
+                    getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
                 self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
                 if self.cbTagSourceTypeForMenu != None:

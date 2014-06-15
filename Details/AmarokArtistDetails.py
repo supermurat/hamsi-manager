@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from FileUtils import Musics
 import FileUtils as fu
 import os,sys
@@ -91,7 +90,7 @@ class AmarokArtistDetails(MDialog):
             Dialogs.showError(translate("AmarokArtistDetails", "Artist Does Not Exist"), 
                     str(translate("AmarokArtistDetails", "\"%s\" does not exist in \"id\" column of \"artist\" table.<br>Table will be refreshed automatically!<br>Please retry.")
                         ) % Organizer.getLink(str(_artistId)))
-            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
+            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
     
     def changeArtist(self, _artistId, _isNew=False):
         self.artistId = _artistId
@@ -162,7 +161,7 @@ class AmarokArtistDetails(MDialog):
             Operations.changeArtistValues([{"id" : self.artistId, "name" : str(self.infoValues["correctedArtist"].text())}])
             if self.artistName!=str(self.infoValues["correctedArtist"].text()):
                 self.changeArtist(Commands.getArtistId(str(self.infoValues["correctedArtist"].text())))
-            if hasattr(uni.MainWindow, "FileManager") and uni.MainWindow.FileManager is not None: uni.MainWindow.FileManager.makeRefresh()
+            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()

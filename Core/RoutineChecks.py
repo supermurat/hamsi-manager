@@ -28,7 +28,6 @@ optionList = None
 def checkParameters():
     from optparse import OptionParser, OptionGroup
     import logging
-    from Core import Variables as var
     from Core import Universals as uni
     import FileUtils as fu
     global isQuickMake, QuickMakeParameters, myArgvs, parser, optionList
@@ -36,7 +35,7 @@ def checkParameters():
     isDontRun = False
     optionList = []
     parser = OptionParser(
-    usage="%prog [options] [<arg1>...]", version="HamsiManager " + var.version,
+    usage="%prog [options] [<arg1>...]", version="HamsiManager " + uni.version,
 
     epilog="""\
 Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com> ,
@@ -261,7 +260,7 @@ the Free Software Foundation; either version 2 of the License, or
         QuickMakeParameters.append(remainderParameters)
     if options.runAsRoot:
         from Core import Execute
-        if var.isRunningAsRoot()==False:
+        if uni.isRunningAsRoot()==False:
             strArgvs = []
             for tempArg in sys.argv:
                 if tempArg.find("-runAsRoot")==-1 and tempArg.find(Execute.findExecutablePath("HamsiManager"))==-1 and tempArg != "./" + Execute.findExecutableBaseName("HamsiManager") and tempArg != Execute.findExecutableBaseName("HamsiManager"):
@@ -273,7 +272,7 @@ the Free Software Foundation; either version 2 of the License, or
     return True
 
 def checkAfterRunProcess():
-    from Core import Variables as var
+    from Core.MyObjects import getMainWindow
     from Core import Universals as uni
     from Core import Dialogs
     from Core import UpdateControl
@@ -284,17 +283,17 @@ def checkAfterRunProcess():
                     translate("HamsiManager", "Your system's \"File System Encoding\" type different from the settings you select. Are you sure you want to continue?If you are not sure press the \"No\"."), False, "Your System's \"File System Encoding\" Type Different")
         if answer==Dialogs.No: 
             from Options import OptionsForm
-            OptionsForm.OptionsForm(uni.MainWindow, _focusTo="fileSystemEncoding")
+            OptionsForm.OptionsForm(getMainWindow(), _focusTo="fileSystemEncoding")
     if uni.getBoolValue("isMakeAutoDesign") or uni.getBoolValue("isShowWindowModeSuggestion"):
-        uni.MainWindow.TableToolsBar.setVisible(False)
-        uni.MainWindow.ToolsBar.setVisible(False)
+        getMainWindow().TableToolsBar.setVisible(False)
+        getMainWindow().ToolsBar.setVisible(False)
         if isActivePyKDE4:
-            uni.MainWindow.Browser.setVisible(False)
-            uni.MainWindow.TreeBrowser.setVisible(False)
-            uni.MainWindow.FileManager.urlNavigator.setMinimumWidth(150)
-            try:uni.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
-            except:uni.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
-        try:uni.MainWindow.PlayerBar.setVisible(False)
+            getMainWindow().Browser.setVisible(False)
+            getMainWindow().TreeBrowser.setVisible(False)
+            getMainWindow().FileManager.urlNavigator.setMinimumWidth(150)
+            try:getMainWindow().FileManager.dckwBrowserToolsFull.setVisible(False)
+            except:getMainWindow().FileManager.tbarBrowserToolsFull.setVisible(False)
+        try:getMainWindow().PlayerBar.setVisible(False)
         except:pass
     checkAndCorrectWindowMode()
     if uni.isShowVerifySettings and uni.changedDefaultValuesKeys==[] and uni.newSettingsKeys==[]:
@@ -302,64 +301,63 @@ def checkAfterRunProcess():
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes: 
             from Options import OptionsForm
-            OptionsForm.OptionsForm(uni.MainWindow)
+            OptionsForm.OptionsForm(getMainWindow())
     elif uni.changedDefaultValuesKeys!=[] or uni.newSettingsKeys!=[]:
         answer = Dialogs.ask(translate("HamsiManager", "Added New Options And New Features"),
                     translate("HamsiManager", "New options and new features added to Hamsi Manager. Changed default values of few settings. Are you want to change or verify new options?"), False, "Added New Options And New Features")
         if answer==Dialogs.Yes:
             from Options import OptionsForm
             newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
-            OptionsForm.OptionsForm(uni.MainWindow, "Normal", None, newOrChangedKeys)
-    elif uni.getBoolValue("isShowReconfigureWizard") and var.isBuilt() == False:
+            OptionsForm.OptionsForm(getMainWindow(), "Normal", None, newOrChangedKeys)
+    elif uni.getBoolValue("isShowReconfigureWizard") and uni.isBuilt() == False:
         from Tools import Configurator
         Configurator.Configurator()
         uni.setMySetting("isShowReconfigureWizard", "False")
     
 def checkWindowMode(_isCheck=False):
-    from Core import Variables as var
     from Core import Universals as uni
     if uni.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
-        if uni.windowMode == var.windowModeKeys[0]:
-            screenSize = var.getScreenSize()
+        if uni.windowMode == uni.windowModeKeys[0]:
+            screenSize = uni.getScreenSize()
             if screenSize!=None:
                 if screenSize.width()<1024:
-                    uni.windowMode = var.windowModeKeys[1]
+                    uni.windowMode = uni.windowModeKeys[1]
     
 def checkAndCorrectWindowMode(_isCheck=False):
-    from Core import Variables as var
+    from Core.MyObjects import getMainWindow
     from Core import Universals as uni
     from Core import Dialogs 
     from Core.MyObjects import translate, MToolBar
     if uni.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
-        if uni.windowMode == var.windowModeKeys[1]:
-            if len(uni.MainWindow.findChildren(MToolBar))>0:
-                firstToolBar = uni.MainWindow.findChildren(MToolBar)[0]
-                uni.MainWindow.removeToolBar(uni.MainWindow.FileManager.tbarBrowserTools)
-                uni.MainWindow.insertToolBar(firstToolBar, uni.MainWindow.FileManager.tbarBrowserTools)
-                uni.MainWindow.FileManager.tbarBrowserTools.setVisible(True)
+        if uni.windowMode == uni.windowModeKeys[1]:
+            if len(getMainWindow().findChildren(MToolBar))>0:
+                firstToolBar = getMainWindow().findChildren(MToolBar)[0]
+                getMainWindow().removeToolBar(getMainWindow().FileManager.tbarBrowserTools)
+                getMainWindow().insertToolBar(firstToolBar, getMainWindow().FileManager.tbarBrowserTools)
+                getMainWindow().FileManager.tbarBrowserTools.setVisible(True)
             try:
-                if uni.MainWindow.Browser!=None and uni.MainWindow.Places!=None:
-                    uni.MainWindow.tabifyDockWidget(uni.MainWindow.Browser, uni.MainWindow.Places)
-                if uni.MainWindow.Browser!=None and uni.MainWindow.TreeBrowser!=None:
-                    uni.MainWindow.tabifyDockWidget(uni.MainWindow.Browser, uni.MainWindow.TreeBrowser)
-                if uni.MainWindow.Browser!=None and uni.MainWindow.DirOperator!=None:
-                    uni.MainWindow.tabifyDockWidget(uni.MainWindow.Browser, uni.MainWindow.DirOperator)
-                try:uni.MainWindow.FileManager.dckwBrowserToolsFull.setVisible(False)
-                except:uni.MainWindow.FileManager.tbarBrowserToolsFull.setVisible(False)
+                if getMainWindow().Browser!=None and getMainWindow().Places!=None:
+                    getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().Places)
+                if getMainWindow().Browser!=None and getMainWindow().TreeBrowser!=None:
+                    getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().TreeBrowser)
+                if getMainWindow().Browser!=None and getMainWindow().DirOperator!=None:
+                    getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().DirOperator)
+                try:getMainWindow().FileManager.dckwBrowserToolsFull.setVisible(False)
+                except:getMainWindow().FileManager.tbarBrowserToolsFull.setVisible(False)
                 geometries = uni.getListValue("MainWindowGeometries")
-                uni.MainWindow.setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
+                getMainWindow().setGeometry(int(geometries[0]),int(geometries[1]), 700, 500)
             except:pass
             uni.setMySetting("isShowWindowModeSuggestion", False)
      
 def checkBeforeCloseProcess():
-    from Core import Variables as var
+    from Core.MyObjects import getMainWindow
     from Core import Universals as uni
     from Core import UpdateControl
     if uni.getBoolValue("isDontDeleteFileAndDirectory"):
         import FileUtils as fu
         fu.checkSizeOfDeletedFiles()
     if UpdateControl.UpdateControl.isMakeUpdateControl():
-        UpdateControl.UpdateControl(uni.MainWindow, _isCloseParent=True)
+        UpdateControl.UpdateControl(getMainWindow(), _isCloseParent=True)
         return False
     return True
 
@@ -414,12 +412,12 @@ def checkMandatoryModules():
                 app = QtGui.QApplication(sys.argv)
                 w = QtGui.QWidget()
                 l = QtGui.QVBoxLayout(w)
-                qbtn = QtGui.QPushButton('Quit', w)
-                qbtn.clicked.connect(QtCore.QCoreApplication.instance().quit)
+                pbtn = QtGui.QPushButton('Quit', w)
+                pbtn.clicked.connect(QtCore.QCoreApplication.instance().quit)
                 lblAlert = QtGui.QLabel("<br><b><a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system.</b><br><br>You have to install it on your system to run Hamsi Manager.<br><br>", w)
                 lblAlert.setOpenExternalLinks(True)
                 l.addWidget(lblAlert)
-                l.addWidget(qbtn)
+                l.addWidget(pbtn)
                 w.setLayout(l)
                 w.setWindowTitle('Critical Error!')
                 w.show()
@@ -429,12 +427,12 @@ def checkMandatoryModules():
     except:
         try:
             import qt
-            HamsiManagerApp=qt.QApplication(sys.argv)
+            qtHamsiManagerApp=qt.QApplication(sys.argv)
             panel = qt.QWidget()
             panel.vblMain = qt.QVBoxLayout(panel)
             lblInfo = qt.QLabel("<br><b>PyQt4 is not installed:</b><br>You have to install \"PyQt4\" on your system to run Hamsi Manager.",panel)
             pbtnClose = qt.QPushButton("OK",panel)
-            panel.connect(pbtnClose,SIGNAL("clicked()"),HamsiManagerApp.quit)
+            panel.connect(pbtnClose,qt.SIGNAL("clicked()"),qtHamsiManagerApp.quit)
             hbox0 = qt.QHBoxLayout()
             hbox0.addStretch(2)
             hbox0.addWidget(pbtnClose,1)
@@ -449,7 +447,7 @@ def checkMandatoryModules():
             panel.setCaption("Critical Error!")
             panel.show()
             panel.setMinimumWidth(400)
-            HamsiManagerApp.enter_loop()
+            qtHamsiManagerApp.enter_loop()
         except:
             try:
                 import gtk
@@ -486,16 +484,16 @@ def checkMandatoryModules():
             except:
                 try:
                     import Tkinter
-                    MainWindow = Tkinter.Tk()
-                    MainWindow.geometry("350x100")
-                    title = MainWindow.title("Critical Error!")
+                    tMainWindow = Tkinter.Tk()
+                    tMainWindow.geometry("350x100")
+                    tMainWindow.title("Critical Error!")
                     lbl1 = Tkinter.Label(text="PyQt4 is not installed.")
                     lbl1.pack()
                     lbl2 = Tkinter.Label(text="You have to install \"PyQt4\"")
                     lbl2.pack()
                     lbl3 = Tkinter.Label(text="on your system to run HamsiManager.")
                     lbl3.pack()
-                    btnClose = Tkinter.Button(text="OK", command = MainWindow.quit)
+                    btnClose = Tkinter.Button(text="OK", command = tMainWindow.quit)
                     btnClose.pack(side = Tkinter.RIGHT)
                     Tkinter.mainloop()
                 except:

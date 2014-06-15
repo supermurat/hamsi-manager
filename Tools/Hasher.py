@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
@@ -37,7 +36,7 @@ class Hasher(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Hasher")
-            uni.setMainWindow(self)
+            setMainWindow(self)
         newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
         wOptionsPanel = OptionsForm.OptionsForm(None, "hash", None, newOrChangedKeys)
         lblPathOfPackage = MLabel(translate("Hasher", "Path Of The File : "))
@@ -46,7 +45,7 @@ class Hasher(MyDialog):
         lblHashDigestFile = MLabel(translate("Hasher", "Hash Digest File : "))
         lblHashDigest = MLabel(translate("Hasher", "Hash Digest : "))
         self.teHashDigest = MTextEdit("")
-        self.cbHash = Options.MyComboBox(self, var.getHashTypes(), 0, "HasherHash", self.pathOfPackageChanged)
+        self.cbHash = Options.MyComboBox(self, uni.getHashTypes(), 0, "HasherHash", self.pathOfPackageChanged)
         self.cbHashOutput = Options.MyComboBox(self, 
                                 [translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")], 
                                 0, "HasherHashOutput", self.hashOutputChanged)

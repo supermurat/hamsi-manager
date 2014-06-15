@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
@@ -30,7 +29,7 @@ def getTagger(_isAlertIfNotExist=False):
     global taggersNames, loaddedTagger
     try:
         if len(taggersNames)==0:
-            taggersNames = var.getTaggersNames()
+            taggersNames = uni.getTaggersNames()
         for tagger in taggersNames:
             taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger"], 0)
             TaggerLoaded = __import__("Taggers." + tagger, globals(), locals(), [tagger], 0)

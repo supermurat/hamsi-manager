@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
@@ -39,7 +38,7 @@ class MenuBar(MMenuBar):
         self.mSettings = self.addMenu(translate("MenuBar", "Settings"))
         self.mSettings.setObjectName(translate("MenuBar", "Settings"))
         if isActivePyKDE4:
-            self.mHelpMenu = uni.MainWindow.helpMenu()
+            self.mHelpMenu = getMainWindow().helpMenu()
             self.mHelpMenu.setObjectName(self.mHelpMenu.title())
             self.aHelpMenu = self.addMenu(self.mHelpMenu)
         else:
@@ -70,7 +69,7 @@ class MenuBar(MMenuBar):
         mExport.addMenu(mCopyToClipBoard)
         self.mFile.addAction(translate("MenuBar", "Open State")).setObjectName(translate("MenuBar", "Open State"))
         self.mFile.addAction(translate("MenuBar", "Save State")).setObjectName(translate("MenuBar", "Save State"))
-        if var.isRunableAsRoot():
+        if uni.isRunableAsRoot():
             mRunAsRoot = MMenu(translate("MenuBar", "Run As Root"), self.mFile)
             mRunAsRoot.addAction(translate("MenuBar", "With This Profile (My Settings)")).setObjectName(translate("MenuBar", "With This Profile (My Settings)")) 
             mRunAsRoot.addAction(translate("MenuBar", "With Root Profile (Own Settings)")).setObjectName(translate("MenuBar", "With Root Profile (Own Settings)")) 
@@ -82,7 +81,7 @@ class MenuBar(MMenuBar):
         actOptions.setIcon(MIcon("Images:options.png"))
         self.mSettings.addAction(translate("MenuBar", "My Plugins")).setObjectName(translate("MenuBar", "My Plugins"))
         self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
-        if var.isRunableAsRoot():
+        if uni.isRunableAsRoot():
             self.mSettings.addAction(translate("MenuBar", "My Plugins (System)")).setObjectName(translate("MenuBar", "My Plugins (System)"))
             self.mSettings.addAction(translate("MenuBar", "Reconfigure (System)")).setObjectName(translate("MenuBar", "Reconfigure (System)"))
         if isActivePyKDE4:
@@ -107,27 +106,27 @@ class MenuBar(MMenuBar):
             self.mHelpMenu.addAction(translate("MenuBar", "About Hamsi Manager")).setObjectName(translate("MenuBar", "About Hamsi Manager"))
         self.mHelpMenu.addAction(translate("MenuBar", "About QT")).setObjectName(translate("MenuBar", "About QT"))
 
-        MObject.connect(self, SIGNAL("triggered(QAction *)"), uni.MainWindow.Bars.click)
+        MObject.connect(self, SIGNAL("triggered(QAction *)"), getMainWindow().Bars.click)
 
     def refreshForTableType(self):
         if self.mMainPopupMenu==None:
-            self.mMainPopupMenu = uni.MainWindow.createPopupMenu()
+            self.mMainPopupMenu = getMainWindow().createPopupMenu()
             self.mMainPopupMenu.setTitle(translate("MenuBar", "Panels"))
-            self.mMainPopupMenu.setParent(uni.MainWindow)
+            self.mMainPopupMenu.setParent(getMainWindow())
             self.mMainPopupMenu.setObjectName(translate("MenuBar", "Panels"))
             if len(self.mView.actions())==0:
                 self.mView.addMenu(self.mMainPopupMenu)
             else:
                 self.mView.insertMenu(self.mView.actions()[0], self.mMainPopupMenu)
         else:
-            mTemp = uni.MainWindow.createPopupMenu()
+            mTemp = getMainWindow().createPopupMenu()
             self.mMainPopupMenu.clear()
             self.mMainPopupMenu.addActions(mTemp.actions())
         self.refreshQuickOptions()
         
     def refreshQuickOptions(self):
-        if uni.MainWindow.Menu.mQuickOptions!=None:
-            uni.MainWindow.Menu.removeAction(uni.MainWindow.Menu.mQuickOptions.menuAction())
-        uni.MainWindow.Menu.mQuickOptions = QuickOptions.QuickOptions(self)
-        uni.MainWindow.Menu.insertMenu(uni.MainWindow.Menu.mSettings.menuAction(), uni.MainWindow.Menu.mQuickOptions)
+        if getMainWindow().Menu.mQuickOptions!=None:
+            getMainWindow().Menu.removeAction(getMainWindow().Menu.mQuickOptions.menuAction())
+        getMainWindow().Menu.mQuickOptions = QuickOptions.QuickOptions(self)
+        getMainWindow().Menu.insertMenu(getMainWindow().Menu.mSettings.menuAction(), getMainWindow().Menu.mQuickOptions)
         

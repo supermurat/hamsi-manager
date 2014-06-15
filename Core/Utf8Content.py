@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from Core import Universals as uni
-from Core import Variables as var
 
 def getUtf8Data(_key):
     unicodeData = ""

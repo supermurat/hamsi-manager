@@ -17,9 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import sys,os
-import time
-from Core import Variables as var
 from Core import Universals as uni
 import FileUtils as fu
 from Core import Dialogs
@@ -34,7 +31,7 @@ class UpdateControl(MDialog):
         if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         if _isNotInstall==False:
-            if var.isUpdatable()==False:
+            if uni.isUpdatable()==False:
                 _isNotInstall = True
         self.isNotInstall = _isNotInstall
         self.pnlMain = MWidget()
@@ -102,10 +99,10 @@ class UpdateControl(MDialog):
         else:
             self.setLayout(self.vblMain)
         self.show()
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(var.intversion) + "&l=" + str(uni.MySettings["language"]) + "&machineType=" + var.machineType + "&os=" + var.osName + "&buildType=" + var.getBuildType()))
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(uni.intversion) + "&l=" + str(uni.MySettings["language"]) + "&machineType=" + uni.machineType + "&os=" + uni.osName + "&buildType=" + uni.getBuildType()))
     
     def checkForDeveloperVersion(self):
-        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(var.intversion) + "&m=develop&l=" + str(uni.MySettings["language"]) + "&machineType=" + var.machineType + "&os=" + var.osName + "&buildType=" + var.getBuildType()))
+        self.wvWeb.setUrl(MUrl("http://hamsiapps.com/ForMyProjects/UpdateControl.php?p=HamsiManager&v=" + str(uni.intversion) + "&m=develop&l=" + str(uni.MySettings["language"]) + "&machineType=" + uni.machineType + "&os=" + uni.osName + "&buildType=" + uni.getBuildType()))
     
     def remindMeLaterAndClose(self):
         uni.setMySetting("remindMeLaterForUpdate", self.cbRemindMeLater.value())
@@ -136,8 +133,8 @@ class UpdateControl(MDialog):
                             try:
                                 lastVersion = int(self.updateInformations[0].replace("V", "").replace(".", ""))
                             except:
-                                lastVersion = var.intversion -1
-                            if lastVersion > var.intversion:
+                                lastVersion = uni.intversion -1
+                            if lastVersion > uni.intversion:
                                 self.lblInfo.setText(str(translate("UpdateControl", "New release is available. Please download and install.<br>"+
                                                     "For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[2]))
                                 self.pbtnDownloadAndInstall.setVisible(True)
@@ -148,7 +145,7 @@ class UpdateControl(MDialog):
                                     details += detail+"<br>"
                                 self.details.setText(str(translate("UpdateControl", "Version %s is available. Please download and install the new release.<br>"+
                                                       "%s For detailed information: <a href='%s' target='_blank'>Hamsi Manager</a><br>You can download from <a href='%s' target='_blank'>Hamsi Manager %s</a>")) % (self.updateInformations[0] + self.updateInformations[3], details, self.updateInformations[2], self.updateInformations[1], self.updateInformations[0]))
-                            elif lastVersion < var.intversion:
+                            elif lastVersion < uni.intversion:
                                 self.lblInfo.setText(str(str(translate("UpdateControl", "Lastest stable version is %s. You currently are using the version for developers.You can continue to use the current version.<br>For details: <a href='%s' target='_blank'>Hamsi Manager</a>")) % (self.updateInformations[0], self.updateInformations[2])))
                                 self.pbtnDownloadAndInstall.setVisible(True)
                                 if self.isNotInstall==False:
@@ -198,7 +195,7 @@ class UpdateControl(MDialog):
         
     def downloadAndInstall(self):
         try:
-            if var.isBuilt() == False:
+            if uni.isBuilt() == False:
                 if fu.isWritableFileOrDir(fu.HamsiManagerDirectory, True) == False:
                     from Core import Organizer
                     Dialogs.showError(translate("UpdateControl", "Access Denied"),
@@ -262,7 +259,7 @@ class UpdateControl(MDialog):
             ReportBug.ReportBug()
         
     def install(self, _fileName):
-        if self.isNotInstall==False and var.isBuilt():
+        if self.isNotInstall==False and uni.isBuilt():
             self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))
             self.lblInfo.setText(translate("UpdateControl", "Latest release downloaded, initializing installation."))
             from Core.Execute import openWith

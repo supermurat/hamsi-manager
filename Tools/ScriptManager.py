@@ -23,7 +23,6 @@ from Core import Dialogs
 from Core import Universals as uni
 from Core import ReportBug
 from Core import Scripts
-from Core import Variables as var
 import FileUtils as fu
 import Options
 

@@ -26,7 +26,6 @@ from Core import Dialogs
 import Taggers
 from time import gmtime
 from Core import Records
-from Core import Variables as var
 from Core import ReportBug
 
 class AmarokCopyTable():
@@ -47,7 +46,7 @@ class AmarokCopyTable():
         self.hblBox.addWidget(lblDestinationDir)
         self.hblBox.addWidget(self.leDestinationDirPath, 1)
         self.hblBox.addWidget(self.pbtnSelectDestinationDir)
-        uni.MainWindow.MainLayout.addLayout(self.hblBox)
+        getMainWindow().MainLayout.addLayout(self.hblBox)
         pbtnVerifyTableValues = MPushButton(translate("AmarokCopyTable", "Verify Table"))
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self.Table))
         self.Table.mContextMenu.addMenu(SearchEngines.SearchEngines(self.Table, True))

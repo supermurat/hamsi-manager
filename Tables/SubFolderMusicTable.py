@@ -22,7 +22,6 @@ import SearchEngines
 from Core.MyObjects import *
 from Details import MusicDetails
 from Core import Universals as uni
-from Core import Variables as var
 from Core import Dialogs
 import Options
 import Taggers
@@ -102,7 +101,7 @@ class SubFolderMusicTable():
         isMovedToNewDirectory = False
         currentDirectoryPath = ""
         newDirectoryPath = ""
-        if var.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
+        if uni.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
             import Amarok
             if Amarok.checkAmarok(True, False) == False:
                 return False
@@ -198,7 +197,7 @@ class SubFolderMusicTable():
                 break
         uni.finishThreadAction()
         pathValues = fu.changeDirectories(changingFileDirectories)
-        if var.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
+        if uni.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
             Operations.changeTags(changingTags)

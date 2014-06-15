@@ -27,7 +27,6 @@ import FileUtils as fu
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import ReportBug
-from Core import Variables as var
 
 class QuickMake():
     def __init__(self):
@@ -36,7 +35,7 @@ class QuickMake():
             isShowQuickMakeWindow = True
             tempWindow = MMainWindow()
             self.quickMakeWindow = QuickMakeWindow()
-            uni.setMainWindow(self.quickMakeWindow)
+            setMainWindow(self.quickMakeWindow)
             isShowEmendWidgets = False
             isCorrectCommand = True
             if QuickMakeParameters[0]=="configurator":
@@ -137,7 +136,7 @@ class QuickMakeWindow(MyDialog):
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
-            uni.setMainWindow(self)
+            setMainWindow(self)
         self.setWindowTitle(_actionName)
         pnlMain = MWidget(self)
         vblMain = MVBoxLayout(pnlMain)
@@ -350,7 +349,7 @@ class QuickMakeWindow(MyDialog):
                         objectType = fu.getObjectType(fu.joinPath(newDirName, fileAndDirs))
                         fu.moveOrChange(fu.joinPath(newDirName, fileAndDirs),
                                   fu.joinPath(newDirName,  Organizer.emend(fileAndDirs, objectType)), objectType)
-                    if var.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
+                    if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                         fu.checkIcon(newDirName)
                     if fu.isDir(newDirName):
                         fu.completeSmartCheckIcon()
@@ -388,9 +387,9 @@ class QuickMakeWindow(MyDialog):
                 answer = Dialogs.ask(translate("QuickMake", "All Files Will Be Removed"),
                         str(translate("QuickMake", "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(_path))
                 if answer==Dialogs.Yes:
-                    uni.MainWindow.setEnabled(False)
+                    getMainWindow().setEnabled(False)
                     fu.removeOnlySubFiles(_path)
-                    uni.MainWindow.setEnabled(True)
+                    getMainWindow().setEnabled(True)
                     Dialogs.show(translate("QuickMake", "Removed Only All Files"),
                         str(translate("QuickMake", "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(_path))
             self.close()

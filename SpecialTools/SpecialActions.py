@@ -17,7 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Variables as var
 from Core import Organizer
 from Core import Universals as uni
 import FileUtils as fu
@@ -239,15 +238,15 @@ class SpecialActions(MWidget):
         rightKeys = actionCommand[spliterIndex+1:]
         leftColumnKeys = []
         rightColumnKeys = []
-        uni.MainWindow.Table.isAskShowHiddenColumn = True
+        getMainWindow().Table.isAskShowHiddenColumn = True
         if len(leftKeys)>0 and len(rightKeys)>0:
             for objectNameAndPoint in leftKeys:
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
                 objectName = objectNameAndPointList[0]
                 if objectName.find("Concatenate")==-1:
-                    for no, column in enumerate(uni.MainWindow.Table.tableColumnsKey):
+                    for no, column in enumerate(getMainWindow().Table.tableColumnsKey):
                         if objectName==column:
-                            uni.MainWindow.Table.checkHiddenColumn(no)
+                            getMainWindow().Table.checkHiddenColumn(no)
                             leftColumnKeys.append(objectNameAndPoint)
                 else:
                     leftColumnKeys.append(objectNameAndPoint)
@@ -255,14 +254,14 @@ class SpecialActions(MWidget):
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
                 objectName = objectNameAndPointList[0]
                 if objectName.find("Concatenate")==-1:
-                    for no, column in enumerate(uni.MainWindow.Table.tableColumnsKey):
+                    for no, column in enumerate(getMainWindow().Table.tableColumnsKey):
                         if objectName==column:
-                            uni.MainWindow.Table.checkHiddenColumn(no)
+                            getMainWindow().Table.checkHiddenColumn(no)
                             rightColumnKeys.append(objectNameAndPoint)
                 else:
                     rightColumnKeys.append(objectNameAndPoint)
         if len(leftColumnKeys)>0 and len(rightColumnKeys)>0:
-            for rowNo in range(uni.MainWindow.Table.rowCount()):
+            for rowNo in range(getMainWindow().Table.rowCount()):
                 sourceString = ""
                 sourceList = []
                 sourceListLogical = []
@@ -273,8 +272,8 @@ class SpecialActions(MWidget):
                     if len(objectNameAndPointList)>1:
                         point = objectNameAndPointList[1]
                     if objectName.find("Concatenate")==-1:
-                        columnNo = uni.MainWindow.Table.tableColumnsKey.index(objectName)
-                        valueOfField = str(uni.MainWindow.Table.item(rowNo,columnNo).text())
+                        columnNo = getMainWindow().Table.tableColumnsKey.index(objectName)
+                        valueOfField = str(getMainWindow().Table.item(rowNo,columnNo).text())
                         if objectName == "File Name" or objectName == "File/Directory Name":
                             valueOfField, ext = fu.getFileNameParts(valueOfField)
                         sourceString += valueOfField
@@ -301,8 +300,8 @@ class SpecialActions(MWidget):
                 for no, objectNameAndPoint in enumerate(rightColumnKeys):
                     objectNameAndPointList = objectNameAndPoint.split("~|~")
                     objectName = objectNameAndPointList[0]
-                    columnNo = uni.MainWindow.Table.tableColumnsKey.index(objectName)
-                    if uni.MainWindow.Table.isChangeableItem(rowNo, columnNo):
+                    columnNo = getMainWindow().Table.tableColumnsKey.index(objectName)
+                    if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                         newString = ""
                         if len(rightColumnKeys)==1:
                             newString = sourceString
@@ -317,10 +316,10 @@ class SpecialActions(MWidget):
                             if self.specialTools.btChange.isChecked()==True:
                                 pass
                             elif self.specialTools.tbAddToBefore.isChecked()==True:
-                                newString += str(uni.MainWindow.Table.item(rowNo, columnNo).text())
+                                newString += str(getMainWindow().Table.item(rowNo, columnNo).text())
                             elif self.specialTools.tbAddToAfter.isChecked()==True:
-                                newString = str(uni.MainWindow.Table.item(rowNo, columnNo).text()) + newString
-                            uni.MainWindow.Table.item(rowNo, columnNo).setText(str(newString.strip()))
+                                newString = str(getMainWindow().Table.item(rowNo, columnNo).text()) + newString
+                            getMainWindow().Table.item(rowNo, columnNo).setText(str(newString.strip()))
 
 
 def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetails=False):
@@ -338,7 +337,7 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
             if len(objectNameAndPointList)>1:
                 point = objectNameAndPointList[1]
             if objectName.find("Concatenate")==-1:
-                leftNames += uni.MainWindow.Table.getColumnNameFromKey(objectName)
+                leftNames += getMainWindow().Table.getColumnNameFromKey(objectName)
             else:
                 leftNames += translate("Organizer", "Concatenate")
             if point!="":
@@ -355,7 +354,7 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
             if len(objectNameAndPointList)>1:
                 point = objectNameAndPointList[1]
             if objectName.find("Concatenate")==-1:
-                rightNames += uni.MainWindow.Table.getColumnNameFromKey(objectName)
+                rightNames += getMainWindow().Table.getColumnNameFromKey(objectName)
             else:
                 rightNames += translate("Organizer", "Concatenate")
             if point!="":
@@ -399,7 +398,7 @@ class SpecialActionsCommandContainer(MFrame):
         self.setFrameShadow(MFrame.Sunken)
         
     def addToLayout(self, _widget):
-        if self.HBox.count() - len(getAllChildren(self.HBox, "Concatenate-"))<7 or var.isWindows:
+        if self.HBox.count() - len(getAllChildren(self.HBox, "Concatenate-"))<7 or uni.isWindows:
             self.HBox.addWidget(_widget)
         else:
             self.HBox1.addWidget(_widget)
@@ -494,7 +493,7 @@ class SpecialActionsCommandButton(MFrame):
         MFrame.__init__(self, _parent)
         self.setObjectName(_columnNameKey)
         if _columnNameKey.find("Concatenate")==-1:
-            self.columnName = uni.MainWindow.Table.getColumnNameFromKey(_columnNameKey)
+            self.columnName = getMainWindow().Table.getColumnNameFromKey(_columnNameKey)
             toolTip = str(translate("SpecialActions", "If requires, \"%s\" will be separated by this. You can leave blank not to separate it.")) % (self.columnName) 
         else:
             self.columnName = translate("SpecialActions", "Concatenate")
