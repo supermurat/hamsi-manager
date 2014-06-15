@@ -20,7 +20,7 @@
 from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
-import InputOutputs
+import FileUtils as fu
 from Options import OptionsForm
 from Core import Organizer
 from Core import ReportBug
@@ -31,7 +31,7 @@ class Cleaner(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
@@ -66,7 +66,7 @@ class Cleaner(MyDialog):
         tabwTabs.addTab(wOptionsPanel, translate("Cleaner", "Quick Options"))
         vblMain.addWidget(tabwTabs)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -88,8 +88,8 @@ class Cleaner(MyDialog):
                     "This action will delete the files completely, without any chance to recover.<br>"+
                     "Are you sure you want to perform the action?")) % Organizer.getLink(Organizer.getLink(str(self.lePathOfProject.text()))))
             if answer==Dialogs.Yes:
-                if InputOutputs.isWritableFileOrDir(str(self.lePathOfProject.text())):
-                    if InputOutputs.clearCleaningDirectory(str(self.lePathOfProject.text()), True, True):
+                if fu.isWritableFileOrDir(str(self.lePathOfProject.text())):
+                    if fu.clearCleaningDirectory(str(self.lePathOfProject.text()), True, True):
                         Dialogs.show(translate("Cleaner", "Directory Is Cleared"),
                                     str(translate("Cleaner", "This directory is cleared : \"%s\"")) % Organizer.getLink(str(self.lePathOfProject.text())))
             Universals.isCanBeShowOnMainWindow = True

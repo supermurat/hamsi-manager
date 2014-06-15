@@ -3,7 +3,7 @@ Hamsi Manager
 Hamsi Manager is a file manager which was developed for extra operations. You can perform a process to multiple files at once. You can perform multiple processes to multiple files at once or over and over again the next time. Offers you more options as possible, all the while. Aimed to create a fully customizable environment and it aims to combine with ease of use. Distributed under the GPLv3 license and is a project developed with entirely Open Source libraries.
 
 System Requirements :
-    -Python 2.5+, 3.X (Some requirements not support Python 3) http://www.python.org/download/
+    -Python 2.6+, 3.X (Some requirements not support Python 3) http://www.python.org/download/
     -PyQt4 (Qt4) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.digia.com/
     -* PyKDE4 (For better desktop environment (KDE 4) supporting) http://techbase.kde.org/Development/Languages/Python
     -* PyQt4.Qsci (Qt4 - QsciScintilla) (For some features) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.digia.com/

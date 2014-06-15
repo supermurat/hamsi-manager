@@ -18,7 +18,7 @@
 
 
 from Core import Variables
-import InputOutputs
+import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
@@ -34,7 +34,7 @@ class TextCorrector(MyDialog):
     def __init__(self,_filePath):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Cleaner")
@@ -90,7 +90,7 @@ class TextCorrector(MyDialog):
         tabwTabs.addTab(wOptionsPanel, translate("Searcher", "Quick Options"))
         vblMain.addWidget(tabwTabs)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -106,9 +106,9 @@ class TextCorrector(MyDialog):
         
     def fillValues(self):
         filePath = str(self.leFilePath.text())
-        if InputOutputs.isFile(filePath) and InputOutputs.isReadableFileOrDir(filePath):
+        if fu.isFile(filePath) and fu.isReadableFileOrDir(filePath):
             
-            self.fileValues = InputOutputs.readTextFile(filePath, str(self.sourceCharSet.currentText()))
+            self.fileValues = fu.readTextFile(filePath, str(self.sourceCharSet.currentText()))
             self.pteFileContent.setPlainText(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
             self.isChangeSourceCharSetChanged = True
             self.pbtnSave.setEnabled(True)
@@ -147,7 +147,7 @@ class TextCorrector(MyDialog):
                 newFileValues = {}
                 newFileValues["path"] = filePath
                 newFileValues["content"] = str(self.pteFileContent.toPlainText())
-                newPath = InputOutputs.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
+                newPath = fu.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
                 if newPath!=self.fileValues["path"]:
                     self.changeFile(newPath)
                 if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()

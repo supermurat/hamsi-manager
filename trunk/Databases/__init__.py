@@ -18,19 +18,16 @@
 
 
 import sys
-if float(sys.version[:3]) >= 2.6:
-    import sqlite3 as sqlite
-else:
-    from pysqlite2 import dbapi2 as sqlite
+import sqlite3 as sqlite
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 
 defaultConnection = None
 
 def getDefaultConnection():
     global defaultConnection
     if defaultConnection is None:
-        defaultConnection = sqlite.connect(InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "database.sqlite"))
+        defaultConnection = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "database.sqlite"))
     return defaultConnection
 
 def getAllDatabases():

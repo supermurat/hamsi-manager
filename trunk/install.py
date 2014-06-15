@@ -28,8 +28,8 @@ except:pass
 from Core import RoutineChecks
 if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
-    import InputOutputs
-    InputOutputs.initStartupVariables()
+    import FileUtils as fu
+    fu.initStartupVariables()
     from Core import Variables
     from Core import Universals
     from Core import Settings
@@ -39,14 +39,14 @@ if RoutineChecks.checkMandatoryModules():
     from Core import Execute
     defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(InputOutputs.themePath, "Images"))))
-    StyleFile = open(InputOutputs.joinPath(InputOutputs.themePath, "Style.qss"))
+    MDir.setSearchPaths("Images", MStringList(trForUI(fu.joinPath(fu.themePath, "Images"))))
+    StyleFile = open(fu.joinPath(fu.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
-    if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
-    elif InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
+    if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
+            languageFile.load(trForUI(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
+    elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
+            languageFile.load(trForUI(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
     HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
@@ -114,24 +114,24 @@ if RoutineChecks.checkMandatoryModules():
             HBox = MHBoxLayout()
             pnlPage.setLayout(HBox)
             if _pageNo==0:
-                if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode)):
-                    aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
+                if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode)):
+                    aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+defaultLangCode), "utf-8")
                 else:
-                    aboutFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
+                    aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
                 lblAbout = MLabel(trForUI(aboutFileContent))
                 lblAbout.setWordWrap(True)
                 HBox.addWidget(lblAbout)
             elif _pageNo==1:
-                if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode)):
-                    lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode), "utf-8")
+                if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode)):
+                    lisenceFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_"+defaultLangCode), "utf-8")
                 else:
-                    lisenceFileContent = InputOutputs.readFromFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
+                    lisenceFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
                 teCopying = MTextEdit()
                 teCopying.setPlainText(trForUI(lisenceFileContent))
                 HBox.addWidget(teCopying)
             elif _pageNo==2:
                 lblPleaseSelect = MLabel(translate("Install", "Please Select A Folder For Installation."))
-                installationDirPath = trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.HamsiManagerDirectory), "Hamsi"))))
+                installationDirPath = trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(fu.joinPath(fu.getDirName(fu.HamsiManagerDirectory), "Hamsi"))))
                 self.leInstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(translate("Install", "Browse"))
                 self.connect(self.pbtnSelectInstallationDirectory,SIGNAL("clicked()"),self.selectInstallationDirectory)
@@ -238,19 +238,19 @@ if RoutineChecks.checkMandatoryModules():
                 MApplication.processEvents()
                 self.installationDirectory = str(self.leInstallationDirectory.text())
                 if len(self.installationDirectory)>0:
-                    if self.installationDirectory[-1]==InputOutputs.sep:
+                    if self.installationDirectory[-1]==fu.sep:
                         self.installationDirectory = self.installationDirectory[:-1]
-                    if self.installationDirectory==InputOutputs.HamsiManagerDirectory:
+                    if self.installationDirectory==fu.HamsiManagerDirectory:
                         self.pageNo-=1
                         self.lblActions.setText("")
                         Dialogs.showError(translate("Install", "The path you selected is not valid."),
                                     translate("Install", "The selected path is Hamsi Manager source directory.<br>Please choose a valid installation path."))
-                    elif InputOutputs.isFile(self.installationDirectory)==False:
+                    elif fu.isFile(self.installationDirectory)==False:
                         isMakeInstall=True
-                        if InputOutputs.isDir(self.installationDirectory)==False:
+                        if fu.isDir(self.installationDirectory)==False:
                             self.lblActions.setText(translate("Install", "Creating Installation Folder..."))
-                            InputOutputs.makeDirs(self.installationDirectory)
-                        elif len(InputOutputs.listDir(self.installationDirectory))>0:
+                            fu.makeDirs(self.installationDirectory)
+                        elif len(fu.listDir(self.installationDirectory))>0:
                                 answer = Dialogs.askSpecial(translate("Install", "The Installation Path You Selected Is Not Empty."),
                                             translate("Install", "If the path you selected is an \"Hamsi Manager\" installation path, <b>I recommend you to delete the older files.</b><br>Do you want me to clear the installation path/folder for you?<br><b>Note: </b> Your personal settings are <b>never deleted</b>."), 
                                             translate("Install", "Yes (Recommended)"), 
@@ -258,8 +258,8 @@ if RoutineChecks.checkMandatoryModules():
                                             translate("Install", "Cancel"))
                                 if answer==translate("Install", "Yes (Recommended)"):
                                     self.lblActions.setText(translate("Install", "Clearing Installation Path..."))
-                                    InputOutputs.removeFileOrDir(self.installationDirectory)
-                                    InputOutputs.makeDirs(self.installationDirectory)
+                                    fu.removeFileOrDir(self.installationDirectory)
+                                    fu.makeDirs(self.installationDirectory)
                                     isMakeInstall=True
                                 elif answer==translate("Install", "No (Overwrite)"):
                                     isMakeInstall=True
@@ -267,22 +267,22 @@ if RoutineChecks.checkMandatoryModules():
                                     isMakeInstall=False
                         if isMakeInstall==True:
                             Settings.setUniversalSetting("pathOfInstallationDirectory", self.installationDirectory)
-                            directoriesAndFiles = InputOutputs.readDirectoryWithSubDirectories(InputOutputs.HamsiManagerDirectory)
+                            directoriesAndFiles = fu.readDirectoryWithSubDirectories(fu.HamsiManagerDirectory)
                             self.prgbState.setRange(0,len(directoriesAndFiles))
                             self.lblActions.setText(translate("Install", "Copying Files And Folders..."))
                             installFileName = Execute.findExecutableBaseName("HamsiManagerInstaller")
                             for fileNo, fileName in enumerate(directoriesAndFiles):
                                 MApplication.processEvents()
-                                newFileName = self.installationDirectory + fileName.replace(InputOutputs.HamsiManagerDirectory, "")
-                                if InputOutputs.isDir(fileName):
-                                    try:InputOutputs.makeDirs(newFileName)
+                                newFileName = self.installationDirectory + fileName.replace(fu.HamsiManagerDirectory, "")
+                                if fu.isDir(fileName):
+                                    try:fu.makeDirs(newFileName)
                                     except:pass
-                                elif InputOutputs.isFile(fileName) and InputOutputs.getBaseName(fileName)!="install.py" and InputOutputs.getBaseName(fileName)!=installFileName:
+                                elif fu.isFile(fileName) and fu.getBaseName(fileName)!="install.py" and fu.getBaseName(fileName)!=installFileName:
                                     try:
-                                        InputOutputs.copyFileOrDir(fileName, newFileName)
+                                        fu.copyFileOrDir(fileName, newFileName)
                                     except:
-                                        fileContent = InputOutputs.readFromBinaryFile(fileName)
-                                        InputOutputs.writeToBinaryFile(newFileName, fileContent)
+                                        fileContent = fu.readFromBinaryFile(fileName)
+                                        fu.writeToBinaryFile(newFileName, fileContent)
                                 self.prgbState.setValue(fileNo+1)
                             self.pageNo+=1
                             MyConfigure.installKDE4Languages()
@@ -312,33 +312,33 @@ if RoutineChecks.checkMandatoryModules():
             
         def finish(self):
             try:
-                if InputOutputs.isFile(InputOutputs.joinPath(self.installationDirectory, "HamsiManager.desktop")):
-                    MyConfigure.reConfigureFile(InputOutputs.joinPath(self.installationDirectory, "HamsiManager.desktop"), self.installationDirectory)
+                if fu.isFile(fu.joinPath(self.installationDirectory, "HamsiManager.desktop")):
+                    MyConfigure.reConfigureFile(fu.joinPath(self.installationDirectory, "HamsiManager.desktop"), self.installationDirectory)
                 if self.isCreateDesktopShortcut!=None:
                     if self.isCreateDesktopShortcut.checkState()==Mt.Checked:
                         desktopPath = Variables.getUserDesktopPath()
                         if Variables.isWindows:
-                            MyConfigure.createShortCutFile(InputOutputs.joinPath(desktopPath, "Hamsi Manager.lnk"), self.installationDirectory)
+                            MyConfigure.createShortCutFile(fu.joinPath(desktopPath, "Hamsi Manager.lnk"), self.installationDirectory)
                         else:
                             fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                            InputOutputs.writeToFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
+                            fu.writeToFile(fu.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
                 if self.isCreateExecutableLink!=None:
                     executableLink = str(self.leExecutableLink.text())
                     if self.isCreateExecutableLink.checkState()==Mt.Checked:
                         if executableLink.strip()!="":
-                            executableLink = InputOutputs.checkNewDestination(executableLink)
+                            executableLink = fu.checkNewDestination(executableLink)
                             if executableLink:
                                 HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
-                                InputOutputs.createSymLink(InputOutputs.joinPath(self.installationDirectory, HamsiManagerFileName), executableLink)
+                                fu.createSymLink(fu.joinPath(self.installationDirectory, HamsiManagerFileName), executableLink)
                                 Settings.setUniversalSetting("HamsiManagerExecutableLinkPath", executableLink)
-                        if InputOutputs.isDir("/usr/share/applications/"):
+                        if fu.isDir("/usr/share/applications/"):
                             fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                            InputOutputs.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
+                            fu.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
                 if Variables.isRunningAsRoot()==False:
-                    if InputOutputs.isDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications"))==False:
-                        InputOutputs.makeDirs(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications"))
+                    if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))==False:
+                        fu.makeDirs(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
-                    InputOutputs.writeToFile(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"), fileContent)
+                    fu.writeToFile(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"), fileContent)
                 self.isInstallFinised = True
                 self.close()
             except:

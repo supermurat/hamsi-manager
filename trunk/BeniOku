@@ -3,7 +3,7 @@ Hamsi Manager
 Hamsi Manager ekstra işlemler için geliştirilen bir dosya yöneticisidir. Genel anlamda bir işlemi birden çok dosyaya tek seferde uygulamanız için düşünülmüş bir ortam olmasının yanında, bir dosya ile ilgili bir kaç işlemi tek seferde ve sonraki zamanlarda tekrar tekrar yapmak içinde kullanabilirsiniz. Tüm bunları yaparken size olabildiğince fazla seçenek sunar. Tamamen kişiselleştirilebilir bir ortam oluşturmayı hedeflemiş ve bunu kullanım kolaylığı ile birleştirmeyi amaç edinmiştir. GPLv3 lisansı altında dağıtılan ve tamamen Açık Kaynak Kodlu kütüphaneler ile geliştirilen bir projedir.
 
 Sistem Gereksinimleri : 
-    -Python 2.5+, 3.X (Bazı gereksinimler Python 3 için henüz destek vermiyor) http://www.python.org/download/
+    -Python 2.6+, 3.X (Bazı gereksinimler Python 3 için henüz destek vermiyor) http://www.python.org/download/
     -PyQt4 (Qt4) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.digia.com/
     -* PyKDE4 (Daha iyi bir masaüstü ortamı desteği için) http://techbase.kde.org/Development/Languages/Python
     -* PyQt4.Qsci (Qt4 - QsciScintilla) (Bazı özellikler için) http://www.riverbankcomputing.co.uk/software/pyqt/download - http://qt.digia.com/

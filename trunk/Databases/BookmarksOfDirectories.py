@@ -19,7 +19,7 @@
 
 from Core import Variables
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 from Databases import sqlite, getDefaultConnection, correctForSql, getAmendedSQLInsertOrUpdateQueries
 
 tableName = "bookmarksOfDirectories"
@@ -85,7 +85,7 @@ def getDeleteTableQuery():
 
 def getDefaultsQueries():
     sqlQueries = []
-    sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'Home'", "value" : "'"+InputOutputs.userDirectoryPath+"'", "type" : "''"}, ["value"])
+    sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'Home'", "value" : "'"+fu.userDirectoryPath+"'", "type" : "''"}, ["value"])
     if Variables.isWindows:
         sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'C:\\'", "value" : "'C:\\'", "type" : "''"}, ["value"])
     else:

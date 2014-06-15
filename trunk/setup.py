@@ -24,17 +24,17 @@ HamsiManagerDirectory = os.getcwd()
 sys.path.insert(0,HamsiManagerDirectory)
 try:
     from Core import Variables
-    import InputOutputs
+    import FileUtils as fu
 except:
     HamsiManagerDirectory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(HamsiManagerDirectory)))))
     sys.path.insert(0,HamsiManagerDirectory)
     from Core import Variables
-    import InputOutputs
+    import FileUtils as fu
 
 from cx_Freeze import setup, Executable
-InputOutputs.initStartupVariables()
-InputOutputs.HamsiManagerDirectory = HamsiManagerDirectory
-import InputOutputs
+fu.initStartupVariables()
+fu.HamsiManagerDirectory = HamsiManagerDirectory
+import FileUtils as fu
 
 includes = []
 excludes = ["_gtkagg", "_tkagg", "bsddb", "curses", "email", 
@@ -51,27 +51,27 @@ include_files = [(os.path.join(HamsiManagerDirectory, "Amarok"), "Amarok"),
                 (os.path.join(HamsiManagerDirectory, "Taggers"), "Taggers"),
                 (os.path.join(HamsiManagerDirectory, "Themes"), "Themes")]
              
-InputOutputs.writeToFile(InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManagerHasBeenBuilt"), str(sys.argv) + "\nPlease, don't remove this file.")
-include_files.append((os.path.join(InputOutputs.getTempDir(), "HamsiManagerHasBeenBuilt"), "HamsiManagerHasBeenBuilt"))
+fu.writeToFile(fu.joinPath(fu.getTempDir(), "HamsiManagerHasBeenBuilt"), str(sys.argv) + "\nPlease, don't remove this file.")
+include_files.append((os.path.join(fu.getTempDir(), "HamsiManagerHasBeenBuilt"), "HamsiManagerHasBeenBuilt"))
 
 data_files = []
 
 if os.name=="posix":
     from Core import MyConfigure
-    installationDirectory = InputOutputs.joinPath("/", "usr", "lib", "HamsiManager-" + Variables.version)
+    installationDirectory = fu.joinPath("/", "usr", "lib", "HamsiManager-" + Variables.version)
     fileContent = MyConfigure.getConfiguredDesktopFileContent(installationDirectory, "/usr/bin/hamsi")
-    InputOutputs.writeToFile(InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager.desktop"), fileContent)
-    data_files.append((InputOutputs.joinPath("/", "usr", "share", "applications"), [InputOutputs.joinPath(InputOutputs.getTempDir(), "HamsiManager.desktop")]))
+    fu.writeToFile(fu.joinPath(fu.getTempDir(), "HamsiManager.desktop"), fileContent)
+    data_files.append((fu.joinPath("/", "usr", "share", "applications"), [fu.joinPath(fu.getTempDir(), "HamsiManager.desktop")]))
     
     if Variables.isAvailableKDE4():
         for langCode in Variables.getInstalledLanguagesCodes():
-            KDELocalateDir = InputOutputs.joinPath("/", "usr", "share", "locale", str(langCode[:2]), "LC_MESSAGES")
-            langFile = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "DontTranslate", str(langCode), "HamsiManager.mo")
-            if InputOutputs.isFile(langFile):
+            KDELocalateDir = fu.joinPath("/", "usr", "share", "locale", str(langCode[:2]), "LC_MESSAGES")
+            langFile = fu.joinPath(fu.HamsiManagerDirectory, "Languages", "DontTranslate", str(langCode), "HamsiManager.mo")
+            if fu.isFile(langFile):
                 data_files.append((KDELocalateDir, [langFile]))
         
-    data_files.append((InputOutputs.joinPath("/", "usr", "share", "icons"), [InputOutputs.joinPath(HamsiManagerDirectory, "Themes", "Default", "Images", "hamsi.png")]))
-    data_files.append((InputOutputs.joinPath("/", "usr", "share", "pixmaps"), [InputOutputs.joinPath(HamsiManagerDirectory, "Themes", "Default", "Images", "hamsi.png")]))
+    data_files.append((fu.joinPath("/", "usr", "share", "icons"), [fu.joinPath(HamsiManagerDirectory, "Themes", "Default", "Images", "hamsi.png")]))
+    data_files.append((fu.joinPath("/", "usr", "share", "pixmaps"), [fu.joinPath(HamsiManagerDirectory, "Themes", "Default", "Images", "hamsi.png")]))
     
 eyed3ModuleName = "eyeD3"
 
@@ -80,7 +80,7 @@ try:
     eyed3ModuleName = "eyed3"
 except:pass
     
-packages = ["Amarok", "Core", "Databases", "Details", "InputOutputs", "Languages",
+packages = ["Amarok", "Core", "Databases", "Details", "FileUtils", "Languages",
         "MyPlugins", "Options", "SearchEngines", "SpecialTools", "Tables", "Taggers", "Tools", "Viewers", "Bars", 
         "hashlib", "tarfile", "urllib", "PyQt4", 
         "sqlite3", "ctypes", 
@@ -127,7 +127,7 @@ setup(
     name = "HamsiManager",
     version = Variables.version,
     description  = "Hamsi Manager is a file manager which was developed for extra operations.",
-    long_description = InputOutputs.readFromFile(os.path.join(HamsiManagerDirectory, "Languages/About_en_GB"), "utf-8"),
+    long_description = fu.readFromFile(os.path.join(HamsiManagerDirectory, "Languages/About_en_GB"), "utf-8"),
     author = "Murat Demir",
     author_email = "mopened@gmail.com",
     maintainer   = "Murat Demir",

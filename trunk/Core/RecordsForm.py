@@ -22,14 +22,15 @@ import sys
 from Core import Dialogs
 from Core import Universals
 from Core import Records
-import InputOutputs
+import FileUtils as fu
 import Options
+from Core import ReportBug
 
 class RecordsForm(MDialog):
     
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         pbtnClose = MPushButton(translate("RecordsForm", "Close"))
         pbtnClear = MPushButton(translate("RecordsForm", "Clear"))
@@ -53,7 +54,7 @@ class RecordsForm(MDialog):
         vblMain.addLayout(hbox1)
         vblMain.addWidget(self.teRecords)
         vblMain.addLayout(hbox)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
@@ -78,7 +79,7 @@ class RecordsForm(MDialog):
                 self.setRecordsFile()
             else:
                 recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
-                self.setRecordsFile(InputOutputs.joinPath(InputOutputs.oldRecordsDirectoryPath, recordFilePath))
+                self.setRecordsFile(fu.joinPath(fu.oldRecordsDirectoryPath, recordFilePath))
         except:
             ReportBug.ReportBug()
             
@@ -91,7 +92,7 @@ class RecordsForm(MDialog):
                     Records.clearRecords()
                 else:
                     recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
-                    InputOutputs.removeFile(InputOutputs.joinPath(InputOutputs.oldRecordsDirectoryPath, recordFilePath))
+                    fu.removeFile(fu.joinPath(fu.oldRecordsDirectoryPath, recordFilePath))
                     self.recordsList = [translate("RecordsForm", "Current Records")] + Records.getBackupRecordsList()
                     self.cbRecordsList.clear()
                     self.cbRecordsList.addItems(self.recordsList)

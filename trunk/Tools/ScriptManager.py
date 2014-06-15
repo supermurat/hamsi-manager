@@ -24,14 +24,14 @@ from Core import Universals
 from Core import ReportBug
 from Core import Scripts
 from Core import Variables
-import InputOutputs
+import FileUtils as fu
 import Options
 
 class ScriptManager(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
         from PyQt4.Qsci import QsciScintilla, QsciLexerPython, QsciAPIs
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         self.sciCommand = QsciScintilla()
         self.sciCommand.setUtf8(True)
@@ -87,7 +87,7 @@ class ScriptManager(MDialog):
         hbox1.addWidget(pbtnClose,1)
         vblMain.addLayout(hbox0)
         vblMain.addLayout(hbox1)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
@@ -117,7 +117,7 @@ class ScriptManager(MDialog):
         try:
             if self.checkForSave():
                 self.currentScriptFileName = self.scriptList[self.lwScriptList.currentRow()]
-                codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
+                codes = Scripts.getScript(fu.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
                 self.sciCommand.setText(trForUI(codes))
         except:
             ReportBug.ReportBug()
@@ -138,8 +138,8 @@ class ScriptManager(MDialog):
     def checkForSave(self):
         try:
             if self.currentScriptFileName is not None:
-                if InputOutputs.isFile(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName)):
-                    codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
+                if fu.isFile(fu.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName)):
+                    codes = Scripts.getScript(fu.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
                     if str(codes)!=str(self.sciCommand.text()):
                         if self.cckbIsAutoSaveScripts.checkState() == Mt.Checked:
                             self.save()
@@ -156,8 +156,8 @@ class ScriptManager(MDialog):
     
     def save(self):
         try:
-            codes = Scripts.getScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
-            Scripts.saveScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName), str(self.sciCommand.text()))
+            codes = Scripts.getScript(fu.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
+            Scripts.saveScript(fu.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName), str(self.sciCommand.text()))
         except:
             ReportBug.ReportBug()
 
@@ -166,7 +166,7 @@ class ScriptManager(MDialog):
             answer = Dialogs.ask(translate("ScriptManager", "Your Codes Will Be Deleted!.."), 
                                 translate("ScriptManager", "Your codes will be deleted and the default codes will be installed. Do you wish to clear the current codes?"))
             if answer==Dialogs.Yes:
-                Scripts.clearScript(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
+                Scripts.clearScript(fu.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
         except:
             ReportBug.ReportBug()
         
@@ -175,7 +175,7 @@ class ScriptManager(MDialog):
             answer = Dialogs.ask(translate("ScriptManager", "Your Script Will Be Deleted!.."), 
                                 translate("ScriptManager", "Your script will be deleted. Are you sure you want to delete current script?"))
             if answer==Dialogs.Yes:
-                InputOutputs.removeFile(InputOutputs.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
+                fu.removeFile(fu.joinPath(Scripts.pathOfScripsDirectory, self.currentScriptFileName))
                 self.refreshScriptList()
         except:
             ReportBug.ReportBug()

@@ -21,7 +21,7 @@ import sys
 import os
 from datetime import timedelta, datetime
 from Core import Variables
-import InputOutputs
+import FileUtils as fu
 from Core.MyObjects import *
 
 MainWindow = None
@@ -65,7 +65,7 @@ def setPathOfSettingsDirectory(_path):
     _path = str(_path)
     if _path[-1]==os.sep:
         _path = _path[:-1]
-    InputOutputs.pathOfSettingsDirectory = _path
+    fu.pathOfSettingsDirectory = _path
 
 def trForUI(_s):
     return str(_s)
@@ -152,9 +152,9 @@ def fillMySettings(_setAgain=False, _isCheckUpdate=True):
         if newSettingVersion!=settingVersion:
             newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion, newSettingVersion)
             isShowVerifySettings = True
-    InputOutputs.fileSystemEncoding = MySettings["fileSystemEncoding"]
+    fu.fileSystemEncoding = MySettings["fileSystemEncoding"]
     windowMode = MySettings["windowMode"]
-    InputOutputs.themePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Themes", MySettings["themeName"])
+    fu.themePath = fu.joinPath(fu.HamsiManagerDirectory, "Themes", MySettings["themeName"])
     if tableType == None:
         tableType = MySettings["tableType"]
         if tableType not in Variables.tableTypesNames:

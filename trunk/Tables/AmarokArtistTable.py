@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core import Organizer
-import InputOutputs
+import FileUtils as fu
 import SearchEngines
 from Core.MyObjects import *
 from Details import AmarokArtistDetails
@@ -68,7 +68,7 @@ class AmarokArtistTable():
                                     ReportBug.ReportBug()
                             else:
                                 allItemNumber = musicFileNo+1
-                            Dialogs.showState(translate("InputOutputs/Covers", "Reading Music File Informations"),
+                            Dialogs.showState(translate("FileUtils/Covers", "Reading Music File Informations"),
                                               musicFileNo+1,allItemNumber, True) 
                             musicFileNo += 1
                             if isContinueThreadAction==False:
@@ -82,7 +82,7 @@ class AmarokArtistTable():
         Universals.startThreadAction()
         import Amarok
         allItemNumber = len(self.Table.currentTableContentValues)
-        Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,allItemNumber, True)
+        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),0,allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
@@ -99,7 +99,7 @@ class AmarokArtistTable():
                     ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo+1
-            Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
@@ -141,7 +141,7 @@ class AmarokArtistTable():
             isReadOnly = self.Table.currentTableContentValues[rowNo]["name"].strip()==""
             item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["name"], isReadOnly)
             self.Table.setItem(rowNo, 1, item)
-            Dialogs.showState(translate("InputOutputs/Tables", "Generating Table..."), rowNo+1, allItemNumber) 
+            Dialogs.showState(translate("FileUtils/Tables", "Generating Table..."), rowNo+1, allItemNumber)
                         
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):

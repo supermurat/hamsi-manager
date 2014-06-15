@@ -170,12 +170,12 @@ class SearchAndReplace(MWidget):
 class SearchAndReplaceListEditDialog(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("SearchAndReplaceListEditDialog", "Advanced Value Editor"))
         currentValueForSearch = str(self.parent().leSearch.text())
         currentValueForReplace = str(self.parent().leReplace.text())
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.EditorWidgetForSearch = MEditListBox(self)
             self.EditorWidgetForSearch.setItems([trForUI(x) for x in currentValueForSearch.split(";")])
             self.EditorWidgetForReplace = MEditListBox(self)
@@ -199,7 +199,7 @@ class SearchAndReplaceListEditDialog(MDialog):
         hblBox.addWidget(pbtnApply)
         hblBox.addWidget(pbtnCancel)
         vblMain.addLayout(hblBox)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
@@ -209,7 +209,7 @@ class SearchAndReplaceListEditDialog(MDialog):
     def apply(self):
         valueForSearch = ""
         valueForReplace = ""
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             for y, info in enumerate(self.EditorWidgetForSearch.items()):
                 if y!=0:
                     valueForSearch += ";"

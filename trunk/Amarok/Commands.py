@@ -750,7 +750,7 @@ def getOrInsertDirectory(_directory, _deviceId):
     return rows[0][0]
 
 def changeFilePath(_oldPath, _newPath):
-    import InputOutputs
+    import FileUtils as fu
     _oldPath, _newPath = str(_oldPath), str(_newPath)
     withOutDevicePointValues, withOutDeviceValues = [], []
     for devicePoint in getDevices():
@@ -770,10 +770,10 @@ def changeFilePath(_oldPath, _newPath):
     db = Amarok.checkAndGetDB()
     db.query("UPDATE urls SET rpath='.%s' WHERE rpath='.%s'" % (_newPath, _oldPath))
     for withOutDevice in withOutDeviceValues:
-        directoryID = getOrInsertDirectory(InputOutputs.getDirName(withOutDevice["newPath"]), "-1")
+        directoryID = getOrInsertDirectory(fu.getDirName(withOutDevice["newPath"]), "-1")
         db.query("UPDATE urls SET rpath='.%s', directory=%s, deviceid = -1 WHERE deviceid = %s and rpath = '.%s' " % (withOutDevice["newPath"], directoryID, withOutDevice["id"], withOutDevice["oldPath"]))
     for withOutDevicePoint in withOutDevicePointValues:
-        directoryID = getOrInsertDirectory(InputOutputs.getDirName(withOutDevicePoint["newPath"]), withOutDevicePoint["id"])
+        directoryID = getOrInsertDirectory(fu.getDirName(withOutDevicePoint["newPath"]), withOutDevicePoint["id"])
         db.query("UPDATE urls SET rpath='.%s', directory=%s WHERE deviceid = %s and rpath = '.%s'" % (withOutDevicePoint["newPath"], directoryID, withOutDevicePoint["id"], withOutDevicePoint["oldPath"]))
     db.query("UPDATE images SET path='%s' WHERE path='%s'" % (_newPath, _oldPath))
     db.query("UPDATE lyrics SET url='.%s' WHERE url='.%s'" % (_newPath, _oldPath))

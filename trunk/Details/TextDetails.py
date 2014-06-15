@@ -18,7 +18,7 @@
 
 
 from Core import Variables
-import InputOutputs
+import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
@@ -31,7 +31,7 @@ class TextDetails(MDialog):
     
     def __init__(self,_filePath,_isOpenDetailsOnNewWindow):
         global textDialogs
-        _filePath = InputOutputs.checkSource(_filePath, "file")
+        _filePath = fu.checkSource(_filePath, "file")
         if _filePath is not None:
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
@@ -48,7 +48,7 @@ class TextDetails(MDialog):
             if _isOpenDetailsOnNewWindow==True:
                 textDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
-                if isActivePyKDE4==True:
+                if isActivePyKDE4:
                     self.setButtons(MDialog.NoDefault)
                 self.charSet = MComboBox()
                 self.charSet.addItems(Variables.getCharSets())
@@ -75,7 +75,7 @@ class TextDetails(MDialog):
                 VBOXs[0].addLayout(HBOXs[-1])
                 VBOXs[0].addWidget(pbtnClose)
                 self.vblMain.addLayout(VBOXs[0], 1)
-                if isActivePyKDE4==True:
+                if isActivePyKDE4:
                     self.setMainWidget(self.pnlMain)
                 else:
                     self.setLayout(self.vblMain)
@@ -89,8 +89,8 @@ class TextDetails(MDialog):
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()
     
     def changeFile(self, _filePath, _isNew=False):
-        self.fileValues = InputOutputs.readTextFile(_filePath, Universals.MySettings["fileSystemEncoding"])
-        self.setWindowTitle(trForUI(InputOutputs.getBaseName(self.fileValues["path"])))    
+        self.fileValues = fu.readTextFile(_filePath, Universals.MySettings["fileSystemEncoding"])
+        self.setWindowTitle(trForUI(fu.getBaseName(self.fileValues["path"])))
         if self.pnlClearable != None:
             Universals.clearAllChilds(self.pnlClearable, True)
         self.pnlClearable = MWidget()
@@ -98,9 +98,9 @@ class TextDetails(MDialog):
         vblClearable = MVBoxLayout(self.pnlClearable)
         self.infoLabels["path"] = MLabel(self.labels[0]) 
         self.infoLabels["content"] = MLabel(self.labels[1]) 
-        dirPath = InputOutputs.getDirName(self.fileValues["path"])
-        baseName = InputOutputs.getBaseName(self.fileValues["path"])
-        self.infoValues["path"] = MLineEdit(trForUI(InputOutputs.joinPath(dirPath, Organizer.emend(baseName, "file"))))
+        dirPath = fu.getDirName(self.fileValues["path"])
+        baseName = fu.getBaseName(self.fileValues["path"])
+        self.infoValues["path"] = MLineEdit(trForUI(fu.joinPath(dirPath, Organizer.emend(baseName, "file"))))
         self.infoValues["content"] = MPlainTextEdit(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
         self.infoValues["content"].setLineWrapMode(MPlainTextEdit.NoWrap)
         self.sourceCharSet = MComboBox()
@@ -119,7 +119,7 @@ class TextDetails(MDialog):
         
     def sourceCharSetChanged(self):
         try:
-            self.fileValues = InputOutputs.readTextFile(self.fileValues["path"], str(self.sourceCharSet.currentText()))
+            self.fileValues = fu.readTextFile(self.fileValues["path"], str(self.sourceCharSet.currentText()))
             self.infoValues["content"].setPlainText(trForUI(Organizer.emend(self.fileValues["content"], "text", False, True)))
         except:
             Dialogs.showError(translate("TextDetails", "Incorrect File Encoding"), 
@@ -142,7 +142,7 @@ class TextDetails(MDialog):
             newFileValues = {}
             newFileValues["path"] = str(self.infoValues["path"].text())
             newFileValues["content"] = str(self.infoValues["content"].toPlainText())
-            newPath = InputOutputs.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
+            newPath = fu.writeTextFile(self.fileValues, newFileValues, str(self.charSet.currentText()))
             if newPath!=self.fileValues["path"]:
                 self.changeFile(newPath)
             if hasattr(Universals.MainWindow, "FileManager") and Universals.MainWindow.FileManager is not None: Universals.MainWindow.FileManager.makeRefresh()

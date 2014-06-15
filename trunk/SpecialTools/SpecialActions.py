@@ -20,7 +20,7 @@
 from Core import Variables
 from Core import Organizer
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 from Core.MyObjects import *
 import Tables
 from Core import Dialogs
@@ -276,7 +276,7 @@ class SpecialActions(MWidget):
                         columnNo = Universals.MainWindow.Table.tableColumnsKey.index(objectName)
                         valueOfField = str(Universals.MainWindow.Table.item(rowNo,columnNo).text())
                         if objectName == "File Name" or objectName == "File/Directory Name":
-                            valueOfField, ext = InputOutputs.getFileNameParts(valueOfField)
+                            valueOfField, ext = fu.getFileNameParts(valueOfField)
                         sourceString += valueOfField
                         sourceList.append(valueOfField)
                         if point!="":

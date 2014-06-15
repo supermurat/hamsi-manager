@@ -22,9 +22,9 @@ from Core.MyObjects import *
 from Core import Dialogs
 from Core import Universals
 from Core import ReportBug
-import InputOutputs
+import FileUtils as fu
 
-pathOfScripsDirectory = InputOutputs.joinPath(InputOutputs.pathOfSettingsDirectory, "Scripts")
+pathOfScripsDirectory = fu.joinPath(fu.pathOfSettingsDirectory, "Scripts")
 
 def createDefaultScript(_filePath):
     defaultCodes = ("#!/usr/bin/env python\n" +
@@ -34,39 +34,39 @@ def createDefaultScript(_filePath):
                     "#You can get detailed information from our official website.\n"+
                     "from Core import Dialogs\nDialogs.show(\"This is an example\",\"You can develop the examples as you wish.\")"+
                     "\n\n\n\n\n\n\n\n\n")
-    InputOutputs.writeToFile(_filePath, defaultCodes)
+    fu.writeToFile(_filePath, defaultCodes)
 
 def getNextScriptFilePath():
     i = 1
     while True:
-        nextScriptFilePath = InputOutputs.joinPath(pathOfScripsDirectory, translate("Scripts", "Script") + "-" + str(i) + ".py")
-        if InputOutputs.isFile(nextScriptFilePath)==False:
+        nextScriptFilePath = fu.joinPath(pathOfScripsDirectory, translate("Scripts", "Script") + "-" + str(i) + ".py")
+        if fu.isFile(nextScriptFilePath)==False:
             return nextScriptFilePath
         i = i + 1
 
 def createNewScript():
     filePath = getNextScriptFilePath()
     createDefaultScript(filePath)
-    return InputOutputs.getBaseName(filePath)
+    return fu.getBaseName(filePath)
 
 def getScript(_filePath):
-    _filePath = InputOutputs.checkSource(_filePath, "file", False)
+    _filePath = fu.checkSource(_filePath, "file", False)
     if _filePath is not None:
-        return InputOutputs.readFromFile(_filePath)
+        return fu.readFromFile(_filePath)
     return None
 
 def getScriptList():
-    if InputOutputs.isDir(pathOfScripsDirectory)==False:
-        InputOutputs.makeDirs(pathOfScripsDirectory)
+    if fu.isDir(pathOfScripsDirectory)==False:
+        fu.makeDirs(pathOfScripsDirectory)
         createNewScript()
-    scriptList = InputOutputs.readDirectory(pathOfScripsDirectory, "file")
+    scriptList = fu.readDirectory(pathOfScripsDirectory, "file")
     if len(scriptList)==0:
         createNewScript()
-        scriptList = InputOutputs.readDirectory(pathOfScripsDirectory, "file")
+        scriptList = fu.readDirectory(pathOfScripsDirectory, "file")
     return scriptList
 
 def saveScript(_filePath, _codes):
-    InputOutputs.writeToFile(_filePath, _codes)
+    fu.writeToFile(_filePath, _codes)
 
 def clearScript(_filePath):
     createDefaultScript(_filePath)

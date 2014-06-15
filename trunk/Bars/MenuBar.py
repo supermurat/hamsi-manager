@@ -38,7 +38,7 @@ class MenuBar(MMenuBar):
         self.mView.setObjectName(translate("MenuBar", "View"))
         self.mSettings = self.addMenu(translate("MenuBar", "Settings"))
         self.mSettings.setObjectName(translate("MenuBar", "Settings"))
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.mHelpMenu = Universals.MainWindow.helpMenu()
             self.mHelpMenu.setObjectName(self.mHelpMenu.title())
             self.aHelpMenu = self.addMenu(self.mHelpMenu)
@@ -85,7 +85,7 @@ class MenuBar(MMenuBar):
         if Variables.isRunableAsRoot():
             self.mSettings.addAction(translate("MenuBar", "My Plugins (System)")).setObjectName(translate("MenuBar", "My Plugins (System)"))
             self.mSettings.addAction(translate("MenuBar", "Reconfigure (System)")).setObjectName(translate("MenuBar", "Reconfigure (System)"))
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             actReportBug = MAction(translate("MenuBar", "Report Bug"), self.mHelpMenu)
             actReportBug.setObjectName(translate("MenuBar", "Report Bug"))
             self.mHelpMenu.insertAction(self.mHelpMenu.actions()[3], actReportBug)

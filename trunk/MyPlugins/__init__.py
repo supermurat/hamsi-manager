@@ -22,7 +22,7 @@ from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
 from Core import Settings
-import InputOutputs
+import FileUtils as fu
 import sys
 from Core import MyConfigure
 from Core import ReportBug
@@ -34,7 +34,7 @@ class MyPlugins(MyDialog):
     def __init__(self):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Searcher")
@@ -57,7 +57,7 @@ class MyPlugins(MyDialog):
         vblMain.addStretch(1)
         vblMain.addLayout(HBox1)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -109,15 +109,15 @@ class MyPlugins(MyDialog):
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], 0)
         if pluginModule.installThisPlugin==None:
             if pluginModule.pluginDirectory=="":
-                try:InputOutputs.makeDirs(pluginModule.setupDirectory)
+                try:fu.makeDirs(pluginModule.setupDirectory)
                 except:pass
                 for pluginFile in pluginModule.pluginFiles:
-                    InputOutputs.copyOrChange(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
-                    MyConfigure.reConfigureFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
+                    fu.copyOrChange(fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), fu.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
+                    MyConfigure.reConfigureFile(fu.joinPath(pluginModule.setupDirectory, pluginFile))
                 isInstalled = True
             else:
-                oldFilePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
-                newFilePath = InputOutputs.copyOrChange(oldFilePath, InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory), "directory", "only", True)
+                oldFilePath = fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
+                newFilePath = fu.copyOrChange(oldFilePath, fu.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory), "directory", "only", True)
                 if newFilePath!=oldFilePath:
                     isInstalled = True
         else:
@@ -142,12 +142,12 @@ class MyPlugins(MyDialog):
         if pluginModule.uninstallThisPlugin==None:
             if pluginModule.pluginDirectory=="":
                 for pluginFile in pluginModule.pluginFiles:
-                    if InputOutputs.isFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile)):
-                        InputOutputs.removeFileOrDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
+                    if fu.isFile(fu.joinPath(pluginModule.setupDirectory, pluginFile)):
+                        fu.removeFileOrDir(fu.joinPath(pluginModule.setupDirectory, pluginFile))
                 isUninstalled = True
             else:
-                if InputOutputs.isDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory)):
-                    InputOutputs.removeFileOrDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory))
+                if fu.isDir(fu.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory)):
+                    fu.removeFileOrDir(fu.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory))
                 isUninstalled = True
         else:
             isUninstalled = pluginModule.uninstallThisPlugin()
@@ -237,15 +237,15 @@ class MyPluginsForSystem(MWidget):
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(), ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin", "setupDirectory", "pluginVersion"], 0)
         if pluginModule.installThisPlugin==None:
             if pluginModule.pluginDirectory=="":
-                try:InputOutputs.makeDirs(pluginModule.setupDirectory)
+                try:fu.makeDirs(pluginModule.setupDirectory)
                 except:pass
                 for pluginFile in pluginModule.pluginFiles:
-                    InputOutputs.copyOrChange(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
-                    MyConfigure.reConfigureFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
+                    fu.copyOrChange(fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginFile), fu.joinPath(pluginModule.setupDirectory, pluginFile), "file", "only", True)
+                    MyConfigure.reConfigureFile(fu.joinPath(pluginModule.setupDirectory, pluginFile))
                 isInstalled = True
             else:
-                oldFilePath = InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
-                newFilePath = InputOutputs.copyOrChange(oldFilePath, InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory), "directory", "only", True)
+                oldFilePath = fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins", _pluginName, pluginModule.pluginDirectory)
+                newFilePath = fu.copyOrChange(oldFilePath, fu.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory), "directory", "only", True)
                 if newFilePath!=oldFilePath:
                     isInstalled = True
         else:
@@ -270,12 +270,12 @@ class MyPluginsForSystem(MWidget):
         if pluginModule.uninstallThisPlugin==None:
             if pluginModule.pluginDirectory=="":
                 for pluginFile in pluginModule.pluginFiles:
-                    if InputOutputs.isFile(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile)):
-                        InputOutputs.removeFileOrDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginFile))
+                    if fu.isFile(fu.joinPath(pluginModule.setupDirectory, pluginFile)):
+                        fu.removeFileOrDir(fu.joinPath(pluginModule.setupDirectory, pluginFile))
                 isUninstalled = True
             else:
-                if InputOutputs.isDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory)):
-                    InputOutputs.removeFileOrDir(InputOutputs.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory))
+                if fu.isDir(fu.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory)):
+                    fu.removeFileOrDir(fu.joinPath(pluginModule.setupDirectory, pluginModule.pluginDirectory))
                 isUninstalled = True
         else:
             isUninstalled = pluginModule.uninstallThisPlugin()

@@ -21,7 +21,7 @@ import sys,os
 import time
 from Core import Variables
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 from Core import Dialogs
 from Core import ReportBug
 from Core.MyObjects import *
@@ -31,7 +31,7 @@ class UpdateControl(MDialog):
     def __init__(self,_parent, _isNotInstall=False, _isCloseParent=False):
         MDialog.__init__(self, _parent)
         QtWebKit = getMyObject("QtWebKit")
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         if _isNotInstall==False:
             if Variables.isUpdatable()==False:
@@ -97,7 +97,7 @@ class UpdateControl(MDialog):
         self.pbtnDownloadAndInstall.setFixedWidth(180)
         self.setFixedWidth(400)
         self.setFixedHeight(130)   
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setMainWidget(self.pnlMain)
         else:
             self.setLayout(self.vblMain)
@@ -199,10 +199,10 @@ class UpdateControl(MDialog):
     def downloadAndInstall(self):
         try:
             if Variables.isBuilt() == False:
-                if InputOutputs.isWritableFileOrDir(InputOutputs.HamsiManagerDirectory, True) == False:
+                if fu.isWritableFileOrDir(fu.HamsiManagerDirectory, True) == False:
                     from Core import Organizer
                     Dialogs.showError(translate("UpdateControl", "Access Denied"),
-                            str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(InputOutputs.HamsiManagerDirectory))
+                            str(translate("UpdateControl", "\"%s\" : you do not have the necessary permissions to change this directory.<br />Please check your access controls and retry. <br />Note: You can run Hamsi Manager as root and try again.")) % Organizer.getLink(fu.HamsiManagerDirectory))
             self.setFixedHeight(130)   
             self.isDownloading=True
             self.prgbState.setVisible(True)
@@ -219,11 +219,11 @@ class UpdateControl(MDialog):
             fileDialogTitle = translate("UpdateControl", "You Can Click Cancel To Update Without Saving The Package.")
             if self.isNotInstall:
                 fileDialogTitle = translate("UpdateControl", "Save New Version Of Hamsi Manager")
-            fileName = Dialogs.getSaveFileName(fileDialogTitle, InputOutputs.joinPath(InputOutputs.getDirName(InputOutputs.HamsiManagerDirectory), defaultFileName))
+            fileName = Dialogs.getSaveFileName(fileDialogTitle, fu.joinPath(fu.getDirName(fu.HamsiManagerDirectory), defaultFileName))
             if self.isNotInstall==False or fileName is not None:
                 if fileName is None:
                     import random
-                    fileName = InputOutputs.joinPath(InputOutputs.getTempDir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])
+                    fileName = fu.joinPath(fu.getTempDir(), defaultFileName[:-7]+"-"+str(random.randrange(0, 1000000))+defaultFileName[-7:])
                 self.pbtnDownloadAndInstall.setEnabled(False)
                 newRequest = _request
                 newRequest.setAttribute(MNetworkRequest.User,Universals.trQVariant(fileName))
@@ -256,7 +256,7 @@ class UpdateControl(MDialog):
                 request = reply.request()
                 v = request.attribute(MNetworkRequest.User)
                 fileName = Universals.trStr(v)
-                InputOutputs.writeToBinaryFile(fileName, reply.readAll())
+                fu.writeToBinaryFile(fileName, reply.readAll())
                 self.install(fileName)
         except:
             ReportBug.ReportBug()

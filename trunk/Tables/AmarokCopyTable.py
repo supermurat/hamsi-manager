@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core import Organizer
-import InputOutputs
+import FileUtils as fu
 import SearchEngines
 from Core.MyObjects import *
 from Details import MusicDetails
@@ -38,7 +38,7 @@ class AmarokCopyTable():
         self.hiddenTableColumnsSettingKey = "hiddenAmarokCopyTableColumns"
         self.refreshColumns()
         lblDestinationDir = MLabel(translate("AmarokCopyTable", "Destination Path : "))
-        self.leDestinationDirPath = MLineEdit(InputOutputs.userDirectoryPath)
+        self.leDestinationDirPath = MLineEdit(fu.userDirectoryPath)
         self.pbtnSelectDestinationDir = MPushButton(translate("AmarokCopyTable", "Browse"))
         self.Table.connect(self.pbtnSelectDestinationDir,SIGNAL("clicked()"),self.selectDestinationDir)
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
@@ -85,7 +85,7 @@ class AmarokCopyTable():
                                         content = {}
                                         content["path"] = musicFileRow["filePath"]
                                         content["baseNameOfDirectory"] = ""
-                                        content["baseName"] = InputOutputs.getBaseName(musicFileRow["filePath"])
+                                        content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
                                         content["artist"] = musicFileRow["artist"]
                                         content["title"] = musicFileRow["title"]
                                         content["album"] = musicFileRow["album"]
@@ -96,18 +96,18 @@ class AmarokCopyTable():
                                         content["firstLyrics"] = musicFileRow["lyrics"]
                                         currentTableContentValues.append(content)
                                     else:
-                                        if InputOutputs.isFile(musicFileRow["filePath"]) and InputOutputs.isReadableFileOrDir(musicFileRow["filePath"], False, True):
+                                        if fu.isFile(musicFileRow["filePath"]) and fu.isReadableFileOrDir(musicFileRow["filePath"], False, True):
                                             tagger = Taggers.getTagger()
                                             try:
                                                 tagger.loadFile(musicFileRow["filePath"])
                                             except:
-                                                Dialogs.showError(translate("InputOutputs/Musics", "Incorrect Tag"), 
-                                                    str(translate("InputOutputs/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
+                                                Dialogs.showError(translate("FileUtils/Musics", "Incorrect Tag"),
+                                                    str(translate("FileUtils/Musics", "\"%s\" : this file has the incorrect tag so can't read tags.")
                                                     ) % Organizer.getLink(musicFileRow["filePath"]))
                                             content = {}
                                             content["path"] = musicFileRow["filePath"]
                                             content["baseNameOfDirectory"] = ""
-                                            content["baseName"] = InputOutputs.getBaseName(musicFileRow["filePath"])
+                                            content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
                                             content["artist"] = tagger.getArtist()
                                             content["title"] = tagger.getTitle()
                                             content["album"] = tagger.getAlbum()
@@ -121,7 +121,7 @@ class AmarokCopyTable():
                                     ReportBug.ReportBug()
                             else:
                                 allItemNumber = musicFileNo+1
-                            Dialogs.showState(translate("InputOutputs/Covers", "Reading Music File Informations"),
+                            Dialogs.showState(translate("FileUtils/Covers", "Reading Music File Informations"),
                                               musicFileNo+1,allItemNumber, True) 
                             musicFileNo += 1
                             if isContinueThreadAction==False:
@@ -134,7 +134,7 @@ class AmarokCopyTable():
         Universals.startThreadAction()
         import Amarok
         allItemNumber = len(self.Table.currentTableContentValues)
-        Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),0,allItemNumber, True)
+        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),0,allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = Universals.isContinueThreadAction()
             if isContinueThreadAction:
@@ -148,10 +148,10 @@ class AmarokCopyTable():
                         if self.Table.isChangableItem(rowNo, 1, baseName, False):
                             baseName = str(self.Table.item(rowNo,1).text())
                             self.Table.changedValueNumber += 1
-                        newFilePath = InputOutputs.getRealPath(InputOutputs.joinPath(str(self.Table.SubTable.leDestinationDirPath.text()), baseNameOfDirectory, baseName))
-                        if InputOutputs.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and InputOutputs.isReadableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
-                            if InputOutputs.isWritableFileOrDir(newFilePath, False, True):
-                                newFilePathCopied = InputOutputs.copyOrChange(self.Table.currentTableContentValues[rowNo]["path"], newFilePath)
+                        newFilePath = fu.getRealPath(fu.joinPath(str(self.Table.SubTable.leDestinationDirPath.text()), baseNameOfDirectory, baseName))
+                        if fu.isFile(self.Table.currentTableContentValues[rowNo]["path"]) and fu.isReadableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
+                            if fu.isWritableFileOrDir(newFilePath, False, True):
+                                newFilePathCopied = fu.copyOrChange(self.Table.currentTableContentValues[rowNo]["path"], newFilePath)
                                 if self.Table.currentTableContentValues[rowNo]["path"] != newFilePathCopied:
                                     newFilePath = newFilePathCopied
                                     try:
@@ -213,7 +213,7 @@ class AmarokCopyTable():
                     ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo+1
-            Dialogs.showState(translate("InputOutputs/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
             if isContinueThreadAction==False:
                 break
         Universals.finishThreadAction()
@@ -296,7 +296,7 @@ class AmarokCopyTable():
                     item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["firstLyrics"])
                 if item!=None:
                     self.Table.setItem(rowNo, itemNo, item)
-            Dialogs.showState(translate("InputOutputs/Tables", "Generating Table..."), rowNo+1, allItemNumber) 
+            Dialogs.showState(translate("FileUtils/Tables", "Generating Table..."), rowNo+1, allItemNumber)
                         
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):

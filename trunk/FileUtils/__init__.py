@@ -23,7 +23,6 @@ import shutil
 import stat
 import re
 import tempfile
-import ctypes
 import mimetypes
 from Core.MyObjects import *
 from Core import Variables
@@ -41,7 +40,7 @@ willCheckEmptyDirectoriesSubDirectoryStatus = []
 isSmartCheckIcon = False
 isSmartCheckEmptyDirectories = False
 sep = os.sep
-paths = {}#FIXME:add all paths in this
+paths = {} #FIXME:add all paths in this
 
 executableAppPath, userDirectoryPath, HamsiManagerDirectory = None, None, None
 themePath, pathOfSettingsDirectory, recordFilePath, oldRecordsDirectoryPath = None, None, None, None
@@ -378,8 +377,8 @@ def moveFileOrDir(_oldPath, _newPath, _isQuiet=True):
         Records.add("Moved", _oldPath, _newPath)
     except:
         if _isQuiet==False:
-            answer = Dialogs.askSpecial(translate("InputOutputs", "An Error Has Occurred"),
-                    str(translate("InputOutputs", "\"%s\" > \"%s\" : an unknown error has occurred.<br>Please check it and try again.")) % (Organizer.getLink(_oldPath), Organizer.getLink(_newPath)),
+            answer = Dialogs.askSpecial(translate("FileUtils", "An Error Has Occurred"),
+                    str(translate("FileUtils", "\"%s\" > \"%s\" : an unknown error has occurred.<br>Please check it and try again.")) % (Organizer.getLink(_oldPath), Organizer.getLink(_newPath)),
                         translate("Dialogs", "Cancel"),
                         translate("Dialogs", "Show Error Details"),
                         translate("Dialogs", "Retry"))
@@ -518,15 +517,15 @@ def isReadableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
         else:
             okButtonLabel = translate("Dialogs", "OK")
         if isDir(realPath):
-            answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"),
-                    str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath),
+            answer = Dialogs.askSpecial(translate("FileUtils", "Access Denied"),
+                    str(translate("FileUtils", "\"%s\" : you do not have the necessary permissions to read this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath),
                         okButtonLabel,
                         translate("Dialogs", "Retry"))
             if answer==translate("Dialogs", "Retry"):
                 return isReadableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
         else:
-            answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"),
-                    str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath),
+            answer = Dialogs.askSpecial(translate("FileUtils", "Access Denied"),
+                    str(translate("FileUtils", "\"%s\" : you do not have the necessary permissions to read this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath),
                         okButtonLabel,
                         translate("Dialogs", "Retry"))
             if answer==translate("Dialogs", "Retry"):
@@ -549,15 +548,15 @@ def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
         else:
             okButtonLabel = translate("Dialogs", "OK")
         if isDir(realPath):
-            answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"),
-                    str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath),
+            answer = Dialogs.askSpecial(translate("FileUtils", "Access Denied"),
+                    str(translate("FileUtils", "\"%s\" : you do not have the necessary permissions to change this directory.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath),
                         okButtonLabel,
                         translate("Dialogs", "Retry"))
             if answer==translate("Dialogs", "Retry"):
                 return isWritableFileOrDir(_newPath, _isOnlyCheck, _isInLoop)
         else:
-            answer = Dialogs.askSpecial(translate("InputOutputs", "Access Denied"),
-                    str(translate("InputOutputs", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath),
+            answer = Dialogs.askSpecial(translate("FileUtils", "Access Denied"),
+                    str(translate("FileUtils", "\"%s\" : you do not have the necessary permissions to change this file.<br>Please check your access controls and retry.")) % Organizer.getLink(realPath),
                         okButtonLabel,
                         translate("Dialogs", "Retry"))
             if answer==translate("Dialogs", "Retry"):
@@ -593,14 +592,14 @@ def checkSource(_oldPath, _objectType="fileAndDirectory", _isShowAlert=True):
             return oldPath
     if _isShowAlert:
         if _objectType=="file":
-            Dialogs.showError(translate("InputOutputs", "Cannot Find File"),
-                    str(translate("InputOutputs", "\"%s\" : cannot find a file with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+            Dialogs.showError(translate("FileUtils", "Cannot Find File"),
+                    str(translate("FileUtils", "\"%s\" : cannot find a file with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
         elif _objectType=="directory":
-            Dialogs.showError(translate("InputOutputs", "Cannot Find Directory"),
-                    str(translate("InputOutputs", "\"%s\" : cannot find a folder with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+            Dialogs.showError(translate("FileUtils", "Cannot Find Directory"),
+                    str(translate("FileUtils", "\"%s\" : cannot find a folder with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
         else:
-            Dialogs.showError(translate("InputOutputs", "Cannot Find File Or Directory"),
-                    str(translate("InputOutputs", "\"%s\" : cannot find a file or directory with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
+            Dialogs.showError(translate("FileUtils", "Cannot Find File Or Directory"),
+                    str(translate("FileUtils", "\"%s\" : cannot find a file or directory with this name.<br>Please make sure that it exists and retry.")) % Organizer.getLink(_oldPath))
     return None
 
 def checkDestination(_oldPath, _newPath, _isQuiet=False):
@@ -609,14 +608,14 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     while isAvailableNameForEncoding(_newPath) == False:
-        _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
-                                    str(translate("InputOutputs", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
+        _newPath = Dialogs.getText(translate("FileUtils", "Unavailable Name"),
+                                    str(translate("FileUtils", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
         if _newPath is None:
             return False
     availableNameByName = getAvailablePathByPath(_newPath)
     while _newPath!=availableNameByName:
-        _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
-                                    str(translate("InputOutputs", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
+        _newPath = Dialogs.getText(translate("FileUtils", "Unavailable Name"),
+                                    str(translate("FileUtils", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
         if _newPath is None:
             return False
         availableNameByName = getAvailablePathByPath(_newPath)
@@ -629,8 +628,8 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
                     if _isQuiet:
                         return _newPath
                     else:
-                        answer = Dialogs.askSpecial(translate("InputOutputs", "Current File Name"),
-                                    str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath),
+                        answer = Dialogs.askSpecial(translate("FileUtils", "Current File Name"),
+                                    str(translate("FileUtils", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath),
                             translate("Dialogs", "Replace"),
                             translate("Dialogs", "Rename"),
                             translate("Dialogs", "Cancel"))
@@ -638,8 +637,8 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
                             removeFile(_newPath)
                             return _newPath
                         elif answer==translate("Dialogs", "Rename"):
-                            newPath = Dialogs.getSaveFileName(translate("InputOutputs", "Select A New Name For File"),
-                                                    _newPath, translate("InputOutputs", "All Files") + " (*)", 0)
+                            newPath = Dialogs.getSaveFileName(translate("FileUtils", "Select A New Name For File"),
+                                                    _newPath, translate("FileUtils", "All Files") + " (*)", 0)
                             if newPath is not None:
                                 return checkDestination(_oldPath, newPath, _isQuiet)
                             return False
@@ -647,16 +646,16 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
                             return False
                 elif isDir(_newPath):
                     if isFile(_oldPath):
-                        answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"),
-                                str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)),
+                        answer = Dialogs.askSpecial(translate("FileUtils", "Current Directory Name"),
+                                str(translate("FileUtils", "\"%s\" : there already exists a folder with the same name.<br>\"%s\" Add this file to the current folder?")) % (Organizer.getLink(_newPath), Organizer.getLink(_newPath)),
                             translate("Dialogs", "Yes, Add Into"),
                             translate("Dialogs", "Rename"),
                             translate("Dialogs", "Cancel"))
                         if answer==translate("Dialogs", "Yes, Add Into"):
                             return joinPath(_newPath, getBaseName(_newPath))
                         elif answer==translate("Dialogs", "Rename"):
-                            newPath = Dialogs.getSaveFileName(translate("InputOutputs", "Select A New Name For File"),
-                                                    _newPath, translate("InputOutputs", "All Files") + " (*)", 0)
+                            newPath = Dialogs.getSaveFileName(translate("FileUtils", "Select A New Name For File"),
+                                                    _newPath, translate("FileUtils", "All Files") + " (*)", 0)
                             if newPath is not None:
                                 return checkDestination(_oldPath, newPath, _isQuiet)
                             return False
@@ -673,8 +672,8 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
                                 appendingDirectories.append(_newPath)
                                 return _newPath
                             else:
-                                answer = Dialogs.askSpecial(translate("InputOutputs", "Current Directory Name"),
-                                        str(translate("InputOutputs", "\"%s\" : there already exists a directory with the same name.<br>Add your files to the current directory?")) % Organizer.getLink(_newPath),
+                                answer = Dialogs.askSpecial(translate("FileUtils", "Current Directory Name"),
+                                        str(translate("FileUtils", "\"%s\" : there already exists a directory with the same name.<br>Add your files to the current directory?")) % Organizer.getLink(_newPath),
                                     translate("Dialogs", "Yes, Add Into"),
                                     translate("Dialogs", "Rename"),
                                     translate("Dialogs", "Cancel"))
@@ -682,7 +681,7 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
                                     appendingDirectories.append(_newPath)
                                     return _newPath
                                 elif answer==translate("Dialogs", "Rename"):
-                                    newPath = Dialogs.getExistingDirectory(translate("InputOutputs", "Select A Directory"), _newPath, 0)
+                                    newPath = Dialogs.getExistingDirectory(translate("FileUtils", "Select A Directory"), _newPath, 0)
                                     if newPath is not None:
                                         return checkDestination(_oldPath, newPath, _isQuiet)
                                     return False
@@ -705,14 +704,14 @@ def checkNewDestination(_newPath, _isQuiet=False):
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     while isAvailableNameForEncoding(_newPath) == False:
-        _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
-                                    str(translate("InputOutputs", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
+        _newPath = Dialogs.getText(translate("FileUtils", "Unavailable Name"),
+                                    str(translate("FileUtils", "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (_newPath, fileSystemEncoding), _newPath)
         if _newPath is None:
             return False
     availableNameByName = getAvailablePathByPath(_newPath)
     while _newPath!=availableNameByName:
-        _newPath = Dialogs.getText(translate("InputOutputs", "Unavailable Name"),
-                                    str(translate("InputOutputs", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
+        _newPath = Dialogs.getText(translate("FileUtils", "Unavailable Name"),
+                                    str(translate("FileUtils", "\"%s\" : this file path is not valid.<br>Please review and correct the path of file!<br>You can click cancel to cancel this action.")) % (_newPath), availableNameByName)
         if _newPath is None:
             return False
         availableNameByName = getAvailablePathByPath(_newPath)
@@ -722,8 +721,8 @@ def checkNewDestination(_newPath, _isQuiet=False):
                 if _isQuiet:
                     return _newPath
                 else:
-                    answer = Dialogs.askSpecial(translate("InputOutputs", "Current File Name"),
-                                str(translate("InputOutputs", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath),
+                    answer = Dialogs.askSpecial(translate("FileUtils", "Current File Name"),
+                                str(translate("FileUtils", "\"%s\" : there already exists a file with the same name.<br>Replace it with the current one?")) % Organizer.getLink(_newPath),
                         translate("Dialogs", "Replace"),
                         translate("Dialogs", "Rename"),
                         translate("Dialogs", "Cancel"))
@@ -731,8 +730,8 @@ def checkNewDestination(_newPath, _isQuiet=False):
                         removeFile(_newPath)
                         return _newPath
                     elif answer==translate("Dialogs", "Rename"):
-                        newPath = Dialogs.getSaveFileName(translate("InputOutputs", "Select A New Name For File"),
-                                                _newPath, translate("InputOutputs", "All Files") + " (*)", 0)
+                        newPath = Dialogs.getSaveFileName(translate("FileUtils", "Select A New Name For File"),
+                                                _newPath, translate("FileUtils", "All Files") + " (*)", 0)
                         if newPath is not None:
                             return checkNewDestination(newPath, _isQuiet)
                         return False
@@ -742,10 +741,10 @@ def checkNewDestination(_newPath, _isQuiet=False):
                 if _isQuiet:
                     return False
                 else:
-                    answer = Dialogs.ask(translate("InputOutputs", "Current Directory Name"),
-                            str(translate("InputOutputs", "\"%s\" : there already exists a directory with the same name.<br>Are you want to choose another name?")) % Organizer.getLink(_newPath))
+                    answer = Dialogs.ask(translate("FileUtils", "Current Directory Name"),
+                            str(translate("FileUtils", "\"%s\" : there already exists a directory with the same name.<br>Are you want to choose another name?")) % Organizer.getLink(_newPath))
                     if answer==Dialogs.Yes:
-                        newPath = Dialogs.getText(translate("InputOutputs", "Choose Another Name"), translate("InputOutputs", "Choose Another Name"), _newPath)
+                        newPath = Dialogs.getText(translate("FileUtils", "Choose Another Name"), translate("FileUtils", "Choose Another Name"), _newPath)
                         if newPath is not None:
                             return checkNewDestination(newPath, _isQuiet)
                         return False
@@ -842,7 +841,7 @@ def readDirectoryWithSubDirectoriesThread(_path, _subDirectoryDeep=-1, _objectTy
     from Core import MyThread
     global appendingDirectories
     allFilesAndDirectories, appendingDirectories =[],[]
-    infoProcess = MyThread.MyWaitThread(translate("InputOutputs", "Reading Directory..."))
+    infoProcess = MyThread.MyWaitThread(translate("FileUtils", "Reading Directory..."))
     myProcs = MyThread.MyThread(readDirectoryWithSubDirectories, infoProcess.finish, args=[_path, _subDirectoryDeep, _objectType, _isShowHiddens, _currentSubDeep])
     myProcs.start()
     infoProcess.run()
@@ -956,7 +955,7 @@ def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAut
         if _isShowState:isContinueThreadAction = Universals.isContinueThreadAction()
         else: isContinueThreadAction = True
         if isContinueThreadAction:
-            if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, filesAndDirectoriesCount, True)
+            if _isShowState: Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo, filesAndDirectoriesCount, True)
             if isFile(joinPath(_path, name)):
                 dontRemovingFilesCount+=1
                 if Universals.getBoolValue("isDeleteEmptyDirectories"):
@@ -986,17 +985,17 @@ def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAut
                 if clearEmptyDirectories(joinPath(_path, name), _isShowState, False, _isAutoCleanSubFolder):
                     dontRemovingFilesCount-=1
         else:
-            if _isShowState: Dialogs.showState(translate("InputOutputs", "Checked Empty Directories"), filesAndDirectoriesCount, filesAndDirectoriesCount, True)
+            if _isShowState: Dialogs.showState(translate("FileUtils", "Checked Empty Directories"), filesAndDirectoriesCount, filesAndDirectoriesCount, True)
     if _isShowState and _isCloseState:Universals.finishThreadAction()
     if dontRemovingFilesCount==0 and Universals.getBoolValue("isDeleteEmptyDirectories"):
-        if _isShowState: Dialogs.showState(translate("InputOutputs", "Cleaning Empty Directories"), 0, 1, True)
+        if _isShowState: Dialogs.showState(translate("FileUtils", "Cleaning Empty Directories"), 0, 1, True)
         clearIgnoreds(_path)
         removeDir(_path)
         if _isCloseState:
-            Dialogs.showState(translate("InputOutputs", "Directory Deleted"), 1, 1, True)
-            Dialogs.show(translate("InputOutputs", "Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
+            Dialogs.showState(translate("FileUtils", "Directory Deleted"), 1, 1, True)
+            Dialogs.show(translate("FileUtils", "Directory Deleted"), str(translate("FileUtils", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
         return True
-    if _isCloseState: Dialogs.showState(translate("InputOutputs", "Directories Cleaned"), 1, 1, True)
+    if _isCloseState: Dialogs.showState(translate("FileUtils", "Directories Cleaned"), 1, 1, True)
     return False
 
 def clearUnneededs(_path):
@@ -1127,7 +1126,7 @@ def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQu
 def changeDirectories(_values):
     newFilesPath = []
     if len(_values)!=0:
-        Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),0,len(_values))
+        Dialogs.showState(translate("FileUtils", "Changing The Folder (Of The Files)"),0,len(_values))
         for no in range(0,len(_values)):
             values = {}
             values["oldPath"] = _values[no][0]
@@ -1138,7 +1137,7 @@ def changeDirectories(_values):
             if Variables.isActiveDirectoryCover and Universals.getBoolValue("isActiveAutoMakeIconToDirectory") and Universals.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove"):
                 checkIcon(getDirName(values["oldPath"]))
                 checkIcon(getDirName(values["newPath"]))
-            Dialogs.showState(translate("InputOutputs", "Changing The Folder (Of The Files)"),no+1,len(_values))
+            Dialogs.showState(translate("FileUtils", "Changing The Folder (Of The Files)"),no+1,len(_values))
     return newFilesPath
 
 def activateSmartCheckEmptyDirectories():
@@ -1216,7 +1215,7 @@ def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False
             selectedIndex = 0
             if cover!=None:
                 selectedIndex = imageFiles.index(cover)
-            cover = Dialogs.getItem(translate("InputOutputs", "Select A Cover"), str(translate("InputOutputs", "Please select a cover for \"%s\".")) % (Organizer.getLink(_path)), imageFiles, selectedIndex)
+            cover = Dialogs.getItem(translate("FileUtils", "Select A Cover"), str(translate("FileUtils", "Please select a cover for \"%s\".")) % (Organizer.getLink(_path)), imageFiles, selectedIndex)
         else:
             if cover == None and len(imageFiles)>0:
                 for imgFile in imageFiles:
@@ -1336,7 +1335,7 @@ def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
         dontRemovingFilesCount = 0
         filesAndDirectories = readDirectoryAll(_path)
         for nameNo, name in enumerate(filesAndDirectories):
-            if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
+            if _isShowState: Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
             if isFile(joinPath(_path, name)):
                 dontRemovingFilesCount+=1
                 isDeleted = False
@@ -1356,13 +1355,13 @@ def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
                 if clearPackagingDirectory(joinPath(_path, name))==False:
                     dontRemovingFilesCount-=1
         if dontRemovingFilesCount==0 and Universals.getBoolValue("isPackagerDeleteEmptyDirectories"):
-            if _isShowState: Dialogs.showState(translate("InputOutputs", "Deleting Empty Directories"), 0, 1)
+            if _isShowState: Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
             removeDir(_path)
             if _isCloseState:
-                Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
-                Dialogs.show(translate("InputOutputs", "Project Directory Deleted"), str("InputOutputs", translate("\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
+                Dialogs.showState(translate("FileUtils", "Empty Directories Deleted"), 1, 1)
+                Dialogs.show(translate("FileUtils", "Project Directory Deleted"), str("FileUtils", translate("\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
             return False
-        if _isCloseState: Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
+        if _isCloseState: Dialogs.showState(translate("FileUtils", "Empty Directories Deleted"), 1, 1)
         return True
     else:
         False
@@ -1381,7 +1380,7 @@ def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
         dontRemovingFilesCount = 0
         filesAndDirectories = readDirectoryAll(_path)
         for nameNo, name in enumerate(filesAndDirectories):
-            if _isShowState: Dialogs.showState(translate("InputOutputs", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
+            if _isShowState: Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo, len(filesAndDirectories))
             if isFile(joinPath(_path, name)):
                 dontRemovingFilesCount+=1
                 for ext in Universals.getListValue("cleanerUnneededFileExtensions"):
@@ -1402,13 +1401,13 @@ def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
                 if clearCleaningDirectory(joinPath(_path, name))==False:
                     dontRemovingFilesCount-=1
         if dontRemovingFilesCount==0 and Universals.getBoolValue("isCleanerDeleteEmptyDirectories"):
-            if _isShowState: Dialogs.showState(translate("InputOutputs", "Deleting Empty Directories"), 0, 1)
+            if _isShowState: Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
             removeDir(_path)
             if _isCloseState:
-                Dialogs.showState(translate("InputOutputs", "Empty Directories Deleted"), 1, 1)
-                Dialogs.show(translate("InputOutputs", "Project Directory Deleted"), str(translate("InputOutputs", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
+                Dialogs.showState(translate("FileUtils", "Empty Directories Deleted"), 1, 1)
+                Dialogs.show(translate("FileUtils", "Project Directory Deleted"), str(translate("FileUtils", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
             return False
-        if _isCloseState: Dialogs.showState(translate("InputOutputs", "Project Directory Cleaned"), 1, 1)
+        if _isCloseState: Dialogs.showState(translate("FileUtils", "Project Directory Cleaned"), 1, 1)
         return True
     else:
         False
@@ -1417,14 +1416,14 @@ def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
     from Core import MyThread
     _filePath, _sourcePath = str(_filePath), str(_sourcePath)
     if isDir(_filePath):
-        Dialogs.showError(translate("InputOutputs", "Current Directory Name"),
-                    str(translate("InputOutputs", "\"%s\" : there already exists a folder with the same name.<br>Please choose another file name!")) % Organizer.getLink(_filePath))
+        Dialogs.showError(translate("FileUtils", "Current Directory Name"),
+                    str(translate("FileUtils", "\"%s\" : there already exists a folder with the same name.<br>Please choose another file name!")) % Organizer.getLink(_filePath))
         return False
     import tarfile
     try:tar = tarfile.open(Universals.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
     except:tar = tarfile.open(_filePath, "w:" + _packageType)
     maxMembers = len(readDirectoryWithSubDirectoriesThread(_sourcePath, -1, "fileAndDirectory", True))+1
-    dlgState = Dialogs.MyStateDialog(translate("InputOutputs", "Creating Tar File"))
+    dlgState = Dialogs.MyStateDialog(translate("FileUtils", "Creating Tar File"))
     infoProcess = MyThread.MyTarPackStateThread(tar, maxMembers, dlgState)
     try:
         myProcs = MyThread.MyThread(tar.add, infoProcess.finish, args=[Universals.trEncode(_sourcePath, fileSystemEncoding)], kwargs={"arcname":Universals.trEncode(_realSourceBaseName, fileSystemEncoding)})
@@ -1502,7 +1501,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                             info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     else:
-                        info += " ( " + str(translate("InputOutputs", "inaccessible")) + " ) "
+                        info += " ( " + str(translate("FileUtils", "inaccessible")) + " ) "
                 info += "<br> \n"
         elif _outputType=="plainText":
             if _extInfo=="no":
@@ -1545,7 +1544,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                             info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     else:
-                        info += " ( " + str(translate("InputOutputs", "inaccessible")) + " ) "
+                        info += " ( " + str(translate("FileUtils", "inaccessible")) + " ) "
                 info += "\n"
     elif _contentType=="fileList":
         if _outputType=="html":
@@ -1567,7 +1566,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                             info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     else:
-                        info += " ( " + str(translate("InputOutputs", "inaccessible")) + " ) "
+                        info += " ( " + str(translate("FileUtils", "inaccessible")) + " ) "
                 info += "<br> \n"
         elif _outputType=="plainText":
             if _extInfo=="no":
@@ -1588,7 +1587,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                             info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(details[stat.ST_MTIME])
                         info += " )"
                     else:
-                        info += " ( " + str(translate("InputOutputs", "inaccessible")) + " ) "
+                        info += " ( " + str(translate("FileUtils", "inaccessible")) + " ) "
                 info += "\n"
     info = trForUI(info)
     if _outputTarget=="return":
@@ -1620,7 +1619,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                         str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
     elif _outputTarget=="dialog":
         dDialog = MDialog(Universals.MainWindow)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             dDialog.setButtons(MDialog.NoDefault)
         dDialog.setWindowTitle(translate("Tables", "File Tree"))
         mainPanel = MWidget(dDialog)
@@ -1636,7 +1635,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
         MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
         vblMain.addWidget(wvWeb)
         vblMain.addWidget(pbtnClose)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             dDialog.setMainWidget(mainPanel)
         else:
             dDialog.setLayout(vblMain)
@@ -1662,33 +1661,21 @@ def fixToSize(_path, _size, _clearFrom="head"):
             writeToFile(_path, contents)
 
 def getHashDigest(_filePath, _hashType="MD5"):
-    try:
-        import hashlib
-        if _hashType=="MD5":
-            m = hashlib.md5()
-        elif _hashType=="SHA1":
-            m = hashlib.sha1()
-        elif _hashType=="SHA224":
-            m = hashlib.sha224()
-        elif _hashType=="SHA256":
-            m = hashlib.sha256()
-        elif _hashType=="SHA384":
-            m = hashlib.sha384()
-        elif _hashType=="SHA512":
-            m = hashlib.sha512()
-        m.update(readFromBinaryFile(_filePath))
-        return m.hexdigest()
-    except:
-        #for x < python 2.5
-        try:
-            if _hashType=="MD5":
-                import md5
-                return md5.new(readFromBinaryFile(_filePath)).hexdigest()
-            elif _hashType=="SHA1":
-                import sha
-                return sha.new(readFromBinaryFile(_filePath)).hexdigest()
-        except:
-            return False
+    import hashlib
+    if _hashType=="MD5":
+        m = hashlib.md5()
+    elif _hashType=="SHA1":
+        m = hashlib.sha1()
+    elif _hashType=="SHA224":
+        m = hashlib.sha224()
+    elif _hashType=="SHA256":
+        m = hashlib.sha256()
+    elif _hashType=="SHA384":
+        m = hashlib.sha384()
+    elif _hashType=="SHA512":
+        m = hashlib.sha512()
+    m.update(readFromBinaryFile(_filePath))
+    return m.hexdigest()
 
 def createHashDigestFile(_filePath, _digestFilePath=None, _hashType="MD5", _isAddFileExtension=True, _digestContent=None):
     if _digestContent==None:
@@ -1701,37 +1688,21 @@ def createHashDigestFile(_filePath, _digestFilePath=None, _hashType="MD5", _isAd
     writeToFile(_digestFilePath + fileExtension, _digestContent)
     return True
 
-    try:
-        import hashlib
-        return ["MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512"]
-    except:
-        #for x < python 2.5
-        hashTypes = []
-        try:
-            import md5
-            hashTypes.append("MD5")
-        except:pass
-        try:
-            import md5
-            hashTypes.append("SHA1")
-        except:pass
-        return hashTypes
-
 def checkSizeOfDeletedFiles():
     pathOfDeletedFilesAndDirectories = Universals.MySettings["pathOfDeletedFilesAndDirectories"]
     pathOfDeletedFilesAndDirectories = checkSource(pathOfDeletedFilesAndDirectories, "directory", False)
     if pathOfDeletedFilesAndDirectories is not None:
         deletedDirectorySize = getDirectorySize(pathOfDeletedFilesAndDirectories)
         if deletedDirectorySize > (int(Universals.MySettings["maxDeletedDirectorySize"])*1024*1024):
-            answer = Dialogs.askSpecial(translate("InputOutputs", "Size Of Directory Of Deleted Is Over"),
-                        str(translate("InputOutputs", "Size of directory of deleted is over. You can check and remove them. <br> Directory Of Deleted : \"%s\" ( %s )")) % (Organizer.getLink(pathOfDeletedFilesAndDirectories), Organizer.getCorrectedFileSize(deletedDirectorySize)), translate("InputOutputs", "Open With Default File Manager"), translate("InputOutputs", "Close"), translate("InputOutputs", "Remove All Files"))
-            if answer==translate("InputOutputs", "Open With Default File Manager"):
+            answer = Dialogs.askSpecial(translate("FileUtils", "Size Of Directory Of Deleted Is Over"),
+                        str(translate("FileUtils", "Size of directory of deleted is over. You can check and remove them. <br> Directory Of Deleted : \"%s\" ( %s )")) % (Organizer.getLink(pathOfDeletedFilesAndDirectories), Organizer.getCorrectedFileSize(deletedDirectorySize)), translate("FileUtils", "Open With Default File Manager"), translate("FileUtils", "Close"), translate("FileUtils", "Remove All Files"))
+            if answer==translate("FileUtils", "Open With Default File Manager"):
                 from Core import Execute
                 Execute.openWith([getRealDirName(pathOfDeletedFilesAndDirectories)])
-            if answer==translate("InputOutputs", "Remove All Files"):
+            if answer==translate("FileUtils", "Remove All Files"):
                 Universals.MySettings["isDontDeleteFileAndDirectory"] = "false"
                 removeDir(pathOfDeletedFilesAndDirectories)
                 Universals.MySettings["isDontDeleteFileAndDirectory"] = "true"
-                Dialogs.show(translate("InputOutputs", "Directory Of Deleted Has Been Removed"), translate("InputOutputs", "Directory of deleted has been removed successfully."))
+                Dialogs.show(translate("FileUtils", "Directory Of Deleted Has Been Removed"), translate("FileUtils", "Directory of deleted has been removed successfully."))
 
 

@@ -18,8 +18,8 @@
 
 
 from Core import Variables
-from InputOutputs import Musics
-import InputOutputs
+from FileUtils import Musics
+import FileUtils as fu
 import os,sys
 from Core.MyObjects import *
 from Core import Dialogs
@@ -50,7 +50,7 @@ class AmarokArtistDetails(MDialog):
             if _isOpenDetailsOnNewWindow==True:
                 amarokArtistDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
-                if isActivePyKDE4==True:
+                if isActivePyKDE4:
                     self.setButtons(MDialog.NoDefault)
                 self.infoLabels = {}
                 self.infoValues = {}
@@ -80,7 +80,7 @@ class AmarokArtistDetails(MDialog):
                 buttonHBOXs.addWidget(self.pbtnSave)
                 buttonHBOXs.addWidget(self.pbtnClose)
                 self.vblMain.addLayout(buttonHBOXs)
-                if isActivePyKDE4==True:
+                if isActivePyKDE4:
                     self.setMainWidget(self.pnlMain)
                 else:
                     self.setLayout(self.vblMain)

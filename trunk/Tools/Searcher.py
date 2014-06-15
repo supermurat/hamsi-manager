@@ -20,7 +20,7 @@
 from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
-import InputOutputs
+import FileUtils as fu
 import Options
 from Options import OptionsForm
 from Core import Organizer
@@ -33,7 +33,7 @@ class Searcher(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Searcher")
@@ -136,7 +136,7 @@ class Searcher(MyDialog):
         tabwTabs.addTab(wOptionsPanel, translate("Searcher", "Quick Options"))
         vblMain.addWidget(tabwTabs)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -162,21 +162,21 @@ class Searcher(MyDialog):
                 sourceToSearch = ""
                 self.isMultipleSource = False
                 pathToSearchs = str(self.lePathToSeach.text())
-                if InputOutputs.isExist(pathToSearchs)==False and pathToSearchs.find(";")!=-1:
+                if fu.isExist(pathToSearchs)==False and pathToSearchs.find(";")!=-1:
                     self.isMultipleSource = True
                 for pathToSearch in Universals.getListFromListString(pathToSearchs, ";"):
                     if pathToSearch in self.sourceToSearchCache and _isLoadFromCache:
                         sourceToSearch += self.sourceToSearchCache[pathToSearch]
                     else:
-                        pathToSearch = InputOutputs.checkSource(pathToSearch)
+                        pathToSearch = fu.checkSource(pathToSearch)
                         if pathToSearch is not None:
-                            if InputOutputs.isReadableFileOrDir(pathToSearch):
-                                if InputOutputs.isFile(pathToSearch) and InputOutputs.isBinary(pathToSearch)==False:
-                                    sts = InputOutputs.readFromFile(pathToSearch) + "\n"
+                            if fu.isReadableFileOrDir(pathToSearch):
+                                if fu.isFile(pathToSearch) and fu.isBinary(pathToSearch)==False:
+                                    sts = fu.readFromFile(pathToSearch) + "\n"
                                     sourceToSearch += sts
                                     self.sourceToSearchCache[pathToSearch] = sts
-                                elif InputOutputs.isDir(pathToSearch):
-                                    sts = InputOutputs.getFileTree(pathToSearch, -1, "return", "plainText", "fileList") + "\n"
+                                elif fu.isDir(pathToSearch):
+                                    sts = fu.getFileTree(pathToSearch, -1, "return", "plainText", "fileList") + "\n"
                                     sourceToSearch += sts
                                     self.sourceToSearchCache[pathToSearch] = sts
                 self.sourceToSearch = sourceToSearch
@@ -397,11 +397,11 @@ class Searcher(MyDialog):
 class AdvancedValueEditorDialog(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("AdvancedValueEditorDialog", "Advanced Value Editor"))
         currentValuePathToSeach = str(self.parent().lePathToSeach.text())
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.EditorWidgetPathToSeach = MEditListBox(self)
             self.EditorWidgetPathToSeach.setItems([trForUI(x) for x in currentValuePathToSeach.split(";")])
         else:
@@ -419,7 +419,7 @@ class AdvancedValueEditorDialog(MDialog):
         hblBox.addWidget(pbtnApply)
         hblBox.addWidget(pbtnCancel)
         vblMain.addLayout(hblBox)
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
@@ -428,7 +428,7 @@ class AdvancedValueEditorDialog(MDialog):
         
     def apply(self):
         valuePathToSeach = ""
-        if isActivePyKDE4==True:
+        if isActivePyKDE4:
             for y, info in enumerate(self.EditorWidgetPathToSeach.items()):
                 if y!=0:
                     valuePathToSeach += ";"

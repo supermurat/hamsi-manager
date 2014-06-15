@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core import Variables
-import InputOutputs
+import FileUtils as fu
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
@@ -29,14 +29,14 @@ class Details():
     def __init__(self,_filePath, _isOpenDetailsOnNewWindow):
         try:
             if Universals.getBoolValue("isForceOpenWithDefaultApplication"):
-                _path = InputOutputs.checkSource(_filePath)
+                _path = fu.checkSource(_filePath)
                 from Core import Execute
                 Execute.openWith([_path])
             else:
-                _path = InputOutputs.checkSource(_filePath, "file", False)
+                _path = fu.checkSource(_filePath, "file", False)
                 if _path is not None:
                     isOpened = False
-                    type = InputOutputs.getMimeType(_path)
+                    type = fu.getMimeType(_path)
                     if type[0] != None:
                         if type[0].split("/")[0] == "text":
                             from Details import TextDetails
@@ -52,12 +52,12 @@ class Details():
                             from Details import ImageDetails
                             ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)    
                             isOpened = True
-                        elif InputOutputs.isBinary(_path)==False:
+                        elif fu.isBinary(_path)==False:
                             from Details import TextDetails
                             TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
                             isOpened = True
                     else:
-                        if InputOutputs.isBinary(_path)==False:
+                        if fu.isBinary(_path)==False:
                             from Details import TextDetails
                             TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
                             isOpened = True
@@ -68,7 +68,7 @@ class Details():
                         else:
                             Dialogs.showError(translate("Details", "File Is Not Supported"), 
                                  str(translate("Details", "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(str(_path)))
-                elif InputOutputs.isDir(_filePath):
+                elif fu.isDir(_filePath):
                     if Universals.getBoolValue("isOpenWithDefaultApplication"):
                         from Core import Execute
                         Execute.openWith([_filePath])

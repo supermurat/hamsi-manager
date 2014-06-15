@@ -20,7 +20,7 @@
 import time
 from Core.MyObjects import *
 from Core import Universals
-import InputOutputs
+import FileUtils as fu
 import logging
 
 recordContents = ""
@@ -66,41 +66,41 @@ def restoreRecordType():
 def saveAllRecords():
     global recordContents, isSetedTitle
     if "isSaveActions" not in Universals.MySettings.keys() or Universals.getBoolValue("isSaveActions"):
-        if InputOutputs.isFile(InputOutputs.recordFilePath)==False:
+        if fu.isFile(fu.recordFilePath)==False:
             create()
         setRecordType(1)
-        InputOutputs.addToFile(InputOutputs.recordFilePath, recordContents)
+        fu.addToFile(fu.recordFilePath, recordContents)
         restoreRecordType()
     recordContents = ""
     isSetedTitle = False
 
 def checkSize():
     setRecordType(1)
-    if InputOutputs.isFile(InputOutputs.recordFilePath):
-        if InputOutputs.getSize(InputOutputs.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
-            InputOutputs.moveFileOrDir(InputOutputs.recordFilePath, InputOutputs.joinPath(InputOutputs.oldRecordsDirectoryPath, str(time.strftime("%Y%m%d_%H%M%S")) + ".txt"))
+    if fu.isFile(fu.recordFilePath):
+        if fu.getSize(fu.recordFilePath) > (int(Universals.MySettings["maxRecordFileSize"])*1024):
+            fu.moveFileOrDir(fu.recordFilePath, fu.joinPath(fu.oldRecordsDirectoryPath, str(time.strftime("%Y%m%d_%H%M%S")) + ".txt"))
     restoreRecordType()
 
 def getBackupRecordsList():
-    if InputOutputs.isDir(InputOutputs.oldRecordsDirectoryPath)==True:
-        return InputOutputs.readDirectory(InputOutputs.oldRecordsDirectoryPath, "file")
+    if fu.isDir(fu.oldRecordsDirectoryPath)==True:
+        return fu.readDirectory(fu.oldRecordsDirectoryPath, "file")
     else:
         return []
 
 def read(_recordFilePath=None):
     if _recordFilePath==None:
-        _recordFilePath = InputOutputs.recordFilePath
-    if InputOutputs.isFile(_recordFilePath)==True:
-        return InputOutputs.readFromFile(_recordFilePath, "utf-8")
+        _recordFilePath = fu.recordFilePath
+    if fu.isFile(_recordFilePath)==True:
+        return fu.readFromFile(_recordFilePath, "utf-8")
     else:
         create()
         setRecordType(1)
-        InputOutputs.addToFile(_recordFilePath, recordContents)
+        fu.addToFile(_recordFilePath, recordContents)
         restoreRecordType()
         return recordContents
 
 def clearRecords():
-    InputOutputs.writeToFile(InputOutputs.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
+    fu.writeToFile(fu.recordFilePath, str(translate("Records", "Hamsi Manager Record File - Time Clear : ")) + str(time.strftime("%d.%m.%Y %H:%M:%S"))+"\n")
 
 
 

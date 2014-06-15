@@ -20,7 +20,7 @@
 from Core.MyObjects import *
 from Core import Universals
 from Core import Dialogs
-import InputOutputs
+import FileUtils as fu
 import Options
 from Options import OptionsForm
 from Core import ReportBug
@@ -31,7 +31,7 @@ class FileTreeBuilder(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
         elif MyDialogType=="MMainWindow":
             self.setObjectName("Packager")
@@ -116,7 +116,7 @@ class FileTreeBuilder(MyDialog):
         tabwTabs.addTab(wOptionsPanel, translate("FileTreeBuilder", "Quick Options"))
         vblMain.addWidget(tabwTabs)
         if MyDialogType=="MDialog":
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
@@ -145,7 +145,7 @@ class FileTreeBuilder(MyDialog):
                 outputType = "plainText"
             if self.cbContentType.currentIndex()==1:
                 contentType = "fileList"
-            InputOutputs.getFileTree(str(self.lePath.text()), 
+            fu.getFileTree(str(self.lePath.text()),
                                 self.cbSubDirectoryDeep.currentText(), 
                                 outputTarget, outputType, contentType, "title")
             if self.cbOutputTarget.currentIndex()==2:

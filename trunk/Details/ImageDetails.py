@@ -45,7 +45,7 @@ class ImageDetails(MDialog):
         if _isOpenDetailsOnNewWindow==True:
             imageDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setButtons(MDialog.NoDefault)
             self.wImage = ImageViewer.ImageViewer(self, _defaultMaxSize=_defaultMaxSize)
             self.wImage.setMinimumWidth(520)
@@ -63,7 +63,7 @@ class ImageDetails(MDialog):
             vblMain = MVBoxLayout(self.pnlMain)
             vblMain.addWidget(self.wImage)
             vblMain.addLayout(HBOXs[0])
-            if isActivePyKDE4==True:
+            if isActivePyKDE4:
                 self.setMainWidget(self.pnlMain)
             else:
                 self.setLayout(vblMain)

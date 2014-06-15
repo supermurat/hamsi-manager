@@ -28,8 +28,8 @@ except:pass
 from Core import RoutineChecks
 if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
-    import InputOutputs
-    InputOutputs.initStartupVariables()
+    import FileUtils as fu
+    fu.initStartupVariables()
     from Core import Variables
     from Core import Universals
     from Core import Settings
@@ -38,14 +38,14 @@ if RoutineChecks.checkMandatoryModules():
     from Core import Execute
     defaultLangCode = str(QLocale().name())
     HamsiManagerApp = MApplication(sys.argv)
-    MDir.setSearchPaths("Images", MStringList(trForUI(InputOutputs.joinPath(InputOutputs.themePath, "Images"))))
-    StyleFile = open(InputOutputs.joinPath(InputOutputs.themePath, "Style.qss"))
+    MDir.setSearchPaths("Images", MStringList(trForUI(fu.joinPath(fu.themePath, "Images"))))
+    StyleFile = open(fu.joinPath(fu.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
-    if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
-    elif InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
-            languageFile.load(trForUI(InputOutputs.joinPath(InputOutputs.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
+    if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")):
+            languageFile.load(trForUI(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+defaultLangCode+".qm")))
+    elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")):
+            languageFile.load(trForUI(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+defaultLangCode+".qm")))
     HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
@@ -114,7 +114,7 @@ if RoutineChecks.checkMandatoryModules():
                 HBox.addLayout(VBox)
             if _pageNo==1:
                 lblPleaseSelect = MLabel(translate("Uninstall", "Please Select Directory Of Hamsi Manager To Uninstall."))
-                UninstallationDirPath = InputOutputs.getDirName(trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(InputOutputs.HamsiManagerDirectory))))
+                UninstallationDirPath = fu.getDirName(trForUI(Settings.getUniversalSetting("HamsiManagerPath", trForUI(fu.HamsiManagerDirectory))))
                 self.leUninstallationDirectory = MLineEdit(trForUI(Settings.getUniversalSetting("pathOfInstallationDirectory", trForUI(UninstallationDirPath))))
                 self.pbtnSelectUninstallationDirectory = MPushButton(translate("Uninstall", "Browse"))
                 self.connect(self.pbtnSelectUninstallationDirectory,SIGNAL("clicked()"),self.selectUninstallationDirectory)
@@ -188,14 +188,14 @@ if RoutineChecks.checkMandatoryModules():
                 MApplication.processEvents()
                 self.UninstallationDirectory = str(self.leUninstallationDirectory.text())
                 if len(self.UninstallationDirectory)>0:
-                    if self.UninstallationDirectory[-1]==InputOutputs.sep:
+                    if self.UninstallationDirectory[-1]==fu.sep:
                         self.UninstallationDirectory = self.UninstallationDirectory[:-1]
-                    if self.UninstallationDirectory==InputOutputs.HamsiManagerDirectory:
+                    if self.UninstallationDirectory==fu.HamsiManagerDirectory:
                         self.pageNo-=1
                         Dialogs.showError(translate("Uninstall", "The path you selected is not valid."),
                                     translate("Uninstall", "The selected path is Hamsi Manager source directory.<br>Please choose a valid uninstallation path."))
-                    elif InputOutputs.isDir(self.UninstallationDirectory):
-                        InputOutputs.removeFileOrDir(self.UninstallationDirectory)
+                    elif fu.isDir(self.UninstallationDirectory):
+                        fu.removeFileOrDir(self.UninstallationDirectory)
                         self.pageNo+=1
                     else:
                         self.pageNo-=1
@@ -214,18 +214,18 @@ if RoutineChecks.checkMandatoryModules():
             try:
                 if Variables.isRunningAsRoot():
                     executableLink = Settings.getUniversalSetting("HamsiManagerExecutableLinkPath", trForUI("/usr/bin/hamsi"))
-                    if InputOutputs.isFile(executableLink) or InputOutputs.isLink(executableLink):
-                        InputOutputs.removeFileOrDir(executableLink)
+                    if fu.isFile(executableLink) or fu.isLink(executableLink):
+                        fu.removeFileOrDir(executableLink)
                 else:
                     desktopPath = Variables.getUserDesktopPath()
                     if Variables.isWindows:
-                        if InputOutputs.isFile(InputOutputs.joinPath(desktopPath, "Hamsi Manager.lnk")):
-                            InputOutputs.removeFileOrDir(InputOutputs.joinPath(desktopPath, "Hamsi Manager.lnk"))
+                        if fu.isFile(fu.joinPath(desktopPath, "Hamsi Manager.lnk")):
+                            fu.removeFileOrDir(fu.joinPath(desktopPath, "Hamsi Manager.lnk"))
                     else:
-                        if InputOutputs.isFile(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop")):
-                            InputOutputs.removeFileOrDir(InputOutputs.joinPath(desktopPath, "HamsiManager.desktop"))
-                    if InputOutputs.isFile(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications", "HamsiManager.desktop")):
-                        InputOutputs.removeFileOrDir(InputOutputs.joinPath(InputOutputs.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"))
+                        if fu.isFile(fu.joinPath(desktopPath, "HamsiManager.desktop")):
+                            fu.removeFileOrDir(fu.joinPath(desktopPath, "HamsiManager.desktop"))
+                    if fu.isFile(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop")):
+                        fu.removeFileOrDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"))
                 self.isUninstallFinised = True
                 self.close()
             except:
