@@ -26,13 +26,17 @@ from Core import Universals as uni
 import FileUtils as fu
 from Core import Records
 
-def getCommandResult(_command):
+def getCommandResult(_command, _cwd=None):
     if uni.isWindows:
         _command = ["start"] + _command
     Records.add("Execute >>> " + str(_command))
     try:correctedCommand = uni.trEncodeList(_command, fu.fileSystemEncoding)
     except:correctedCommand = _command
-    myPopen = subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
+    if _cwd is not None:
+        myPopen = subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True,
+                                   cwd=_cwd)
+    else:
+        myPopen = subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
     po, pi = myPopen.stdin, myPopen.stdout
     po.close()
     return pi.read()
