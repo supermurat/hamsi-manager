@@ -200,7 +200,7 @@ class ReportBugDialog(MDialog):
     def __init__(self, _errorDetails="", _pathOfReportFile=None):
         global isClose
         currentMainWindow = getMainWindow()
-        if uni.isStartingSuccessfully==True:
+        if uni.isStartingSuccessfully:
             isShowFixMe = False
         else:
             isShowFixMe = True
@@ -282,7 +282,7 @@ class ReportBugDialog(MDialog):
         self.setMaximumSize(600, 375)  
         self.show()
         self.setMaximumSize(10000, 10000)
-        if isShowFixMe == True and isQuickMake==False and uni.loggingLevel!=logging.DEBUG:
+        if isShowFixMe and isQuickMake==False and uni.loggingLevel!=logging.DEBUG:
             try:
                 answer = Dialogs.askSpecial(translate("ReportBug", "I Have A Suggestion!"),
                             translate("ReportBug", "<b>Please check the following: ;</b><br>"+

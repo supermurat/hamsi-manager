@@ -350,7 +350,7 @@ class SearchAndReplace(MWidget):
             except:pass
         
         def itemChanged(self, _item):
-            if self.isShowChanges==True:
+            if self.isShowChanges:
                 try:
                     lastRowNo = -1
                     for rowNo in range(self.rowCount(), 0, -1):
@@ -1032,7 +1032,7 @@ class MySettings(MWidget):
     
     def restoreBookmarks(self):
         try:
-            if Settings.restoreBackUp("bookmarks")==True:
+            if Settings.restoreBackUp("bookmarks"):
                 self._parent.reStart()
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
@@ -1041,7 +1041,7 @@ class MySettings(MWidget):
     
     def restoreSearchAndReplaceTable(self):
         try:
-            if Settings.restoreBackUp("searchAndReplaceTable")==True:
+            if Settings.restoreBackUp("searchAndReplaceTable"):
                 self.parent().parent().close()
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
@@ -1050,7 +1050,7 @@ class MySettings(MWidget):
         
     def restoreSettings(self):
         try:
-            if Settings.restoreBackUp("Settings")==True:
+            if Settings.restoreBackUp("Settings"):
                 self._parent.reStart()
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")
@@ -1059,7 +1059,7 @@ class MySettings(MWidget):
     
     def restoreAll(self):
         try:
-            if Settings.restoreBackUp("All")==True:
+            if Settings.restoreBackUp("All"):
                 self._parent.reStart()
             else:
                 Dialogs.showError("Failed To Restore", "An error occurred during restore. Maybe not found any backup file.")

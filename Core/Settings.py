@@ -67,7 +67,7 @@ def setUniversalSetting(_key, _value):
     mySetting.setValue(_key, trQVariant(_value))
 
 def reFillSettings(_makeBackUp=False):
-    if _makeBackUp==True:
+    if _makeBackUp:
         makeBackUp("Settings")
     mySetting = setting()
     mySetting.clear()
@@ -139,7 +139,7 @@ def emendValue(_keyOfSetting, _value, _defaultValue = None, _valueTypesAndValue 
     return _value
 
 def reFillAll(_makeBackUp=False):
-    if _makeBackUp==True:
+    if _makeBackUp:
         makeBackUp("All")
     reFillDatabases()
     reFillSettings()
@@ -169,7 +169,7 @@ def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mir
             fu.removeFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName))
         try:
             fu.copyFileOrDir(fu.joinPath(fu.pathOfSettingsDirectory, file), fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName))
-            if isReturn==True:
+            if isReturn:
                 return newFileName
         except:pass
 
@@ -181,7 +181,7 @@ def restoreBackUp(_settingType="All", _isMakeBackUp=True):
     if _settingType=="Settings" or _settingType=="All":
         files.append(uni.fileOfSettings)
     for file in files:
-        if _isMakeBackUp==True:
+        if _isMakeBackUp:
             oldInfo = fu.readFromFile(fu.joinPath(fu.pathOfSettingsDirectory, file))
         else:
             try:
@@ -193,7 +193,7 @@ def restoreBackUp(_settingType="All", _isMakeBackUp=True):
             else:
                 isSuccesfully = False
         except:pass
-        if _isMakeBackUp==True:
+        if _isMakeBackUp:
             fu.writeToFile(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file), oldInfo)
     return isSuccesfully
 

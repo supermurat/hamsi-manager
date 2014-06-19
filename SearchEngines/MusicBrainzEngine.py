@@ -855,7 +855,7 @@ class Search(MDialog):
                     object.clear()
                     for song in self.songsOfArtist:
                         if song[3]==rowNo:
-                            if self.isArtistImportant==True and self.isArtistChanged==True:
+                            if self.isArtistImportant and self.isArtistChanged:
                                 if artistObject.currentIndex() != artistObject.count()-1:
                                     if _index!=cbTag.count()-1:
                                         for t in song[1][artistObject.currentIndex()][cbTag.currentIndex()]:
@@ -892,7 +892,7 @@ class Search(MDialog):
                                                     object.addItem(str(t))
                     for song in self.songsOfAlbum:
                         if song[3]==rowNo:
-                            if self.isArtistImportant==True and self.isArtistChanged==True:
+                            if self.isArtistImportant and self.isArtistChanged:
                                 if artistObject.currentIndex() != artistObject.count()-1:
                                     if _index!=cbTag.count()-1:
                                         for t in song[1][artistObject.currentIndex()][cbTag.currentIndex()]:

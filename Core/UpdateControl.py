@@ -186,7 +186,7 @@ class UpdateControl(MDialog):
             ReportBug.ReportBug()
             
     def showDetails(self, _value):
-        if _value==True:
+        if _value:
             self.details.setVisible(True) 
             self.setFixedHeight(330)    
         else:
@@ -245,7 +245,7 @@ class UpdateControl(MDialog):
         
     def downloaded(self):
         try:
-            if self.isFileExist==True:
+            if self.isFileExist:
                 self.prgbState.setVisible(False)
                 self.pbtnDownloadAndInstall.setEnabled(False)
                 self.pbtnCancel.setEnabled(False)

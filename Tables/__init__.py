@@ -255,7 +255,7 @@ class Tables(MTableWidget):
                 item = self.item(rowNo, columnNo)
                 if item is not None:
                     item.setText(column)
-            if row[-1]==True:
+            if row[-1]:
                 self.hideRow(rowNo)
             else:
                 self.showRow(rowNo)
@@ -567,7 +567,7 @@ class Tables(MTableWidget):
         if _isYesToAll==False:
             self.isAskShowHiddenColumn = True
         if self.isAskShowHiddenColumn:
-            if _isYesToAll==True:
+            if _isYesToAll:
                 answer = Dialogs.askSpecial(translate("Tables", "Hidden Field"), 
                                 str(translate("Tables", "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (self.tableColumns[_columnNo]), 
                                 translate("Dialogs", "Yes"), 
@@ -587,7 +587,7 @@ class Tables(MTableWidget):
         return True
     
     def checkHiddenColumn(self, _columnNo, _isYesToAll=True):
-        if self.isColumnHidden(_columnNo)==True:
+        if self.isColumnHidden(_columnNo):
             return self.askHiddenColumn(_columnNo, _isYesToAll)
         return True
         

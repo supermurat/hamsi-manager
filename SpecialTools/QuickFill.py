@@ -90,11 +90,11 @@ class QuickFill(MWidget):
         for rowNo in range(getMainWindow().Table.rowCount()):
             if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                 myString = str(_newString)
-                if self.specialTools.btChange.isChecked()==True:
+                if self.specialTools.btChange.isChecked():
                     pass
-                elif self.specialTools.tbAddToBefore.isChecked()==True:
+                elif self.specialTools.tbAddToBefore.isChecked():
                     myString += str(getMainWindow().Table.item(rowNo,columnNo).text())
-                elif self.specialTools.tbAddToAfter.isChecked()==True:
+                elif self.specialTools.tbAddToAfter.isChecked():
                     myString = str(getMainWindow().Table.item(rowNo,columnNo).text()) + myString
                 getMainWindow().Table.item(rowNo,columnNo).setText(str(uni.trUnicode(myString)))
                     

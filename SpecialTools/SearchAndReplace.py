@@ -108,11 +108,11 @@ class SearchAndReplace(MWidget):
         searchStrings = str(self.leSearch.text()).split(";")
         replaceStrings = str(self.leReplace.text()).split(";")
         for filterNo in range(0,len(searchStrings)):
-            if self.specialTools.btChange.isChecked()==True:
+            if self.specialTools.btChange.isChecked():
                 pass
-            elif self.specialTools.tbAddToBefore.isChecked()==True:
+            elif self.specialTools.tbAddToBefore.isChecked():
                 replaceStrings[filterNo] += searchStrings[filterNo]
-            elif self.specialTools.tbAddToAfter.isChecked()==True:
+            elif self.specialTools.tbAddToAfter.isChecked():
                 replaceStrings[filterNo] = searchStrings[filterNo] + replaceStrings[filterNo]
         while len(replaceStrings)!=len(searchStrings):
             replaceStrings.append("")
@@ -121,7 +121,7 @@ class SearchAndReplace(MWidget):
         else:
             columns = [self.columns.currentIndex()-1]
         for columnNo in columns:
-            if getMainWindow().Table.isColumnHidden(columnNo)==True:
+            if getMainWindow().Table.isColumnHidden(columnNo):
                 continue
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo, None, True):

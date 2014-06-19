@@ -158,7 +158,7 @@ class Searcher(MyDialog):
     
     def setSourceToSearch(self, _isReload=True, _isLoadFromCache=False):
         try:
-            if self.sourceToSearch == None or _isReload==True:
+            if self.sourceToSearch == None or _isReload:
                 sourceToSearch = ""
                 self.isMultipleSource = False
                 pathToSearchs = str(self.lePathToSeach.text())
@@ -219,7 +219,7 @@ class Searcher(MyDialog):
             if self.cckbIsOnlyDigitsAndLetters.checkState() == Mt.Checked:
                 clearedSearchValue2 = ""
                 for char in uni.trUnicode(searchValue):
-                    if char.isdigit()==True or char.isalpha()==True:
+                    if char.isdigit() or char.isalpha():
                         clearedSearchValue2+=char
                 if clearedSearchValue2 not in searchValueList:
                     searchValueList.append(clearedSearchValue2)
