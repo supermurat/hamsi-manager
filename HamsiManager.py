@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import sys
+
 try:
     if float(sys.version[:3]) < 3.0:
         reload(sys)
@@ -26,16 +27,20 @@ except:
     pass
 
 from Core import RoutineChecks
+
 if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
     import FileUtils as fu
+
     fu.initStartupVariables()
     from Core import Universals as uni
+
     uni.printForDevelopers("Before uni.setPaths")
     uni.printForDevelopers("Before RoutineChecks.checkParameters")
     if RoutineChecks.checkParameters():
         uni.printForDevelopers("Before Settings")
         from Core import Settings
+
         uni.printForDevelopers("Before Settings.checkSettings")
         Settings.checkSettings()
         uni.printForDevelopers("Before uni.fillMySettings")
@@ -53,20 +58,24 @@ if RoutineChecks.checkMandatoryModules():
             homePage = str("hamsiapps.com")
             bugEmail = str("Murat Demir (mopened@gmail.com)")
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_" + kde4LangCode)):
-                aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+ kde4LangCode), "utf-8")
+                aboutFileContent = fu.readFromFile(
+                    fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_" + kde4LangCode), "utf-8")
             else:
-                aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
+                aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"),
+                                                   "utf-8")
             description = ki18n(str(aboutFileContent))
             uni.printForDevelopers("Before MAboutData")
             aboutOfHamsiManager = MAboutData(appName, uni.Catalog, programName, version, description,
-                                    license, copyright, text, homePage, bugEmail)
+                                             license, copyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor(ki18n(str("Murat Demir")), ki18n(str("Project Manager and Developer")),
-                                "mopened@gmail.com", "hamsiapps.com")
+                                          "mopened@gmail.com", "hamsiapps.com")
             aboutOfHamsiManager.setProgramIconName(str(fu.joinPath(fu.themePath, "Images", "hamsi.png")))
-            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_"+ kde4LangCode)):
-                aboutOfHamsiManager.addLicenseTextFile(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_"+ kde4LangCode)))
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_" + kde4LangCode)):
+                aboutOfHamsiManager.addLicenseTextFile(
+                    str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_" + kde4LangCode)))
             else:
-                aboutOfHamsiManager.addLicenseTextFile(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_en_GB")))
+                aboutOfHamsiManager.addLicenseTextFile(
+                    str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_en_GB")))
             uni.printForDevelopers("Before MCmdLineArgs")
             MCmdLineArgs.init(sys.argv, aboutOfHamsiManager)
             options = MCmdLineOptions()
@@ -76,33 +85,40 @@ if RoutineChecks.checkMandatoryModules():
             uni.printForDevelopers("Before MApplication")
             HamsiManagerApp = MApplication()
             kde4LangCode = str(MGlobal.locale().language())
-            if len(kde4LangCode) != 5: kde4LangCode += "_"+str(MGlobal.locale().country()).upper()
-            if uni.getInstalledLanguagesCodes().count(kde4LangCode)==0:
+            if len(kde4LangCode) != 5: kde4LangCode += "_" + str(MGlobal.locale().country()).upper()
+            if uni.getInstalledLanguagesCodes().count(kde4LangCode) == 0:
                 for lcode in uni.getInstalledLanguagesCodes():
                     if lcode.find(kde4LangCode[:2]) != -1:
                         kde4LangCode = lcode
             kconf = MGlobal.config()
             MGlobal.locale().setLanguage(kde4LangCode, kconf)
-            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+kde4LangCode+".qm")):
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_" + kde4LangCode + ".qm")):
                 languageFile = MTranslator()
-                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+kde4LangCode+".qm")))
+                languageFile.load(
+                    str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_" + kde4LangCode + ".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
             uni.aboutOfHamsiManager = aboutOfHamsiManager
         else:
             uni.printForDevelopers("NotActivePyKDE4")
-            HamsiManagerApp = MApplication(sys.argv)  
-            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+ uni.MySettings["language"])):
-                aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_"+ uni.MySettings["language"]), "utf-8")
+            HamsiManagerApp = MApplication(sys.argv)
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_" + uni.MySettings["language"])):
+                aboutFileContent = fu.readFromFile(
+                    fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_" + uni.MySettings["language"]), "utf-8")
             else:
-                aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"), "utf-8")
+                aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"),
+                                                   "utf-8")
             uni.aboutOfHamsiManager = str(aboutFileContent)
-            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+uni.MySettings["language"]+".qm")):
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages",
+                                     "HamsiManagerWithQt_" + uni.MySettings["language"] + ".qm")):
                 languageFile = MTranslator()
-                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_"+uni.MySettings["language"]+".qm")))
+                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages",
+                                                  "HamsiManagerWithQt_" + uni.MySettings["language"] + ".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
-            elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+uni.MySettings["language"]+".qm")):
+            elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages",
+                                       "HamsiManager_" + uni.MySettings["language"] + ".qm")):
                 languageFile = MTranslator()
-                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_"+uni.MySettings["language"]+".qm")))
+                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages",
+                                                  "HamsiManager_" + uni.MySettings["language"] + ".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
         uni.printForDevelopers("Before MTextCodec setCodecFor..")
         HamsiManagerApp.setApplicationName("HamsiManager")
@@ -115,7 +131,7 @@ if RoutineChecks.checkMandatoryModules():
         if fu.isFile(fu.joinPath(fu.themePath, "Style.qss")):
             HamsiManagerApp.setStyleSheet(fu.readFromFile(fu.joinPath(fu.themePath, "Style.qss")))
         HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))
-        if uni.MySettings["applicationStyle"]!="":
+        if uni.MySettings["applicationStyle"] != "":
             MApplication.setStyle(uni.MySettings["applicationStyle"])
         if isActivePyKDE4:
             if fu.isFile(uni.MySettings["colorSchemes"]):
@@ -132,6 +148,7 @@ if RoutineChecks.checkMandatoryModules():
                 try:
                     setApplication(HamsiManagerApp)
                     from Core import QuickMake
+
                     quickMake = QuickMake.QuickMake()
                     if RoutineChecks.isQuickMake:
                         res = HamsiManagerApp.exec_()
@@ -139,6 +156,7 @@ if RoutineChecks.checkMandatoryModules():
                         uni.printForDevelopers("Shutting down, result %d" % res)
                 except:
                     from Core import ReportBug
+
                     ReportBug.ReportBug()
                     res = HamsiManagerApp.exec_()
                     uni.printForDevelopers("Shutting down, result %d" % res)
@@ -149,6 +167,7 @@ if RoutineChecks.checkMandatoryModules():
                 from Core import FileManager
                 import Bars
                 from Bars import TableToolsBar, ToolsBar, StatusBar, MenuBar
+
                 uni.printForDevelopers("After Modules")
                 try:
                     class Main(MMainWindow):
@@ -189,20 +208,20 @@ if RoutineChecks.checkMandatoryModules():
                             self.setCorner(Mt.TopLeftCorner, Mt.LeftDockWidgetArea)
                             self.setCorner(Mt.BottomLeftCorner, Mt.LeftDockWidgetArea)
                             uni.printForDevelopers("End of __init__")
-                            
+
                         def createMainLayout(self):
                             self.MainLayout = MVBoxLayout()
-                            
+
                         def setMainLayout(self):
                             self.CentralWidget.setLayout(self.MainLayout)
-                            
+
                         def resetCentralWidget(self):
                             clearAllChildren(self.CentralWidget)
                             self.MainLayout = self.CentralWidget.layout()
                             if self.MainLayout is None:
                                 self.createMainLayout()
                                 self.setMainLayout()
-                            
+
                         def lockForm(self):
                             self.CentralWidget.setEnabled(False)
                             for wid in self.findChildren(MDockWidget):
@@ -212,7 +231,7 @@ if RoutineChecks.checkMandatoryModules():
                             for wid in self.findChildren(MMenuBar):
                                 wid.setEnabled(False)
                             self.isLockedMainForm = True
-                            
+
                         def unlockForm(self):
                             self.CentralWidget.setEnabled(True)
                             for wid in self.findChildren(MDockWidget):
@@ -222,65 +241,71 @@ if RoutineChecks.checkMandatoryModules():
                             for wid in self.findChildren(MMenuBar):
                                 wid.setEnabled(True)
                             self.isLockedMainForm = False
-                            
+
                         def closeEvent(self, _event):
                             try:
-                                if uni.isRaisedAnError==False:
+                                if uni.isRaisedAnError == False:
                                     if uni.isContinueThreadAction():
                                         uni.cancelThreadAction()
                                         _event.ignore()
                                 uni.isStartedCloseProcess = True
                                 uni.printForDevelopers("Started closeEvent")
                                 MApplication.setQuitOnLastWindowClosed(True)
-                                try:self.PlayerBar.MusicPlayer.stop()
-                                except:pass
+                                try: self.PlayerBar.MusicPlayer.stop()
+                                except: pass
                                 from Core import ReportBug
                                 from Core import Records
                                 from Details import MusicDetails, TextDetails, CoverDetails
+
                                 MusicDetails.MusicDetails.closeAllMusicDialogs()
                                 TextDetails.TextDetails.closeAllTextDialogs()
                                 CoverDetails.CoverDetails.closeAllCoverDialogs()
                                 uni.printForDevelopers("Closed Dialogs")
-                                if uni.isRaisedAnError==False:
-                                    if self.Table.checkUnSavedValues()==False:
-                                        uni.isStartedCloseProcess=False
+                                if uni.isRaisedAnError == False:
+                                    if self.Table.checkUnSavedValues() == False:
+                                        uni.isStartedCloseProcess = False
                                         uni.printForDevelopers("Close ignored")
-                                        _event.ignore() 
+                                        _event.ignore()
                                 uni.printForDevelopers("Before RoutineChecks.checkBeforeCloseProcess")
-                                if RoutineChecks.checkBeforeCloseProcess()==False:
+                                if RoutineChecks.checkBeforeCloseProcess() == False:
                                     _event.ignore()
                                     return None
                                 uni.printForDevelopers("After RoutineChecks.checkBeforeCloseProcess")
                                 if isActivePyKDE4:
                                     uni.printForDevelopers("Before Save KDE Configs")
                                     kconf = MGlobal.config()
-                                    kconfGroup = MConfigGroup(kconf,"DirectoryOperator")
+                                    kconfGroup = MConfigGroup(kconf, "DirectoryOperator")
                                     self.FileManager.dirOperator.writeConfig(kconfGroup)
                                     self.FileManager.actCollection.writeSettings(kconfGroup)
                                     uni.printForDevelopers("After Save KDE Configs")
                                 uni.printForDevelopers("Before Save Configs")
-                                uni.setMySetting(self.Table.SubTable.hiddenTableColumnsSettingKey,self.Table.hiddenTableColumns)
+                                uni.setMySetting(self.Table.SubTable.hiddenTableColumnsSettingKey,
+                                                 self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
                                 Records.setRecordType(1)
                                 subFixForStateFile = ""
-                                if uni.windowMode!=uni.windowModeKeys[0]:
+                                if uni.windowMode != uni.windowModeKeys[0]:
                                     subFixForStateFile = uni.windowMode
-                                fu.writeToBinaryFile(fu.joinPath(fu.pathOfSettingsDirectory, "LastState" + subFixForStateFile), self.saveState())
+                                fu.writeToBinaryFile(
+                                    fu.joinPath(fu.pathOfSettingsDirectory, "LastState" + subFixForStateFile),
+                                    self.saveState())
                                 Records.restoreRecordType()
-                                geometry = [self.geometry().x(), self.geometry().y(), self.geometry().width(), self.geometry().height()]
+                                geometry = [self.geometry().x(), self.geometry().y(), self.geometry().width(),
+                                            self.geometry().height()]
                                 uni.setMySetting("MainWindowGeometries", geometry)
-                                uni.setMySetting("lastDirectory",self.FileManager.currentDirectory)
-                                uni.setMySetting("isMainWindowMaximized",self.isMaximized())
-                                uni.setMySetting("isShowAdvancedSelections",self.SpecialTools.isShowAdvancedSelections)
+                                uni.setMySetting("lastDirectory", self.FileManager.currentDirectory)
+                                uni.setMySetting("isMainWindowMaximized", self.isMaximized())
+                                uni.setMySetting("isShowAdvancedSelections", self.SpecialTools.isShowAdvancedSelections)
                                 if uni.tableType in ["2", "6", "8", "9"]:
-                                    try:uni.setMySetting("isPlayNow",self.Table.SubTable.isPlayNow.isChecked())
-                                    except:pass
+                                    try: uni.setMySetting("isPlayNow", self.Table.SubTable.isPlayNow.isChecked())
+                                    except: pass
                                 uni.setMySetting("tableType", uni.tableType)
                                 uni.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 uni.saveSettings()
                                 Settings.saveUniversalSettings()
-                                if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost")==False:
+                                if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") == False:
                                     import Amarok
+
                                     Amarok.stopEmbeddedDB()
                                 uni.printForDevelopers("After Save Configs")
                                 uni.printForDevelopers("Before RoutineChecks.checkAfterCloseProcess")
@@ -288,19 +313,20 @@ if RoutineChecks.checkMandatoryModules():
                                 uni.printForDevelopers("After RoutineChecks.checkAfterCloseProcess")
                             except:
                                 from Core import ReportBug
-                                if ReportBug.isClose==False:
+
+                                if ReportBug.isClose == False:
                                     ReportBug.ReportBug()
                                     _event.ignore()
-                    
+
                     uni.printForDevelopers("Before Main")
                     currentMainWindow = Main()
                     uni.printForDevelopers("After Main")
                     if str(currentMainWindow.windowTitle()) == "":
-                        currentMainWindow.setWindowTitle("Hamsi Manager "+ uni.version)
+                        currentMainWindow.setWindowTitle("Hamsi Manager " + uni.version)
                     if isActivePyKDE4:
                         uni.printForDevelopers("Before MGlobal.config")
                         kconf = MGlobal.config()
-                        kconfGroup = MConfigGroup(kconf,"Universals")
+                        kconfGroup = MConfigGroup(kconf, "Universals")
                         currentMainWindow.setAutoSaveSettings(kconfGroup)
                         uni.printForDevelopers("After MGlobal.config")
                     else:
@@ -308,18 +334,20 @@ if RoutineChecks.checkMandatoryModules():
                             uni.printForDevelopers("Before MainWindow.restoreState")
                             state = MByteArray()
                             subFixForStateFile = ""
-                            if uni.windowMode!=uni.windowModeKeys[0]:
+                            if uni.windowMode != uni.windowModeKeys[0]:
                                 subFixForStateFile = uni.windowMode
-                            state.append(fu.readFromBinaryFile(fu.joinPath(fu.pathOfSettingsDirectory, "LastState" + subFixForStateFile)))
+                            state.append(fu.readFromBinaryFile(
+                                fu.joinPath(fu.pathOfSettingsDirectory, "LastState" + subFixForStateFile)))
                             currentMainWindow.restoreState(state)
                             uni.printForDevelopers("After MainWindow.restoreState")
-                        except:pass
+                        except: pass
                     uni.printForDevelopers("Before Show")
                     if uni.getBoolValue("isMainWindowMaximized"):
                         currentMainWindow.showMaximized()
                     else:
                         geometries = uni.getListValue("MainWindowGeometries")
-                        currentMainWindow.setGeometry(int(geometries[0]),int(geometries[1]), int(geometries[2]),int(geometries[3]))
+                        currentMainWindow.setGeometry(int(geometries[0]), int(geometries[1]), int(geometries[2]),
+                                                      int(geometries[3]))
                         currentMainWindow.show()
                     uni.printForDevelopers("Before RoutineChecks.checkAfterRunProcess")
                     RoutineChecks.checkAfterRunProcess()
@@ -329,6 +357,7 @@ if RoutineChecks.checkMandatoryModules():
                     uni.isCanBeShowOnMainWindow = True
                 except:
                     from Core import ReportBug
+
                     ReportBug.ReportBug()
                 res = None
                 try:
@@ -338,11 +367,14 @@ if RoutineChecks.checkMandatoryModules():
                     sys.exit(res)
                 except Exception as err:
                     from Core import ReportBug
+
                     error = ReportBug.ReportBug()
-                    print (str(translate("ReportBug", "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details." )) % (error.pathOfReportFile))
+                    print (str(translate("ReportBug",
+                                         "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details.")) % (
+                               error.pathOfReportFile))
                     print (str(translate("ReportBug", "Thanks in advance for your interest.")))
                     print ("Shutting down, result %d" % res)
                     raise err
-                    
+
 sys.exit()
 

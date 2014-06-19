@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -24,14 +24,16 @@ tableName = "searchAndReplaceTable"
 tableVersion = 2
 allForFetch = None
 
+
 def fetchAll():
     global allForFetch
-    if allForFetch==None:
+    if allForFetch == None:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute("SELECT * FROM " + tableName)
         allForFetch = cur.fetchall()
     return allForFetch
+
 
 def fetch(_id):
     con = getDefaultConnection()
@@ -39,10 +41,12 @@ def fetch(_id):
     cur.execute("SELECT * FROM " + tableName + " where id=" + str(int(_id)))
     return cur.fetchall()
 
+
 def checkValues(_label, _searching, _replacing, _intIsActive, _intIsCaseSensitive, _intIsRegExp):
-    if len(_searching)==0:
+    if len(_searching) == 0:
         return False
     return True
+
 
 def insert(_label, _searching, _replacing, _intIsActive, _intIsCaseSensitive, _intIsRegExp):
     global allForFetch
@@ -50,7 +54,14 @@ def insert(_label, _searching, _replacing, _intIsActive, _intIsCaseSensitive, _i
         allForFetch = None
         con = getDefaultConnection()
         cur = con.cursor()
-        sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"label" : "'" + correctForSql(_label) + "'", "searching" : "'" + correctForSql(_searching) + "'", "replacing" : "'" + correctForSql(_replacing) + "'", "intIsActive" : correctForSql(_intIsActive), "intIsCaseSensitive" : correctForSql(_intIsCaseSensitive), "intIsRegExp" : correctForSql(_intIsRegExp)}, ["searching"])
+        sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"label": "'" + correctForSql(_label) + "'",
+                                                                    "searching": "'" + correctForSql(_searching) + "'",
+                                                                    "replacing": "'" + correctForSql(_replacing) + "'",
+                                                                    "intIsActive": correctForSql(_intIsActive),
+                                                                    "intIsCaseSensitive": correctForSql(
+                                                                        _intIsCaseSensitive),
+                                                                    "intIsRegExp": correctForSql(_intIsRegExp)},
+                                                        ["searching"])
         cur.execute(sqlQueries[0])
         cur.execute(sqlQueries[1])
         con.commit()
@@ -58,36 +69,51 @@ def insert(_label, _searching, _replacing, _intIsActive, _intIsCaseSensitive, _i
         return cur.fetchall()[0][0]
     return None
 
+
 def update(_id, _label, _searching, _replacing, _intIsActive, _intIsCaseSensitive, _intIsRegExp):
     global allForFetch
     if checkValues(_label, _searching, _replacing, _intIsActive, _intIsCaseSensitive, _intIsRegExp):
         allForFetch = None
         con = getDefaultConnection()
         cur = con.cursor()
-        cur.execute(str("update " + tableName + " set label='" + correctForSql(_label) + "', searching='" + correctForSql(_searching) + "', replacing='" + correctForSql(_replacing) + "', intIsActive='" + correctForSql(_intIsActive) + "', intIsCaseSensitive='" + correctForSql(_intIsCaseSensitive) + "', intIsRegExp='" + correctForSql(_intIsRegExp) + "' where id=" + str(int(_id))))
+        cur.execute(str(
+            "update " + tableName + " set label='" + correctForSql(_label) + "', searching='" + correctForSql(
+                _searching) + "', replacing='" + correctForSql(_replacing) + "', intIsActive='" + correctForSql(
+                _intIsActive) + "', intIsCaseSensitive='" + correctForSql(
+                _intIsCaseSensitive) + "', intIsRegExp='" + correctForSql(_intIsRegExp) + "' where id=" + str(
+                int(_id))))
         con.commit()
+
 
 def delete(_id):
     global allForFetch
     allForFetch = None
     con = getDefaultConnection()
     cur = con.cursor()
-    cur.execute("delete from " + tableName + " where id="+str(int(_id)))
+    cur.execute("delete from " + tableName + " where id=" + str(int(_id)))
     con.commit()
+
 
 def getTableCreateQuery():
     return "CREATE TABLE IF NOT EXISTS " + tableName + " ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'label' TEXT,'searching' TEXT,'replacing' TEXT,'intIsActive' INTEGER,'intIsCaseSensitive' INTEGER,'intIsRegExp' INTEGER)"
 
+
 def getDeleteTableQuery():
     return "DELETE FROM " + tableName
 
+
 def getDefaultsQueries():
     sqlQueries = []
-    sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"label" : "'delete url'", "searching" : "'(([A-Za-z]{3,9})://)?([-;:&=\+\$,\w]+@{1})?(([-A-Za-z0-9]+\.)+[A-Za-z]{2,3})(:\d+)?((/[-\+~%/\.\w]+)?/?([&?][-\+=&;%@\.\w]+)?(#[\w]+)?)?'", "replacing" : "''", "intIsActive" : "0", "intIsCaseSensitive" : "1", "intIsRegExp" : "1"}, ["searching"])
+    sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"label": "'delete url'",
+                                                                 "searching": "'(([A-Za-z]{3,9})://)?([-;:&=\+\$,\w]+@{1})?(([-A-Za-z0-9]+\.)+[A-Za-z]{2,3})(:\d+)?((/[-\+~%/\.\w]+)?/?([&?][-\+=&;%@\.\w]+)?(#[\w]+)?)?'",
+                                                                 "replacing": "''", "intIsActive": "0",
+                                                                 "intIsCaseSensitive": "1", "intIsRegExp": "1"},
+                                                     ["searching"])
     return sqlQueries
 
+
 def checkUpdates(_oldVersion):
-    if _oldVersion<2:
+    if _oldVersion < 2:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute(str("DROP TABLE " + tableName + ";"))

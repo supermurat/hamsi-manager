@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -21,6 +21,7 @@ from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 from Viewers import MusicPlayer
+
 
 class PlayerBar(MToolBar):
     def __init__(self, _parent):

@@ -1,4 +1,4 @@
-## This file is part of HamsiManager.
+# # This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
@@ -24,95 +24,105 @@ import re
 from Core.MyObjects import *
 from Core import Universals as uni
 import FileUtils as fu
+
 if uni.isPython3k:
     from urllib.parse import unquote, quote
 else:
     from urllib import unquote, quote
 
+
 def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
     _inputString = str(_inputString)
-    if len(_inputString)==0: return ""
+    if len(_inputString) == 0: return ""
     if uni.getBoolValue("isClearFirstAndLastSpaceChars"):
         _inputString = _inputString.strip()
-    if len(_inputString)==0: return ""
+    if len(_inputString) == 0: return ""
     if uni.getBoolValue("isEmendIncorrectChars"):
         replacementChars = uni.getUtf8Data("replacementChars")
-        try:_inputString = uni.trUnicode(_inputString)
-        except:_inputString = uni.trUnicode(_inputString, "iso-8859-9")
+        try: _inputString = uni.trUnicode(_inputString)
+        except: _inputString = uni.trUnicode(_inputString, "iso-8859-9")
         _inputString = replaceList(_inputString,
-                               replacementChars.keys(),
-                               replacementChars.values())
+                                   replacementChars.keys(),
+                                   replacementChars.values())
     if uni.getBoolValue("isDecodeURLStrings"):
         _inputString = unquote(_inputString)
     _inputString = str(uni.trDecode(_inputString, "utf-8", "ignore"))
-    if _type=="file" or _type=="directory":
+    if _type == "file" or _type == "directory":
         _inputString = fu.getAvailableNameByName(_inputString)
         preString, extString, ext2String = "", "", ""
-        if _inputString[-1]==fu.sep:
+        if _inputString[-1] == fu.sep:
             _inputString = _inputString[:-1]
             ext2String = fu.sep
-        if _inputString.find(fu.sep)!=-1:
+        if _inputString.find(fu.sep) != -1:
             tStr = _inputString.rsplit(fu.sep, 1)
             for ps in tStr[0].split(fu.sep):
                 if uni.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
                     ps = searchAndReplaceFromSearchAndReplaceTable(ps)
                 preString += emendBaseName(ps, "directory", _isCorrectCaseSensitive) + fu.sep
             _inputString = tStr[1]
-        if _type=="file":
+        if _type == "file":
             _inputString, extString = fu.getFileNameParts(_inputString)
         if uni.getBoolValue("isCorrectFileNameWithSearchAndReplaceTable"):
             _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
         _inputString = emendBaseName(_inputString, _type, _isCorrectCaseSensitive)
         extString = emendFileExtension(extString, _isCorrectCaseSensitive)
-        if extString!="":
+        if extString != "":
             extString = "." + extString
-        if preString!="":
+        if preString != "":
             _inputString = fu.joinPath(preString, _inputString)
-        _inputString = str(uni.trDecode(_inputString, "utf-8", "ignore")) + str(uni.trDecode(extString, "utf-8", "ignore")) + str(uni.trDecode(ext2String, "utf-8", "ignore"))
+        _inputString = str(uni.trDecode(_inputString, "utf-8", "ignore")) + str(
+            uni.trDecode(extString, "utf-8", "ignore")) + str(uni.trDecode(ext2String, "utf-8", "ignore"))
     else:
         if uni.getBoolValue("isCorrectValueWithSearchAndReplaceTable"):
             _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
         if _isCorrectCaseSensitive:
             _inputString = makeCorrectCaseSensitive(_inputString, uni.MySettings["validSentenceStructure"])
-    if _isRichText==False:
+    if _isRichText == False:
         if uni.getBoolValue("isCorrectDoubleSpaceChars"):
-            isFinded=_inputString.find("  ")
-            while isFinded!=-1:
-                _inputString=_inputString.replace("  "," ")
-                isFinded=_inputString.find("  ")
+            isFinded = _inputString.find("  ")
+            while isFinded != -1:
+                _inputString = _inputString.replace("  ", " ")
+                isFinded = _inputString.find("  ")
     return _inputString
+
 
 def emendBaseName(_baseName, _type, _isCorrectCaseSensitive):
     baseName = _baseName
     if _isCorrectCaseSensitive:
-        if _type=="file":
+        if _type == "file":
             baseName = makeCorrectCaseSensitive(baseName, uni.MySettings["validSentenceStructureForFile"])
-        elif _type=="directory":
+        elif _type == "directory":
             baseName = makeCorrectCaseSensitive(baseName, uni.MySettings["validSentenceStructureForDirectory"])
-    if uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[1] or uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[2]:
-        baseName = ''.join(c for c in unicodedata.normalize('NFKD', uni.trUnicode(baseName)) if unicodedata.category(c) != 'Mn')
+    if (uni.MySettings["fileReNamerType"] == uni.fileReNamerTypeNamesKeys[1] or
+                uni.MySettings["fileReNamerType"] == uni.fileReNamerTypeNamesKeys[2]):
+        baseName = ''.join(
+            c for c in unicodedata.normalize('NFKD', uni.trUnicode(baseName)) if unicodedata.category(c) != 'Mn')
         baseName = str(uni.trEncode(baseName, "utf-8", "ignore")).replace(uni.getUtf8Data("little+I"), "i")
-    if uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[1]:
+    if uni.MySettings["fileReNamerType"] == uni.fileReNamerTypeNamesKeys[1]:
         baseName = replaceList(baseName,
                                [" "],
                                ["_"])
-    if uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[1]:
+    if uni.MySettings["fileReNamerType"] == uni.fileReNamerTypeNamesKeys[1]:
         baseName = quote(baseName)
     return baseName
+
 
 def emendFileExtension(_fileExtension, _isCorrectCaseSensitive):
     fileExtension = _fileExtension
     if _isCorrectCaseSensitive:
-        fileExtension = makeCorrectCaseSensitive(fileExtension, uni.MySettings["validSentenceStructureForFileExtension"])
+        fileExtension = makeCorrectCaseSensitive(fileExtension,
+                                                 uni.MySettings["validSentenceStructureForFileExtension"])
     return fileExtension
+
 
 def replaceList(_s, _chars, _newChars):
     for a, b in zip(_chars, _newChars):
         _s = _s.replace(a, b)
     return _s
 
+
 def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
-    if _cbCharacterType==uni.validSentenceStructureKeys[0]:
+    if _cbCharacterType == uni.validSentenceStructureKeys[0]:
         if uni.isPython3k:
             return str(uni.trUnicode(_inputString)).title()
         else:
@@ -121,36 +131,37 @@ def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
             prevC = ""
             for c in uni.trUnicode(_inputString):
                 if c.islower():
-                   if not prevIsCased and prevC not in ("'", "`"):
-                      c = c.upper()
-                   prevIsCased = True
+                    if not prevIsCased and prevC not in ("'", "`"):
+                        c = c.upper()
+                    prevIsCased = True
                 elif c.isupper():
-                   if prevIsCased:
-                      c = c.lower()
-                   prevIsCased = True
+                    if prevIsCased:
+                        c = c.lower()
+                    prevIsCased = True
                 else:
-                   prevIsCased = False
+                    prevIsCased = False
                 prevC = c
                 s.append(c)
             return ''.join(s)
             #return string.capwords(uni.trUnicode(_inputString)) #don't use this. Because; it clears whitespaces, it doesn't upper the letters whick is after ()[]-/*......
-    elif _cbCharacterType==uni.validSentenceStructureKeys[1]:
+    elif _cbCharacterType == uni.validSentenceStructureKeys[1]:
         if uni.isPython3k:
             return str(uni.trUnicode(_inputString)).lower()
         else:
             return string.lower(uni.trUnicode(_inputString))
-    elif _cbCharacterType==uni.validSentenceStructureKeys[2]:
+    elif _cbCharacterType == uni.validSentenceStructureKeys[2]:
         if uni.isPython3k:
             return str(uni.trUnicode(_inputString)).upper()
         else:
             return string.upper(uni.trUnicode(_inputString))
-    elif _cbCharacterType==uni.validSentenceStructureKeys[3]:
+    elif _cbCharacterType == uni.validSentenceStructureKeys[3]:
         if uni.isPython3k:
             return str(uni.trUnicode(_inputString)).capitalize()
         else:
             return string.capitalize(uni.trUnicode(_inputString))
-    else :
+    else:
         return str(uni.trUnicode(_inputString))
+
 
 def getLink(_stringPath):
     _stringPath = str(_stringPath)
@@ -158,18 +169,21 @@ def getLink(_stringPath):
         return "<a href=\"%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
     return "<a href=\"file://%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
 
+
 def getCorrectedFileSize(bytes, precision=2):
     bytes = int(bytes)
     if bytes is 0:
         return '0 byte'
     log = math.floor(math.log(bytes, 1024))
     return "%.*f %s" % (precision,
-                       bytes / math.pow(1024, log),
-                       ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
-                       [int(log)])
+                        bytes / math.pow(1024, log),
+                        ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
+                        [int(log)])
+
 
 def getCorrectedTime(_timeValue):
     return str(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime(_timeValue)))
+
 
 def getIconName(_artist, _album, _year, _genre):
     iconName = uni.MySettings["iconNameFormat"]
@@ -179,94 +193,108 @@ def getIconName(_artist, _album, _year, _genre):
     iconName = iconName.replace(uni.iconNameFormatKeys[3], _genre)
     return iconName + "." + uni.MySettings["iconFileType"]
 
+
 def searchAndReplaceFromSearchAndReplaceTable(_oldString):
     import Databases
+
     newString = _oldString
     for info in Databases.SearchAndReplaceTable.fetchAll():
-        if info[4]==1:
+        if info[4] == 1:
             isCaseInsensitive, isRegExp = False, False
-            if info[5]==1:
+            if info[5] == 1:
                 isCaseInsensitive = True
-            if info[6]==1:
+            if info[6] == 1:
                 isRegExp = True
             newString = searchAndReplace(newString, [info[2]], [info[3]], isCaseInsensitive, isRegExp)
     return newString
 
+
 def searchAndReplace(_oldString, _searchStrings, _replaceStrings, _isCaseInsensitive=True, _isRegExp=False):
     newString = _oldString
-    for filterNo in range(0,len(_searchStrings)):
-        if _searchStrings[filterNo]!="":
+    for filterNo in range(0, len(_searchStrings)):
+        if _searchStrings[filterNo] != "":
             if _isRegExp:
                 if _isCaseInsensitive:
                     pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]), re.I | re.U)
-                    newString = re.sub(pattern,uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
+                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
                 else:
                     pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]))
-                    newString = re.sub(pattern,uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
+                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
             else:
                 if _isCaseInsensitive:
                     pattern = re.compile(re.escape(uni.trUnicode(_searchStrings[filterNo])), re.I | re.U)
-                    newString = re.sub(pattern,uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
+                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
                 else:
-                    newString = newString.replace(_searchStrings[filterNo],_replaceStrings[filterNo])
+                    newString = newString.replace(_searchStrings[filterNo], _replaceStrings[filterNo])
     return newString
 
+
 def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True, _isRegExp=False):
-    myString=""
-    if _cbClearType==translate("SpecialTools", "All"):
-        myString=""
-    elif _cbClearType==translate("SpecialTools", "Letters"):
+    myString = ""
+    if _cbClearType == translate("SpecialTools", "All"):
+        myString = ""
+    elif _cbClearType == translate("SpecialTools", "Letters"):
         for char in _oldString:
-            if char.isalpha()==False:
-                myString+=char
-    elif _cbClearType==translate("SpecialTools", "Numbers"):
+            if char.isalpha() == False:
+                myString += char
+    elif _cbClearType == translate("SpecialTools", "Numbers"):
         for char in _oldString:
-            if char.isdigit()==False:
-                myString+=char
-    elif _cbClearType==translate("SpecialTools", "Other Characters"):
+            if char.isdigit() == False:
+                myString += char
+    elif _cbClearType == translate("SpecialTools", "Other Characters"):
         for char in _oldString:
             if char.isdigit() or char.isalpha():
-                myString+=char
-    elif _cbClearType==translate("SpecialTools", "Selected Text"):
+                myString += char
+    elif _cbClearType == translate("SpecialTools", "Selected Text"):
         if _isRegExp:
             if _isCaseInsensitive:
                 pattern = re.compile(uni.trUnicode(_searchString), re.I | re.U)
-                myString = re.sub(pattern,uni.trUnicode(""), uni.trUnicode(_oldString))
+                myString = re.sub(pattern, uni.trUnicode(""), uni.trUnicode(_oldString))
             else:
                 pattern = re.compile(uni.trUnicode(_searchString))
-                myString = re.sub(pattern,uni.trUnicode(""), uni.trUnicode(_oldString))
+                myString = re.sub(pattern, uni.trUnicode(""), uni.trUnicode(_oldString))
         else:
             if _isCaseInsensitive:
                 pattern = re.compile(re.escape(uni.trUnicode(_searchString)), re.I | re.U)
-                myString = re.sub(pattern,uni.trUnicode(""), uni.trUnicode(_oldString))
+                myString = re.sub(pattern, uni.trUnicode(""), uni.trUnicode(_oldString))
             else:
-                myString = _oldString.replace(_searchString,"")
+                myString = _oldString.replace(_searchString, "")
     return myString
 
-def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText = False, _searchStrings=[], _isCaseInsensitive=True, _isRegExp=False):
+
+def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText=False, _searchStrings=[],
+                         _isCaseInsensitive=True, _isRegExp=False):
     newString = _inputString
     if isCorrectText:
-        for filterNo in range(0,len(_searchStrings)):
-            if _searchStrings[filterNo]!="":
+        for filterNo in range(0, len(_searchStrings)):
+            if _searchStrings[filterNo] != "":
                 if _isRegExp:
                     if _isCaseInsensitive:
                         m = re.search(_searchStrings[filterNo], newString, re.I | re.U)
-                        try:a = m.group(0)
-                        except:return newString
+                        try: a = m.group(0)
+                        except: return newString
                         pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]), re.I | re.U)
-                        newString = re.sub(pattern,uni.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), uni.trUnicode(newString))
+                        newString = re.sub(pattern,
+                                           uni.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)),
+                                           uni.trUnicode(newString))
                     else:
                         m = re.search(_searchStrings[filterNo], newString)
-                        try:a = m.group(0)
-                        except:return newString
+                        try: a = m.group(0)
+                        except: return newString
                         pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]))
-                        newString = re.sub(pattern,uni.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), uni.trUnicode(newString))
+                        newString = re.sub(pattern,
+                                           uni.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)),
+                                           uni.trUnicode(newString))
                 else:
                     if _isCaseInsensitive:
                         pattern = re.compile(re.escape(uni.trUnicode(_searchStrings[filterNo])), re.I | re.U)
-                        newString = re.sub(pattern,uni.trUnicode(makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType)), uni.trUnicode(newString))
+                        newString = re.sub(pattern, uni.trUnicode(
+                            makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType)),
+                                           uni.trUnicode(newString))
                     else:
-                        newString = newString.replace(_searchStrings[filterNo],makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType))
+                        newString = newString.replace(_searchStrings[filterNo],
+                                                      makeCorrectCaseSensitive(_searchStrings[filterNo],
+                                                                               _cbCharacterType))
     else:
         newString = makeCorrectCaseSensitive(_inputString, _cbCharacterType)
     return newString

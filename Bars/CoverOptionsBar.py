@@ -1,4 +1,4 @@
-## This file is part of HamsiManager.
+# # This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
@@ -21,6 +21,7 @@ from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 
+
 class CoverOptionsBar(MToolBar):
     def __init__(self, _parent):
         MToolBar.__init__(self, _parent)
@@ -28,13 +29,15 @@ class CoverOptionsBar(MToolBar):
         self.cbSubDirectoryDeepForMenu = None
         self.setWindowTitle(translate("CoverOptionsBar", "Cover Options"))
         self.setObjectName(translate("CoverOptionsBar", "Cover Options"))
-        lblDetails = translate("CoverOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
+        lblDetails = translate("CoverOptionsBar",
+                               "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
         lblSubDirectoryDeep = MLabel(str(translate("CoverOptionsBar", "Deep") + " : "))
-        self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) if x!=0 ]
+        self.SubDirectoryDeeps = [str(x) for x in range(-1, 10) if x != 0]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
         self.isActiveChanging = False
-        self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(uni.MySettings["CoversSubDirectoryDeep"]))
+        self.cbSubDirectoryDeep.setCurrentIndex(
+            self.cbSubDirectoryDeep.findText(uni.MySettings["CoversSubDirectoryDeep"]))
         self.isActiveChanging = True
         self.cbSubDirectoryDeep.setToolTip(lblDetails)
         pnlSubDirectoryDeep = MWidget()
@@ -44,8 +47,8 @@ class CoverOptionsBar(MToolBar):
         pnlSubDirectoryDeep.setLayout(hblSubDirectoryDeep)
         self.addWidget(pnlSubDirectoryDeep)
         MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.coverDeepChanged)
-        self.setIconSize(MSize(32,32))
-    
+        self.setIconSize(MSize(32, 32))
+
     def coverDeepChanged(self, _action=None):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
@@ -56,19 +59,22 @@ class CoverOptionsBar(MToolBar):
                     getMainWindow().SpecialTools.refreshForColumns()
                     getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
-                self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(uni.MySettings["CoversSubDirectoryDeep"])))
+                self.cbSubDirectoryDeep.setCurrentIndex(
+                    self.cbSubDirectoryDeep.findText(str(uni.MySettings["CoversSubDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
-                    self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["CoversSubDirectoryDeep"])))
+                    self.cbSubDirectoryDeepForMenu.setCurrentIndex(
+                        self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["CoversSubDirectoryDeep"])))
                 self.isActiveChanging = True
         except:
             ReportBug.ReportBug()
-        
-            
+
+
     def getSpecialOptions(self, _menu):
         self.cbSubDirectoryDeepForMenu = MComboBox(self)
         self.cbSubDirectoryDeepForMenu.addItems(self.SubDirectoryDeeps)
         self.isActiveChanging = False
-        self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["CoversSubDirectoryDeep"])))
+        self.cbSubDirectoryDeepForMenu.setCurrentIndex(
+            self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["CoversSubDirectoryDeep"])))
         self.isActiveChanging = True
         MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.coverDeepChanged)
         wactLabel = MWidgetAction(_menu)

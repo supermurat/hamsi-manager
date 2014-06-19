@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -17,6 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import sys
+
 MStringList = None
 isActivePyKDE4 = None
 isPython3k = float(sys.version[:3]) >= 3.0
@@ -28,21 +29,24 @@ MDial = MDialog = MGroupBox = MHBox = MHBoxLayout = MIcon = MLabel = MLine = MLi
 # endregion
 
 from PyQt4 import QtGui
+
 for obj in dir(QtGui):
-    if obj[0]=="Q":
-        exec ("M"+obj[1:]+" = QtGui." + obj)
+    if obj[0] == "Q":
+        exec ("M" + obj[1:] + " = QtGui." + obj)
     else:
         exec (obj + " = QtGui." + obj)
 from PyQt4 import QtCore
+
 for obj in dir(QtCore):
-    if obj[0]=="Q":
-        exec ("M"+obj[1:]+" = QtCore." + obj)
+    if obj[0] == "Q":
+        exec ("M" + obj[1:] + " = QtCore." + obj)
     else:
         exec (obj + " = QtCore." + obj)
 from PyQt4 import QtNetwork
+
 for obj in dir(QtNetwork):
-    if obj[0]=="Q":
-        exec ("M"+obj[1:]+" = QtNetwork." + obj)
+    if obj[0] == "Q":
+        exec ("M" + obj[1:] + " = QtNetwork." + obj)
     else:
         exec (obj + " = QtNetwork." + obj)
 
@@ -53,38 +57,42 @@ MQtCore.QTextCodec.setCodecForTr(MQtCore.QTextCodec.codecForName("utf-8"))
 
 try:
     from PyKDE4 import kdeui
+
     for obj in dir(kdeui):
-        if obj[0]=="K":
-            exec ("M"+obj[1:]+" = kdeui." + obj)
+        if obj[0] == "K":
+            exec ("M" + obj[1:] + " = kdeui." + obj)
         else:
             exec (obj + " = kdeui." + obj)
     from PyKDE4 import kdecore
+
     for obj in dir(kdecore):
-        if obj[0]=="K":
-            exec ("M"+obj[1:]+" = kdecore." + obj)
+        if obj[0] == "K":
+            exec ("M" + obj[1:] + " = kdecore." + obj)
         else:
             exec (obj + " = kdecore." + obj)
     from PyKDE4 import kio
+
     for obj in dir(kio):
-        if obj[0]=="K":
-            exec ("M"+obj[1:]+" = kio." + obj)
+        if obj[0] == "K":
+            exec ("M" + obj[1:] + " = kio." + obj)
         else:
             exec (obj + " = kio." + obj)
     isActivePyKDE4 = True
 except:
     isActivePyKDE4 = False
-    
+
 #this PyKDE4 objects different from PyQt4 objects
 QLocale = QtCore.QLocale
-QFileDialog = QtGui.QFileDialog 
+QFileDialog = QtGui.QFileDialog
 QMessageBox = QtGui.QMessageBox
 QDirModel = QtGui.QDirModel
 QIcon = QtGui.QIcon
-    
+
 if MStringList is None:
     def MStringList(_s):
         return [_s]
-    
+
+
 def translate(_p, _s):
     return str(MApplication.translate(_p, _s))
 
@@ -138,7 +146,7 @@ def getMyObject(_objectName):
 
 def getMyDialog():
     try:
-        if getMainWindow().objectName()=="RealMainWindow":
+        if getMainWindow().objectName() == "RealMainWindow":
             return MDialog, "MDialog", getMainWindow()
         else:
             return MMainWindow, "MMainWindow", None
@@ -154,20 +162,23 @@ def moveToCenter(_dialog):
         scrn = MApplication.desktop().screenNumber(_dialog)
     desk = MApplication.desktop().availableGeometry(scrn)
     _dialog.move(int((desk.width() - _dialog.width()) / 2),
-      int((desk.height() - _dialog.height()) / 2))
+                 int((desk.height() - _dialog.height()) / 2))
 
 
 def setCompleter(_object, _objectName=None):
     from Core import Universals as uni
+
     if uni.getBoolValue("isShowAllForCompleter"):
         _objectName = "%*%"
     from Databases import CompleterTable
-    if _objectName==None:
+
+    if _objectName == None:
         _objectName = _object.objectName()
     _objectName = str(_objectName)
     cmpCompleter = MCompleter(CompleterTable.fetchAllByObjectName(_objectName))
     cmpCompleter.setCaseSensitivity(Mt.CaseInsensitive)
     _object.setCompleter(cmpCompleter)
+
 
 def setApplication(_app):
     global HamsiManagerAppUseGetApplication
@@ -191,6 +202,7 @@ def setMainWindow(_mainWindow):
     MainWindowUseGetMainWindow.TableToolsBar = None
     MainWindowUseGetMainWindow.FileManager = None
     MainWindowUseGetMainWindow.CentralWidget = None
+
 
 def getMainWindow():
     return MainWindowUseGetMainWindow

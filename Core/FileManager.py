@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -26,8 +26,8 @@ from Core import ReportBug
 from Core import Organizer
 import Databases
 
+
 class FileManager():
-    
     def __init__(self, _parent):
         self.bookmarks = Bookmarks(self)
         self.history = []
@@ -66,22 +66,22 @@ class FileManager():
         self.trvFileManager.setModel(self.dirModelForTree)
         self.lstvFileManager.setModel(self.dirModel)
         self.currentDirectory = str(fu.getRealDirName(uni.MySettings["lastDirectory"]))
-        if fu.isDir(str(self.currentDirectory))==False:
+        if fu.isDir(str(self.currentDirectory)) == False:
             self.currentDirectory = MDir.homePath()
-        MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"),self.setMyCurrentIndexByTree)
-        MObject.connect(self.lstvFileManager, SIGNAL("doubleClicked(QModelIndex)"),self.setMyCurrentIndex)
+        MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"), self.setMyCurrentIndexByTree)
+        MObject.connect(self.lstvFileManager, SIGNAL("doubleClicked(QModelIndex)"), self.setMyCurrentIndex)
         tools = MToolBar(_parent)
-        actAddBookmark = MAction(MIcon("Images:addBookmark.png"),"",tools)
+        actAddBookmark = MAction(MIcon("Images:addBookmark.png"), "", tools)
         actAddBookmark.setToolTip(translate("FileManager", "Add To Bookmarks"))
-        self.actBack = MAction(MIcon("Images:back.png"),"",tools)
+        self.actBack = MAction(MIcon("Images:back.png"), "", tools)
         self.actBack.setToolTip(translate("FileManager", "Back"))
-        self.actForward = MAction(MIcon("Images:forward.png"),"",tools)
+        self.actForward = MAction(MIcon("Images:forward.png"), "", tools)
         self.actForward.setToolTip(translate("FileManager", "Forward"))
-        self.actUp = MAction(MIcon("Images:up.png"),"",tools)
+        self.actUp = MAction(MIcon("Images:up.png"), "", tools)
         self.actUp.setToolTip(translate("FileManager", "Up"))
-        actRefresh = MAction(MIcon("Images:refresh.png"),"",tools)
+        actRefresh = MAction(MIcon("Images:refresh.png"), "", tools)
         actRefresh.setToolTip(translate("FileManager", "Refresh"))
-        actHome = MAction(MIcon("Images:home.png"),"",tools)
+        actHome = MAction(MIcon("Images:home.png"), "", tools)
         actHome.setToolTip(translate("FileManager", "Home"))
         MObject.connect(self.actBack, SIGNAL("triggered(bool)"), self.goBack)
         MObject.connect(self.actForward, SIGNAL("triggered(bool)"), self.goForward)
@@ -94,38 +94,38 @@ class FileManager():
             toolsFull = MToolBar(_parent)
             toolsFull.addAction(self.bookmarksMenu.menuAction())
             self.isGoToFromDirOperator = False
-            self.dirOperator = MDirOperator(MUrl( self.currentDirectory ), _parent)
+            self.dirOperator = MDirOperator(MUrl(self.currentDirectory), _parent)
             self.dirOperator.setDirLister(self.dirLister)
-            
+
             kconf = MGlobal.config()
-            kconfGroup = MConfigGroup(kconf,"DirectoryOperator")
+            kconfGroup = MConfigGroup(kconf, "DirectoryOperator")
             self.dirOperator.readConfig(kconfGroup)
             self.dirOperator.setViewConfig(kconfGroup)
             self.dirOperator.setView(MFile.Default)
-            
+
             self.actCollection = self.dirOperator.actionCollection()
             self.actCollection.readSettings(kconfGroup)
             self.actCollection.associateWidget(toolsFull)
-            
+
             getMainWindow().DirOperator = MDockWidget(translate("FileManager", "Directory Operator"))
             getMainWindow().DirOperator.setObjectName(translate("FileManager", "Directory Operator"))
             getMainWindow().DirOperator.setWidget(self.dirOperator)
             getMainWindow().DirOperator.setAllowedAreas(Mt.AllDockWidgetAreas)
             getMainWindow().DirOperator.setFeatures(MDockWidget.AllDockWidgetFeatures)
             _parent.addDockWidget(Mt.LeftDockWidgetArea, getMainWindow().DirOperator)
-            MObject.connect(self.dirOperator, SIGNAL("urlEntered(KUrl)"),self.dirOperatorUrlChanged)
+            MObject.connect(self.dirOperator, SIGNAL("urlEntered(KUrl)"), self.dirOperatorUrlChanged)
             self.isGoToFromDirOperator = True
             self.filePlacesModel = MFilePlacesModel()
             self.urlNavigator = MUrlNavigator(self.filePlacesModel, MUrl(self.currentDirectory), self.lstvFileManager)
             self.isGoToFromUrlNavigator = True
-            MObject.connect(self.urlNavigator, SIGNAL("urlChanged(KUrl)"),self.urlNavigatorUrlChanged)
-            MObject.connect(self.fpvPlaces, SIGNAL("urlChanged(KUrl)"),self.setPlacesUrlChanged)
+            MObject.connect(self.urlNavigator, SIGNAL("urlChanged(KUrl)"), self.urlNavigatorUrlChanged)
+            MObject.connect(self.fpvPlaces, SIGNAL("urlChanged(KUrl)"), self.setPlacesUrlChanged)
         self.leNavigator = MLineEdit()
         cmpCompleter = MCompleter()
         cmpCompleter.setModel(self.dirModelForNavigator)
         cmpCompleter.setCaseSensitivity(Mt.CaseInsensitive)
         self.leNavigator.setCompleter(cmpCompleter)
-        MObject.connect(self.leNavigator, SIGNAL("returnPressed()"),self.leNavigatorPressed)
+        MObject.connect(self.leNavigator, SIGNAL("returnPressed()"), self.leNavigatorPressed)
         tools.addAction(self.actBack)
         tools.addAction(self.actForward)
         tools.addAction(self.actUp)
@@ -137,18 +137,18 @@ class FileManager():
         self.actForward.setEnabled(False)
         self.goTo(self.currentDirectory)
         self.trvFileManager.setColumnWidth(0, 250)
-        if uni.windowMode==uni.windowModeKeys[1]:
+        if uni.windowMode == uni.windowModeKeys[1]:
             tools.setIconSize(MSize(16, 16))
             self.tbarBrowserTools = MToolBar(_parent)
             self.tbarBrowserTools.setWindowTitle(translate("FileManager", "Browser Tools"))
             self.tbarBrowserTools.setObjectName(translate("FileManager", "Browser Tools"))
-            self.tbarBrowserTools.setIconSize(MSize(16,16))
+            self.tbarBrowserTools.setIconSize(MSize(16, 16))
             self.tbarBrowserTools.addWidget(tools)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserTools)
             self.tbarLocationBar = MToolBar(_parent)
             self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
             self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
-            self.tbarLocationBar.setIconSize(MSize(16,16))
+            self.tbarLocationBar.setIconSize(MSize(16, 16))
             self.tbarLocationBar.addWidget(self.leNavigator)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
             if isActivePyKDE4:
@@ -156,13 +156,13 @@ class FileManager():
                 self.tbarBrowserToolsFull = MToolBar(_parent)
                 self.tbarBrowserToolsFull.setWindowTitle(translate("FileManager", "Browser Tools (KDE4)"))
                 self.tbarBrowserToolsFull.setObjectName(translate("FileManager", "Browser Tools (KDE4)"))
-                self.tbarBrowserToolsFull.setIconSize(MSize(16,16))
+                self.tbarBrowserToolsFull.setIconSize(MSize(16, 16))
                 self.tbarBrowserToolsFull.addWidget(toolsFull)
                 _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserToolsFull)
                 self.tbarLocationBar = MToolBar(_parent)
                 self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar (KDE4)"))
                 self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
-                self.tbarLocationBar.setIconSize(MSize(16,16))
+                self.tbarLocationBar.setIconSize(MSize(16, 16))
                 self.tbarLocationBar.addWidget(self.urlNavigator)
                 _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
         else:
@@ -176,7 +176,7 @@ class FileManager():
             self.tbarLocationBar = MToolBar(_parent)
             self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
             self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
-            self.tbarLocationBar.setIconSize(MSize(16,16))
+            self.tbarLocationBar.setIconSize(MSize(16, 16))
             self.tbarLocationBar.addWidget(self.leNavigator)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
             if isActivePyKDE4:
@@ -190,7 +190,7 @@ class FileManager():
                 self.tbarLocationBar = MToolBar(_parent)
                 self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar (KDE4)"))
                 self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
-                self.tbarLocationBar.setIconSize(MSize(16,16))
+                self.tbarLocationBar.setIconSize(MSize(16, 16))
                 self.tbarLocationBar.addWidget(self.urlNavigator)
                 _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
         getMainWindow().Browser = MDockWidget(translate("FileManager", "Browser"))
@@ -216,7 +216,7 @@ class FileManager():
             _parent.tabifyDockWidget(getMainWindow().DirOperator, getMainWindow().TreeBrowser)
             _parent.tabifyDockWidget(getMainWindow().DirOperator, getMainWindow().Browser)
 
-    def goTo(self, _path, _isRemember = True, _isOnlyBrowser = False):
+    def goTo(self, _path, _isRemember=True, _isOnlyBrowser=False):
         try:
             _path = fu.checkSource(str(_path))
             if _path is not None:
@@ -225,7 +225,7 @@ class FileManager():
                         if _isRemember:
                             self.future = []
                             self.history.append(self.currentDirectory)
-                        if _path[-1]==fu.sep: _path = _path[:-1]
+                        if _path[-1] == fu.sep: _path = _path[:-1]
                         self.currentDirectory = str(_path)
                         if isActivePyKDE4:
                             self.dirLister.openUrl(MUrl(self.currentDirectory))
@@ -240,10 +240,10 @@ class FileManager():
                             self.lstvFileManager.setRootIndex(self.dirModel.index(_path))
                             self.trvFileManager.setCurrentIndex(self.dirModelForTree.index(_path))
                         self.actForward.setEnabled(False)
-                        if _isOnlyBrowser==False:
+                        if _isOnlyBrowser == False:
                             self.showInTable()
                         self.actBack.setEnabled(True)
-                        if str(self.currentDirectory)==fu.sep:
+                        if str(self.currentDirectory) == fu.sep:
                             self.actUp.setEnabled(False)
                         else:
                             self.actUp.setEnabled(True)
@@ -251,12 +251,14 @@ class FileManager():
                         isOpened = False
                         for ext in uni.getListValue("musicExtensions"):
                             if str(_path).split(".")[-1].lower() == str(ext).lower():
-                                if (uni.tableType=="2" or uni.tableType=="9") and getMainWindow().PlayerBar.MusicPlayer.playInBar.isChecked():
+                                if (
+                                            uni.tableType == "2" or uni.tableType == "9") and getMainWindow().PlayerBar.MusicPlayer.playInBar.isChecked():
                                     getMainWindow().PlayerBar.MusicPlayer.play(str(_path))
                                 isOpened = True
-                        if isOpened==False:
+                        if isOpened == False:
                             from Details import Details
-                            Details(str(_path),uni.getBoolValue("isOpenDetailsInNewWindow"))
+
+                            Details(str(_path), uni.getBoolValue("isOpenDetailsInNewWindow"))
         except:
             ReportBug.ReportBug()
 
@@ -266,7 +268,7 @@ class FileManager():
             self.currentDirectory = self.history.pop()
             self.goTo(self.currentDirectory, False)
             self.actForward.setEnabled(True)
-            if len(self.history)==0:
+            if len(self.history) == 0:
                 self.actBack.setEnabled(False)
         except:
             ReportBug.ReportBug()
@@ -279,7 +281,7 @@ class FileManager():
             except:
                 pass
             self.goTo(self.currentDirectory, False)
-            if len(self.future)==0:
+            if len(self.future) == 0:
                 self.actForward.setEnabled(False)
         except:
             ReportBug.ReportBug()
@@ -298,7 +300,7 @@ class FileManager():
 
     def makeRefresh(self, _newDirectoryPath="", _isOnlyBrowser=False):
         try:
-            if _newDirectoryPath!="" and _newDirectoryPath!=True and _newDirectoryPath!=False:
+            if _newDirectoryPath != "" and _newDirectoryPath != True and _newDirectoryPath != False:
                 self.goTo(_newDirectoryPath, False)
             else:
                 sourcePath = fu.checkSource(str(self.currentDirectory), "directory")
@@ -308,57 +310,57 @@ class FileManager():
                     else:
                         self.makeRefreshOnlyFileList()
                         self.makeRefreshOnlyFileListByTree()
-                        if _isOnlyBrowser==False:
+                        if _isOnlyBrowser == False:
                             self.showInTable()
                 else:
                     self.goTo(fu.getRealDirName(str(self.currentDirectory)), False)
         except:
             ReportBug.ReportBug()
-    
+
     def makeRefreshOnlyFileList(self, _index=""):
-        if _index=="":_index = self.lstvFileManager.currentIndex()
+        if _index == "": _index = self.lstvFileManager.currentIndex()
         if isActivePyKDE4:
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index)).refresh()
         else:
             return self.dirModel.refresh(_index)
-    
+
     def makeRefreshOnlyFileListByTree(self, _index=""):
-        if _index=="":_index = self.trvFileManager.currentIndex()
+        if _index == "": _index = self.trvFileManager.currentIndex()
         return self.dirModelForTree.refresh(_index)
-    
+
     def getPathOfIndex(self, _index):
         if isActivePyKDE4:
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index)).url().pathOrUrl()
         else:
             return self.dirModel.filePath(_index)
-            
+
     def getPathOfIndexByTree(self, _index):
         return self.dirModelForTree.filePath(_index)
-        
+
     def getFileInfo(self, _index):
         if isActivePyKDE4:
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index))
         else:
             return self.dirModel.fileInfo(_index)
-    
+
     def leNavigatorPressed(self):
         self.goTo(str(fu.joinPath(self.currentDirectory, self.leNavigator.text())))
         self.leNavigator.setText("")
-    
+
     def urlNavigatorUrlChanged(self, _murl):
         if self.isGoToFromUrlNavigator:
             self.goTo(_murl.pathOrUrl(), True)
-        
+
     def dirOperatorUrlChanged(self, _murl):
         if self.isGoToFromDirOperator:
             self.goTo(_murl.pathOrUrl(), True)
-        
+
     def setPlacesUrlChanged(self, _murl):
         self.goTo(_murl.pathOrUrl(), True)
-        
+
     def setMyCurrentIndex(self, _index):
         try:
-            while 1==1:
+            while 1 == 1:
                 selected = str(self.getPathOfIndex(_index))
                 if fu.isDir(selected) or fu.isFile(selected):
                     self.makeRefreshOnlyFileList(_index)
@@ -368,10 +370,10 @@ class FileManager():
             self.goTo(self.getPathOfIndex(_index))
         except:
             ReportBug.ReportBug()
-            
+
     def setMyCurrentIndexByTree(self, _index):
         try:
-            while 1==1:
+            while 1 == 1:
                 selected = str(self.getPathOfIndexByTree(_index))
                 if fu.isDir(selected) or fu.isFile(selected):
                     self.makeRefreshOnlyFileListByTree(_index)
@@ -381,7 +383,7 @@ class FileManager():
             self.goTo(self.getPathOfIndexByTree(_index))
         except:
             ReportBug.ReportBug()
-    
+
     def showInTable(self):
         try:
             if uni.tableType in ["0", "1", "2", "3", "4", "9"]:
@@ -390,44 +392,47 @@ class FileManager():
                 getMainWindow().StatusBar.setTableInfo(uni.tableTypesNames[uni.tableType] + str(" : ~ "))
         except:
             ReportBug.ReportBug()
-            
+
     def getCurrentDirectoryPath(self):
         return str(self.currentDirectory).replace("file://", "")
-          
-          
+
+
 class BookmarksMenu(MMenu):
     def __init__(self, _parent):
         MMenu.__init__(self)
         self._parent = _parent;
         self.setTitle(translate("BookmarksMenu", "Bookmarks"))
         self.setIcon(MIcon("Images:bookmarks.png"))
-        MObject.connect(self,SIGNAL("triggered(QAction *)"),self.triggered)
+        MObject.connect(self, SIGNAL("triggered(QAction *)"), self.triggered)
         self.makeRefresh()
-    
+
     def makeRefresh(self):
         try:
             self.clear()
             for fav in Databases.BookmarksOfDirectories.fetchAll():
                 self.addAction(str(fav[1])).setObjectName(str(fav[1]))
-            self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(translate("BookmarksMenu", "Edit Bookmarks"))
+            self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(
+                translate("BookmarksMenu", "Edit Bookmarks"))
         except:
             ReportBug.ReportBug()
 
     def triggered(self, _action):
         try:
-            if _action.objectName()==translate("BookmarksMenu", "Edit Bookmarks"):
+            if _action.objectName() == translate("BookmarksMenu", "Edit Bookmarks"):
                 getMainWindow().FileManager.bookmarks.makeRefresh()
                 getMainWindow().FileManager.bookmarks.show()
                 return
             for info in Databases.BookmarksOfDirectories.fetchAll():
-                if info[1]==str(_action.objectName()):
+                if info[1] == str(_action.objectName()):
                     if fu.isDir(str(info[2])):
                         getMainWindow().FileManager.goTo(str(info[2]))
                         return
                     else:
-                        answer = Dialogs.ask(translate("BookmarksMenu", "Cannot Find Folder"), 
-                                            str(translate("BookmarksMenu", "\"%s\" cannot be found.<br>Delete this folder from the bookmarks?")) % Organizer.getLink(info[1]))
-                        if answer==Dialogs.Yes:
+                        answer = Dialogs.ask(translate("BookmarksMenu", "Cannot Find Folder"),
+                                             str(translate("BookmarksMenu",
+                                                           "\"%s\" cannot be found.<br>Delete this folder from the bookmarks?")) % Organizer.getLink(
+                                                 info[1]))
+                        if answer == Dialogs.Yes:
                             Databases.BookmarksOfDirectories.delete(str(info[0]))
                             self.makeRefresh()
                             getMainWindow().FileManager.bookmarks.makeRefresh()
@@ -435,8 +440,8 @@ class BookmarksMenu(MMenu):
             getMainWindow().FileManager.makeRefreshOnlyFileListByTree()
         except:
             ReportBug.ReportBug()
-        
-    
+
+
 class Bookmarks(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self)
@@ -468,19 +473,20 @@ class Bookmarks(MDialog):
             self.setMainWidget(pnlMain)
         else:
             self.setLayout(vblMain)
-        self.setFixedSize(300,120)
+        self.setFixedSize(300, 120)
         MObject.connect(self.cbBookmarks, SIGNAL("currentIndexChanged(int)"), self.bookmarksChanged)
         self.makeRefresh()
 
     def closeEvent(self, _event):
         getMainWindow().FileManager.bookmarksMenu.makeRefresh()
-        
+
     def bookmarksChanged(self, _index):
         try:
-            self.pathOfBookmark.setText(str(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
+            self.pathOfBookmark.setText(
+                str(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
         except:
             ReportBug.ReportBug()
-            
+
     def addBookmark(self):
         try:
             currentPath = getMainWindow().FileManager.getCurrentDirectoryPath()
@@ -489,26 +495,27 @@ class Bookmarks(MDialog):
             self.makeRefresh()
         except:
             ReportBug.ReportBug()
-        
+
     def saveBookmark(self):
         try:
             info = Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
-            Databases.BookmarksOfDirectories.update(info[0], str(self.cbBookmarks.currentText()), str(self.pathOfBookmark.text()))
+            Databases.BookmarksOfDirectories.update(info[0], str(self.cbBookmarks.currentText()),
+                                                    str(self.pathOfBookmark.text()))
             self.makeRefresh()
             getMainWindow().FileManager.bookmarksMenu.makeRefresh()
         except:
             ReportBug.ReportBug()
-            
+
     def deleteBookmark(self):
         try:
-            if self.cbBookmarks.currentIndex()!=-1:
+            if self.cbBookmarks.currentIndex() != -1:
                 info = Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
                 Databases.BookmarksOfDirectories.delete(str(info[0]))
                 self.makeRefresh()
                 getMainWindow().FileManager.bookmarksMenu.makeRefresh()
         except:
             ReportBug.ReportBug()
-            
+
     def makeRefresh(self):
         try:
             self.cbBookmarks.clear()

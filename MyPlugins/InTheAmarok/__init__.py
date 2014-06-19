@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -30,6 +30,7 @@ if uni.isRunningAsRoot():
     setupDirectory = "/usr/share/apps/amarok/scripts"
 else:
     setupDirectory = uni.getKDE4HomePath() + "/share/apps/amarok/scripts"
+
 
 def isInstallable():
     return uni.isAvailableKDE4()

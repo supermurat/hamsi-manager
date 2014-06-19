@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -17,32 +17,34 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import os,sys
+import os, sys
 from Core.MyObjects import *
 from Viewers import ImageViewer
 from Core import Dialogs
 from Core import Organizer
 from Core import Universals as uni
 
+
 class HtmlDetails(MDialog):
     global htmlDialogs
     htmlDialogs = []
+
     def __init__(self, _file, _valueType="file", _isOpenDetailsOnNewWindow=True):
         global htmlDialogs
-        if _isOpenDetailsOnNewWindow==False:
-            isHasOpenedDialog=False
+        if _isOpenDetailsOnNewWindow == False:
+            isHasOpenedDialog = False
             for dialog in htmlDialogs:
                 if dialog.isVisible():
-                    isHasOpenedDialog=True
+                    isHasOpenedDialog = True
                     self = dialog
                     self.changeFile(_file, _valueType)
                     dialog.activateWindow()
                     dialog.raise_()
                     break
-            if isHasOpenedDialog==False:
-                _isOpenDetailsOnNewWindow=True
+            if isHasOpenedDialog == False:
+                _isOpenDetailsOnNewWindow = True
         if _isOpenDetailsOnNewWindow:
-            QtWebKit = getMyObject("QtWebKit")   
+            QtWebKit = getMyObject("QtWebKit")
             htmlDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
             if isActivePyKDE4:
@@ -68,9 +70,9 @@ class HtmlDetails(MDialog):
             else:
                 self.setLayout(vblMain)
             self.show()
-                  
+
     def changeFile(self, _file, _valueType):
-        if _valueType=="data":
+        if _valueType == "data":
             self.setWindowTitle(translate("HtmlDetails", "Html Details"))
             self.wvWeb.setHtml(str(_file))
         else:

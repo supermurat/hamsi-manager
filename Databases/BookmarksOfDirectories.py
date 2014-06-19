@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -25,14 +25,16 @@ tableName = "bookmarksOfDirectories"
 tableVersion = 2
 allForFetch = None
 
+
 def fetchAll():
     global allForFetch
-    if allForFetch==None:
+    if allForFetch == None:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute("SELECT * FROM " + tableName)
         allForFetch = cur.fetchall()
     return allForFetch
+
 
 def fetch(_id):
     con = getDefaultConnection()
@@ -40,10 +42,12 @@ def fetch(_id):
     cur.execute("SELECT * FROM " + tableName + " where id=" + str(int(_id)))
     return cur.fetchall()
 
+
 def checkValues(_bookmark, _value, _type):
-    if len(_bookmark)==0 or len(_value)==0:
+    if len(_bookmark) == 0 or len(_value) == 0:
         return False
     return True
+
 
 def insert(_bookmark, _value, _type=""):
     global allForFetch
@@ -51,7 +55,10 @@ def insert(_bookmark, _value, _type=""):
         allForFetch = None
         con = getDefaultConnection()
         cur = con.cursor()
-        sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'" + correctForSql(_bookmark) + "'", "value" : "'" + correctForSql(_value) + "'", "type" : "'" + correctForSql(_type) + "'"}, ["value"])
+        sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark": "'" + correctForSql(_bookmark) + "'",
+                                                                    "value": "'" + correctForSql(_value) + "'",
+                                                                    "type": "'" + correctForSql(_type) + "'"},
+                                                        ["value"])
         cur.execute(sqlQueries[0])
         cur.execute(sqlQueries[1])
         con.commit()
@@ -59,41 +66,57 @@ def insert(_bookmark, _value, _type=""):
         return cur.fetchall()[0][0]
     return None
 
+
 def update(_id, _bookmark, _value, _type=""):
     global allForFetch
     if checkValues(_bookmark, _value, _type):
         allForFetch = None
         con = getDefaultConnection()
         cur = con.cursor()
-        cur.execute(str("update " + tableName + " set bookmark='" + correctForSql(_bookmark) + "', value='" + correctForSql(_value) + "', type='" + correctForSql(_type) + "' where id=" + str(int(_id))))
+        cur.execute(str(
+            "update " + tableName + " set bookmark='" + correctForSql(_bookmark) + "', value='" + correctForSql(
+                _value) + "', type='" + correctForSql(_type) + "' where id=" + str(int(_id))))
         con.commit()
+
 
 def delete(_id):
     global allForFetch
     allForFetch = None
     con = getDefaultConnection()
     cur = con.cursor()
-    cur.execute("delete from " + tableName + " where id="+str(int(_id)))
+    cur.execute("delete from " + tableName + " where id=" + str(int(_id)))
     con.commit()
+
 
 def getTableCreateQuery():
     return "CREATE TABLE IF NOT EXISTS " + tableName + " ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'bookmark' TEXT,'value' TEXT,'type' TEXT)"
 
+
 def getDeleteTableQuery():
     return "DELETE FROM " + tableName
 
+
 def getDefaultsQueries():
     sqlQueries = []
-    sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'Home'", "value" : "'"+fu.userDirectoryPath+"'", "type" : "''"}, ["value"])
+    sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName,
+                                                     {"bookmark": "'Home'", "value": "'" + fu.userDirectoryPath + "'",
+                                                      "type": "''"}, ["value"])
     if uni.isWindows:
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'C:\\'", "value" : "'C:\\'", "type" : "''"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName,
+                                                         {"bookmark": "'C:\\'", "value": "'C:\\'", "type": "''"},
+                                                         ["value"])
     else:
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'MNT'", "value" : "'/mnt'", "type" : "''"}, ["value"])
-        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"bookmark" : "'MEDIA'", "value" : "'/media'", "type" : "''"}, ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName,
+                                                         {"bookmark": "'MNT'", "value": "'/mnt'", "type": "''"},
+                                                         ["value"])
+        sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName,
+                                                         {"bookmark": "'MEDIA'", "value": "'/media'", "type": "''"},
+                                                         ["value"])
     return sqlQueries
 
+
 def checkUpdates(_oldVersion):
-    if _oldVersion<2:
+    if _oldVersion < 2:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute(str("DROP TABLE " + tableName + ";"))

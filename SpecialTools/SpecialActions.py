@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -27,8 +27,8 @@ import sys
 from Core import ReportBug
 import Databases
 
+
 class SpecialActions(MWidget):
-    
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
         self.specialTools = _parent
@@ -52,21 +52,24 @@ class SpecialActions(MWidget):
         self.tbDeleteBookmark.setAutoRaise(True)
         self.tbWhatDoesThisCommandDo.setAutoRaise(True)
         self.tbDeleteBookmark.setEnabled(False)
-            
+
         MObject.connect(self.cbBookmarks, SIGNAL("currentIndexChanged(int)"), self.cbBookmarksChanged)
         MObject.connect(self.tbClear, SIGNAL("clicked()"), self.makeClear)
         MObject.connect(self.tbWhatDoesThisCommandDo, SIGNAL("clicked()"), self.whatDoesThisCommandDo)
         MObject.connect(self.tbAddBookmark, SIGNAL("clicked()"), self.addBookmark)
         MObject.connect(self.tbDeleteBookmark, SIGNAL("clicked()"), self.deleteBookmark)
-        
-        self.specialActionsCommandContainerAvailable = SpecialActionsCommandContainer(self, translate("SpecialActions", "Availables - Move Here Not To Use"))
-        
-        self.specialActionsCommandContainerLeft = SpecialActionsCommandContainer(self, translate("SpecialActions", "Move Here To Use As Source"))
-        self.specialActionsCommandContainerRight = SpecialActionsCommandContainer(self, translate("SpecialActions", "Move Here To Set"))
-        
+
+        self.specialActionsCommandContainerAvailable = SpecialActionsCommandContainer(self, translate("SpecialActions",
+                                                                                                      "Availables - Move Here Not To Use"))
+
+        self.specialActionsCommandContainerLeft = SpecialActionsCommandContainer(self, translate("SpecialActions",
+                                                                                                 "Move Here To Use As Source"))
+        self.specialActionsCommandContainerRight = SpecialActionsCommandContainer(self, translate("SpecialActions",
+                                                                                                  "Move Here To Set"))
+
         saConcatenate = SpecialActionsCommandButton(self, "Concatenate")
         self.specialActionsCommandContainerAvailable.addToWidgetList(saConcatenate)
-        
+
         self.HBoxs = []
         self.HBoxs.append(MHBoxLayout())
         self.HBoxs[0].addWidget(self.cbBookmarks)
@@ -88,7 +91,7 @@ class SpecialActions(MWidget):
         self.setLayout(vblSpecialActions)
         self.cbBookmarks.setSizeAdjustPolicy(MComboBox.AdjustToMinimumContentsLength)
         self.refreshBookmarks()
-            
+
     def showAdvancedSelections(self):
         for btn in self.pbtnAddObjects:
             btn.show()
@@ -100,7 +103,7 @@ class SpecialActions(MWidget):
         self.specialActionsCommandContainerLeft.show()
         self.specialActionsCommandContainerRight.show()
         self.lblSplit.show()
-    
+
     def hideAdvancedSelections(self):
         for btn in self.pbtnAddObjects:
             btn.hide()
@@ -112,7 +115,7 @@ class SpecialActions(MWidget):
         self.specialActionsCommandContainerLeft.hide()
         self.specialActionsCommandContainerRight.hide()
         self.lblSplit.hide()
-        
+
     def getActionCommand(self):
         leftKeys = []
         for child in self.specialActionsCommandContainerLeft.widgetList:
@@ -127,18 +130,18 @@ class SpecialActions(MWidget):
             if objectName not in ["", "MoveHere"]:
                 rightKeys.append(objectName + "~|~" + point)
         return leftKeys + ["~||~"] + rightKeys
-        
+
     def setActionCommand(self, _actionCommand):
         spliterIndex = _actionCommand.index("~||~")
         leftKeys = _actionCommand[:spliterIndex]
-        rightKeys = _actionCommand[spliterIndex+1:]
+        rightKeys = _actionCommand[spliterIndex + 1:]
         for objectNameAndPoint in leftKeys:
             objectNameAndPointList = objectNameAndPoint.split("~|~")
             objectName = objectNameAndPointList[0]
             point = ""
-            if len(objectNameAndPointList)>1:
+            if len(objectNameAndPointList) > 1:
                 point = objectNameAndPointList[1]
-            if objectName.find("Concatenate")==-1:
+            if objectName.find("Concatenate") == -1:
                 child = getChild(self.specialActionsCommandContainerAvailable, objectName)
                 if child is None:
                     child = getChild(self.specialActionsCommandContainerLeft, objectName)
@@ -152,9 +155,9 @@ class SpecialActions(MWidget):
             objectNameAndPointList = objectNameAndPoint.split("~|~")
             objectName = objectNameAndPointList[0]
             point = ""
-            if len(objectNameAndPointList)>1:
+            if len(objectNameAndPointList) > 1:
                 point = objectNameAndPointList[1]
-            if objectName.find("Concatenate")==-1:
+            if objectName.find("Concatenate") == -1:
                 child = getChild(self.specialActionsCommandContainerAvailable, objectName)
                 if child is None:
                     child = getChild(self.specialActionsCommandContainerLeft, objectName)
@@ -164,7 +167,7 @@ class SpecialActions(MWidget):
                 child = SpecialActionsCommandButton(self, objectName)
             child.setPoint(point)
             self.specialActionsCommandContainerRight.addToWidgetList(child)
-            
+
     def makeClear(self):
         try:
             for child in getAllChildren(self.specialActionsCommandContainerLeft):
@@ -180,41 +183,42 @@ class SpecialActions(MWidget):
             self.specialActionsCommandContainerRight.checkLabelMoveHere()
         except:
             ReportBug.ReportBug()
-    
+
     def whatDoesThisCommandDo(self):
         try:
             whatDoesSpecialCommandDo(self.getActionCommand(), True)
         except:
             ReportBug.ReportBug()
-            
-    def cbBookmarksChanged(self,_index):
+
+    def cbBookmarksChanged(self, _index):
         try:
             self.makeClear()
-            if _index>0:
-                self.setActionCommand(eval(str(Databases.BookmarksOfSpecialTools.fetchAllByType()[_index-1][2])))
+            if _index > 0:
+                self.setActionCommand(eval(str(Databases.BookmarksOfSpecialTools.fetchAllByType()[_index - 1][2])))
                 self.tbDeleteBookmark.setEnabled(True)
             else:
                 self.tbDeleteBookmark.setEnabled(False)
         except:
             ReportBug.ReportBug()
-        
+
     def addBookmark(self):
         try:
             if whatDoesSpecialCommandDo(self.getActionCommand()):
                 Databases.BookmarksOfSpecialTools.insert(str(self.getActionCommand()))
                 self.refreshBookmarks()
-                self.cbBookmarks.setCurrentIndex(self.cbBookmarks.count()-1)
+                self.cbBookmarks.setCurrentIndex(self.cbBookmarks.count() - 1)
         except:
             ReportBug.ReportBug()
-           
+
     def deleteBookmark(self):
         try:
-            if self.cbBookmarks.currentIndex()!=-1 and self.cbBookmarks.currentIndex()!=0:
-                Databases.BookmarksOfSpecialTools.delete(Databases.BookmarksOfSpecialTools.fetchAllByType()[self.cbBookmarks.currentIndex()-1][0])
+            if self.cbBookmarks.currentIndex() != -1 and self.cbBookmarks.currentIndex() != 0:
+                Databases.BookmarksOfSpecialTools.delete(
+                    Databases.BookmarksOfSpecialTools.fetchAllByType()[self.cbBookmarks.currentIndex() - 1][0])
                 self.refreshBookmarks()
         except:
             ReportBug.ReportBug()
-            
+
     def refreshBookmarks(self):
         try:
             self.makeClear()
@@ -224,10 +228,10 @@ class SpecialActions(MWidget):
                 self.cbBookmarks.addItem(str(fav[1]))
         except:
             ReportBug.ReportBug()
-    
+
     def checkCompleters(self):
         pass
-        
+
     def reFillCompleters(self):
         pass
 
@@ -235,17 +239,17 @@ class SpecialActions(MWidget):
         actionCommand = self.getActionCommand()
         spliterIndex = actionCommand.index("~||~")
         leftKeys = actionCommand[:spliterIndex]
-        rightKeys = actionCommand[spliterIndex+1:]
+        rightKeys = actionCommand[spliterIndex + 1:]
         leftColumnKeys = []
         rightColumnKeys = []
         getMainWindow().Table.isAskShowHiddenColumn = True
-        if len(leftKeys)>0 and len(rightKeys)>0:
+        if len(leftKeys) > 0 and len(rightKeys) > 0:
             for objectNameAndPoint in leftKeys:
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
                 objectName = objectNameAndPointList[0]
-                if objectName.find("Concatenate")==-1:
+                if objectName.find("Concatenate") == -1:
                     for no, column in enumerate(getMainWindow().Table.tableColumnsKey):
-                        if objectName==column:
+                        if objectName == column:
                             getMainWindow().Table.checkHiddenColumn(no)
                             leftColumnKeys.append(objectNameAndPoint)
                 else:
@@ -253,14 +257,14 @@ class SpecialActions(MWidget):
             for objectNameAndPoint in rightKeys:
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
                 objectName = objectNameAndPointList[0]
-                if objectName.find("Concatenate")==-1:
+                if objectName.find("Concatenate") == -1:
                     for no, column in enumerate(getMainWindow().Table.tableColumnsKey):
-                        if objectName==column:
+                        if objectName == column:
                             getMainWindow().Table.checkHiddenColumn(no)
                             rightColumnKeys.append(objectNameAndPoint)
                 else:
                     rightColumnKeys.append(objectNameAndPoint)
-        if len(leftColumnKeys)>0 and len(rightColumnKeys)>0:
+        if len(leftColumnKeys) > 0 and len(rightColumnKeys) > 0:
             for rowNo in range(getMainWindow().Table.rowCount()):
                 sourceString = ""
                 sourceList = []
@@ -269,29 +273,29 @@ class SpecialActions(MWidget):
                     objectNameAndPointList = objectNameAndPoint.split("~|~")
                     objectName = objectNameAndPointList[0]
                     point = ""
-                    if len(objectNameAndPointList)>1:
+                    if len(objectNameAndPointList) > 1:
                         point = objectNameAndPointList[1]
-                    if objectName.find("Concatenate")==-1:
+                    if objectName.find("Concatenate") == -1:
                         columnNo = getMainWindow().Table.tableColumnsKey.index(objectName)
-                        valueOfField = str(getMainWindow().Table.item(rowNo,columnNo).text())
+                        valueOfField = str(getMainWindow().Table.item(rowNo, columnNo).text())
                         if objectName == "File Name" or objectName == "File/Directory Name":
                             valueOfField, ext = fu.getFileNameParts(valueOfField)
                         sourceString += valueOfField
                         sourceList.append(valueOfField)
-                        if point!="":
+                        if point != "":
                             sourceListLogical += valueOfField.split(point)
                         else:
                             sourceListLogical.append(valueOfField)
-                            
+
                         nextObjectName = ""
                         nextPoint = ""
                         if leftColumnKeys[-1] != objectNameAndPoint:
-                            nextObjectNameAndPoint = leftColumnKeys[no+1]
+                            nextObjectNameAndPoint = leftColumnKeys[no + 1]
                             nextObjectNameAndPointList = nextObjectNameAndPoint.split("~|~")
                             nextObjectName = nextObjectNameAndPointList[0]
-                            if len(nextObjectNameAndPointList)>1:
+                            if len(nextObjectNameAndPointList) > 1:
                                 nextPoint = nextObjectNameAndPointList[1]
-                            if nextObjectName.find("Concatenate")==-1:
+                            if nextObjectName.find("Concatenate") == -1:
                                 sourceString += "-"
                             else:
                                 sourceString += nextPoint
@@ -303,16 +307,16 @@ class SpecialActions(MWidget):
                     columnNo = getMainWindow().Table.tableColumnsKey.index(objectName)
                     if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                         newString = ""
-                        if len(rightColumnKeys)==1:
+                        if len(rightColumnKeys) == 1:
                             newString = sourceString
-                        elif len(sourceList)==len(rightColumnKeys):
+                        elif len(sourceList) == len(rightColumnKeys):
                             newString = sourceList[no]
-                        elif len(sourceListLogical)>=len(rightColumnKeys):
+                        elif len(sourceListLogical) >= len(rightColumnKeys):
                             newString = sourceListLogical[no]
-                        elif len(sourceListLogical)>no:
+                        elif len(sourceListLogical) > no:
                             newString = sourceListLogical[no]
                         newString = Organizer.emend(newString)
-                        if newString!="":
+                        if newString != "":
                             if self.specialTools.btChange.isChecked():
                                 pass
                             elif self.specialTools.tbAddToBefore.isChecked():
@@ -325,8 +329,8 @@ class SpecialActions(MWidget):
 def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetails=False):
     splitterIndex = _actionCommand.index("~||~")
     leftKeys = _actionCommand[:splitterIndex]
-    rightKeys = _actionCommand[splitterIndex+1:]
-    if len(leftKeys)>0 and len(rightKeys)>0:
+    rightKeys = _actionCommand[splitterIndex + 1:]
+    if len(leftKeys) > 0 and len(rightKeys) > 0:
         details = ""
         leftNames = ""
         rightNames = ""
@@ -334,14 +338,14 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
             objectNameAndPointList = objectNameAndPoint.split("~|~")
             objectName = objectNameAndPointList[0]
             point = ""
-            if len(objectNameAndPointList)>1:
+            if len(objectNameAndPointList) > 1:
                 point = objectNameAndPointList[1]
-            if objectName.find("Concatenate")==-1:
+            if objectName.find("Concatenate") == -1:
                 leftNames += getMainWindow().Table.getColumnNameFromKey(objectName)
             else:
                 leftNames += translate("Organizer", "Concatenate")
-            if point!="":
-                if objectName.find("Concatenate")==-1:
+            if point != "":
+                if objectName.find("Concatenate") == -1:
                     leftNames += " " + (str(translate("Organizer", "(can be separated by \"%s\")")) % (point))
                 else:
                     leftNames += " " + (str(translate("Organizer", "(can be concatenated by \"%s\")")) % (point))
@@ -351,33 +355,36 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
             objectNameAndPointList = objectNameAndPoint.split("~|~")
             objectName = objectNameAndPointList[0]
             point = ""
-            if len(objectNameAndPointList)>1:
+            if len(objectNameAndPointList) > 1:
                 point = objectNameAndPointList[1]
-            if objectName.find("Concatenate")==-1:
+            if objectName.find("Concatenate") == -1:
                 rightNames += getMainWindow().Table.getColumnNameFromKey(objectName)
             else:
                 rightNames += translate("Organizer", "Concatenate")
-            if point!="":
-                if objectName.find("Concatenate")==-1:
+            if point != "":
+                if objectName.find("Concatenate") == -1:
                     rightNames += " " + (str(translate("Organizer", "(can be separated by \"%s\")")) % (point))
                 else:
                     rightNames += " " + (str(translate("Organizer", "(can be concatenated by \"%s\")")) % (point))
             if rightKeys[-1] != objectNameAndPoint:
                 rightNames += " ,"
 
-        details = str(translate("Organizer", "\"%s\" will be concatenated and/or separated then it will be set as \"%s\" respectively.")) % (leftNames, rightNames)
+        details = str(translate("Organizer",
+                                "\"%s\" will be concatenated and/or separated then it will be set as \"%s\" respectively.")) % (
+                      leftNames, rightNames)
 
         if _isShowAlert:
             Dialogs.show(translate("Organizer", "What Does This Command Do?"), str(details))
-        if _isReturnDetails==False:
+        if _isReturnDetails == False:
             return True
         else:
             return details
     else:
-        Dialogs.showError(translate("Organizer", "Missing Command"), translate("Organizer", "You have to add at least a \"Column\"!.."))
+        Dialogs.showError(translate("Organizer", "Missing Command"),
+                          translate("Organizer", "You have to add at least a \"Column\"!.."))
         return False
 
-    
+
 class SpecialActionsCommandContainer(MFrame):
     def __init__(self, _parent, _moveHereLabel=False):
         MFrame.__init__(self, _parent)
@@ -396,13 +403,13 @@ class SpecialActionsCommandContainer(MFrame):
         self.setMinimumWidth(200)
         self.setFrameShape(MFrame.StyledPanel)
         self.setFrameShadow(MFrame.Sunken)
-        
+
     def addToLayout(self, _widget):
-        if self.HBox.count() - len(getAllChildren(self.HBox, "Concatenate-"))<7 or uni.isWindows:
+        if self.HBox.count() - len(getAllChildren(self.HBox, "Concatenate-")) < 7 or uni.isWindows:
             self.HBox.addWidget(_widget)
         else:
             self.HBox1.addWidget(_widget)
-        
+
     def addToWidgetList(self, _widget):
         try:
             self.removeFromOtherWidgetList(_widget)
@@ -411,7 +418,7 @@ class SpecialActionsCommandContainer(MFrame):
             self.checkLabelMoveHere()
             if self.parent().specialActionsCommandContainerAvailable == self:
                 _widget.hidePoint()
-                if str(_widget.objectName()).find("Concatenate-")>-1:
+                if str(_widget.objectName()).find("Concatenate-") > -1:
                     _widget.hide()
             elif self.parent().specialActionsCommandContainerLeft == self:
                 _widget.showPoint()
@@ -419,7 +426,7 @@ class SpecialActionsCommandContainer(MFrame):
                 _widget.hidePoint()
         except:
             ReportBug.ReportBug()
-            
+
     def removeFromOtherWidgetList(self, _widget):
         try:
             if _widget in self.parent().specialActionsCommandContainerAvailable.widgetList:
@@ -433,21 +440,21 @@ class SpecialActionsCommandContainer(MFrame):
                 self.parent().specialActionsCommandContainerRight.checkLabelMoveHere()
         except:
             ReportBug.ReportBug()
-    
+
     def dragEnterEvent(self, _e):
         if _e.mimeData().hasFormat("SpecialActionsCommandButton"):
             _e.accept()
-        
+
     def dropEvent(self, _e):
         try:
             #baData = _e.mimeData().data("SpecialActionsCommandButton")
             #objectNameOfButton = str(baData)
             btn = _e.source()
-            if str(btn.objectName()).find("Concatenate")==-1:
+            if str(btn.objectName()).find("Concatenate") == -1:
                 if btn not in self.widgetList:
                     self.addToWidgetList(btn)
                 else:
-                    self.addToWidgetList(btn)#
+                    self.addToWidgetList(btn)  #
             else:
                 if btn not in self.widgetList:
                     if self == self.parent().specialActionsCommandContainerAvailable:
@@ -458,11 +465,11 @@ class SpecialActionsCommandContainer(MFrame):
                     elif self == self.parent().specialActionsCommandContainerRight:
                         pass
                 else:
-                    self.addToWidgetList(btn)#
+                    self.addToWidgetList(btn)  #
             _e.accept()
         except:
             ReportBug.ReportBug()
-        
+
     def createNextConcatenateObjectName(self):
         objectName = "Concatenate-"
         i = 0
@@ -470,34 +477,35 @@ class SpecialActionsCommandContainer(MFrame):
             newObjectName = objectName + str(i)
             isExist = False
             for _widget in (self.parent().specialActionsCommandContainerAvailable.widgetList +
-                            self.parent().specialActionsCommandContainerLeft.widgetList + 
-                            self.parent().specialActionsCommandContainerRight.widgetList):
-                if str(_widget.objectName())==newObjectName:
+                                self.parent().specialActionsCommandContainerLeft.widgetList +
+                                self.parent().specialActionsCommandContainerRight.widgetList):
+                if str(_widget.objectName()) == newObjectName:
                     isExist = True
                     break
             if isExist:
                 i += 1
             else:
                 return newObjectName
-        
+
     def checkLabelMoveHere(self):
-        if len(self.widgetList)==0:
+        if len(self.widgetList) == 0:
             self.lblMoveHere.show()
         else:
             self.lblMoveHere.hide()
-            
-    
-        
+
+
 class SpecialActionsCommandButton(MFrame):
     def __init__(self, _parent, _columnNameKey):
         MFrame.__init__(self, _parent)
         self.setObjectName(_columnNameKey)
-        if _columnNameKey.find("Concatenate")==-1:
+        if _columnNameKey.find("Concatenate") == -1:
             self.columnName = getMainWindow().Table.getColumnNameFromKey(_columnNameKey)
-            toolTip = str(translate("SpecialActions", "If requires, \"%s\" will be separated by this. You can leave blank not to separate it.")) % (self.columnName) 
+            toolTip = str(translate("SpecialActions",
+                                    "If requires, \"%s\" will be separated by this. You can leave blank not to separate it.")) % (
+                          self.columnName)
         else:
             self.columnName = translate("SpecialActions", "Concatenate")
-            toolTip = str(translate("SpecialActions", "If requires, Side columns will be concatenated with this.")) 
+            toolTip = str(translate("SpecialActions", "If requires, Side columns will be concatenated with this."))
         self.lblMoveHere = MLabel(self.columnName, self)
         self.lePoint = MLineEdit("", self)
         self.lePoint.setToolTip(toolTip)
@@ -508,21 +516,21 @@ class SpecialActionsCommandButton(MFrame):
         self.lePoint.hide()
         #self.setFrameShape(MFrame.Box)
         #self.setFrameShadow(MFrame.Plain)
-        
+
     def setPoint(self, _value):
         self.lePoint.setText(str(_value))
-        
+
     def getPoint(self):
         return str(self.lePoint.text())
-        
+
     def showPoint(self):
         self.lePoint.show()
         self.lblMoveHere.setText(self.columnName + ":")
-        
+
     def hidePoint(self):
         self.lePoint.hide()
         self.lblMoveHere.setText(self.columnName)
-        
+
     def mouseMoveEvent(self, _e):
         try:
             if _e.buttons() != QtCore.Qt.LeftButton:
@@ -536,7 +544,7 @@ class SpecialActionsCommandButton(MFrame):
             dropAction = drag.start(QtCore.Qt.MoveAction)
         except:
             ReportBug.ReportBug()
-        
+
     def mousePressEvent(self, _e):
         MFrame.mousePressEvent(self, _e)
 

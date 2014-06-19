@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import sys
 from Core import ReportBug
 import Databases
 
+
 class Clear(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
@@ -36,10 +37,10 @@ class Clear(MWidget):
         lblClearType = MLabel(translate("SpecialTools", "Content Type: "))
         self.cbClearType = MComboBox()
         self.cbClearType.addItems([translate("SpecialTools", "All"),
-                                translate("SpecialTools", "Letters"),
-                                translate("SpecialTools", "Numbers"),
-                                translate("SpecialTools", "Other Characters"),
-                                translate("SpecialTools", "Selected Text")])
+                                   translate("SpecialTools", "Letters"),
+                                   translate("SpecialTools", "Numbers"),
+                                   translate("SpecialTools", "Other Characters"),
+                                   translate("SpecialTools", "Selected Text")])
         self.columns = MComboBox()
         self.columns.addItem(translate("SpecialTools", "All"))
         self.cckbCaseInsensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
@@ -70,9 +71,9 @@ class Clear(MWidget):
         lblColumns.setFixedWidth(60)
         self.lblClear.setFixedWidth(60)
         MObject.connect(self.cbClearType, SIGNAL("currentIndexChanged(int)"), self.clearTypeChanged)
-        
+
     def clearTypeChanged(self):
-        if self.cbClearType.currentIndex()!=4:
+        if self.cbClearType.currentIndex() != 4:
             self.cckbCaseInsensitive.setEnabled(False)
             self.lblClear.setEnabled(False)
             self.leClear.setEnabled(False)
@@ -82,32 +83,32 @@ class Clear(MWidget):
             self.lblClear.setEnabled(True)
             self.leClear.setEnabled(True)
             self.cckbRegExp.setEnabled(True)
-        
+
     def showAdvancedSelections(self):
         self.cckbRegExp.show()
-    
+
     def hideAdvancedSelections(self):
         self.cckbRegExp.hide()
         self.cckbRegExp.setChecked(False)
-    
+
     def checkCompleters(self):
         Databases.CompleterTable.insert(self.lblClear.text(), self.leClear.text())
-    
+
     def reFillCompleters(self):
         setCompleter(self.leClear, self.lblClear.text())
-          
+
     def apply(self):
         getMainWindow().Table.isAskShowHiddenColumn = True
-        if self.columns.currentIndex()==0:
-            columns = list(range(0,getMainWindow().Table.columnCount()))
+        if self.columns.currentIndex() == 0:
+            columns = list(range(0, getMainWindow().Table.columnCount()))
         else:
-            columns = [self.columns.currentIndex()-1]
+            columns = [self.columns.currentIndex() - 1]
         for columnNo in columns:
-            if getMainWindow().Table.checkHiddenColumn(columnNo,False)==False:
+            if getMainWindow().Table.checkHiddenColumn(columnNo, False) == False:
                 continue
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
-                    newString = str(getMainWindow().Table.item(rowNo,columnNo).text())
+                    newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
                     newString = uni.trDecode(newString, "utf-8")
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
                     informationSectionY = self.specialTools.cbInformationSectionY.value()
@@ -115,36 +116,36 @@ class Clear(MWidget):
                     oldString = str(self.leClear.text())
                     cbClearType = self.cbClearType.currentText()
                     isRegExp = self.cckbRegExp.isChecked()
-                    if self.specialTools.cbInformationSection.currentIndex()==0:
-                        myString = Organizer.clear(cbClearType, newString, 
-                                               oldString, isCaseInsensitive, isRegExp)
-                    elif self.specialTools.cbInformationSection.currentIndex()==1:
-                        myString = Organizer.clear(cbClearType, newString[:informationSectionX], 
-                                               oldString, isCaseInsensitive, isRegExp)
+                    if self.specialTools.cbInformationSection.currentIndex() == 0:
+                        myString = Organizer.clear(cbClearType, newString,
+                                                   oldString, isCaseInsensitive, isRegExp)
+                    elif self.specialTools.cbInformationSection.currentIndex() == 1:
+                        myString = Organizer.clear(cbClearType, newString[:informationSectionX],
+                                                   oldString, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:]
-                    elif self.specialTools.cbInformationSection.currentIndex()==2:
+                    elif self.specialTools.cbInformationSection.currentIndex() == 2:
                         myString = newString[:informationSectionX]
-                        myString += Organizer.clear(cbClearType, newString[informationSectionX:], 
-                                                oldString, isCaseInsensitive, isRegExp)
-                    elif self.specialTools.cbInformationSection.currentIndex()==3:
-                        myString = Organizer.clear(cbClearType, newString[:-informationSectionX], 
-                                               oldString, isCaseInsensitive, isRegExp)
+                        myString += Organizer.clear(cbClearType, newString[informationSectionX:],
+                                                    oldString, isCaseInsensitive, isRegExp)
+                    elif self.specialTools.cbInformationSection.currentIndex() == 3:
+                        myString = Organizer.clear(cbClearType, newString[:-informationSectionX],
+                                                   oldString, isCaseInsensitive, isRegExp)
                         myString += newString[-informationSectionX:]
-                    elif self.specialTools.cbInformationSection.currentIndex()==4:
+                    elif self.specialTools.cbInformationSection.currentIndex() == 4:
                         myString = newString[:-informationSectionX]
-                        myString += Organizer.clear(cbClearType, newString[-informationSectionX:], 
-                                                oldString, isCaseInsensitive, isRegExp)
-                    elif self.specialTools.cbInformationSection.currentIndex()==5:
+                        myString += Organizer.clear(cbClearType, newString[-informationSectionX:],
+                                                    oldString, isCaseInsensitive, isRegExp)
+                    elif self.specialTools.cbInformationSection.currentIndex() == 5:
                         myString = newString[:informationSectionX]
-                        myString += Organizer.clear(cbClearType, newString[informationSectionX:informationSectionY], 
-                                                oldString, isCaseInsensitive, isRegExp)
+                        myString += Organizer.clear(cbClearType, newString[informationSectionX:informationSectionY],
+                                                    oldString, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionY:]
-                    elif self.specialTools.cbInformationSection.currentIndex()==6:
-                        myString = Organizer.clear(cbClearType, newString[:informationSectionX], 
-                                                oldString, isCaseInsensitive, isRegExp)
+                    elif self.specialTools.cbInformationSection.currentIndex() == 6:
+                        myString = Organizer.clear(cbClearType, newString[:informationSectionX],
+                                                   oldString, isCaseInsensitive, isRegExp)
                         myString += newString[informationSectionX:informationSectionY]
-                        myString += Organizer.clear(cbClearType, newString[informationSectionY:], 
-                                                oldString, isCaseInsensitive, isRegExp)
-                    getMainWindow().Table.item(rowNo,columnNo).setText(str(myString))
+                        myString += Organizer.clear(cbClearType, newString[informationSectionY:],
+                                                    oldString, isCaseInsensitive, isRegExp)
+                    getMainWindow().Table.item(rowNo, columnNo).setText(str(myString))
     
     

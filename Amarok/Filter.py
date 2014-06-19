@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import Amarok
 from Amarok import Commands
 from Core import ReportBug
 
+
 class FilterWidget(MWidget):
     def __init__(self, _parent, _filterKeyName):
         MWidget.__init__(self, _parent)
@@ -36,8 +37,8 @@ class FilterWidget(MWidget):
         self.leFilter = MLineEdit(uni.MySettings[self.filterKeyName])
         self.pbtnEditFilter = MPushButton(translate("Amarok/FilterDialog", "Edit"))
         self.pbtnApply = MPushButton(translate("Amarok/FilterDialog", "Apply Filter"))
-        _parent.connect(self.pbtnEditFilter,SIGNAL("clicked()"),self.editFilter)
-        _parent.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
+        _parent.connect(self.pbtnEditFilter, SIGNAL("clicked()"), self.editFilter)
+        _parent.connect(self.pbtnApply, SIGNAL("clicked()"), self.apply)
         self.hblBox = MHBoxLayout()
         self.hblBox.addWidget(lblFilter, 1)
         self.hblBox.addWidget(self.leFilter, 20)
@@ -45,20 +46,21 @@ class FilterWidget(MWidget):
         self.hblBox.addWidget(self.pbtnApply, 2)
         vblMain.addLayout(self.hblBox)
         self.setLayout(vblMain)
-        
+
     def editFilter(self):
         try:
             self.dFilterEditor = FilterEditor(self, self.filterKeyName)
             self.dFilterEditor.show()
         except:
             ReportBug.ReportBug()
-        
+
     def apply(self):
         try:
             uni.setMySetting(self.filterKeyName, str(self.leFilter.text()))
             getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
         except:
             ReportBug.ReportBug()
+
 
 class FilterEditor(MDialog):
     def __init__(self, _parent, _filterKeyName):
@@ -72,24 +74,27 @@ class FilterEditor(MDialog):
         lblFilter = MLabel(translate("Amarok/FilterEditor", "Filter"), self)
         self.leFilter = MLineEdit(uni.MySettings[self.filterKeyName], self)
         self.pbtnApply = MPushButton(translate("Amarok/FilterEditor", "Apply Filter"), self)
-        _parent.connect(self.pbtnApply,SIGNAL("clicked()"),self.apply)
+        _parent.connect(self.pbtnApply, SIGNAL("clicked()"), self.apply)
         teUsableInformations = MTextEdit("")
-        teUsableInformations.setHtml(translate("Amarok/FilterEditor", "filename: some file name (contains)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "title: some song title (contains)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "artist: some artist name (contains)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "album: some album name (contains)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "albumartist: some album artist name (contains)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "genre: some genre (contains)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "comment: some comment (contains)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "rating:5 (equals)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "rating:&lt;5 (less than)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "rating:&gt;5 (greater than)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "year:2000 (equals)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "year:&lt;2000 (less than)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "year:&gt;2000 (greater than)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "<b>Multiple Conditions : </b>")+"<br>"+
-                                            translate("Amarok/FilterEditor", "x:y <b>and</b> t:s (match first and second conditions)")+"<br>"+
-                                            translate("Amarok/FilterEditor", "x:y <b>or</b> t:s (match first or second conditions)"))
+        teUsableInformations.setHtml(translate("Amarok/FilterEditor", "filename: some file name (contains)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "title: some song title (contains)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "artist: some artist name (contains)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "album: some album name (contains)") + "<br>" +
+                                     translate("Amarok/FilterEditor",
+                                               "albumartist: some album artist name (contains)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "genre: some genre (contains)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "comment: some comment (contains)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "rating:5 (equals)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "rating:&lt;5 (less than)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "rating:&gt;5 (greater than)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "year:2000 (equals)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "year:&lt;2000 (less than)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "year:&gt;2000 (greater than)") + "<br>" +
+                                     translate("Amarok/FilterEditor", "<b>Multiple Conditions : </b>") + "<br>" +
+                                     translate("Amarok/FilterEditor",
+                                               "x:y <b>and</b> t:s (match first and second conditions)") + "<br>" +
+                                     translate("Amarok/FilterEditor",
+                                               "x:y <b>or</b> t:s (match first or second conditions)"))
         gboxUsableInformations = MGroupBox(translate("Amarok/FilterEditor", "Conditions : "))
         vblBox1 = MVBoxLayout()
         vblBox1.addWidget(teUsableInformations)
@@ -109,7 +114,7 @@ class FilterEditor(MDialog):
         self.setMinimumWidth(500)
         self.setMinimumHeight(350)
         self.setWindowIcon(MIcon("Images:amarokFilter.png"))
-        
+
     def apply(self):
         try:
             self.fWidget.leFilter.setText(self.leFilter.text())

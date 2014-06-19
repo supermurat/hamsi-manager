@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -26,16 +26,16 @@ import FileUtils as fu
 import Options
 from Core import ReportBug
 
+
 class RecordsForm(MDialog):
-    
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
         if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         pbtnClose = MPushButton(translate("RecordsForm", "Close"))
         pbtnClear = MPushButton(translate("RecordsForm", "Clear"))
-        self.connect(pbtnClose,SIGNAL("clicked()"), self.close)
-        self.connect(pbtnClear,SIGNAL("clicked()"), self.clear)
+        self.connect(pbtnClose, SIGNAL("clicked()"), self.close)
+        self.connect(pbtnClear, SIGNAL("clicked()"), self.clear)
         lblRecordList = MLabel(translate("RecordsForm", "Record File"))
         self.recordsList = [translate("RecordsForm", "Current Records")] + Records.getBackupRecordsList()
         self.cbRecordsList = Options.MyComboBox(self, self.recordsList, _currentIndexChanged=self.getFromRecordList)
@@ -46,8 +46,8 @@ class RecordsForm(MDialog):
         vblMain = MVBoxLayout(pnlMain)
         hbox = MHBoxLayout()
         hbox.addStretch(1)
-        hbox.addWidget(pbtnClear,1)
-        hbox.addWidget(pbtnClose,1)
+        hbox.addWidget(pbtnClear, 1)
+        hbox.addWidget(pbtnClose, 1)
         hbox1 = MHBoxLayout()
         hbox1.addWidget(lblRecordList)
         hbox1.addWidget(self.cbRecordsList)
@@ -63,7 +63,7 @@ class RecordsForm(MDialog):
         self.setMinimumWidth(500)
         self.setMinimumHeight(450)
         self.show()
-        
+
     def setRecordsFile(self, _filePath=None):
         try:
             if _filePath is None:
@@ -72,23 +72,23 @@ class RecordsForm(MDialog):
                 self.teRecords.setPlainText(str(Records.read(_filePath)))
         except:
             ReportBug.ReportBug()
-            
-    def getFromRecordList(self, _index = None):
+
+    def getFromRecordList(self, _index=None):
         try:
-            if self.cbRecordsList.currentIndex()==0:
+            if self.cbRecordsList.currentIndex() == 0:
                 self.setRecordsFile()
             else:
                 recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]
                 self.setRecordsFile(fu.joinPath(fu.oldRecordsDirectoryPath, recordFilePath))
         except:
             ReportBug.ReportBug()
-            
+
     def clear(self):
         try:
             answer = Dialogs.ask(translate("RecordsForm", "Are You Sure?"),
-                            translate("RecordsForm", "Are you sure you want to remove this record file?"))
-            if answer==Dialogs.Yes:
-                if self.cbRecordsList.currentIndex()==0:
+                                 translate("RecordsForm", "Are you sure you want to remove this record file?"))
+            if answer == Dialogs.Yes:
+                if self.cbRecordsList.currentIndex() == 0:
                     Records.clearRecords()
                 else:
                     recordFilePath = self.recordsList[self.cbRecordsList.currentIndex()]

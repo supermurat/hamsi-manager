@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -28,9 +28,11 @@ from time import gmtime
 from Core import Records
 from Core import ReportBug
 
+
 class AmarokArtistTable():
     def __init__(self, _table):
         from Amarok import Filter
+
         self.Table = _table
         self.keyName = "ADCArtist"
         self.amarokFilterKeyName = "AmarokFilterArtistTable"
@@ -38,22 +40,24 @@ class AmarokArtistTable():
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self.Table, self.amarokFilterKeyName)
         getMainWindow().MainLayout.addWidget(self.wFilter)
-        
+
     def readContents(self, _directoryPath):
         currentTableContentValues = []
         uni.startThreadAction()
         import Amarok
+
         Dialogs.showState(translate("AmarokArtistTable", "Checking For Amarok..."), 0, 2)
         if Amarok.checkAmarok():
             Dialogs.showState(translate("AmarokArtistTable", "Getting Values From Amarok"), 1, 2)
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
+
                 artistValues = Operations.getAllArtistsValues(uni.MySettings[self.amarokFilterKeyName])
                 Dialogs.showState(translate("AmarokArtistTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
-                    if artistValues!=None:
+                    if artistValues != None:
                         allItemNumber = len(artistValues)
                         musicFileNo = 0
                         for musicFileRow in artistValues:
@@ -67,68 +71,74 @@ class AmarokArtistTable():
                                 except:
                                     ReportBug.ReportBug()
                             else:
-                                allItemNumber = musicFileNo+1
+                                allItemNumber = musicFileNo + 1
                             Dialogs.showState(translate("FileUtils/Covers", "Reading Music File Informations"),
-                                              musicFileNo+1,allItemNumber, True) 
+                                              musicFileNo + 1, allItemNumber, True)
                             musicFileNo += 1
-                            if isContinueThreadAction==False:
+                            if isContinueThreadAction == False:
                                 break
         uni.finishThreadAction()
         return currentTableContentValues
-    
+
     def writeContents(self):
         self.Table.changedValueNumber = 0
-        changedArtistValues=[]
+        changedArtistValues = []
         uni.startThreadAction()
         import Amarok
+
         allItemNumber = len(self.Table.currentTableContentValues)
-        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),0,allItemNumber, True)
+        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
         for rowNo in range(self.Table.rowCount()):
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if self.Table.isRowHidden(rowNo)==False:
-                        if self.Table.isChangeableItem(rowNo, 1, str(self.Table.currentTableContentValues[rowNo]["name"])):
+                    if self.Table.isRowHidden(rowNo) == False:
+                        if self.Table.isChangeableItem(rowNo, 1,
+                                                       str(self.Table.currentTableContentValues[rowNo]["name"])):
                             changedArtistValues.append({})
                             changedArtistValues[-1]["id"] = str(self.Table.currentTableContentValues[rowNo]["id"])
                             value = str(self.Table.item(rowNo, 1).text())
                             changedArtistValues[-1]["name"] = value
-                            Records.add(str(translate("AmarokArtistTable", "Artist")), str(self.Table.currentTableContentValues[rowNo]["name"]), value)
+                            Records.add(str(translate("AmarokArtistTable", "Artist")),
+                                        str(self.Table.currentTableContentValues[rowNo]["name"]), value)
                             self.Table.changedValueNumber += 1
                 except:
                     ReportBug.ReportBug()
             else:
-                allItemNumber = rowNo+1
-            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"),rowNo+1,allItemNumber, True)
-            if isContinueThreadAction==False:
+                allItemNumber = rowNo + 1
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
+            if isContinueThreadAction == False:
                 break
         uni.finishThreadAction()
         from Amarok import Operations
+
         Operations.changeArtistValues(changedArtistValues)
         return True
-        
+
     def showDetails(self, _fileNo, _infoNo):
-        AmarokArtistDetails.AmarokArtistDetails(self.Table.currentTableContentValues[_fileNo]["id"], uni.getBoolValue("isOpenDetailsInNewWindow"))
-    
-    def cellClicked(self,_row,_column):
+        AmarokArtistDetails.AmarokArtistDetails(self.Table.currentTableContentValues[_fileNo]["id"],
+                                                uni.getBoolValue("isOpenDetailsInNewWindow"))
+
+    def cellClicked(self, _row, _column):
         currentItem = self.Table.currentItem()
         if currentItem is not None:
-            cellLenght = len(currentItem.text())*8
-            if cellLenght>self.Table.columnWidth(_column):
-                self.Table.setColumnWidth(_column,cellLenght)
-        
-    def cellDoubleClicked(self,_row,_column):
+            cellLenght = len(currentItem.text()) * 8
+            if cellLenght > self.Table.columnWidth(_column):
+                self.Table.setColumnWidth(_column, cellLenght)
+
+    def cellDoubleClicked(self, _row, _column):
         if uni.getBoolValue("isRunOnDoubleClick"):
             self.showDetails(_row, _column)
-       
+
     def refreshColumns(self):
-        self.Table.tableColumns = [translate("AmarokArtistTable", "Current Artist"), translate("AmarokArtistTable", "Corrected Artist")]
+        self.Table.tableColumns = [translate("AmarokArtistTable", "Current Artist"),
+                                   translate("AmarokArtistTable", "Corrected Artist")]
         self.Table.tableColumnsKey = ["currentArtist", "correctedArtist"]
-        
+
     def save(self):
         AmarokArtistDetails.AmarokArtistDetails.closeAllAmarokArtistDialogs()
         return self.writeContents()
-        
+
     def refresh(self, _path):
         self.Table.currentTableContentValues = self.readContents(_path)
         self.Table.setRowCount(len(self.Table.currentTableContentValues))
@@ -138,24 +148,25 @@ class AmarokArtistTable():
             item = self.Table.createTableWidgetItem(newString, newString, True)
             self.Table.setItem(rowNo, 0, item)
             newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["name"])
-            isReadOnly = self.Table.currentTableContentValues[rowNo]["name"].strip()==""
-            item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["name"], isReadOnly)
+            isReadOnly = self.Table.currentTableContentValues[rowNo]["name"].strip() == ""
+            item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo]["name"],
+                                                    isReadOnly)
             self.Table.setItem(rowNo, 1, item)
-            Dialogs.showState(translate("FileUtils/Tables", "Generating Table..."), rowNo+1, allItemNumber)
-                        
+            Dialogs.showState(translate("FileUtils/Tables", "Generating Table..."), rowNo + 1, allItemNumber)
+
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):
             for itemNo in range(self.Table.columnCount()):
                 if self.Table.isChangeableItem(rowNo, itemNo):
-                    if itemNo==0:
-                        continue                
-                    elif itemNo==1:
-                        newString = Organizer.emend(str(self.Table.item(rowNo,itemNo).text()))
-                    self.Table.item(rowNo,itemNo).setText(str(newString))
-          
+                    if itemNo == 0:
+                        continue
+                    elif itemNo == 1:
+                        newString = Organizer.emend(str(self.Table.item(rowNo, itemNo).text()))
+                    self.Table.item(rowNo, itemNo).setText(str(newString))
+
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
-        if _columnNo==0:
+        if _columnNo == 0:
             return self.Table.currentTableContentValues[_rowNo]["name"]
-        elif _columnNo==1:
+        elif _columnNo == 1:
             return self.Table.currentTableContentValues[_rowNo]["name"]
         return ""

@@ -1,4 +1,4 @@
-## This file is part of HamsiManager.
+# # This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
@@ -20,10 +20,11 @@
 from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
-from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
+from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName
+from Taggers import getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
+
 
 class MusicOptionsBar(MToolBar):
-
     def __init__(self, _parent):
         MToolBar.__init__(self, _parent)
         self.isActiveChanging = True
@@ -39,19 +40,24 @@ class MusicOptionsBar(MToolBar):
         self.cbMusicTagTypeForWrite = MComboBox(self)
         self.cbMusicTagTypeForWrite.addItems(self.MusicTagTypes)
         self.isActiveChanging = False
-        self.cbMusicTagTypeForRead.setCurrentIndex(self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
-        self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
+        self.cbMusicTagTypeForRead.setCurrentIndex(
+            self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
+        self.cbMusicTagTypeForWrite.setCurrentIndex(
+            self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
         self.isActiveChanging = True
-        self.cbMusicTagTypeForRead.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbMusicTagTypeForWrite.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForRead.setToolTip(translate("MusicOptionsBar",
+                                                        "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForWrite.setToolTip(translate("MusicOptionsBar",
+                                                         "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
         self.addWidget(lblMusicTagTypeForRead)
         self.addWidget(self.cbMusicTagTypeForRead)
         self.addWidget(lblMusicTagTypeForWrite)
         self.addWidget(self.cbMusicTagTypeForWrite)
         MObject.connect(self.cbMusicTagTypeForRead, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForReadChanged)
-        MObject.connect(self.cbMusicTagTypeForWrite, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForWriteChanged)
-        self.setIconSize(MSize(32,32))
-    
+        MObject.connect(self.cbMusicTagTypeForWrite, SIGNAL("currentIndexChanged(int)"),
+                        self.musicTagTypeForWriteChanged)
+        self.setIconSize(MSize(32, 32))
+
     def musicTagTypeForReadChanged(self, _action=None):
         try:
             selectedType = str(self.MusicTagTypes[_action])
@@ -62,13 +68,15 @@ class MusicOptionsBar(MToolBar):
                     getMainWindow().SpecialTools.refreshForColumns()
                     getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
-                self.cbMusicTagTypeForRead.setCurrentIndex(self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
+                self.cbMusicTagTypeForRead.setCurrentIndex(
+                    self.cbMusicTagTypeForRead.findText(getSelectedTaggerTypeForReadName()))
                 if self.cbMusicTagTypeForReadForMenu != None:
-                    self.cbMusicTagTypeForReadForMenu.setCurrentIndex(self.cbMusicTagTypeForReadForMenu.findText(getSelectedTaggerTypeForReadName()))
+                    self.cbMusicTagTypeForReadForMenu.setCurrentIndex(
+                        self.cbMusicTagTypeForReadForMenu.findText(getSelectedTaggerTypeForReadName()))
                 self.isActiveChanging = True
         except:
             ReportBug.ReportBug()
-    
+
     def musicTagTypeForWriteChanged(self, _action=None):
         try:
             selectedType = str(self.MusicTagTypes[_action])
@@ -76,26 +84,34 @@ class MusicOptionsBar(MToolBar):
                 if getMainWindow().Table.checkUnSavedValues():
                     setSelectedTaggerTypeForWriteName(selectedType)
                 self.isActiveChanging = False
-                self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
+                self.cbMusicTagTypeForWrite.setCurrentIndex(
+                    self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))
                 if self.cbMusicTagTypeForWriteForMenu != None:
-                    self.cbMusicTagTypeForWriteForMenu.setCurrentIndex(self.cbMusicTagTypeForWriteForMenu.findText(getSelectedTaggerTypeForWriteName()))
+                    self.cbMusicTagTypeForWriteForMenu.setCurrentIndex(
+                        self.cbMusicTagTypeForWriteForMenu.findText(getSelectedTaggerTypeForWriteName()))
                 self.isActiveChanging = True
         except:
             ReportBug.ReportBug()
-        
+
     def getSpecialOptions(self, _menu):
         self.cbMusicTagTypeForReadForMenu = MComboBox(self)
         self.cbMusicTagTypeForWriteForMenu = MComboBox(self)
-        self.cbMusicTagTypeForReadForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbMusicTagTypeForWriteForMenu.setToolTip(translate("MusicOptionsBar", "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForReadForMenu.setToolTip(translate("MusicOptionsBar",
+                                                               "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbMusicTagTypeForWriteForMenu.setToolTip(translate("MusicOptionsBar",
+                                                                "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
         self.cbMusicTagTypeForReadForMenu.addItems(self.MusicTagTypes)
         self.cbMusicTagTypeForWriteForMenu.addItems(self.MusicTagTypes)
         self.isActiveChanging = False
-        self.cbMusicTagTypeForReadForMenu.setCurrentIndex(self.cbMusicTagTypeForReadForMenu.findText(getSelectedTaggerTypeForReadName()))
-        self.cbMusicTagTypeForWriteForMenu.setCurrentIndex(self.cbMusicTagTypeForWriteForMenu.findText(getSelectedTaggerTypeForWriteName()))
+        self.cbMusicTagTypeForReadForMenu.setCurrentIndex(
+            self.cbMusicTagTypeForReadForMenu.findText(getSelectedTaggerTypeForReadName()))
+        self.cbMusicTagTypeForWriteForMenu.setCurrentIndex(
+            self.cbMusicTagTypeForWriteForMenu.findText(getSelectedTaggerTypeForWriteName()))
         self.isActiveChanging = True
-        MObject.connect(self.cbMusicTagTypeForReadForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForReadChanged)
-        MObject.connect(self.cbMusicTagTypeForWriteForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTypeForWriteChanged)
+        MObject.connect(self.cbMusicTagTypeForReadForMenu, SIGNAL("currentIndexChanged(int)"),
+                        self.musicTagTypeForReadChanged)
+        MObject.connect(self.cbMusicTagTypeForWriteForMenu, SIGNAL("currentIndexChanged(int)"),
+                        self.musicTagTypeForWriteChanged)
         wactLabelForRead = MWidgetAction(_menu)
         wactLabelForRead.setDefaultWidget(MLabel(str(translate("MusicOptionsBar", "Read From : "))))
         wactLabelForWrite = MWidgetAction(_menu)

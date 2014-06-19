@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -22,44 +22,47 @@ from Core.MyObjects import *
 from Core import ReportBug
 import Tables
 
+
 class TableToolsBar(MToolBar):
     def __init__(self, _parent):
         MToolBar.__init__(self, _parent)
-        _parent.addToolBar(Mt.TopToolBarArea,self)
+        _parent.addToolBar(Mt.TopToolBarArea, self)
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
         actgActionGroupTableTypes = MActionGroup(self)
         actgActionGroupTableTypes.setObjectName(translate("ToolsBar", "Table Types"))
         for (x, name) in uni.tableTypesNames.items():
-            a = actgActionGroupTableTypes.addAction(MIcon("Images:"+uni.tableTypeIcons[x]), name)
+            a = actgActionGroupTableTypes.addAction(MIcon("Images:" + uni.tableTypeIcons[x]), name)
             a.setCheckable(True)
             a.setObjectName(name)
-            if uni.tableType== Tables.Tables.getThisTableType(name):
+            if uni.tableType == Tables.Tables.getThisTableType(name):
                 a.setChecked(True)
         self.addActions(actgActionGroupTableTypes.actions())
         self.addSeparator()
-        self.fileReNamerTypeNames = [str(translate("ToolsBar", "Personal Computer")), 
-                                    str(translate("ToolsBar", "Web Server")), 
-                                    str(translate("ToolsBar", "Removable Media"))]
+        self.fileReNamerTypeNames = [str(translate("ToolsBar", "Personal Computer")),
+                                     str(translate("ToolsBar", "Web Server")),
+                                     str(translate("ToolsBar", "Removable Media"))]
         buttonIcons = ["personalComputer.png", "webServer.png", "removableMedia.png"]
         actgActionGroupReNamerTypes = MActionGroup(self)
         actgActionGroupReNamerTypes.setObjectName(translate("ToolsBar", "File Renamer Types"))
         self.actsFileReNamerTypes = []
         for x, name in enumerate(self.fileReNamerTypeNames):
-            self.actsFileReNamerTypes.append(MAction(MIcon("Images:"+buttonIcons[x]),str(name),actgActionGroupReNamerTypes))
+            self.actsFileReNamerTypes.append(
+                MAction(MIcon("Images:" + buttonIcons[x]), str(name), actgActionGroupReNamerTypes))
             self.actsFileReNamerTypes[-1].setObjectName(str(name))
-            self.actsFileReNamerTypes[x].setToolTip(str(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name)))
+            self.actsFileReNamerTypes[x].setToolTip(
+                str(str(translate("ToolsBar", "Renames files and folders in \"%s\" format.")) % (name)))
             self.actsFileReNamerTypes[x].setCheckable(True)
             actgActionGroupReNamerTypes.addAction(self.actsFileReNamerTypes[x])
-            if uni.MySettings["fileReNamerType"]==uni.fileReNamerTypeNamesKeys[x]:
+            if uni.MySettings["fileReNamerType"] == uni.fileReNamerTypeNamesKeys[x]:
                 self.actsFileReNamerTypes[x].setChecked(True)
-        if uni.fileReNamerTypeNamesKeys.count(str(uni.MySettings["fileReNamerType"]))==0:
+        if uni.fileReNamerTypeNamesKeys.count(str(uni.MySettings["fileReNamerType"])) == 0:
             self.actsFileReNamerTypes[0].setChecked(True)
         self.addActions(actgActionGroupReNamerTypes.actions())
-        if uni.windowMode==uni.windowModeKeys[1]:
-            self.setIconSize(MSize(16,16))
+        if uni.windowMode == uni.windowModeKeys[1]:
+            self.setIconSize(MSize(16, 16))
         else:
-            self.setIconSize(MSize(32,32))
+            self.setIconSize(MSize(32, 32))
         getMainWindow().Menu.mSpecialOptions = MMenu(translate("MenuBar", "Special Options"), self)
         getMainWindow().Menu.mSpecialOptions.setObjectName(translate("MenuBar", "Special Options"))
         getMainWindow().Menu.mSpecialOptions.setTitle(translate("MenuBar", "Special Options"))

@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -33,8 +33,9 @@ from SpecialTools import CharacterState
 from SpecialTools import CharacterEncoding
 from SpecialTools import QuickFill
 
+
 class SpecialTools(MWidget):
-    def __init__(self,_parent):
+    def __init__(self, _parent):
         MWidget.__init__(self, _parent)
         self.tbAddToBefore = MToolButton(self)
         self.btChange = MToolButton(self)
@@ -82,19 +83,19 @@ class SpecialTools(MWidget):
         lblX = MLabel(translate("SpecialTools", "X : "))
         lblY = MLabel(translate("SpecialTools", "Y : "))
         self.cbInformationSection = MComboBox()
-        self.cbInformationSection.addItems([translate("SpecialTools", "All"), 
-                                        translate("SpecialTools", "Before X"), 
-                                        translate("SpecialTools", "After X"), 
-                                        translate("SpecialTools", "From Last, Before X"), 
-                                        translate("SpecialTools", "From Last After X"), 
-                                        translate("SpecialTools", "Between X And Y"), 
-                                        translate("SpecialTools", "Not Between X And Y")])
+        self.cbInformationSection.addItems([translate("SpecialTools", "All"),
+                                            translate("SpecialTools", "Before X"),
+                                            translate("SpecialTools", "After X"),
+                                            translate("SpecialTools", "From Last, Before X"),
+                                            translate("SpecialTools", "From Last After X"),
+                                            translate("SpecialTools", "Between X And Y"),
+                                            translate("SpecialTools", "Not Between X And Y")])
         self.cbInformationSectionX = MSpinBox()
         self.cbInformationSectionX.setRange(1, 100)
-        self.cbInformationSectionX.setValue(3) 
+        self.cbInformationSectionX.setValue(3)
         self.cbInformationSectionY = MSpinBox()
         self.cbInformationSectionY.setRange(1, 100)
-        self.cbInformationSectionY.setValue(5) 
+        self.cbInformationSectionY.setValue(5)
         self.pnlAdvancedSelections = MWidget()
         VBox = MVBoxLayout()
         self.pnlAdvancedSelections.setLayout(VBox)
@@ -119,7 +120,7 @@ class SpecialTools(MWidget):
         _parent.dckSpecialTools.setWidget(self)
         _parent.dckSpecialTools.setAllowedAreas(Mt.AllDockWidgetAreas)
         _parent.dckSpecialTools.setFeatures(MDockWidget.AllDockWidgetFeatures)
-        _parent.addDockWidget(Mt.BottomDockWidgetArea,_parent.dckSpecialTools)
+        _parent.addDockWidget(Mt.BottomDockWidgetArea, _parent.dckSpecialTools)
         self.cbInformationSectionX.setEnabled(False)
         self.cbInformationSectionY.setEnabled(False)
         self.cbInformationSection.setFixedWidth(175)
@@ -131,17 +132,17 @@ class SpecialTools(MWidget):
         MObject.connect(self.cbInformationSection, SIGNAL("currentIndexChanged(int)"), self.InformationSectionChanged)
         self.refreshForColumns()
         self.reFillCompleters()
-        
+
     def InformationSectionChanged(self):
-        if self.cbInformationSection.currentIndex()==0:
+        if self.cbInformationSection.currentIndex() == 0:
             self.cbInformationSectionX.setEnabled(False)
         else:
             self.cbInformationSectionX.setEnabled(True)
-        if self.cbInformationSection.currentIndex()>4:
+        if self.cbInformationSection.currentIndex() > 4:
             self.cbInformationSectionY.setEnabled(True)
         else:
             self.cbInformationSectionY.setEnabled(False)
-        
+
     def refreshForColumns(self):
         self.searchAndReplace.columns.clear()
         self.fill.columns.clear()
@@ -152,7 +153,7 @@ class SpecialTools(MWidget):
             for btn in self.specialActions.pbtnAddObjects:
                 btn.setVisible(False)
                 btn.deleteLater()
-        except:pass
+        except: pass
         try:
             for lbl in self.quickFill.lblColumns:
                 lbl.setVisible(False)
@@ -160,10 +161,10 @@ class SpecialTools(MWidget):
             for le in self.quickFill.leColumns:
                 le.setVisible(False)
                 le.deleteLater()
-        except:pass
-        self.specialActions.pbtnAddObjects=[]
-        self.quickFill.lblColumns=[]
-        self.quickFill.leColumns=[]
+        except: pass
+        self.specialActions.pbtnAddObjects = []
+        self.quickFill.lblColumns = []
+        self.quickFill.leColumns = []
         self.searchAndReplace.columns.addItem(translate("SpecialTools", "All"))
         self.clear.columns.addItem(translate("SpecialTools", "All"))
         self.characterState.columns.addItem(translate("SpecialTools", "All"))
@@ -174,83 +175,86 @@ class SpecialTools(MWidget):
             self.clear.columns.addItem(columnName)
             self.characterState.columns.addItem(columnName)
             self.characterEncoding.columns.addItem(columnName)
-            tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, getMainWindow().Table.getColumnKeyFromName(columnName))
+            tb = SpecialActions.SpecialActionsCommandButton(self.specialActions,
+                                                            getMainWindow().Table.getColumnKeyFromName(columnName))
             self.specialActions.pbtnAddObjects.append(tb)
             lbl = MLabel(columnName + ":")
             self.quickFill.lblColumns.append(lbl)
             le = MLineEdit("")
             le.setObjectName(columnName)
             self.quickFill.leColumns.append(le)
-            MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"), self.quickFill.fillAfter)
+            MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"),
+                            self.quickFill.fillAfter)
         for x in range(0, len(self.specialActions.pbtnAddObjects)):
-            self.specialActions.specialActionsCommandContainerAvailable.addToWidgetList(self.specialActions.pbtnAddObjects[x])
-            if len(self.specialActions.pbtnAddObjects)<7:
-                columnNo = (x*2) - ((x/2) * (2*2))
-                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x/2, columnNo)
-                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x/2, columnNo + 1)
+            self.specialActions.specialActionsCommandContainerAvailable.addToWidgetList(
+                self.specialActions.pbtnAddObjects[x])
+            if len(self.specialActions.pbtnAddObjects) < 7:
+                columnNo = (x * 2) - ((x / 2) * (2 * 2))
+                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x / 2, columnNo)
+                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x / 2, columnNo + 1)
             else:
-                columnNo = (x*4) - ((x/4) * (4*4))
-                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x/4, columnNo)
-                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x/4, columnNo + 1)
+                columnNo = (x * 4) - ((x / 4) * (4 * 4))
+                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x / 4, columnNo)
+                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x / 4, columnNo + 1)
         self.specialActions.refreshBookmarks()
-        if self.isShowAdvancedSelections==False:
+        if self.isShowAdvancedSelections == False:
             self.hideAdvancedSelections()
         else:
             self.showAdvancedSelections()
-        
+
     def changeTypeChanged(self):
         self.clearChangeTypes()
-        if self.sender().toolTip()==translate("SpecialTools", "Add In Front"):
+        if self.sender().toolTip() == translate("SpecialTools", "Add In Front"):
             self.tbAddToBefore.setChecked(True)
-        elif self.sender().toolTip()==translate("SpecialTools", "Change"):
+        elif self.sender().toolTip() == translate("SpecialTools", "Change"):
             self.btChange.setChecked(True)
-        elif self.sender().toolTip()==translate("SpecialTools", "Append"):
+        elif self.sender().toolTip() == translate("SpecialTools", "Append"):
             self.tbAddToAfter.setChecked(True)
-    
+
     def clearChangeTypes(self):
         self.tbAddToBefore.setChecked(False)
         self.btChange.setChecked(False)
         self.tbAddToAfter.setChecked(False)
-    
+
     def tabChanged(self, _index):
         uni.setMySetting("activeTabNoOfSpecialTools", str(_index))
         self.pbtnApply.setEnabled(True)
         self.tbAddToBefore.setEnabled(True)
         self.tbAddToAfter.setEnabled(True)
-        if _index==0:
+        if _index == 0:
             self.cbInformationSection.setCurrentIndex(0)
             self.cbInformationSection.setEnabled(False)
-        elif _index==1:
+        elif _index == 1:
             self.cbInformationSection.setEnabled(True)
             self.clearChangeTypes()
             self.btChange.setChecked(True)
-        elif _index==2:
+        elif _index == 2:
             self.cbInformationSection.setCurrentIndex(0)
             self.cbInformationSection.setEnabled(False)
-        elif _index==3:
-            self.cbInformationSection.setEnabled(True)
-            self.clearChangeTypes()
-            self.btChange.setChecked(True)
-            self.tbAddToBefore.setEnabled(False)
-            self.tbAddToAfter.setEnabled(False)
-        elif _index==4:
+        elif _index == 3:
             self.cbInformationSection.setEnabled(True)
             self.clearChangeTypes()
             self.btChange.setChecked(True)
             self.tbAddToBefore.setEnabled(False)
             self.tbAddToAfter.setEnabled(False)
-        elif _index==5:
+        elif _index == 4:
+            self.cbInformationSection.setEnabled(True)
+            self.clearChangeTypes()
+            self.btChange.setChecked(True)
+            self.tbAddToBefore.setEnabled(False)
+            self.tbAddToAfter.setEnabled(False)
+        elif _index == 5:
             self.cbInformationSection.setCurrentIndex(0)
             self.cbInformationSection.setEnabled(False)
             self.clearChangeTypes()
             self.btChange.setChecked(True)
             self.tbAddToBefore.setEnabled(False)
             self.tbAddToAfter.setEnabled(False)
-        elif _index==6:
+        elif _index == 6:
             self.cbInformationSection.setCurrentIndex(0)
             self.cbInformationSection.setEnabled(False)
             self.pbtnApply.setEnabled(False)
-        
+
     def showOrHideAdvancedSelections(self):
         try:
             if self.isShowAdvancedSelections == False:
@@ -259,7 +263,7 @@ class SpecialTools(MWidget):
                 self.hideAdvancedSelections()
         except:
             ReportBug.ReportBug()
-    
+
     def showAdvancedSelections(self):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Simple"))
         self.pnlAdvancedSelections.setVisible(True)
@@ -277,7 +281,7 @@ class SpecialTools(MWidget):
         self.characterState.showAdvancedSelections()
         self.characterEncoding.showAdvancedSelections()
         self.quickFill.showAdvancedSelections()
-    
+
     def hideAdvancedSelections(self):
         self.pbtnAdvancedSelections.setText(translate("SpecialTools", "Advance"))
         self.cbInformationSection.setCurrentIndex(0)
@@ -292,30 +296,30 @@ class SpecialTools(MWidget):
         self.characterState.hideAdvancedSelections()
         self.characterEncoding.hideAdvancedSelections()
         self.quickFill.hideAdvancedSelections()
-        
+
     def apply(self):
         try:
             self.checkCompleters()
             self.reFillCompleters()
             getMainWindow().Table.createHistoryPoint()
-            if self.tabwTabs.currentIndex()==0:
+            if self.tabwTabs.currentIndex() == 0:
                 if SpecialActions.whatDoesSpecialCommandDo(self.specialActions.getActionCommand()):
                     self.specialActions.apply()
-            elif self.tabwTabs.currentIndex()==1:
+            elif self.tabwTabs.currentIndex() == 1:
                 self.searchAndReplace.apply()
-            elif self.tabwTabs.currentIndex()==2:
+            elif self.tabwTabs.currentIndex() == 2:
                 self.fill.apply()
-            elif self.tabwTabs.currentIndex()==3:
+            elif self.tabwTabs.currentIndex() == 3:
                 self.clear.apply()
-            elif self.tabwTabs.currentIndex()==4:
+            elif self.tabwTabs.currentIndex() == 4:
                 self.characterState.apply()
-            elif self.tabwTabs.currentIndex()==5:
+            elif self.tabwTabs.currentIndex() == 5:
                 self.characterEncoding.apply()
-            elif self.tabwTabs.currentIndex()==6:
+            elif self.tabwTabs.currentIndex() == 6:
                 pass
         except:
             ReportBug.ReportBug()
-    
+
     def checkCompleters(self):
         if uni.getBoolValue("isActiveCompleter"):
             self.specialActions.checkCompleters()
@@ -325,7 +329,7 @@ class SpecialTools(MWidget):
             self.characterState.checkCompleters()
             self.characterEncoding.checkCompleters()
             self.quickFill.checkCompleters()
-    
+
     def reFillCompleters(self):
         if uni.getBoolValue("isActiveCompleter"):
             self.specialActions.reFillCompleters()

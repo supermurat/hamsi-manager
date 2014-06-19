@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -27,13 +27,14 @@ from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
+
 class Cleaner(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
-        if MyDialogType=="MDialog":
+        if MyDialogType == "MDialog":
             if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
-        elif MyDialogType=="MMainWindow":
+        elif MyDialogType == "MMainWindow":
             self.setObjectName("Cleaner")
             setMainWindow(self)
         newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
@@ -44,9 +45,9 @@ class Cleaner(MyDialog):
         self.lePathOfProject = MLineEdit(str(_directory))
         self.pbtnClear.setToolTip(translate("Cleaner", "Directory you selected will is cleared"))
         self.pbtnSelectProjectPath = MPushButton(translate("Cleaner", "Browse"))
-        self.connect(self.pbtnSelectProjectPath,SIGNAL("clicked()"),self.selectProjectPath)
-        self.connect(self.pbtnClear,SIGNAL("clicked()"),self.Clear)
-        self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
+        self.connect(self.pbtnSelectProjectPath, SIGNAL("clicked()"), self.selectProjectPath)
+        self.connect(self.pbtnClear, SIGNAL("clicked()"), self.Clear)
+        self.connect(self.pbtnClose, SIGNAL("clicked()"), self.close)
         pnlMain = MWidget(self)
         tabwTabs = MTabWidget()
         vblMain = MVBoxLayout(pnlMain)
@@ -65,40 +66,45 @@ class Cleaner(MyDialog):
         tabwTabs.addTab(pnlMain2, translate("Cleaner", "Clear"))
         tabwTabs.addTab(wOptionsPanel, translate("Cleaner", "Quick Options"))
         vblMain.addWidget(tabwTabs)
-        if MyDialogType=="MDialog":
+        if MyDialogType == "MDialog":
             if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
-        elif MyDialogType=="MMainWindow":
+        elif MyDialogType == "MMainWindow":
             self.setCentralWidget(pnlMain)
             moveToCenter(self)
         self.setWindowTitle(translate("Cleaner", "Cleaner"))
         self.setWindowIcon(MIcon("Images:clear.png"))
         self.show()
-                        
+
     def closeEvent(self, _event):
         MApplication.setQuitOnLastWindowClosed(True)
-    
+
     def Clear(self):
         try:
             uni.isCanBeShowOnMainWindow = False
             answer = Dialogs.ask(translate("Cleaner", "Your Files Will Be Removed"),
-                    str(translate("Cleaner", "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>"+
-                    "This action will delete the files completely, without any chance to recover.<br>"+
-                    "Are you sure you want to perform the action?")) % Organizer.getLink(Organizer.getLink(str(self.lePathOfProject.text()))))
-            if answer==Dialogs.Yes:
+                                 str(translate("Cleaner",
+                                               "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>" +
+                                               "This action will delete the files completely, without any chance to recover.<br>" +
+                                               "Are you sure you want to perform the action?")) % Organizer.getLink(
+                                     Organizer.getLink(str(self.lePathOfProject.text()))))
+            if answer == Dialogs.Yes:
                 if fu.isWritableFileOrDir(str(self.lePathOfProject.text())):
                     if fu.clearCleaningDirectory(str(self.lePathOfProject.text()), True, True):
                         Dialogs.show(translate("Cleaner", "Directory Is Cleared"),
-                                    str(translate("Cleaner", "This directory is cleared : \"%s\"")) % Organizer.getLink(str(self.lePathOfProject.text())))
+                                     str(translate("Cleaner",
+                                                   "This directory is cleared : \"%s\"")) % Organizer.getLink(
+                                         str(self.lePathOfProject.text())))
             uni.isCanBeShowOnMainWindow = True
         except:
             ReportBug.ReportBug()
 
     def selectProjectPath(self):
         try:
-            ProjectPath = Dialogs.getExistingDirectory(translate("Cleaner", "Please Select Directory"),self.lePathOfProject.text(), 0)
+            ProjectPath = Dialogs.getExistingDirectory(translate("Cleaner", "Please Select Directory"),
+                                                       self.lePathOfProject.text(), 0)
             if ProjectPath is not None:
                 self.lePathOfProject.setText(str(ProjectPath))
         except:
