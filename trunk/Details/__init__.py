@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -23,13 +23,14 @@ from Core import Organizer
 from Core import Universals as uni
 from Core import ReportBug
 
+
 class Details():
-    
-    def __init__(self,_filePath, _isOpenDetailsOnNewWindow):
+    def __init__(self, _filePath, _isOpenDetailsOnNewWindow):
         try:
             if uni.getBoolValue("isForceOpenWithDefaultApplication"):
                 _path = fu.checkSource(_filePath)
                 from Core import Execute
+
                 Execute.openWith([_path])
             else:
                 _path = fu.checkSource(_filePath, "file", False)
@@ -39,49 +40,65 @@ class Details():
                     if type[0] != None:
                         if type[0].split("/")[0] == "text":
                             from Details import TextDetails
-                            TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
+
+                            TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
                         elif type[0].split("/")[0] == "audio":
                             import Taggers
-                            if Taggers.getTagger(True)!=None:
+
+                            if Taggers.getTagger(True) != None:
                                 from Details import MusicDetails
-                                MusicDetails.MusicDetails(_path,_isOpenDetailsOnNewWindow)
+
+                                MusicDetails.MusicDetails(_path, _isOpenDetailsOnNewWindow)
                                 isOpened = True
                         elif type[0].split("/")[0] == "image":
                             from Details import ImageDetails
-                            ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)    
+
+                            ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)
                             isOpened = True
-                        elif fu.isBinary(_path)==False:
+                        elif fu.isBinary(_path) == False:
                             from Details import TextDetails
-                            TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
+
+                            TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
                     else:
-                        if fu.isBinary(_path)==False:
+                        if fu.isBinary(_path) == False:
                             from Details import TextDetails
-                            TextDetails.TextDetails(_path,_isOpenDetailsOnNewWindow)
+
+                            TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
                     if isOpened == False:
                         if uni.getBoolValue("isOpenWithDefaultApplication"):
                             from Core import Execute
+
                             Execute.openWith([_path])
                         else:
-                            Dialogs.showError(translate("Details", "File Is Not Supported"), 
-                                 str(translate("Details", "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(str(_path)))
+                            Dialogs.showError(translate("Details", "File Is Not Supported"),
+                                              str(translate("Details",
+                                                            "\"%s\" couldn't opened. This file is not supported.")) % Organizer.getLink(
+                                                  str(_path)))
                 elif fu.isDir(_filePath):
                     if uni.getBoolValue("isOpenWithDefaultApplication"):
                         from Core import Execute
+
                         Execute.openWith([_filePath])
                     else:
-                        Dialogs.showError(translate("Details", "Directories Is Not Supported"), 
-                                 str(translate("Details", "\"%s\" couldn't opened. Directories is not supported to show details.")) % Organizer.getLink(str(_filePath)))
+                        Dialogs.showError(translate("Details", "Directories Is Not Supported"),
+                                          str(translate("Details",
+                                                        "\"%s\" couldn't opened. Directories is not supported to show details.")) % Organizer.getLink(
+                                              str(_filePath)))
                 else:
-                    Dialogs.showError(translate("Details", "File Is Not Exist"), 
-                                 str(translate("Details", "\"%s\" couldn't opened. This file is not exist.")) % Organizer.getLink(str(_filePath)))
+                    Dialogs.showError(translate("Details", "File Is Not Exist"),
+                                      str(translate("Details",
+                                                    "\"%s\" couldn't opened. This file is not exist.")) % Organizer.getLink(
+                                          str(_filePath)))
         except:
             answer = Dialogs.askSpecial(translate("Details", "File Couldn't Opened"),
-                        str(translate("Details", "\"%s\" couldn't opened. This file may is not supported. <br>If you think this is a bug, please report us.")) % Organizer.getLink(str(_filePath)), 
-                        translate("QuickMake", "Report This Bug"), translate("QuickMake", "OK"), None)
-            if answer==translate("QuickMake", "Report This Bug"):
+                                        str(translate("Details",
+                                                      "\"%s\" couldn't opened. This file may is not supported. <br>If you think this is a bug, please report us.")) % Organizer.getLink(
+                                            str(_filePath)),
+                                        translate("QuickMake", "Report This Bug"), translate("QuickMake", "OK"), None)
+            if answer == translate("QuickMake", "Report This Bug"):
                 ReportBug.ReportBug()
         
  

@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -17,17 +17,19 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import sys,os
+import sys, os
 from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
 from Core import ReportBug
 import Options
 from Options import OptionsForm
+
 if uni.isPython3k:
     from urllib.parse import unquote, quote
 else:
     from urllib import unquote, quote
+
 
 class SuggestIdea(MDialog):
     def __init__(self):
@@ -41,13 +43,16 @@ class SuggestIdea(MDialog):
         self.vblMain = MVBoxLayout(pnlMain)
         self.pbtnSendAndClose = MPushButton(translate("SuggestIdea", "Send And Close"))
         self.pbtnCancel = MPushButton(translate("SuggestIdea", "Cancel"))
-        self.cckbIsSendMySettings = Options.MyCheckBox(self, translate("SuggestIdea", "Send my settings for more better default settings."), 0, _stateChanged = self.isSendMySettings)
+        self.cckbIsSendMySettings = Options.MyCheckBox(self, translate("SuggestIdea",
+                                                                       "Send my settings for more better default settings."),
+                                                       0, _stateChanged=self.isSendMySettings)
         self.connect(self.pbtnSendAndClose, SIGNAL("clicked()"), self.sendAndClose)
         self.connect(self.pbtnCancel, SIGNAL("clicked()"), self.cancel)
         lblIdea = MLabel(translate("SuggestIdea", "Idea : "))
         lblName = MLabel(translate("SuggestIdea", "Name And Surname : "))
         lblEMailAddress = MLabel(translate("SuggestIdea", "E-mail Address : "))
-        lblAlert = MLabel(translate("SuggestIdea", "Note : Will be kept strictly confidential. It will be used solely to learn information about of your idea."))
+        lblAlert = MLabel(translate("SuggestIdea",
+                                    "Note : Will be kept strictly confidential. It will be used solely to learn information about of your idea."))
         self.teIdea = MTextEdit(self)
         self.leName = MLineEdit(self)
         self.leEMailAddress = MLineEdit(self)
@@ -61,10 +66,10 @@ class SuggestIdea(MDialog):
         hbox3.addWidget(lblEMailAddress, 1)
         hbox3.addWidget(self.leEMailAddress, 20)
         hbox0 = MHBoxLayout()
-        hbox0.addWidget(self.cckbIsSendMySettings,1)
+        hbox0.addWidget(self.cckbIsSendMySettings, 1)
         hbox0.addStretch(2)
-        hbox0.addWidget(self.pbtnSendAndClose,1)
-        hbox0.addWidget(self.pbtnCancel,1)
+        hbox0.addWidget(self.pbtnSendAndClose, 1)
+        hbox0.addWidget(self.pbtnCancel, 1)
         VBox1 = MVBoxLayout()
         VBox1.addLayout(hbox2)
         VBox1.addLayout(hbox3)
@@ -85,62 +90,71 @@ class SuggestIdea(MDialog):
         self.setMaximumSize(600, 375)
         self.show()
         self.setMaximumSize(10000, 10000)
-        
+
     def sendAndClose(self):
         try:
             uni.isCanBeShowOnMainWindow = False
             self.namMain = MNetworkAccessManager(self)
             self.connect(self.namMain, SIGNAL("finished (QNetworkReply *)"), self.sendFinished)
             self.nrqPost = MNetworkRequest(MUrl("http://hamsiapps.com/ForMyProjects/SuggestIdea.php"))
-            self.nrpBack = self.namMain.post(self.nrqPost, "p=HamsiManager&l=" + str(uni.MySettings["language"]) + "&v=" + str(uni.intversion) +
-                                            "&thankYouMessages=new style" + 
-                                            "&userNotes=" + quote(str(self.teIdea.toHtml())) + 
-                                            "&nameAndSurname=" + quote(str(self.leName.text())) + 
-                                            "&mail=" + quote(str(self.leEMailAddress.text()))
-                                            )
+            self.nrpBack = self.namMain.post(self.nrqPost,
+                                             "p=HamsiManager&l=" + str(uni.MySettings["language"]) + "&v=" + str(
+                                                 uni.intversion) +
+                                             "&thankYouMessages=new style" +
+                                             "&userNotes=" + quote(str(self.teIdea.toHtml())) +
+                                             "&nameAndSurname=" + quote(str(self.leName.text())) +
+                                             "&mail=" + quote(str(self.leEMailAddress.text()))
+            )
             self.connect(self.nrpBack, SIGNAL("downloadProgress (qint64,qint64)"), self.sending)
             Dialogs.showState(translate("SuggestIdea", "Sending Your Idea"), 0, 100, True, self.cancelSending)
         except:
             ReportBug.ReportBug()
-        
+
     def sending(self, _currentValue, _maxValue):
-        Dialogs.showState(translate("SuggestIdea", "Sending Your Idea"), _currentValue, _maxValue, True, self.cancelSending)
-    
+        Dialogs.showState(translate("SuggestIdea", "Sending Your Idea"), _currentValue, _maxValue, True,
+                          self.cancelSending)
+
     def cancelSending(self):
         if self.nrpBack is not None:
             self.nrpBack.abort()
-        
+
     def sendFinished(self, _nrpBack):
         try:
             Dialogs.showState(translate("SuggestIdea", "Sending Your Idea"), 100, 100)
             if _nrpBack.error() == MNetworkReply.NoError:
-                Dialogs.show(translate("SuggestIdea", "Suggestion Received Successfully"), translate("SuggestIdea", "Thank you for sending us your idea. You have contributed a lot to make the next release even better."))
+                Dialogs.show(translate("SuggestIdea", "Suggestion Received Successfully"), translate("SuggestIdea",
+                                                                                                     "Thank you for sending us your idea. You have contributed a lot to make the next release even better."))
                 self.close()
             elif _nrpBack.error() == MNetworkReply.OperationCanceledError:
-                Dialogs.show(translate("SuggestIdea", "Suggestion Canceled"), translate("SuggestIdea", "Suggestion canceled successfully."))
+                Dialogs.show(translate("SuggestIdea", "Suggestion Canceled"),
+                             translate("SuggestIdea", "Suggestion canceled successfully."))
             else:
-                Dialogs.show(translate("SuggestIdea", "An Error Has Occurred."), translate("SuggestIdea", "An unknown error has occurred. Please try again."))
+                Dialogs.show(translate("SuggestIdea", "An Error Has Occurred."),
+                             translate("SuggestIdea", "An unknown error has occurred. Please try again."))
             uni.isCanBeShowOnMainWindow = True
             self.namMain = None
             self.nrqPost = None
             self.nrpBack = None
         except:
             ReportBug.ReportBug()
-        
+
     def cancel(self):
         if self.nrpBack is not None:
             self.nrpBack.abort()
         self.close()
-        
+
     def isSendMySettings(self):
         try:
             currenText = str(self.teIdea.toHtml())
             if self.cckbIsSendMySettings.checkState() == Mt.Checked:
                 settingText = "<br><br>"
                 for keyName in uni.MySettings:
-                    if uni.willNotReportSettings.count(keyName)==0:
+                    if uni.willNotReportSettings.count(keyName) == 0:
                         settingText += "<b>" + str(keyName) + " :</b> " + str(uni.MySettings[keyName]) + "<br>"
-                self.teIdea.setHtml(str(currenText + "<br>----------------------////////----------------------<br><br><b>" + str(translate("SuggestIdea", "Note : You can check and delete your personal informations.")) + "</b>" + settingText))
+                self.teIdea.setHtml(str(
+                    currenText + "<br>----------------------////////----------------------<br><br><b>" + str(
+                        translate("SuggestIdea",
+                                  "Note : You can check and delete your personal informations.")) + "</b>" + settingText))
             else:
                 currenText = currenText.split("----------------------////////----------------------")[0]
                 self.teIdea.setHtml(str(currenText))

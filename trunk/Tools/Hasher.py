@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -28,13 +28,14 @@ from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
+
 class Hasher(MyDialog):
     def __init__(self, _file=None):
         MyDialog.__init__(self, MyParent)
-        if MyDialogType=="MDialog":
+        if MyDialogType == "MDialog":
             if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
-        elif MyDialogType=="MMainWindow":
+        elif MyDialogType == "MMainWindow":
             self.setObjectName("Hasher")
             setMainWindow(self)
         newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
@@ -46,9 +47,10 @@ class Hasher(MyDialog):
         lblHashDigest = MLabel(translate("Hasher", "Hash Digest : "))
         self.teHashDigest = MTextEdit("")
         self.cbHash = Options.MyComboBox(self, uni.getHashTypes(), 0, "HasherHash", self.pathOfPackageChanged)
-        self.cbHashOutput = Options.MyComboBox(self, 
-                                [translate("Hasher", "Only Show"), translate("Hasher", "File"), translate("Hasher", "Clipboard")], 
-                                0, "HasherHashOutput", self.hashOutputChanged)
+        self.cbHashOutput = Options.MyComboBox(self,
+                                               [translate("Hasher", "Only Show"), translate("Hasher", "File"),
+                                                translate("Hasher", "Clipboard")],
+                                               0, "HasherHashOutput", self.hashOutputChanged)
         self.leHashDigestFile = MLineEdit(str(_file))
         self.pbtnHash = MPushButton(translate("Hasher", "Hash"))
         self.pbtnClose = MPushButton(translate("Hasher", "Close"))
@@ -56,10 +58,10 @@ class Hasher(MyDialog):
         self.pbtnHash.setToolTip(translate("Hasher", "Hash the selected file"))
         self.pbtnSelectProjectPath = MPushButton(translate("Hasher", "Browse"))
         self.pbtnSelectPackagePath = MPushButton(translate("Hasher", "Browse"))
-        self.connect(self.pbtnSelectPackagePath,SIGNAL("clicked()"),self.selectPackagePath)
-        self.connect(self.pbtnHash,SIGNAL("clicked()"),self.hash)
-        self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
-        self.connect(self.lePathOfPackage,SIGNAL("textChanged(const QString&)"),self.pathOfPackageChanged)
+        self.connect(self.pbtnSelectPackagePath, SIGNAL("clicked()"), self.selectPackagePath)
+        self.connect(self.pbtnHash, SIGNAL("clicked()"), self.hash)
+        self.connect(self.pbtnClose, SIGNAL("clicked()"), self.close)
+        self.connect(self.lePathOfPackage, SIGNAL("textChanged(const QString&)"), self.pathOfPackageChanged)
         self.teHashDigest.setMaximumHeight(80)
         pnlMain = MWidget(self)
         tabwTabs = MTabWidget()
@@ -97,64 +99,68 @@ class Hasher(MyDialog):
         vblMain.addWidget(tabwTabs)
         self.pathOfPackageChanged("")
         self.hashOutputChanged(self.cbHashOutput.currentIndex())
-        if MyDialogType=="MDialog":
+        if MyDialogType == "MDialog":
             if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
-        elif MyDialogType=="MMainWindow":
+        elif MyDialogType == "MMainWindow":
             self.setCentralWidget(pnlMain)
             moveToCenter(self)
         self.setWindowTitle(translate("Hasher", "Hasher"))
         self.setWindowIcon(MIcon("Images:hash.png"))
         self.show()
-                        
+
     def closeEvent(self, _event):
         MApplication.setQuitOnLastWindowClosed(True)
-    
+
     def pathOfPackageChanged(self, _value):
         try:
             self.teHashDigest.setText("")
-            packageExtension =  "." + str(self.cbHash.currentText()).lower()
-            self.leHashDigestFile.setText(self.lePathOfPackage.text() + packageExtension)  
+            packageExtension = "." + str(self.cbHash.currentText()).lower()
+            self.leHashDigestFile.setText(self.lePathOfPackage.text() + packageExtension)
         except:
             ReportBug.ReportBug()
-    
+
     def hashOutputChanged(self, _value):
-        if _value==1:
+        if _value == 1:
             self.leHashDigestFile.setEnabled(True)
         else:
             self.leHashDigestFile.setEnabled(False)
-    
+
     def hash(self):
         sourceFile = str(self.lePathOfPackage.text())
         sourceFile = fu.checkSource(sourceFile, "file")
         if sourceFile is not None:
             hashType = str(self.cbHash.currentText())
-            if hashType!=None:
+            if hashType != None:
                 hashDigestContent = fu.getHashDigest(sourceFile, hashType)
-                if hashDigestContent!=False:
+                if hashDigestContent != False:
                     self.teHashDigest.setText(str(hashDigestContent))
-                    if self.cbHashOutput.currentIndex()==1:
-                        if fu.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False, hashDigestContent):
+                    if self.cbHashOutput.currentIndex() == 1:
+                        if fu.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False,
+                                                   hashDigestContent):
                             Dialogs.show(translate("Hasher", "Hash Digest File Created"),
-                                        str(translate("Hasher", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
+                                         str(translate("Hasher", "Hash digest writed into %s")) % str(
+                                             self.leHashDigestFile.text()))
                         else:
                             Dialogs.showError(translate("Hasher", "Hash Digest File Is Not Created"),
-                                        translate("Hasher", "Hash digest file not cteated."))
-                    elif self.cbHashOutput.currentIndex()==2:
-                            MApplication.clipboard().setText(str(hashDigestContent))
-                            Dialogs.show(translate("Hasher", "Hash Digest Copied To Clipboard"),
-                                        str(translate("Hasher", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
+                                              translate("Hasher", "Hash digest file not cteated."))
+                    elif self.cbHashOutput.currentIndex() == 2:
+                        MApplication.clipboard().setText(str(hashDigestContent))
+                        Dialogs.show(translate("Hasher", "Hash Digest Copied To Clipboard"),
+                                     str(translate("Hasher",
+                                                   "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:
                     Dialogs.showError(translate("Hasher", "Hash Digest Is Not Created"),
-                                    translate("Hasher", "Hash digest not cteated."))
-        
+                                      translate("Hasher", "Hash digest not cteated."))
+
     def selectPackagePath(self):
         try:
             self.teHashDigest.setText("")
-            PathOfPackage = Dialogs.getOpenFileName(translate("Hasher", "Please Select The Pack To Be Created"), self.lePathOfPackage.text(),
-                        translate("Hasher", "All Files (*.*)"))
+            PathOfPackage = Dialogs.getOpenFileName(translate("Hasher", "Please Select The Pack To Be Created"),
+                                                    self.lePathOfPackage.text(),
+                                                    translate("Hasher", "All Files (*.*)"))
             if PathOfPackage is not None:
                 self.lePathOfPackage.setText(str(PathOfPackage))
         except:

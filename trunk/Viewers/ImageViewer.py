@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -18,14 +18,16 @@
 
 
 import FileUtils as fu
-import os,sys
+import os, sys
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
 from Core import Universals as uni
 
+
 class ImageViewer(MWidget):
-    def __init__(self, _parent, _image = None, _valueType="file", _isCorrectedWhenNotExist=False, _defaultMaxSize=[150, 150]):
+    def __init__(self, _parent, _image=None, _valueType="file", _isCorrectedWhenNotExist=False,
+                 _defaultMaxSize=[150, 150]):
         MWidget.__init__(self, _parent)
         self.defaultMaxSize = _defaultMaxSize
         self.isCorrectedWhenNotExist = _isCorrectedWhenNotExist
@@ -58,52 +60,52 @@ class ImageViewer(MWidget):
         vblMain.addLayout(HBOXs[0])
         self.setLayout(vblMain)
         self.show()
-                  
+
     def changeCoverValues(self, _image=None, _valueType="file"):
         self.zoomValue = 1.0
-        if _image!=None and _valueType=="file":
+        if _image != None and _valueType == "file":
             _image = fu.checkSource(_image, "file", False)
             if _image is None:
                 if self.isCorrectedWhenNotExist:
                     _image = fu.joinPath(fu.themePath, "Images", "ok.png")
                 else:
                     _image = fu.joinPath(fu.themePath, "Images", "notExist.png")
-        elif _valueType=="file":
+        elif _valueType == "file":
             _image = fu.joinPath(fu.themePath, "Images", "notExist.png")
         self.pmapImage.detach()
-        if _valueType=="data":
+        if _valueType == "data":
             self.pmapImage.loadFromData(_image)
         else:
             self.pmapImage.load(str(_image))
         self.lblImage.setPixmap(self.pmapImage)
         self.width = self.pmapImage.width()
         self.height = self.pmapImage.height()
-        while 1==1:
-            if self.width>self.defaultMaxSize[0] or self.height>self.defaultMaxSize[1]:
-                self.width*=0.9
-                self.height*=0.9
+        while 1 == 1:
+            if self.width > self.defaultMaxSize[0] or self.height > self.defaultMaxSize[1]:
+                self.width *= 0.9
+                self.height *= 0.9
             else:
                 break
-        self.lblImage.resize(int(self.width),int(self.height))
+        self.lblImage.resize(int(self.width), int(self.height))
 
     def goOriginalImageZoom(self):
         self.makeZoom(1)
-    
+
     def zoomOut(self):
         self.makeZoom(-0.1)
-    
+
     def zoomIn(self):
         self.makeZoom(0.1)
-        
+
     def makeZoom(self, _value):
-        if _value==1:
+        if _value == 1:
             self.zoomValue = 1.0
             self.width = self.pmapImage.width()
             self.height = self.pmapImage.height()
             self.lblImage.resize(self.width, self.height)
         else:
             self.zoomValue += _value
-            self.lblImage.resize(self.width*self.zoomValue, self.height*self.zoomValue)
+            self.lblImage.resize(self.width * self.zoomValue, self.height * self.zoomValue)
     
     
      

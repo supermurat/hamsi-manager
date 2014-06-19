@@ -1,4 +1,4 @@
-## This file is part of HamsiManager.
+# # This file is part of HamsiManager.
 ## 
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
@@ -20,11 +20,11 @@
 from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
-from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName, getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
+from Taggers import getSelectedTaggerTypeForReadName
 import Amarok
 
-class AmarokMusicOptionsBar(MToolBar):
 
+class AmarokMusicOptionsBar(MToolBar):
     def __init__(self, _parent):
         MToolBar.__init__(self, _parent)
         self.isActiveChanging = True
@@ -41,19 +41,23 @@ class AmarokMusicOptionsBar(MToolBar):
         self.cbTagTargetType = MComboBox(self)
         self.cbTagTargetType.addItems(self.MusicTagTargetTypes)
         self.isActiveChanging = False
-        self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
-        self.cbTagTargetType.setCurrentIndex(self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
+        self.cbTagSourceType.setCurrentIndex(
+            self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
+        self.cbTagTargetType.setCurrentIndex(
+            self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
         self.isActiveChanging = True
-        self.cbTagSourceType.setToolTip(translate("AmarokMusicOptionsBar", "You can select the ID3 tag source to read."))
-        self.cbTagTargetType.setToolTip(translate("AmarokMusicOptionsBar", "You can select the ID3 tag target to write."))
+        self.cbTagSourceType.setToolTip(
+            translate("AmarokMusicOptionsBar", "You can select the ID3 tag source to read."))
+        self.cbTagTargetType.setToolTip(
+            translate("AmarokMusicOptionsBar", "You can select the ID3 tag target to write."))
         self.addWidget(lblSourceDetails)
         self.addWidget(self.cbTagSourceType)
         self.addWidget(lblTargetDetails)
         self.addWidget(self.cbTagTargetType)
         MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
         MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
-        self.setIconSize(MSize(32,32))
-    
+        self.setIconSize(MSize(32, 32))
+
     def musicTagSourceTypeChanged(self, _action=None):
         try:
             selectedType = str(self.MusicTagSourceTypes[_action])
@@ -64,34 +68,40 @@ class AmarokMusicOptionsBar(MToolBar):
                     getMainWindow().SpecialTools.refreshForColumns()
                     getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
-                self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
+                self.cbTagSourceType.setCurrentIndex(
+                    self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
                 if self.cbTagSourceTypeForMenu != None:
-                    self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
+                    self.cbTagSourceTypeForMenu.setCurrentIndex(
+                        self.cbTagSourceTypeForMenu.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
                 self.isActiveChanging = True
         except:
             ReportBug.ReportBug()
-    
+
     def musicTagTargetTypeChanged(self, _action=None):
         try:
             selectedType = str(self.MusicTagTargetTypes[_action])
             if self.isActiveChanging:
                 Amarok.setSelectedTagTargetType(selectedType, "AmarokMusicTable")
                 self.isActiveChanging = False
-                self.cbTagTargetType.setCurrentIndex(self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
+                self.cbTagTargetType.setCurrentIndex(
+                    self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
                 if self.cbTagTargetTypeForMenu != None:
-                    self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
+                    self.cbTagTargetTypeForMenu.setCurrentIndex(
+                        self.cbTagTargetTypeForMenu.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
                 self.isActiveChanging = True
         except:
             ReportBug.ReportBug()
-        
+
     def getSpecialOptions(self, _menu):
         self.cbTagSourceTypeForMenu = MComboBox(self)
         self.cbTagSourceTypeForMenu.addItems(self.MusicTagSourceTypes)
         self.cbTagTargetTypeForMenu = MComboBox(self)
         self.cbTagTargetTypeForMenu.addItems(self.MusicTagTargetTypes)
         self.isActiveChanging = False
-        self.cbTagSourceTypeForMenu.setCurrentIndex(self.cbTagSourceTypeForMenu.findText(getSelectedTaggerTypeForReadName()))
-        self.cbTagTargetTypeForMenu.setCurrentIndex(self.cbTagTargetTypeForMenu.findText(getSelectedTaggerTypeForReadName()))
+        self.cbTagSourceTypeForMenu.setCurrentIndex(
+            self.cbTagSourceTypeForMenu.findText(getSelectedTaggerTypeForReadName()))
+        self.cbTagTargetTypeForMenu.setCurrentIndex(
+            self.cbTagTargetTypeForMenu.findText(getSelectedTaggerTypeForReadName()))
         self.isActiveChanging = True
         MObject.connect(self.cbTagSourceTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
         MObject.connect(self.cbTagTargetTypeForMenu, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)

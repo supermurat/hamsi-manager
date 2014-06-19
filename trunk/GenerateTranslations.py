@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # # This file is part of HamsiManager.
-## 
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+# #
+# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ from Core import RoutineChecks
 if RoutineChecks.checkMandatoryModules():
     from Core.MyObjects import *
     import FileUtils as fu
+
     fu.initStartupVariables()
     from Core import Universals as uni
     from Core import Execute
@@ -71,7 +72,6 @@ if RoutineChecks.checkMandatoryModules():
     args.append("-compress")
     args.append(proFile)
     print (Execute.getCommandResult(args), fu.HamsiManagerDirectory)
-
 
     print ("Translation files have been updated successfully.")
 

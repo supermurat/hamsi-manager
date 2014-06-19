@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 from FileUtils import Musics
 import FileUtils as fu
-import os,sys
+import os, sys
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
@@ -29,26 +29,28 @@ from Core import Universals as uni
 from Core import ReportBug
 import Taggers
 
+
 class MusicDetails(MDialog):
     global musicDialogs
     musicDialogs = []
+
     def __init__(self, _filePath, _isOpenDetailsOnNewWindow=True, _isPlayNow=False):
         global musicDialogs
         _filePath = fu.checkSource(_filePath, "file")
         if _filePath is not None:
-            if _isOpenDetailsOnNewWindow==False:
-                isHasOpenedDialog=False
+            if _isOpenDetailsOnNewWindow == False:
+                isHasOpenedDialog = False
                 for dialog in musicDialogs:
                     if dialog.isVisible():
-                        isHasOpenedDialog=True
+                        isHasOpenedDialog = True
                         self = dialog
                         self.changeFile(_filePath)
                         self.activateWindow()
                         self.raise_()
                         self.player.play(_filePath, _isPlayNow)
                         break
-                if isHasOpenedDialog==False:
-                    _isOpenDetailsOnNewWindow=True
+                if isHasOpenedDialog == False:
+                    _isOpenDetailsOnNewWindow = True
             if _isOpenDetailsOnNewWindow:
                 musicDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
@@ -64,20 +66,19 @@ class MusicDetails(MDialog):
                 MObject.connect(self.pbtnClose, SIGNAL("clicked()"), self.close)
                 MObject.connect(self.pbtnSave, SIGNAL("clicked()"), self.save)
                 self.labels = [translate("MusicDetails", "Directory: "),
-                                translate("MusicDetails", "File Name: "),
-                                translate("MusicDetails", "Artist: "),
-                                translate("MusicDetails", "Title: "),
-                                translate("MusicDetails", "Album: "),
-                                translate("MusicDetails", "Track: "),
-                                translate("MusicDetails", "Year: "),
-                                translate("MusicDetails", "Genre: ")]
+                               translate("MusicDetails", "File Name: "),
+                               translate("MusicDetails", "Artist: "),
+                               translate("MusicDetails", "Title: "),
+                               translate("MusicDetails", "Album: "),
+                               translate("MusicDetails", "Track: "),
+                               translate("MusicDetails", "Year: "),
+                               translate("MusicDetails", "Genre: ")]
                 self.pnlMain = MWidget()
                 self.vblMain = MVBoxLayout(self.pnlMain)
                 self.pnlClearable = None
                 self.changeFile(_filePath, True)
-                
-                
-                buttonHBOXs=MHBoxLayout()
+
+                buttonHBOXs = MHBoxLayout()
                 buttonHBOXs.addWidget(self.pbtnSave)
                 buttonHBOXs.addWidget(self.pbtnClose)
                 self.vblMain.addLayout(buttonHBOXs)
@@ -88,11 +89,13 @@ class MusicDetails(MDialog):
                 self.show()
                 self.player.play(_filePath, _isPlayNow)
         else:
-            Dialogs.showError(translate("MusicDetails", "File Does Not Exist"), 
-                    str(translate("MusicDetails", "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
-                        ) % Organizer.getLink(str(_filePath)))
-            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
-    
+            Dialogs.showError(translate("MusicDetails", "File Does Not Exist"),
+                              str(translate("MusicDetails",
+                                            "\"%s\" does not exist.<br>Table will be refreshed automatically!<br>Please retry.")
+                              ) % Organizer.getLink(str(_filePath)))
+            if hasattr(getMainWindow(),
+                       "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
+
     def changeFile(self, _filePath, _isNew=False):
         self.musicFile = _filePath
         self.musicValues = Musics.readMusicFile(self.musicFile)
@@ -102,16 +105,17 @@ class MusicDetails(MDialog):
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)
         vblClearable = MVBoxLayout(self.pnlClearable)
-        self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)     
-        self.infoLabels["baseNameOfDirectory"] = MLabel(self.labels[0]) 
-        self.infoLabels["baseName"] = MLabel(self.labels[1]) 
-        self.infoLabels["artist"] = MLabel(self.labels[2]) 
-        self.infoLabels["title"] = MLabel(self.labels[3]) 
-        self.infoLabels["album"] = MLabel(self.labels[4]) 
-        self.infoLabels["trackNum"] = MLabel(self.labels[5]) 
-        self.infoLabels["year"] = MLabel(self.labels[6]) 
-        self.infoLabels["genre"] = MLabel(self.labels[7]) 
-        self.infoValues["baseNameOfDirectory"] = MLineEdit(str(Organizer.emend(self.musicValues["baseNameOfDirectory"], "directory", False)))
+        self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)
+        self.infoLabels["baseNameOfDirectory"] = MLabel(self.labels[0])
+        self.infoLabels["baseName"] = MLabel(self.labels[1])
+        self.infoLabels["artist"] = MLabel(self.labels[2])
+        self.infoLabels["title"] = MLabel(self.labels[3])
+        self.infoLabels["album"] = MLabel(self.labels[4])
+        self.infoLabels["trackNum"] = MLabel(self.labels[5])
+        self.infoLabels["year"] = MLabel(self.labels[6])
+        self.infoLabels["genre"] = MLabel(self.labels[7])
+        self.infoValues["baseNameOfDirectory"] = MLineEdit(
+            str(Organizer.emend(self.musicValues["baseNameOfDirectory"], "directory", False)))
         self.infoValues["baseName"] = MLineEdit(str(Organizer.emend(self.musicValues["baseName"], "file")))
         self.infoValues["artist"] = MLineEdit(str(Organizer.emend(self.musicValues["artist"])))
         self.infoValues["title"] = MLineEdit(str(Organizer.emend(self.musicValues["title"])))
@@ -140,20 +144,20 @@ class MusicDetails(MDialog):
         self.cbImageType = MComboBox()
         self.cbImageType.addItems(Taggers.getImageTypes())
         self.lblImageType = MLabel(translate("MusicDetails", "Image Type: "))
-        
+
         self.lstwImages = MListWidget()
-        self.lstwImages.setGridSize(MSize(250,100))
-        self.lstwImages.setIconSize(MSize(98,98))
-        MObject.connect(self.lstwImages, SIGNAL("doubleClicked(QModelIndex)"),self.openImageDetails)
+        self.lstwImages.setGridSize(MSize(250, 100))
+        self.lstwImages.setIconSize(MSize(98, 98))
+        MObject.connect(self.lstwImages, SIGNAL("doubleClicked(QModelIndex)"), self.openImageDetails)
         self.lstwImages.clear()
         for image in self.musicValues["images"]:
-            if len(image)==5:
+            if len(image) == 5:
                 pixmImage = MPixmap()
                 pixmImage.loadFromData(image[3])
                 icnImage = QIcon(pixmImage)
-                icnImage.actualSize(MSize(98,98))
+                icnImage.actualSize(MSize(98, 98))
                 item = MListWidgetItem(icnImage, image[1] + "\n(" + image[2] + ")")
-                item.setSizeHint(MSize(1,100))
+                item.setSizeHint(MSize(1, 100))
                 self.lstwImages.addItem(item)
         HBOXs = []
         HBOXs.append(MHBoxLayout())
@@ -181,7 +185,7 @@ class MusicDetails(MDialog):
         vblInfos = MVBoxLayout()
         for hbox in HBOXs:
             vblInfos.addLayout(hbox)
-        imageBoxs=[]
+        imageBoxs = []
         imageBoxs.append(MHBoxLayout())
         imageBoxs[0].addWidget(self.leImagePath)
         imageBoxs[0].addWidget(self.pbtnSelectImage)
@@ -240,13 +244,14 @@ class MusicDetails(MDialog):
                     dialog.close()
             except:
                 continue
-        
+
     def save(self):
         try:
             from Core import Records
+
             Records.setTitle(translate("MusicDetails", "Music File"))
             ImageDetails.closeAllImageDialogs()
-            newMusicValues={}
+            newMusicValues = {}
             newMusicValues["baseNameOfDirectory"] = str(self.infoValues["baseNameOfDirectory"].text())
             newMusicValues["baseName"] = str(self.infoValues["baseName"].text())
             newMusicValues["artist"] = str(self.infoValues["artist"].text())
@@ -258,23 +263,25 @@ class MusicDetails(MDialog):
             newMusicValues["firstComment"] = str(self.infoValues["firstComment"].toPlainText())
             newMusicValues["firstLyrics"] = str(self.infoValues["firstLyrics"].toPlainText())
             newPath = Musics.writeMusicFile(self.musicValues, newMusicValues)
-            if newPath!=self.musicValues["path"]:
+            if newPath != self.musicValues["path"]:
                 self.changeFile(newPath)
-            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
+            if hasattr(getMainWindow(),
+                       "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()
-        
+
     def openImageDetails(self, _index):
         try:
-            ImageDetails(self.musicValues["images"][_index.row()][3], "data", self.isOpenImageDetailsOnNewWindow.isChecked())
+            ImageDetails(self.musicValues["images"][_index.row()][3], "data",
+                         self.isOpenImageDetailsOnNewWindow.isChecked())
         except:
             ReportBug.ReportBug()
-        
+
     def addImage(self):
         try:
-            if self.isActiveAddImage==False:
-                self.isActiveAddImage=True
+            if self.isActiveAddImage == False:
+                self.isActiveAddImage = True
                 self.pbtnAddImage.setText(translate("MusicDetails", "OK"))
                 self.pbtnSelectImage.show()
                 self.leImagePath.show()
@@ -289,41 +296,47 @@ class MusicDetails(MDialog):
                     ImageDetails.closeAllImageDialogs()
                     imageType = Taggers.getImageTypesNo()[self.cbImageType.currentIndex()]
                     description = str(imageType)
-                    Musics.writeMusicFile(self.musicValues,None,True,imageType,str(self.leImagePath.text()), description)
+                    Musics.writeMusicFile(self.musicValues, None, True, imageType, str(self.leImagePath.text()),
+                                          description)
                     self.changeFile(self.musicFile)
                     self.cancelAddImage()
                 else:
                     Dialogs.showError(translate("MusicDetails", "Image Does Not Exist"),
-                        str(translate("MusicDetails", "\"%s\" does not exist.")
-                            ) % Organizer.getLink(str(self.leImagePath.text())))
+                                      str(translate("MusicDetails", "\"%s\" does not exist.")
+                                      ) % Organizer.getLink(str(self.leImagePath.text())))
         except:
             ReportBug.ReportBug()
-    
+
     def deleteImage(self):
         try:
-            if self.lstwImages.currentRow()!=-1:
+            if self.lstwImages.currentRow() != -1:
                 ImageDetails.closeAllImageDialogs()
                 description = self.musicValues["images"][self.lstwImages.currentRow()][4]
-                Musics.writeMusicFile(self.musicValues,None,True,self.musicValues["images"][self.lstwImages.currentRow()][0], False, description)
+                Musics.writeMusicFile(self.musicValues, None, True,
+                                      self.musicValues["images"][self.lstwImages.currentRow()][0], False, description)
                 self.changeFile(self.musicFile)
         except:
             ReportBug.ReportBug()
-    
+
     def saveAsImage(self):
         try:
-            if self.lstwImages.currentRow()!=-1:
+            if self.lstwImages.currentRow() != -1:
                 imagePath = Dialogs.getSaveFileName(translate("MusicDetails", "Save As"),
-                                    fu.getDirName(self.musicValues["path"]), str(translate("MusicDetails", "Images (*.%s)")) %(str(self.musicValues["images"][self.lstwImages.currentRow()][2]).split("/")[1]), 0)
+                                                    fu.getDirName(self.musicValues["path"]),
+                                                    str(translate("MusicDetails", "Images (*.%s)")) % (str(
+                                                        self.musicValues["images"][self.lstwImages.currentRow()][
+                                                            2]).split("/")[1]), 0)
                 if imagePath is not None:
-                    sourceFile = fu.joinPath(fu.getTempDir(), "HamsiManager-image-file."+self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1])
+                    sourceFile = fu.joinPath(fu.getTempDir(), "HamsiManager-image-file." +
+                                             self.musicValues["images"][self.lstwImages.currentRow()][2].split("/")[1])
                     fu.writeToBinaryFile(sourceFile, self.musicValues["images"][self.lstwImages.currentRow()][3])
                     fu.moveOrChange(sourceFile, imagePath)
         except:
             ReportBug.ReportBug()
-            
+
     def cancelAddImage(self):
         try:
-            self.isActiveAddImage=False
+            self.isActiveAddImage = False
             self.pbtnAddImage.setText(translate("MusicDetails", "Append"))
             self.pbtnSelectImage.hide()
             self.leImagePath.hide()
@@ -335,11 +348,12 @@ class MusicDetails(MDialog):
             self.pbtnSaveAsImage.show()
         except:
             ReportBug.ReportBug()
-        
+
     def selectImage(self):
         try:
             imagePath = Dialogs.getOpenFileName(translate("MusicDetails", "Choose Image"),
-                fu.getDirName(self.musicValues["path"]),str(translate("MusicDetails", "Images")) + " " + uni.imageExtStringOnlyPNGAndJPG, 0)
+                                                fu.getDirName(self.musicValues["path"]), str(
+                    translate("MusicDetails", "Images")) + " " + uni.imageExtStringOnlyPNGAndJPG, 0)
             if imagePath is not None:
                 self.leImagePath.setText(imagePath)
         except:

@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import os,sys
+import os, sys
 from Core.MyObjects import *
 from Viewers import ImageViewer
 from Core import Dialogs
@@ -25,9 +25,11 @@ from Core import Organizer
 from Core import Universals as uni
 import FileUtils as fu
 
+
 class CoverDetails(MDialog):
     global coverDialogs
     coverDialogs = []
+
     def __init__(self, _coverValues, _isOpenDetailsOnNewWindow=True, _FocusedInfoNo=None):
         """_coverValues[0] = Directory Path
         _coverValues[1] = Current Cover Path
@@ -35,18 +37,18 @@ class CoverDetails(MDialog):
         _coverValues[3] = Destination Cover Path
         """
         global coverDialogs
-        if _isOpenDetailsOnNewWindow==False:
-            isHasOpenedDialog=False
+        if _isOpenDetailsOnNewWindow == False:
+            isHasOpenedDialog = False
             for dialog in coverDialogs:
                 if dialog.isVisible():
-                    isHasOpenedDialog=True
+                    isHasOpenedDialog = True
                     self = dialog
                     self.changeCoverValues(_coverValues)
                     dialog.activateWindow()
                     dialog.raise_()
                     break
-            if isHasOpenedDialog==False:
-                _isOpenDetailsOnNewWindow=True
+            if isHasOpenedDialog == False:
+                _isOpenDetailsOnNewWindow = True
         if _isOpenDetailsOnNewWindow:
             coverDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
@@ -110,11 +112,11 @@ class CoverDetails(MDialog):
             else:
                 self.setLayout(vblMain)
             self.show()
-                  
+
     def changeCoverValues(self, _coverValues):
-        if _coverValues[1].strip()==fu.sep: _coverValues[1] = _coverValues[0] + fu.sep
-        if _coverValues[2].strip()==fu.sep: _coverValues[2] = _coverValues[0] + fu.sep
-        if _coverValues[3].strip()==fu.sep: _coverValues[3] = _coverValues[0] + fu.sep
+        if _coverValues[1].strip() == fu.sep: _coverValues[1] = _coverValues[0] + fu.sep
+        if _coverValues[2].strip() == fu.sep: _coverValues[2] = _coverValues[0] + fu.sep
+        if _coverValues[3].strip() == fu.sep: _coverValues[3] = _coverValues[0] + fu.sep
         self.setWindowTitle(str(str(translate("ImageDetails", "Cover Details ( %s )")) % (_coverValues[0])))
         self.lePathOfCurrent.setText(str(_coverValues[1]))
         self.lePathOfSource.setText(str(_coverValues[2]))
@@ -122,22 +124,26 @@ class CoverDetails(MDialog):
         self.wCurrent.changeCoverValues(_coverValues[1])
         self.wSource.changeCoverValues(_coverValues[2])
         self.wDestination.changeCoverValues(_coverValues[3])
-        
+
     def sourceChanged(self):
         self.wSource.changeCoverValues(str(self.lePathOfSource.text()))
-        
+
     def destinationChanged(self):
         self.wDestination.changeCoverValues(str(self.lePathOfDestination.text()))
-        
+
     def sourceClicked(self):
         imagePath = Dialogs.getOpenFileName(translate("ImageDetails", "Choose Image"),
-                                    self.lePathOfSource.text(),str(translate("ImageDetails", "Images (*.%s)")) % uni.getStringFromList(uni.getListValue("imageExtensions"), " *."), 0)
+                                            self.lePathOfSource.text(),
+                                            str(translate("ImageDetails", "Images (*.%s)")) % uni.getStringFromList(
+                                                uni.getListValue("imageExtensions"), " *."), 0)
         if imagePath is not None:
             self.lePathOfSource.setText(imagePath)
-        
+
     def destinationClicked(self):
         imagePath = Dialogs.getSaveFileName(translate("ImageDetails", "Save As"),
-                                    self.lePathOfDestination.text(),str(translate("ImageDetails", "Images (*.%s)") % uni.getStringFromList(uni.getListValue("imageExtensions"), " *.")), 0)
+                                            self.lePathOfDestination.text(), str(
+                translate("ImageDetails", "Images (*.%s)") % uni.getStringFromList(uni.getListValue("imageExtensions"),
+                                                                                   " *.")), 0)
         if imagePath is not None:
             self.lePathOfDestination.setText(imagePath)
 

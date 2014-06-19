@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -29,13 +29,14 @@ import unicodedata
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
+
 class Searcher(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
-        if MyDialogType=="MDialog":
+        if MyDialogType == "MDialog":
             if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
-        elif MyDialogType=="MMainWindow":
+        elif MyDialogType == "MMainWindow":
             self.setObjectName("Searcher")
             setMainWindow(self)
         newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
@@ -49,17 +50,17 @@ class Searcher(MyDialog):
         self.lePathToSeach = MLineEdit(str(uni.getStringFromList(_directory, ";")))
         self.pbtnSelectSeachDirectoryPath = MPushButton(translate("Searcher", "Select Directory"))
         self.pbtnSelectSeachFilePath = MPushButton(translate("Searcher", "Select File"))
-        self.connect(self.pbtnSelectSeachDirectoryPath,SIGNAL("clicked()"),self.selectSearchDirectoryPath)
-        self.connect(self.pbtnSelectSeachFilePath,SIGNAL("clicked()"),self.selectSearchFilePath)
+        self.connect(self.pbtnSelectSeachDirectoryPath, SIGNAL("clicked()"), self.selectSearchDirectoryPath)
+        self.connect(self.pbtnSelectSeachFilePath, SIGNAL("clicked()"), self.selectSearchFilePath)
         self.pbtnAddSeachDirectoryPath = MPushButton(translate("Searcher", "Add Directory"))
         self.pbtnAddSeachFilePath = MPushButton(translate("Searcher", "Add File"))
-        self.connect(self.pbtnAddSeachDirectoryPath,SIGNAL("clicked()"),self.addSearchDirectoryPath)
-        self.connect(self.pbtnAddSeachFilePath,SIGNAL("clicked()"),self.addSearchFilePath)
-        self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
+        self.connect(self.pbtnAddSeachDirectoryPath, SIGNAL("clicked()"), self.addSearchDirectoryPath)
+        self.connect(self.pbtnAddSeachFilePath, SIGNAL("clicked()"), self.addSearchFilePath)
+        self.connect(self.pbtnClose, SIGNAL("clicked()"), self.close)
         self.pbtnReloadSourceToSearch = MPushButton(translate("Searcher", "(Re)Load"))
-        self.connect(self.pbtnReloadSourceToSearch,SIGNAL("clicked()"),self.reloadSourceToSearch)
+        self.connect(self.pbtnReloadSourceToSearch, SIGNAL("clicked()"), self.reloadSourceToSearch)
         self.pbtnSearch = MPushButton(translate("Searcher", "Search"))
-        self.connect(self.pbtnSearch,SIGNAL("clicked()"),self.search)
+        self.connect(self.pbtnSearch, SIGNAL("clicked()"), self.search)
         lblSearch = MLabel(translate("Searcher", "Search : "))
         lblSearchList = MLabel(translate("Searcher", "Search List : "))
         self.lblSearchListValues = MLabel(str(""))
@@ -67,17 +68,29 @@ class Searcher(MyDialog):
         self.leSearch = MLineEdit(str(""))
         self.teSearchResult = MTextEdit()
         self.teSearchResult.setText(str(""))
-        self.connect(self.leSearch,SIGNAL("textChanged(const QString&)"), self.searchAfter)
-        self.cckbIsRegExp = Options.MyCheckBox(self, translate("Searcher", "Regular Expression (RegExp)"), 0, "SearcherIsRegExp", self.isRegExpChanged)
-        self.cckbIsCaseInsensitive = Options.MyCheckBox(self, translate("Searcher", "Case Insensitive"), 2, "SearcherIsCaseInsensitive", self.search)
-        self.cckbIsNormalizeUTF8Chars = Options.MyCheckBox(self, translate("Searcher", "Normalize UTF-8 Characters"), 2, "SearcherIsNormalizeUTF8Chars", self.search)
-        self.cckbIsClearDigits = Options.MyCheckBox(self, translate("Searcher", "Clear Digits"), 2, "SearcherIsClearDigits", self.search)
-        self.cckbIsOnlyDigitsAndLetters = Options.MyCheckBox(self, translate("Searcher", "Only Digits And Letters"), 2, "SearcherIsOnlyDigitsAndLetters", self.search)
-        self.cckbIsClearVowels = Options.MyCheckBox(self, translate("Searcher", "Clear Vowels"), 2, "SearcherIsClearVowels", self.search)
-        self.cckbIsNormalizeUTF8CharsAndClearVowels = Options.MyCheckBox(self, translate("Searcher", "Normalize UTF-8 Characters And Clear Vowels"), 2, "SearcherIsNormalizeUTF8CharsAndClearVowels", self.search)
-        self.cckbIsLineWrap = Options.MyCheckBox(self, translate("Searcher", "Wrap By Width"), 0, "SearcherIsLineWrap", self.isLineWrap)
+        self.connect(self.leSearch, SIGNAL("textChanged(const QString&)"), self.searchAfter)
+        self.cckbIsRegExp = Options.MyCheckBox(self, translate("Searcher", "Regular Expression (RegExp)"), 0,
+                                               "SearcherIsRegExp", self.isRegExpChanged)
+        self.cckbIsCaseInsensitive = Options.MyCheckBox(self, translate("Searcher", "Case Insensitive"), 2,
+                                                        "SearcherIsCaseInsensitive", self.search)
+        self.cckbIsNormalizeUTF8Chars = Options.MyCheckBox(self, translate("Searcher", "Normalize UTF-8 Characters"), 2,
+                                                           "SearcherIsNormalizeUTF8Chars", self.search)
+        self.cckbIsClearDigits = Options.MyCheckBox(self, translate("Searcher", "Clear Digits"), 2,
+                                                    "SearcherIsClearDigits", self.search)
+        self.cckbIsOnlyDigitsAndLetters = Options.MyCheckBox(self, translate("Searcher", "Only Digits And Letters"), 2,
+                                                             "SearcherIsOnlyDigitsAndLetters", self.search)
+        self.cckbIsClearVowels = Options.MyCheckBox(self, translate("Searcher", "Clear Vowels"), 2,
+                                                    "SearcherIsClearVowels", self.search)
+        self.cckbIsNormalizeUTF8CharsAndClearVowels = Options.MyCheckBox(self, translate("Searcher",
+                                                                                         "Normalize UTF-8 Characters And Clear Vowels"),
+                                                                         2,
+                                                                         "SearcherIsNormalizeUTF8CharsAndClearVowels",
+                                                                         self.search)
+        self.cckbIsLineWrap = Options.MyCheckBox(self, translate("Searcher", "Wrap By Width"), 0, "SearcherIsLineWrap",
+                                                 self.isLineWrap)
         self.pbtnEditValuePathToSeach = MPushButton(translate("Options", "*"))
-        self.pbtnEditValuePathToSeach.setObjectName(str(translate("Options", "Edit Values With Advanced Value Editor") + "Path To Seach"))
+        self.pbtnEditValuePathToSeach.setObjectName(
+            str(translate("Options", "Edit Values With Advanced Value Editor") + "Path To Seach"))
         self.pbtnEditValuePathToSeach.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValuePathToSeach.setFixedWidth(25)
         MObject.connect(self.pbtnEditValuePathToSeach, SIGNAL("clicked()"), self.pbtnEditValuePathToSeachClicked)
@@ -135,12 +148,12 @@ class Searcher(MyDialog):
         tabwTabs.addTab(pnlMain2, translate("Searcher", "Search"))
         tabwTabs.addTab(wOptionsPanel, translate("Searcher", "Quick Options"))
         vblMain.addWidget(tabwTabs)
-        if MyDialogType=="MDialog":
+        if MyDialogType == "MDialog":
             if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
-        elif MyDialogType=="MMainWindow":
+        elif MyDialogType == "MMainWindow":
             self.setCentralWidget(pnlMain)
             moveToCenter(self)
         self.isRegExpChanged(False)
@@ -148,21 +161,21 @@ class Searcher(MyDialog):
         self.setWindowTitle(translate("Searcher", "Searcher"))
         self.setWindowIcon(MIcon("Images:search.png"))
         self.show()
-                        
+
     def closeEvent(self, _event):
         MApplication.setQuitOnLastWindowClosed(True)
-    
+
     def reloadSourceToSearch(self):
         if self.setSourceToSearch():
             self.search()
-    
+
     def setSourceToSearch(self, _isReload=True, _isLoadFromCache=False):
         try:
             if self.sourceToSearch == None or _isReload:
                 sourceToSearch = ""
                 self.isMultipleSource = False
                 pathToSearchs = str(self.lePathToSeach.text())
-                if fu.isExist(pathToSearchs)==False and pathToSearchs.find(";")!=-1:
+                if fu.isExist(pathToSearchs) == False and pathToSearchs.find(";") != -1:
                     self.isMultipleSource = True
                 for pathToSearch in uni.getListFromListString(pathToSearchs, ";"):
                     if pathToSearch in self.sourceToSearchCache and _isLoadFromCache:
@@ -171,7 +184,7 @@ class Searcher(MyDialog):
                         pathToSearch = fu.checkSource(pathToSearch)
                         if pathToSearch is not None:
                             if fu.isReadableFileOrDir(pathToSearch):
-                                if fu.isFile(pathToSearch) and fu.isBinary(pathToSearch)==False:
+                                if fu.isFile(pathToSearch) and fu.isBinary(pathToSearch) == False:
                                     sts = fu.readFromFile(pathToSearch) + "\n"
                                     sourceToSearch += sts
                                     self.sourceToSearchCache[pathToSearch] = sts
@@ -180,20 +193,21 @@ class Searcher(MyDialog):
                                     sourceToSearch += sts
                                     self.sourceToSearchCache[pathToSearch] = sts
                 self.sourceToSearch = sourceToSearch
-                if sourceToSearch!="":
+                if sourceToSearch != "":
                     return True
                 return False
             else:
                 return True
         except:
             ReportBug.ReportBug()
-            
+
     def getSearchValueList(self):
         searchValue = str(self.leSearch.text())
-        if searchValue!="":
+        if searchValue != "":
             searchValueList = [searchValue]
             if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked or self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
-                clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', uni.trUnicode(searchValue)) if unicodedata.category(c) != 'Mn')
+                clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', uni.trUnicode(searchValue)) if
+                                             unicodedata.category(c) != 'Mn')
                 clearedSearchValue = str(uni.trEncode(clearedSearchValue, "utf-8", "ignore"))
                 clearedSearchValues = [clearedSearchValue]
                 t = clearedSearchValue.replace(uni.getUtf8Data("little+I"), "i")
@@ -202,81 +216,84 @@ class Searcher(MyDialog):
                 t = clearedSearchValue.replace("i", uni.getUtf8Data("little+I"))
                 if t not in clearedSearchValues:
                     clearedSearchValues.append(t)
-            
+
             if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked:
                 for csValue in clearedSearchValues:
                     if csValue not in searchValueList:
                         searchValueList.append(csValue)
-            
+
             if self.cckbIsClearDigits.checkState() == Mt.Checked:
                 clearedSearchValue1 = ""
                 for char in searchValue:
-                    if char.isdigit()==False:
-                        clearedSearchValue1+=char
+                    if char.isdigit() == False:
+                        clearedSearchValue1 += char
                 if clearedSearchValue1 not in searchValueList:
                     searchValueList.append(clearedSearchValue1)
-            
+
             if self.cckbIsOnlyDigitsAndLetters.checkState() == Mt.Checked:
                 clearedSearchValue2 = ""
                 for char in uni.trUnicode(searchValue):
                     if char.isdigit() or char.isalpha():
-                        clearedSearchValue2+=char
+                        clearedSearchValue2 += char
                 if clearedSearchValue2 not in searchValueList:
                     searchValueList.append(clearedSearchValue2)
-            
-            vowels=["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
+
+            vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
             if self.cckbIsClearVowels.checkState() == Mt.Checked:
                 clearedSearchValue3 = ""
                 for char in uni.trUnicode(searchValue):
-                    clearedChar = ''.join(c for c in unicodedata.normalize('NFKD', uni.trUnicode(char)) if unicodedata.category(c) != 'Mn')
-                    clearedChar = str(uni.trEncode(clearedChar, "utf-8", "ignore")).replace(uni.getUtf8Data("little+I"), "i")
+                    clearedChar = ''.join(c for c in unicodedata.normalize('NFKD', uni.trUnicode(char)) if
+                                          unicodedata.category(c) != 'Mn')
+                    clearedChar = str(uni.trEncode(clearedChar, "utf-8", "ignore")).replace(uni.getUtf8Data("little+I"),
+                                                                                            "i")
                     if clearedChar not in vowels:
-                        clearedSearchValue3+=char
+                        clearedSearchValue3 += char
                 if clearedSearchValue3 not in searchValueList:
                     searchValueList.append(clearedSearchValue3)
-            
+
             if self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
                 for csValue in clearedSearchValues:
                     clearedSearchValue4 = ""
                     for char in csValue:
                         if char not in vowels:
-                            clearedSearchValue4+=char
+                            clearedSearchValue4 += char
                     if clearedSearchValue4 not in searchValueList:
                         searchValueList.append(clearedSearchValue4)
             return searchValueList
         else:
             return []
-    
+
     def searchAfter(self, _searchValue=""):
         try:
             if self.cckbIsRegExp.checkState() != Mt.Checked:
-                if self.tmrSearchAfter!= None:
+                if self.tmrSearchAfter != None:
                     self.tmrSearchAfter.stop()
                     self.tmrSearchAfter.deleteLater()
                 self.tmrSearchAfter = MTimer(self)
                 self.tmrSearchAfter.setSingleShot(True)
-                self.connect(self.tmrSearchAfter,SIGNAL("timeout()"),self.search)
+                self.connect(self.tmrSearchAfter, SIGNAL("timeout()"), self.search)
                 self.tmrSearchAfter.start(500)
         except:
             ReportBug.ReportBug()
-    
+
     def search(self, _searchValue=""):
         try:
             import re
+
             if self.setSourceToSearch(False):
                 if self.cckbIsRegExp.checkState() == Mt.Checked:
                     searchValueList = [str(self.leSearch.text())]
                 else:
                     searchValueList = self.getSearchValueList()
-                if len(searchValueList)!=0:
+                if len(searchValueList) != 0:
                     searchValueListForToolTip = ""
                     resultOfSearch = ""
                     arrayOfSource = str(self.sourceToSearch).split("\n\r")
-                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("\n")
-                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br>")
-                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br/>")
-                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br >")
-                    if len(arrayOfSource)==1: arrayOfSource = str(self.sourceToSearch).split("<br />")
+                    if len(arrayOfSource) == 1: arrayOfSource = str(self.sourceToSearch).split("\n")
+                    if len(arrayOfSource) == 1: arrayOfSource = str(self.sourceToSearch).split("<br>")
+                    if len(arrayOfSource) == 1: arrayOfSource = str(self.sourceToSearch).split("<br/>")
+                    if len(arrayOfSource) == 1: arrayOfSource = str(self.sourceToSearch).split("<br >")
+                    if len(arrayOfSource) == 1: arrayOfSource = str(self.sourceToSearch).split("<br />")
                     for row in arrayOfSource:
                         for searchVal in searchValueList:
                             if self.cckbIsRegExp.checkState() == Mt.Checked:
@@ -292,7 +309,8 @@ class Searcher(MyDialog):
                                             resultOfSearch += row + "\n"
                                             break
                                 except:
-                                    Dialogs.show(translate("Searcher", "Incorrect Syntax"), translate("Searcher", "Search value is not correct for Regular Expression (RegExp). Please check it and try again."))
+                                    Dialogs.show(translate("Searcher", "Incorrect Syntax"), translate("Searcher",
+                                                                                                      "Search value is not correct for Regular Expression (RegExp). Please check it and try again."))
                                     return False
                             else:
                                 if row.find(searchVal) != -1:
@@ -334,28 +352,30 @@ class Searcher(MyDialog):
         self.lblSearchListValues.setText(str(""))
         if _isSearch:
             self.search()
-            
+
     def isLineWrap(self):
         if self.cckbIsLineWrap.checkState() == Mt.Checked:
             self.teSearchResult.setLineWrapMode(MTextEdit.WidgetWidth)
         else:
             self.teSearchResult.setLineWrapMode(MTextEdit.NoWrap)
-    
+
     def selectSearchDirectoryPath(self):
         try:
             lastPath = uni.getListFromListString(self.lePathToSeach.text(), ";")[-1]
-            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory To Search"), lastPath)
+            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory To Search"),
+                                                      lastPath)
             if SearchPath is not None:
                 self.lePathToSeach.setText(str(SearchPath))
                 if self.setSourceToSearch(True, True):
                     self.search()
         except:
             ReportBug.ReportBug()
-    
+
     def addSearchDirectoryPath(self):
         try:
             lastPath = uni.getListFromListString(self.lePathToSeach.text(), ";")[-1]
-            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory To Search"), lastPath)
+            SearchPath = Dialogs.getExistingDirectory(translate("Searcher", "Please Select Directory To Search"),
+                                                      lastPath)
             if SearchPath is not None:
                 SearchPaths = uni.getListFromListString(self.lePathToSeach.text(), ";")
                 SearchPaths.append(SearchPath)
@@ -369,8 +389,9 @@ class Searcher(MyDialog):
     def selectSearchFilePath(self):
         try:
             lastPath = uni.getListFromListString(self.lePathToSeach.text(), ";")[-1]
-            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"), lastPath,
-                        translate("Searcher", "All Files (*.*)"))
+            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"),
+                                                   lastPath,
+                                                   translate("Searcher", "All Files (*.*)"))
             if SearchPaths is not None:
                 self.lePathToSeach.setText(uni.getStringFromList(SearchPaths, ";"))
                 if self.setSourceToSearch(True, True):
@@ -381,8 +402,9 @@ class Searcher(MyDialog):
     def addSearchFilePath(self):
         try:
             lastPath = uni.getListFromListString(self.lePathToSeach.text(), ";")[-1]
-            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"), lastPath,
-                        translate("Searcher", "All Files (*.*)"))
+            SearchPaths = Dialogs.getOpenFileNames(translate("Searcher", "Please Select A Text File To Search"),
+                                                   lastPath,
+                                                   translate("Searcher", "All Files (*.*)"))
             if SearchPaths is not None:
                 SearchPaths = uni.getListFromListString(self.lePathToSeach.text(), ";") + SearchPaths
                 self.lePathToSeach.setText(uni.getStringFromList(SearchPaths, ";"))
@@ -390,10 +412,11 @@ class Searcher(MyDialog):
                     self.search()
         except:
             ReportBug.ReportBug()
-    
+
     def pbtnEditValuePathToSeachClicked(self):
         aved = AdvancedValueEditorDialog(self)
-    
+
+
 class AdvancedValueEditorDialog(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self, _parent)
@@ -425,12 +448,12 @@ class AdvancedValueEditorDialog(MDialog):
             self.setLayout(vblMain)
         self.setMinimumSize(550, 400)
         self.show()
-        
+
     def apply(self):
         valuePathToSeach = ""
         if isActivePyKDE4:
             for y, info in enumerate(self.EditorWidgetPathToSeach.items()):
-                if y!=0:
+                if y != 0:
                     valuePathToSeach += ";"
                 valuePathToSeach += str(info)
         else:

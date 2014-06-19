@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -24,32 +24,40 @@ import FileUtils as fu
 
 defaultConnection = None
 
+
 def getDefaultConnection():
     global defaultConnection
     if defaultConnection is None:
         defaultConnection = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "database.sqlite"))
     return defaultConnection
 
+
 def getAllDatabases():
     from Databases import BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable
+
     return [BookmarksOfDirectories, BookmarksOfSpecialTools, SearchAndReplaceTable, CompleterTable]
+
 
 def getDBPropertiesCreateQuery():
     return "CREATE TABLE IF NOT EXISTS dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)"
 
+
 def reFillDatabases(_table="All", _actionType="dropAndInsert", _makeBackUp=False):
     if _makeBackUp:
         from Core import Settings
+
         Settings.makeBackUp(_table)
     tableCreateQueries, sqlCommands, tableInsertImportantQueries = [], [], []
     tableCreateQueries.append(getDBPropertiesCreateQuery())
     for database in getAllDatabases():
-        if _table==database.tableName or _table=="All":
+        if _table == database.tableName or _table == "All":
             tableCreateQueries.append(database.getTableCreateQuery())
-            if _actionType=="dropAndInsert":
+            if _actionType == "dropAndInsert":
                 sqlCommands.append(database.getDeleteTableQuery())
             sqlCommands += database.getDefaultsQueries()
-            tableInsertImportantQueries += getAmendedSQLInsertOrUpdateQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
+            tableInsertImportantQueries += getAmendedSQLInsertOrUpdateQueries("dbProperties", {
+                "keyName": "'" + database.tableName + "_Version'", "value": "'" + str(database.tableVersion) + "'"},
+                                                                              ["keyName"])
     con = getDefaultConnection()
     for sqlCommand in tableCreateQueries:
         cur = con.cursor()
@@ -64,18 +72,21 @@ def reFillDatabases(_table="All", _actionType="dropAndInsert", _makeBackUp=False
         cur.execute(str(sqlCommand))
         con.commit()
 
+
 def correctForSql(_string, _type="varchar"):
-    if _type=="int":
+    if _type == "int":
         stringInt = "NULL"
-        try:stringInt = str(int(_string))
-        except:pass
+        try: stringInt = str(int(_string))
+        except: pass
         return stringInt
     return str(_string).replace("'", "''")
 
+
 def correctForUser(_string):
-    if _string is None or str(_string).upper()=="NULL" or str(_string).upper()=="NONE":
+    if _string is None or str(_string).upper() == "NULL" or str(_string).upper() == "NONE":
         return ""
     return str(_string).replace("'", "''")
+
 
 def getAmendedSQLInsertOrUpdateQueries(_table, _columnNamesAndValues, _primaryColumns):
     sqlString0 = "INSERT INTO " + _table + "("
@@ -85,22 +96,23 @@ def getAmendedSQLInsertOrUpdateQueries(_table, _columnNamesAndValues, _primaryCo
     sqlString4 = " WHERE "
     i, j = 0, 0
     for key, value in _columnNamesAndValues.items():
-        if i>0:
+        if i > 0:
             sqlString0 += ","
             sqlString1 += ","
             sqlString3 += ","
         sqlString0 += key
         sqlString1 += str(value)
         sqlString3 += key + "=" + str(value)
-        if _primaryColumns.count(key)>0:
-            if j>0:
+        if _primaryColumns.count(key) > 0:
+            if j > 0:
                 sqlString2 += " AND "
                 sqlString4 += " AND "
             sqlString2 += key + "=" + str(value)
             sqlString4 += key + "=" + str(value)
-            j +=1
-        i +=1
-    return [sqlString0 + sqlString1 + sqlString2 + ")=0;" , sqlString3 + sqlString4 + ";"]
+            j += 1
+        i += 1
+    return [sqlString0 + sqlString1 + sqlString2 + ")=0;", sqlString3 + sqlString4 + ";"]
+
 
 def getAmendedSQLSelectOrInsertAndSelectQueries(_table, _selectedColumn, _columnNamesAndValues):
     sqlString0 = "SELECT " + _selectedColumn + " FROM " + _table + " WHERE "
@@ -109,18 +121,19 @@ def getAmendedSQLSelectOrInsertAndSelectQueries(_table, _selectedColumn, _column
     sqlString3 = ") ON DUPLICATE KEY UPDATE "
     j = 0
     for key, value in _columnNamesAndValues.items():
-        if j>0:
+        if j > 0:
             sqlString1 += ","
             sqlString2 += ","
         sqlString1 += key
         sqlString2 += str(value)
-        if j>0:
+        if j > 0:
             sqlString0 += " AND "
             sqlString3 += " , "
         sqlString0 += key + "=" + str(value)
         sqlString3 += key + "=" + key
-        j +=1
+        j += 1
     return [sqlString1 + sqlString2 + sqlString3, sqlString0]
+
 
 def checkDatabases():
     try:
@@ -135,11 +148,13 @@ def checkDatabases():
                 tableVersion = int(cur.fetchall()[0][1])
             except:
                 tableVersion = 0
-            if tableVersion==0:
+            if tableVersion == 0:
                 tableCreateQueries.append(database.getTableCreateQuery())
                 sqlCommands += database.getDefaultsQueries()
-                tableInsertImportantQueries += getAmendedSQLInsertOrUpdateQueries("dbProperties", {"keyName" : "'" + database.tableName + "_Version'", "value" : "'" + str(database.tableVersion) + "'"}, ["keyName"])
-            elif tableVersion<database.tableVersion:
+                tableInsertImportantQueries += getAmendedSQLInsertOrUpdateQueries("dbProperties", {
+                    "keyName": "'" + database.tableName + "_Version'", "value": "'" + str(database.tableVersion) + "'"},
+                                                                                  ["keyName"])
+            elif tableVersion < database.tableVersion:
                 database.checkUpdates(tableVersion)
 
         for sqlCommand in tableCreateQueries:

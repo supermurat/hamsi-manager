@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -24,31 +24,35 @@ tableName = "completerTable"
 tableVersion = 1
 allForFetch, allForFetchByObjectName = None, {}
 
+
 def fetchAll():
     global allForFetch
-    if allForFetch==None:
+    if allForFetch == None:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute("SELECT * FROM " + tableName)
         allForFetch = cur.fetchall()
     return allForFetch
 
+
 def fetchAllByObjectName(_objectName=None):
     global allForFetchByObjectName
-    if _objectName==None:
+    if _objectName == None:
         _objectName = "%*%"
-    if _objectName not in allForFetchByObjectName or allForFetchByObjectName[_objectName]==None:
+    if _objectName not in allForFetchByObjectName or allForFetchByObjectName[_objectName] == None:
         con = getDefaultConnection()
         cur = con.cursor()
-        if _objectName=="%*%":
+        if _objectName == "%*%":
             cur.execute("SELECT DISTINCT value FROM " + tableName)
         else:
-            cur.execute("SELECT DISTINCT value FROM " + tableName + " where objectName='" + _objectName + "' or objectName='*'")
+            cur.execute(
+                "SELECT DISTINCT value FROM " + tableName + " where objectName='" + _objectName + "' or objectName='*'")
         myValues = []
         for myval in cur.fetchall():
             myValues.append(myval[0])
         allForFetchByObjectName[_objectName] = myValues
     return allForFetchByObjectName[_objectName]
+
 
 def fetch(_id):
     con = getDefaultConnection()
@@ -56,10 +60,12 @@ def fetch(_id):
     cur.execute("SELECT * FROM " + tableName + " where id=" + str(int(_id)))
     return cur.fetchall()
 
+
 def checkValues(_objectName, _value):
-    if len(_objectName)==0 or len(_value)==0:
+    if len(_objectName) == 0 or len(_value) == 0:
         return False
     return True
+
 
 def insert(_objectName, _value):
     global allForFetch, allForFetchByObjectName
@@ -67,7 +73,10 @@ def insert(_objectName, _value):
         allForFetch, allForFetchByObjectName[_objectName], allForFetchByObjectName["%*%"] = None, None, None
         con = getDefaultConnection()
         cur = con.cursor()
-        sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName, {"objectName" : "'" + correctForSql(_objectName) + "'", "value" : "'" + correctForSql(_value) + "'"}, ["objectName", "value"])
+        sqlQueries = getAmendedSQLInsertOrUpdateQueries(tableName,
+                                                        {"objectName": "'" + correctForSql(_objectName) + "'",
+                                                         "value": "'" + correctForSql(_value) + "'"},
+                                                        ["objectName", "value"])
         cur.execute(sqlQueries[0])
         cur.execute(sqlQueries[1])
         con.commit()
@@ -75,36 +84,45 @@ def insert(_objectName, _value):
         return cur.fetchall()[0][0]
     return None
 
+
 def update(_id, _objectName, _value):
     global allForFetch, allForFetchByObjectName
     if checkValues(_objectName, _value):
         allForFetch, allForFetchByObjectName[_objectName], allForFetchByObjectName["%*%"] = None, None, None
         con = getDefaultConnection()
         cur = con.cursor()
-        cur.execute(str("update " + tableName + " set objectName='" + correctForSql(_objectName) + "', value='" + correctForSql(_value) + "' where id=" + str(int(_id))))
+        cur.execute(str(
+            "update " + tableName + " set objectName='" + correctForSql(_objectName) + "', value='" + correctForSql(
+                _value) + "' where id=" + str(int(_id))))
         con.commit()
+
 
 def delete(_id):
     global allForFetch, allForFetchByObjectName
     allForFetch, allForFetchByObjectName = None, {}
     con = getDefaultConnection()
     cur = con.cursor()
-    cur.execute("delete from " + tableName + " where id="+str(int(_id)))
+    cur.execute("delete from " + tableName + " where id=" + str(int(_id)))
     con.commit()
+
 
 def getTableCreateQuery():
     return "CREATE TABLE IF NOT EXISTS " + tableName + " ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'objectName' TEXT,'value' TEXT)"
 
+
 def getDeleteTableQuery():
     return "DELETE FROM " + tableName
 
+
 def getDefaultsQueries():
     sqlQueries = []
-    sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"objectName" : "'*'", "value" : "'Hamsi'"}, ["objectName", "value"])
+    sqlQueries += getAmendedSQLInsertOrUpdateQueries(tableName, {"objectName": "'*'", "value": "'Hamsi'"},
+                                                     ["objectName", "value"])
     return sqlQueries
 
+
 def checkUpdates(_oldVersion):
-    if _oldVersion<1:
+    if _oldVersion < 1:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute(str("DROP TABLE " + tableName + ";"))

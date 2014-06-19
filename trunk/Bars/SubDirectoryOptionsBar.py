@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -21,6 +21,7 @@ from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 
+
 class SubDirectoryOptionsBar(MToolBar):
     def __init__(self, _parent):
         MToolBar.__init__(self, _parent)
@@ -28,9 +29,10 @@ class SubDirectoryOptionsBar(MToolBar):
         self.cbSubDirectoryDeepForMenu = None
         self.setWindowTitle(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
         self.setObjectName(translate("SubDirectoryOptionsBar", "Sub Directory Options"))
-        lblDetails = translate("SubDirectoryOptionsBar", "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
+        lblDetails = translate("SubDirectoryOptionsBar",
+                               "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
         lblSubDirectoryDeep = MLabel(str(translate("SubDirectoryOptionsBar", "Deep") + " : "))
-        self.SubDirectoryDeeps = [ str(x) for x in range(-1, 10) ]
+        self.SubDirectoryDeeps = [str(x) for x in range(-1, 10)]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
         self.isActiveChanging = False
@@ -44,8 +46,8 @@ class SubDirectoryOptionsBar(MToolBar):
         pnlSubDirectoryDeep.setLayout(hblSubDirectoryDeep)
         self.addWidget(pnlSubDirectoryDeep)
         MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
-        self.setIconSize(MSize(32,32))
-    
+        self.setIconSize(MSize(32, 32))
+
     def subDirectoryDeepChanged(self, _action=None):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
@@ -56,20 +58,24 @@ class SubDirectoryOptionsBar(MToolBar):
                     getMainWindow().SpecialTools.refreshForColumns()
                     getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
                 self.isActiveChanging = False
-                self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(str(uni.MySettings["subDirectoryDeep"])))
+                self.cbSubDirectoryDeep.setCurrentIndex(
+                    self.cbSubDirectoryDeep.findText(str(uni.MySettings["subDirectoryDeep"])))
                 if self.cbSubDirectoryDeepForMenu != None:
-                    self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["subDirectoryDeep"])))
+                    self.cbSubDirectoryDeepForMenu.setCurrentIndex(
+                        self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["subDirectoryDeep"])))
                 self.isActiveChanging = True
         except:
             ReportBug.ReportBug()
-            
+
     def getSpecialOptions(self, _menu):
         self.cbSubDirectoryDeepForMenu = MComboBox(self)
         self.cbSubDirectoryDeepForMenu.addItems(self.SubDirectoryDeeps)
         self.isActiveChanging = False
-        self.cbSubDirectoryDeepForMenu.setCurrentIndex(self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["subDirectoryDeep"])))
+        self.cbSubDirectoryDeepForMenu.setCurrentIndex(
+            self.cbSubDirectoryDeepForMenu.findText(str(uni.MySettings["subDirectoryDeep"])))
         self.isActiveChanging = True
-        MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
+        MObject.connect(self.cbSubDirectoryDeepForMenu, SIGNAL("currentIndexChanged(int)"),
+                        self.subDirectoryDeepChanged)
         wactLabel = MWidgetAction(_menu)
         wactLabel.setObjectName(str(translate("SubDirectoryOptionsBar", "Label Deep") + " : "))
         wactLabel.setDefaultWidget(MLabel(str(translate("SubDirectoryOptionsBar", "Deep") + " : ")))

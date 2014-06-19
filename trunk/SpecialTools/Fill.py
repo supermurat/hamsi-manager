@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import sys
 from Core import ReportBug
 import Databases
 
+
 class Fill(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
@@ -33,11 +34,11 @@ class Fill(MWidget):
         lblFillType = MLabel(translate("SpecialTools", "Content Type: "))
         self.cbFillType = MComboBox()
         self.cbFillType.addItems([translate("SpecialTools", "Text"),
-                                translate("SpecialTools", "Number")])
+                                  translate("SpecialTools", "Number")])
         lblspCharNumberOfDigit = MLabel(translate("SpecialTools", "Number Of Characters: "))
         self.spCharNumberOfDigit = MSpinBox()
         self.spCharNumberOfDigit.setRange(1, 20)
-        self.spCharNumberOfDigit.setValue(2) 
+        self.spCharNumberOfDigit.setValue(2)
         self.columns = MComboBox()
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblColumns.setFixedWidth(60)
@@ -48,7 +49,7 @@ class Fill(MWidget):
         self.lblSort.setFixedWidth(80)
         self.cbSort = MComboBox()
         self.cbSort.addItems([translate("SpecialTools", "Ascending"),
-                            translate("SpecialTools", "Descending")])
+                              translate("SpecialTools", "Descending")])
         self.lblStartDigit = MLabel(translate("SpecialTools", "Begins With: "))
         self.lblStartDigit.setFixedWidth(120)
         self.spStartDigit = MSpinBox()
@@ -80,13 +81,13 @@ class Fill(MWidget):
         self.setLayout(vblFill)
         MObject.connect(self.columns, SIGNAL("currentIndexChanged(int)"), self.columnsChanged)
         MObject.connect(self.cbFillType, SIGNAL("currentIndexChanged(int)"), self.fillTypeChanged)
-        
+
     def showAdvancedSelections(self):
         self.lblSort.show()
         self.cbSort.show()
         self.lblStartDigit.show()
         self.spStartDigit.show()
-    
+
     def hideAdvancedSelections(self):
         self.cbSort.setCurrentIndex(0)
         self.spStartDigit.setValue(0)
@@ -94,10 +95,10 @@ class Fill(MWidget):
         self.cbSort.hide()
         self.lblStartDigit.hide()
         self.spStartDigit.hide()
-        
-    def columnsChanged(self,_index):
+
+    def columnsChanged(self, _index):
         try:
-            if str(self.columns.currentText())=="Track No":
+            if str(self.columns.currentText()) == "Track No":
                 self.cbFillType.setCurrentIndex(1)
                 self.cbFillType.setEnabled(False)
                 self.leFill.setEnabled(False)
@@ -109,9 +110,9 @@ class Fill(MWidget):
                 self.spCharNumberOfDigit.setEnabled(False)
         except:
             ReportBug.ReportBug()
-            
+
     def fillTypeChanged(self):
-        if self.cbFillType.currentIndex()==1:
+        if self.cbFillType.currentIndex() == 1:
             self.leFill.setEnabled(False)
             self.spCharNumberOfDigit.setEnabled(True)
             self.cbSort.setEnabled(True)
@@ -121,50 +122,50 @@ class Fill(MWidget):
             self.spCharNumberOfDigit.setEnabled(False)
             self.cbSort.setEnabled(False)
             self.spStartDigit.setEnabled(False)
-    
+
     def checkCompleters(self):
         Databases.CompleterTable.insert(self.lblFill.text(), self.leFill.text())
-    
+
     def reFillCompleters(self):
         setCompleter(self.leFill, self.lblFill.text())
-       
+
     def apply(self):
         newString = str(self.leFill.text())
         getMainWindow().Table.isAskShowHiddenColumn = True
         for No, columnName in enumerate(getMainWindow().Table.tableColumns):
             if str(self.columns.currentText()) == str(columnName):
-                columnNo=No
+                columnNo = No
                 break
-        if getMainWindow().Table.checkHiddenColumn(columnNo,False)==False:
+        if getMainWindow().Table.checkHiddenColumn(columnNo, False) == False:
             return False
-        if self.cbFillType.currentIndex()==1:
-            newString = int(self.spStartDigit.value())-1
+        if self.cbFillType.currentIndex() == 1:
+            newString = int(self.spStartDigit.value()) - 1
         for rowNo in range(getMainWindow().Table.rowCount()):
             if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
-                if self.cbFillType.currentIndex()==1:
-                    if self.cbSort.currentIndex()==0:
-                        newString+=1
+                if self.cbFillType.currentIndex() == 1:
+                    if self.cbSort.currentIndex() == 0:
+                        newString += 1
                     else:
-                        newString-=1
+                        newString -= 1
                     myString = str(newString)
                     inNegative = False
-                    if myString.find("-")!=-1:
+                    if myString.find("-") != -1:
                         myString = myString.replace("-", "")
                         inNegative = True
                     karakterSayisi = len(myString)
                     while karakterSayisi < int(self.spCharNumberOfDigit.value()):
-                        myString="0"+myString
+                        myString = "0" + myString
                         karakterSayisi = len(myString)
                     if inNegative:
-                        myString="-"+myString
+                        myString = "-" + myString
                 else:
                     myString = str(newString)
                 if self.specialTools.btChange.isChecked():
                     pass
                 elif self.specialTools.tbAddToBefore.isChecked():
-                    myString += str(getMainWindow().Table.item(rowNo,columnNo).text())
+                    myString += str(getMainWindow().Table.item(rowNo, columnNo).text())
                 elif self.specialTools.tbAddToAfter.isChecked():
-                    myString = str(getMainWindow().Table.item(rowNo,columnNo).text()) + myString
-                getMainWindow().Table.item(rowNo,columnNo).setText(str(uni.trUnicode(myString)))
+                    myString = str(getMainWindow().Table.item(rowNo, columnNo).text()) + myString
+                getMainWindow().Table.item(rowNo, columnNo).setText(str(uni.trUnicode(myString)))
                     
     

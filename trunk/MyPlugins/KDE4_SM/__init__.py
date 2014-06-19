@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -21,8 +21,8 @@ from Core import Universals as uni
 
 pluginName = str(translate("MyPlugins/KDE4_SM", "For KDE4 Applications` Service Menus"))
 pluginVersion = "0.9"
-pluginFiles = ["HamsiManager_KDE4_SM.desktop", 
-               "HamsiManager_KDE4_SM_Dir.desktop", 
+pluginFiles = ["HamsiManager_KDE4_SM.desktop",
+               "HamsiManager_KDE4_SM_Dir.desktop",
                "HamsiManager_KDE4_SM_File.desktop"]
 pluginDirectory = ""
 installThisPlugin = None
@@ -32,6 +32,7 @@ if uni.isRunningAsRoot():
     setupDirectory = "/usr/share/kde4/services/ServiceMenus"
 else:
     setupDirectory = uni.getKDE4HomePath() + "/share/kde4/services/ServiceMenus"
+
 
 def isInstallable():
     return uni.isAvailableKDE4()

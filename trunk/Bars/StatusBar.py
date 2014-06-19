@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -21,12 +21,13 @@ from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 
+
 class StatusBar(MStatusBar):
-    
     def __init__(self, _parent):
         MStatusBar.__init__(self, _parent)
         if uni.isRunningAsRoot():
-            lblInfo = MLabel(str("<span style=\"color: #FF0000\">" + translate("StatusBar", "Hamsi Manager running as root")+"</span>"))
+            lblInfo = MLabel(str("<span style=\"color: #FF0000\">" + translate("StatusBar",
+                                                                               "Hamsi Manager running as root") + "</span>"))
             self.addWidget(lblInfo)
         self.connectionToCancel = None
         self.lblInfo = MLabel("")
@@ -47,32 +48,32 @@ class StatusBar(MStatusBar):
         self.addWidget(self.lblImportantInfo)
         self.addWidget(self.lblSelectionInfo)
         self.fillSelectionInfo()
-    
+
     def showInfo(self, _info):
         self.lblInfo.setText(_info)
-    
+
     def hideInfo(self):
         self.lblInfo.setText("")
-    
+
     def clearTableInfo(self):
         self.lblTableInfo.setText("")
-    
+
     def clearImportantInfo(self):
         self.lblImportantInfo.setText("")
-    
+
     def clearSelectionInfo(self):
         self.lblSelectionInfo.setText("")
-    
+
     def setTableInfo(self, _info):
         self.lblTableInfo.setText(str(_info))
         getMainWindow().setWindowTitle("Hamsi Manager " + uni.version + " - " + str(_info))
-    
+
     def setImportantInfo(self, _info):
         self.lblImportantInfo.setText(str("<span style=\"color: #FF0000\">" + _info + "</span>"))
-    
+
     def setSelectionInfo(self, _info):
         self.lblSelectionInfo.setText(str("<span style=\"color: #FF0000\">" + _info + "</span>"))
-            
+
     def fillSelectionInfo(self):
         if uni.getBoolValue("isChangeAll"):
             self.setSelectionInfo(translate("Tables", "All informations will be changed"))
@@ -81,16 +82,16 @@ class StatusBar(MStatusBar):
                 self.setSelectionInfo(translate("Tables", "Just selected informations will be changed"))
             else:
                 self.setSelectionInfo(translate("Tables", "Just unselected informations will be changed"))
-        
+
     def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
         MApplication.processEvents()
-        if getMainWindow().isLockedMainForm==False:
+        if getMainWindow().isLockedMainForm == False:
             getMainWindow().lockForm()
         self.prgbState.setVisible(True)
         if _isShowCancel:
-            if self.connectionToCancel!=None:
+            if self.connectionToCancel != None:
                 MObject.disconnect(self.pbtnCancel, SIGNAL("clicked()"), self.connectionToCancel)
-            if _connectToCancel==None:
+            if _connectToCancel == None:
                 MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), uni.cancelThreadAction)
                 self.connectionToCancel = uni.cancelThreadAction
             else:
@@ -101,8 +102,8 @@ class StatusBar(MStatusBar):
             self.pbtnCancel.setVisible(False)
         self.prgbState.setRange(0, _maxValue)
         self.prgbState.setValue(_value)
-        self.showInfo(_title+" ( "+str(_value)+" / "+str(_maxValue)+" )")
-        if _value==_maxValue:
+        self.showInfo(_title + " ( " + str(_value) + " / " + str(_maxValue) + " )")
+        if _value == _maxValue:
             self.hideInfo()
             self.prgbState.setVisible(False)
             self.pbtnCancel.setVisible(False)

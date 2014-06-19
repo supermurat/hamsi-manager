@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import sys
 from Core import ReportBug
 import Databases
 
+
 class QuickFill(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
@@ -35,39 +36,40 @@ class QuickFill(MWidget):
         self.tmrFillAfter = None
         self.gridLayout = MGridLayout()
         self.setLayout(self.gridLayout)
-        
+
     def showAdvancedSelections(self):
         for x in range(8, len(self.leColumns)):
             self.lblColumns[x].show()
             self.leColumns[x].show()
-    
+
     def hideAdvancedSelections(self):
         for x in range(8, len(self.leColumns)):
             self.lblColumns[x].hide()
             self.leColumns[x].hide()
-    
+
     def checkCompleters(self):
         for x in range(0, len(self.leColumns)):
             Databases.CompleterTable.insert(self.lblColumns[x].text(), self.leColumns[x].text())
-    
+
     def reFillCompleters(self):
         for x in range(0, len(self.leColumns)):
             setCompleter(self.leColumns[x], self.lblColumns[x].text())
-        
+
     def fillAfter(self, _searchValue=""):
         try:
             self.fillFrom = self.sender()
-            if self.tmrFillAfter!= None:
+            if self.tmrFillAfter != None:
                 self.tmrFillAfter.stop()
                 self.tmrFillAfter.deleteLater()
             self.tmrFillAfter = MTimer(self)
             self.tmrFillAfter.setSingleShot(True)
-            self.connect(self.tmrFillAfter,SIGNAL("timeout()"), self.fill)
+            self.connect(self.tmrFillAfter, SIGNAL("timeout()"), self.fill)
             self.tmrFillAfter.start(1000)
         except:
             from Core import ReportBug
+
             ReportBug.ReportBug()
-            
+
     def fill(self, _searchValue=""):
         try:
             self.checkCompleters()
@@ -76,16 +78,17 @@ class QuickFill(MWidget):
             self.apply()
         except:
             from Core import ReportBug
+
             ReportBug.ReportBug()
-            
+
     def apply(self):
         _newString = str(self.fillFrom.text())
         getMainWindow().Table.isAskShowHiddenColumn = True
         for No, columnName in enumerate(getMainWindow().Table.tableColumns):
             if str(self.fillFrom.objectName()) == str(columnName):
-                columnNo=No
+                columnNo = No
                 break
-        if getMainWindow().Table.checkHiddenColumn(columnNo,False)==False:
+        if getMainWindow().Table.checkHiddenColumn(columnNo, False) == False:
             return False
         for rowNo in range(getMainWindow().Table.rowCount()):
             if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
@@ -93,9 +96,9 @@ class QuickFill(MWidget):
                 if self.specialTools.btChange.isChecked():
                     pass
                 elif self.specialTools.tbAddToBefore.isChecked():
-                    myString += str(getMainWindow().Table.item(rowNo,columnNo).text())
+                    myString += str(getMainWindow().Table.item(rowNo, columnNo).text())
                 elif self.specialTools.tbAddToAfter.isChecked():
-                    myString = str(getMainWindow().Table.item(rowNo,columnNo).text()) + myString
-                getMainWindow().Table.item(rowNo,columnNo).setText(str(uni.trUnicode(myString)))
+                    myString = str(getMainWindow().Table.item(rowNo, columnNo).text()) + myString
+                getMainWindow().Table.item(rowNo, columnNo).setText(str(uni.trUnicode(myString)))
                     
     

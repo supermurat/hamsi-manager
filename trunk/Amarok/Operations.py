@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -27,49 +27,54 @@ from Core import Dialogs
 from Core import Records
 from Core import ReportBug
 
-def getDirectoriesAndValues(_filter = ""):
+
+def getDirectoriesAndValues(_filter=""):
     db = Amarok.checkAndGetDB()
-    if db!=None:
+    if db != None:
         return Commands.getDirectoriesAndValues(_filter)
     return None
 
-def getAllMusicFileValuesWithNames(_filter = ""):
+
+def getAllMusicFileValuesWithNames(_filter=""):
     db = Amarok.checkAndGetDB()
-    if db!=None:
+    if db != None:
         return Commands.getAllMusicFileValuesWithNames(_filter)
     return None
 
-def getAllArtistsValues(_filter = "", _isOnlyArtistFilter = False):
+
+def getAllArtistsValues(_filter="", _isOnlyArtistFilter=False):
     db = Amarok.checkAndGetDB()
-    if db!=None:
+    if db != None:
         return Commands.getAllArtistsValues(_filter, _isOnlyArtistFilter)
     return None
+
 
 def changePaths(_values, _type="auto"):
     uni.startThreadAction()
     allItemNumber = len(_values)
-    for valueNo,value in enumerate(_values):
+    for valueNo, value in enumerate(_values):
         isContinueThreadAction = uni.isContinueThreadAction()
         if isContinueThreadAction:
             try:
-                if _type == "file" or (_type=="auto" and fu.isFile(value["newPath"])):
+                if _type == "file" or (_type == "auto" and fu.isFile(value["newPath"])):
                     Commands.changeFilePath(value["oldPath"], value["newPath"])
                 else:
                     Commands.changeDirectoryPath(value["oldPath"], value["newPath"])
             except:
                 ReportBug.ReportBug()
         else:
-            allItemNumber = valueNo+1
+            allItemNumber = valueNo + 1
         Dialogs.showState(translate("Amarok/Operations", "Changing Paths In Amarok Database"),
-                          valueNo+1,allItemNumber, True)
-        if isContinueThreadAction==False:
+                          valueNo + 1, allItemNumber, True)
+        if isContinueThreadAction == False:
             break
     uni.finishThreadAction()
+
 
 def changeTags(_values):
     uni.startThreadAction()
     allItemNumber = len(_values)
-    for valueNo,value in enumerate(_values):
+    for valueNo, value in enumerate(_values):
         isContinueThreadAction = uni.isContinueThreadAction()
         if isContinueThreadAction:
             try:
@@ -77,22 +82,23 @@ def changeTags(_values):
             except:
                 ReportBug.ReportBug()
         else:
-            allItemNumber = valueNo+1
+            allItemNumber = valueNo + 1
         Dialogs.showState(translate("Amarok/Operations", "Changing Tags In Amarok Database"),
-                          valueNo+1,allItemNumber, True)
-        if isContinueThreadAction==False:
+                          valueNo + 1, allItemNumber, True)
+        if isContinueThreadAction == False:
             break
     uni.finishThreadAction()
+
 
 def changeArtistValues(_values):
     uni.startThreadAction()
     allItemNumber = len(_values)
-    Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"),0,allItemNumber, True)
+    Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), 0, allItemNumber, True)
     for x, value in enumerate(_values):
         isContinueThreadAction = uni.isContinueThreadAction()
         if isContinueThreadAction:
             musicFilePathAndArtist = Commands.changeArtistValue(value)
-            if musicFilePathAndArtist!=None:
+            if musicFilePathAndArtist != None:
                 artistName = musicFilePathAndArtist[1]
                 for musicFilePath in musicFilePathAndArtist[0]:
                     if fu.isWritableFileOrDir(musicFilePath, False, True):
@@ -107,11 +113,12 @@ def changeArtistValues(_values):
                                 tagger.loadFileForWrite(musicFilePath)
                             tagger.setArtist(artistName)
                             tagger.update()
-                            Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName), artistName)
+                            Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName),
+                                        artistName)
         else:
-            allItemNumber = x+1
-        Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), x+1, allItemNumber, True)
-        if isContinueThreadAction==False:
+            allItemNumber = x + 1
+        Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), x + 1, allItemNumber, True)
+        if isContinueThreadAction == False:
             break
     uni.finishThreadAction()
 

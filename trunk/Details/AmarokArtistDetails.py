@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 from FileUtils import Musics
 import FileUtils as fu
-import os,sys
+import os, sys
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
@@ -28,24 +28,26 @@ from Core import ReportBug
 import Amarok
 from Amarok import Operations, Commands
 
+
 class AmarokArtistDetails(MDialog):
     global amarokArtistDialogs
-    amarokArtistDialogs =[]
+    amarokArtistDialogs = []
+
     def __init__(self, _artistId, _isOpenDetailsOnNewWindow=True):
         global amarokArtistDialogs
-        if Commands.getArtistName(_artistId)!=None:
-            if _isOpenDetailsOnNewWindow==False:
-                isHasOpenedDialog=False
+        if Commands.getArtistName(_artistId) != None:
+            if _isOpenDetailsOnNewWindow == False:
+                isHasOpenedDialog = False
                 for dialog in amarokArtistDialogs:
                     if dialog.isVisible():
-                        isHasOpenedDialog=True
+                        isHasOpenedDialog = True
                         self = dialog
                         self.changeArtist(_artistId)
                         self.activateWindow()
                         self.raise_()
                         break
-                if isHasOpenedDialog==False:
-                    _isOpenDetailsOnNewWindow=True
+                if isHasOpenedDialog == False:
+                    _isOpenDetailsOnNewWindow = True
             if _isOpenDetailsOnNewWindow:
                 amarokArtistDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
@@ -60,22 +62,22 @@ class AmarokArtistDetails(MDialog):
                 MObject.connect(self.pbtnClose, SIGNAL("clicked()"), self.close)
                 MObject.connect(self.pbtnSave, SIGNAL("clicked()"), self.save)
                 self.labels = [translate("AmarokArtistDetails", "Current Artist: "),
-                                translate("AmarokArtistDetails", "Corrected Artist: ")]
-                self.songTableColumns = [translate("AmarokArtistDetails", "File Path"), 
-                    translate("AmarokArtistDetails", "Artist"), 
-                    translate("AmarokArtistDetails", "Title"), 
-                    translate("AmarokArtistDetails", "Album"), 
-                    translate("AmarokArtistDetails", "Album Artist"), 
-                    translate("AmarokArtistDetails", "Track No"), 
-                    translate("AmarokArtistDetails", "Year"), 
-                    translate("AmarokArtistDetails", "Genre"), 
-                    translate("AmarokArtistDetails", "Comment")]
+                               translate("AmarokArtistDetails", "Corrected Artist: ")]
+                self.songTableColumns = [translate("AmarokArtistDetails", "File Path"),
+                                         translate("AmarokArtistDetails", "Artist"),
+                                         translate("AmarokArtistDetails", "Title"),
+                                         translate("AmarokArtistDetails", "Album"),
+                                         translate("AmarokArtistDetails", "Album Artist"),
+                                         translate("AmarokArtistDetails", "Track No"),
+                                         translate("AmarokArtistDetails", "Year"),
+                                         translate("AmarokArtistDetails", "Genre"),
+                                         translate("AmarokArtistDetails", "Comment")]
                 self.pnlMain = MWidget()
                 self.vblMain = MVBoxLayout(self.pnlMain)
                 self.pnlClearable = None
                 self.changeArtist(_artistId, True)
-                
-                buttonHBOXs=MHBoxLayout()
+
+                buttonHBOXs = MHBoxLayout()
                 buttonHBOXs.addWidget(self.pbtnSave)
                 buttonHBOXs.addWidget(self.pbtnClose)
                 self.vblMain.addLayout(buttonHBOXs)
@@ -87,11 +89,13 @@ class AmarokArtistDetails(MDialog):
                 self.setMinimumWidth(700)
                 self.setMinimumHeight(500)
         else:
-            Dialogs.showError(translate("AmarokArtistDetails", "Artist Does Not Exist"), 
-                    str(translate("AmarokArtistDetails", "\"%s\" does not exist in \"id\" column of \"artist\" table.<br>Table will be refreshed automatically!<br>Please retry.")
-                        ) % Organizer.getLink(str(_artistId)))
-            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
-    
+            Dialogs.showError(translate("AmarokArtistDetails", "Artist Does Not Exist"),
+                              str(translate("AmarokArtistDetails",
+                                            "\"%s\" does not exist in \"id\" column of \"artist\" table.<br>Table will be refreshed automatically!<br>Please retry.")
+                              ) % Organizer.getLink(str(_artistId)))
+            if hasattr(getMainWindow(),
+                       "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
+
     def changeArtist(self, _artistId, _isNew=False):
         self.artistId = _artistId
         self.artistName = Commands.getArtistName(self.artistId)
@@ -100,9 +104,9 @@ class AmarokArtistDetails(MDialog):
             clearAllChildren(self.pnlClearable, True)
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)
-        vblClearable = MVBoxLayout(self.pnlClearable)    
-        self.infoLabels["currentArtist"] = MLabel(self.labels[0]) 
-        self.infoLabels["correctedArtist"] = MLabel(self.labels[1]) 
+        vblClearable = MVBoxLayout(self.pnlClearable)
+        self.infoLabels["currentArtist"] = MLabel(self.labels[0])
+        self.infoLabels["correctedArtist"] = MLabel(self.labels[1])
         self.infoValues["currentArtist"] = MLineEdit(str(self.artistName))
         self.infoValues["correctedArtist"] = MLineEdit(str(Organizer.emend(self.artistName)))
         self.songTableContentValues = Commands.getAllMusicFileValuesWithNamesByArtistId(self.artistId)
@@ -153,15 +157,18 @@ class AmarokArtistDetails(MDialog):
                     dialog.close()
             except:
                 continue
-        
+
     def save(self):
         try:
             from Core import Records
+
             Records.setTitle(translate("AmarokArtistDetails", "Amarok - Artist"))
-            Operations.changeArtistValues([{"id" : self.artistId, "name" : str(self.infoValues["correctedArtist"].text())}])
-            if self.artistName!=str(self.infoValues["correctedArtist"].text()):
+            Operations.changeArtistValues(
+                [{"id": self.artistId, "name": str(self.infoValues["correctedArtist"].text())}])
+            if self.artistName != str(self.infoValues["correctedArtist"].text()):
                 self.changeArtist(Commands.getArtistId(str(self.infoValues["correctedArtist"].text())))
-            if hasattr(getMainWindow(), "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
+            if hasattr(getMainWindow(),
+                       "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()

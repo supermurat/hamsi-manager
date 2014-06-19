@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import sys
 from Core import ReportBug
 import Databases
 
+
 class CharacterEncoding(MWidget):
     def __init__(self, _parent):
         MWidget.__init__(self, _parent)
@@ -41,10 +42,11 @@ class CharacterEncoding(MWidget):
         self.cbDestinationEncoding = MComboBox()
         self.cbDestinationEncoding.addItems(uni.getCharSets())
         self.cbSourceEncoding.setCurrentIndex(self.cbSourceEncoding.findText(uni.MySettings["fileSystemEncoding"]))
-        self.cbDestinationEncoding.setCurrentIndex(self.cbDestinationEncoding.findText(uni.MySettings["fileSystemEncoding"]))
+        self.cbDestinationEncoding.setCurrentIndex(
+            self.cbDestinationEncoding.findText(uni.MySettings["fileSystemEncoding"]))
         self.cbSourceValues = MComboBox()
-        self.cbSourceValues.addItems([translate("Options", "Real Values"), 
-                            translate("Options", "Table Contents")])
+        self.cbSourceValues.addItems([translate("Options", "Real Values"),
+                                      translate("Options", "Table Contents")])
         HBoxs = []
         HBoxs.append(MHBoxLayout())
         HBoxs[0].addWidget(lblColumns)
@@ -61,42 +63,42 @@ class CharacterEncoding(MWidget):
         vblCharacterEncoding.addLayout(HBoxs[1])
         self.setLayout(vblCharacterEncoding)
         lblColumns.setFixedWidth(60)
-        
+
     def showAdvancedSelections(self):
         pass
-    
+
     def hideAdvancedSelections(self):
         pass
-    
+
     def checkCompleters(self):
         pass
-    
+
     def reFillCompleters(self):
         pass
-            
+
     def apply(self):
         getMainWindow().Table.isAskShowHiddenColumn = True
         sourceEncoding = str(self.cbSourceEncoding.currentText())
         destinationEncoding = str(self.cbDestinationEncoding.currentText())
         sourceValues = str(self.cbSourceValues.currentText())
         isUseRealValues = (sourceValues == translate("Options", "Real Values"))
-        if self.columns.currentIndex()==0:
-            columns = list(range(0,getMainWindow().Table.columnCount()))
+        if self.columns.currentIndex() == 0:
+            columns = list(range(0, getMainWindow().Table.columnCount()))
         else:
-            columns = [self.columns.currentIndex()-1]
+            columns = [self.columns.currentIndex() - 1]
         for columnNo in columns:
-            if getMainWindow().Table.checkHiddenColumn(columnNo,False)==False:
+            if getMainWindow().Table.checkHiddenColumn(columnNo, False) == False:
                 continue
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                     if isUseRealValues:
                         newString = getMainWindow().Table.SubTable.getValueByRowAndColumn(rowNo, columnNo)
                     else:
-                        newString = str(getMainWindow().Table.item(rowNo,columnNo).text())
+                        newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
                     myString = ""
-                    try:myString = uni.trDecode(newString, sourceEncoding, "ignore")
-                    except:pass
-                    try:myString = str(uni.trEncode(newString, destinationEncoding, "ignore"))
-                    except:pass
-                    getMainWindow().Table.item(rowNo,columnNo).setText(str(myString))
+                    try: myString = uni.trDecode(newString, sourceEncoding, "ignore")
+                    except: pass
+                    try: myString = str(uni.trEncode(newString, destinationEncoding, "ignore"))
+                    except: pass
+                    getMainWindow().Table.item(rowNo, columnNo).setText(str(myString))
             

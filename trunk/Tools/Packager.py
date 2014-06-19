@@ -1,5 +1,5 @@
-## This file is part of HamsiManager.
-## 
+# # This file is part of HamsiManager.
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -28,13 +28,14 @@ from Core import ReportBug
 
 MyDialog, MyDialogType, MyParent = getMyDialog()
 
+
 class Packager(MyDialog):
     def __init__(self, _directory):
         MyDialog.__init__(self, MyParent)
-        if MyDialogType=="MDialog":
+        if MyDialogType == "MDialog":
             if isActivePyKDE4:
                 self.setButtons(MyDialog.NoDefault)
-        elif MyDialogType=="MMainWindow":
+        elif MyDialogType == "MMainWindow":
             self.setObjectName("Packager")
             setMainWindow(self)
         newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
@@ -45,11 +46,15 @@ class Packager(MyDialog):
         lblHash = MLabel(translate("Packager", "Hash : "))
         lblHashOutput = MLabel(translate("Packager", "Hash Output : "))
         lblHashDigestFile = MLabel(translate("Packager", "Hash Digest File : "))
-        self.cbPackageType = Options.MyComboBox(self, 
-                                    [translate("Packager", "Archive Without Compression"), ".tar.gz", ".tar.bz2", ".amarokscript.tar.gz"], 
-                                    1, "PackagerPackageType", self.packageTypeChanged)
-        self.cbHash = Options.MyComboBox(self, [translate("Packager", "No Hash")] + uni.getHashTypes(), 0, "PackagerHash", self.hashChanged)
-        self.cbHashOutput = Options.MyComboBox(self, [translate("Packager", "File"), translate("Packager", "Clipboard")], 0, "PackagerHashOutput", self.hashOutputChanged)
+        self.cbPackageType = Options.MyComboBox(self,
+                                                [translate("Packager", "Archive Without Compression"), ".tar.gz",
+                                                 ".tar.bz2", ".amarokscript.tar.gz"],
+                                                1, "PackagerPackageType", self.packageTypeChanged)
+        self.cbHash = Options.MyComboBox(self, [translate("Packager", "No Hash")] + uni.getHashTypes(), 0,
+                                         "PackagerHash", self.hashChanged)
+        self.cbHashOutput = Options.MyComboBox(self,
+                                               [translate("Packager", "File"), translate("Packager", "Clipboard")], 0,
+                                               "PackagerHashOutput", self.hashOutputChanged)
         self.leHashDigestFile = MLineEdit(str(_directory))
         self.pbtnClearAndPack = MPushButton(translate("Packager", "Clear And Pack"))
         self.pbtnClear = MPushButton(translate("Packager", "Clear"))
@@ -57,20 +62,21 @@ class Packager(MyDialog):
         self.pbtnClose = MPushButton(translate("Packager", "Close"))
         self.lePathOfProject = MLineEdit(str(_directory))
         self.lePathOfPackage = MLineEdit(str(_directory))
-        self.pbtnClearAndPack.setToolTip(translate("Packager", "Do not will cleared directory you selected but unnecessary files and directories package will not."))
+        self.pbtnClearAndPack.setToolTip(translate("Packager",
+                                                   "Do not will cleared directory you selected but unnecessary files and directories package will not."))
         self.pbtnClear.setToolTip(translate("Packager", "Directory you selected will is cleared"))
         self.pbtnPack.setToolTip(translate("Packager", "Directory you selected will is packed. (Do not will Cleared)"))
         self.packageTypeChanged()
         self.pbtnSelectProjectPath = MPushButton(translate("Packager", "Browse"))
         self.pbtnSelectPackagePath = MPushButton(translate("Packager", "Browse"))
-        self.connect(self.pbtnSelectProjectPath,SIGNAL("clicked()"),self.selectProjectPath)
-        self.connect(self.pbtnSelectPackagePath,SIGNAL("clicked()"),self.selectPackagePath)
-        self.connect(self.pbtnClearAndPack,SIGNAL("clicked()"),self.ClearAndPack)
-        self.connect(self.pbtnClear,SIGNAL("clicked()"),self.Clear)
-        self.connect(self.pbtnPack,SIGNAL("clicked()"),self.Pack)
-        self.connect(self.pbtnClose,SIGNAL("clicked()"),self.close)
-        self.connect(self.lePathOfProject,SIGNAL("textChanged(const QString&)"),self.pathOfProjectChanged)
-        self.connect(self.lePathOfPackage,SIGNAL("textChanged(const QString&)"),self.pathOfPackageChanged)
+        self.connect(self.pbtnSelectProjectPath, SIGNAL("clicked()"), self.selectProjectPath)
+        self.connect(self.pbtnSelectPackagePath, SIGNAL("clicked()"), self.selectPackagePath)
+        self.connect(self.pbtnClearAndPack, SIGNAL("clicked()"), self.ClearAndPack)
+        self.connect(self.pbtnClear, SIGNAL("clicked()"), self.Clear)
+        self.connect(self.pbtnPack, SIGNAL("clicked()"), self.Pack)
+        self.connect(self.pbtnClose, SIGNAL("clicked()"), self.close)
+        self.connect(self.lePathOfProject, SIGNAL("textChanged(const QString&)"), self.pathOfProjectChanged)
+        self.connect(self.lePathOfPackage, SIGNAL("textChanged(const QString&)"), self.pathOfPackageChanged)
         pnlMain = MWidget(self)
         tabwTabs = MTabWidget()
         vblMain = MVBoxLayout(pnlMain)
@@ -113,171 +119,182 @@ class Packager(MyDialog):
         tabwTabs.addTab(wOptionsPanel, translate("Packager", "Quick Options"))
         vblMain.addWidget(tabwTabs)
         self.hashChanged(self.cbHash.currentIndex())
-        if MyDialogType=="MDialog":
+        if MyDialogType == "MDialog":
             if isActivePyKDE4:
                 self.setMainWidget(pnlMain)
             else:
                 self.setLayout(vblMain)
-        elif MyDialogType=="MMainWindow":
+        elif MyDialogType == "MMainWindow":
             self.setCentralWidget(pnlMain)
             moveToCenter(self)
         self.setWindowTitle(translate("Packager", "Packager"))
         self.setWindowIcon(MIcon("Images:pack.png"))
         self.show()
-                        
+
     def closeEvent(self, _event):
         MApplication.setQuitOnLastWindowClosed(True)
-    
+
     def pathOfProjectChanged(self, _value):
         try:
-            if self.cbPackageType.currentIndex()!=0:
+            if self.cbPackageType.currentIndex() != 0:
                 packageExtension = self.cbPackageType.currentText()
             else:
-                packageExtension = ".tar"   
-            self.lePathOfPackage.setText(self.lePathOfProject.text()+packageExtension)  
+                packageExtension = ".tar"
+            self.lePathOfPackage.setText(self.lePathOfProject.text() + packageExtension)
         except:
             ReportBug.ReportBug()
-    
+
     def pathOfPackageChanged(self, _value):
         try:
-            if self.cbHash.currentIndex()==0:
+            if self.cbHash.currentIndex() == 0:
                 packageExtension = "~"
             else:
-                packageExtension =  "." + str(self.cbHash.currentText()).lower()
-            self.leHashDigestFile.setText(self.lePathOfPackage.text()+packageExtension)  
+                packageExtension = "." + str(self.cbHash.currentText()).lower()
+            self.leHashDigestFile.setText(self.lePathOfPackage.text() + packageExtension)
         except:
             ReportBug.ReportBug()
-    
+
     def hashChanged(self, _value):
-        if _value==0:
+        if _value == 0:
             self.cbHashOutput.setEnabled(False)
             self.leHashDigestFile.setEnabled(False)
         else:
             self.cbHashOutput.setEnabled(True)
             self.hashOutputChanged(self.cbHashOutput.currentIndex())
         self.pathOfPackageChanged("")
-    
+
     def hashOutputChanged(self, _value):
-        if _value==0:
+        if _value == 0:
             self.leHashDigestFile.setEnabled(True)
         else:
             self.leHashDigestFile.setEnabled(False)
-    
+
     def createHashDigest(self):
-        if self.cbHash.currentIndex()==0:
+        if self.cbHash.currentIndex() == 0:
             hashType = None
         else:
-            hashType =  str(self.cbHash.currentText())
-        if hashType!=None:
-            if self.cbHashOutput.currentIndex()==0:
-                if fu.createHashDigestFile(str(self.lePathOfPackage.text()), str(self.leHashDigestFile.text()), hashType, False):
+            hashType = str(self.cbHash.currentText())
+        if hashType != None:
+            if self.cbHashOutput.currentIndex() == 0:
+                if fu.createHashDigestFile(str(self.lePathOfPackage.text()), str(self.leHashDigestFile.text()),
+                                           hashType, False):
                     Dialogs.show(translate("Packager", "Hash Digest File Created"),
-                                str(translate("Packager", "Hash digest writed into %s")) % str(self.leHashDigestFile.text()))
+                                 str(translate("Packager", "Hash digest writed into %s")) % str(
+                                     self.leHashDigestFile.text()))
                 else:
                     Dialogs.showError(translate("Packager", "Hash Digest File Is Not Created"),
-                                translate("Packager", "Hash digest file not cteated."))
+                                      translate("Packager", "Hash digest file not cteated."))
             else:
                 hashDigestContent = fu.getHashDigest(str(self.lePathOfPackage.text()), hashType)
-                if hashDigestContent!=False:
+                if hashDigestContent != False:
                     MApplication.clipboard().setText(str(hashDigestContent))
                     Dialogs.show(translate("Packager", "Hash Digest Copied To Clipboard"),
-                                str(translate("Packager", "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
+                                 str(translate("Packager",
+                                               "Hash digest copied to clipboard.Hash digest is : <br>%s")) % hashDigestContent)
                 else:
                     Dialogs.showError(translate("Packager", "Hash Digest Is Not Created"),
-                                translate("Packager", "Hash digest not cteated."))
-                    
-    
+                                      translate("Packager", "Hash digest not cteated."))
+
+
     def ClearAndPack(self):
         try:
             uni.isCanBeShowOnMainWindow = False
             import random
+
             tempDir = fu.joinPath(fu.getTempDir(), "HamsiManager-" + str(random.randrange(0, 1000000)))
             pathOfProject = str(self.lePathOfProject.text())
             pathOfTempSource = fu.joinPath(tempDir, fu.getBaseName(pathOfProject))
             fu.copyFileOrDir(pathOfProject, pathOfTempSource)
             fu.clearPackagingDirectory(tempDir, True, True)
-            if fu.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource, fu.getBaseName(pathOfProject)):
+            if fu.makePack(str(self.lePathOfPackage.text()), self.getPackageType(), pathOfTempSource,
+                           fu.getBaseName(pathOfProject)):
                 fu.removeFileOrDir(tempDir)
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
-                            translate("Packager", "You can now start sharing it."))
+                             translate("Packager", "You can now start sharing it."))
             if uni.getBoolValue("isCloseOnCleanAndPackage"):
                 self.close()
             uni.isCanBeShowOnMainWindow = True
         except:
             ReportBug.ReportBug()
-    
+
     def Clear(self):
         try:
             uni.isCanBeShowOnMainWindow = False
             answer = Dialogs.ask(translate("Packager", "Your Files Will Be Removed"),
-                    str(translate("Packager", "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>"+
-                    "This action will delete the files completely, without any chance to recover.<br>"+
-                    "Are you sure you want to perform the action?")) % Organizer.getLink(str(self.lePathOfProject.text())))
-            if answer==Dialogs.Yes:
+                                 str(translate("Packager",
+                                               "The files in the \"%s\" folder will be cleared according to the criteria you set.<br>" +
+                                               "This action will delete the files completely, without any chance to recover.<br>" +
+                                               "Are you sure you want to perform the action?")) % Organizer.getLink(
+                                     str(self.lePathOfProject.text())))
+            if answer == Dialogs.Yes:
                 if fu.isWritableFileOrDir(str(self.lePathOfProject.text())):
                     if fu.clearPackagingDirectory(str(self.lePathOfProject.text()), True, True):
                         Dialogs.show(translate("Packager", "Project Is Cleared"),
-                                    translate("Packager", "You can now pack your project."))
+                                     translate("Packager", "You can now pack your project."))
             uni.isCanBeShowOnMainWindow = True
         except:
             ReportBug.ReportBug()
-    
+
     def Pack(self):
         try:
             uni.isCanBeShowOnMainWindow = False
             if fu.makePack(str(self.lePathOfPackage.text()),
-                                self.getPackageType(), str(self.lePathOfProject.text()), fu.getBaseName(self.lePathOfProject.text())):
+                           self.getPackageType(), str(self.lePathOfProject.text()),
+                           fu.getBaseName(self.lePathOfProject.text())):
                 self.createHashDigest()
                 Dialogs.show(translate("Packager", "Project Is Packed"),
-                            translate("Packager", "You can now share your project."))
+                             translate("Packager", "You can now share your project."))
             uni.isCanBeShowOnMainWindow = True
         except:
             ReportBug.ReportBug()
-    
+
     def getPackageType(self):
-        if self.cbPackageType.currentIndex()!=0:
+        if self.cbPackageType.currentIndex() != 0:
             return str(self.cbPackageType.currentText()).split(".")[-1]
         else:
             return ""
-    
+
     def selectProjectPath(self):
         try:
             self.cbPackageType.setEnabled(True)
-            ProjectPath = Dialogs.getExistingDirectory(translate("Packager", "Please Select Project Folder"),self.lePathOfProject.text())
+            ProjectPath = Dialogs.getExistingDirectory(translate("Packager", "Please Select Project Folder"),
+                                                       self.lePathOfProject.text())
             if ProjectPath is not None:
                 self.lePathOfProject.setText(str(ProjectPath))
             self.packageTypeChanged()
         except:
             ReportBug.ReportBug()
-        
+
     def packageTypeChanged(self):
         try:
             packageName = self.lePathOfPackage.text()
-            if packageName[-4:]==".tar":
+            if packageName[-4:] == ".tar":
                 packageName = packageName[:-4]
-            elif packageName[-20:]==".amarokscript.tar.gz":
+            elif packageName[-20:] == ".amarokscript.tar.gz":
                 packageName = packageName[:-20]
-            elif packageName[-7:]==".tar.gz":
+            elif packageName[-7:] == ".tar.gz":
                 packageName = packageName[:-7]
-            elif packageName[-8:]==".tar.bz2":
+            elif packageName[-8:] == ".tar.bz2":
                 packageName = packageName[:-8]
-            if self.cbPackageType.currentIndex()!=0:
+            if self.cbPackageType.currentIndex() != 0:
                 packageExtension = self.cbPackageType.currentText()
             else:
-                packageExtension = ".tar"   
-            self.lePathOfPackage.setText(packageName+packageExtension)  
+                packageExtension = ".tar"
+            self.lePathOfPackage.setText(packageName + packageExtension)
         except:
             ReportBug.ReportBug()
-        
+
     def selectPackagePath(self):
         try:
-            if self.cbPackageType.currentIndex()!=0:
+            if self.cbPackageType.currentIndex() != 0:
                 packageExtension = self.cbPackageType.currentText()
             else:
-                packageExtension = ".tar"   
-            PathOfPackage = Dialogs.getSaveFileName(translate("Packager", "Please Select The Pack To Be Created"),self.lePathOfPackage.text(),
-                        str(translate("Packager", "Archive Files (*%s)")) % (packageExtension), 2)
+                packageExtension = ".tar"
+            PathOfPackage = Dialogs.getSaveFileName(translate("Packager", "Please Select The Pack To Be Created"),
+                                                    self.lePathOfPackage.text(),
+                                                    str(translate("Packager", "Archive Files (*%s)")) % (
+                                                        packageExtension), 2)
             if PathOfPackage is not None:
                 self.lePathOfPackage.setText(str(PathOfPackage))
         except:
