@@ -56,7 +56,7 @@ class MusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
-                if getMainWindow().Table.checkUnSavedValues()==True:
+                if getMainWindow().Table.checkUnSavedValues():
                     setSelectedTaggerTypeForReadName(selectedType)
                     getMainWindow().Table.refreshForColumns()
                     getMainWindow().SpecialTools.refreshForColumns()
@@ -73,7 +73,7 @@ class MusicOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagTypes[_action])
             if self.isActiveChanging:
-                if getMainWindow().Table.checkUnSavedValues()==True:
+                if getMainWindow().Table.checkUnSavedValues():
                     setSelectedTaggerTypeForWriteName(selectedType)
                 self.isActiveChanging = False
                 self.cbMusicTagTypeForWrite.setCurrentIndex(self.cbMusicTagTypeForWrite.findText(getSelectedTaggerTypeForWriteName()))

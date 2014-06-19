@@ -355,7 +355,7 @@ class OptionsForm(MDialog):
         elif typeOfValue=="number":
             self.categories[categoryNo].values[keyNo].setValue(int(self.defaultValues[keyValue])) 
         elif typeOfValue=="Yes/No":
-            if eval(self.defaultValues[keyValue].title())==True:
+            if eval(self.defaultValues[keyValue].title()):
                 self.categories[categoryNo].values[keyNo].setCurrentIndex(1)
             else:
                 self.categories[categoryNo].values[keyNo].setCurrentIndex(0)
@@ -387,7 +387,7 @@ class OptionsForm(MDialog):
         elif _typeOfValue=="number":
             toolTips += self.defaultValues[_keyValue]
         elif _typeOfValue=="Yes/No":
-            if eval(self.defaultValues[_keyValue].title())==True:
+            if eval(self.defaultValues[_keyValue].title()):
                 toolTips += str(translate("Dialogs", "Yes"))
             else:
                 toolTips += str(translate("Dialogs", "No"))
@@ -489,7 +489,7 @@ class OptionsForm(MDialog):
                 getMainWindow().Menu.refreshQuickOptions()
             Records.checkSize()
             if isDontClose:return False
-            if isNeededRestart==True:
+            if isNeededRestart:
                 self.reStart()
             else:return True
         except:
@@ -681,7 +681,7 @@ class OptionsForm(MDialog):
         if len(_category.tabNames)>0:
             _category.Panel.insertWidget(3, _category.tabwTabs) 
         _category.Panel.addStretch(1)
-        if isNeededRestart==True:
+        if isNeededRestart:
             _category.Panel.addWidget(MLabel(translate("Options", "<font color=red>* :Requires a restart of Hamsi Manager.</font>"))) 
             
     def correctSettingKeys(self, _category):
@@ -792,7 +792,7 @@ class EditDialog(MDialog):
         elif self.typeOfValue=="Yes/No":
             #This Is Not Used (For only future)
             newValue = "" #NotUsed
-            if eval(newValue.title())==True:
+            if eval(newValue.title()):
                 self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(1)
             else:
                 self.parent().categories[self.categoryNo].values[self.keyNo].setCurrentIndex(0)

@@ -50,7 +50,7 @@ class SubDirectoryOptionsBar(MToolBar):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
             if self.isActiveChanging:
-                if getMainWindow().Table.checkUnSavedValues()==True:
+                if getMainWindow().Table.checkUnSavedValues():
                     uni.setMySetting("subDirectoryDeep", int(selectedDeep))
                     getMainWindow().Table.refreshForColumns()
                     getMainWindow().SpecialTools.refreshForColumns()

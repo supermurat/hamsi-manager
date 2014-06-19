@@ -50,7 +50,7 @@ def getMySQLModule():
 def checkAmarok(_isAlertIfNotAvailable=True, _isUseReadOnly=True):
     if isLoadedMysql and uni.isAvailableKDE4():
         if uni.getBoolValue("amarokIsUseHost"):
-            if _isUseReadOnly==True or uni.getBoolValue("isReadOnlyAmarokDBHost")==False:
+            if _isUseReadOnly or uni.getBoolValue("isReadOnlyAmarokDBHost")==False:
                 return True
             else:
                 if _isAlertIfNotAvailable:

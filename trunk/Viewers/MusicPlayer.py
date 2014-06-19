@@ -165,7 +165,7 @@ class MusicPlayer(MWidget):
                 else:
                     self.musicTags = None
                     self.setInfoText(str("- - -"))
-                if _isPlayNow==True:
+                if _isPlayNow:
                     if self.Player.play(_filePath):
                         self.tbPause.setEnabled(True)
                         self.tbMute.setEnabled(True)

@@ -264,7 +264,7 @@ if RoutineChecks.checkMandatoryModules():
                                     isMakeInstall=True
                                 else:
                                     isMakeInstall=False
-                        if isMakeInstall==True:
+                        if isMakeInstall:
                             Settings.setUniversalSetting("pathOfInstallationDirectory", self.installationDirectory)
                             directoriesAndFiles = fu.readDirectoryWithSubDirectories(fu.HamsiManagerDirectory)
                             self.prgbState.setRange(0,len(directoriesAndFiles))

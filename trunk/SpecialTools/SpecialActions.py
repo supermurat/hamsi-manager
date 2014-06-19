@@ -200,7 +200,7 @@ class SpecialActions(MWidget):
         
     def addBookmark(self):
         try:
-            if whatDoesSpecialCommandDo(self.getActionCommand())==True:
+            if whatDoesSpecialCommandDo(self.getActionCommand()):
                 Databases.BookmarksOfSpecialTools.insert(str(self.getActionCommand()))
                 self.refreshBookmarks()
                 self.cbBookmarks.setCurrentIndex(self.cbBookmarks.count()-1)
@@ -313,11 +313,11 @@ class SpecialActions(MWidget):
                             newString = sourceListLogical[no]
                         newString = Organizer.emend(newString)
                         if newString!="":
-                            if self.specialTools.btChange.isChecked()==True:
+                            if self.specialTools.btChange.isChecked():
                                 pass
-                            elif self.specialTools.tbAddToBefore.isChecked()==True:
+                            elif self.specialTools.tbAddToBefore.isChecked():
                                 newString += str(getMainWindow().Table.item(rowNo, columnNo).text())
-                            elif self.specialTools.tbAddToAfter.isChecked()==True:
+                            elif self.specialTools.tbAddToAfter.isChecked():
                                 newString = str(getMainWindow().Table.item(rowNo, columnNo).text()) + newString
                             getMainWindow().Table.item(rowNo, columnNo).setText(str(newString.strip()))
 

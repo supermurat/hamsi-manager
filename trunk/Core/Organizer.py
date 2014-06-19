@@ -196,15 +196,15 @@ def searchAndReplace(_oldString, _searchStrings, _replaceStrings, _isCaseInsensi
     newString = _oldString
     for filterNo in range(0,len(_searchStrings)):
         if _searchStrings[filterNo]!="":
-            if _isRegExp == True:
-                if _isCaseInsensitive ==True:
+            if _isRegExp:
+                if _isCaseInsensitive:
                     pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]), re.I | re.U)
                     newString = re.sub(pattern,uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
                 else:
                     pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]))
                     newString = re.sub(pattern,uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
             else:
-                if _isCaseInsensitive ==True:
+                if _isCaseInsensitive:
                     pattern = re.compile(re.escape(uni.trUnicode(_searchStrings[filterNo])), re.I | re.U)
                     newString = re.sub(pattern,uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
                 else:
@@ -225,18 +225,18 @@ def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True
                 myString+=char
     elif _cbClearType==translate("SpecialTools", "Other Characters"):
         for char in _oldString:
-            if char.isdigit()==True or char.isalpha()==True:
+            if char.isdigit() or char.isalpha():
                 myString+=char
     elif _cbClearType==translate("SpecialTools", "Selected Text"):
-        if _isRegExp == True:
-            if _isCaseInsensitive ==True:
+        if _isRegExp:
+            if _isCaseInsensitive:
                 pattern = re.compile(uni.trUnicode(_searchString), re.I | re.U)
                 myString = re.sub(pattern,uni.trUnicode(""), uni.trUnicode(_oldString))
             else:
                 pattern = re.compile(uni.trUnicode(_searchString))
                 myString = re.sub(pattern,uni.trUnicode(""), uni.trUnicode(_oldString))
         else:
-            if _isCaseInsensitive==True:
+            if _isCaseInsensitive:
                 pattern = re.compile(re.escape(uni.trUnicode(_searchString)), re.I | re.U)
                 myString = re.sub(pattern,uni.trUnicode(""), uni.trUnicode(_oldString))
             else:
@@ -248,8 +248,8 @@ def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText = False, 
     if isCorrectText:
         for filterNo in range(0,len(_searchStrings)):
             if _searchStrings[filterNo]!="":
-                if _isRegExp == True:
-                    if _isCaseInsensitive ==True:
+                if _isRegExp:
+                    if _isCaseInsensitive:
                         m = re.search(_searchStrings[filterNo], newString, re.I | re.U)
                         try:a = m.group(0)
                         except:return newString
@@ -262,7 +262,7 @@ def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText = False, 
                         pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]))
                         newString = re.sub(pattern,uni.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)), uni.trUnicode(newString))
                 else:
-                    if _isCaseInsensitive ==True:
+                    if _isCaseInsensitive:
                         pattern = re.compile(re.escape(uni.trUnicode(_searchStrings[filterNo])), re.I | re.U)
                         newString = re.sub(pattern,uni.trUnicode(makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType)), uni.trUnicode(newString))
                     else:

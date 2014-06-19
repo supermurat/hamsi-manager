@@ -35,7 +35,7 @@ class TextDetails(MDialog):
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
                 for dialog in textDialogs:
-                    if dialog.isVisible()==True:
+                    if dialog.isVisible():
                         isHasOpenedDialog=True
                         self = dialog
                         self.changeFile(_filePath)
@@ -44,7 +44,7 @@ class TextDetails(MDialog):
                         break
                 if isHasOpenedDialog==False:
                     _isOpenDetailsOnNewWindow=True
-            if _isOpenDetailsOnNewWindow==True:
+            if _isOpenDetailsOnNewWindow:
                 textDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
                 if isActivePyKDE4:
@@ -129,7 +129,7 @@ class TextDetails(MDialog):
     def closeAllTextDialogs():
         for dialog in textDialogs:
             try:
-                if dialog.isVisible()==True:
+                if dialog.isVisible():
                     dialog.close()
             except:
                 continue

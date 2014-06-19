@@ -64,7 +64,7 @@ class ImageViewer(MWidget):
         if _image!=None and _valueType=="file":
             _image = fu.checkSource(_image, "file", False)
             if _image is None:
-                if self.isCorrectedWhenNotExist==True:
+                if self.isCorrectedWhenNotExist:
                     _image = fu.joinPath(fu.themePath, "Images", "ok.png")
                 else:
                     _image = fu.joinPath(fu.themePath, "Images", "notExist.png")

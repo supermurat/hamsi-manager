@@ -299,7 +299,7 @@ class SpecialTools(MWidget):
             self.reFillCompleters()
             getMainWindow().Table.createHistoryPoint()
             if self.tabwTabs.currentIndex()==0:
-                if SpecialActions.whatDoesSpecialCommandDo(self.specialActions.getActionCommand())==True:
+                if SpecialActions.whatDoesSpecialCommandDo(self.specialActions.getActionCommand()):
                     self.specialActions.apply()
             elif self.tabwTabs.currentIndex()==1:
                 self.searchAndReplace.apply()

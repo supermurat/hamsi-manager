@@ -64,7 +64,7 @@ class AmarokCopyOptionsBar(MToolBar):
         try:
             selectedType = str(self.MusicTagSourceTypes[_action])
             if self.isActiveChanging:
-                if getMainWindow().Table.checkUnSavedValues()==True:
+                if getMainWindow().Table.checkUnSavedValues():
                     Amarok.setSelectedTagSourseType(selectedType, "AmarokCopyTable")
                     getMainWindow().Table.refreshForColumns()
                     getMainWindow().SpecialTools.refreshForColumns()

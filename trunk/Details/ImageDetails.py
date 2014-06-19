@@ -33,7 +33,7 @@ class ImageDetails(MDialog):
         if _isOpenDetailsOnNewWindow==False:
             isHasOpenedDialog=False
             for dialog in imageDialogs:
-                if dialog.isVisible()==True:
+                if dialog.isVisible():
                     isHasOpenedDialog=True
                     self = dialog
                     self.changeFile(_file, _valueType)
@@ -42,7 +42,7 @@ class ImageDetails(MDialog):
                     break
             if isHasOpenedDialog==False:
                 _isOpenDetailsOnNewWindow=True
-        if _isOpenDetailsOnNewWindow==True:
+        if _isOpenDetailsOnNewWindow:
             imageDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
             if isActivePyKDE4:
@@ -80,7 +80,7 @@ class ImageDetails(MDialog):
     def closeAllImageDialogs():
         for dialog in imageDialogs:
             try:
-                if dialog.isVisible()==True:
+                if dialog.isVisible():
                     dialog.close()
             except:
                 continue

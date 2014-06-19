@@ -38,7 +38,7 @@ def getDBPropertiesCreateQuery():
     return "CREATE TABLE IF NOT EXISTS dbProperties ('keyName' TEXT NOT NULL,'value' TEXT)"
 
 def reFillDatabases(_table="All", _actionType="dropAndInsert", _makeBackUp=False):
-    if _makeBackUp==True:
+    if _makeBackUp:
         from Core import Settings
         Settings.makeBackUp(_table)
     tableCreateQueries, sqlCommands, tableInsertImportantQueries = [], [], []

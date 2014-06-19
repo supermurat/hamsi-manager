@@ -82,7 +82,7 @@ def checkSize():
     restoreRecordType()
 
 def getBackupRecordsList():
-    if fu.isDir(fu.oldRecordsDirectoryPath)==True:
+    if fu.isDir(fu.oldRecordsDirectoryPath):
         return fu.readDirectory(fu.oldRecordsDirectoryPath, "file")
     else:
         return []
@@ -90,7 +90,7 @@ def getBackupRecordsList():
 def read(_recordFilePath=None):
     if _recordFilePath==None:
         _recordFilePath = fu.recordFilePath
-    if fu.isFile(_recordFilePath)==True:
+    if fu.isFile(_recordFilePath):
         return fu.readFromFile(_recordFilePath, "utf-8")
     else:
         create()

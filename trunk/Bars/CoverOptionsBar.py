@@ -50,7 +50,7 @@ class CoverOptionsBar(MToolBar):
         try:
             selectedDeep = str(self.SubDirectoryDeeps[_action])
             if self.isActiveChanging:
-                if getMainWindow().Table.checkUnSavedValues()==True:
+                if getMainWindow().Table.checkUnSavedValues():
                     uni.setMySetting("CoversSubDirectoryDeep", int(selectedDeep))
                     getMainWindow().Table.refreshForColumns()
                     getMainWindow().SpecialTools.refreshForColumns()

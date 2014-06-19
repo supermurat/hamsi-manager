@@ -39,7 +39,7 @@ class MusicDetails(MDialog):
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
                 for dialog in musicDialogs:
-                    if dialog.isVisible()==True:
+                    if dialog.isVisible():
                         isHasOpenedDialog=True
                         self = dialog
                         self.changeFile(_filePath)
@@ -49,7 +49,7 @@ class MusicDetails(MDialog):
                         break
                 if isHasOpenedDialog==False:
                     _isOpenDetailsOnNewWindow=True
-            if _isOpenDetailsOnNewWindow==True:
+            if _isOpenDetailsOnNewWindow:
                 musicDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
                 if isActivePyKDE4:
@@ -235,7 +235,7 @@ class MusicDetails(MDialog):
     def closeAllMusicDialogs():
         for dialog in musicDialogs:
             try:
-                if dialog.isVisible()==True:
+                if dialog.isVisible():
                     dialog.player.stop()
                     dialog.close()
             except:
@@ -285,7 +285,7 @@ class MusicDetails(MDialog):
                 self.pbtnDeleteImage.hide()
                 self.pbtnSaveAsImage.hide()
             else:
-                if fu.isFile(self.leImagePath.text())==True:
+                if fu.isFile(self.leImagePath.text()):
                     ImageDetails.closeAllImageDialogs()
                     imageType = Taggers.getImageTypesNo()[self.cbImageType.currentIndex()]
                     description = str(imageType)

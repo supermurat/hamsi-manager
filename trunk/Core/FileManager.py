@@ -360,7 +360,7 @@ class FileManager():
         try:
             while 1==1:
                 selected = str(self.getPathOfIndex(_index))
-                if fu.isDir(selected)==True or fu.isFile(selected)==True:
+                if fu.isDir(selected) or fu.isFile(selected):
                     self.makeRefreshOnlyFileList(_index)
                     break
                 else:
@@ -373,7 +373,7 @@ class FileManager():
         try:
             while 1==1:
                 selected = str(self.getPathOfIndexByTree(_index))
-                if fu.isDir(selected)==True or fu.isFile(selected)==True:
+                if fu.isDir(selected) or fu.isFile(selected):
                     self.makeRefreshOnlyFileListByTree(_index)
                     break
                 else:
@@ -421,7 +421,7 @@ class BookmarksMenu(MMenu):
                 return
             for info in Databases.BookmarksOfDirectories.fetchAll():
                 if info[1]==str(_action.objectName()):
-                    if fu.isDir(str(info[2]))==True:
+                    if fu.isDir(str(info[2])):
                         getMainWindow().FileManager.goTo(str(info[2]))
                         return
                     else:

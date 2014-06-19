@@ -1067,7 +1067,7 @@ def moveOrChange(_oldPath, _newPath, _objectType="file", _actionType="auto", _is
     if _oldPath is not None:
         isChange=True
         _newPath = checkDestination(_oldPath, _newPath, _isQuiet)
-    if isChange==True and _newPath:
+    if isChange and _newPath:
         if _objectType=="directory" and _actionType=="auto":
             if uni.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                 if checkEmptyDirectories(_oldPath, True, True, uni.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
@@ -1077,13 +1077,13 @@ def moveOrChange(_oldPath, _newPath, _objectType="file", _actionType="auto", _is
                 for name in readDirectoryAll(_oldPath):
                     moveOrChange(joinPath(_oldPath, name), joinPath(_newPath, name), getObjectType(joinPath(_oldPath, name)), _actionType, _isQuiet)
                 isChange = False
-        if isChange==True:
+        if isChange:
             moveFileOrDir(_oldPath,_newPath, _isQuiet)
         if _objectType=="directory" and _actionType=="auto":
             if uni.getBoolValue("isClearEmptyDirectoriesWhenMoveOrChange"):
                 if checkEmptyDirectories(_newPath, True, True, uni.getBoolValue("isAutoCleanSubFolderWhenMoveOrChange")):
                     return _newPath
-        if isDir(_newPath)==True and _actionType=="auto":
+        if isDir(_newPath) and _actionType=="auto":
             if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenMoveOrChange"):
                 checkIcon(_newPath)
         elif _actionType=="auto":
@@ -1103,7 +1103,7 @@ def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQu
     if _oldPath is not None:
         isChange=True
         _newPath = checkDestination(_oldPath, _newPath, _isQuiet)
-    if isChange==True and _newPath:
+    if isChange and _newPath:
         if _objectType=="directory" and _actionType=="auto":
             if uni.getBoolValue("isClearEmptyDirectoriesWhenCopyOrChange"):
                 if checkEmptyDirectories(_oldPath, True, True, uni.getBoolValue("isAutoCleanSubFolderWhenCopyOrChange")):
@@ -1113,9 +1113,9 @@ def copyOrChange(_oldPath,_newPath,_objectType="file", _actionType="auto", _isQu
                 for name in readDirectoryAll(_oldPath):
                     copyOrChange(joinPath(_oldPath, name), joinPath(_newPath, name), getObjectType(joinPath(_oldPath, name)), _actionType, _isQuiet)
                 isChange = False
-        if isChange==True:
+        if isChange:
             copyFileOrDir(_oldPath,_newPath)
-        if isDir(_newPath)==True and _actionType=="auto":
+        if isDir(_newPath) and _actionType=="auto":
             if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue("isAutoMakeIconToDirectoryWhenCopyOrChange"):
                 checkIcon(_newPath)
         return _newPath
@@ -1210,7 +1210,7 @@ def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False
                             if str(fileName.split(".")[0]).lower()==str(coverName).lower():
                                 cover = fileName
                                 break
-        if _isAsk and eval(uni.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title())==True and len(imageFiles)>1:
+        if _isAsk and eval(uni.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title()) and len(imageFiles)>1:
             selectedIndex = 0
             if cover!=None:
                 selectedIndex = imageFiles.index(cover)
@@ -1222,7 +1222,7 @@ def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False
                     break
         if _isCheckDelete and cover!=None:
             if isWritableFileOrDir(_path):
-                if eval(uni.MySettings["isDeleteOtherImages"].title())==True:
+                if eval(uni.MySettings["isDeleteOtherImages"].title()):
                     for imgFile in imageFiles:
                         if cover != imgFile:
                             removeFile(joinPath(_path, imgFile))

@@ -38,7 +38,7 @@ class CoverDetails(MDialog):
         if _isOpenDetailsOnNewWindow==False:
             isHasOpenedDialog=False
             for dialog in coverDialogs:
-                if dialog.isVisible()==True:
+                if dialog.isVisible():
                     isHasOpenedDialog=True
                     self = dialog
                     self.changeCoverValues(_coverValues)
@@ -47,7 +47,7 @@ class CoverDetails(MDialog):
                     break
             if isHasOpenedDialog==False:
                 _isOpenDetailsOnNewWindow=True
-        if _isOpenDetailsOnNewWindow==True:
+        if _isOpenDetailsOnNewWindow:
             coverDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
             if isActivePyKDE4:
@@ -145,7 +145,7 @@ class CoverDetails(MDialog):
     def closeAllCoverDialogs():
         for dialog in coverDialogs:
             try:
-                if dialog.isVisible()==True:
+                if dialog.isVisible():
                     dialog.close()
             except:
                 continue

@@ -37,7 +37,7 @@ class AmarokArtistDetails(MDialog):
             if _isOpenDetailsOnNewWindow==False:
                 isHasOpenedDialog=False
                 for dialog in amarokArtistDialogs:
-                    if dialog.isVisible()==True:
+                    if dialog.isVisible():
                         isHasOpenedDialog=True
                         self = dialog
                         self.changeArtist(_artistId)
@@ -46,7 +46,7 @@ class AmarokArtistDetails(MDialog):
                         break
                 if isHasOpenedDialog==False:
                     _isOpenDetailsOnNewWindow=True
-            if _isOpenDetailsOnNewWindow==True:
+            if _isOpenDetailsOnNewWindow:
                 amarokArtistDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
                 if isActivePyKDE4:
@@ -149,7 +149,7 @@ class AmarokArtistDetails(MDialog):
     def closeAllAmarokArtistDialogs():
         for dialog in amarokArtistDialogs:
             try:
-                if dialog.isVisible()==True:
+                if dialog.isVisible():
                     dialog.close()
             except:
                 continue

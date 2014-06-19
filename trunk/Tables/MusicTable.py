@@ -89,7 +89,7 @@ class MusicTable():
             if isContinueThreadAction==False:
                 break
         uni.finishThreadAction()
-        if isCanNoncompatible == True:
+        if isCanNoncompatible:
             Dialogs.show(translate("FileUtils/Musics", "Possible ID3 Mismatch"),
                 translate("FileUtils/Musics", "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
         return currentTableContentValues
