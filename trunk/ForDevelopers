@@ -2,7 +2,7 @@
 M = K (in PyKDE4) (Example : MLabel = KLabel)
 M = Q (in PyQt4)  (Example : MLabel = QLabel)
 
-Objects` Prefix =	Objacts` Name
+Objects` Prefix =	Objects` Name
 
 lbl				= 	MLabel
 le				=	MLineEdit

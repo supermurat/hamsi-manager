@@ -201,7 +201,7 @@ class QuickMakeWindow(MyDialog):
             if _objectType == "file":
                 answer = Dialogs.ask(translate("QuickMake", "Cannot Find File"),
                                      str(translate("FileUtils",
-                                                   "\"%s\" : cannot find a file with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(
+                                                   "\"%s\" : cannot find a file with this name.<br>Are you want to organize parent directory with Hamsi Manager?")) % Organizer.getLink(
                                          _oldPath))
                 if answer == Dialogs.Yes:
                     self.organizeWithHamsiManager(_oldPath)
@@ -209,7 +209,7 @@ class QuickMakeWindow(MyDialog):
             elif _objectType == "directory":
                 answer = Dialogs.ask(translate("QuickMake", "Cannot Find Directory"),
                                      str(translate("FileUtils",
-                                                   "\"%s\" : cannot find a folder with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(
+                                                   "\"%s\" : cannot find a folder with this name.<br>Are you want to organize parent directory with Hamsi Manager?")) % Organizer.getLink(
                                          _oldPath))
                 if answer == Dialogs.Yes:
                     self.organizeWithHamsiManager(_oldPath)
@@ -217,7 +217,7 @@ class QuickMakeWindow(MyDialog):
             else:
                 answer = Dialogs.ask(translate("QuickMake", "Cannot Find File Or Directory"),
                                      str(translate("FileUtils",
-                                                   "\"%s\" : cannot find a file or directory with this name.<br>Are you want to organize parant directory with Hamsi Manager?")) % Organizer.getLink(
+                                                   "\"%s\" : cannot find a file or directory with this name.<br>Are you want to organize parent directory with Hamsi Manager?")) % Organizer.getLink(
                                          _oldPath))
                 if answer == Dialogs.Yes:
                     self.organizeWithHamsiManager(_oldPath)
