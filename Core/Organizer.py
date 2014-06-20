@@ -79,10 +79,10 @@ def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=
             _inputString = makeCorrectCaseSensitive(_inputString, uni.MySettings["validSentenceStructure"])
     if _isRichText == False:
         if uni.getBoolValue("isCorrectDoubleSpaceChars"):
-            isFinded = _inputString.find("  ")
-            while isFinded != -1:
+            isFound = _inputString.find("  ")
+            while isFound != -1:
                 _inputString = _inputString.replace("  ", " ")
-                isFinded = _inputString.find("  ")
+                isFound = _inputString.find("  ")
     return _inputString
 
 

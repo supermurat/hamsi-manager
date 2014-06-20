@@ -393,7 +393,7 @@ class ReportBugDialog(MDialog):
 
     def isSendTableContents(self):
         try:
-            currenText = str(self.teErrorDetails.toHtml())
+            currentText = str(self.teErrorDetails.toHtml())
             if self.cckbIsSendTableContents.checkState() == Mt.Checked:
                 currentDirectoryPath = ""
                 try: currentDirectoryPath = getMainWindow().FileManager.getCurrentDirectoryPath()
@@ -424,13 +424,13 @@ class ReportBugDialog(MDialog):
                         settingText += "</table>"
                 except: pass
                 self.teErrorDetails.setHtml(str(
-                    currenText + "<br>----------------------////////----------------------<br><br><a name='tableContents'><b>" + str(
+                    currentText + "<br>----------------------////////----------------------<br><br><a name='tableContents'><b>" + str(
                         translate("ReportBug",
                                   "Note : You can check and delete your personal informations.")) + "</b></a>" + settingText))
                 self.teErrorDetails.scrollToAnchor("tableContents")
             else:
-                currenText = currenText.split("----------------------////////----------------------")[0]
-                self.teErrorDetails.setHtml(str(currenText))
+                currentText = currentText.split("----------------------////////----------------------")[0]
+                self.teErrorDetails.setHtml(str(currentText))
         except:
             pass
         

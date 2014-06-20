@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@ import FileUtils as fu
 import logging
 
 recordContents = ""
-isSetedTitle = False
+isSetTitle = False
 recordType = 0  # 0=Normal, 1=Debug
 lastRecordType = 0
 
@@ -36,12 +36,12 @@ def create():
 
 
 def setTitle(_title):
-    global isSetedTitle, recordContents
+    global isSetTitle, recordContents
     if "isSaveActions" not in uni.MySettings.keys() or uni.getBoolValue("isSaveActions"):
         recordContents += str(_title) + "\n"
     if uni.loggingLevel == logging.DEBUG:
         print (_title)
-    isSetedTitle = True
+    isSetTitle = True
 
 
 def add(_action, _previous="", _now=None):
@@ -74,7 +74,7 @@ def restoreRecordType():
 
 
 def saveAllRecords():
-    global recordContents, isSetedTitle
+    global recordContents, isSetTitle
     if "isSaveActions" not in uni.MySettings.keys() or uni.getBoolValue("isSaveActions"):
         if fu.isFile(fu.recordFilePath) == False:
             create()
@@ -82,7 +82,7 @@ def saveAllRecords():
         fu.addToFile(fu.recordFilePath, recordContents)
         restoreRecordType()
     recordContents = ""
-    isSetedTitle = False
+    isSetTitle = False
 
 
 def checkSize():

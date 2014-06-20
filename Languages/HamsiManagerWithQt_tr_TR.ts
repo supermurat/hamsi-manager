@@ -1386,14 +1386,14 @@
         <name>FileUtils</name>
         <message>
             <location filename="Core/QuickMake.py" line="202"/>
-            <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Are you want to organize parant
+            <source>&quot;%s&quot; : cannot find a file with this name.&lt;br&gt;Are you want to organize parent
                 directory with Hamsi Manager?
             </source>
             <translation type="unfinished"></translation>
         </message>
         <message>
             <location filename="Core/QuickMake.py" line="210"/>
-            <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Are you want to organize parant
+            <source>&quot;%s&quot; : cannot find a folder with this name.&lt;br&gt;Are you want to organize parent
                 directory with Hamsi Manager?
             </source>
             <translation type="unfinished"></translation>
@@ -1401,7 +1401,7 @@
         <message>
             <location filename="Core/QuickMake.py" line="218"/>
             <source>&quot;%s&quot; : cannot find a file or directory with this name.&lt;br&gt;Are you want to organize
-                parant directory with Hamsi Manager?
+                parent directory with Hamsi Manager?
             </source>
             <translation type="unfinished"></translation>
         </message>

@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -145,19 +145,19 @@ class SuggestIdea(MDialog):
 
     def isSendMySettings(self):
         try:
-            currenText = str(self.teIdea.toHtml())
+            currentText = str(self.teIdea.toHtml())
             if self.cckbIsSendMySettings.checkState() == Mt.Checked:
                 settingText = "<br><br>"
                 for keyName in uni.MySettings:
                     if uni.willNotReportSettings.count(keyName) == 0:
                         settingText += "<b>" + str(keyName) + " :</b> " + str(uni.MySettings[keyName]) + "<br>"
                 self.teIdea.setHtml(str(
-                    currenText + "<br>----------------------////////----------------------<br><br><b>" + str(
+                    currentText + "<br>----------------------////////----------------------<br><br><b>" + str(
                         translate("SuggestIdea",
                                   "Note : You can check and delete your personal informations.")) + "</b>" + settingText))
             else:
-                currenText = currenText.split("----------------------////////----------------------")[0]
-                self.teIdea.setHtml(str(currenText))
+                currentText = currentText.split("----------------------////////----------------------")[0]
+                self.teIdea.setHtml(str(currentText))
         except:
             ReportBug.ReportBug()
         
