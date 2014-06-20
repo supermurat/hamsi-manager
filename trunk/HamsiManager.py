@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+##
+## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -38,6 +38,8 @@ if RoutineChecks.checkMandatoryModules():
     uni.printForDevelopers("Before uni.setPaths")
     uni.printForDevelopers("Before RoutineChecks.checkParameters")
     if RoutineChecks.checkParameters():
+        from Core import ReportBug
+
         uni.printForDevelopers("Before Settings")
         from Core import Settings
 
@@ -155,8 +157,6 @@ if RoutineChecks.checkMandatoryModules():
                         uni.saveSettings()
                         uni.printForDevelopers("Shutting down, result %d" % res)
                 except:
-                    from Core import ReportBug
-
                     ReportBug.ReportBug()
                     res = HamsiManagerApp.exec_()
                     uni.printForDevelopers("Shutting down, result %d" % res)
@@ -253,7 +253,6 @@ if RoutineChecks.checkMandatoryModules():
                                 MApplication.setQuitOnLastWindowClosed(True)
                                 try: self.PlayerBar.MusicPlayer.stop()
                                 except: pass
-                                from Core import ReportBug
                                 from Core import Records
                                 from Details import MusicDetails, TextDetails, CoverDetails
 
@@ -312,8 +311,6 @@ if RoutineChecks.checkMandatoryModules():
                                 RoutineChecks.checkAfterCloseProcess()
                                 uni.printForDevelopers("After RoutineChecks.checkAfterCloseProcess")
                             except:
-                                from Core import ReportBug
-
                                 if ReportBug.isClose == False:
                                     ReportBug.ReportBug()
                                     _event.ignore()
@@ -356,8 +353,6 @@ if RoutineChecks.checkMandatoryModules():
                     uni.isStartingSuccessfully = True
                     uni.isCanBeShowOnMainWindow = True
                 except:
-                    from Core import ReportBug
-
                     ReportBug.ReportBug()
                 res = None
                 try:
@@ -366,8 +361,6 @@ if RoutineChecks.checkMandatoryModules():
                     uni.printForDevelopers("Shutting down, result %d" % res)
                     sys.exit(res)
                 except Exception as err:
-                    from Core import ReportBug
-
                     error = ReportBug.ReportBug()
                     print (str(translate("ReportBug",
                                          "A critical error has occurred.If you want to look into details \"%s\" you can see the file.If possible, we ask you to send us this error details.")) % (

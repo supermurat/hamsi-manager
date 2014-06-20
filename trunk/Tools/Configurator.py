@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+##
+## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ class Configurator(MyDialog):
             activePageNo = 2
         elif _page == "pluginPage":
             activePageNo = 3
-        self.isInstallFinised = False
+        self.isInstallFinished = False
         self.pageNo, self.pageSize = activePageNo, 4
         self.pnlMain = MWidget(self)
         self.vblMain = MVBoxLayout(self.pnlMain)
@@ -97,7 +97,7 @@ class Configurator(MyDialog):
         self.show()
 
     def closeEvent(self, _event):
-        if self.isInstallFinised == False:
+        if self.isInstallFinished == False:
             answer = Dialogs.ask(translate("Reconfigure", "Finalizing Configuration"),
                                  translate("Reconfigure", "Are You Sure You Want To Quit?"))
             if answer != Dialogs.Yes:
@@ -121,13 +121,13 @@ class Configurator(MyDialog):
             HBox.addWidget(lblAbout)
         elif _pageNo == 1:
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_" + defaultLangCode)):
-                lisenceFileContent = fu.readFromFile(
+                licenceFileContent = fu.readFromFile(
                     fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_" + defaultLangCode), "utf-8")
             else:
-                lisenceFileContent = fu.readFromFile(
+                licenceFileContent = fu.readFromFile(
                     fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
             teCopying = MTextEdit()
-            teCopying.setPlainText(str(lisenceFileContent))
+            teCopying.setPlainText(str(licenceFileContent))
             HBox.addWidget(teCopying)
         elif _pageNo == 2:
             VBox = MVBoxLayout()
@@ -286,7 +286,7 @@ class Configurator(MyDialog):
                 self.buttons[2].setVisible(False)
                 self.pbtnCancel.setVisible(False)
                 self.pbtnFinish.setVisible(True)
-                self.isInstallFinised = True
+                self.isInstallFinished = True
             if _isRunningManual == False:
                 if senderObject == self.buttons[2]:
                     self.reConfigure()
@@ -336,7 +336,7 @@ class Configurator(MyDialog):
                 fu.writeToFile(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"),
                                fileContent)
             MyConfigure.installKDE4Languages()
-            self.isInstallFinised = True
+            self.isInstallFinished = True
         except:
             ReportBug.ReportBug()
     

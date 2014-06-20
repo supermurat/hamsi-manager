@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+##
+## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ if RoutineChecks.checkMandatoryModules():
     from Core import Universals as uni
     from Core import Settings
 
-    uni.fillMySettings(False, False, False)
+    uni.fillMySettings(False, False)
     isActivePyKDE4 = False
     from Core import Dialogs
     from Core import Execute
@@ -68,7 +68,7 @@ if RoutineChecks.checkMandatoryModules():
             MMainWindow.__init__(self, parent)
             setApplication(HamsiManagerApp)
             setMainWindow(self)
-            self.isInstallFinised = False
+            self.isInstallFinished = False
             self.pageNo, self.pageSize = 0, 5
             self.vblMain = MVBoxLayout()
             self.hblMain = MHBoxLayout()
@@ -133,13 +133,13 @@ if RoutineChecks.checkMandatoryModules():
                 HBox.addWidget(lblAbout)
             elif _pageNo == 1:
                 if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_" + defaultLangCode)):
-                    lisenceFileContent = fu.readFromFile(
+                    licenceFileContent = fu.readFromFile(
                         fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_" + defaultLangCode), "utf-8")
                 else:
-                    lisenceFileContent = fu.readFromFile(
+                    licenceFileContent = fu.readFromFile(
                         fu.joinPath(fu.HamsiManagerDirectory, "Languages", "License_en_GB"), "utf-8")
                 teCopying = MTextEdit()
-                teCopying.setPlainText(str(lisenceFileContent))
+                teCopying.setPlainText(str(licenceFileContent))
                 HBox.addWidget(teCopying)
             elif _pageNo == 2:
                 lblPleaseSelect = MLabel(translate("Install", "Please Select A Folder For Installation."))
@@ -331,7 +331,7 @@ if RoutineChecks.checkMandatoryModules():
                 ReportBug.ReportBug()
 
         def closeEvent(self, _event):
-            if self.isInstallFinised == False:
+            if self.isInstallFinished == False:
                 answer = Dialogs.ask(translate("Install", "Finalizing Installation"),
                                      translate("Install", "Are You Sure You Want To Quit?"))
                 if answer != Dialogs.Yes:
@@ -370,7 +370,7 @@ if RoutineChecks.checkMandatoryModules():
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                     fu.writeToFile(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"),
                                    fileContent)
-                self.isInstallFinised = True
+                self.isInstallFinished = True
                 self.close()
             except:
                 from Core import ReportBug
