@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -63,7 +63,7 @@ if RoutineChecks.checkMandatoryModules():
     args.append("-verbose")
     args.append(proFile)
 
-    print (Execute.getCommandResult(args), fu.HamsiManagerDirectory)
+    print (Execute.getCommandResult(args, fu.HamsiManagerDirectory))
 
     proFileContent = proFileContent.replace("Languages" + fu.sep + "HamsiManager_untranslated.ts \\\n         ", "")
     fu.writeToFile(proFile, proFileContent)
@@ -71,7 +71,7 @@ if RoutineChecks.checkMandatoryModules():
     args = ["lrelease"]
     args.append("-compress")
     args.append(proFile)
-    print (Execute.getCommandResult(args), fu.HamsiManagerDirectory)
+    print (Execute.getCommandResult(args, fu.HamsiManagerDirectory))
 
     print ("Translation files have been updated successfully.")
 

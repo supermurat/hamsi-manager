@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -1096,7 +1096,7 @@ class MySettings(MWidget):
     def backUpBookmarks(self):
         try:
             Settings.makeBackUp("bookmarks")
-            Dialogs.show(translate("Options/MySettings", "Backup Succesfully"),
+            Dialogs.show(translate("Options/MySettings", "Backup Successfully"),
                          translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
             ReportBug.ReportBug()
@@ -1104,7 +1104,7 @@ class MySettings(MWidget):
     def backUpSearchAndReplaceTable(self):
         try:
             Settings.makeBackUp("searchAndReplaceTable")
-            Dialogs.show(translate("Options/MySettings", "Backup Succesfully"),
+            Dialogs.show(translate("Options/MySettings", "Backup Successfully"),
                          translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
             ReportBug.ReportBug()
@@ -1112,7 +1112,7 @@ class MySettings(MWidget):
     def backUpSettings(self):
         try:
             Settings.makeBackUp("Settings")
-            Dialogs.show(translate("Options/MySettings", "Backup Succesfully"),
+            Dialogs.show(translate("Options/MySettings", "Backup Successfully"),
                          translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
             ReportBug.ReportBug()
@@ -1120,7 +1120,7 @@ class MySettings(MWidget):
     def backUpAll(self):
         try:
             Settings.makeBackUp("All")
-            Dialogs.show(translate("Options/MySettings", "Backup Succesfully"),
+            Dialogs.show(translate("Options/MySettings", "Backup Successfully"),
                          translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
             ReportBug.ReportBug()
