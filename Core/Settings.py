@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -192,7 +192,7 @@ def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mir
 
 def restoreBackUp(_settingType="All", _isMakeBackUp=True):
     files = []
-    isSuccesfully = True
+    isSuccessfully = True
     if _settingType == "database" or _settingType == "All":
         files.append("database.sqlite")
     if _settingType == "Settings" or _settingType == "All":
@@ -209,11 +209,11 @@ def restoreBackUp(_settingType="All", _isMakeBackUp=True):
                 fu.moveFileOrDir(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file),
                                  fu.joinPath(fu.pathOfSettingsDirectory, file))
             else:
-                isSuccesfully = False
+                isSuccessfully = False
         except: pass
         if _isMakeBackUp:
             fu.writeToFile(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file), oldInfo)
-    return isSuccesfully
+    return isSuccessfully
 
 
 def saveStateOfSettings(_file):

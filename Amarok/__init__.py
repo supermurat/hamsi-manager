@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -129,7 +129,7 @@ def connectAndGetDB():
     return dbConnection
 
 
-def checkAndGetDB(_isNoAlertIfSuccesfully=True, _isReCheck=False):
+def checkAndGetDB(_isNoAlertIfSuccessfully=True, _isReCheck=False):
     global isCheckAgain
     if _isReCheck:
         isCheckAgain = True
@@ -140,9 +140,9 @@ def checkAndGetDB(_isNoAlertIfSuccesfully=True, _isReCheck=False):
                 if isCheckAgain:
                     db.query("SELECT component,version FROM admin")
                     r = db.store_result()
-                    if _isNoAlertIfSuccesfully == False:
+                    if _isNoAlertIfSuccessfully == False:
                         Dialogs.show(translate("Amarok", "Connected To Database"),
-                                     str(translate("Amarok", "Connected succesfully to \"%s\"")) % uni.MySettings[
+                                     str(translate("Amarok", "Connected successfully to \"%s\"")) % uni.MySettings[
                                          "amarokDBDB"])
                 isCheckAgain = False
                 return db
@@ -233,7 +233,7 @@ def setSelectedTagTargetType(_type, _tableName="AmarokMusicTable"):
     uni.setMySetting("AmarokTagTargetType" + _tableName, _type)
 
 
-def configureEmbeddedDB(_isNoAlertIfSuccesfully=True):
+def configureEmbeddedDB(_isNoAlertIfSuccessfully=True):
     stopEmbeddedDB()
     backupEmbeddedDB()
     fu.copyDirContent(fu.HamsiManagerDirectory + "/Amarok/EmbeddedDBFiles/mysql",
@@ -241,13 +241,13 @@ def configureEmbeddedDB(_isNoAlertIfSuccesfully=True):
     fu.copyFileOrDir(fu.HamsiManagerDirectory + "/Amarok/EmbeddedDBFiles/my.cnf",
                      uni.getKDE4HomePath() + "/share/apps/amarok/mysqle/my.cnf")
     MyConfigure.reConfigureFile(uni.getKDE4HomePath() + "/share/apps/amarok/mysqle/my.cnf")
-    if _isNoAlertIfSuccesfully == False:
+    if _isNoAlertIfSuccessfully == False:
         Dialogs.show(translate("EmbeddedDBCore", "Created Embedded Server"),
                      translate("EmbeddedDBCore", "Embedded Amarok database server created and generated."))
     return True
 
 
-def startEmbeddedDB(_isNoAlertIfSuccesfully=True):
+def startEmbeddedDB(_isNoAlertIfSuccessfully=True):
     global isStarted
     if isStarted:
         return True
@@ -255,7 +255,7 @@ def startEmbeddedDB(_isNoAlertIfSuccesfully=True):
         Execute.executeWithThread([uni.MySettings["pathOfMysqldSafe"],
                                    "--defaults-file=" + uni.getKDE4HomePath() + "/share/apps/amarok/mysqle/my.cnf"])
         Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
-        if _isNoAlertIfSuccesfully == False:
+        if _isNoAlertIfSuccessfully == False:
             Dialogs.show(translate("EmbeddedDBCore", "Started Embedded Server"),
                          translate("EmbeddedDBCore", "Embedded Amarok database server started."))
         isStarted = True
@@ -264,7 +264,7 @@ def startEmbeddedDB(_isNoAlertIfSuccesfully=True):
     return False
 
 
-def stopEmbeddedDB(_isNoAlertIfSuccesfully=True):
+def stopEmbeddedDB(_isNoAlertIfSuccessfully=True):
     global isStarted
     if isStarted == False:
         return True
@@ -273,7 +273,7 @@ def stopEmbeddedDB(_isNoAlertIfSuccesfully=True):
     if mysqldPID != None:
         Execute.execute(["kill", "-TERM", str(mysqldPID)])
         Dialogs.sleep(translate("EmbeddedDBCore", "Stopping Embedded Server..."), 3)
-    if _isNoAlertIfSuccesfully == False:
+    if _isNoAlertIfSuccessfully == False:
         Dialogs.show(translate("EmbeddedDBCore", "Stopped Embedded Server"),
                      translate("EmbeddedDBCore", "Embedded Amarok database server stopped."))
     return True
@@ -314,7 +314,7 @@ def isHasEmbeddedDBBackup():
     return fu.isDir(uni.getKDE4HomePath() + "/share/apps/amarok/mysqle_backup_for_hamsi")
 
 
-def createReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
+def createReadOnlyEmbeddedDB(_isNoAlertIfSuccessfully=True):
     stopReadOnlyEmbeddedDB()
     if fu.isDir(fu.pathOfSettingsDirectory + "/Amarok"):
         fu.removeFileOrDir(fu.pathOfSettingsDirectory + "/Amarok")
@@ -332,25 +332,25 @@ def createReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
     fu.copyFileOrDir(uni.getKDE4HomePath() + "/share/apps/amarok/mysqle/ibdata1",
                      fu.pathOfSettingsDirectory + "/Amarok/mysqle/ibdata1")
     generateReadOnlyEmbeddedD()
-    if _isNoAlertIfSuccesfully == False:
+    if _isNoAlertIfSuccessfully == False:
         Dialogs.show(translate("EmbeddedDBCore", "Created Embedded Server"),
                      translate("EmbeddedDBCore", "Embedded Amarok database server created and generated."))
     return True
 
 
-def generateReadOnlyEmbeddedD(_isNoAlertIfSuccesfully=True):
+def generateReadOnlyEmbeddedD(_isNoAlertIfSuccessfully=True):
     stopReadOnlyEmbeddedDB()
     if fu.isExist(fu.pathOfSettingsDirectory + "/Amarok/mysqle/amarok"):
         fu.removeFileOrDir(fu.pathOfSettingsDirectory + "/Amarok/mysqle/amarok")
     fu.copyFileOrDir(uni.getKDE4HomePath() + "/share/apps/amarok/mysqle/amarok",
                      fu.pathOfSettingsDirectory + "/Amarok/mysqle/amarok")
-    if _isNoAlertIfSuccesfully == False:
+    if _isNoAlertIfSuccessfully == False:
         Dialogs.show(translate("EmbeddedDBCore", "Generated Embedded Server"),
                      translate("EmbeddedDBCore", "Embedded Amarok database server generated."))
     return True
 
 
-def startReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
+def startReadOnlyEmbeddedDB(_isNoAlertIfSuccessfully=True):
     global isReadOnlyStarted
     if isReadOnlyStarted:
         return True
@@ -358,7 +358,7 @@ def startReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
         Execute.executeWithThread(
             [uni.MySettings["pathOfMysqldSafe"], "--defaults-file=" + fu.pathOfSettingsDirectory + "/Amarok/my.cnf"])
         Dialogs.sleep(translate("EmbeddedDBCore", "Starting Embedded Server..."), 3)
-        if _isNoAlertIfSuccesfully == False:
+        if _isNoAlertIfSuccessfully == False:
             Dialogs.show(translate("EmbeddedDBCore", "Started Embedded Server"),
                          translate("EmbeddedDBCore", "Embedded Amarok database server started."))
         isReadOnlyStarted = True
@@ -367,7 +367,7 @@ def startReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
     return False
 
 
-def stopReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
+def stopReadOnlyEmbeddedDB(_isNoAlertIfSuccessfully=True):
     global isReadOnlyStarted
     if isReadOnlyStarted == False:
         return True
@@ -376,7 +376,7 @@ def stopReadOnlyEmbeddedDB(_isNoAlertIfSuccesfully=True):
     if mysqldPID != None:
         Execute.execute(["kill", "-TERM", str(mysqldPID)])
         Dialogs.sleep(translate("EmbeddedDBCore", "Stopping Embedded Server..."), 3)
-    if _isNoAlertIfSuccesfully == False:
+    if _isNoAlertIfSuccessfully == False:
         Dialogs.show(translate("EmbeddedDBCore", "Stopped Embedded Server"),
                      translate("EmbeddedDBCore", "Embedded Amarok database server stopped."))
     return True
@@ -465,14 +465,14 @@ class EmbeddedDBConfigurator(MyDialog):
         except:
             ReportBug.ReportBug()
 
-    def startEmbeddedDB(self, _isNoAlertIfSuccesfully=False):
+    def startEmbeddedDB(self, _isNoAlertIfSuccessfully=False):
         try:
-            startEmbeddedDB(_isNoAlertIfSuccesfully)
+            startEmbeddedDB(_isNoAlertIfSuccessfully)
             self.checkRunState()
         except:
             ReportBug.ReportBug()
 
-    def stopEmbeddedDB(self, _isNoAlertIfSuccesfully=False):
+    def stopEmbeddedDB(self, _isNoAlertIfSuccessfully=False):
         try:
             stopEmbeddedDB(False)
             self.checkRunState()
