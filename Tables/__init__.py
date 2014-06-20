@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+##
+## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -147,8 +147,9 @@ class Tables(MTableWidget):
 
                 self.SubTable = CoverTable.CoverTable(self)
             else:
-                Dialogs.showError(translate("Tables", "Directory Cover Not Usable"), translate("Tables",
-                                                                                               "Any icon can not set to any directory. This feature is not usable in your system."))
+                Dialogs.showError(translate("Tables", "Directory Cover Not Usable"),
+                                  translate("Tables",
+                                            "Any icon can not set to any directory. This feature is not usable in your system."))
                 uni.tableType = "1"
                 from Tables import FileTable
 

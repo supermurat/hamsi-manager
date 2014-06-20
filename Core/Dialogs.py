@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+##
+## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -19,7 +19,10 @@
 
 from Core.MyObjects import *
 from Core import Universals as uni
+import FileUtils as fu
 from datetime import datetime
+import time
+
 
 Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
 lastInfoTime = (datetime.now().microsecond / 60000)
@@ -121,6 +124,7 @@ def askSpecial(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs
     except: mboxDialog = MyMessageBox(None)
     mboxDialog.setWindowTitle(str(_title))
     mboxDialog.setText(str("<b>" + str(_title) + " : </b><br>" + str(_detail)))
+    btn = btn1 = btn2 = btn3 = None
     btn = mboxDialog.addButton(_btnString, MyMessageBox.ActionRole)
     if _btnString2 != None:
         btn2 = mboxDialog.addButton(_btnString2, MyMessageBox.ActionRole)
@@ -220,8 +224,6 @@ def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCa
 
 
 def sleep(_title, _value=0, _isShowCancel=False):
-    import time
-
     maxTime = _value * 4
     step = 0
     while step <= maxTime:
@@ -261,8 +263,6 @@ def getText(_title="Hamsi Cover", _detail="", _default=""):
 
 def getSaveFileName(_caption, _directory, _filter=None, _isUseLastPathKeyType=1, _lastPathKey=None):
     if _filter is None:
-        import FileUtils as fu
-
         if fu.isFile(_directory):
             fileExt = fu.getFileExtension(_directory)
             if fileExt != "":
@@ -299,7 +299,7 @@ def getOpenFileNames(_caption, _directory, _filter, _isUseLastPathKeyType=1, _la
                                              str(_directory), str(_filter))
     if filePaths == []:
         return None
-    if pathKey is not None: uni.setLastPathByEvent(pathKey, str(filePath))
+    if pathKey is not None: uni.setLastPathByEvent(pathKey, str(filePaths[-1]))
     return list(filePaths)
 
 

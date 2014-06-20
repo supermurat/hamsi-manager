@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
-## 
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+##
+## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import re
 import Amarok
 import Databases
 from Core import Universals as uni
+import FileUtils as fu
 
 
 def getSQLConditionPartByPartOfFilter(_partOfFilterString="", _isValueTable=True):
@@ -779,8 +780,6 @@ def getOrInsertDirectory(_directory, _deviceId):
 
 
 def changeFilePath(_oldPath, _newPath):
-    import FileUtils as fu
-
     _oldPath, _newPath = str(_oldPath), str(_newPath)
     withOutDevicePointValues, withOutDeviceValues = [], []
     for devicePoint in getDevices():

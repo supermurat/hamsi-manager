@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+##
+## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ if RoutineChecks.checkMandatoryModules():
     from Core import Universals as uni
     from Core import Settings
 
-    uni.fillMySettings(False, False, False)
+    uni.fillMySettings(False, False)
     from Core import Dialogs
     from Core import Execute
 
@@ -67,7 +67,7 @@ if RoutineChecks.checkMandatoryModules():
             MMainWindow.__init__(self, parent)
             setApplication(HamsiManagerApp)
             setMainWindow(self)
-            self.isUninstallFinised = False
+            self.isUninstallFinished = False
             self.pageNo, self.pageSize = 0, 3
             self.vblMain = MVBoxLayout()
             self.hblMain = MHBoxLayout()
@@ -247,7 +247,7 @@ if RoutineChecks.checkMandatoryModules():
                     if fu.isFile(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop")):
                         fu.removeFileOrDir(
                             fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"))
-                self.isUninstallFinised = True
+                self.isUninstallFinished = True
                 self.close()
             except:
                 from Core import ReportBug

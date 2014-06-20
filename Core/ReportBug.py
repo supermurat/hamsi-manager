@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>      
+##
+# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ if uni.isPython3k:
 else:
     from urllib import unquote, quote
 
+isClose = False
 
 class ReportBug():
     global bugDialog, lastErrorDetails
@@ -212,7 +213,6 @@ class ReportBug():
 
 class ReportBugDialog(MDialog):
     global isClose
-    isClose = False
 
     def __init__(self, _errorDetails="", _pathOfReportFile=None):
         global isClose
