@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -450,7 +450,7 @@ class OptionsForm(MDialog):
             isDontClose = False
             isSaveSearchAndReplaceTable, searchAndReplaceCategoryNo = False, 0
             defaultValues = Settings.getDefaultValues()
-            valueTypesAndValues = Settings.getValueTypesAndValues(True)
+            valueTypesAndValues = Settings.getValueTypesAndValues()
             for categoryNo, category in enumerate(self.categories):
                 for x, keyValue in enumerate(category.keysOfSettings):
                     if category.visibleKeys.count(keyValue) > 0:
@@ -536,7 +536,7 @@ class OptionsForm(MDialog):
     def applySetting(self, _category, _keyValue):
         try:
             defaultValues = Settings.getDefaultValues()
-            valueTypesAndValues = Settings.getValueTypesAndValues(True)
+            valueTypesAndValues = Settings.getValueTypesAndValues()
             x = _category.keysOfSettings.index(_keyValue)
             if _category.visibleKeys.count(_keyValue) > 0:
                 if _category.typesOfValues[x] == "string":
