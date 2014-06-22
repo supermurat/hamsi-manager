@@ -21,6 +21,7 @@ from Core import Universals as uni
 from Core.MyObjects import *
 import FileUtils as fu
 from Databases import sqlite, reFillDatabases, checkDatabases
+from datetime import datetime
 
 
 def getSettings(_settingsFilePath):
@@ -343,14 +344,20 @@ def getKeysOfSettings():
 
 
 def getDefaultValues():
-    from datetime import datetime
-
     if uni.getInstalledLanguagesCodes().count(str(MQtCore.QLocale.system().name())) > 0:
         insLangCode = str(MQtCore.QLocale.system().name())
     else:
         insLangCode = "en_GB"
-    myStyle, PlayerName = "", uni.getAvailablePlayers().pop()
-    if uni.isWindows: myStyle = "Plastique"
+    availablePlayers = uni.getAvailablePlayers()
+    if availablePlayers.count("Phonon") > 0:
+        playerName = "Phonon"
+    elif availablePlayers.count("Phonon (PySide)") > 0:
+        playerName = "Phonon (PySide)"
+    else:
+        playerName = availablePlayers.pop()
+    myStyle = ""
+    if uni.isWindows:
+        myStyle = "Plastique"
     return {
         "lastDirectory": str(fu.userDirectoryPath),
         "isMainWindowMaximized": "False",
@@ -389,7 +396,7 @@ def getDefaultValues():
         "isSaveActions": "True",
         "fileSystemEncoding": fu.defaultFileSystemEncoding,
         "applicationStyle": myStyle,
-        "playerName": PlayerName,
+        "playerName": playerName,
         "isMinimumWindowMode": "False",
         "packagerUnneededFileExtensions": str(
             ['pyc', 'py~', 'e4p', 'pro', 'pro.user', 'kdev4', 'kdevelop', 'kdevelop.pcs', 'kdevses', 'ts', 'anjuta']),
@@ -505,10 +512,7 @@ def getDefaultValues():
     }
 
 
-def getValueTypesAndValues(_isAfterDefineApplication=False):
-    myStyleContent = "str"
-    if _isAfterDefineApplication:
-        myStyleContent = ["options", uni.getStyles()]
+def getValueTypesAndValues():
     return {
         "lastDirectory": "str",
         "isMainWindowMaximized": "bool",
@@ -546,7 +550,7 @@ def getValueTypesAndValues(_isAfterDefineApplication=False):
         "mplayerAudioDevice": ["options", uni.mplayerSoundDevices],
         "isSaveActions": "bool",
         "fileSystemEncoding": ["options", uni.getCharSets()],
-        "applicationStyle": myStyleContent,
+        "applicationStyle": ["options", uni.getStyles()],
         "playerName": ["options", uni.getAvailablePlayers()],
         "isMinimumWindowMode": "bool",
         "packagerUnneededFileExtensions": "list",

@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
 # #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -989,43 +989,34 @@ class MySettings(MWidget):
         lblBackUp.setAlignment(Mt.AlignHCenter)
         lblRestore.setAlignment(Mt.AlignHCenter)
         reFillSettings.setAlignment(Mt.AlignHCenter)
-        pbtnRestoreBookmarks = MPushButton(translate("Options/MySettings", "Bookmarks"))
-        pbtnRestoreSearchAndReplaceTable = MPushButton(translate("Options/MySettings", "Search-Replace Parameters"))
+        pbtnRestoreDatabases = MPushButton(translate("Options/MySettings", "Databases"))
         pbtnRestoreSettings = MPushButton(translate("Options/MySettings", "Program Settings"))
         pbtnRestoreAll = MPushButton(translate("Options/MySettings", "All"))
-        pbtnBackUpBookmarks = MPushButton(translate("Options/MySettings", "Bookmarks"))
-        pbtnBackUpSearchAndReplaceTable = MPushButton(translate("Options/MySettings", "Search-Replace Parameters"))
+        pbtnBackUpDatabases = MPushButton(translate("Options/MySettings", "Databases"))
         pbtnBackUpSettings = MPushButton(translate("Options/MySettings", "Program Settings"))
         pbtnBackUpAll = MPushButton(translate("Options/MySettings", "All"))
-        pbtnReFillBookmarks = MPushButton(translate("Options/MySettings", "Bookmarks"))
-        pbtnReFillSearchAndReplaceTable = MPushButton(translate("Options/MySettings", "Search-Replace Parameters"))
+        pbtnReFillDatabases = MPushButton(translate("Options/MySettings", "Databases"))
         pbtnReFillSettings = MPushButton(translate("Options/MySettings", "Program Settings"))
         pbtnReFillAll = MPushButton(translate("Options/MySettings", "All"))
         pbtnClearErrorFiles = MPushButton(translate("Options/MySettings", "Delete Error Logs"))
-        MObject.connect(pbtnRestoreBookmarks, SIGNAL("clicked()"), self.restoreBookmarks)
-        MObject.connect(pbtnRestoreSearchAndReplaceTable, SIGNAL("clicked()"), self.restoreSearchAndReplaceTable)
+        MObject.connect(pbtnRestoreDatabases, SIGNAL("clicked()"), self.restoreDatabases)
         MObject.connect(pbtnRestoreSettings, SIGNAL("clicked()"), self.restoreSettings)
         MObject.connect(pbtnRestoreAll, SIGNAL("clicked()"), self.restoreAll)
-        MObject.connect(pbtnBackUpBookmarks, SIGNAL("clicked()"), self.backUpBookmarks)
-        MObject.connect(pbtnBackUpSearchAndReplaceTable, SIGNAL("clicked()"), self.backUpSearchAndReplaceTable)
+        MObject.connect(pbtnBackUpDatabases, SIGNAL("clicked()"), self.backUpDatabases)
         MObject.connect(pbtnBackUpSettings, SIGNAL("clicked()"), self.backUpSettings)
         MObject.connect(pbtnBackUpAll, SIGNAL("clicked()"), self.backUpAll)
-        MObject.connect(pbtnReFillBookmarks, SIGNAL("clicked()"), self.reFillBookmarks)
-        MObject.connect(pbtnReFillSearchAndReplaceTable, SIGNAL("clicked()"), self.reFillSearchAndReplaceTable)
+        MObject.connect(pbtnReFillDatabases, SIGNAL("clicked()"), self.reFillDatabases)
         MObject.connect(pbtnReFillSettings, SIGNAL("clicked()"), self.reFillSettings)
         MObject.connect(pbtnReFillAll, SIGNAL("clicked()"), self.reFillAll)
         MObject.connect(pbtnClearErrorFiles, SIGNAL("clicked()"), self.clearErrorFiles)
-        left0.addWidget(pbtnBackUpBookmarks)
-        left0.addWidget(pbtnBackUpSearchAndReplaceTable)
-        right0.addWidget(pbtnBackUpSettings)
+        left0.addWidget(pbtnBackUpDatabases)
+        left0.addWidget(pbtnBackUpSettings)
         right0.addWidget(pbtnBackUpAll)
-        left1.addWidget(pbtnRestoreBookmarks)
-        left1.addWidget(pbtnRestoreSearchAndReplaceTable)
-        right1.addWidget(pbtnRestoreSettings)
+        left1.addWidget(pbtnRestoreDatabases)
+        left1.addWidget(pbtnRestoreSettings)
         right1.addWidget(pbtnRestoreAll)
-        left2.addWidget(pbtnReFillBookmarks)
-        left2.addWidget(pbtnReFillSearchAndReplaceTable)
-        right2.addWidget(pbtnReFillSettings)
+        left2.addWidget(pbtnReFillDatabases)
+        left2.addWidget(pbtnReFillSettings)
         right2.addWidget(pbtnReFillAll)
         Panel0.addLayout(left0)
         Panel0.addLayout(right0)
@@ -1093,17 +1084,9 @@ class MySettings(MWidget):
         except:
             ReportBug.ReportBug()
 
-    def backUpBookmarks(self):
+    def backUpDatabases(self):
         try:
-            Settings.makeBackUp("bookmarks")
-            Dialogs.show(translate("Options/MySettings", "Backup Successfully"),
-                         translate("Options/MySettings", "Backup operation was performed successfully."))
-        except:
-            ReportBug.ReportBug()
-
-    def backUpSearchAndReplaceTable(self):
-        try:
-            Settings.makeBackUp("searchAndReplaceTable")
+            Settings.makeBackUp("database")
             Dialogs.show(translate("Options/MySettings", "Backup Successfully"),
                          translate("Options/MySettings", "Backup operation was performed successfully."))
         except:
@@ -1125,20 +1108,10 @@ class MySettings(MWidget):
         except:
             ReportBug.ReportBug()
 
-    def restoreBookmarks(self):
+    def restoreDatabases(self):
         try:
-            if Settings.restoreBackUp("bookmarks"):
+            if Settings.restoreBackUp("database"):
                 self._parent.reStart()
-            else:
-                Dialogs.showError("Failed To Restore",
-                                  "An error occurred during restore. Maybe not found any backup file.")
-        except:
-            ReportBug.ReportBug()
-
-    def restoreSearchAndReplaceTable(self):
-        try:
-            if Settings.restoreBackUp("searchAndReplaceTable"):
-                self.parent().parent().close()
             else:
                 Dialogs.showError("Failed To Restore",
                                   "An error occurred during restore. Maybe not found any backup file.")
@@ -1165,35 +1138,19 @@ class MySettings(MWidget):
         except:
             ReportBug.ReportBug()
 
-    def reFillBookmarks(self):
+    def reFillDatabases(self):
         try:
             answer = Dialogs.askSpecial(translate("Options/MySettings", "Are You Sure You Want To Reset?"),
                                         translate("Options/MySettings",
-                                                  "Are you sure you want to reset your bookmarks?"),
+                                                  "Are you sure you want to reset your databases?"),
                                         translate("Options/MySettings", "Yes"),
                                         translate("Options/MySettings", "No (Cancel)"),
                                         translate("Options/MySettings", "Back Up And Reset"))
             if answer == translate("Options/MySettings", "Yes"):
-                Databases.reFillDatabases("bookmarks")
+                Databases.reFillDatabases("All")
             elif answer == translate("Options/MySettings", "Back Up And Reset"):
-                Databases.reFillDatabases("bookmarks", _makeBackUp=True)
+                Databases.reFillDatabases("All", _makeBackUp=True)
             self._parent.reStart()
-        except:
-            ReportBug.ReportBug()
-
-    def reFillSearchAndReplaceTable(self):
-        try:
-            answer = Dialogs.askSpecial(translate("Options/MySettings", "Are You Sure You Want To Reset?"),
-                                        translate("Options/MySettings",
-                                                  "Do you want to reset your find-replace (automatic) settings?"),
-                                        translate("Options/MySettings", "Yes"),
-                                        translate("Options/MySettings", "No (Cancel)"),
-                                        translate("Options/MySettings", "Back Up And Reset"))
-            if answer == translate("Options/MySettings", "Yes"):
-                Databases.reFillDatabases("searchAndReplaceTable")
-            elif answer == translate("Options/MySettings", "Back Up And Reset"):
-                Databases.reFillDatabases("searchAndReplaceTable", _makeBackUp=True)
-            self.parent().parent().close()
         except:
             ReportBug.ReportBug()
 
