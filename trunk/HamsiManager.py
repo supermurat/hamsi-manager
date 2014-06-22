@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -162,8 +162,6 @@ if RoutineChecks.checkMandatoryModules():
                     uni.printForDevelopers("Shutting down, result %d" % res)
             if RoutineChecks.isQuickMake == False:
                 uni.printForDevelopers("NotQuickMake")
-                import SpecialTools
-                import Tables
                 from Core import FileManager
                 import Bars
                 from Bars import TableToolsBar, ToolsBar, StatusBar, MenuBar
