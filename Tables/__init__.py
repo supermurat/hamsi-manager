@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -702,7 +702,7 @@ class Tables(MTableWidget):
                 formatTypeName = translate("Tables", "Plain Text")
                 fileExt = "txt"
             filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
-                                               fu.joinPath(uni.userDirectoryPath,
+                                               fu.joinPath(fu.userDirectoryPath,
                                                            fu.getBaseName(self.currentDirectoryPath) + "." + fileExt),
                                                formatTypeName + " (*." + fileExt + ")", 2)
             if filePath is not None:

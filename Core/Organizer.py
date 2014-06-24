@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -30,6 +30,9 @@ if uni.isPython3k:
 else:
     from urllib import unquote, quote
 
+utf8ReplacementChars = uni.getUtf8Data("replacementChars")
+utf8LittleI = uni.getUtf8Data("little+I")
+
 
 def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):
     _inputString = str(_inputString)
@@ -38,12 +41,11 @@ def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=
         _inputString = _inputString.strip()
     if len(_inputString) == 0: return ""
     if uni.getBoolValue("isEmendIncorrectChars"):
-        replacementChars = uni.getUtf8Data("replacementChars")
         try: _inputString = uni.trUnicode(_inputString)
         except: _inputString = uni.trUnicode(_inputString, "iso-8859-9")
         _inputString = replaceList(_inputString,
-                                   replacementChars.keys(),
-                                   replacementChars.values())
+                                   utf8ReplacementChars.keys(),
+                                   utf8ReplacementChars.values())
     if uni.getBoolValue("isDecodeURLStrings"):
         _inputString = unquote(_inputString)
     _inputString = str(uni.trDecode(_inputString, "utf-8", "ignore"))
@@ -97,7 +99,7 @@ def emendBaseName(_baseName, _type, _isCorrectCaseSensitive):
                 uni.MySettings["fileReNamerType"] == uni.fileReNamerTypeNamesKeys[2]):
         baseName = ''.join(
             c for c in unicodedata.normalize('NFKD', uni.trUnicode(baseName)) if unicodedata.category(c) != 'Mn')
-        baseName = str(uni.trEncode(baseName, "utf-8", "ignore")).replace(uni.getUtf8Data("little+I"), "i")
+        baseName = str(uni.trEncode(baseName, "utf-8", "ignore")).replace(utf8LittleI, "i")
     if uni.MySettings["fileReNamerType"] == uni.fileReNamerTypeNamesKeys[1]:
         baseName = replaceList(baseName,
                                [" "],
