@@ -141,6 +141,8 @@ def isHidden(_path, _name=None):
         _name = getBaseName(_path)
     if _name.startswith('.'):
         return True
+    if _path.count(sep + '.') > 0:
+        return True
     if uni.isWindows:
         try:
             import win32api, win32con
@@ -1803,12 +1805,13 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             QtWebKit = getMyObject("QtWebKit")
             wvWeb = QtWebKit.QWebView()
             wvWeb.setHtml(str(info))
+            vblMain.addWidget(wvWeb)
         elif _outputType == "plainText":
-            wvWeb = MTextEdit()
-            wvWeb.setPlainText(str(info))
+            teContent = MTextEdit()
+            teContent.setPlainText(str(info))
+            vblMain.addWidget(teContent)
         pbtnClose = MPushButton(translate("Tables", "OK"))
         MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
-        vblMain.addWidget(wvWeb)
         vblMain.addWidget(pbtnClose)
         if isActivePyKDE4:
             dDialog.setMainWidget(mainPanel)
