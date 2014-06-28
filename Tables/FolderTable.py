@@ -34,34 +34,6 @@ class FolderTable(CoreTable):
         self.hiddenTableColumnsSettingKey = "hiddenFolderTableColumns"
         self.refreshColumns()
 
-    def readContents(self, _directoryPath):
-        currentTableContentValues = []
-        fileAndDirectoryNames = fu.readDirectory(_directoryPath, "fileAndDirectory",
-                                                 uni.getBoolValue("isShowHiddensInFolderTable"))
-        allItemNumber = len(fileAndDirectoryNames)
-        uni.startThreadAction()
-        baseNameOfDirectory = fu.getBaseName(_directoryPath)
-        for dirNo, dirName in enumerate(fileAndDirectoryNames):
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    if fu.isReadableFileOrDir(fu.joinPath(_directoryPath, dirName), False, True):
-                        content = {}
-                        content["path"] = fu.joinPath(_directoryPath, dirName)
-                        content["baseNameOfDirectory"] = baseNameOfDirectory
-                        content["baseName"] = dirName
-                        currentTableContentValues.append(content)
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = dirNo + 1
-            Dialogs.showState(translate("FileUtils/Folders", "Reading Directory Informations"), dirNo + 1,
-                              allItemNumber, True)
-            if isContinueThreadAction == False:
-                break
-        uni.finishThreadAction()
-        return currentTableContentValues
-
     def writeContents(self):
         self.changedValueNumber = 0
         changingFileDirectories = []
@@ -71,36 +43,36 @@ class FolderTable(CoreTable):
 
             if Amarok.checkAmarok(True, False) == False:
                 return False
-        allItemNumber = len(self.currentTableContentValues)
+        allItemNumber = len(self.values)
         Dialogs.showState(translate("FileUtils/Folders", "Writing Directory Informations"), 0, allItemNumber, True)
         for rowNo in range(self.rowCount()):
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if fu.isWritableFileOrDir(self.currentTableContentValues[rowNo]["path"], False, True):
+                    if fu.isWritableFileOrDir(self.values[rowNo]["path"], False, True):
                         if self.isRowHidden(rowNo):
-                            fu.removeFileOrDir(self.currentTableContentValues[rowNo]["path"])
+                            fu.removeFileOrDir(self.values[rowNo]["path"])
                             self.changedValueNumber += 1
                         else:
                             baseNameOfDirectory = str(
-                                self.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                            baseName = str(self.currentTableContentValues[rowNo]["baseName"])
+                                self.values[rowNo]["baseNameOfDirectory"])
+                            baseName = str(self.values[rowNo]["baseName"])
                             if self.isChangeableItem(rowNo, 0, baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.item(rowNo, 0).text())
                                 self.changedValueNumber += 1
                                 newDirectoryPath = fu.joinPath(
-                                    fu.getDirName(fu.getDirName(self.currentTableContentValues[rowNo]["path"])),
+                                    fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                     baseNameOfDirectory)
                                 self.setNewDirectory(newDirectoryPath)
                             if self.isChangeableItem(rowNo, 1, baseName, False):
                                 baseName = str(self.item(rowNo, 1).text())
                                 self.changedValueNumber += 1
                             newFilePath = fu.joinPath(
-                                fu.getDirName(fu.getDirName(self.currentTableContentValues[rowNo]["path"])),
+                                fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                 baseNameOfDirectory, baseName)
-                            if fu.getRealPath(self.currentTableContentValues[rowNo]["path"]) != fu.getRealPath(
+                            if fu.getRealPath(self.values[rowNo]["path"]) != fu.getRealPath(
                                 newFilePath):
-                                changingFileDirectories.append([self.currentTableContentValues[rowNo]["path"],
+                                changingFileDirectories.append([self.values[rowNo]["path"],
                                                                 newFilePath])
                 except:
                     ReportBug.ReportBug()
@@ -120,7 +92,7 @@ class FolderTable(CoreTable):
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
-        Details(self.currentTableContentValues[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
+        Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
 
     def cellClickedTable(self, _row, _column):
         currentItem = self.currentItem()
@@ -137,7 +109,7 @@ class FolderTable(CoreTable):
             Dialogs.showError(translate("FolderTable", "Cannot Open File"),
                               str(translate("FolderTable",
                                             "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                              ) % Organizer.getLink(self.currentTableContentValues[_row]["path"]))
+                              ) % Organizer.getLink(self.values[_row]["path"]))
 
     def refreshColumns(self):
         self.tableColumns = [translate("FolderTable", "Directory"),
@@ -149,25 +121,43 @@ class FolderTable(CoreTable):
         return self.writeContents()
 
     def refreshTable(self, _path):
-        self.currentTableContentValues = self.readContents(_path)
-        self.setRowCount(len(self.currentTableContentValues))
-        allItemNumber = self.rowCount()
-        for rowNo in range(allItemNumber):
-            for itemNo in range(2):
-                item = None
-                if itemNo == 0:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseNameOfDirectory"],
-                                                "directory")
-                    item = self.createTableWidgetItem(newString, self.currentTableContentValues[rowNo][
-                        "baseNameOfDirectory"])
-                elif itemNo == 1:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseName"],
-                                                fu.getObjectType(self.currentTableContentValues[rowNo]["path"]))
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["baseName"])
-                if item != None:
-                    self.setItem(rowNo, itemNo, item)
-            Dialogs.showState(translate("Tables", "Generating .."), rowNo + 1, allItemNumber)
+        self.values = []
+        fileAndDirectoryNames = fu.readDirectory(_path, "fileAndDirectory",
+                                                 uni.getBoolValue("isShowHiddensInFolderTable"))
+        allItemNumber = len(fileAndDirectoryNames)
+        uni.startThreadAction()
+        baseNameOfDirectory = fu.getBaseName(_path)
+        rowNo = 0
+        self.setRowCount(allItemNumber)
+        for dirName in fileAndDirectoryNames:
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    if fu.isReadableFileOrDir(fu.joinPath(_path, dirName), False, True):
+                        content = {}
+                        content["path"] = fu.joinPath(_path, dirName)
+                        content["baseNameOfDirectory"] = baseNameOfDirectory
+                        content["baseName"] = dirName
+                        self.values.append(content)
+
+                        newBaseNameOfDirectory = Organizer.emend(content["baseNameOfDirectory"], "directory")
+                        itemBaseNameOfDirectory = self.createTableWidgetItem(newBaseNameOfDirectory,
+                                                                             content["baseNameOfDirectory"])
+                        self.setItem(rowNo, 0, itemBaseNameOfDirectory)
+
+                        newBaseName = Organizer.emend(content["baseName"], fu.getObjectType(self.values[rowNo]["path"]))
+                        itemBaseName = self.createTableWidgetItem(newBaseName, content["baseName"])
+                        self.setItem(rowNo, 1, itemBaseName)
+                except:
+                    ReportBug.ReportBug()
+                rowNo += 1
+            else:
+                allItemNumber = rowNo
+            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
+            if isContinueThreadAction == False:
+                break
+        uni.finishThreadAction()
+        self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
@@ -177,12 +167,12 @@ class FolderTable(CoreTable):
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "directory")
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), fu.getObjectType(
-                            self.currentTableContentValues[rowNo]["path"]))
+                            self.values[rowNo]["path"]))
                     self.item(rowNo, itemNo).setText(str(newString))
 
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo == 0:
-            return self.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+            return self.values[_rowNo]["baseNameOfDirectory"]
         elif _columnNo == 1:
-            return self.currentTableContentValues[_rowNo]["baseName"]
+            return self.values[_rowNo]["baseName"]
         return ""

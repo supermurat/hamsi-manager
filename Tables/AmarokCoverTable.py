@@ -39,8 +39,124 @@ class AmarokCoverTable(CoreTable):
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
         getMainWindow().MainLayout.addWidget(self.wFilter)
 
-    def readContents(self, _directoryPath):
-        currentTableContentValues = []
+    def writeContents(self):
+        self.changedValueNumber = 0
+        changingFileDirectories = []
+        startRowNo, rowStep = 0, 1
+        uni.startThreadAction()
+        allItemNumber = len(self.values)
+        Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"), 0, allItemNumber, True)
+        for rowNo in range(startRowNo, self.rowCount(), rowStep):
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    if fu.isWritableFileOrDir(self.values[rowNo]["path"], False, True):
+                        if self.isRowHidden(rowNo):
+                            fu.removeFileOrDir(self.values[rowNo]["path"])
+                            self.changedValueNumber += 1
+                        else:
+                            pathOfParentDirectory = str(
+                                self.values[rowNo]["pathOfParentDirectory"])
+                            baseName = str(self.values[rowNo]["baseName"])
+                            if self.isChangeableItem(rowNo, 3) or self.isChangeableItem(rowNo, 4):
+                                sourcePath = self.values[rowNo]["sourceCover"]
+                                destinationPath = self.values[rowNo]["destinationCover"]
+                                if self.isChangeableItem(rowNo, 3):
+                                    sourcePath = str(self.item(rowNo, 3).text()).strip()
+                                if self.isChangeableItem(rowNo, 4):
+                                    destinationPath = str(self.item(rowNo, 4).text()).strip()
+                                if (str(self.item(rowNo,
+                                                        2).text()) != sourcePath or sourcePath != destinationPath or str(
+                                    self.item(rowNo, 2).text()) != destinationPath) or (
+                                            str(self.item(rowNo, 2).text()) !=
+                                            self.values[rowNo]["currentCover"] and (
+                                                str(self.item(rowNo, 2).text()) != sourcePath and str(
+                                            self.item(rowNo, 2).text()) != destinationPath)):
+                                    if str(self.item(rowNo, 3).text()).strip() != "":
+                                        sourcePath = fu.getRealPath(sourcePath,
+                                                                    self.values[rowNo]["path"])
+                                        sourcePath = fu.checkSource(sourcePath, "file")
+                                        if sourcePath is not None:
+                                            if destinationPath != "":
+                                                destinationPath = fu.getRealPath(destinationPath,
+                                                                                 self.values[
+                                                                                     rowNo]["path"])
+                                                if sourcePath != destinationPath:
+                                                    destinationPath = fu.moveOrChange(sourcePath, destinationPath)
+                                            else:
+                                                destinationPath = sourcePath
+                                            fu.setIconToDirectory(self.values[rowNo]["path"],
+                                                                  destinationPath)
+                                            self.changedValueNumber += 1
+                                    else:
+                                        fu.setIconToDirectory(self.values[rowNo]["path"], "")
+                                        self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, 0, pathOfParentDirectory):
+                                pathOfParentDirectory = str(self.item(rowNo, 0).text())
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, 1, baseName, False):
+                                baseName = str(self.item(rowNo, 1).text())
+                                self.changedValueNumber += 1
+                            newFilePath = fu.joinPath(pathOfParentDirectory, baseName)
+                            if fu.getRealPath(self.values[rowNo]["path"]) != fu.getRealPath(
+                                newFilePath):
+                                changingFileDirectories.append([self.values[rowNo]["path"],
+                                                                newFilePath])
+                except:
+                    ReportBug.ReportBug()
+            else:
+                allItemNumber = rowNo + 1
+            Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"), rowNo + 1, allItemNumber,
+                              True)
+            if isContinueThreadAction == False:
+                break
+        uni.finishThreadAction()
+        pathValues = fu.changeDirectories(changingFileDirectories)
+        from Amarok import Operations
+
+        Operations.changePaths(pathValues)
+        return True
+
+    def showTableDetails(self, _fileNo, _infoNo):
+        directoryPathOfCover = self.values[_fileNo]["path"]
+        coverValues = [directoryPathOfCover,
+                       fu.getRealPath(str(self.item(_fileNo, 2).text()), directoryPathOfCover),
+                       fu.getRealPath(str(self.item(_fileNo, 3).text()), directoryPathOfCover),
+                       fu.getRealPath(str(self.item(_fileNo, 4).text()), directoryPathOfCover)]
+        CoverDetails.CoverDetails(coverValues, uni.getBoolValue("isOpenDetailsInNewWindow"), _infoNo)
+
+    def cellClickedTable(self, _row, _column):
+        currentItem = self.currentItem()
+        if currentItem is not None:
+            cellLenght = len(currentItem.text()) * 8
+            if cellLenght > self.columnWidth(_column):
+                self.setColumnWidth(_column, cellLenght)
+
+    def cellDoubleClickedTable(self, _row, _column):
+        try:
+            if uni.getBoolValue("isRunOnDoubleClick"):
+                self.showTableDetails(_row, _column)
+        except:
+            Dialogs.showError(translate("AmarokCoverTable", "Cannot Open File"),
+                              str(translate("AmarokCoverTable",
+                                            "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
+                              ) % Organizer.getLink(self.values[_row]["path"]))
+
+    def refreshColumns(self):
+        self.tableColumns = [translate("AmarokCoverTable", "Directory"),
+                                   translate("AmarokCoverTable", "Directory Name"),
+                                   translate("AmarokCoverTable", "Current Cover"),
+                                   translate("AmarokCoverTable", "Source Cover"),
+                                   translate("AmarokCoverTable", "Destination Cover")]
+        self.tableColumnsKey = ["Directory", "Directory Name", "Current Cover", "Source Cover",
+                                      "Destination Cover"]
+
+    def saveTable(self):
+        self.checkFileExtensions(4, 3)
+        return self.writeContents()
+
+    def refreshTable(self, _path):
+        self.values = []
         uni.startThreadAction()
         import Amarok
 
@@ -57,7 +173,8 @@ class AmarokCoverTable(CoreTable):
                 if isContinueThreadAction:
                     if directoriesAndValues != None:
                         allItemNumber = len(directoriesAndValues)
-                        dirNo = 0
+                        self.setRowCount(allItemNumber)
+                        rowNo = 0
                         for dirPath, dirRow in directoriesAndValues.items():
                             isContinueThreadAction = uni.isContinueThreadAction()
                             if isContinueThreadAction:
@@ -83,179 +200,61 @@ class AmarokCoverTable(CoreTable):
                                             content["flagColor"]["currentCover"] = 255, 163, 163
                                         if fu.isFile(content["sourceCover"]) == False:
                                             content["flagColor"]["sourceCover"] = 255, 163, 163
-                                        currentTableContentValues.append(content)
+                                        self.values.append(content)
+
+                                        newPathOfParentDirectory = Organizer.emend(
+                                            self.values[rowNo]["pathOfParentDirectory"], "directory")
+                                        itemPathOfParentDirectory = self.createTableWidgetItem(
+                                            newPathOfParentDirectory, self.values[rowNo]["pathOfParentDirectory"])
+                                        self.setItem(rowNo, 0, itemPathOfParentDirectory)
+
+                                        newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "directory")
+                                        itemBaseName = self.createTableWidgetItem(newBaseName,
+                                                                                  self.values[rowNo]["baseName"])
+                                        self.setItem(rowNo, 1, itemBaseName)
+
+                                        newCurrentCover = fu.getShortPath(self.values[rowNo]["currentCover"],
+                                                                          self.values[rowNo]["path"])
+                                        itemCurrentCover = self.createTableWidgetItem(newCurrentCover,
+                                                                                      newCurrentCover, True)
+                                        self.setItemColor(itemCurrentCover, rowNo, 2, "currentCover")
+                                        self.setItem(rowNo, 2, itemCurrentCover)
+
+                                        newSourceCover = fu.getShortPath(self.values[rowNo]["sourceCover"],
+                                                                         self.values[rowNo]["path"])
+                                        itemSourceCover = self.createTableWidgetItem(newSourceCover, fu.getShortPath(
+                                            self.values[rowNo]["currentCover"],
+                                            self.values[rowNo]["path"]))
+                                        self.setItemColor(itemSourceCover, rowNo, 3, "sourceCover")
+                                        self.setItem(rowNo, 3, itemSourceCover)
+
+                                        newDestinationCover = Organizer.emend(
+                                            fu.getShortPath(self.values[rowNo]["destinationCover"],
+                                                            self.values[rowNo]["path"]), "file")
+                                        itemDestinationCover = self.createTableWidgetItem(newDestinationCover,
+                                                                                          fu.getShortPath(
+                                                                                              self.values[rowNo][
+                                                                                                  "currentCover"],
+                                                                                              self.values[rowNo][
+                                                                                                  "path"]))
+                                        self.setItemColor(itemDestinationCover, rowNo, 4, "destinationCover")
+                                        self.setItem(rowNo, 4, itemDestinationCover)
+
                                 except:
                                     ReportBug.ReportBug()
+                                rowNo += 1
                             else:
-                                allItemNumber = dirNo + 1
-                            Dialogs.showState(translate("FileUtils/Covers", "Reading Cover Informations"),
-                                              dirNo + 1, allItemNumber, True)
-                            dirNo += 1
+                                allItemNumber = rowNo
+                            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
                             if isContinueThreadAction == False:
                                 break
         uni.finishThreadAction()
-        return currentTableContentValues
-
-    def writeContents(self):
-        self.changedValueNumber = 0
-        changingFileDirectories = []
-        startRowNo, rowStep = 0, 1
-        uni.startThreadAction()
-        allItemNumber = len(self.currentTableContentValues)
-        Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"), 0, allItemNumber, True)
-        for rowNo in range(startRowNo, self.rowCount(), rowStep):
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    if fu.isWritableFileOrDir(self.currentTableContentValues[rowNo]["path"], False, True):
-                        if self.isRowHidden(rowNo):
-                            fu.removeFileOrDir(self.currentTableContentValues[rowNo]["path"])
-                            self.changedValueNumber += 1
-                        else:
-                            pathOfParentDirectory = str(
-                                self.currentTableContentValues[rowNo]["pathOfParentDirectory"])
-                            baseName = str(self.currentTableContentValues[rowNo]["baseName"])
-                            if self.isChangeableItem(rowNo, 3) or self.isChangeableItem(rowNo, 4):
-                                sourcePath = self.currentTableContentValues[rowNo]["sourceCover"]
-                                destinationPath = self.currentTableContentValues[rowNo]["destinationCover"]
-                                if self.isChangeableItem(rowNo, 3):
-                                    sourcePath = str(self.item(rowNo, 3).text()).strip()
-                                if self.isChangeableItem(rowNo, 4):
-                                    destinationPath = str(self.item(rowNo, 4).text()).strip()
-                                if (str(self.item(rowNo,
-                                                        2).text()) != sourcePath or sourcePath != destinationPath or str(
-                                    self.item(rowNo, 2).text()) != destinationPath) or (
-                                            str(self.item(rowNo, 2).text()) !=
-                                            self.currentTableContentValues[rowNo]["currentCover"] and (
-                                                str(self.item(rowNo, 2).text()) != sourcePath and str(
-                                            self.item(rowNo, 2).text()) != destinationPath)):
-                                    if str(self.item(rowNo, 3).text()).strip() != "":
-                                        sourcePath = fu.getRealPath(sourcePath,
-                                                                    self.currentTableContentValues[rowNo]["path"])
-                                        sourcePath = fu.checkSource(sourcePath, "file")
-                                        if sourcePath is not None:
-                                            if destinationPath != "":
-                                                destinationPath = fu.getRealPath(destinationPath,
-                                                                                 self.currentTableContentValues[
-                                                                                     rowNo]["path"])
-                                                if sourcePath != destinationPath:
-                                                    destinationPath = fu.moveOrChange(sourcePath, destinationPath)
-                                            else:
-                                                destinationPath = sourcePath
-                                            fu.setIconToDirectory(self.currentTableContentValues[rowNo]["path"],
-                                                                  destinationPath)
-                                            self.changedValueNumber += 1
-                                    else:
-                                        fu.setIconToDirectory(self.currentTableContentValues[rowNo]["path"], "")
-                                        self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, 0, pathOfParentDirectory):
-                                pathOfParentDirectory = str(self.item(rowNo, 0).text())
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, 1, baseName, False):
-                                baseName = str(self.item(rowNo, 1).text())
-                                self.changedValueNumber += 1
-                            newFilePath = fu.joinPath(pathOfParentDirectory, baseName)
-                            if fu.getRealPath(self.currentTableContentValues[rowNo]["path"]) != fu.getRealPath(
-                                newFilePath):
-                                changingFileDirectories.append([self.currentTableContentValues[rowNo]["path"],
-                                                                newFilePath])
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = rowNo + 1
-            Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"), rowNo + 1, allItemNumber,
-                              True)
-            if isContinueThreadAction == False:
-                break
-        uni.finishThreadAction()
-        pathValues = fu.changeDirectories(changingFileDirectories)
-        from Amarok import Operations
-
-        Operations.changePaths(pathValues)
-        return True
-
-    def showTableDetails(self, _fileNo, _infoNo):
-        directoryPathOfCover = self.currentTableContentValues[_fileNo]["path"]
-        coverValues = [directoryPathOfCover,
-                       fu.getRealPath(str(self.item(_fileNo, 2).text()), directoryPathOfCover),
-                       fu.getRealPath(str(self.item(_fileNo, 3).text()), directoryPathOfCover),
-                       fu.getRealPath(str(self.item(_fileNo, 4).text()), directoryPathOfCover)]
-        CoverDetails.CoverDetails(coverValues, uni.getBoolValue("isOpenDetailsInNewWindow"), _infoNo)
-
-    def cellClickedTable(self, _row, _column):
-        currentItem = self.currentItem()
-        if currentItem is not None:
-            cellLenght = len(currentItem.text()) * 8
-            if cellLenght > self.columnWidth(_column):
-                self.setColumnWidth(_column, cellLenght)
-
-    def cellDoubleClickedTable(self, _row, _column):
-        try:
-            if uni.getBoolValue("isRunOnDoubleClick"):
-                self.showTableDetails(_row, _column)
-        except:
-            Dialogs.showError(translate("AmarokCoverTable", "Cannot Open File"),
-                              str(translate("AmarokCoverTable",
-                                            "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                              ) % Organizer.getLink(self.currentTableContentValues[_row]["path"]))
-
-    def refreshColumns(self):
-        self.tableColumns = [translate("AmarokCoverTable", "Directory"),
-                                   translate("AmarokCoverTable", "Directory Name"),
-                                   translate("AmarokCoverTable", "Current Cover"),
-                                   translate("AmarokCoverTable", "Source Cover"),
-                                   translate("AmarokCoverTable", "Destination Cover")]
-        self.tableColumnsKey = ["Directory", "Directory Name", "Current Cover", "Source Cover",
-                                      "Destination Cover"]
-
-    def saveTable(self):
-        self.checkFileExtensions(4, 3)
-        return self.writeContents()
-
-    def refreshTable(self, _path):
-        self.currentTableContentValues = self.readContents(_path)
-        self.setRowCount(len(self.currentTableContentValues))
-        allItemNumber = self.rowCount()
-        for rowNo in range(allItemNumber):
-            for itemNo in range(5):
-                item = None
-                if itemNo == 0:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["pathOfParentDirectory"],
-                                                "directory")
-                    item = self.createTableWidgetItem(newString, self.currentTableContentValues[rowNo][
-                        "pathOfParentDirectory"])
-                elif itemNo == 1:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseName"], "directory")
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["baseName"])
-                elif itemNo == 2:
-                    newString = fu.getShortPath(self.currentTableContentValues[rowNo]["currentCover"],
-                                                self.currentTableContentValues[rowNo]["path"])
-                    item = self.createTableWidgetItem(newString, newString, True)
-                    self.setItemColor(item, rowNo, itemNo, "currentCover")
-                elif itemNo == 3:
-                    newString = fu.getShortPath(self.currentTableContentValues[rowNo]["sourceCover"],
-                                                self.currentTableContentValues[rowNo]["path"])
-                    item = self.createTableWidgetItem(newString, fu.getShortPath(
-                        self.currentTableContentValues[rowNo]["currentCover"],
-                        self.currentTableContentValues[rowNo]["path"]))
-                    self.setItemColor(item, rowNo, itemNo, "sourceCover")
-                elif itemNo == 4:
-                    newString = Organizer.emend(
-                        fu.getShortPath(self.currentTableContentValues[rowNo]["destinationCover"],
-                                        self.currentTableContentValues[rowNo]["path"]), "file")
-                    item = self.createTableWidgetItem(newString, fu.getShortPath(
-                        self.currentTableContentValues[rowNo]["currentCover"],
-                        self.currentTableContentValues[rowNo]["path"]))
-                    self.setItemColor(item, rowNo, itemNo, "destinationCover")
-                if item != None:
-                    self.setItem(rowNo, itemNo, item)
-            Dialogs.showState(translate("Tables", "Generating .."), rowNo + 1, allItemNumber)
+        self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
     def setItemColor(self, _item, _rowNo, _itemNo, _name):
         if _item != None:
-            if _name in self.currentTableContentValues[_rowNo]["flagColor"]:
-                r, g, b = self.currentTableContentValues[_rowNo]["flagColor"][_name]
+            if _name in self.values[_rowNo]["flagColor"]:
+                r, g, b = self.values[_rowNo]["flagColor"][_name]
                 _item.setBackground(MBrush(MColor(r, g, b)))
 
     def correctTable(self):
@@ -272,18 +271,18 @@ class AmarokCoverTable(CoreTable):
 
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo == 0:
-            return self.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+            return self.values[_rowNo]["baseNameOfDirectory"]
         elif _columnNo == 1:
-            return self.currentTableContentValues[_rowNo]["baseName"]
+            return self.values[_rowNo]["baseName"]
         elif _columnNo == 2:
-            return fu.getShortPath(self.currentTableContentValues[_rowNo]["currentCover"],
-                                   self.currentTableContentValues[_rowNo]["path"])
+            return fu.getShortPath(self.values[_rowNo]["currentCover"],
+                                   self.values[_rowNo]["path"])
         elif _columnNo == 3:
-            return fu.getShortPath(self.currentTableContentValues[_rowNo]["sourceCover"],
-                                   self.currentTableContentValues[_rowNo]["path"])
+            return fu.getShortPath(self.values[_rowNo]["sourceCover"],
+                                   self.values[_rowNo]["path"])
         elif _columnNo == 4:
-            return fu.getShortPath(self.currentTableContentValues[_rowNo]["destinationCover"],
-                                   self.currentTableContentValues[_rowNo]["path"])
+            return fu.getShortPath(self.values[_rowNo]["destinationCover"],
+                                   self.values[_rowNo]["path"])
         return ""
 
 
