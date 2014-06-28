@@ -92,13 +92,13 @@ class CharacterEncoding(MWidget):
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                     if isUseRealValues:
-                        newString = getMainWindow().Table.SubTable.getValueByRowAndColumn(rowNo, columnNo)
+                        newString = str(getMainWindow().Table.getValueByRowAndColumn(rowNo, columnNo))
                     else:
                         newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
                     myString = ""
                     try: myString = uni.trDecode(newString, sourceEncoding, "ignore")
                     except: pass
-                    try: myString = str(uni.trEncode(newString, destinationEncoding, "ignore"))
+                    try: myString = str(uni.trEncode(myString, destinationEncoding, "ignore"))
                     except: pass
                     getMainWindow().Table.item(rowNo, columnNo).setText(str(myString))
             

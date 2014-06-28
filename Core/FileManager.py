@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -18,7 +18,6 @@
 
 
 import FileUtils as fu
-import Tables
 from Core import Universals as uni
 from Core import Dialogs
 from Core.MyObjects import *

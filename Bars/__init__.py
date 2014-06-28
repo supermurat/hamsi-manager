@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -231,7 +231,7 @@ class Bars():
             ReportBug.ReportBug()
 
     def refreshBars(self):
-        getMainWindow().Table = Tables.Tables(getMainWindow())
+        getMainWindow().Table = Tables.Tables(getMainWindow()).Table
         getMainWindow().SpecialTools = SpecialTools.SpecialTools(getMainWindow())
         getMainWindow().Menu.mSpecialOptions.clear()
         if uni.tableType == "2":
@@ -280,7 +280,7 @@ class Bars():
             if uni.tableType != _tableType:
                 if getMainWindow().Table.checkUnSavedValues() == False:
                     return False
-                uni.setMySetting(getMainWindow().Table.SubTable.hiddenTableColumnsSettingKey,
+                uni.setMySetting(getMainWindow().Table.hiddenTableColumnsSettingKey,
                                  getMainWindow().Table.hiddenTableColumns)
                 if uni.tableType == "2":
                     getMainWindow().removeToolBar(getMainWindow().PlayerBar)
