@@ -38,53 +38,6 @@ class CoverTable(CoreTable):
             MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
             self.hblBox.insertWidget(self.hblBox.count() - 1, pbtnGetFromAmarok)
 
-    def readContents(self, _directoryPath):
-        currentTableContentValues = []
-        allFilesAndDirectories = fu.readDirectoryWithSubDirectoriesThread(_directoryPath,
-                                                                          int(uni.MySettings["CoversSubDirectoryDeep"]),
-                                                                          "directory",
-                                                                          uni.getBoolValue("isShowHiddensInCoverTable"))
-        allItemNumber = len(allFilesAndDirectories)
-        uni.startThreadAction()
-        for dirNo, dirName in enumerate(allFilesAndDirectories):
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    if fu.isReadableFileOrDir(dirName, False, True) and fu.isReadableFileOrDir(
-                        fu.joinPath(dirName, ".directory"), False, True):
-                        content = {}
-                        content["path"] = dirName
-                        content["baseNameOfDirectory"] = str(str(fu.getBaseName(_directoryPath)) +
-                                                             str(fu.getDirName(dirName)).replace(_directoryPath, ""))
-                        content["baseName"] = fu.getBaseName(dirName)
-
-                        currentCover, isCorrectedFileContent = fu.getIconFromDirectory(dirName)
-                        selectedName = None
-                        if isCorrectedFileContent and currentCover != None:
-                            selectedName = fu.getBaseName(currentCover)
-                        sourceCover = fu.getFirstImageInDirectory(dirName, selectedName, False, False)
-                        if currentCover == None:
-                            currentCover = ""
-                        if sourceCover == None:
-                            sourceCover = ""
-                        else:
-                            sourceCover = fu.joinPath(dirName, sourceCover)
-                        content["currentCover"] = (currentCover)
-                        content["sourceCover"] = (sourceCover)
-                        content["destinationCover"] = (sourceCover)
-                        content["isCorrectedFileContent"] = (isCorrectedFileContent)
-                        currentTableContentValues.append(content)
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = dirNo + 1
-            Dialogs.showState(translate("FileUtils/Covers", "Reading Cover Informations"),
-                              dirNo + 1, allItemNumber, True)
-            if isContinueThreadAction == False:
-                break
-        uni.finishThreadAction()
-        return currentTableContentValues
-
     def writeContents(self):
         self.changedValueNumber = 0
         changingFileDirectories = []
@@ -94,23 +47,23 @@ class CoverTable(CoreTable):
         newDirectoryPath = ""
         startRowNo, rowStep = 0, 1
         uni.startThreadAction()
-        allItemNumber = len(self.currentTableContentValues)
+        allItemNumber = len(self.values)
         Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"), 0, allItemNumber, True)
         for rowNo in range(startRowNo, self.rowCount(), rowStep):
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if fu.isWritableFileOrDir(self.currentTableContentValues[rowNo]["path"], False, True):
+                    if fu.isWritableFileOrDir(self.values[rowNo]["path"], False, True):
                         if self.isRowHidden(rowNo):
-                            fu.removeFileOrDir(self.currentTableContentValues[rowNo]["path"])
+                            fu.removeFileOrDir(self.values[rowNo]["path"])
                             self.changedValueNumber += 1
                         else:
                             baseNameOfDirectory = str(
-                                self.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                            baseName = str(self.currentTableContentValues[rowNo]["baseName"])
+                                self.values[rowNo]["baseNameOfDirectory"])
+                            baseName = str(self.values[rowNo]["baseName"])
                             if self.isChangeableItem(rowNo, 3) or self.isChangeableItem(rowNo, 4):
-                                sourcePath = self.currentTableContentValues[rowNo]["sourceCover"]
-                                destinationPath = self.currentTableContentValues[rowNo]["destinationCover"]
+                                sourcePath = self.values[rowNo]["sourceCover"]
+                                destinationPath = self.values[rowNo]["destinationCover"]
                                 if self.isChangeableItem(rowNo, 3):
                                     sourcePath = str(self.item(rowNo, 3).text()).strip()
                                 if self.isChangeableItem(rowNo, 4):
@@ -119,36 +72,36 @@ class CoverTable(CoreTable):
                                                         2).text()) != sourcePath or sourcePath != destinationPath or str(
                                     self.item(rowNo, 2).text()) != destinationPath) or (
                                             str(self.item(rowNo, 2).text()) !=
-                                            self.currentTableContentValues[rowNo]["currentCover"] and (
+                                            self.values[rowNo]["currentCover"] and (
                                                 str(self.item(rowNo, 2).text()) != sourcePath and str(
                                             self.item(rowNo, 2).text()) != destinationPath)):
                                     if str(self.item(rowNo, 3).text()).strip() != "":
                                         sourcePath = fu.getRealPath(sourcePath,
-                                                                    self.currentTableContentValues[rowNo]["path"])
+                                                                    self.values[rowNo]["path"])
                                         sourcePath = fu.checkSource(sourcePath, "file")
                                         if sourcePath is not None:
                                             if destinationPath != "":
                                                 destinationPath = fu.getRealPath(destinationPath,
-                                                                                 self.currentTableContentValues[
+                                                                                 self.values[
                                                                                      rowNo]["path"])
                                                 if sourcePath != destinationPath:
                                                     destinationPath = fu.moveOrChange(sourcePath, destinationPath)
                                             else:
                                                 destinationPath = sourcePath
-                                            fu.setIconToDirectory(self.currentTableContentValues[rowNo]["path"],
+                                            fu.setIconToDirectory(self.values[rowNo]["path"],
                                                                   destinationPath)
                                             self.changedValueNumber += 1
                                     else:
-                                        fu.setIconToDirectory(self.currentTableContentValues[rowNo]["path"], "")
+                                        fu.setIconToDirectory(self.values[rowNo]["path"], "")
                                         self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 0, baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.item(rowNo, 0).text())
                                 self.changedValueNumber += 1
                                 isMovedToNewDirectory = True
                                 currentDirectoryPath = fu.getDirName(
-                                    self.currentTableContentValues[rowNo]["path"])
+                                    self.values[rowNo]["path"])
                                 newDirectoryPath = fu.joinPath(
-                                    fu.getDirName(fu.getDirName(self.currentTableContentValues[rowNo]["path"])),
+                                    fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                     baseNameOfDirectory)
                                 self.setNewDirectory(newDirectoryPath)
                                 if rowNo > 0:
@@ -158,11 +111,11 @@ class CoverTable(CoreTable):
                                 baseName = str(self.item(rowNo, 1).text())
                                 self.changedValueNumber += 1
                             newFilePath = fu.joinPath(
-                                fu.getDirName(fu.getDirName(self.currentTableContentValues[rowNo]["path"])),
+                                fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                 baseNameOfDirectory, baseName)
-                            if fu.getRealPath(self.currentTableContentValues[rowNo]["path"]) != fu.getRealPath(
+                            if fu.getRealPath(self.values[rowNo]["path"]) != fu.getRealPath(
                                 newFilePath):
-                                changingFileDirectories.append([self.currentTableContentValues[rowNo]["path"],
+                                changingFileDirectories.append([self.values[rowNo]["path"],
                                                                 newFilePath])
                 except:
                     ReportBug.ReportBug()
@@ -190,7 +143,7 @@ class CoverTable(CoreTable):
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
-        directoryPathOfCover = self.currentTableContentValues[_fileNo]["path"]
+        directoryPathOfCover = self.values[_fileNo]["path"]
         coverValues = [directoryPathOfCover,
                        fu.getRealPath(str(self.item(_fileNo, 2).text()), directoryPathOfCover),
                        fu.getRealPath(str(self.item(_fileNo, 3).text()), directoryPathOfCover),
@@ -212,7 +165,7 @@ class CoverTable(CoreTable):
             Dialogs.showError(translate("CoverTable", "Cannot Open File"),
                               str(translate("CoverTable",
                                             "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                              ) % Organizer.getLink(self.currentTableContentValues[_row]["path"]))
+                              ) % Organizer.getLink(self.values[_row]["path"]))
 
     def refreshColumns(self):
         self.tableColumns = [translate("CoverTable", "Directory"),
@@ -228,45 +181,86 @@ class CoverTable(CoreTable):
         return self.writeContents()
 
     def refreshTable(self, _path):
-        self.currentTableContentValues = self.readContents(_path)
-        self.setRowCount(len(self.currentTableContentValues))
-        allItemNumber = self.rowCount()
-        for rowNo in range(allItemNumber):
-            for itemNo in range(5):
-                item = None
-                if itemNo == 0:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseNameOfDirectory"],
-                                                "directory")
-                    item = self.createTableWidgetItem(newString, self.currentTableContentValues[rowNo][
-                        "baseNameOfDirectory"])
-                elif itemNo == 1:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseName"], "directory")
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["baseName"])
-                elif itemNo == 2:
-                    newString = str(self.currentTableContentValues[rowNo]["currentCover"])
-                    newString = newString.replace(self.currentTableContentValues[rowNo]["path"], ".")
-                    item = self.createTableWidgetItem(newString, newString, True)
-                elif itemNo == 3:
-                    newString = str(self.currentTableContentValues[rowNo]["sourceCover"])
-                    newString = newString.replace(self.currentTableContentValues[rowNo]["path"], ".")
-                    oldString = self.currentTableContentValues[rowNo]["currentCover"]
-                    oldString = oldString.replace(self.currentTableContentValues[rowNo]["path"], ".")
-                    item = self.createTableWidgetItem(newString, oldString)
-                elif itemNo == 4:
-                    newString = self.currentTableContentValues[rowNo]["destinationCover"]
-                    newString = newString.replace(self.currentTableContentValues[rowNo]["path"], ".")
-                    newString = Organizer.emend(newString, "file")
-                    oldString = self.currentTableContentValues[rowNo]["currentCover"]
-                    oldString = oldString.replace(self.currentTableContentValues[rowNo]["path"], ".")
-                    item = self.createTableWidgetItem(newString, oldString)
-                if item != None:
-                    self.setItem(rowNo, itemNo, item)
-            if self.currentTableContentValues[rowNo]["isCorrectedFileContent"] == False:
-                item = self.item(rowNo, 2)
-                if item != None:
-                    item.setBackground(MBrush(MColor(255, 163, 163)))
-            Dialogs.showState(translate("Tables", "Generating .."), rowNo + 1, allItemNumber)
+        self.values = []
+        allFilesAndDirectories = fu.readDirectoryWithSubDirectoriesThread(_path,
+                                                                          int(uni.MySettings["CoversSubDirectoryDeep"]),
+                                                                          "directory",
+                                                                          uni.getBoolValue("isShowHiddensInCoverTable"))
+        allItemNumber = len(allFilesAndDirectories)
+        uni.startThreadAction()
+        rowNo = 0
+        self.setRowCount(allItemNumber)
+        for dirName in allFilesAndDirectories:
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    if fu.isReadableFileOrDir(dirName, False, True) and fu.isReadableFileOrDir(
+                        fu.joinPath(dirName, ".directory"), False, True):
+                        content = {}
+                        content["path"] = dirName
+                        content["baseNameOfDirectory"] = str(str(fu.getBaseName(_path)) +
+                                                             str(fu.getDirName(dirName)).replace(_path, ""))
+                        content["baseName"] = fu.getBaseName(dirName)
+
+                        currentCover, isCorrectedFileContent = fu.getIconFromDirectory(dirName)
+                        selectedName = None
+                        if isCorrectedFileContent and currentCover != None:
+                            selectedName = fu.getBaseName(currentCover)
+                        sourceCover = fu.getFirstImageInDirectory(dirName, selectedName, False, False)
+                        if currentCover == None:
+                            currentCover = ""
+                        if sourceCover == None:
+                            sourceCover = ""
+                        else:
+                            sourceCover = fu.joinPath(dirName, sourceCover)
+                        content["currentCover"] = (currentCover)
+                        content["sourceCover"] = (sourceCover)
+                        content["destinationCover"] = (sourceCover)
+                        content["isCorrectedFileContent"] = (isCorrectedFileContent)
+                        self.values.append(content)
+
+                        newBaseNameOfDirectory = Organizer.emend(self.values[rowNo]["baseNameOfDirectory"],
+                                                                 "directory")
+                        itemBaseNameOfDirectory = self.createTableWidgetItem(newBaseNameOfDirectory,
+                                                                             self.values[rowNo]["baseNameOfDirectory"])
+                        self.setItem(rowNo, 0, itemBaseNameOfDirectory)
+
+                        newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "directory")
+                        itemBaseName = self.createTableWidgetItem(newBaseName,
+                                                                  self.values[rowNo]["baseName"])
+                        self.setItem(rowNo, 1, itemBaseName)
+
+                        newCurrentCover = str(self.values[rowNo]["currentCover"])
+                        newCurrentCover = newCurrentCover.replace(self.values[rowNo]["path"], ".")
+                        itemCurrentCover = self.createTableWidgetItem(newCurrentCover, newCurrentCover, True)
+                        self.setItem(rowNo, 2, itemCurrentCover)
+                        if self.values[rowNo]["isCorrectedFileContent"] == False:
+                            itemCurrentCover.setBackground(MBrush(MColor(255, 163, 163)))
+
+                        newSourceCover = str(self.values[rowNo]["sourceCover"])
+                        newSourceCover = newSourceCover.replace(self.values[rowNo]["path"], ".")
+                        oldSourceCover = self.values[rowNo]["currentCover"]
+                        oldSourceCover = oldSourceCover.replace(self.values[rowNo]["path"], ".")
+                        itemSourceCover = self.createTableWidgetItem(newSourceCover, oldSourceCover)
+                        self.setItem(rowNo, 3, itemSourceCover)
+
+                        newDestinationCover = self.values[rowNo]["destinationCover"]
+                        newDestinationCover = newDestinationCover.replace(self.values[rowNo]["path"], ".")
+                        newDestinationCover = Organizer.emend(newDestinationCover, "file")
+                        oldDestinationCover = self.values[rowNo]["currentCover"]
+                        oldDestinationCover = oldDestinationCover.replace(self.values[rowNo]["path"], ".")
+                        itemDestinationCover = self.createTableWidgetItem(newDestinationCover, oldDestinationCover)
+                        self.setItem(rowNo, 4, itemDestinationCover)
+                except:
+                    ReportBug.ReportBug()
+                rowNo += 1
+            else:
+                allItemNumber = rowNo
+            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
+            if isContinueThreadAction == False:
+                break
+        uni.finishThreadAction()
+        self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
@@ -296,7 +290,7 @@ class CoverTable(CoreTable):
                         if getMainWindow().checkHiddenColumn(3) and getMainWindow().checkHiddenColumn(4):
                             if self.isChangeableItem(rowNo, 3):
                                 directoryPath = fu.joinPath(
-                                    fu.getDirName(fu.getDirName(self.currentTableContentValues[rowNo]["path"])),
+                                    fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                     str(self.item(rowNo, 0).text()), str(self.item(rowNo, 1).text()))
                                 if directoryPath in directoriesAndValues:
                                     directoryAndValues = directoriesAndValues[directoryPath]
@@ -312,16 +306,16 @@ class CoverTable(CoreTable):
 
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo == 0:
-            return self.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+            return self.values[_rowNo]["baseNameOfDirectory"]
         elif _columnNo == 1:
-            return self.currentTableContentValues[_rowNo]["baseName"]
+            return self.values[_rowNo]["baseName"]
         elif _columnNo == 2:
-            return self.currentTableContentValues[_rowNo]["currentCover"].replace(
-                self.currentTableContentValues[_rowNo]["path"], ".")
+            return self.values[_rowNo]["currentCover"].replace(
+                self.values[_rowNo]["path"], ".")
         elif _columnNo == 3:
-            return self.currentTableContentValues[_rowNo]["sourceCover"].replace(
-                self.currentTableContentValues[_rowNo]["path"], ".")
+            return self.values[_rowNo]["sourceCover"].replace(
+                self.values[_rowNo]["path"], ".")
         elif _columnNo == 4:
-            return self.currentTableContentValues[_rowNo]["destinationCover"].replace(
-                self.currentTableContentValues[_rowNo]["path"], ".")
+            return self.values[_rowNo]["destinationCover"].replace(
+                self.values[_rowNo]["path"], ".")
         return ""

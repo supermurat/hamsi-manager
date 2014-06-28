@@ -2,7 +2,7 @@
 # #
 # # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 # #
-## Hamsi Manager is free software; you can redistribute it and/or modify
+# # Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
 ## the Free Software Foundation; either version 2 of the License, or
 ## (at your option) any later version.
@@ -406,16 +406,16 @@ class ReportBugDialog(MDialog):
                 settingText += "<hr><p><h3>" + str(
                     translate("ReportBug", "File Information : ")) + "</h3><table border=1>"
                 try:
-                    for rowValues in getMainWindow().Table.currentTableContentValues:
+                    for rowValues in getMainWindow().Table.values:
                         settingText += "<tr><td>" + str(
                             uni.trUnicode(rowValues["path"], fu.fileSystemEncoding)) + "</td></tr>"
                     settingText += "</table></p><hr><p><h3>" + str(translate("ReportBug", "File Details : ")) + "</h3>"
-                    if len(getMainWindow().Table.currentTableContentValues) > 0:
+                    if len(getMainWindow().Table.values) > 0:
                         settingText += "<table border=1><tr>"
-                        for key, value in getMainWindow().Table.currentTableContentValues[0].items():
+                        for key, value in getMainWindow().Table.values[0].items():
                             settingText += "<td><b>" + key + "</b></td>"
                         settingText += "</tr>"
-                        for rowValues in getMainWindow().Table.currentTableContentValues:
+                        for rowValues in getMainWindow().Table.values:
                             settingText += "<tr>"
                             for key, value in rowValues.items():
                                 settingText += "<td>" + str(value) + "</td>"

@@ -52,82 +52,6 @@ class AmarokMusicTable(CoreTable):
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
         getMainWindow().MainLayout.addWidget(self.wFilter)
 
-    def readContents(self, _directoryPath):
-        currentTableContentValues = []
-        uni.startThreadAction()
-        import Amarok
-
-        Dialogs.showState(translate("AmarokCoverTable", "Checking For Amarok..."), 0, 2)
-        if Amarok.checkAmarok():
-            Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2)
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                from Amarok import Operations
-
-                musicFileValuesWithNames = Operations.getAllMusicFileValuesWithNames(
-                    uni.MySettings[self.amarokFilterKeyName])
-                Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
-                isContinueThreadAction = uni.isContinueThreadAction()
-                if isContinueThreadAction:
-                    if musicFileValuesWithNames != None:
-                        allItemNumber = len(musicFileValuesWithNames)
-                        musicFileNo = 0
-                        for musicFileRow in musicFileValuesWithNames:
-                            isContinueThreadAction = uni.isContinueThreadAction()
-                            if isContinueThreadAction:
-                                try:
-                                    if Amarok.getSelectedTagSourseType("AmarokMusicTable") == "Amarok":
-                                        content = {}
-                                        content["path"] = musicFileRow["filePath"]
-                                        content["baseNameOfDirectory"] = fu.getBaseName(
-                                            fu.getDirName(musicFileRow["filePath"]))
-                                        content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
-                                        content["artist"] = musicFileRow["artist"]
-                                        content["title"] = musicFileRow["title"]
-                                        content["album"] = musicFileRow["album"]
-                                        content["trackNum"] = musicFileRow["tracknumber"]
-                                        content["year"] = musicFileRow["year"]
-                                        content["genre"] = musicFileRow["genre"]
-                                        content["firstComment"] = musicFileRow["comment"]
-                                        content["firstLyrics"] = musicFileRow["lyrics"]
-                                        currentTableContentValues.append(content)
-                                    else:
-                                        if fu.isFile(musicFileRow["filePath"]) and fu.isReadableFileOrDir(
-                                            musicFileRow["filePath"], False, True):
-                                            tagger = Taggers.getTagger()
-                                            try:
-                                                tagger.loadFile(musicFileRow["filePath"])
-                                            except:
-                                                Dialogs.showError(translate("FileUtils/Musics", "Incorrect Tag"),
-                                                                  str(translate("FileUtils/Musics",
-                                                                                "\"%s\" : this file has the incorrect tag so can't read tags.")
-                                                                  ) % Organizer.getLink(musicFileRow["filePath"]))
-                                            content = {}
-                                            content["path"] = musicFileRow["filePath"]
-                                            content["baseNameOfDirectory"] = fu.getBaseName(
-                                                fu.getDirName(musicFileRow["filePath"]))
-                                            content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
-                                            content["artist"] = tagger.getArtist()
-                                            content["title"] = tagger.getTitle()
-                                            content["album"] = tagger.getAlbum()
-                                            content["trackNum"] = tagger.getTrackNum()
-                                            content["year"] = tagger.getYear()
-                                            content["genre"] = tagger.getGenre()
-                                            content["firstComment"] = tagger.getFirstComment()
-                                            content["firstLyrics"] = tagger.getFirstLyrics()
-                                            currentTableContentValues.append(content)
-                                except:
-                                    ReportBug.ReportBug()
-                            else:
-                                allItemNumber = musicFileNo + 1
-                            Dialogs.showState(translate("FileUtils/Covers", "Reading Music File Informations"),
-                                              musicFileNo + 1, allItemNumber, True)
-                            musicFileNo += 1
-                            if isContinueThreadAction == False:
-                                break
-        uni.finishThreadAction()
-        return currentTableContentValues
-
     def writeContents(self):
         self.changedValueNumber = 0
         changingFileDirectories = []
@@ -135,7 +59,7 @@ class AmarokMusicTable(CoreTable):
         uni.startThreadAction()
         import Amarok
 
-        allItemNumber = len(self.currentTableContentValues)
+        allItemNumber = len(self.values)
         Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
         for rowNo in range(self.rowCount()):
             isContinueThreadAction = uni.isContinueThreadAction()
@@ -143,20 +67,20 @@ class AmarokMusicTable(CoreTable):
                 try:
                     if self.isRowHidden(rowNo):
                         isWritableFileOrDir = fu.isFile(
-                            self.currentTableContentValues[rowNo]["path"]) and fu.isWritableFileOrDir(
-                            self.currentTableContentValues[rowNo]["path"], False, True)
+                            self.values[rowNo]["path"]) and fu.isWritableFileOrDir(
+                            self.values[rowNo]["path"], False, True)
                         if isWritableFileOrDir:
-                            fu.removeFileOrDir(self.currentTableContentValues[rowNo]["path"])
+                            fu.removeFileOrDir(self.values[rowNo]["path"])
                             self.changedValueNumber += 1
                     else:
-                        changingTag = {"path": self.currentTableContentValues[rowNo]["path"]}
+                        changingTag = {"path": self.values[rowNo]["path"]}
                         isWritableFileOrDir = fu.isFile(
-                            self.currentTableContentValues[rowNo]["path"]) and fu.isWritableFileOrDir(
-                            self.currentTableContentValues[rowNo]["path"], False, True)
+                            self.values[rowNo]["path"]) and fu.isWritableFileOrDir(
+                            self.values[rowNo]["path"], False, True)
                         if isWritableFileOrDir:
                             baseNameOfDirectory = str(
-                                self.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                            baseName = str(self.currentTableContentValues[rowNo]["baseName"])
+                                self.values[rowNo]["baseNameOfDirectory"])
+                            baseName = str(self.values[rowNo]["baseName"])
                             if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("ID3") > -1:
                                 typeTemp = Amarok.getSelectedTagTargetType("AmarokMusicTable").split(" + ")
                                 if len(typeTemp) > 1:
@@ -165,62 +89,62 @@ class AmarokMusicTable(CoreTable):
                                     taggerType = typeTemp[0]
                                 Taggers.setSelectedTaggerTypeForWriteName(taggerType)
                             tagger = Taggers.getTagger()
-                            tagger.loadFileForWrite(self.currentTableContentValues[rowNo]["path"])
+                            tagger.loadFileForWrite(self.values[rowNo]["path"])
                         if self.isChangeableItem(rowNo, 2):
                             value = str(self.item(rowNo, 2).text())
                             if isWritableFileOrDir: tagger.setArtist(value)
                             changingTag["artist"] = value
                             Records.add(str(translate("AmarokMusicTable", "Artist")),
-                                        str(self.currentTableContentValues[rowNo]["artist"]), value)
+                                        str(self.values[rowNo]["artist"]), value)
                             self.changedValueNumber += 1
                         if self.isChangeableItem(rowNo, 3):
                             value = str(self.item(rowNo, 3).text())
                             if isWritableFileOrDir: tagger.setTitle(value)
                             changingTag["title"] = value
                             Records.add(str(translate("AmarokMusicTable", "Title")),
-                                        str(self.currentTableContentValues[rowNo]["title"]), value)
+                                        str(self.values[rowNo]["title"]), value)
                             self.changedValueNumber += 1
                         if self.isChangeableItem(rowNo, 4):
                             value = str(self.item(rowNo, 4).text())
                             if isWritableFileOrDir: tagger.setAlbum(value)
                             changingTag["album"] = value
                             Records.add(str(translate("AmarokMusicTable", "Album")),
-                                        str(self.currentTableContentValues[rowNo]["album"]), value)
+                                        str(self.values[rowNo]["album"]), value)
                             self.changedValueNumber += 1
                         if self.isChangeableItem(rowNo, 5):
                             value = str(self.item(rowNo, 5).text())
                             if isWritableFileOrDir: tagger.setTrackNum(value)
                             changingTag["trackNum"] = value
                             Records.add(str(translate("AmarokMusicTable", "Track No")),
-                                        str(self.currentTableContentValues[rowNo]["trackNum"]), value)
+                                        str(self.values[rowNo]["trackNum"]), value)
                             self.changedValueNumber += 1
                         if self.isChangeableItem(rowNo, 6):
                             value = str(self.item(rowNo, 6).text())
                             if isWritableFileOrDir: tagger.setDate(value)
                             changingTag["year"] = value
                             Records.add(str(translate("AmarokMusicTable", "Year")),
-                                        str(self.currentTableContentValues[rowNo]["year"]), value)
+                                        str(self.values[rowNo]["year"]), value)
                             self.changedValueNumber += 1
                         if self.isChangeableItem(rowNo, 7):
                             value = str(self.item(rowNo, 7).text())
                             if isWritableFileOrDir: tagger.setGenre(value)
                             changingTag["genre"] = value
                             Records.add(str(translate("AmarokMusicTable", "Genre")),
-                                        str(self.currentTableContentValues[rowNo]["genre"]), value)
+                                        str(self.values[rowNo]["genre"]), value)
                             self.changedValueNumber += 1
                         if self.isChangeableItem(rowNo, 8):
                             value = str(self.item(rowNo, 8).text())
                             if isWritableFileOrDir: tagger.setFirstComment(value)
                             changingTag["firstComment"] = value
                             Records.add(str(translate("AmarokMusicTable", "Comment")),
-                                        str(self.currentTableContentValues[rowNo]["firstComment"]), value)
+                                        str(self.values[rowNo]["firstComment"]), value)
                             self.changedValueNumber += 1
                         if len(self.tableColumns) > 9 and self.isChangeableItem(rowNo, 9):
                             value = str(self.item(rowNo, 9).text())
                             if isWritableFileOrDir: tagger.setFirstLyrics(value)
                             changingTag["firstLyrics"] = value
                             Records.add(str(translate("AmarokMusicTable", "Lyrics")),
-                                        str(self.currentTableContentValues[rowNo]["firstLyrics"]), value)
+                                        str(self.values[rowNo]["firstLyrics"]), value)
                             self.changedValueNumber += 1
                         if len(changingTag) > 1:
                             changingTags.append(changingTag)
@@ -234,11 +158,11 @@ class AmarokMusicTable(CoreTable):
                                 baseName = str(self.item(rowNo, 1).text())
                                 self.changedValueNumber += 1
                             newFilePath = fu.joinPath(
-                                fu.getDirName(fu.getDirName(self.currentTableContentValues[rowNo]["path"])),
+                                fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                 baseNameOfDirectory, baseName)
-                            if fu.getRealPath(self.currentTableContentValues[rowNo]["path"]) != fu.getRealPath(
+                            if fu.getRealPath(self.values[rowNo]["path"]) != fu.getRealPath(
                                 newFilePath):
-                                changingFileDirectories.append([self.currentTableContentValues[rowNo]["path"],
+                                changingFileDirectories.append([self.values[rowNo]["path"],
                                                                 newFilePath])
                 except:
                     ReportBug.ReportBug()
@@ -257,7 +181,7 @@ class AmarokMusicTable(CoreTable):
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(self.currentTableContentValues[_fileNo]["path"],
+        MusicDetails.MusicDetails(self.values[_fileNo]["path"],
                                   uni.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
 
     def cellClickedTable(self, _row, _column):
@@ -283,7 +207,7 @@ class AmarokMusicTable(CoreTable):
             Dialogs.showError(translate("AmarokMusicTable", "Cannot Open Music File"),
                               str(translate("AmarokMusicTable",
                                             "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
-                              ) % Organizer.getLink(self.currentTableContentValues[_row]["path"]))
+                              ) % Organizer.getLink(self.values[_row]["path"]))
 
     def refreshColumns(self):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
@@ -295,58 +219,130 @@ class AmarokMusicTable(CoreTable):
         return self.writeContents()
 
     def refreshTable(self, _path):
+        self.values = []
         self.setColumnWidth(5, 70)
         self.setColumnWidth(6, 40)
-        self.currentTableContentValues = self.readContents(_path)
-        self.setRowCount(len(self.currentTableContentValues))
-        allItemNumber = self.rowCount()
-        for rowNo in range(allItemNumber):
-            for itemNo in range(len(self.tableColumns)):
-                item = None
-                if itemNo == 0:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseNameOfDirectory"],
-                                                "directory")
-                    item = self.createTableWidgetItem(newString, self.currentTableContentValues[rowNo][
-                        "baseNameOfDirectory"])
-                elif itemNo == 1:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseName"], "file")
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["baseName"])
-                elif itemNo == 2:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["artist"])
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["artist"])
-                elif itemNo == 3:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["title"])
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["title"])
-                elif itemNo == 4:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["album"])
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["album"])
-                elif itemNo == 5:
-                    newString = str(self.currentTableContentValues[rowNo]["trackNum"])
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["trackNum"])
-                elif itemNo == 6:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["year"])
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["year"])
-                elif itemNo == 7:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["genre"])
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["genre"])
-                elif itemNo == 8:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["firstComment"])
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["firstComment"])
-                elif itemNo == 9:
-                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["firstLyrics"])
-                    item = self.createTableWidgetItem(newString,
-                                                      self.currentTableContentValues[rowNo]["firstLyrics"])
-                if item != None:
-                    self.setItem(rowNo, itemNo, item)
-            Dialogs.showState(translate("Tables", "Generating .."), rowNo + 1, allItemNumber)
+        uni.startThreadAction()
+        import Amarok
+
+        Dialogs.showState(translate("AmarokCoverTable", "Checking For Amarok..."), 0, 2)
+        if Amarok.checkAmarok():
+            Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2)
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                from Amarok import Operations
+
+                musicFileValuesWithNames = Operations.getAllMusicFileValuesWithNames(
+                    uni.MySettings[self.amarokFilterKeyName])
+                Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
+                isContinueThreadAction = uni.isContinueThreadAction()
+                if isContinueThreadAction:
+                    if musicFileValuesWithNames != None:
+                        allItemNumber = len(musicFileValuesWithNames)
+                        self.setRowCount(allItemNumber)
+                        rowNo = 0
+                        for musicFileRow in musicFileValuesWithNames:
+                            isContinueThreadAction = uni.isContinueThreadAction()
+                            if isContinueThreadAction:
+                                try:
+                                    if fu.isFile(musicFileRow["filePath"]) and fu.isReadableFileOrDir(
+                                        musicFileRow["filePath"], False, True):
+                                        if Amarok.getSelectedTagSourseType("AmarokMusicTable") == "Amarok":
+                                            content = {}
+                                            content["path"] = musicFileRow["filePath"]
+                                            content["baseNameOfDirectory"] = fu.getBaseName(
+                                                fu.getDirName(musicFileRow["filePath"]))
+                                            content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
+                                            content["artist"] = musicFileRow["artist"]
+                                            content["title"] = musicFileRow["title"]
+                                            content["album"] = musicFileRow["album"]
+                                            content["trackNum"] = musicFileRow["tracknumber"]
+                                            content["year"] = musicFileRow["year"]
+                                            content["genre"] = musicFileRow["genre"]
+                                            content["firstComment"] = musicFileRow["comment"]
+                                            content["firstLyrics"] = musicFileRow["lyrics"]
+                                            self.values.append(content)
+                                        else:
+                                            tagger = Taggers.getTagger()
+                                            try:
+                                                tagger.loadFile(musicFileRow["filePath"])
+                                            except:
+                                                Dialogs.showError(translate("FileUtils/Musics", "Incorrect Tag"),
+                                                                  str(translate("FileUtils/Musics",
+                                                                                "\"%s\" : this file has the incorrect tag so can't read tags.")
+                                                                  ) % Organizer.getLink(musicFileRow["filePath"]))
+                                            content = {}
+                                            content["path"] = musicFileRow["filePath"]
+                                            content["baseNameOfDirectory"] = fu.getBaseName(
+                                                fu.getDirName(musicFileRow["filePath"]))
+                                            content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
+                                            content["artist"] = tagger.getArtist()
+                                            content["title"] = tagger.getTitle()
+                                            content["album"] = tagger.getAlbum()
+                                            content["trackNum"] = tagger.getTrackNum()
+                                            content["year"] = tagger.getYear()
+                                            content["genre"] = tagger.getGenre()
+                                            content["firstComment"] = tagger.getFirstComment()
+                                            content["firstLyrics"] = tagger.getFirstLyrics()
+                                            self.values.append(content)
+
+                                        newBaseNameOfDirectory = Organizer.emend(
+                                            self.values[rowNo]["baseNameOfDirectory"], "directory")
+                                        itemBaseNameOfDirectory = self.createTableWidgetItem(newBaseNameOfDirectory,
+                                                                                             self.values[rowNo][
+                                                                                                 "baseNameOfDirectory"])
+                                        self.setItem(rowNo, 0, itemBaseNameOfDirectory)
+
+                                        newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "file")
+                                        itemBaseName = self.createTableWidgetItem(newBaseName,
+                                                                                  self.values[rowNo]["baseName"])
+                                        self.setItem(rowNo, 1, itemBaseName)
+
+                                        newArtist = Organizer.emend(self.values[rowNo]["artist"])
+                                        itemArtist = self.createTableWidgetItem(newArtist, self.values[rowNo]["artist"])
+                                        self.setItem(rowNo, 2, itemArtist)
+
+                                        newTitle = Organizer.emend(self.values[rowNo]["title"])
+                                        itemTitle = self.createTableWidgetItem(newTitle, self.values[rowNo]["title"])
+                                        self.setItem(rowNo, 3, itemTitle)
+
+                                        newAlbum = Organizer.emend(self.values[rowNo]["album"])
+                                        itemAlbum = self.createTableWidgetItem(newAlbum, self.values[rowNo]["album"])
+                                        self.setItem(rowNo, 4, itemAlbum)
+
+                                        newTrackNum = str(self.values[rowNo]["trackNum"])
+                                        itemTrackNum = self.createTableWidgetItem(newTrackNum,
+                                                                                  self.values[rowNo]["trackNum"])
+                                        self.setItem(rowNo, 5, itemTrackNum)
+
+                                        newYear = Organizer.emend(self.values[rowNo]["year"])
+                                        itemYear = self.createTableWidgetItem(newYear, self.values[rowNo]["year"])
+                                        self.setItem(rowNo, 6, itemYear)
+
+                                        newGenre = Organizer.emend(self.values[rowNo]["genre"])
+                                        itemGenre = self.createTableWidgetItem(newGenre, self.values[rowNo]["genre"])
+                                        self.setItem(rowNo, 7, itemGenre)
+
+                                        newFirstComment = Organizer.emend(self.values[rowNo]["firstComment"])
+                                        itemFirstComment = self.createTableWidgetItem(newFirstComment,
+                                                                                      self.values[rowNo][
+                                                                                          "firstComment"])
+                                        self.setItem(rowNo, 8, itemFirstComment)
+
+                                        newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
+                                        itemFirstLyrics = self.createTableWidgetItem(newFirstLyrics,
+                                                                                     self.values[rowNo]["firstLyrics"])
+                                        self.setItem(rowNo, 9, itemFirstLyrics)
+                                except:
+                                    ReportBug.ReportBug()
+                                rowNo += 1
+                            else:
+                                allItemNumber = rowNo
+                            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
+                            if isContinueThreadAction == False:
+                                break
+        uni.finishThreadAction()
+        self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
@@ -362,23 +358,23 @@ class AmarokMusicTable(CoreTable):
 
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo == 0:
-            return self.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+            return self.values[_rowNo]["baseNameOfDirectory"]
         elif _columnNo == 1:
-            return self.currentTableContentValues[_rowNo]["baseName"]
+            return self.values[_rowNo]["baseName"]
         elif _columnNo == 2:
-            return self.currentTableContentValues[_rowNo]["artist"]
+            return self.values[_rowNo]["artist"]
         elif _columnNo == 3:
-            return self.currentTableContentValues[_rowNo]["title"]
+            return self.values[_rowNo]["title"]
         elif _columnNo == 4:
-            return self.currentTableContentValues[_rowNo]["album"]
+            return self.values[_rowNo]["album"]
         elif _columnNo == 5:
-            return self.currentTableContentValues[_rowNo]["trackNum"]
+            return self.values[_rowNo]["trackNum"]
         elif _columnNo == 6:
-            return self.currentTableContentValues[_rowNo]["year"]
+            return self.values[_rowNo]["year"]
         elif _columnNo == 7:
-            return self.currentTableContentValues[_rowNo]["genre"]
+            return self.values[_rowNo]["genre"]
         elif _columnNo == 8:
-            return self.currentTableContentValues[_rowNo]["firstComment"]
+            return self.values[_rowNo]["firstComment"]
         elif _columnNo == 9:
-            return self.currentTableContentValues[_rowNo]["firstLyrics"]
+            return self.values[_rowNo]["firstLyrics"]
         return ""

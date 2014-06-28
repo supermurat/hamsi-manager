@@ -41,52 +41,13 @@ class AmarokArtistTable(CoreTable):
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
         getMainWindow().MainLayout.addWidget(self.wFilter)
 
-    def readContents(self, _directoryPath):
-        currentTableContentValues = []
-        uni.startThreadAction()
-        import Amarok
-
-        Dialogs.showState(translate("AmarokArtistTable", "Checking For Amarok..."), 0, 2)
-        if Amarok.checkAmarok():
-            Dialogs.showState(translate("AmarokArtistTable", "Getting Values From Amarok"), 1, 2)
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                from Amarok import Operations
-
-                artistValues = Operations.getAllArtistsValues(uni.MySettings[self.amarokFilterKeyName])
-                Dialogs.showState(translate("AmarokArtistTable", "Values Are Being Processed"), 2, 2)
-                isContinueThreadAction = uni.isContinueThreadAction()
-                if isContinueThreadAction:
-                    if artistValues != None:
-                        allItemNumber = len(artistValues)
-                        musicFileNo = 0
-                        for musicFileRow in artistValues:
-                            isContinueThreadAction = uni.isContinueThreadAction()
-                            if isContinueThreadAction:
-                                try:
-                                    content = {}
-                                    content["id"] = musicFileRow["id"]
-                                    content["name"] = musicFileRow["name"]
-                                    currentTableContentValues.append(content)
-                                except:
-                                    ReportBug.ReportBug()
-                            else:
-                                allItemNumber = musicFileNo + 1
-                            Dialogs.showState(translate("FileUtils/Covers", "Reading Music File Informations"),
-                                              musicFileNo + 1, allItemNumber, True)
-                            musicFileNo += 1
-                            if isContinueThreadAction == False:
-                                break
-        uni.finishThreadAction()
-        return currentTableContentValues
-
     def writeContents(self):
         self.changedValueNumber = 0
         changedArtistValues = []
         uni.startThreadAction()
         import Amarok
 
-        allItemNumber = len(self.currentTableContentValues)
+        allItemNumber = len(self.values)
         Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
         for rowNo in range(self.rowCount()):
             isContinueThreadAction = uni.isContinueThreadAction()
@@ -94,13 +55,13 @@ class AmarokArtistTable(CoreTable):
                 try:
                     if self.isRowHidden(rowNo) == False:
                         if self.isChangeableItem(rowNo, 1,
-                                                 str(self.currentTableContentValues[rowNo]["name"])):
+                                                 str(self.values[rowNo]["name"])):
                             changedArtistValues.append({})
-                            changedArtistValues[-1]["id"] = str(self.currentTableContentValues[rowNo]["id"])
+                            changedArtistValues[-1]["id"] = str(self.values[rowNo]["id"])
                             value = str(self.item(rowNo, 1).text())
                             changedArtistValues[-1]["name"] = value
                             Records.add(str(translate("AmarokArtistTable", "Artist")),
-                                        str(self.currentTableContentValues[rowNo]["name"]), value)
+                                        str(self.values[rowNo]["name"]), value)
                             self.changedValueNumber += 1
                 except:
                     ReportBug.ReportBug()
@@ -116,7 +77,7 @@ class AmarokArtistTable(CoreTable):
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
-        AmarokArtistDetails.AmarokArtistDetails(self.currentTableContentValues[_fileNo]["id"],
+        AmarokArtistDetails.AmarokArtistDetails(self.values[_fileNo]["id"],
                                                 uni.getBoolValue("isOpenDetailsInNewWindow"))
 
     def cellClickedTable(self, _row, _column):
@@ -140,19 +101,53 @@ class AmarokArtistTable(CoreTable):
         return self.writeContents()
 
     def refreshTable(self, _path):
-        self.currentTableContentValues = self.readContents(_path)
-        self.setRowCount(len(self.currentTableContentValues))
-        allItemNumber = self.rowCount()
-        for rowNo in range(allItemNumber):
-            newString = self.currentTableContentValues[rowNo]["name"]
-            item = self.createTableWidgetItem(newString, newString, True)
-            self.setItem(rowNo, 0, item)
-            newString = Organizer.emend(self.currentTableContentValues[rowNo]["name"])
-            isReadOnly = self.currentTableContentValues[rowNo]["name"].strip() == ""
-            item = self.createTableWidgetItem(newString, self.currentTableContentValues[rowNo]["name"],
-                                                    isReadOnly)
-            self.setItem(rowNo, 1, item)
-            Dialogs.showState(translate("Tables", "Generating .."), rowNo + 1, allItemNumber)
+        self.values = []
+        uni.startThreadAction()
+        import Amarok
+
+        Dialogs.showState(translate("AmarokArtistTable", "Checking For Amarok..."), 0, 2)
+        if Amarok.checkAmarok():
+            Dialogs.showState(translate("AmarokArtistTable", "Getting Values From Amarok"), 1, 2)
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                from Amarok import Operations
+
+                artistValues = Operations.getAllArtistsValues(uni.MySettings[self.amarokFilterKeyName])
+                Dialogs.showState(translate("AmarokArtistTable", "Values Are Being Processed"), 2, 2)
+                isContinueThreadAction = uni.isContinueThreadAction()
+                if isContinueThreadAction:
+                    if artistValues != None:
+                        allItemNumber = len(artistValues)
+                        self.setRowCount(allItemNumber)
+                        rowNo = 0
+                        for musicFileRow in artistValues:
+                            isContinueThreadAction = uni.isContinueThreadAction()
+                            if isContinueThreadAction:
+                                try:
+                                    content = {}
+                                    content["id"] = musicFileRow["id"]
+                                    content["name"] = musicFileRow["name"]
+                                    self.values.append(content)
+
+                                    currentName = content["name"]
+                                    itemCurrentName = self.createTableWidgetItem(currentName, currentName, True)
+                                    self.setItem(rowNo, 0, itemCurrentName)
+
+                                    newName = Organizer.emend(content["name"])
+                                    isReadOnlyNewName = (content["name"].strip() == "")
+                                    itemNewName = self.createTableWidgetItem(newName, content["name"],
+                                                                             isReadOnlyNewName)
+                                    self.setItem(rowNo, 1, itemNewName)
+                                except:
+                                    ReportBug.ReportBug()
+                                rowNo += 1
+                            else:
+                                allItemNumber = rowNo
+                            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
+                            if isContinueThreadAction == False:
+                                break
+        uni.finishThreadAction()
+        self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
@@ -166,7 +161,7 @@ class AmarokArtistTable(CoreTable):
 
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo == 0:
-            return self.currentTableContentValues[_rowNo]["name"]
+            return self.values[_rowNo]["name"]
         elif _columnNo == 1:
-            return self.currentTableContentValues[_rowNo]["name"]
+            return self.values[_rowNo]["name"]
         return ""

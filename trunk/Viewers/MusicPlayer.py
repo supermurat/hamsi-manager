@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -154,7 +154,7 @@ class MusicPlayer(MWidget):
                     self.Player = M_MPlayer()
             self.stop()
             if _filePath == "":
-                _filePath = getMainWindow().Table.currentTableContentValues[getMainWindow().Table.currentRow()]["path"]
+                _filePath = getMainWindow().Table.values[getMainWindow().Table.currentRow()]["path"]
             if _filePath == "" and self.file != "":
                 _filePath = self.file
             else:

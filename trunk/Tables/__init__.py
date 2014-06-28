@@ -148,7 +148,7 @@ class CoreTable(MTableWidget):
         self.isAskShowHiddenColumn = True
         self.currentDirectoryPath = ""
         self.newDirectoryPath = ""
-        self.currentTableContentValues = []
+        self.values = []
         self.changedValueNumber = 0
         self.history = []
         self.future = []
@@ -347,16 +347,16 @@ class CoreTable(MTableWidget):
                     elif selectedItem.objectName() == self.mContextMenuOpenWithNames[0]:
                         from Core import Execute
 
-                        Execute.openWith([fu.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
+                        Execute.openWith([fu.getRealDirName(self.values[currentItem.row()]["path"])])
                     elif selectedItem.objectName() == self.mContextMenuOpenWithNames[1]:
                         from Core import Execute
 
-                        Execute.openWith([self.currentTableContentValues[currentItem.row()]["path"]])
+                        Execute.openWith([self.values[currentItem.row()]["path"]])
                     elif uni.isWindows == False and selectedItem.objectName() == self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
 
                         Execute.execute(["konsole", "--workdir",
-                                         fu.getRealDirName(self.currentTableContentValues[currentItem.row()]["path"])])
+                                         fu.getRealDirName(self.values[currentItem.row()]["path"])])
         except:
             ReportBug.ReportBug()
 
@@ -592,11 +592,11 @@ class CoreTable(MTableWidget):
         isYesToAll, isNoToAll = False, False
         for rowNo in range(self.rowCount()):
             if _isCheckFile:
-                if fu.isFile(self.currentTableContentValues[rowNo]["path"]) == False:
+                if fu.isFile(self.values[rowNo]["path"]) == False:
                     continue
             if destinationParameterType == "fileNameKey":
-                sFileExt = fu.getFileExtension(self.currentTableContentValues[rowNo][_fileNameKeyOrDestinationColumnNo])
-                sFilePath = self.currentTableContentValues[rowNo]["path"]
+                sFileExt = fu.getFileExtension(self.values[rowNo][_fileNameKeyOrDestinationColumnNo])
+                sFilePath = self.values[rowNo]["path"]
             else:
                 sFileExt = fu.getFileExtension(str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text()))
                 sFilePath = str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text())

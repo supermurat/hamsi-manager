@@ -1,5 +1,5 @@
 # # This file is part of HamsiManager.
-##
+# #
 ## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
@@ -154,7 +154,7 @@ class ScriptManager(MDialog):
                                                  True)
                             if answer == Dialogs.Yes:
                                 self.save()
-                            elif answer == Dialog.Cancel:
+                            elif answer == Dialogs.Cancel:
                                 return False
             return True
         except:
