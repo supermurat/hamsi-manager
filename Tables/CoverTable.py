@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
-##
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+# #
+# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -266,7 +266,7 @@ class CoverTable():
                 item = self.Table.item(rowNo, 2)
                 if item != None:
                     item.setBackground(MBrush(MColor(255, 163, 163)))
-            Dialogs.showState(translate("FileUtils/Tables", "Generating Table..."), rowNo + 1, allItemNumber)
+            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo + 1, allItemNumber)
 
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):

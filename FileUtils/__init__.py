@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
-##
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+# #
+# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -1632,7 +1632,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             if _extInfo == "no":
                 pass
             elif _extInfo == "title":
-                info += " \n <h3>%s </h3> \n" % (str(translate("Tables", "File Tree")))
+                info += " \n <h3>%s </h3> \n" % (str(translate("FileUtils", "File Tree")))
                 info += " %s<br> \n" % (_path)
             dirNumber = _path.count(sep)
             findStrings, replaceStrings = [], []
@@ -1668,7 +1668,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                             info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
                             if uni.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
                         if uni.getBoolValue("isAppendLastModifiedToFileTree"):
-                            info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(
+                            info += str(translate("FileUtils", "Last Modified : ")) + Organizer.getCorrectedTime(
                                 details[stat.ST_MTIME])
                         info += " )"
                     else:
@@ -1678,7 +1678,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             if _extInfo == "no":
                 pass
             elif _extInfo == "title":
-                info += " %s \n" % (str(translate("Tables", "File Tree")))
+                info += " %s \n" % (str(translate("FileUtils", "File Tree")))
                 info += _path + "\n"
             dirNumber = _path.count(sep)
             findStrings, replaceStrings = [], []
@@ -1715,7 +1715,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                             info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
                             if uni.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
                         if uni.getBoolValue("isAppendLastModifiedToFileTree"):
-                            info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(
+                            info += str(translate("FileUtils", "Last Modified : ")) + Organizer.getCorrectedTime(
                                 details[stat.ST_MTIME])
                         info += " )"
                     else:
@@ -1726,7 +1726,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             if _extInfo == "no":
                 pass
             elif _extInfo == "title":
-                info += " \n <h3>%s </h3> \n" % (str(translate("Tables", "File List")))
+                info += " \n <h3>%s </h3> \n" % (str(translate("FileUtils", "File List")))
                 info += " %s<br> \n" % (_path)
             for x, fileName in enumerate(files):
                 info += fileName
@@ -1738,7 +1738,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                             info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
                             if uni.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
                         if uni.getBoolValue("isAppendLastModifiedToFileTree"):
-                            info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(
+                            info += str(translate("FileUtils", "Last Modified : ")) + Organizer.getCorrectedTime(
                                 details[stat.ST_MTIME])
                         info += " )"
                     else:
@@ -1748,7 +1748,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             if _extInfo == "no":
                 pass
             elif _extInfo == "title":
-                info += " %s \n" % (str(translate("Tables", "File Tree")))
+                info += " %s \n" % (str(translate("FileUtils", "File Tree")))
                 info += _path + "\n"
             for x, fileName in enumerate(files):
                 info += fileName
@@ -1760,7 +1760,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                             info += Organizer.getCorrectedFileSize(details[stat.ST_SIZE])
                             if uni.getBoolValue("isAppendLastModifiedToFileTree"): info += ", "
                         if uni.getBoolValue("isAppendLastModifiedToFileTree"):
-                            info += str(translate("Tables", "Last Modified : ")) + Organizer.getCorrectedTime(
+                            info += str(translate("FileUtils", "Last Modified : ")) + Organizer.getCorrectedTime(
                                 details[stat.ST_MTIME])
                         info += " )"
                     else:
@@ -1778,12 +1778,12 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                              "<head> \n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> \n</head> \n<body> \n")
                 strFooter = " \n</body> \n</html>"
                 info = strHeader + info + strFooter
-            formatTypeName = translate("Tables", "HTML")
+            formatTypeName = translate("FileUtils", "HTML")
             fileExt = "html"
         elif _outputType == "plainText":
-            formatTypeName = translate("Tables", "Plain Text")
+            formatTypeName = translate("FileUtils", "Plain Text")
             fileExt = "txt"
-        filePath = Dialogs.getSaveFileName(translate("Tables", "Save As"),
+        filePath = Dialogs.getSaveFileName(translate("FileUtils", "Save As"),
                                            joinPath(userDirectoryPath, getBaseName(_path) + "." + fileExt),
                                            formatTypeName + " (*." + fileExt + ")", 2)
         if filePath is not None:
@@ -1792,13 +1792,14 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             elif _outputType == "plainText" and filePath[-4:] != ".txt":
                 filePath += ".txt"
             writeToFile(filePath, info)
-            Dialogs.show(translate("Tables", "File Tree Created"),
-                         str(translate("Tables", "File tree created in file: \"%s\".")) % Organizer.getLink(filePath))
+            Dialogs.show(translate("FileUtils", "File Tree Created"),
+                         str(translate("FileUtils", "File tree created in file: \"%s\".")) % Organizer.getLink(
+                             filePath))
     elif _outputTarget == "dialog":
         dDialog = MDialog(getMainWindow())
         if isActivePyKDE4:
             dDialog.setButtons(MDialog.NoDefault)
-        dDialog.setWindowTitle(translate("Tables", "File Tree"))
+        dDialog.setWindowTitle(translate("FileUtils", "File Tree"))
         mainPanel = MWidget(dDialog)
         vblMain = MVBoxLayout(mainPanel)
         if _outputType == "html":
@@ -1810,7 +1811,7 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
             teContent = MTextEdit()
             teContent.setPlainText(str(info))
             vblMain.addWidget(teContent)
-        pbtnClose = MPushButton(translate("Tables", "OK"))
+        pbtnClose = MPushButton(translate("FileUtils", "OK"))
         MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
         vblMain.addWidget(pbtnClose)
         if isActivePyKDE4:

@@ -337,7 +337,7 @@ class SubFolderMusicTable():
                                                             self.Table.currentTableContentValues[rowNo]["firstLyrics"])
                 if item != None:
                     self.Table.setItem(rowNo, itemNo, item)
-            Dialogs.showState(translate("FileUtils/Tables", "Generating Table..."), rowNo + 1, allItemNumber)
+            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo + 1, allItemNumber)
 
     def correctTable(self):
         for rowNo in range(self.Table.rowCount()):

@@ -1,6 +1,6 @@
 # # This file is part of HamsiManager.
-##
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+# #
+# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -91,6 +91,11 @@ class Tagger():
         try: return self.getCorrectedValuesForMusicTagType(str(self.tag._getArtist()))
         except: return ""
 
+
+    def getAlbumArtist(self):
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tag.getTextFrame("TPE2")))
+        except: return ""
+
     def getTitle(self):
         try: return self.getCorrectedValuesForMusicTagType(str(self.tag._getTitle()))
         except: return ""
@@ -148,6 +153,9 @@ class Tagger():
 
     def setArtist(self, _value):
         self.tag._setArtist(self.correctValuesForMusicTagType(_value))
+
+    def setAlbumArtist(self, _value):
+        self.tag.setTextFrame("TPE2", self.correctValuesForMusicTagType(_value))
 
     def setTitle(self, _value):
         self.tag._setTitle(self.correctValuesForMusicTagType(_value))

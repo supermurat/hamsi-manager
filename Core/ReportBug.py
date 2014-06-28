@@ -1,7 +1,7 @@
 # # This file is part of HamsiManager.
-##
+# #
 # # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
-##
+# #
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
 ## the Free Software Foundation; either version 2 of the License, or
@@ -36,6 +36,7 @@ else:
     from urllib import unquote, quote
 
 isClose = False
+
 
 class ReportBug():
     global bugDialog, lastErrorDetails
@@ -153,8 +154,6 @@ class ReportBug():
                     errorDetails += str(uni.MySettings[keyName]) + "<br>"
         except: pass
         try:
-            import Tables
-
             errorDetails += "<b>" + str(translate("ReportBug", "Table Type No : ")) + "</b>" + str(
                 uni.tableType) + "<br>"
         except: pass
