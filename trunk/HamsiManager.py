@@ -276,7 +276,7 @@ if RoutineChecks.checkMandatoryModules():
                                     self.FileManager.actCollection.writeSettings(kconfGroup)
                                     uni.printForDevelopers("After Save KDE Configs")
                                 uni.printForDevelopers("Before Save Configs")
-                                uni.setMySetting(self.Table.SubTable.hiddenTableColumnsSettingKey,
+                                uni.setMySetting(self.Table.hiddenTableColumnsSettingKey,
                                                  self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
                                 Records.setRecordType(1)
@@ -294,7 +294,7 @@ if RoutineChecks.checkMandatoryModules():
                                 uni.setMySetting("isMainWindowMaximized", self.isMaximized())
                                 uni.setMySetting("isShowAdvancedSelections", self.SpecialTools.isShowAdvancedSelections)
                                 if uni.tableType in ["2", "6", "8", "9"]:
-                                    try: uni.setMySetting("isPlayNow", self.Table.SubTable.isPlayNow.isChecked())
+                                    try: uni.setMySetting("isPlayNow", self.Table.isPlayNow.isChecked())
                                     except: pass
                                 uni.setMySetting("tableType", uni.tableType)
                                 uni.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())

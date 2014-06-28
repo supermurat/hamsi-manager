@@ -858,7 +858,7 @@ def checkNewDestination(_newPath, _isQuiet=False):
     return False
 
 
-def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=False):
+def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=True):
     global appendingDirectories
     appendingDirectories = []
     fileAndDirectoryNames, fileNames, directoryNames = [], [], []
@@ -903,7 +903,7 @@ def readDirectoryAll(_path):
     return tFileAndDirs
 
 
-def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _objectType="fileAndDirectory", _isShowHiddens=False,
+def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _objectType="fileAndDirectory", _isShowHiddens=True,
                                     _currentSubDeep=0):
     global appendingDirectories
     _subDirectoryDeep = int(_subDirectoryDeep)
@@ -940,7 +940,7 @@ def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _objectType="fi
 
 
 def readDirectoryWithSubDirectoriesThread(_path, _subDirectoryDeep=-1, _objectType="fileAndDirectory",
-                                          _isShowHiddens=False, _currentSubDeep=0):
+                                          _isShowHiddens=True, _currentSubDeep=0):
     from Core import MyThread
 
     global appendingDirectories

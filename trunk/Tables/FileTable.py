@@ -22,15 +22,14 @@ import FileUtils as fu
 from Core.MyObjects import *
 from Details import Details
 from Core import Dialogs
-import Options
-from time import gmtime
 from Core import Universals as uni
 from Core import ReportBug
+from Tables import CoreTable
 
 
-class FileTable():
-    def __init__(self, _table):
-        self.Table = _table
+class FileTable(CoreTable):
+    def __init__(self, *args, **kwargs):
+        CoreTable.__init__(self, *args, **kwargs)
         self.keyName = "file"
         self.hiddenTableColumnsSettingKey = "hiddenFileTableColumns"
         self.refreshColumns()
@@ -63,7 +62,7 @@ class FileTable():
         return currentTableContentValues
 
     def writeContents(self):
-        self.Table.changedValueNumber = 0
+        self.changedValueNumber = 0
         changingFileDirectories = []
         if uni.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB"):
             import Amarok
@@ -71,36 +70,36 @@ class FileTable():
             if Amarok.checkAmarok(True, False) == False:
                 return False
         uni.startThreadAction()
-        allItemNumber = len(self.Table.currentTableContentValues)
+        allItemNumber = len(self.currentTableContentValues)
         Dialogs.showState(translate("FileUtils/Files", "Writing File Informations"), 0, allItemNumber, True)
-        for rowNo in range(self.Table.rowCount()):
+        for rowNo in range(self.rowCount()):
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if fu.isWritableFileOrDir(self.Table.currentTableContentValues[rowNo]["path"], False, True):
-                        if self.Table.isRowHidden(rowNo):
-                            fu.removeFileOrDir(self.Table.currentTableContentValues[rowNo]["path"])
-                            self.Table.changedValueNumber += 1
+                    if fu.isWritableFileOrDir(self.currentTableContentValues[rowNo]["path"], False, True):
+                        if self.isRowHidden(rowNo):
+                            fu.removeFileOrDir(self.currentTableContentValues[rowNo]["path"])
+                            self.changedValueNumber += 1
                         else:
                             baseNameOfDirectory = str(
-                                self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"])
-                            baseName = str(self.Table.currentTableContentValues[rowNo]["baseName"])
-                            if self.Table.isChangeableItem(rowNo, 0, baseNameOfDirectory):
-                                baseNameOfDirectory = str(self.Table.item(rowNo, 0).text())
-                                self.Table.changedValueNumber += 1
+                                self.currentTableContentValues[rowNo]["baseNameOfDirectory"])
+                            baseName = str(self.currentTableContentValues[rowNo]["baseName"])
+                            if self.isChangeableItem(rowNo, 0, baseNameOfDirectory):
+                                baseNameOfDirectory = str(self.item(rowNo, 0).text())
+                                self.changedValueNumber += 1
                                 newDirectoryPath = fu.joinPath(
-                                    fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])),
+                                    fu.getDirName(fu.getDirName(self.currentTableContentValues[rowNo]["path"])),
                                     baseNameOfDirectory)
-                                self.Table.setNewDirectory(newDirectoryPath)
-                            if self.Table.isChangeableItem(rowNo, 1, baseName, False):
-                                baseName = str(self.Table.item(rowNo, 1).text())
-                                self.Table.changedValueNumber += 1
+                                self.setNewDirectory(newDirectoryPath)
+                            if self.isChangeableItem(rowNo, 1, baseName, False):
+                                baseName = str(self.item(rowNo, 1).text())
+                                self.changedValueNumber += 1
                             newFilePath = fu.joinPath(
-                                fu.getDirName(fu.getDirName(self.Table.currentTableContentValues[rowNo]["path"])),
+                                fu.getDirName(fu.getDirName(self.currentTableContentValues[rowNo]["path"])),
                                 baseNameOfDirectory, baseName)
-                            if fu.getRealPath(self.Table.currentTableContentValues[rowNo]["path"]) != fu.getRealPath(
+                            if fu.getRealPath(self.currentTableContentValues[rowNo]["path"]) != fu.getRealPath(
                                 newFilePath):
-                                changingFileDirectories.append([self.Table.currentTableContentValues[rowNo]["path"],
+                                changingFileDirectories.append([self.currentTableContentValues[rowNo]["path"],
                                                                 newFilePath])
                 except:
                     ReportBug.ReportBug()
@@ -118,70 +117,70 @@ class FileTable():
             Operations.changePaths(pathValues, "file")
         return True
 
-    def showDetails(self, _fileNo, _infoNo):
-        Details(self.Table.currentTableContentValues[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
+    def showTableDetails(self, _fileNo, _infoNo):
+        Details(self.currentTableContentValues[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
 
-    def cellClicked(self, _row, _column):
-        currentItem = self.Table.currentItem()
+    def cellClickedTable(self, _row, _column):
+        currentItem = self.currentItem()
         if currentItem is not None:
             cellLenght = len(currentItem.text()) * 8
-            if cellLenght > self.Table.columnWidth(_column):
-                self.Table.setColumnWidth(_column, cellLenght)
+            if cellLenght > self.columnWidth(_column):
+                self.setColumnWidth(_column, cellLenght)
 
-    def cellDoubleClicked(self, _row, _column):
+    def cellDoubleClickedTable(self, _row, _column):
         try:
             if uni.getBoolValue("isRunOnDoubleClick"):
-                self.showDetails(_row, _column)
+                self.showTableDetails(_row, _column)
         except:
             Dialogs.showError(translate("FileTable", "Cannot Open File"),
                               str(translate("FileTable",
                                             "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                              ) % Organizer.getLink(self.Table.currentTableContentValues[_row]["path"]))
+                              ) % Organizer.getLink(self.currentTableContentValues[_row]["path"]))
 
     def refreshColumns(self):
-        self.Table.tableColumns = [translate("FileTable", "Directory"),
+        self.tableColumns = [translate("FileTable", "Directory"),
                                    translate("FileTable", "File Name")]
-        self.Table.tableColumnsKey = ["Directory", "File Name"]
+        self.tableColumnsKey = ["Directory", "File Name"]
 
-    def save(self):
-        self.Table.checkFileExtensions(1, "baseName")
+    def saveTable(self):
+        self.checkFileExtensions(1, "baseName")
         return self.writeContents()
 
-    def refresh(self, _path):
-        self.Table.currentTableContentValues = self.readContents(_path)
-        self.Table.setRowCount(len(self.Table.currentTableContentValues))
-        allItemNumber = self.Table.rowCount()
+    def refreshTable(self, _path):
+        self.currentTableContentValues = self.readContents(_path)
+        self.setRowCount(len(self.currentTableContentValues))
+        allItemNumber = self.rowCount()
         for rowNo in range(allItemNumber):
             for itemNo in range(2):
                 item = None
                 if itemNo == 0:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseNameOfDirectory"],
+                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseNameOfDirectory"],
                                                 "directory")
-                    item = self.Table.createTableWidgetItem(newString, self.Table.currentTableContentValues[rowNo][
+                    item = self.createTableWidgetItem(newString, self.currentTableContentValues[rowNo][
                         "baseNameOfDirectory"])
                 elif itemNo == 1:
-                    newString = Organizer.emend(self.Table.currentTableContentValues[rowNo]["baseName"], "file")
-                    item = self.Table.createTableWidgetItem(newString,
-                                                            self.Table.currentTableContentValues[rowNo]["baseName"])
+                    newString = Organizer.emend(self.currentTableContentValues[rowNo]["baseName"], "file")
+                    item = self.createTableWidgetItem(newString,
+                                                      self.currentTableContentValues[rowNo]["baseName"])
                 if item != None:
-                    self.Table.setItem(rowNo, itemNo, item)
-            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo + 1, allItemNumber)
+                    self.setItem(rowNo, itemNo, item)
+            Dialogs.showState(translate("Tables", "Generating .."), rowNo + 1, allItemNumber)
 
     def correctTable(self):
-        for rowNo in range(self.Table.rowCount()):
-            for itemNo in range(self.Table.columnCount()):
-                if self.Table.isChangeableItem(rowNo, itemNo):
+        for rowNo in range(self.rowCount()):
+            for itemNo in range(self.columnCount()):
+                if self.isChangeableItem(rowNo, itemNo):
                     if itemNo == 0:
-                        newString = Organizer.emend(str(self.Table.item(rowNo, itemNo).text()), "directory")
+                        newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "directory")
                     else:
-                        newString = Organizer.emend(str(self.Table.item(rowNo, itemNo).text()), "file")
-                    self.Table.item(rowNo, itemNo).setText(str(newString))
+                        newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "file")
+                    self.item(rowNo, itemNo).setText(str(newString))
 
     def getValueByRowAndColumn(self, _rowNo, _columnNo):
         if _columnNo == 0:
-            return self.Table.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
+            return self.currentTableContentValues[_rowNo]["baseNameOfDirectory"]
         elif _columnNo == 1:
-            return self.Table.currentTableContentValues[_rowNo]["baseName"]
+            return self.currentTableContentValues[_rowNo]["baseName"]
         return ""
     
     

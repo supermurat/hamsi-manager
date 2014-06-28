@@ -26,7 +26,123 @@ from Core import ReportBug
 from Options import TableQuickOptions
 
 
-class Tables(MTableWidget):
+class Tables():
+    def __init__(self, _parent):
+        self.setTable(_parent)
+        self.Table.initByTable()
+
+    @staticmethod
+    def getThisTableType(_tableType):
+        if _tableType in uni.tableTypesNames:
+            return _tableType
+        else:
+            for (x, name) in uni.tableTypesNames.items():
+                if str(name) == str(_tableType):
+                    return x
+        return "1"
+
+    def setTable(self, _parent):
+        if uni.tableType == "0":
+            from Tables import FolderTable
+
+            self.Table = FolderTable.FolderTable(_parent)
+        elif uni.tableType == "1":
+            from Tables import FileTable
+
+            self.Table = FileTable.FileTable(_parent)
+        elif uni.tableType == "2":
+            import Taggers
+
+            if Taggers.getTagger(True) != None:
+                from Tables import MusicTable
+
+                self.Table = MusicTable.MusicTable(_parent)
+            else:
+                uni.tableType = "1"
+                from Tables import FileTable
+
+                self.Table = FileTable.FileTable(_parent)
+        elif uni.tableType == "3":
+            from Tables import SubFolderTable
+
+            self.Table = SubFolderTable.SubFolderTable(_parent)
+        elif uni.tableType == "4":
+            if uni.isActiveDirectoryCover:
+                from Tables import CoverTable
+
+                self.Table = CoverTable.CoverTable(_parent)
+            else:
+                Dialogs.showError(translate("Tables", "Directory Cover Not Usable"),
+                                  translate("Tables",
+                                            "Any icon can not set to any directory. This feature is not usable in your system."))
+                uni.tableType = "1"
+                from Tables import FileTable
+
+                self.Table = FileTable.FileTable(_parent)
+        elif uni.tableType == "5":
+            import Amarok
+
+            if Amarok.checkAmarok(True, False):
+                uni.tableType = "5"
+                import AmarokCoverTable
+
+                self.Table = AmarokCoverTable.AmarokCoverTable(_parent)
+            else:
+                uni.tableType = "1"
+                from Tables import FileTable
+
+                self.Table = FileTable.FileTable(_parent)
+        elif uni.tableType == "6":
+            import Taggers, Amarok
+
+            if Taggers.getTagger(True) != None and Amarok.checkAmarok(True, False):
+                import AmarokMusicTable
+
+                self.Table = AmarokMusicTable.AmarokMusicTable(_parent)
+            else:
+                uni.tableType = "1"
+                from Tables import FileTable
+
+                self.Table = FileTable.FileTable(_parent)
+        elif uni.tableType == "7":
+            import Amarok
+
+            if Amarok.checkAmarok(True, False):
+                import AmarokArtistTable
+
+                self.Table = AmarokArtistTable.AmarokArtistTable(_parent)
+            else:
+                uni.tableType = "1"
+                from Tables import FileTable
+
+                self.Table = FileTable.FileTable(_parent)
+        elif uni.tableType == "8":
+            import Taggers, Amarok
+
+            if Taggers.getTagger(True) != None and Amarok.checkAmarok(True, False):
+                import AmarokCopyTable
+
+                self.Table = AmarokCopyTable.AmarokCopyTable(_parent)
+            else:
+                uni.tableType = "1"
+                from Tables import FileTable
+
+                self.Table = FileTable.FileTable(_parent)
+        elif uni.tableType == "9":
+            import Taggers
+
+            if Taggers.getTagger(True) != None:
+                from Tables import SubFolderMusicTable
+
+                self.Table = SubFolderMusicTable.SubFolderMusicTable(_parent)
+            else:
+                uni.tableType = "1"
+                from Tables import FileTable
+
+                self.Table = FileTable.FileTable(_parent)
+
+
+class CoreTable(MTableWidget):
     def __init__(self, _parent):
         MTableWidget.__init__(self, _parent)
         self.isAskShowHiddenColumn = True
@@ -88,9 +204,11 @@ class Tables(MTableWidget):
         self.hblBox.addWidget(self.tbCorrect)
         self.hblBox.addWidget(self.pbtnShowDetails, 1)
         self.hblBox.addWidget(self.pbtnSave, 2)
-        self.setSubTable()
-        self.hiddenTableColumns = uni.getListValue(self.SubTable.hiddenTableColumnsSettingKey)
         _parent.MainLayout.addLayout(self.hblBox)
+
+
+    def initByTable(self):
+        self.hiddenTableColumns = uni.getListValue(self.hiddenTableColumnsSettingKey)
         self.mContextMenuColumns = MMenu()
         self.mContextMenuColumns.setTitle(translate("Tables", "Show Fields"))
         self.mContextMenuOpenWith = MMenu()
@@ -116,106 +234,6 @@ class Tables(MTableWidget):
         self.checkActionsStates()
         self.fillSelectionInfo()
 
-    def setSubTable(self):
-        if uni.tableType == "0":
-            from Tables import FolderTable
-
-            self.SubTable = FolderTable.FolderTable(self)
-        elif uni.tableType == "1":
-            from Tables import FileTable
-
-            self.SubTable = FileTable.FileTable(self)
-        elif uni.tableType == "2":
-            import Taggers
-
-            if Taggers.getTagger(True) != None:
-                from Tables import MusicTable
-
-                self.SubTable = MusicTable.MusicTable(self)
-            else:
-                uni.tableType = "1"
-                from Tables import FileTable
-
-                self.SubTable = FileTable.FileTable(self)
-        elif uni.tableType == "3":
-            from Tables import SubFolderTable
-
-            self.SubTable = SubFolderTable.SubFolderTable(self)
-        elif uni.tableType == "4":
-            if uni.isActiveDirectoryCover:
-                from Tables import CoverTable
-
-                self.SubTable = CoverTable.CoverTable(self)
-            else:
-                Dialogs.showError(translate("Tables", "Directory Cover Not Usable"),
-                                  translate("Tables",
-                                            "Any icon can not set to any directory. This feature is not usable in your system."))
-                uni.tableType = "1"
-                from Tables import FileTable
-
-                self.SubTable = FileTable.FileTable(self)
-        elif uni.tableType == "5":
-            import Amarok
-
-            if Amarok.checkAmarok(True, False):
-                uni.tableType = "5"
-                import AmarokCoverTable
-
-                self.SubTable = AmarokCoverTable.AmarokCoverTable(self)
-            else:
-                uni.tableType = "1"
-                from Tables import FileTable
-
-                self.SubTable = FileTable.FileTable(self)
-        elif uni.tableType == "6":
-            import Taggers, Amarok
-
-            if Taggers.getTagger(True) != None and Amarok.checkAmarok(True, False):
-                import AmarokMusicTable
-
-                self.SubTable = AmarokMusicTable.AmarokMusicTable(self)
-            else:
-                uni.tableType = "1"
-                from Tables import FileTable
-
-                self.SubTable = FileTable.FileTable(self)
-        elif uni.tableType == "7":
-            import Amarok
-
-            if Amarok.checkAmarok(True, False):
-                import AmarokArtistTable
-
-                self.SubTable = AmarokArtistTable.AmarokArtistTable(self)
-            else:
-                uni.tableType = "1"
-                from Tables import FileTable
-
-                self.SubTable = FileTable.FileTable(self)
-        elif uni.tableType == "8":
-            import Taggers, Amarok
-
-            if Taggers.getTagger(True) != None and Amarok.checkAmarok(True, False):
-                import AmarokCopyTable
-
-                self.SubTable = AmarokCopyTable.AmarokCopyTable(self)
-            else:
-                uni.tableType = "1"
-                from Tables import FileTable
-
-                self.SubTable = FileTable.FileTable(self)
-        elif uni.tableType == "9":
-            import Taggers
-
-            if Taggers.getTagger(True) != None:
-                from Tables import SubFolderMusicTable
-
-                self.SubTable = SubFolderMusicTable.SubFolderMusicTable(self)
-            else:
-                uni.tableType = "1"
-                from Tables import FileTable
-
-                self.SubTable = FileTable.FileTable(self)
-
     def getColumnKeyFromName(self, _nameWithMark):
         for x, name in enumerate(self.tableColumns):
             if str(name) == str(_nameWithMark).replace("&", ""):
@@ -238,13 +256,13 @@ class Tables(MTableWidget):
         try:
             rowNo = self.currentRow()
             if rowNo != -1:
-                self.SubTable.showDetails(rowNo, self.currentColumn())
+                self.showTableDetails(rowNo, self.currentColumn())
         except:
             ReportBug.ReportBug()
 
     def correct(self):
         try:
-            self.SubTable.correctTable()
+            self.correctTable()
         except:
             ReportBug.ReportBug()
 
@@ -369,19 +387,19 @@ class Tables(MTableWidget):
 
     def cellClicked(self, _row, _column):
         try:
-            self.SubTable.cellClicked(_row, _column)
+            self.cellClickedTable(_row, _column)
         except:
             ReportBug.ReportBug()
 
     def cellDoubleClicked(self, _row, _column):
         try:
-            self.SubTable.cellDoubleClicked(_row, _column)
+            self.cellDoubleClickedTable(_row, _column)
         except:
             ReportBug.ReportBug()
 
     def refreshForColumns(self):
         self.mContextMenuColumns.clear()
-        self.SubTable.refreshColumns()
+        self.refreshColumns()
         self.mContextMenuColumnsActions = []
         for columnName in self.tableColumns:
             self.mContextMenuColumnsActions.append(MAction(columnName, self.mContextMenuColumns))
@@ -425,7 +443,7 @@ class Tables(MTableWidget):
                 self.setColumnWidth(x, columnWidth)
         from Core import MyThread
 
-        myProcs = MyThread.MyThread(self.SubTable.refresh, self.continueRefresh, [self.currentDirectoryPath])
+        myProcs = MyThread.MyThread(self.refreshTable, self.continueRefresh, [self.currentDirectoryPath])
         myProcs.run()
 
     def continueRefresh(self, _returned=None):
@@ -447,7 +465,7 @@ class Tables(MTableWidget):
             fu.activateSmartCheckEmptyDirectories()
             from Core import MyThread
 
-            myProcs = MyThread.MyThread(self.SubTable.save, self.continueSave)
+            myProcs = MyThread.MyThread(self.saveTable, self.continueSave)
             myProcs.run()
         except:
             ReportBug.ReportBug()
@@ -742,16 +760,6 @@ class Tables(MTableWidget):
             dDialog.show()
         elif _actionType == "clipboard":
             MApplication.clipboard().setText(str(info))
-
-    @staticmethod
-    def getThisTableType(_tableType):
-        if _tableType in uni.tableTypesNames:
-            return _tableType
-        else:
-            for (x, name) in uni.tableTypesNames.items():
-                if str(name) == str(_tableType):
-                    return x
-        return "1"
 
 
 class MyTableWidgetItem(MTableWidgetItem):
