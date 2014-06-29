@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
+## This file is part of HamsiManager.
 ##
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ class TableToolsBar(MToolBar):
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
         actgActionGroupTableTypes = MActionGroup(self)
         actgActionGroupTableTypes.setObjectName(translate("ToolsBar", "Table Types"))
-        for (x, name) in uni.tableTypesNames.items():
+        for x, name in uni.tableTypesNames.items():
             a = actgActionGroupTableTypes.addAction(MIcon("Images:" + uni.tableTypeIcons[x]), name)
             a.setCheckable(True)
             a.setObjectName(name)

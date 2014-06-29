@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
+## This file is part of HamsiManager.
 ##
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -92,7 +92,7 @@ class CharacterEncoding(MWidget):
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                     if isUseRealValues:
-                        newString = str(getMainWindow().Table.getValueByRowAndColumn(rowNo, columnNo))
+                        newString = str(getMainWindow().Table.values[rowNo][getMainWindow().Table.valueKeys[columnNo]])
                     else:
                         newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
                     myString = ""

@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
-# #
-# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## This file is part of HamsiManager.
+##
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -113,8 +113,9 @@ class FolderTable(CoreTable):
 
     def refreshColumns(self):
         self.tableColumns = [translate("FolderTable", "Directory"),
-                                   translate("FolderTable", "File/Directory Name")]
+                             translate("FolderTable", "File/Directory Name")]
         self.tableColumnsKey = ["Directory", "File/Directory Name"]
+        self.valueKeys = ["baseNameOfDirectory", "baseName"]
 
     def saveTable(self):
         self.checkFileExtensions(1, "baseName", True)
@@ -169,10 +170,3 @@ class FolderTable(CoreTable):
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), fu.getObjectType(
                             self.values[rowNo]["path"]))
                     self.item(rowNo, itemNo).setText(str(newString))
-
-    def getValueByRowAndColumn(self, _rowNo, _columnNo):
-        if _columnNo == 0:
-            return self.values[_rowNo]["baseNameOfDirectory"]
-        elif _columnNo == 1:
-            return self.values[_rowNo]["baseName"]
-        return ""
