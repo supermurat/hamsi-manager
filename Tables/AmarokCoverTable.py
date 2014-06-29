@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
-# #
-# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## This file is part of HamsiManager.
+##
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -66,7 +66,7 @@ class AmarokCoverTable(CoreTable):
                                 if self.isChangeableItem(rowNo, 4):
                                     destinationPath = str(self.item(rowNo, 4).text()).strip()
                                 if (str(self.item(rowNo,
-                                                        2).text()) != sourcePath or sourcePath != destinationPath or str(
+                                                  2).text()) != sourcePath or sourcePath != destinationPath or str(
                                     self.item(rowNo, 2).text()) != destinationPath) or (
                                             str(self.item(rowNo, 2).text()) !=
                                             self.values[rowNo]["currentCover"] and (
@@ -144,12 +144,14 @@ class AmarokCoverTable(CoreTable):
 
     def refreshColumns(self):
         self.tableColumns = [translate("AmarokCoverTable", "Directory"),
-                                   translate("AmarokCoverTable", "Directory Name"),
-                                   translate("AmarokCoverTable", "Current Cover"),
-                                   translate("AmarokCoverTable", "Source Cover"),
-                                   translate("AmarokCoverTable", "Destination Cover")]
+                             translate("AmarokCoverTable", "Directory Name"),
+                             translate("AmarokCoverTable", "Current Cover"),
+                             translate("AmarokCoverTable", "Source Cover"),
+                             translate("AmarokCoverTable", "Destination Cover")]
         self.tableColumnsKey = ["Directory", "Directory Name", "Current Cover", "Source Cover",
-                                      "Destination Cover"]
+                                "Destination Cover"]
+        self.valueKeys = ["baseNameOfDirectory", "baseName", "currentCover", "sourceCover", "destinationCover"]
+
 
     def saveTable(self):
         self.checkFileExtensions(4, 3)
@@ -268,22 +270,6 @@ class AmarokCoverTable(CoreTable):
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "file")
                     self.item(rowNo, itemNo).setText(str(newString))
-
-    def getValueByRowAndColumn(self, _rowNo, _columnNo):
-        if _columnNo == 0:
-            return self.values[_rowNo]["baseNameOfDirectory"]
-        elif _columnNo == 1:
-            return self.values[_rowNo]["baseName"]
-        elif _columnNo == 2:
-            return fu.getShortPath(self.values[_rowNo]["currentCover"],
-                                   self.values[_rowNo]["path"])
-        elif _columnNo == 3:
-            return fu.getShortPath(self.values[_rowNo]["sourceCover"],
-                                   self.values[_rowNo]["path"])
-        elif _columnNo == 4:
-            return fu.getShortPath(self.values[_rowNo]["destinationCover"],
-                                   self.values[_rowNo]["path"])
-        return ""
 
 
 

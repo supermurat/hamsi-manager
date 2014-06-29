@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
-# #
-# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## This file is part of HamsiManager.
+##
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -139,7 +139,7 @@ class AmarokMusicTable(CoreTable):
                             Records.add(str(translate("AmarokMusicTable", "Comment")),
                                         str(self.values[rowNo]["firstComment"]), value)
                             self.changedValueNumber += 1
-                        if len(self.tableColumns) > 9 and self.isChangeableItem(rowNo, 9):
+                        if self.tableColumnsKey.count("Lyrics") > 0 and self.isChangeableItem(rowNo, 9):
                             value = str(self.item(rowNo, 9).text())
                             if isWritableFileOrDir: tagger.setFirstLyrics(value)
                             changingTag["firstLyrics"] = value
@@ -212,6 +212,8 @@ class AmarokMusicTable(CoreTable):
     def refreshColumns(self):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
         self.tableColumnsKey = Taggers.getAvailableKeysForTable()
+        self.valueKeys = ["baseNameOfDirectory", "baseName", "artist", "title", "album",
+                          "trackNum", "year", "genre", "firstComment", "firstLyrics"]
 
     def saveTable(self):
         MusicDetails.MusicDetails.closeAllMusicDialogs()
@@ -355,26 +357,3 @@ class AmarokMusicTable(CoreTable):
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()))
                     self.item(rowNo, itemNo).setText(str(newString))
-
-    def getValueByRowAndColumn(self, _rowNo, _columnNo):
-        if _columnNo == 0:
-            return self.values[_rowNo]["baseNameOfDirectory"]
-        elif _columnNo == 1:
-            return self.values[_rowNo]["baseName"]
-        elif _columnNo == 2:
-            return self.values[_rowNo]["artist"]
-        elif _columnNo == 3:
-            return self.values[_rowNo]["title"]
-        elif _columnNo == 4:
-            return self.values[_rowNo]["album"]
-        elif _columnNo == 5:
-            return self.values[_rowNo]["trackNum"]
-        elif _columnNo == 6:
-            return self.values[_rowNo]["year"]
-        elif _columnNo == 7:
-            return self.values[_rowNo]["genre"]
-        elif _columnNo == 8:
-            return self.values[_rowNo]["firstComment"]
-        elif _columnNo == 9:
-            return self.values[_rowNo]["firstLyrics"]
-        return ""

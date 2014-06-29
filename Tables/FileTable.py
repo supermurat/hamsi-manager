@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
+## This file is part of HamsiManager.
 ##
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -114,6 +114,7 @@ class FileTable(CoreTable):
         self.tableColumns = [translate("FileTable", "Directory"),
                              translate("FileTable", "File Name")]
         self.tableColumnsKey = ["Directory", "File Name"]
+        self.valueKeys = ["baseNameOfDirectory", "baseName"]
 
     def saveTable(self):
         self.checkFileExtensions(1, "baseName")
@@ -159,19 +160,13 @@ class FileTable(CoreTable):
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
-            for itemNo in range(self.columnCount()):
+            for itemNo in range(
+                self.columnCount()):
                 if self.isChangeableItem(rowNo, itemNo):
                     if itemNo == 0:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "directory")
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "file")
                     self.item(rowNo, itemNo).setText(str(newString))
-
-    def getValueByRowAndColumn(self, _rowNo, _columnNo):
-        if _columnNo == 0:
-            return self.values[_rowNo]["baseNameOfDirectory"]
-        elif _columnNo == 1:
-            return self.values[_rowNo]["baseName"]
-        return ""
     
     

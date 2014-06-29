@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
+## This file is part of HamsiManager.
 ##
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -170,13 +170,13 @@ class SpecialTools(MWidget):
         self.characterState.columns.addItem(translate("SpecialTools", "All"))
         self.characterEncoding.columns.addItem(translate("SpecialTools", "All"))
         for columnName in getMainWindow().Table.tableColumns:
-            self.searchAndReplace.columns.addItem(columnName)
-            self.fill.columns.addItem(columnName)
-            self.clear.columns.addItem(columnName)
-            self.characterState.columns.addItem(columnName)
-            self.characterEncoding.columns.addItem(columnName)
-            tb = SpecialActions.SpecialActionsCommandButton(self.specialActions,
-                                                            getMainWindow().Table.getColumnKeyFromName(columnName))
+            columnKey = getMainWindow().Table.getColumnKeyFromName(columnName)
+            self.searchAndReplace.columns.addItem(columnName, trQVariant(columnKey))
+            self.fill.columns.addItem(columnName, trQVariant(columnKey))
+            self.clear.columns.addItem(columnName, trQVariant(columnKey))
+            self.characterState.columns.addItem(columnName, trQVariant(columnKey))
+            self.characterEncoding.columns.addItem(columnName, trQVariant(columnKey))
+            tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, columnKey)
             self.specialActions.pbtnAddObjects.append(tb)
             lbl = MLabel(columnName + ":")
             self.quickFill.lblColumns.append(lbl)

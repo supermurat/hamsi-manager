@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## This file is part of HamsiManager.
+##
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ class Tables():
         if _tableType in uni.tableTypesNames:
             return _tableType
         else:
-            for (x, name) in uni.tableTypesNames.items():
+            for x, name in uni.tableTypesNames.items():
                 if str(name) == str(_tableType):
                     return x
         return "1"
@@ -378,12 +378,12 @@ class CoreTable(MTableWidget):
         self.hiddenTableColumns = []
         for x, act in enumerate(self.mContextMenuColumnsActions):
             if act.isChecked() == False:
-                self.hiddenTableColumns.append(str(x))
-        for c in range(len(self.tableColumns)):
-            if self.hiddenTableColumns.count(str(c)) > 0:
-                self.hideColumn(c)
+                self.hiddenTableColumns.append(str(act.objectName()))
+        for columnNo, columnKey in enumerate(self.tableColumnsKey):
+            if self.hiddenTableColumns.count(columnKey) > 0:
+                self.hideColumn(columnNo)
             else:
-                self.showColumn(c)
+                self.showColumn(columnNo)
 
     def cellClicked(self, _row, _column):
         try:
@@ -401,11 +401,12 @@ class CoreTable(MTableWidget):
         self.mContextMenuColumns.clear()
         self.refreshColumns()
         self.mContextMenuColumnsActions = []
-        for columnName in self.tableColumns:
-            self.mContextMenuColumnsActions.append(MAction(columnName, self.mContextMenuColumns))
-        for key, act in enumerate(self.mContextMenuColumnsActions):
+        for columnKey in self.tableColumnsKey:
+            act = MAction(self.getColumnNameFromKey(columnKey), self.mContextMenuColumns)
+            act.setObjectName(columnKey)
+            self.mContextMenuColumnsActions.append(act)
             act.setCheckable(True)
-            if self.hiddenTableColumns.count(str(key)) == 0:
+            if self.hiddenTableColumns.count(columnKey) == 0:
                 act.setChecked(True)
             self.mContextMenuColumns.addAction(act)
             MObject.connect(act, SIGNAL("triggered(bool)"), self.refreshShowedAndHiddenColumns)

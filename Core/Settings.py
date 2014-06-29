@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
-# #
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## This file is part of HamsiManager.
+##
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -521,16 +521,16 @@ def getValueTypesAndValues():
         "isChangeSelected": "bool",
         "isChangeAll": "bool",
         "isOpenDetailsInNewWindow": "bool",
-        "hiddenFolderTableColumns": ["intList", list(range(0, 2))],
-        "hiddenFileTableColumns": ["intList", list(range(0, 2))],
-        "hiddenMusicTableColumns": ["intList", list(range(0, 10))],
-        "hiddenSubFolderTableColumns": ["intList", list(range(0, 2))],
-        "hiddenCoverTableColumns": ["intList", list(range(0, 2))],
-        "hiddenAmarokMusicTableColumns": ["intList", list(range(0, 10))],
-        "hiddenAmarokCoverTableColumns": ["intList", list(range(0, 2))],
-        "hiddenAmarokArtistTableColumns": ["intList", list(range(0, 2))],
-        "hiddenAmarokCopyTableColumns": ["intList", list(range(0, 10))],
-        "hiddenSubFolderMusicTableColumns": ["intList", list(range(0, 10))],
+        "hiddenFolderTableColumns": "list",
+        "hiddenFileTableColumns": "list",
+        "hiddenMusicTableColumns": "list",
+        "hiddenSubFolderTableColumns": "list",
+        "hiddenCoverTableColumns": "list",
+        "hiddenAmarokMusicTableColumns": "list",
+        "hiddenAmarokCoverTableColumns": "list",
+        "hiddenAmarokArtistTableColumns": "list",
+        "hiddenAmarokCopyTableColumns": "list",
+        "hiddenSubFolderMusicTableColumns": "list",
         "isPlayNow": "bool",
         "MainWindowGeometries": ["intStaticListLen", 4],
         "tableType": ["options", uni.tableTypesNames.keys()],

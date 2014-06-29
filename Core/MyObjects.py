@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
+## This file is part of HamsiManager.
 ##
-## Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -215,4 +215,9 @@ def getActiveWindow():
         return getMainWindow()
 
 
+class MyComboBox(MComboBox):
+    def __init__(self):
+        MComboBox.__init__(self)
 
+    def currentData(self):
+        return trStr(self.itemData(self.currentIndex()))

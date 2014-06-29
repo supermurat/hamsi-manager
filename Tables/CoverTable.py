@@ -1,6 +1,6 @@
-# # This file is part of HamsiManager.
-# #
-# # Copyright (c) 2010 - 2013 Murat Demir <mopened@gmail.com>
+## This file is part of HamsiManager.
+##
+## Copyright (c) 2010 - 2014 Murat Demir <mopened@gmail.com>
 ##
 ## Hamsi Manager is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ class CoverTable(CoreTable):
                                 if self.isChangeableItem(rowNo, 4):
                                     destinationPath = str(self.item(rowNo, 4).text()).strip()
                                 if (str(self.item(rowNo,
-                                                        2).text()) != sourcePath or sourcePath != destinationPath or str(
+                                                  2).text()) != sourcePath or sourcePath != destinationPath or str(
                                     self.item(rowNo, 2).text()) != destinationPath) or (
                                             str(self.item(rowNo, 2).text()) !=
                                             self.values[rowNo]["currentCover"] and (
@@ -169,12 +169,13 @@ class CoverTable(CoreTable):
 
     def refreshColumns(self):
         self.tableColumns = [translate("CoverTable", "Directory"),
-                                   translate("CoverTable", "Directory Name"),
-                                   translate("CoverTable", "Current Cover"),
-                                   translate("CoverTable", "Source Cover"),
-                                   translate("CoverTable", "Destination Cover")]
+                             translate("CoverTable", "Directory Name"),
+                             translate("CoverTable", "Current Cover"),
+                             translate("CoverTable", "Source Cover"),
+                             translate("CoverTable", "Destination Cover")]
         self.tableColumnsKey = ["Directory", "Directory Name", "Current Cover", "Source Cover",
-                                      "Destination Cover"]
+                                "Destination Cover"]
+        self.valueKeys = ["baseNameOfDirectory", "baseName", "currentCover", "sourceCover", "destinationCover"]
 
     def saveTable(self):
         self.checkFileExtensions(4, 3)
@@ -303,19 +304,3 @@ class CoverTable(CoreTable):
                                         directoryAndValues["year"][0]))
         except:
             ReportBug.ReportBug()
-
-    def getValueByRowAndColumn(self, _rowNo, _columnNo):
-        if _columnNo == 0:
-            return self.values[_rowNo]["baseNameOfDirectory"]
-        elif _columnNo == 1:
-            return self.values[_rowNo]["baseName"]
-        elif _columnNo == 2:
-            return self.values[_rowNo]["currentCover"].replace(
-                self.values[_rowNo]["path"], ".")
-        elif _columnNo == 3:
-            return self.values[_rowNo]["sourceCover"].replace(
-                self.values[_rowNo]["path"], ".")
-        elif _columnNo == 4:
-            return self.values[_rowNo]["destinationCover"].replace(
-                self.values[_rowNo]["path"], ".")
-        return ""
