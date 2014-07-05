@@ -1257,26 +1257,6 @@ def copyOrChange(_oldPath, _newPath, _objectType="file", _actionType="auto", _is
         return _oldPath
 
 
-def changeDirectories(_values):
-    newFilesPath = []
-    if len(_values) != 0:
-        Dialogs.showState(translate("FileUtils", "Changing The Folder (Of The Files)"), 0, len(_values))
-        for no in range(0, len(_values)):
-            values = {}
-            values["oldPath"] = _values[no][0]
-            values["newPath"] = moveOrChange(values["oldPath"], _values[no][1], getObjectType(_values[no][0]))
-            newFilesPath.append(values)
-            if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                checkEmptyDirectories(getDirName(values["oldPath"]), True, True,
-                                      uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
-            if uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and uni.getBoolValue(
-                "isAutoMakeIconToDirectoryWhenFileMove"):
-                checkIcon(getDirName(values["oldPath"]))
-                checkIcon(getDirName(values["newPath"]))
-            Dialogs.showState(translate("FileUtils", "Changing The Folder (Of The Files)"), no + 1, len(_values))
-    return newFilesPath
-
-
 def activateSmartCheckEmptyDirectories():
     global isSmartCheckEmptyDirectories, willCheckEmptyDirectories, willCheckEmptyDirectoriesSubDirectoryStatus
     isSmartCheckEmptyDirectories = True

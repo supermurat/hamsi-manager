@@ -1435,7 +1435,7 @@
             <source>&quot;%s&quot; : there already exists a file with the same name.&lt;br&gt;Replace it with the
                 current one?
             </source>
-            <translation>&quot;%s&quot; isimli bir dosya zaten uni.&lt;br&gt;Mevcut dosya ile değiştirilsin mi?
+            <translation>&quot;%s&quot; isimli bir dosya zaten var.&lt;br&gt;Mevcut dosya ile değiştirilsin mi?
             </translation>
         </message>
         <message>
@@ -1505,7 +1505,7 @@
             <source>&quot;%s&quot; : there already exists a folder with the same name.&lt;br&gt;Please choose another
                 file name!
             </source>
-            <translation>&quot;%s&quot; isimli bir dosya uni.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!
+            <translation>&quot;%s&quot; isimli bir dosya var.&lt;br&gt;Lütfen başka bir dosya ismi belirleyiniz!
             </translation>
         </message>
         <message>
@@ -1870,7 +1870,7 @@
             <location filename="Tables/MusicTable.py" line="244"/>
             <source>&quot;%s&quot; : there are more files in this directory.&lt;br&gt;Are you want to move all found
                 files into new directory?&lt;br&gt;New Directory : &quot;%s&quot;</source>
-            <translation>&quot;%s&quot; dizininde başka dosyalarda uni.&lt;br&gt;Bulunan tüm dosyaları yeni dizine
+            <translation>&quot;%s&quot; dizininde başka dosyalarda var.&lt;br&gt;Bulunan tüm dosyaları yeni dizine
                 taşımak ister misiniz?&lt;br&gt;Yeni Dizin :&quot;%s&quot; </translation>
         </message>
     </context>
@@ -6574,7 +6574,7 @@
             <source>%1 already exists.
                 Do you want to replace it?
             </source>
-            <translation type="obsolete">%1 zaten uni.
+            <translation type="obsolete">%1 zaten var.
                 Üzerine yazmak ister misiniz?
             </translation>
         </message>
@@ -7951,7 +7951,7 @@
             <source>%1 already exists.
                 Do you want to overwrite it?
             </source>
-            <translation type="obsolete">%1 zaten uni.
+            <translation type="obsolete">%1 zaten var.
                 Üzerine yazmak ister misiniz?
             </translation>
         </message>
@@ -9536,7 +9536,7 @@
         <message>
             <location filename="Core/Universals.py" line="614"/>
             <source>Extra content at end of document.</source>
-            <translation type="obsolete">Belge sonunda fazladan içerik uni.</translation>
+            <translation type="obsolete">Belge sonunda fazladan içerik var.</translation>
         </message>
         <message>
             <location filename="Core/Universals.py" line="614"/>

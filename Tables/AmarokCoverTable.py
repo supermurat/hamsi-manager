@@ -41,7 +41,7 @@ class AmarokCoverTable(CoreTable):
 
     def writeContents(self):
         self.changedValueNumber = 0
-        changingFileDirectories = []
+        oldAndNewPathValues = []
         startRowNo, rowStep = 0, 1
         uni.startThreadAction()
         allItemNumber = len(self.values)
@@ -98,10 +98,18 @@ class AmarokCoverTable(CoreTable):
                                 baseName = str(self.item(rowNo, 1).text())
                                 self.changedValueNumber += 1
                             newFilePath = fu.joinPath(pathOfParentDirectory, baseName)
-                            if fu.getRealPath(self.values[rowNo]["path"]) != fu.getRealPath(
-                                newFilePath):
-                                changingFileDirectories.append([self.values[rowNo]["path"],
-                                                                newFilePath])
+                            oldFilePath = fu.getRealPath(self.values[rowNo]["path"])
+                            newFilePath = fu.getRealPath(newFilePath)
+                            if oldFilePath != newFilePath:
+                                oldAndNewPaths = {}
+                                oldAndNewPaths["oldPath"] = oldFilePath
+                                oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath, "directory")
+                                if oldFilePath != oldAndNewPaths["newPath"]:
+                                    oldAndNewPathValues.append(oldAndNewPaths)
+                                    oldDirName = fu.getDirName(oldFilePath)
+                                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                                        fu.checkEmptyDirectories(oldDirName, True, True,
+                                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
                 except:
                     ReportBug.ReportBug()
             else:
@@ -111,10 +119,10 @@ class AmarokCoverTable(CoreTable):
             if isContinueThreadAction == False:
                 break
         uni.finishThreadAction()
-        pathValues = fu.changeDirectories(changingFileDirectories)
-        from Amarok import Operations
+        if len(oldAndNewPathValues) > 0:
+            from Amarok import Operations
 
-        Operations.changePaths(pathValues)
+            Operations.changePaths(oldAndNewPathValues)
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
