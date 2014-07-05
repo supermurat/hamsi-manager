@@ -497,7 +497,7 @@ class EmbeddedDBConfigurator(MyDialog):
     def backup(self):
         backupEmbeddedDB()
         Dialogs.show(translate("EmbeddedDBConfigurator", "Backup Completed"), translate("EmbeddedDBConfigurator",
-                                                                                        "Backup successfully completed.<br> You can restore when you want. "))
+                                                                                        "Backup successfully completed.<br> You can restore when you want."))
         self.pbtnRestore.setEnabled(isHasEmbeddedDBBackup())
 
     def restore(self):
