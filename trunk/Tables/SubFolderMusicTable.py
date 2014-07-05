@@ -49,7 +49,7 @@ class SubFolderMusicTable(CoreTable):
 
     def writeContents(self):
         self.changedValueNumber = 0
-        changingFileDirectories = []
+        oldAndNewPathValues = []
         changingTags = []
         isMovedToNewDirectory = False
         currentDirectoryPath = ""
@@ -172,25 +172,34 @@ class SubFolderMusicTable(CoreTable):
                                 fu.joinPath(str(self.values[rowNo]["baseNameOfDirectory"]),
                                             str(self.values[rowNo]["baseName"])), ""),
                                                       baseNameOfDirectory, baseName)
-                            if fu.getRealPath(self.values[rowNo]["path"]) != fu.getRealPath(
-                                newFilePath):
-                                changingFileDirectories.append([self.values[rowNo]["path"],
-                                                                fu.getRealPath(newFilePath)])
+                            oldFilePath = fu.getRealPath(self.values[rowNo]["path"])
+                            newFilePath = fu.getRealPath(newFilePath)
+                            if oldFilePath != newFilePath:
+                                oldAndNewPaths = {}
+                                oldAndNewPaths["oldPath"] = oldFilePath
+                                oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath, "file")
+                                if oldFilePath != oldAndNewPaths["newPath"]:
+                                    oldAndNewPathValues.append(oldAndNewPaths)
+                                    oldDirName = fu.getDirName(oldFilePath)
+                                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                                        fu.checkEmptyDirectories(oldDirName, True, True,
+                                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
                 except:
                     ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo + 1
-            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags And Informations"),
+                              rowNo + 1, allItemNumber, True)
             if isContinueThreadAction == False:
                 break
         uni.finishThreadAction()
-        pathValues = fu.changeDirectories(changingFileDirectories)
         if uni.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
 
             Operations.changeTags(changingTags)
-            Operations.changePaths(pathValues, "file")
+            if len(oldAndNewPathValues) > 0:
+                Operations.changePaths(oldAndNewPathValues, "file")
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):

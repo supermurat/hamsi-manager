@@ -49,7 +49,7 @@ class MusicTable(CoreTable):
 
     def writeContents(self):
         self.changedValueNumber = 0
-        changingFileDirectories = []
+        oldAndNewPathValues = []
         changingTags = []
         isNewDirectoriesSame = True
         isMovedToNewDirectory = False
@@ -175,20 +175,27 @@ class MusicTable(CoreTable):
                             newFilePath = fu.joinPath(
                                 fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                 baseNameOfDirectory, baseName)
-                            if fu.getRealPath(self.values[rowNo]["path"]) != fu.getRealPath(
-                                newFilePath):
-                                changingFileDirectories.append([self.values[rowNo]["path"],
-                                                                newFilePath])
+                            oldFilePath = fu.getRealPath(self.values[rowNo]["path"])
+                            newFilePath = fu.getRealPath(newFilePath)
+                            if oldFilePath != newFilePath:
+                                oldAndNewPaths = {}
+                                oldAndNewPaths["oldPath"] = oldFilePath
+                                oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath, "file")
+                                if oldFilePath != oldAndNewPaths["newPath"]:
+                                    oldAndNewPathValues.append(oldAndNewPaths)
+                                    oldDirName = fu.getDirName(oldFilePath)
+                                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                                        fu.checkEmptyDirectories(oldDirName, True, True,
+                                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
                 except:
                     ReportBug.ReportBug()
             else:
                 allItemNumber = rowNo + 1
-            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags And Informations"), rowNo + 1, allItemNumber, True)
             if isContinueThreadAction == False:
                 break
         uni.finishThreadAction()
-        pathValues = fu.changeDirectories(changingFileDirectories)
-        if self.rowCount() == len(changingFileDirectories) and isMovedToNewDirectory and isNewDirectoriesSame:
+        if self.rowCount() == len(oldAndNewPathValues) and isMovedToNewDirectory and isNewDirectoriesSame:
             otherFileNames = fu.readDirectory(currentDirectoryPath, "fileAndDirectory", True)
             if len(otherFileNames) > 0:
                 answer = Dialogs.ask(translate("FileUtils/Musics", "There Are More Files"),
@@ -196,17 +203,43 @@ class MusicTable(CoreTable):
                                                    "\"%s\" : there are more files in this directory.<br>Are you want to move all found files into new directory?<br>New Directory : \"%s\"")) % (
                                          Organizer.getLink(currentDirectoryPath), Organizer.getLink(newDirectoryPath)))
                 if answer == Dialogs.Yes:
-                    changingOtherFileDirectories = []
-                    for fileName in otherFileNames:
-                        changingOtherFileDirectories.append(
-                            [fu.joinPath(currentDirectoryPath, fileName), fu.joinPath(newDirectoryPath, fileName)])
-                    pathValues += fu.changeDirectories(changingOtherFileDirectories)
+                    uni.startThreadAction()
+                    allItemNumber = len(otherFileNames)
+                    for rowNo, fileName in enumerate(otherFileNames):
+                        isContinueThreadAction = uni.isContinueThreadAction()
+                        if isContinueThreadAction:
+                            try:
+                                oldFilePath = fu.getRealPath(fu.joinPath(currentDirectoryPath, fileName))
+                                newFilePath = fu.getRealPath(fu.joinPath(newDirectoryPath, fileName))
+                                if oldFilePath != newFilePath:
+                                    oldAndNewPaths = {}
+                                    oldAndNewPaths["oldPath"] = oldFilePath
+                                    oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath,
+                                                                                fu.getObjectType(oldFilePath))
+                                    if oldFilePath != oldAndNewPaths["newPath"]:
+                                        oldAndNewPathValues.append(oldAndNewPaths)
+                            except:
+                                ReportBug.ReportBug()
+                        else:
+                            allItemNumber = rowNo + 1
+                        Dialogs.showState(translate("FileUtils/Covers", "Writing Directory And File Informations"),
+                                          rowNo + 1, allItemNumber, True)
+                        if isContinueThreadAction == False:
+                            break
+                    uni.finishThreadAction()
+                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                        fu.checkEmptyDirectories(currentDirectoryPath, True, True,
+                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
+                    if (uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and
+                            uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove")):
+                        fu.checkIcon(newDirectoryPath)
         if uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
             from Amarok import Operations
 
             Operations.changeTags(changingTags)
-            Operations.changePaths(pathValues, "file")
+            if len(oldAndNewPathValues) > 0:
+                Operations.changePaths(oldAndNewPathValues, "file")
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):

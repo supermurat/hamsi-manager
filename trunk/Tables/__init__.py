@@ -476,20 +476,21 @@ class CoreTable(MTableWidget):
             if _returned:
                 from Core import Records
 
-                isGoUpDirectoryWithFileTable = False
                 if uni.tableType in ["0", "1", "2", "3", "4", "9"]:
                     if uni.getBoolValue("isClearEmptyDirectoriesWhenSave"):
-                        if fu.checkEmptyDirectories(self.currentDirectoryPath, True, True,
-                                                    uni.getBoolValue("isAutoCleanSubFolderWhenSave")):
-                            isGoUpDirectoryWithFileTable = True
-                if isGoUpDirectoryWithFileTable == False or self.currentDirectoryPath != self.newDirectoryPath:
-                    if uni.tableType in ["0", "1", "3", "4", "9"]:
-                        if uni.isActiveDirectoryCover and uni.getBoolValue(
-                            "isActiveAutoMakeIconToDirectory") and uni.getBoolValue(
-                            "isAutoMakeIconToDirectoryWhenSave"):
+                        fu.checkEmptyDirectories(self.currentDirectoryPath, True, True,
+                                                    uni.getBoolValue("isAutoCleanSubFolderWhenSave"))
+                fu.completeSmartCheckEmptyDirectories(True, True)
+                isDirStillExist = fu.isDir(self.currentDirectoryPath)
+                if uni.tableType in ["0", "1", "2", "3", "9"]:
+                    if uni.isActiveDirectoryCover and uni.getBoolValue(
+                        "isActiveAutoMakeIconToDirectory") and uni.getBoolValue(
+                        "isAutoMakeIconToDirectoryWhenSave"):
+                        if isDirStillExist:
+                            fu.checkIcon(self.currentDirectoryPath)
+                        if self.currentDirectoryPath != self.newDirectoryPath:
                             fu.checkIcon(self.newDirectoryPath)
                 fu.completeSmartCheckIcon()
-                fu.completeSmartCheckEmptyDirectories(True, True)
                 Records.saveAllRecords()
                 if self.changedValueNumber == 0:
                     Dialogs.show(translate("Tables", "Did Not Change Any Things"),
@@ -499,9 +500,9 @@ class CoreTable(MTableWidget):
                     if uni.getBoolValue("isShowTransactionDetails"):
                         Dialogs.show(translate("Tables", "Transaction Details"),
                                      str(translate("Tables", "%s value(s) changed.")) % self.changedValueNumber)
-                if isGoUpDirectoryWithFileTable and self.currentDirectoryPath == self.newDirectoryPath:
+                if not isDirStillExist and self.currentDirectoryPath == self.newDirectoryPath:
                     getMainWindow().FileManager.goUp()
-                elif isGoUpDirectoryWithFileTable and self.currentDirectoryPath != self.newDirectoryPath:
+                elif not isDirStillExist and self.currentDirectoryPath != self.newDirectoryPath:
                     getMainWindow().FileManager.makeRefresh(self.newDirectoryPath)
                 else:
                     getMainWindow().FileManager.makeRefresh("")

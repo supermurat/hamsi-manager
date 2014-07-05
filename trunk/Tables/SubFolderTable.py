@@ -36,7 +36,7 @@ class SubFolderTable(CoreTable):
 
     def writeContents(self):
         self.changedValueNumber = 0
-        changingFileDirectories = []
+        oldAndNewPathValues = []
         if uni.isActiveAmarok and uni.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
             import Amarok
 
@@ -71,10 +71,23 @@ class SubFolderTable(CoreTable):
                                 fu.joinPath(str(self.values[rowNo]["baseNameOfDirectory"]),
                                             str(self.values[rowNo]["baseName"])), ""),
                                                       baseNameOfDirectory, baseName)
-                            if fu.getRealPath(self.values[rowNo]["path"]) != fu.getRealPath(
-                                newFilePath):
-                                changingFileDirectories.append([self.values[rowNo]["path"],
-                                                                fu.getRealPath(newFilePath)])
+                            oldFilePath = fu.getRealPath(self.values[rowNo]["path"])
+                            newFilePath = fu.getRealPath(newFilePath)
+                            if oldFilePath != newFilePath:
+                                oldAndNewPaths = {}
+                                oldAndNewPaths["oldPath"] = oldFilePath
+                                oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath, "file")
+                                if oldFilePath != oldAndNewPaths["newPath"]:
+                                    oldAndNewPathValues.append(oldAndNewPaths)
+                                    oldDirName = fu.getDirName(oldFilePath)
+                                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                                        fu.checkEmptyDirectories(oldDirName, True, True,
+                                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
+                                    if (uni.isActiveDirectoryCover and
+                                            uni.getBoolValue("isActiveAutoMakeIconToDirectory") and
+                                            uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove")):
+                                        fu.checkIcon(oldDirName)
+                                        fu.checkIcon(fu.getDirName(oldAndNewPaths["newPath"]))
                 except:
                     ReportBug.ReportBug()
             else:
@@ -84,12 +97,12 @@ class SubFolderTable(CoreTable):
             if isContinueThreadAction == False:
                 break
         uni.finishThreadAction()
-        pathValues = fu.changeDirectories(changingFileDirectories)
-        if uni.isActiveAmarok and uni.getBoolValue("isSubFolderTableValuesChangeInAmarokDB"):
+        if (uni.isActiveAmarok and uni.getBoolValue("isSubFolderTableValuesChangeInAmarokDB") and
+                    len(oldAndNewPathValues) > 0):
             import Amarok
             from Amarok import Operations
 
-            Operations.changePaths(pathValues, "file")
+            Operations.changePaths(oldAndNewPathValues, "file")
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
