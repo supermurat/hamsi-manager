@@ -159,7 +159,7 @@ class AmarokCopyTable(CoreTable):
                                     except:
                                         Dialogs.showError(translate("AmarokCopyTable", "Tags Cannot Changed"),
                                                           str(translate("AmarokCopyTable",
-                                                                        "\"%s\" : cannot be changed tags. ")
+                                                                        "\"%s\" : cannot be changed tags.")
                                                           ) % Organizer.getLink(newFilePath))
                 except:
                     ReportBug.ReportBug()

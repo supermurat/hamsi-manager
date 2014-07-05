@@ -788,7 +788,6 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
 def checkNewDestination(_newPath, _isQuiet=False):
     _newPath = str(_newPath)
     if uni.isWindows:
-        _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
     while isAvailableNameForEncoding(_newPath) == False:
         _newPath = Dialogs.getText(translate("FileUtils", "Unavailable Name"),
