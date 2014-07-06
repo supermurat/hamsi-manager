@@ -109,7 +109,7 @@ class AmarokArtistDetails(MDialog):
         self.infoLabels["correctedArtist"] = MLabel(self.labels[1])
         self.infoValues["currentArtist"] = MLineEdit(str(self.artistName))
         self.infoValues["correctedArtist"] = MLineEdit(str(Organizer.emend(self.artistName)))
-        self.songTableContentValues = Commands.getAllMusicFileValuesWithNamesByArtistId(self.artistId)
+        self.songTableContentValues = Operations.getAllMusicFileValuesWithNames("", self.artistId)
         self.twSongs = MTableWidget()
         self.twSongs.clear()
         self.twSongs.setColumnCount(len(self.songTableColumns))

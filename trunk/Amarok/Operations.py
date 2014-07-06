@@ -35,17 +35,17 @@ def getDirectoriesAndValues(_filter=""):
     return None
 
 
-def getAllMusicFileValuesWithNames(_filter=""):
+def getAllMusicFileValuesWithNames(_filter="", _artistId=None):
     db = Amarok.checkAndGetDB()
     if db != None:
-        return Commands.getAllMusicFileValuesWithNames(_filter)
+        return Commands.getAllMusicFileValuesWithNames(_filter, _artistId)
     return None
 
 
-def getAllArtistsValues(_filter="", _isOnlyArtistFilter=False):
+def getAllArtistsValues(_filter=""):
     db = Amarok.checkAndGetDB()
     if db != None:
-        return Commands.getAllArtistsValues(_filter, _isOnlyArtistFilter)
+        return Commands.getAllArtistsValues(_filter)
     return None
 
 

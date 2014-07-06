@@ -85,7 +85,7 @@ def correctForSql(_string, _type="varchar"):
 def correctForUser(_string):
     if _string is None or str(_string).upper() == "NULL" or str(_string).upper() == "NONE":
         return ""
-    return str(_string).replace("'", "''")
+    return
 
 
 def getAmendedSQLInsertOrUpdateQueries(_table, _columnNamesAndValues, _primaryColumns):

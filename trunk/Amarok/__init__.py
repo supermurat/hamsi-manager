@@ -44,6 +44,9 @@ dbConnection = None
 
 isStarted = False
 isReadOnlyStarted = False
+# Check available DB versions in source of Amarok (amarok/src/core-impl/collections/db/sql/DatabaseUpdater.cpp)
+# available Amarok Versions : 2.6.0 ~ 2.8.0
+availableDBVersions = [14, 15]
 
 
 def getMySQLModule():
@@ -52,14 +55,16 @@ def getMySQLModule():
 
 
 def checkAmarok(_isAlertIfNotAvailable=True, _isUseReadOnly=True):
+    global isAskEmbeddedDBConfiguration
     if isLoadedMysql and uni.isAvailableKDE4():
         if uni.getBoolValue("amarokIsUseHost"):
             if _isUseReadOnly or uni.getBoolValue("isReadOnlyAmarokDBHost") == False:
                 return True
             else:
                 if _isAlertIfNotAvailable:
-                    answer = Dialogs.ask(translate("ToolsBar", "This Feature Is Not Usable"), translate("Amarok",
-                                                                                                        "This feature is not usable with read only Amarok database. <br>Are you want to give permission to read and write for Amarok database?"))
+                    answer = Dialogs.ask(translate("Amarok", "This Feature Is Not Usable"),
+                                         translate("Amarok",
+                                                   "This feature is not usable with read only Amarok database. <br>Are you want to give permission to read and write for Amarok database?"))
                     if answer == Dialogs.Yes:
                         uni.setMySetting("isReadOnlyAmarokDBHost", False)
                         return True
@@ -68,7 +73,7 @@ def checkAmarok(_isAlertIfNotAvailable=True, _isUseReadOnly=True):
             return checkEmbeddedDB()
     else:
         if _isAlertIfNotAvailable:
-            Dialogs.showError(translate("ToolsBar", "Amarok Module Is Not Usable"),
+            Dialogs.showError(translate("Amarok", "Amarok Module Is Not Usable"),
                               translate("Amarok", "Please run Amarok once."))
         return False
     return False
@@ -138,8 +143,18 @@ def checkAndGetDB(_isNoAlertIfSuccessfully=True, _isReCheck=False):
             db = connectAndGetDB()
             if db != None:
                 if isCheckAgain:
-                    db.query("SELECT component,version FROM admin")
-                    r = db.store_result()
+                    db.query("SELECT version FROM admin WHERE component='DB_VERSION'")
+                    rows = db.store_result().fetch_row(1)
+                    dbVersion = int(rows[0][0])
+                    if dbVersion not in availableDBVersions:
+                        answer = Dialogs.ask(translate("Amarok", "Your Amarok DB Version Is Not Tested"),
+                                             str(translate("Amarok",
+                                                       "Your Amarok DB version is not tested. We don`t suggest but you can use at your own risk. Are you sure you want to use?"
+                                                       "<br>Your Amarok DB Version:%s"
+                                                       "<br>Tested Amarok DB Versions:%s")) % (str(dbVersion), str(
+                                                 availableDBVersions)))
+                        if answer is not Dialogs.Yes:
+                            return None
                     if _isNoAlertIfSuccessfully == False:
                         Dialogs.show(translate("Amarok", "Connected To Database"),
                                      str(translate("Amarok", "Connected successfully to \"%s\"")) % uni.MySettings[
@@ -501,7 +516,7 @@ class EmbeddedDBConfigurator(MyDialog):
         self.pbtnRestore.setEnabled(isHasEmbeddedDBBackup())
 
     def restore(self):
-        answer = Dialogs.ask(translate("ToolsBar", "Restore Amarok Database"),
+        answer = Dialogs.ask(translate("Amarok", "Restore Amarok Database"),
                              translate("Amarok", "Are you want to restore backup database?"))
         if answer == Dialogs.Yes:
             if isRunning():
