@@ -24,7 +24,7 @@ from Core import Universals as uni
 import FileUtils as fu
 
 
-def getSQLConditionPartByPartOfFilter(_partOfFilterString="", _isValueTable=True):
+def getSQLConditionPartByPartOfFilter(_partOfFilterString=""):
     _partOfFilterString = _partOfFilterString.strip()
     while _partOfFilterString.find(" :") != -1:
         _partOfFilterString = _partOfFilterString.replace(" :", ":")
@@ -42,107 +42,70 @@ def getSQLConditionPartByPartOfFilter(_partOfFilterString="", _isValueTable=True
     _partOfFilterString = Databases.correctForSql(_partOfFilterString)
     if _partOfFilterString.find("filename:") != -1:
         filterPart = _partOfFilterString.replace("filename:", "")
-        if _isValueTable:
-            return " ( LOWER(`valueTable`.`filePath`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
-        else:
-            return " ( LOWER(`urls`.`rpath`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        return " ( LOWER(urls.rpath) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("title:") != -1:
         filterPart = _partOfFilterString.replace("title:", "")
-        if _isValueTable:
-            return " ( LOWER(`valueTable`.`title`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
-        else:
-            return " ( LOWER(`tracks`.`title`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        return " ( LOWER(tracks.title) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("artist:") != -1:
         filterPart = _partOfFilterString.replace("artist:", "")
-        if _isValueTable:
-            return " ( LOWER(`valueTable`.`artistname`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
-        else:
-            return " ( LOWER(`artists`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        return " ( LOWER(artists.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("album:") != -1:
         filterPart = _partOfFilterString.replace("album:", "")
-        if _isValueTable:
-            return " ( LOWER(`valueTable`.`albumname`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
-        else:
-            return " ( LOWER(`albums`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        return " ( LOWER(albums.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("albumartist:") != -1:
         filterPart = _partOfFilterString.replace("albumartist:", "")
-        if _isValueTable:
-            return " ( LOWER(`valueTable`.`albumartistname`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
-        else:
-            return " ( LOWER(`albumartists`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        return " ( LOWER(albumartists.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("genre:") != -1:
         filterPart = _partOfFilterString.replace("genre:", "")
-        if _isValueTable:
-            return " ( LOWER(`valueTable`.`genrename`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
-        else:
-            return " ( LOWER(`genres`.`name`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        return " ( LOWER(genres.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("comment:") != -1:
         filterPart = _partOfFilterString.replace("comment:", "")
-        if _isValueTable:
-            return " ( LOWER(`valueTable`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
-        else:
-            return " ( LOWER(`tracks`.`comment`) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        return " ( LOWER(tracks.comment) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("rating:<") != -1:
         filterPart = _partOfFilterString.replace("rating:<", "").replace(".", ",")
         try: filterPart = int(float(filterPart) * 2)
         except: filterPart = 0
-        if _isValueTable:
-            return " ( `valueTable`.`rating` < %s ) " % (filterPart)
-        else:
-            return " ( `statistics`.`rating` < %s ) " % (filterPart)
+        return " ( statistics.rating < %s ) " % (filterPart)
     elif _partOfFilterString.find("rating:>") != -1:
         filterPart = _partOfFilterString.replace("rating:>", "").replace(".", ",")
         try: filterPart = int(float(filterPart) * 2)
         except: filterPart = 0
-        if _isValueTable:
-            return " ( `valueTable`.`rating` > %s ) " % (filterPart)
-        else:
-            return " ( `statistics`.`rating` > %s ) " % (filterPart)
+        return " ( statistics.rating > %s ) " % (filterPart)
     elif _partOfFilterString.find("rating:") != -1:
         filterPart = _partOfFilterString.replace("rating:", "").replace(".", ",")
         try: filterPart = int(float(filterPart) * 2)
         except: filterPart = 0
-        if _isValueTable:
-            return " ( `valueTable`.`rating` = %s ) " % (filterPart)
-        else:
-            return " ( `statistics`.`rating` = %s ) " % (filterPart)
+        return " ( statistics.rating = %s ) " % (filterPart)
     elif _partOfFilterString.find("year:<") != -1:
         filterPart = _partOfFilterString.replace("year:<", "").replace(".", ",")
         try: filterPart = int(filterPart)
         except: filterPart = 0
-        if _isValueTable:
-            return " ( CAST( `valueTable`.`yearname` AS INT ) < %s ) " % (filterPart)
-        else:
-            return " ( CAST( `years`.`name` AS INT ) < %s ) " % (filterPart)
+        return " ( CAST( years.name AS INT ) < %s ) " % (filterPart)
     elif _partOfFilterString.find("year:>") != -1:
         filterPart = _partOfFilterString.replace("year:>", "").replace(".", ",")
         try: filterPart = int(filterPart)
         except: filterPart = 0
-        if _isValueTable:
-            return " ( CAST( `valueTable`.`yearname` AS INT ) > %s ) " % (filterPart)
-        else:
-            return " ( CAST( `years`.`name` AS INT ) > %s ) " % (filterPart)
+        return " ( CAST( years.name AS INT ) > %s ) " % (filterPart)
     elif _partOfFilterString.find("year:") != -1:
         filterPart = _partOfFilterString.replace("year:", "").replace(".", ",")
         try: filterPart = int(filterPart)
         except: filterPart = 0
-        if _isValueTable:
-            return " ( CAST( `valueTable`.`yearname` AS INT ) = %s ) " % (filterPart)
-        else:
-            return " ( CAST( `years`.`name` AS INT )  = %s ) " % (filterPart)
+        return " ( CAST( years.name AS INT )  = %s ) " % (filterPart)
     else:
         filterPart = _partOfFilterString
-        if _isValueTable:
-            return " ( LOWER(`valueTable`.`filePath`) LIKE LOWER('%s') OR LOWER(`valueTable`.`title`) LIKE LOWER('%s') OR LOWER(`valueTable`.`artistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`albumartistname`) LIKE LOWER('%s') OR LOWER(`valueTable`.`genrename`) LIKE LOWER('%s') OR LOWER(`valueTable`.`comment`) LIKE LOWER('%s') OR LOWER(`valueTable`.`yearname`) LIKE LOWER('%s') ) " % (
+        return (" ( LOWER(urls.rpath) LIKE LOWER('%s') "
+                "OR LOWER(tracks.title) LIKE LOWER('%s') "
+                "OR LOWER(artists.name) LIKE LOWER('%s') "
+                "OR LOWER(albums.name) LIKE LOWER('%s') "
+                "OR LOWER(albumartists.name) LIKE LOWER('%s') "
+                "OR LOWER(genres.name) LIKE LOWER('%s') "
+                "OR LOWER(tracks.comment) LIKE LOWER('%s') "
+                "OR LOWER(years.name) LIKE LOWER('%s') ) " % (
                 "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%",
-                "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
-        else:
-            return " ( LOWER(`urls`.`rpath`) LIKE LOWER('%s') OR LOWER(`tracks`.`title`) LIKE LOWER('%s') OR LOWER(`artists`.`name`) LIKE LOWER('%s') OR LOWER(`albums`.`name`) LIKE LOWER('%s') OR LOWER(`albumartists`.`name`) LIKE LOWER('%s') OR LOWER(`genres`.`name`) LIKE LOWER('%s') OR LOWER(`tracks`.`comment`) LIKE LOWER('%s') OR LOWER(`years`.`name`) LIKE LOWER('%s') ) " % (
-                "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%",
-                "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%")
+                "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%"))
 
 
-def getSQLConditionValues(sqlCondition, _filter, _listOfFilters, _isValueTable=True):
+def getSQLConditionValues(sqlCondition, _filter, _listOfFilters):
     for f in _listOfFilters:
         _filter.replace(f, "__filter__")
         appendingConditionControl = re.findall(r"((OR|AND)? *__filter__)", _filter)  # [('OR __filter__', 'OR')]
@@ -152,12 +115,12 @@ def getSQLConditionValues(sqlCondition, _filter, _listOfFilters, _isValueTable=T
         else:
             appendingCondition = " AND "
             deleteThisFromFilter = f
-        sqlCondition += appendingCondition + getSQLConditionPartByPartOfFilter(f, _isValueTable)
+        sqlCondition += appendingCondition + getSQLConditionPartByPartOfFilter(f)
         _filter = _filter.replace(deleteThisFromFilter, " ")
     return sqlCondition, _filter.strip()
 
 
-def getSQLConditionByFilter(_filter="", _isValueTable=True, _isAppendWhere=True):
+def getSQLConditionByFilter(_filter="", _isAppendWhere=True):
     _filter = str(_filter).strip().replace("\t", " ").replace("\n", " ")
     while _filter.find("  ") != -1:
         _filter = _filter.replace("  ", " ")
@@ -168,121 +131,57 @@ def getSQLConditionByFilter(_filter="", _isValueTable=True, _isAppendWhere=True)
     if _isAppendWhere: sqlCondition = " WHERE "
     else: sqlCondition = ""
     listOfSpecialAndQuoted = re.findall(r"([a-zA-Z]* ?: ?\"[ a-zA-Z0-9+_\-\.]*\")", _filter)  #['artist:"like this"']
-    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecialAndQuoted, _isValueTable)
+    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecialAndQuoted)
     listOfSpecial1 = re.findall(r"([a-zA-Z]* ?: ?< ?[a-zA-Z0-9+_\-\.]+)", _filter)  #['rating:<likeThis']
-    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial1, _isValueTable)
+    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial1)
     listOfSpecial2 = re.findall(r"([a-zA-Z]* ?: ?> ?[a-zA-Z0-9+_\-\.]+)", _filter)  #['rating:>likeThis']
-    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial2, _isValueTable)
+    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial2)
     listOfSpecial = re.findall(r"([a-zA-Z]* ?: ?[a-zA-Z0-9+_\-\.]+)", _filter)  #['artist:likeThis']
-    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial, _isValueTable)
+    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial)
     listOfQuoted = re.findall(r"(\"[ a-zA-Z0-9+_\-\.]*\")", _filter)  #['"like this"']
-    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfQuoted, _isValueTable)
+    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfQuoted)
     listOfFilters = _filter.split(" ")
     if listOfFilters != [""]:
-        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfFilters, _isValueTable)
+        sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfFilters)
     sqlControl = re.findall(r"(WHERE *(OR|AND)?)", sqlCondition)
     if len(sqlControl) > 0:
         sqlCondition = sqlCondition.replace(sqlControl[0][0], "WHERE ")
+    if _isAppendWhere and len(sqlCondition.strip())<7:
+        sqlCondition = " "
     return sqlCondition
 
 
 def getDirectoriesAndValues(_filter=""):
     db = Amarok.checkAndGetDB()
     query = """
-SELECT DISTINCT (
+SELECT DISTINCT
 REPLACE(
-    CONCAT(
-        CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-            THEN `devices`.`lastmountpoint`
-        ELSE
-            ''
-        END,
-        SUBSTRING( `urls`.`rpath` , 2 )
-    ),
-    CONCAT("/",
+    CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+        SUBSTRING(urls.rpath , 2)),
+    CONCAT('/',
         SUBSTRING_INDEX(
-            CONCAT(
-                CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                    THEN `devices`.`lastmountpoint`
-                ELSE
-                    ''
-                END,
-                SUBSTRING( `urls`.`rpath` , 2 )
-            ),
-            "/" , -1)
-    )
-, "")
-) AS 'dirPath', 
-`images`.`path`, 
-`artists`.`name`, 
-`albums`.`name`, 
-`years`.`name`, 
-`genres`.`name`
-FROM `tracks`
-LEFT JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
-LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
-LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
-LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
-LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
-WHERE `images`.`path` IS NOT NULL and `images`.`id` NOT IN (SELECT `id` FROM `images` WHERE path not like '/%') 
-and `tracks`.`id` IN (
-SELECT `valueTableForID`.`id` FROM (
-    SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
-        SELECT `tracks`.`id`, CONVERT(
-            REPLACE(
-                CONCAT(
-                    CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                        THEN `devices`.`lastmountpoint`
-                    ELSE
-                        ''
-                    END,
-                    SUBSTRING( `urls`.`rpath` , 2 )
-                ),
-                CONCAT("/",
-                        CONCAT(
-                            CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                                THEN `devices`.`lastmountpoint`
-                            ELSE
-                                ''
-                            END,
-                            SUBSTRING( `urls`.`rpath` , 2 )
-                        )
-                )
-            , "")
-        , char(1000)) AS 'filePath',
-        `tracks`.`title`,
-        `tracks`.`artist`,
-        `tracks`.`album`,
-        `tracks`.`year`,
-        `tracks`.`genre`,
-        `tracks`.`tracknumber`,
-        `tracks`.`comment`,
-        `artists`.`name` AS 'artistname',
-        `albums`.`name` AS 'albumname',
-        `albumartists`.`name` AS 'albumartistname',
-        `years`.`name` AS 'yearname',
-        `genres`.`name` AS 'genrename',
-        `images`.`path`,
-        `statistics`.`rating`
-        FROM `tracks`
-        INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-        LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-        LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
-        LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
-        LEFT JOIN `artists` `albumartists` ON `albumartists`.`id` = `albums`.`artist`
-        LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
-        LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
-        LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
-        LEFT JOIN `statistics` ON `statistics`.`url` = `tracks`.`url`
-    ) as `valueTable`
-    LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
-    """ + getSQLConditionByFilter(_filter) + """
-) as `valueTableForID` GROUP BY `id`
-) 
-order by 'dirPath'
+            CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+                SUBSTRING(urls.rpath , 2)),
+            '/' , -1))
+, '') AS 'dirPath',
+images.path AS 'imagePath',
+artists.name AS 'artistName',
+albums.name AS 'albumName',
+years.name AS 'yearName',
+genres.name AS 'genreName'
+FROM tracks
+LEFT JOIN urls ON urls.id = tracks.url
+LEFT JOIN devices ON devices.id = urls.deviceid
+LEFT JOIN artists ON artists.id = tracks.artist
+LEFT JOIN albums ON albums.id = tracks.album
+LEFT JOIN years ON years.id = tracks.year
+LEFT JOIN genres ON genres.id = tracks.genre
+LEFT JOIN images ON images.id = albums.image
+LEFT JOIN artists albumartists ON albumartists.id = albums.artist
+LEFT JOIN statistics ON statistics.url = tracks.url
+WHERE images.path IS NOT NULL AND images.path NOT LIKE 'amarok-sqltrackuid:%'
 """
+    query += getSQLConditionByFilter(_filter, False) + " ORDER BY dirPath "
     uni.printForDevelopers("Query - getDirectoriesAndValues : " + query)
     db.query(query)
     r = db.store_result()
@@ -299,114 +198,50 @@ order by 'dirPath'
     return directoriesValues
 
 
-def getAllMusicFileValues():
+def getAllMusicFileValuesWithNames(_filter="", _artistId=None):
     db = Amarok.checkAndGetDB()
     query = """
-SELECT `tracks`.`id`, (
-REPLACE(
-    CONCAT(
-        CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-            THEN `devices`.`lastmountpoint`
-        ELSE
-            ''
-        END,
-        SUBSTRING( `urls`.`rpath` , 2 )
-    ),
-    CONCAT("/",
-            CONCAT(
-                CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                    THEN `devices`.`lastmountpoint`
-                ELSE
-                    ''
-                END,
-                SUBSTRING( `urls`.`rpath` , 2 )
-            )
-    )
-, "")
-) AS 'filePath', 
-`tracks`.`title`, 
-`tracks`.`artist`, 
-`tracks`.`album`, 
-`tracks`.`year`, 
-`tracks`.`genre`, 
-`tracks`.`tracknumber`, 
-`tracks`.`comment`
-FROM `tracks`
-INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-"""
-    uni.printForDevelopers("Query - getAllMusicFileValues : " + query)
-    db.query(query)
-    r = db.store_result()
-    musicFileValues = []
-    rows = r.fetch_row(0)
-    for row in rows:
-        musicFileValues.append({})
-        musicFileValues[-1]["id"] = row[0]
-        musicFileValues[-1]["filePath"] = row[1]
-        musicFileValues[-1]["title"] = row[2]
-        musicFileValues[-1]["artistId"] = row[3]
-        musicFileValues[-1]["albumId"] = row[4]
-        musicFileValues[-1]["yearId"] = row[5]
-        musicFileValues[-1]["genreId"] = row[6]
-        musicFileValues[-1]["tracknumber"] = Databases.correctForUser(row[7])
-        musicFileValues[-1]["comment"] = row[8]
-    return musicFileValues
-
-
-def getAllMusicFileValuesWithNames(_filter=""):
-    db = Amarok.checkAndGetDB()
-    query = """
-SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
-SELECT `tracks`.`id`, CONVERT(
+SELECT tracks.id,
     REPLACE(
-        CONCAT(
-            CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                THEN `devices`.`lastmountpoint`
-            ELSE
-                ''
-            END,
-            SUBSTRING( `urls`.`rpath` , 2 )
-        ),
-        CONCAT("/",
-                CONCAT(
-                    CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                        THEN `devices`.`lastmountpoint`
-                    ELSE
-                        ''
-                    END,
-                    SUBSTRING( `urls`.`rpath` , 2 )
-                )
-        )
-    , "")
-, char(1000)) AS 'filePath',
-`tracks`.`title`,
-`tracks`.`artist`,
-`tracks`.`album`,
-`tracks`.`year`,
-`tracks`.`genre`,
-`tracks`.`tracknumber`,
-`tracks`.`comment`,
-`artists`.`name` AS 'artistname',
-`albums`.`name` AS 'albumname',
-`albumartists`.`name` AS 'albumartistname',
-`years`.`name` AS 'yearname',
-`genres`.`name` AS 'genrename',
-`images`.`path`,
-`statistics`.`rating`
-FROM `tracks`
-INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
-LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
-LEFT JOIN `artists` `albumartists` ON `albumartists`.`id` = `albums`.`artist`
-LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
-LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
-LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
-LEFT JOIN `statistics` ON `statistics`.`url` = `tracks`.`url`
-) as `valueTable`
-LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
-""" + getSQLConditionByFilter(_filter)
+        CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+            SUBSTRING( urls.rpath , 2 )),
+        CONCAT('/',
+                CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+                    SUBSTRING( urls.rpath , 2 )))
+    , '') AS 'filePath',
+tracks.title,
+tracks.artist,
+tracks.album,
+albums.artist AS 'albumartist',
+tracks.year,
+tracks.genre,
+tracks.tracknumber,
+tracks.comment AS 'comment',
+artists.name AS 'artistName',
+albums.name AS 'albumName',
+albumartists.name AS 'albumArtistName',
+years.name AS 'yearName',
+genres.name AS 'genreName',
+images.path AS 'imagePath',
+statistics.rating,
+lyrics.lyrics
+FROM tracks
+INNER JOIN urls ON urls.id = tracks.url
+LEFT JOIN devices ON devices.id = urls.deviceid
+LEFT JOIN artists ON artists.id = tracks.artist
+LEFT JOIN albums ON albums.id = tracks.album
+LEFT JOIN artists albumartists ON albumartists.id = albums.artist
+LEFT JOIN years ON years.id = tracks.year
+LEFT JOIN genres ON genres.id = tracks.genre
+LEFT JOIN images ON images.id = albums.image
+LEFT JOIN statistics ON statistics.url = tracks.url
+LEFT JOIN lyrics ON lyrics.url = urls.id
+"""
+    isAddWhere = True
+    if _artistId:
+        query += " WHERE (tracks.artist=" + str(_artistId) + " OR albums.artist=" + str(_artistId) + ") "
+        isAddWhere = False
+    query += getSQLConditionByFilter(_filter, isAddWhere) + " ORDER BY filePath "
     uni.printForDevelopers("Query - getAllMusicFileValuesWithNames : " + query)
     db.query(query)
     r = db.store_result()
@@ -419,127 +254,38 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
         musicFileValues[-1]["title"] = row[2]
         musicFileValues[-1]["artistId"] = row[3]
         musicFileValues[-1]["albumId"] = row[4]
-        musicFileValues[-1]["yearId"] = row[5]
-        musicFileValues[-1]["genreId"] = row[6]
-        musicFileValues[-1]["tracknumber"] = Databases.correctForUser(row[7])
-        musicFileValues[-1]["comment"] = row[8]
-        musicFileValues[-1]["artist"] = row[9]
-        musicFileValues[-1]["album"] = row[10]
-        musicFileValues[-1]["albumartist"] = row[11]
-        musicFileValues[-1]["year"] = row[12]
-        musicFileValues[-1]["genre"] = row[13]
-        musicFileValues[-1]["imagePath"] = row[14]
-        musicFileValues[-1]["lyrics"] = row[15]
-    return musicFileValues
-
-
-def getAllMusicFileValuesWithNamesByArtistId(_artistId):
-    db = Amarok.checkAndGetDB()
-    query = """
-SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
-SELECT `tracks`.`id`, CONVERT(
-    REPLACE(
-        CONCAT(
-            CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                THEN `devices`.`lastmountpoint`
-            ELSE
-                ''
-            END,
-            SUBSTRING( `urls`.`rpath` , 2 )
-        ),
-        CONCAT("/",
-                CONCAT(
-                    CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                        THEN `devices`.`lastmountpoint`
-                    ELSE
-                        ''
-                    END,
-                    SUBSTRING( `urls`.`rpath` , 2 )
-                )
-        )
-    , "")
-, char(1000)) AS 'filePath',
-`tracks`.`title`,
-`tracks`.`artist`,
-`tracks`.`album`,
-`tracks`.`year`,
-`tracks`.`genre`,
-`tracks`.`tracknumber`,
-`tracks`.`comment`,
-`artists`.`name` AS 'artistname',
-`albums`.`name` AS 'albumname',
-`albumartists`.`name` AS 'albumartistname',
-`years`.`name` AS 'yearname',
-`genres`.`name` AS 'genrename',
-`images`.`path`
-FROM `tracks`
-INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
-LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
-LEFT JOIN `artists` `albumartists` ON `albumartists`.`id` = `albums`.`artist`
-LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
-LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
-LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
-WHERE `tracks`.`artist`=""" + _artistId + """ OR `albums`.`artist`=""" + _artistId + """
-) as `valueTable`
-LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
-"""
-    uni.printForDevelopers("Query - getAllMusicFileValuesWithNamesByArtistId : " + query)
-    db.query(query)
-    r = db.store_result()
-    musicFileValues = []
-    rows = r.fetch_row(0)
-    for row in rows:
-        musicFileValues.append({})
-        musicFileValues[-1]["id"] = row[0]
-        musicFileValues[-1]["filePath"] = row[1]
-        musicFileValues[-1]["title"] = row[2]
-        musicFileValues[-1]["artistId"] = row[3]
-        musicFileValues[-1]["albumId"] = row[4]
-        musicFileValues[-1]["yearId"] = row[5]
-        musicFileValues[-1]["genreId"] = row[6]
-        musicFileValues[-1]["tracknumber"] = Databases.correctForUser(row[7])
-        musicFileValues[-1]["comment"] = row[8]
-        musicFileValues[-1]["artist"] = row[9]
-        musicFileValues[-1]["album"] = row[10]
-        musicFileValues[-1]["albumartist"] = row[11]
-        musicFileValues[-1]["year"] = row[12]
-        musicFileValues[-1]["genre"] = row[13]
-        musicFileValues[-1]["imagePath"] = row[14]
-        musicFileValues[-1]["lyrics"] = row[15]
+        musicFileValues[-1]["albumartistId"] = row[5]
+        musicFileValues[-1]["yearId"] = row[6]
+        musicFileValues[-1]["genreId"] = row[7]
+        musicFileValues[-1]["tracknumber"] = Databases.correctForUser(row[8])
+        musicFileValues[-1]["comment"] = row[9]
+        musicFileValues[-1]["artist"] = row[10]
+        musicFileValues[-1]["album"] = row[11]
+        musicFileValues[-1]["albumartist"] = row[12]
+        musicFileValues[-1]["year"] = row[13]
+        musicFileValues[-1]["genre"] = row[14]
+        musicFileValues[-1]["imagePath"] = row[15]
+        musicFileValues[-1]["rating"] = row[16]
+        musicFileValues[-1]["lyrics"] = row[17]
     return musicFileValues
 
 
 def getAllMusicFilePathsByArtistId(_artistId):
     db = Amarok.checkAndGetDB()
     query = """
-SELECT CONVERT(
+SELECT
     REPLACE(
         CONCAT(
-            CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                THEN `devices`.`lastmountpoint`
-            ELSE
-                ''
-            END,
-            SUBSTRING( `urls`.`rpath` , 2 )
-        ),
-        CONCAT("/",
-                CONCAT(
-                    CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                        THEN `devices`.`lastmountpoint`
-                    ELSE
-                        ''
-                    END,
-                    SUBSTRING( `urls`.`rpath` , 2 )
-                )
-        )
-    , "")
-, char(1000)) AS 'filePath'
-FROM `tracks`
-INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-WHERE `tracks`.`artist`=""" + _artistId
+            CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+            SUBSTRING( urls.rpath , 2 )),
+        CONCAT('/',
+                CONCAT( CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+                    SUBSTRING( urls.rpath , 2 )))
+    , '') AS 'filePath'
+FROM tracks
+INNER JOIN urls ON urls.id = tracks.url
+LEFT JOIN devices ON devices.id = urls.deviceid
+WHERE tracks.artist=""" + str(_artistId) + " ORDER BY filePath "
     uni.printForDevelopers("Query - getAllMusicFilePathsByArtistId : " + query)
     db.query(query)
     r = db.store_result()
@@ -554,39 +300,25 @@ def getMusicFileValues(_path):
     db = Amarok.checkAndGetDB()
     query = """
 SELECT * FROM (
-SELECT `tracks`.`id`, CONVERT((
-    REPLACE(
-        CONCAT(
-            CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                THEN `devices`.`lastmountpoint`
-            ELSE
-                ''
-            END,
-            SUBSTRING( `urls`.`rpath` , 2 )
-        ),
-        CONCAT("/",
-                CONCAT(
-                    CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                        THEN `devices`.`lastmountpoint`
-                    ELSE
-                        ''
-                    END,
-                    SUBSTRING( `urls`.`rpath` , 2 )
-                )
-        )
-    , "")
-), char(1000)) AS 'filePath',
-`tracks`.`title`,
-`tracks`.`artist`,
-`tracks`.`album`,
-`tracks`.`year`,
-`tracks`.`genre`,
-`tracks`.`tracknumber`,
-`tracks`.`comment`
-FROM `tracks`
-INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-) as `valueTable` WHERE `valueTable`.`filePath` = '%s'
+    SELECT tracks.id,
+        REPLACE(
+            CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+                SUBSTRING( urls.rpath , 2 )),
+            CONCAT('/',
+                    CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+                        SUBSTRING( urls.rpath , 2 )))
+        , '') AS 'filePath',
+    tracks.title,
+    tracks.artist,
+    tracks.album,
+    tracks.year,
+    tracks.genre,
+    tracks.tracknumber,
+    tracks.comment
+    FROM tracks
+    INNER JOIN urls ON urls.id = tracks.url
+    LEFT JOIN devices ON devices.id = urls.deviceid
+) as valueTable WHERE filePath = '%s'
 """ % Databases.correctForSql(_path)
     uni.printForDevelopers("Query - getMusicFileValues : " + query)
     db.query(query)
@@ -608,69 +340,26 @@ LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
     return musicFileValues
 
 
-def getAllArtistsValues(_filter="", _isOnlyArtistFilter=False):
+def getAllArtistsValues(_filter=""):
     db = Amarok.checkAndGetDB()
     _filter = str(_filter).strip()
-    if _isOnlyArtistFilter:
-        if _filter != "":
-            query = "SELECT `id`,`name` FROM `artists` WHERE LOWER(`name`) like LOWER('%s')" % ("%" + _filter + "%")
-        else:
-            query = "SELECT `id`,`name` FROM `artists`"
-    else:
-        query = """
-SELECT DISTINCT `artistTable`.`artist`, `artistTable`.`artistname` FROM (
-SELECT `valueTable`.* , `lyrics`.`lyrics` FROM (
-    SELECT `tracks`.`id`, CONVERT(
-        REPLACE(
-            CONCAT(
-                CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                    THEN `devices`.`lastmountpoint`
-                ELSE
-                    ''
-                END,
-                SUBSTRING( `urls`.`rpath` , 2 )
-            ),
-            CONCAT("/",
-                    CONCAT(
-                        CASE WHEN `devices`.`lastmountpoint` IS NOT NULL
-                            THEN `devices`.`lastmountpoint`
-                        ELSE
-                            ''
-                        END,
-                        SUBSTRING( `urls`.`rpath` , 2 )
-                    )
-            )
-        , "")
-    , char(1000)) AS 'filePath',
-    `tracks`.`title`,
-    `tracks`.`artist`,
-    `tracks`.`album`,
-    `tracks`.`year`,
-    `tracks`.`genre`,
-    `tracks`.`tracknumber`,
-    `tracks`.`comment`,
-    `artists`.`name` AS 'artistname',
-    `albums`.`name` AS 'albumname',
-    `albumartists`.`name` AS 'albumartistname',
-    `years`.`name` AS 'yearname',
-    `genres`.`name` AS 'genrename',
-    `images`.`path`,
-    `statistics`.`rating`
-    FROM `tracks`
-    INNER JOIN `urls` ON `urls`.`id` = `tracks`.`url`
-    LEFT JOIN `devices` ON `devices`.`id` = `urls`.`deviceid`
-    LEFT JOIN `artists` ON `artists`.`id` = `tracks`.`artist`
-    LEFT JOIN `albums` ON `albums`.`id` = `tracks`.`album`
-    LEFT JOIN `artists` `albumartists` ON `albumartists`.`id` = `albums`.`artist`
-    LEFT JOIN `years` ON `years`.`id` = `tracks`.`year`
-    LEFT JOIN `genres` ON `genres`.`id` = `tracks`.`genre`
-    LEFT JOIN `images` ON `images`.`id` = `albums`.`image`
-    LEFT JOIN `statistics` ON `statistics`.`url` = `tracks`.`url`
-) as `valueTable`
-LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
-""" + getSQLConditionByFilter(_filter) + """
-) as `artistTable`
+    query = """
+SELECT DISTINCT
+artists.id,
+artists.name
+FROM tracks
+INNER JOIN urls ON urls.id = tracks.url
+LEFT JOIN devices ON devices.id = urls.deviceid
+LEFT JOIN artists ON artists.id = tracks.artist
+LEFT JOIN albums ON albums.id = tracks.album
+LEFT JOIN artists albumartists ON albumartists.id = albums.artist
+LEFT JOIN years ON years.id = tracks.year
+LEFT JOIN genres ON genres.id = tracks.genre
+LEFT JOIN images ON images.id = albums.image
+LEFT JOIN statistics ON statistics.url = tracks.url
+LEFT JOIN lyrics ON lyrics.url = urls.id
 """
+    query += getSQLConditionByFilter(_filter, True) + " ORDER BY artists.name "
     uni.printForDevelopers("Query - getAllArtistsValues : " + query)
     db.query(query)
     r = db.store_result()
@@ -685,7 +374,7 @@ LEFT JOIN `lyrics` ON `lyrics`.`url` = CONCAT('.' , `valueTable`.`filePath`)
 
 def getArtistName(_artistId):
     db = Amarok.checkAndGetDB()
-    query = "SELECT `name` FROM `artists` WHERE `id`=%s" % _artistId
+    query = "SELECT name FROM artists WHERE id=%s" % _artistId
     uni.printForDevelopers("Query - getArtistName : " + query)
     db.query(query)
     r = db.store_result()
@@ -707,7 +396,7 @@ def getDevices():
 
 def getArtistId(_artist):
     db = Amarok.checkAndGetDB()
-    query = "SELECT `id` FROM `artists` WHERE `name`='%s'" % (Databases.correctForSql(_artist))
+    query = "SELECT id FROM artists WHERE name='%s'" % (Databases.correctForSql(_artist))
     uni.printForDevelopers("Query - getArtistId : " + query)
     db.query(query)
     r = db.store_result()
@@ -877,10 +566,10 @@ def changeTag(_values):
         if "firstComment" in _values:
             firstComment = _values["firstComment"]
         if "firstLyrics" in _values:
-            db.query("UPDATE `lyrics` SET `lyrics`='%s' WHERE `url`='.%s'" % (
+            db.query("UPDATE lyrics SET lyrics='%s' WHERE url='.%s'" % (
                 Databases.correctForSql(_values["firstLyrics"]), Databases.correctForSql(path)))
         db.query(
-            "UPDATE `tracks` SET `artist`=%s, `title`='%s', `album`=%s, `tracknumber`=%s, `year`=%s, `genre`=%s, `comment`='%s' WHERE `id`=%s" % (
+            "UPDATE tracks SET artist=%s, title='%s', album=%s, tracknumber=%s, year=%s, genre=%s, comment='%s' WHERE id=%s" % (
                 artistId, Databases.correctForSql(title), albumId, trackNum, yearId, genreId,
                 Databases.correctForSql(firstComment), trackId))
         db.commit()
@@ -891,7 +580,7 @@ def changeArtistValue(_values):
     if len(_values) > 1:
         db = Amarok.checkAndGetDB()
         try:
-            db.query("UPDATE `artists` SET `name`='%s' WHERE `id`=%s" % (
+            db.query("UPDATE artists SET name='%s' WHERE id=%s" % (
                 Databases.correctForSql(_values["name"]), _values["id"]))
             db.commit()
             return [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
@@ -905,16 +594,16 @@ def changeArtistValue(_values):
 
 def changeArtistWithAnother(_currentArtistId, _artistWillBeSelectedId):
     db = Amarok.checkAndGetDB()
-    db.query("UPDATE `tracks` SET `artist`=%s WHERE `artist`=%s" % (_artistWillBeSelectedId, _currentArtistId))
+    db.query("UPDATE tracks SET artist=%s WHERE artist=%s" % (_artistWillBeSelectedId, _currentArtistId))
     db.commit()
     try:
         db = Amarok.checkAndGetDB()
-        db.query("UPDATE `albums` SET `artist`=%s WHERE `artist`=%s" % (_artistWillBeSelectedId, _currentArtistId))
+        db.query("UPDATE albums SET artist=%s WHERE artist=%s" % (_artistWillBeSelectedId, _currentArtistId))
         db.commit()
     except Amarok.getMySQLModule().IntegrityError as error:
         db = Amarok.checkAndGetDB()
         db.query(
-            "SELECT * FROM `albums` WHERE `name` IN (SELECT `name` FROM `albums` WHERE `artist`=%s) AND `artist`=%s" % (
+            "SELECT * FROM albums WHERE name IN (SELECT name FROM albums WHERE artist=%s) AND artist=%s" % (
                 _artistWillBeSelectedId, _currentArtistId))
         r = db.store_result()
         rows = r.fetch_row(0)
@@ -923,7 +612,7 @@ def changeArtistWithAnother(_currentArtistId, _artistWillBeSelectedId):
 
             db = Amarok.checkAndGetDB()
             db.query(
-                "SELECT * FROM `albums` WHERE `name` IN (SELECT `name` FROM `albums` WHERE `artist`=%s) AND `artist`=%s" % (
+                "SELECT * FROM albums WHERE name IN (SELECT name FROM albums WHERE artist=%s) AND artist=%s" % (
                     _currentArtistId, _artistWillBeSelectedId))
             r = db.store_result()
             rows = r.fetch_row(0)
@@ -937,20 +626,20 @@ def changeArtistWithAnother(_currentArtistId, _artistWillBeSelectedId):
 
 def changeAlbumWithAnother(_currentAlbumId, _albumWillBeSelectedId):
     db = Amarok.checkAndGetDB()
-    db.query("UPDATE `tracks` SET `album`=%s WHERE `album`=%s" % (_albumWillBeSelectedId, _currentAlbumId))
+    db.query("UPDATE tracks SET album=%s WHERE album=%s" % (_albumWillBeSelectedId, _currentAlbumId))
     db.commit()
 
 
 def deleteArtist(_artistId):
     db = Amarok.checkAndGetDB()
-    db.query("DELETE FROM `artists` WHERE `id`=%s" % (_artistId))
+    db.query("DELETE FROM artists WHERE id=%s" % (_artistId))
     db.commit()
     return True
 
 
 def deleteAlbum(_albumId):
     db = Amarok.checkAndGetDB()
-    db.query("DELETE FROM `albums` WHERE `id`=%s" % (_albumId))
+    db.query("DELETE FROM albums WHERE id=%s" % (_albumId))
     db.commit()
     return True
 
