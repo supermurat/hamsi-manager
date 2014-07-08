@@ -39,17 +39,21 @@ class Search(MDialog):
             self.setButtons(MDialog.NoDefault)
         self.isCheckSingleFile = _isCheckSingleFile
         self.searchDepth = _searchDepth
-        self.nullSongs, self.falseSongs, self.trueSongs, self.songsOfArtist, self.songsOfAlbum, self.cbTags, self.leTags, self.incorrectSongs = [], [], [], [], [], [], [], []
-        self.searchedArtists, self.searchedTitles, self.searchedAlbums = [[], []], [[], []], [[], []]
-        self.searchedAlbumsOfArtist, self.searchedSongsOfAlbum, self.searchedDetailsOfArtist, self.searchedDetailsOfAlbum = [
-                                                                                                                                [],
-                                                                                                                                []], [
-                                                                                                                                [],
-                                                                                                                                []], [
-                                                                                                                                [],
-                                                                                                                                []], [
-                                                                                                                                [],
-                                                                                                                                []]
+        self.nullSongs = []
+        self.falseSongs = []
+        self.trueSongs = []
+        self.songsOfArtist = []
+        self.songsOfAlbum = []
+        self.cbTags = []
+        self.leTags = []
+        self.incorrectSongs = []
+        self.searchedArtists = [[], []]
+        self.searchedTitles = [[], []]
+        self.searchedAlbums = [[], []]
+        self.searchedAlbumsOfArtist = [[], []]
+        self.searchedSongsOfAlbum = [[], []]
+        self.searchedDetailsOfArtist = [[], []]
+        self.searchedDetailsOfAlbum = [[], []]
         self.showSuggest(True)
         self.isAlterAlbum = False
         self.isArtistImportant = True

@@ -546,7 +546,7 @@ class CoreTable(MTableWidget):
                             return True
         return False
 
-    def createTableWidgetItem(self, _value, _currentValue=None, _isReadOnly=False):
+    def createItem(self, _value, _currentValue=None, _isReadOnly=False):
         item = MyTableWidgetItem(_currentValue)
         item.setText(str(_value))
         item.isReadOnly = _isReadOnly

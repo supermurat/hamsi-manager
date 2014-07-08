@@ -92,7 +92,7 @@ class Tagger():
         except: return ""
 
 
-    def getAlbumArtist(self):
+    def getAlbumArtist(self):  # TODO: don't use this for ID3v1
         try: return self.getCorrectedValuesForMusicTagType(str(self.tag.getTextFrame("TPE2")))
         except: return ""
 
@@ -154,7 +154,7 @@ class Tagger():
     def setArtist(self, _value):
         self.tag._setArtist(self.correctValuesForMusicTagType(_value))
 
-    def setAlbumArtist(self, _value):
+    def setAlbumArtist(self, _value):  # TODO: don't use this for ID3v1
         self.tag.setTextFrame("TPE2", self.correctValuesForMusicTagType(_value))
 
     def setTitle(self, _value):
@@ -231,7 +231,7 @@ def getTaggerTypesName():
 
 
 def getAvailableKeysForTable():
-    keys = ["Directory", "File Name", "Artist", "Title", "Album",
+    keys = ["Directory", "File Name", "Artist", "Title", "Album", "Album Artist",
             "Track No", "Year", "Genre", "Comment", "Lyrics"]
     if Taggers.getSelectedTaggerTypeForRead() != getTaggerTypes()[0]:
         t = keys.pop()
@@ -244,6 +244,7 @@ def getAvailableLabelsForTable():
               translate("MusicTable", "Artist"),
               translate("MusicTable", "Title"),
               translate("MusicTable", "Album"),
+              translate("MusicTable", "Album Artist"),
               translate("MusicTable", "Track No"),
               translate("MusicTable", "Year"),
               translate("MusicTable", "Genre"),

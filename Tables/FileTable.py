@@ -153,12 +153,12 @@ class FileTable(CoreTable):
                         self.values.append(content)
 
                         newBaseNameOfDirectory = Organizer.emend(content["baseNameOfDirectory"], "directory")
-                        itemBaseNameOfDirectory = self.createTableWidgetItem(newBaseNameOfDirectory,
+                        itemBaseNameOfDirectory = self.createItem(newBaseNameOfDirectory,
                                                                              content["baseNameOfDirectory"])
                         self.setItem(rowNo, 0, itemBaseNameOfDirectory)
 
                         newBaseName = Organizer.emend(content["baseName"], "file")
-                        itemBaseName = self.createTableWidgetItem(newBaseName, content["baseName"])
+                        itemBaseName = self.createItem(newBaseName, content["baseName"])
                         self.setItem(rowNo, 1, itemBaseName)
                 except:
                     ReportBug.ReportBug()
