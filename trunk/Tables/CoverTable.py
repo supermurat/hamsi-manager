@@ -254,18 +254,18 @@ class CoverTable(CoreTable):
 
                         newBaseNameOfDirectory = Organizer.emend(self.values[rowNo]["baseNameOfDirectory"],
                                                                  "directory")
-                        itemBaseNameOfDirectory = self.createTableWidgetItem(newBaseNameOfDirectory,
+                        itemBaseNameOfDirectory = self.createItem(newBaseNameOfDirectory,
                                                                              self.values[rowNo]["baseNameOfDirectory"])
                         self.setItem(rowNo, 0, itemBaseNameOfDirectory)
 
                         newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "directory")
-                        itemBaseName = self.createTableWidgetItem(newBaseName,
+                        itemBaseName = self.createItem(newBaseName,
                                                                   self.values[rowNo]["baseName"])
                         self.setItem(rowNo, 1, itemBaseName)
 
                         newCurrentCover = str(self.values[rowNo]["currentCover"])
                         newCurrentCover = newCurrentCover.replace(self.values[rowNo]["path"], ".")
-                        itemCurrentCover = self.createTableWidgetItem(newCurrentCover, newCurrentCover, True)
+                        itemCurrentCover = self.createItem(newCurrentCover, newCurrentCover, True)
                         self.setItem(rowNo, 2, itemCurrentCover)
                         if self.values[rowNo]["isCorrectedFileContent"] == False:
                             itemCurrentCover.setBackground(MBrush(MColor(255, 163, 163)))
@@ -274,7 +274,7 @@ class CoverTable(CoreTable):
                         newSourceCover = newSourceCover.replace(self.values[rowNo]["path"], ".")
                         oldSourceCover = self.values[rowNo]["currentCover"]
                         oldSourceCover = oldSourceCover.replace(self.values[rowNo]["path"], ".")
-                        itemSourceCover = self.createTableWidgetItem(newSourceCover, oldSourceCover)
+                        itemSourceCover = self.createItem(newSourceCover, oldSourceCover)
                         self.setItem(rowNo, 3, itemSourceCover)
 
                         newDestinationCover = self.values[rowNo]["destinationCover"]
@@ -282,7 +282,7 @@ class CoverTable(CoreTable):
                         newDestinationCover = Organizer.emend(newDestinationCover, "file")
                         oldDestinationCover = self.values[rowNo]["currentCover"]
                         oldDestinationCover = oldDestinationCover.replace(self.values[rowNo]["path"], ".")
-                        itemDestinationCover = self.createTableWidgetItem(newDestinationCover, oldDestinationCover)
+                        itemDestinationCover = self.createItem(newDestinationCover, oldDestinationCover)
                         self.setItem(rowNo, 4, itemDestinationCover)
                 except:
                     ReportBug.ReportBug()

@@ -210,18 +210,18 @@ SELECT tracks.id,
                     SUBSTRING( urls.rpath , 2 )))
     , '') AS 'filePath',
 tracks.title,
-tracks.artist,
-tracks.album,
-albums.artist AS 'albumartist',
-tracks.year,
-tracks.genre,
+tracks.artist AS 'artistId',
+tracks.album AS 'albumId',
+albums.artist AS 'albumArtistId',
+tracks.year AS 'yearId',
+tracks.genre AS 'genreId',
 tracks.tracknumber,
 tracks.comment AS 'comment',
-artists.name AS 'artistName',
-albums.name AS 'albumName',
-albumartists.name AS 'albumArtistName',
-years.name AS 'yearName',
-genres.name AS 'genreName',
+artists.name AS 'artist',
+albums.name AS 'album',
+albumartists.name AS 'albumArtist',
+years.name AS 'year',
+genres.name AS 'genre',
 images.path AS 'imagePath',
 statistics.rating,
 lyrics.lyrics
@@ -243,30 +243,9 @@ LEFT JOIN lyrics ON lyrics.url = urls.id
         isAddWhere = False
     query += getSQLConditionByFilter(_filter, isAddWhere) + " ORDER BY filePath "
     uni.printForDevelopers("Query - getAllMusicFileValuesWithNames : " + query)
-    db.query(query)
-    r = db.store_result()
-    musicFileValues = []
-    rows = r.fetch_row(0)
-    for row in rows:
-        musicFileValues.append({})
-        musicFileValues[-1]["id"] = row[0]
-        musicFileValues[-1]["filePath"] = row[1]
-        musicFileValues[-1]["title"] = row[2]
-        musicFileValues[-1]["artistId"] = row[3]
-        musicFileValues[-1]["albumId"] = row[4]
-        musicFileValues[-1]["albumartistId"] = row[5]
-        musicFileValues[-1]["yearId"] = row[6]
-        musicFileValues[-1]["genreId"] = row[7]
-        musicFileValues[-1]["tracknumber"] = Databases.correctForUser(row[8])
-        musicFileValues[-1]["comment"] = row[9]
-        musicFileValues[-1]["artist"] = row[10]
-        musicFileValues[-1]["album"] = row[11]
-        musicFileValues[-1]["albumartist"] = row[12]
-        musicFileValues[-1]["year"] = row[13]
-        musicFileValues[-1]["genre"] = row[14]
-        musicFileValues[-1]["imagePath"] = row[15]
-        musicFileValues[-1]["rating"] = row[16]
-        musicFileValues[-1]["lyrics"] = row[17]
+    c = db.cursor(Amarok.getCursors().DictCursor)
+    c.execute(query)
+    musicFileValues = c.fetchall()
     return musicFileValues
 
 
@@ -293,50 +272,6 @@ WHERE tracks.artist=""" + str(_artistId) + " ORDER BY filePath "
     rows = r.fetch_row(0)
     for row in rows:
         musicFileValues.append(row[0])
-    return musicFileValues
-
-
-def getMusicFileValues(_path):
-    db = Amarok.checkAndGetDB()
-    query = """
-SELECT * FROM (
-    SELECT tracks.id,
-        REPLACE(
-            CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
-                SUBSTRING( urls.rpath , 2 )),
-            CONCAT('/',
-                    CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
-                        SUBSTRING( urls.rpath , 2 )))
-        , '') AS 'filePath',
-    tracks.title,
-    tracks.artist,
-    tracks.album,
-    tracks.year,
-    tracks.genre,
-    tracks.tracknumber,
-    tracks.comment
-    FROM tracks
-    INNER JOIN urls ON urls.id = tracks.url
-    LEFT JOIN devices ON devices.id = urls.deviceid
-) as valueTable WHERE filePath = '%s'
-""" % Databases.correctForSql(_path)
-    uni.printForDevelopers("Query - getMusicFileValues : " + query)
-    db.query(query)
-    r = db.store_result()
-    musicFileValues = {}
-    rows = r.fetch_row(0)
-    if len(rows) == 0:
-        return None
-    row = rows[0]
-    musicFileValues["id"] = row[0]
-    musicFileValues["filePath"] = row[1]
-    musicFileValues["title"] = row[2]
-    musicFileValues["artistId"] = row[3]
-    musicFileValues["albumId"] = row[4]
-    musicFileValues["yearId"] = row[5]
-    musicFileValues["genreId"] = row[6]
-    musicFileValues["tracknumber"] = Databases.correctForUser(row[7])
-    musicFileValues["comment"] = row[8]
     return musicFileValues
 
 
@@ -541,37 +476,64 @@ def changeDirectoryPath(_oldPath, _newPath):
 
 def changeTag(_values):
     if len(_values) > 1:
-        db = Amarok.checkAndGetDB()
         path = _values["path"]
-        oldValues = getMusicFileValues(path)
-        if oldValues is None:
-            return False
-        trackId, artistId, albumId = oldValues["id"], oldValues["artistId"], oldValues["albumId"]
-        yearId, genreId = oldValues["yearId"], oldValues["genreId"]
-        title = oldValues["title"]
-        trackNum = Databases.correctForSql(oldValues["tracknumber"], "int")
-        firstComment = oldValues["comment"]
+        db = Amarok.checkAndGetDB()
+        querySelect = """
+        SELECT trackId,albumArtistId,urlId FROM (
+            SELECT tracks.id AS 'trackId',
+                REPLACE(
+                    CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+                        SUBSTRING( urls.rpath , 2 )),
+                    CONCAT('/',
+                            CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+                                SUBSTRING( urls.rpath , 2 )))
+                , '') AS 'filePath',
+            albums.artist AS 'albumArtistId',
+            urls.id AS 'urlId'
+            FROM tracks
+            INNER JOIN urls ON urls.id = tracks.url
+            LEFT JOIN devices ON devices.id = urls.deviceid
+            LEFT JOIN albums ON albums.id = tracks.album
+            LEFT JOIN artists albumartists ON albumartists.id = albums.artist
+        ) as valueTable WHERE filePath = '%s'
+        """ % Databases.correctForSql(path)
+        uni.printForDevelopers("Query - changeTag - querySelect : " + querySelect)
+        db.query(querySelect)
+        r = db.store_result()
+        rows = r.fetch_row(0)
+        if len(rows) == 0:
+            return None
+        trackId = rows[0][0]
+        albumArtistId = rows[0][1]
+        urlId = rows[0][2]
+        db = Amarok.checkAndGetDB()
+        query = " "
         if "artist" in _values:
-            artistId = getOrInsertArtist(_values["artist"])
+            query += " artist=" + getOrInsertArtist(_values["artist"])
+        if "albumArtist" in _values:
+            albumArtistId = getOrInsertArtist(_values["albumArtist"])
+            query += " artist=" + albumArtistId
         if "title" in _values:
-            title = _values["title"]
+            query += " title='" + Databases.correctForSql(_values["title"]) + "' "
         if "album" in _values:
-            albumId = getOrInsertAlbum(_values["album"], artistId)
+            query += " album=" + getOrInsertAlbum(_values["album"], albumArtistId)
         if "trackNum" in _values:
-            trackNum = Databases.correctForSql(_values["trackNum"], "int")
+            query += " tracknumber=" + Databases.correctForSql(_values["trackNum"], "int")
         if "year" in _values:
-            yearId = getOrInsertYear(_values["year"])
+            query += " year=" + getOrInsertYear(_values["year"])
         if "genre" in _values:
-            genreId = getOrInsertGenre(_values["genre"])
+            query += " genre=" + getOrInsertGenre(_values["genre"])
         if "firstComment" in _values:
-            firstComment = _values["firstComment"]
+            query += " comment='" + Databases.correctForSql(_values["firstComment"]) + "' "
         if "firstLyrics" in _values:
-            db.query("UPDATE lyrics SET lyrics='%s' WHERE url='.%s'" % (
-                Databases.correctForSql(_values["firstLyrics"]), Databases.correctForSql(path)))
-        db.query(
-            "UPDATE tracks SET artist=%s, title='%s', album=%s, tracknumber=%s, year=%s, genre=%s, comment='%s' WHERE id=%s" % (
-                artistId, Databases.correctForSql(title), albumId, trackNum, yearId, genreId,
-                Databases.correctForSql(firstComment), trackId))
+            lyricQuery = "UPDATE lyrics SET lyrics='%s' WHERE url=%s" % (
+                Databases.correctForSql(_values["firstLyrics"]), urlId)
+            uni.printForDevelopers("Query - changeTag - lyricQuery : " + lyricQuery)
+            db.query(lyricQuery)
+        if query != "":
+            queryUpdate = "UPDATE tracks SET %s WHERE id=%s" % (query, trackId)
+            uni.printForDevelopers("Query - changeTag - queryUpdate : " + queryUpdate)
+            db.query(queryUpdate)
         db.commit()
     return True
 
@@ -602,23 +564,19 @@ def changeArtistWithAnother(_currentArtistId, _artistWillBeSelectedId):
         db.commit()
     except Amarok.getMySQLModule().IntegrityError as error:
         db = Amarok.checkAndGetDB()
-        db.query(
-            "SELECT * FROM albums WHERE name IN (SELECT name FROM albums WHERE artist=%s) AND artist=%s" % (
+        db.query("SELECT * FROM albums WHERE name IN (SELECT name FROM albums WHERE artist=%s) AND artist=%s" % (
                 _artistWillBeSelectedId, _currentArtistId))
         r = db.store_result()
         rows = r.fetch_row(0)
-        if len(rows) > 0:
-            currentAlbumId = rows[0][0]
-
+        for row in rows:
+            currentAlbumId = row[0]
+            currentAlbumName = row[1]
             db = Amarok.checkAndGetDB()
-            db.query(
-                "SELECT * FROM albums WHERE name IN (SELECT name FROM albums WHERE artist=%s) AND artist=%s" % (
-                    _currentArtistId, _artistWillBeSelectedId))
+            db.query("SELECT * FROM albums WHERE name='%s' AND artist=%s" % (currentAlbumName, _artistWillBeSelectedId))
             r = db.store_result()
-            rows = r.fetch_row(0)
-            if len(rows) > 0:
-                albumWillBeSelectedId = rows[0][0]
-
+            srows = r.fetch_row(0)
+            if len(srows) > 0:
+                albumWillBeSelectedId = srows[0][0]
                 changeAlbumWithAnother(currentAlbumId, albumWillBeSelectedId)
                 deleteAlbum(currentAlbumId)
     return True

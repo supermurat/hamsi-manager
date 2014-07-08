@@ -214,25 +214,25 @@ class AmarokCoverTable(CoreTable):
 
                                         newPathOfParentDirectory = Organizer.emend(
                                             self.values[rowNo]["pathOfParentDirectory"], "directory")
-                                        itemPathOfParentDirectory = self.createTableWidgetItem(
+                                        itemPathOfParentDirectory = self.createItem(
                                             newPathOfParentDirectory, self.values[rowNo]["pathOfParentDirectory"])
                                         self.setItem(rowNo, 0, itemPathOfParentDirectory)
 
                                         newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "directory")
-                                        itemBaseName = self.createTableWidgetItem(newBaseName,
+                                        itemBaseName = self.createItem(newBaseName,
                                                                                   self.values[rowNo]["baseName"])
                                         self.setItem(rowNo, 1, itemBaseName)
 
                                         newCurrentCover = fu.getShortPath(self.values[rowNo]["currentCover"],
                                                                           self.values[rowNo]["path"])
-                                        itemCurrentCover = self.createTableWidgetItem(newCurrentCover,
+                                        itemCurrentCover = self.createItem(newCurrentCover,
                                                                                       newCurrentCover, True)
                                         self.setItemColor(itemCurrentCover, rowNo, 2, "currentCover")
                                         self.setItem(rowNo, 2, itemCurrentCover)
 
                                         newSourceCover = fu.getShortPath(self.values[rowNo]["sourceCover"],
                                                                          self.values[rowNo]["path"])
-                                        itemSourceCover = self.createTableWidgetItem(newSourceCover, fu.getShortPath(
+                                        itemSourceCover = self.createItem(newSourceCover, fu.getShortPath(
                                             self.values[rowNo]["currentCover"],
                                             self.values[rowNo]["path"]))
                                         self.setItemColor(itemSourceCover, rowNo, 3, "sourceCover")
@@ -241,7 +241,7 @@ class AmarokCoverTable(CoreTable):
                                         newDestinationCover = Organizer.emend(
                                             fu.getShortPath(self.values[rowNo]["destinationCover"],
                                                             self.values[rowNo]["path"]), "file")
-                                        itemDestinationCover = self.createTableWidgetItem(newDestinationCover,
+                                        itemDestinationCover = self.createItem(newDestinationCover,
                                                                                           fu.getShortPath(
                                                                                               self.values[rowNo][
                                                                                                   "currentCover"],

@@ -48,6 +48,7 @@ def readMusicFile(_filePath, _isAlertWhenNotAvailable=True):
         content["artist"] = tagger.getArtist()
         content["title"] = tagger.getTitle()
         content["album"] = tagger.getAlbum()
+        content["albumArtist"] = tagger.getAlbumArtist()
         content["trackNum"] = tagger.getTrackNum()
         content["year"] = tagger.getYear()
         content["genre"] = tagger.getGenre()
@@ -75,6 +76,8 @@ def writeMusicFile(_oldMusicTagsValues, _newMusicTagsValues, _isImageAction=Fals
                 tagger.setTitle(str(_newMusicTagsValues["title"]))
             if _newMusicTagsValues["album"] != _oldMusicTagsValues["album"]:
                 tagger.setAlbum(str(_newMusicTagsValues["album"]))
+            if _newMusicTagsValues["albumArtist"] != _oldMusicTagsValues["albumArtist"]:
+                tagger.setAlbumArtist(str(_newMusicTagsValues["albumArtist"]))
             if _newMusicTagsValues["trackNum"] != _oldMusicTagsValues["trackNum"]:
                 tagger.setTrackNum(_newMusicTagsValues["trackNum"])
             if _newMusicTagsValues["year"] != _oldMusicTagsValues["year"]:

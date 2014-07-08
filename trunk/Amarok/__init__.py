@@ -32,8 +32,9 @@ from Core import Execute
 isLoadedMysql = False
 isCheckAgain = True
 try:
-    #import MySQLdb as mdb
-    import _mysql as mdb
+    import MySQLdb as mdb
+    from MySQLdb import cursors
+    #import _mysql as mdb
 
     isLoadedMysql = True
 except: pass
@@ -51,6 +52,11 @@ availableDBVersions = [14, 15]
 
 def getMySQLModule():
     if isLoadedMysql: return mdb
+    return None
+
+
+def getCursors():
+    if isLoadedMysql: return cursors
     return None
 
 

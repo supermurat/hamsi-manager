@@ -107,47 +107,54 @@ class MusicTable(CoreTable):
                                             str(self.values[rowNo]["album"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 5,
+                                                     self.values[rowNo]["albumArtist"], True,
+                                                     isCheckLike):
+                                value = str(self.item(rowNo, 5).text())
+                                tagger.setAlbumArtist(value)
+                                changingTag["albumArtist"] = value
+                                Records.add(str(translate("MusicTable", "Album Artist")),
+                                            str(self.values[rowNo]["albumArtist"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, 6,
                                                      self.values[rowNo]["trackNum"],
                                                      True, isCheckLike):
-                                value = str(self.item(rowNo, 5).text())
+                                value = str(self.item(rowNo, 6).text())
                                 tagger.setTrackNum(value)
                                 changingTag["trackNum"] = value
                                 Records.add(str(translate("MusicTable", "Track No")),
                                             str(self.values[rowNo]["trackNum"]), value)
                                 self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, 6,
+                            if self.isChangeableItem(rowNo, 7,
                                                      self.values[rowNo]["year"], True,
                                                      isCheckLike):
-                                value = str(self.item(rowNo, 6).text())
+                                value = str(self.item(rowNo, 7).text())
                                 tagger.setDate(value)
                                 changingTag["year"] = value
                                 Records.add(str(translate("MusicTable", "Year")),
                                             str(self.values[rowNo]["year"]), value)
                                 self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, 7,
+                            if self.isChangeableItem(rowNo, 8,
                                                      self.values[rowNo]["genre"], True,
                                                      isCheckLike):
-                                value = str(self.item(rowNo, 7).text())
+                                value = str(self.item(rowNo, 8).text())
                                 tagger.setGenre(value)
                                 changingTag["genre"] = value
                                 Records.add(str(translate("MusicTable", "Genre")),
                                             str(self.values[rowNo]["genre"]), value)
                                 self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, 8,
+                            if self.isChangeableItem(rowNo, 9,
                                                      self.values[rowNo]["firstComment"],
                                                      True, isCheckLike):
-                                value = str(self.item(rowNo, 8).text())
+                                value = str(self.item(rowNo, 9).text())
                                 tagger.setFirstComment(value)
                                 changingTag["firstComment"] = value
                                 Records.add(str(translate("MusicTable", "Comment")),
                                             str(self.values[rowNo]["firstComment"]), value)
                                 self.changedValueNumber += 1
-                            if self.tableColumnsKey.count("Lyrics") > 0 and self.isChangeableItem(rowNo, 9,
-                                                                                                  self.values[
-                                                                                                      rowNo][
-                                                                                                      "firstLyrics"],
-                                                                                                  True, isCheckLike):
-                                value = str(self.item(rowNo, 9).text())
+                            if (self.tableColumnsKey.count("Lyrics") > 0 and
+                                    self.isChangeableItem(rowNo, 10,
+                                                          self.values[rowNo]["firstLyrics"], True, isCheckLike)):
+                                value = str(self.item(rowNo, 10).text())
                                 tagger.setFirstLyrics(value)
                                 changingTag["firstLyrics"] = value
                                 Records.add(str(translate("MusicTable", "Lyrics")),
@@ -252,7 +259,7 @@ class MusicTable(CoreTable):
             cellLenght = len(currentItem.text()) * 8
             if cellLenght > self.columnWidth(_column):
                 self.setColumnWidth(_column, cellLenght)
-            if _column == 8 or _column == 9:
+            if _column == 9 or _column == 10:
                 if self.rowHeight(_row) < 150:
                     self.setRowHeight(_row, 150)
                 if self.columnWidth(_column) < 250:
@@ -260,7 +267,7 @@ class MusicTable(CoreTable):
 
     def cellDoubleClickedTable(self, _row, _column):
         try:
-            if _column == 8 or _column == 9:
+            if _column == 9 or _column == 10:
                 self.showTableDetails(_row, _column)
             else:
                 if uni.getBoolValue("isRunOnDoubleClick"):
@@ -284,8 +291,8 @@ class MusicTable(CoreTable):
 
     def refreshTable(self, _path):
         self.values = []
-        self.setColumnWidth(5, 70)
-        self.setColumnWidth(6, 40)
+        self.setColumnWidth(6, 70)
+        self.setColumnWidth(7, 40)
         musicFileNames = fu.readDirectory(_path, "music", uni.getBoolValue("isShowHiddensInMusicTable"))
         isCanNoncompatible = False
         allItemNumber = len(musicFileNames)
@@ -315,6 +322,7 @@ class MusicTable(CoreTable):
                         content["artist"] = tagger.getArtist()
                         content["title"] = tagger.getTitle()
                         content["album"] = tagger.getAlbum()
+                        content["albumArtist"] = tagger.getAlbumArtist()
                         content["trackNum"] = tagger.getTrackNum()
                         content["year"] = tagger.getYear()
                         content["genre"] = tagger.getGenre()
@@ -324,51 +332,56 @@ class MusicTable(CoreTable):
 
                         newBaseNameOfDirectory = Organizer.emend(
                             self.values[rowNo]["baseNameOfDirectory"], "directory")
-                        itemBaseNameOfDirectory = self.createTableWidgetItem(newBaseNameOfDirectory,
+                        itemBaseNameOfDirectory = self.createItem(newBaseNameOfDirectory,
                                                                              self.values[rowNo][
                                                                                  "baseNameOfDirectory"])
                         self.setItem(rowNo, 0, itemBaseNameOfDirectory)
 
                         newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "file")
-                        itemBaseName = self.createTableWidgetItem(newBaseName,
+                        itemBaseName = self.createItem(newBaseName,
                                                                   self.values[rowNo]["baseName"])
                         self.setItem(rowNo, 1, itemBaseName)
 
                         newArtist = Organizer.emend(self.values[rowNo]["artist"])
-                        itemArtist = self.createTableWidgetItem(newArtist, self.values[rowNo]["artist"])
+                        itemArtist = self.createItem(newArtist, self.values[rowNo]["artist"])
                         self.setItem(rowNo, 2, itemArtist)
 
                         newTitle = Organizer.emend(self.values[rowNo]["title"])
-                        itemTitle = self.createTableWidgetItem(newTitle, self.values[rowNo]["title"])
+                        itemTitle = self.createItem(newTitle, self.values[rowNo]["title"])
                         self.setItem(rowNo, 3, itemTitle)
 
                         newAlbum = Organizer.emend(self.values[rowNo]["album"])
-                        itemAlbum = self.createTableWidgetItem(newAlbum, self.values[rowNo]["album"])
+                        itemAlbum = self.createItem(newAlbum, self.values[rowNo]["album"])
                         self.setItem(rowNo, 4, itemAlbum)
 
+                        newAlbumArtist = Organizer.emend(self.values[rowNo]["albumArtist"])
+                        itemAlbumArtist = self.createItem(newAlbumArtist,
+                                                                     self.values[rowNo]["albumArtist"])
+                        self.setItem(rowNo, 5, itemAlbumArtist)
+
                         newTrackNum = str(self.values[rowNo]["trackNum"])
-                        itemTrackNum = self.createTableWidgetItem(newTrackNum,
+                        itemTrackNum = self.createItem(newTrackNum,
                                                                   self.values[rowNo]["trackNum"])
-                        self.setItem(rowNo, 5, itemTrackNum)
+                        self.setItem(rowNo, 6, itemTrackNum)
 
                         newYear = Organizer.emend(self.values[rowNo]["year"])
-                        itemYear = self.createTableWidgetItem(newYear, self.values[rowNo]["year"])
-                        self.setItem(rowNo, 6, itemYear)
+                        itemYear = self.createItem(newYear, self.values[rowNo]["year"])
+                        self.setItem(rowNo, 7, itemYear)
 
                         newGenre = Organizer.emend(self.values[rowNo]["genre"])
-                        itemGenre = self.createTableWidgetItem(newGenre, self.values[rowNo]["genre"])
-                        self.setItem(rowNo, 7, itemGenre)
+                        itemGenre = self.createItem(newGenre, self.values[rowNo]["genre"])
+                        self.setItem(rowNo, 8, itemGenre)
 
                         newFirstComment = Organizer.emend(self.values[rowNo]["firstComment"])
-                        itemFirstComment = self.createTableWidgetItem(newFirstComment,
+                        itemFirstComment = self.createItem(newFirstComment,
                                                                       self.values[rowNo][
                                                                           "firstComment"])
-                        self.setItem(rowNo, 8, itemFirstComment)
+                        self.setItem(rowNo, 9, itemFirstComment)
 
                         newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
-                        itemFirstLyrics = self.createTableWidgetItem(newFirstLyrics,
+                        itemFirstLyrics = self.createItem(newFirstLyrics,
                                                                      self.values[rowNo]["firstLyrics"])
-                        self.setItem(rowNo, 9, itemFirstLyrics)
+                        self.setItem(rowNo, 10, itemFirstLyrics)
                 except:
                     ReportBug.ReportBug()
                 rowNo += 1

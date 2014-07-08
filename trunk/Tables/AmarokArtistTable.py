@@ -132,12 +132,12 @@ class AmarokArtistTable(CoreTable):
                                     self.values.append(content)
 
                                     currentName = content["name"]
-                                    itemCurrentName = self.createTableWidgetItem(currentName, currentName, True)
+                                    itemCurrentName = self.createItem(currentName, currentName, True)
                                     self.setItem(rowNo, 0, itemCurrentName)
 
                                     newName = Organizer.emend(content["name"])
                                     isReadOnlyNewName = (content["name"].strip() == "")
-                                    itemNewName = self.createTableWidgetItem(newName, content["name"],
+                                    itemNewName = self.createItem(newName, content["name"],
                                                                              isReadOnlyNewName)
                                     self.setItem(rowNo, 1, itemNewName)
                                 except:

@@ -70,6 +70,7 @@ class MusicDetails(MDialog):
                                translate("MusicDetails", "Artist: "),
                                translate("MusicDetails", "Title: "),
                                translate("MusicDetails", "Album: "),
+                               translate("MusicDetails", "Album Artist: "),
                                translate("MusicDetails", "Track: "),
                                translate("MusicDetails", "Year: "),
                                translate("MusicDetails", "Genre: ")]
@@ -111,15 +112,17 @@ class MusicDetails(MDialog):
         self.infoLabels["artist"] = MLabel(self.labels[2])
         self.infoLabels["title"] = MLabel(self.labels[3])
         self.infoLabels["album"] = MLabel(self.labels[4])
-        self.infoLabels["trackNum"] = MLabel(self.labels[5])
-        self.infoLabels["year"] = MLabel(self.labels[6])
-        self.infoLabels["genre"] = MLabel(self.labels[7])
+        self.infoLabels["albumArtist"] = MLabel(self.labels[5])
+        self.infoLabels["trackNum"] = MLabel(self.labels[6])
+        self.infoLabels["year"] = MLabel(self.labels[7])
+        self.infoLabels["genre"] = MLabel(self.labels[8])
         self.infoValues["baseNameOfDirectory"] = MLineEdit(
             str(Organizer.emend(self.musicValues["baseNameOfDirectory"], "directory", False)))
         self.infoValues["baseName"] = MLineEdit(str(Organizer.emend(self.musicValues["baseName"], "file")))
         self.infoValues["artist"] = MLineEdit(str(Organizer.emend(self.musicValues["artist"])))
         self.infoValues["title"] = MLineEdit(str(Organizer.emend(self.musicValues["title"])))
         self.infoValues["album"] = MLineEdit(str(Organizer.emend(self.musicValues["album"])))
+        self.infoValues["albumArtist"] = MLineEdit(str(Organizer.emend(self.musicValues["albumArtist"])))
         self.infoValues["trackNum"] = MLineEdit(str(Organizer.emend(self.musicValues["trackNum"])))
         self.infoValues["year"] = MLineEdit(str(Organizer.emend(self.musicValues["year"])))
         self.infoValues["genre"] = MLineEdit(str(Organizer.emend(self.musicValues["genre"])))
@@ -176,12 +179,15 @@ class MusicDetails(MDialog):
         HBOXs[-1].addWidget(self.infoLabels["album"])
         HBOXs[-1].addWidget(self.infoValues["album"])
         HBOXs.append(MHBoxLayout())
-        HBOXs[5].addWidget(self.infoLabels["trackNum"])
-        HBOXs[5].addWidget(self.infoValues["trackNum"])
-        HBOXs[5].addWidget(self.infoLabels["year"])
-        HBOXs[5].addWidget(self.infoValues["year"])
-        HBOXs[5].addWidget(self.infoLabels["genre"])
-        HBOXs[5].addWidget(self.infoValues["genre"])
+        HBOXs[-1].addWidget(self.infoLabels["albumArtist"])
+        HBOXs[-1].addWidget(self.infoValues["albumArtist"])
+        HBOXs.append(MHBoxLayout())
+        HBOXs[-1].addWidget(self.infoLabels["trackNum"])
+        HBOXs[-1].addWidget(self.infoValues["trackNum"])
+        HBOXs[-1].addWidget(self.infoLabels["year"])
+        HBOXs[-1].addWidget(self.infoValues["year"])
+        HBOXs[-1].addWidget(self.infoLabels["genre"])
+        HBOXs[-1].addWidget(self.infoValues["genre"])
         vblInfos = MVBoxLayout()
         for hbox in HBOXs:
             vblInfos.addLayout(hbox)
@@ -257,6 +263,7 @@ class MusicDetails(MDialog):
             newMusicValues["artist"] = str(self.infoValues["artist"].text())
             newMusicValues["title"] = str(self.infoValues["title"].text())
             newMusicValues["album"] = str(self.infoValues["album"].text())
+            newMusicValues["albumArtist"] = str(self.infoValues["albumArtist"].text())
             newMusicValues["trackNum"] = str(self.infoValues["trackNum"].text())
             newMusicValues["year"] = str(self.infoValues["year"].text())
             newMusicValues["genre"] = str(self.infoValues["genre"].text())
