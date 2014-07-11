@@ -316,7 +316,7 @@ def getArtistName(_artistId):
     musicFileValues = []
     rows = r.fetch_row(0)
     if len(rows) > 0:
-        return rows[0][0]
+        return str(rows[0][0])
     return None
 
 
@@ -326,7 +326,7 @@ def getDevices():
     uni.printForDevelopers("Query - getDevices : " + query)
     db.query(query)
     r = db.store_result()
-    return r.fetch_row(0)
+    return str(r.fetch_row(0))
 
 
 def getArtistId(_artist):
@@ -337,7 +337,7 @@ def getArtistId(_artist):
     r = db.store_result()
     rows = r.fetch_row(0)
     if len(rows) > 0:
-        return rows[0][0]
+        return str(rows[0][0])
     return None
 
 
@@ -348,7 +348,7 @@ def getOrInsertArtist(_artist):
         uni.printForDevelopers("Query - getOrInsertArtist : " + sqlCommand)
         db.query(sqlCommand)
     r = db.store_result()
-    return r.fetch_row(0)[0][0]
+    return str(r.fetch_row(0)[0][0])
 
 
 def getOrInsertAlbum(_album, _artistId):
@@ -358,7 +358,7 @@ def getOrInsertAlbum(_album, _artistId):
         uni.printForDevelopers("Query - getOrInsertAlbum : " + sqlCommand)
         db.query(sqlCommand)
     r = db.store_result()
-    return r.fetch_row(0)[0][0]
+    return str(r.fetch_row(0)[0][0])
 
 
 def getOrInsertYear(_year):
@@ -368,7 +368,7 @@ def getOrInsertYear(_year):
         uni.printForDevelopers("Query - getOrInsertYear : " + sqlCommand)
         db.query(sqlCommand)
     r = db.store_result()
-    return r.fetch_row(0)[0][0]
+    return str(r.fetch_row(0)[0][0])
 
 
 def getOrInsertGenre(_genre):
@@ -378,7 +378,7 @@ def getOrInsertGenre(_genre):
         uni.printForDevelopers("Query - getOrInsertGenre : " + sqlCommand)
         db.query(sqlCommand)
     r = db.store_result()
-    return r.fetch_row(0)[0][0]
+    return str(r.fetch_row(0)[0][0])
 
 
 def getOrInsertDirectory(_directory, _deviceId):
@@ -503,9 +503,9 @@ def changeTag(_values):
         rows = r.fetch_row(0)
         if len(rows) == 0:
             return None
-        trackId = rows[0][0]
-        albumArtistId = rows[0][1]
-        urlId = rows[0][2]
+        trackId = str(rows[0][0])
+        albumArtistId = str(rows[0][1])
+        urlId = str(rows[0][2])
         db = Amarok.checkAndGetDB()
         query = " "
         if "artist" in _values:
@@ -526,11 +526,11 @@ def changeTag(_values):
         if "firstComment" in _values:
             query += " comment='" + Databases.correctForSql(_values["firstComment"]) + "' "
         if "firstLyrics" in _values:
-            lyricQuery = "UPDATE lyrics SET lyrics='%s' WHERE url=%s" % (
-                Databases.correctForSql(_values["firstLyrics"]), urlId)
+            lyricQuery = ("INSERT INTO lyrics(url,lyrics) VALUES (" + urlId + ",'" + Databases.correctForSql(
+                 _values["firstLyrics"]) + "') ON DUPLICATE KEY UPDATE lyrics=VALUES(lyrics) ")
             uni.printForDevelopers("Query - changeTag - lyricQuery : " + lyricQuery)
             db.query(lyricQuery)
-        if query != "":
+        if query.strip() != "":
             queryUpdate = "UPDATE tracks SET %s WHERE id=%s" % (query, trackId)
             uni.printForDevelopers("Query - changeTag - queryUpdate : " + queryUpdate)
             db.query(queryUpdate)
