@@ -41,7 +41,7 @@ class Tagger():
 
     def loadFile(self, _filePath):
         self.filePath = _filePath
-        self.isCorrect = True
+        self.isCorrect = False
         try:
             self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding),
                                    Taggers.getSelectedTaggerTypeForRead()).tag

@@ -140,9 +140,10 @@ class AmarokArtistTable(CoreTable):
                                     itemNewName = self.createItem(newName, content["name"],
                                                                              isReadOnlyNewName)
                                     self.setItem(rowNo, 1, itemNewName)
+                                    rowNo += 1
                                 except:
                                     ReportBug.ReportBug()
-                                rowNo += 1
+                                    allItemNumber -= 1
                             else:
                                 allItemNumber = rowNo
                             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)

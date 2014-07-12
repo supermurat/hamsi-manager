@@ -51,9 +51,6 @@ class SubFolderMusicTable(CoreTable):
         self.changedValueNumber = 0
         oldAndNewPathValues = []
         changingTags = []
-        isMovedToNewDirectory = False
-        currentDirectoryPath = ""
-        newDirectoryPath = ""
         if uni.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
             import Amarok
 
@@ -77,7 +74,10 @@ class SubFolderMusicTable(CoreTable):
                             baseName = str(self.values[rowNo]["baseName"])
                             tagger = Taggers.getTagger()
                             tagger.loadFileForWrite(self.values[rowNo]["path"])
-                            isCheckLike = Taggers.getSelectedTaggerTypeForRead() == Taggers.getSelectedTaggerTypeForWrite()
+                            isCheckLike = (
+                                Taggers.getSelectedTaggerTypeForRead() == Taggers.getSelectedTaggerTypeForWrite() or
+                                (uni.isActiveAmarok and
+                                 uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB")))
                             if self.isChangeableItem(rowNo, 2,
                                                      self.values[rowNo]["artist"], True,
                                                      isCheckLike):
@@ -165,9 +165,6 @@ class SubFolderMusicTable(CoreTable):
                             if self.isChangeableItem(rowNo, 0, baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.item(rowNo, 0).text())
                                 self.changedValueNumber += 1
-                                isMovedToNewDirectory = True
-                                currentDirectoryPath = fu.getDirName(
-                                    self.values[rowNo]["path"])
                                 newDirectoryPath = fu.joinPath(
                                     fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                     baseNameOfDirectory)
@@ -345,9 +342,12 @@ class SubFolderMusicTable(CoreTable):
                         itemFirstLyrics = self.createItem(newFirstLyrics,
                                                                      self.values[rowNo]["firstLyrics"])
                         self.setItem(rowNo, 10, itemFirstLyrics)
+                        rowNo += 1
+                    else:
+                        allItemNumber -= 1
                 except:
                     ReportBug.ReportBug()
-                rowNo += 1
+                    allItemNumber -= 1
             else:
                 allItemNumber = rowNo
             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)

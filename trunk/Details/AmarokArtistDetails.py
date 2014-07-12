@@ -167,8 +167,8 @@ class AmarokArtistDetails(MDialog):
                 [{"id": self.artistId, "name": str(self.infoValues["correctedArtist"].text())}])
             if self.artistName != str(self.infoValues["correctedArtist"].text()):
                 self.changeArtist(Commands.getArtistId(str(self.infoValues["correctedArtist"].text())))
-            if hasattr(getMainWindow(),
-                       "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
+            if hasattr(getMainWindow(),"FileManager") and getMainWindow().FileManager is not None:
+                getMainWindow().FileManager.makeRefresh()
             Records.saveAllRecords()
         except:
             ReportBug.ReportBug()

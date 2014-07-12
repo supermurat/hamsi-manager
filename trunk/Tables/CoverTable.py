@@ -284,9 +284,12 @@ class CoverTable(CoreTable):
                         oldDestinationCover = oldDestinationCover.replace(self.values[rowNo]["path"], ".")
                         itemDestinationCover = self.createItem(newDestinationCover, oldDestinationCover)
                         self.setItem(rowNo, 4, itemDestinationCover)
+                        rowNo += 1
+                    else:
+                        allItemNumber -= 1
                 except:
                     ReportBug.ReportBug()
-                rowNo += 1
+                    allItemNumber -= 1
             else:
                 allItemNumber = rowNo
             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)

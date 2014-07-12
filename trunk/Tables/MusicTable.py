@@ -78,7 +78,10 @@ class MusicTable(CoreTable):
                             baseName = str(self.values[rowNo]["baseName"])
                             tagger = Taggers.getTagger()
                             tagger.loadFileForWrite(self.values[rowNo]["path"])
-                            isCheckLike = Taggers.getSelectedTaggerTypeForRead() == Taggers.getSelectedTaggerTypeForWrite()
+                            isCheckLike = (
+                                Taggers.getSelectedTaggerTypeForRead() == Taggers.getSelectedTaggerTypeForWrite() or
+                                (uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"))
+                            )
                             if self.isChangeableItem(rowNo, 2,
                                                      self.values[rowNo]["artist"], True,
                                                      isCheckLike):
@@ -382,9 +385,12 @@ class MusicTable(CoreTable):
                         itemFirstLyrics = self.createItem(newFirstLyrics,
                                                                      self.values[rowNo]["firstLyrics"])
                         self.setItem(rowNo, 10, itemFirstLyrics)
+                        rowNo += 1
+                    else:
+                        allItemNumber -= 1
                 except:
                     ReportBug.ReportBug()
-                rowNo += 1
+                    allItemNumber -= 1
             else:
                 allItemNumber = rowNo
             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
