@@ -42,7 +42,8 @@ def getSQLConditionPartByPartOfFilter(_partOfFilterString=""):
     _partOfFilterString = Databases.correctForSql(_partOfFilterString)
     if _partOfFilterString.find("filename:") != -1:
         filterPart = _partOfFilterString.replace("filename:", "")
-        return " ( LOWER(urls.rpath) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+        return " ( LOWER(urls.rpath) LIKE LOWER('%s') OR LOWER(devices.lastmountpoint) LIKE LOWER('%s') ) " % (
+            "%" + filterPart + "%", "%" + filterPart + "%")
     elif _partOfFilterString.find("title:") != -1:
         filterPart = _partOfFilterString.replace("title:", "")
         return " ( LOWER(tracks.title) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
@@ -93,7 +94,7 @@ def getSQLConditionPartByPartOfFilter(_partOfFilterString=""):
         return " ( CAST( years.name AS INT )  = %s ) " % (filterPart)
     else:
         filterPart = _partOfFilterString
-        return (" ( LOWER(urls.rpath) LIKE LOWER('%s') "
+        return (" ( LOWER(urls.rpath) LIKE LOWER('%s') OR LOWER(devices.lastmountpoint) LIKE LOWER('%s') "
                 "OR LOWER(tracks.title) LIKE LOWER('%s') "
                 "OR LOWER(artists.name) LIKE LOWER('%s') "
                 "OR LOWER(albums.name) LIKE LOWER('%s') "
@@ -102,7 +103,8 @@ def getSQLConditionPartByPartOfFilter(_partOfFilterString=""):
                 "OR LOWER(tracks.comment) LIKE LOWER('%s') "
                 "OR LOWER(years.name) LIKE LOWER('%s') ) " % (
                 "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%",
-                "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%"))
+                "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%",
+                "%" + filterPart + "%"))
 
 
 def getSQLConditionValues(sqlCondition, _filter, _listOfFilters):
@@ -245,7 +247,11 @@ LEFT JOIN lyrics ON lyrics.url = urls.id
     uni.printForDevelopers("Query - getAllMusicFileValuesWithNames : " + query)
     c = db.cursor(Amarok.getCursors().DictCursor)
     c.execute(query)
-    musicFileValues = c.fetchall()
+    musicFileValues = []
+    for rows in c.fetchall():
+        musicFileValues.append({})
+        for key in rows.keys():
+            musicFileValues[-1][key] = Databases.correctForUser(rows[key])
     return musicFileValues
 
 
@@ -326,7 +332,7 @@ def getDevices():
     uni.printForDevelopers("Query - getDevices : " + query)
     db.query(query)
     r = db.store_result()
-    return str(r.fetch_row(0))
+    return r.fetch_row(0)
 
 
 def getArtistId(_artist):
@@ -382,6 +388,7 @@ def getOrInsertGenre(_genre):
 
 
 def getOrInsertDirectory(_directory, _deviceId):
+    _deviceId = str(_deviceId)
     if _directory[-1] != "/": _directory = _directory + "/"
     if _directory[0] != ".": _directory = "." + _directory
     db = Amarok.checkAndGetDB()
@@ -509,28 +516,29 @@ def changeTag(_values):
         db = Amarok.checkAndGetDB()
         query = " "
         if "artist" in _values:
-            query += " artist=" + getOrInsertArtist(_values["artist"])
+            query += ", artist=" + getOrInsertArtist(_values["artist"])
         if "albumArtist" in _values:
             albumArtistId = getOrInsertArtist(_values["albumArtist"])
-            query += " artist=" + albumArtistId
+            query += ", artist=" + albumArtistId
         if "title" in _values:
-            query += " title='" + Databases.correctForSql(_values["title"]) + "' "
+            query += ", title='" + Databases.correctForSql(_values["title"]) + "' "
         if "album" in _values:
-            query += " album=" + getOrInsertAlbum(_values["album"], albumArtistId)
+            query += ", album=" + getOrInsertAlbum(_values["album"], albumArtistId)
         if "trackNum" in _values:
-            query += " tracknumber=" + Databases.correctForSql(_values["trackNum"], "int")
+            query += ", tracknumber=" + Databases.correctForSql(_values["trackNum"], "int")
         if "year" in _values:
-            query += " year=" + getOrInsertYear(_values["year"])
+            query += ", year=" + getOrInsertYear(_values["year"])
         if "genre" in _values:
-            query += " genre=" + getOrInsertGenre(_values["genre"])
+            query += ", genre=" + getOrInsertGenre(_values["genre"])
         if "firstComment" in _values:
-            query += " comment='" + Databases.correctForSql(_values["firstComment"]) + "' "
+            query += ", comment='" + Databases.correctForSql(_values["firstComment"]) + "' "
         if "firstLyrics" in _values:
             lyricQuery = ("INSERT INTO lyrics(url,lyrics) VALUES (" + urlId + ",'" + Databases.correctForSql(
                  _values["firstLyrics"]) + "') ON DUPLICATE KEY UPDATE lyrics=VALUES(lyrics) ")
             uni.printForDevelopers("Query - changeTag - lyricQuery : " + lyricQuery)
             db.query(lyricQuery)
         if query.strip() != "":
+            query = query[2:] # for first ","
             queryUpdate = "UPDATE tracks SET %s WHERE id=%s" % (query, trackId)
             uni.printForDevelopers("Query - changeTag - queryUpdate : " + queryUpdate)
             db.query(queryUpdate)
