@@ -25,7 +25,19 @@ MainWindowUseGetMainWindow = None
 HamsiManagerAppUseGetApplication = None
 
 # region Just for make PyCharm let me free :-)
-MDial = MDialog = MGroupBox = MHBox = MHBoxLayout = MIcon = MLabel = MLine = MLineEdit = MPushButton = MTextEdit = MVBox = MVBoxLayout = MWidget = SIGNAL = MApplication = MMainWindow = MComboBox = MObject = MSize = MToolBar = MWidgetAction = MMessage = MMessageBox = Mt = MAction = MMenu = MMenuBar = MProgressBar = MStatusBar = MActionGroup = MDockWidget = MInputDialog = MStandardGuiItem = MCompleter = MConfig = MConfigGroup = MDir = MDirLister = MDirModel = MDirOperator = MDirSortFilterProxyModel = MFile = MFilePlacesModel = MFilePlacesView = MGlobal = MListView = MTreeView = MUrl = MUrlNavigator = MThread = MTabWidget = MTextOption = MNetworkAccessManager = MNetworkReply = MNetworkRequest = MT_VERSION = MT_VERSION_STR = PYQT_VERSION = PYQT_VERSION_STR = kdecore = QtCore = QtGui = kdeui = MFileInfo = MSpinBox = MTableWidget = MTableWidgetItem = MCheckBox = MListWidget = MListWidgetItem = MPixmap = MPlainTextEdit = MState = MGlobalSettings = MShared = MSharedConfig = MEditListBox = MFormLayout = MToolBox = MFrame = MMovie = MScrollArea = MToolButton = MGridLayout = MTime = MTimer = MByteArray = MBrush = MColor = MAboutData = MCmdLineArgs = MCmdLineOptions = MLocale = MString = MTextCodec = MTranslator = i18n = ki18n = MCursor = None
+MDial = MDialog = MGroupBox = MHBox = MHBoxLayout = MIcon = MLabel = MLine = MLineEdit = MPushButton = MTextEdit = None
+MVBox = MVBoxLayout = MWidget = SIGNAL = MApplication = MMainWindow = MComboBox = MObject = MSize = MToolBar = None
+MWidgetAction = MMessage = MMessageBox = Mt = MAction = MMenu = MMenuBar = MProgressBar = MStatusBar = None
+MActionGroup = MDockWidget = MInputDialog = MStandardGuiItem = MCompleter = MConfig = MConfigGroup = MDir = None
+MDirLister = MDirModel = MDirOperator = MDirSortFilterProxyModel = MFile = MFilePlacesModel = MFilePlacesView = None
+MGlobal = MListView = MTreeView = MUrl = MUrlNavigator = MThread = MTabWidget = MTextOption = None
+MNetworkAccessManager = MNetworkReply = MNetworkRequest = MT_VERSION = MT_VERSION_STR = PYQT_VERSION = None
+PYQT_VERSION_STR = kdecore = QtCore = QtGui = kdeui = MFileInfo = MSpinBox = MTableWidget = MTableWidgetItem = None
+MCheckBox = MListWidget = MListWidgetItem = MPixmap = MPlainTextEdit = MState = MGlobalSettings = MShared = None
+MSharedConfig = MEditListBox = MFormLayout = MToolBox = MFrame = MMovie = MScrollArea = MToolButton = MGridLayout = None
+MTime = MTimer = MByteArray = MBrush = MColor = MAboutData = MCmdLineArgs = MCmdLineOptions = MLocale = MString = None
+MTextCodec = MTranslator = i18n = ki18n = MCursor = MPalette = MTextBrowser = MFont = MRect = None
+MGraphicsOpacityEffect = MPropertyAnimation = MEasingCurve = MAbstractAnimation = None
 # endregion
 
 from PyQt4 import QtGui
