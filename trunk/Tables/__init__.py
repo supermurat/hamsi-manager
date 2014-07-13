@@ -159,10 +159,10 @@ class CoreTable(MTableWidget):
         MObject.connect(self, SIGNAL("cellClicked(int,int)"), self.cellClicked)
         MObject.connect(self, SIGNAL("itemChanged(QTableWidgetItem *)"), self.itemChanged)
         MObject.connect(self, SIGNAL("cellDoubleClicked(int,int)"), self.cellDoubleClicked)
-        self.pbtnSave = MPushButton(translate("Tables", "Save"))
+        self.pbtnSave = MPushButton(translate("Tables", "Write To Disc"))
         self.pbtnSave.setObjectName("pbtnSave")
         self.pbtnSave.setIcon(MIcon("Images:save.png"))
-        self.pbtnShowDetails = MPushButton(translate("Tables", "See Details"))
+        self.pbtnShowDetails = MPushButton(translate("Tables", "Details"))
         self.pbtnTableQuickOptions = MPushButton(translate("Tables", "Options"))
         self.mTableQuickOptions = TableQuickOptions.TableQuickOptions(self)
         self.pbtnTableQuickOptions.setMenu(self.mTableQuickOptions)
@@ -195,17 +195,31 @@ class CoreTable(MTableWidget):
         MObject.connect(self.tbCorrect, SIGNAL("clicked()"), self.correct)
         _parent.MainLayout.addWidget(self, 10)
         self.mContextMenu = MMenu(self)
-        self.hblBox = MHBoxLayout()
-        self.hblBox.addWidget(self.pbtnTableQuickOptions)
-        self.hblBox.addWidget(self.actRefresh)
-        self.hblBox.addWidget(self.tbGoBack)
-        self.hblBox.addWidget(self.tbCreateHistoryPoint)
-        self.hblBox.addWidget(self.tbGoForward)
-        self.hblBox.addWidget(self.tbCorrect)
-        self.hblBox.addWidget(self.pbtnShowDetails, 1)
-        self.hblBox.addWidget(self.pbtnSave, 2)
-        _parent.MainLayout.addLayout(self.hblBox)
-
+        self.hblBoxMain = MHBoxLayout()
+        self.vblBoxOptionsAndTools = MVBoxLayout()
+        self.hblBoxOptions = MHBoxLayout()
+        self.vblBoxOptionsAndTools.addLayout(self.hblBoxOptions)
+        self.hblBoxTools = MHBoxLayout()
+        self.hblBoxTools.addWidget(self.actRefresh)
+        self.hblBoxTools.addWidget(self.tbGoBack)
+        self.hblBoxTools.addWidget(self.tbCreateHistoryPoint)
+        self.hblBoxTools.addWidget(self.tbGoForward)
+        self.hblBoxTools.addWidget(self.tbCorrect)
+        self.hblBoxTools.addWidget(self.pbtnTableQuickOptions)
+        self.vblBoxOptionsAndTools.addLayout(self.hblBoxTools)
+        self.hblBoxMain.addLayout(self.vblBoxOptionsAndTools, 5)
+        self.vblBoxSourceAndTarget = MVBoxLayout()
+        self.hblBoxMain.addLayout(self.vblBoxSourceAndTarget)
+        self.hblBoxMain.addWidget(self.pbtnSave, 1)
+        _parent.MainLayout.addLayout(self.hblBoxMain)
+        if uni.tableType in ["0", "1", "3"]:
+            self.hblBoxTools.addWidget(self.pbtnShowDetails)
+        elif uni.tableType in ["8"]:
+            self.hblBoxTools.addWidget(self.pbtnShowDetails)
+            self.pbtnSave.setMinimumHeight(55)
+        else:
+            self.hblBoxOptions.addWidget(self.pbtnShowDetails)
+            self.pbtnSave.setMinimumHeight(55)
 
     def initByTable(self):
         self.hiddenTableColumns = uni.getListValue(self.hiddenTableColumnsSettingKey)
@@ -513,10 +527,10 @@ class CoreTable(MTableWidget):
 
     def fillSelectionInfo(self):
         if uni.getBoolValue("isChangeAll"):
-            self.pbtnSave.setText(translate("Tables", "Save"))
+            self.pbtnSave.setText(translate("Tables", "Write To Disc"))
             self.pbtnSave.setToolTip(translate("Tables", "All informations will be changed"))
         else:
-            self.pbtnSave.setText(str(" ! " + translate("Tables", "Save") + " ! "))
+            self.pbtnSave.setText(str(" ! " + translate("Tables", "Write To Disc") + " ! "))
             if uni.getBoolValue("isChangeSelected"):
                 self.pbtnSave.setToolTip(translate("Tables", "Just selected informations will be changed"))
             else:

@@ -37,7 +37,7 @@ class AmarokCoverTable(CoreTable):
         self.hiddenTableColumnsSettingKey = "hiddenAmarokCoverTableColumns"
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
-        getMainWindow().MainLayout.addWidget(self.wFilter)
+        self.hblBoxOptions.addWidget(self.wFilter)
 
     def writeContents(self):
         self.changedValueNumber = 0

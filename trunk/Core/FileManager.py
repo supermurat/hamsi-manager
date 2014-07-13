@@ -247,17 +247,9 @@ class FileManager():
                         else:
                             self.actUp.setEnabled(True)
                     elif fu.isFile(_path):
-                        isOpened = False
-                        for ext in uni.getListValue("musicExtensions"):
-                            if str(_path).split(".")[-1].lower() == str(ext).lower():
-                                if (
-                                            uni.tableType == "2" or uni.tableType == "9") and getMainWindow().PlayerBar.MusicPlayer.playInBar.isChecked():
-                                    getMainWindow().PlayerBar.MusicPlayer.play(str(_path))
-                                isOpened = True
-                        if isOpened == False:
-                            from Details import Details
+                        from Details import Details
 
-                            Details(str(_path), uni.getBoolValue("isOpenDetailsInNewWindow"))
+                        Details(str(_path), uni.getBoolValue("isOpenDetailsInNewWindow"))
         except:
             ReportBug.ReportBug()
 

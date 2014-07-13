@@ -27,7 +27,6 @@ class MenuBar(MMenuBar):
     def __init__(self, _parent):
         MMenuBar.__init__(self, _parent)
         self.mMainPopupMenu = None
-        self.mSpecialOptions = None
         self.mTableTools = None
         self.mQuickOptions = None
         self.mFile = self.addMenu(translate("MenuBar", "File"))

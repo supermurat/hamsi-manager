@@ -27,6 +27,8 @@ import Taggers
 from Core import Records
 from Core import ReportBug
 from Tables import CoreTable
+from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName
+from Taggers import getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
 
 
 class SubFolderMusicTable(CoreTable):
@@ -38,14 +40,49 @@ class SubFolderMusicTable(CoreTable):
         pbtnVerifyTableValues = MPushButton(translate("SubFolderMusicTable", "Verify Table"))
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self))
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, True))
-        self.isPlayNow = MToolButton()
-        self.isPlayNow.setToolTip(translate("SubFolderMusicTable", "Play Now"))
-        self.isPlayNow.setIcon(MIcon("Images:playNow.png"))
-        self.isPlayNow.setCheckable(True)
-        self.isPlayNow.setAutoRaise(True)
-        self.isPlayNow.setChecked(uni.getBoolValue("isPlayNow"))
-        self.hblBox.insertWidget(self.hblBox.count() - 3, self.isPlayNow)
-        self.hblBox.insertWidget(self.hblBox.count() - 1, pbtnVerifyTableValues)
+        lblSourceDetails = MLabel(translate("MusicOptionsBar", "Read From:"))
+        lblTargetDetails = MLabel(translate("MusicOptionsBar", "Write To:"))
+        self.MusicTagTypes = getTaggerTypesName()
+        self.cbTagSourceType = MComboBox(self)
+        self.cbTagSourceType.addItems(self.MusicTagTypes)
+        self.cbTagTargetType = MComboBox(self)
+        self.cbTagTargetType.addItems(self.MusicTagTypes)
+        self.isActiveChanging = False
+        self.cbTagSourceType.setCurrentIndex(
+            self.cbTagSourceType.findText(getSelectedTaggerTypeForReadName()))
+        self.cbTagTargetType.setCurrentIndex(
+            self.cbTagTargetType.findText(getSelectedTaggerTypeForWriteName()))
+        self.isActiveChanging = True
+        self.cbTagSourceType.setToolTip(translate("MusicOptionsBar",
+                                                  "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        self.cbTagTargetType.setToolTip(translate("MusicOptionsBar",
+                                                  "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
+        lblDetails = translate("SubDirectoryOptionsBar",
+                               "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
+        lblSubDirectoryDeep = MLabel(str(translate("SubDirectoryOptionsBar", "Deep") + " : "))
+        self.SubDirectoryDeeps = [str(x) for x in range(-1, 10)]
+        self.cbSubDirectoryDeep = MComboBox(self)
+        self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
+        self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(uni.MySettings["subDirectoryDeep"]))
+        self.cbSubDirectoryDeep.setToolTip(lblDetails)
+        hblTagSourceType = MHBoxLayout()
+        hblTagSourceType.addWidget(lblSourceDetails)
+        hblTagSourceType.addWidget(self.cbTagSourceType)
+        hblTagTargetType = MHBoxLayout()
+        hblTagTargetType.addWidget(lblTargetDetails)
+        hblTagTargetType.addWidget(self.cbTagTargetType)
+        self.vblBoxSourceAndTarget.addLayout(hblTagSourceType)
+        self.vblBoxSourceAndTarget.addLayout(hblTagTargetType)
+        self.hblBoxOptions.addWidget(pbtnVerifyTableValues)
+        hblSubDirectory = MHBoxLayout()
+        hblSubDirectory.addWidget(lblSubDirectoryDeep)
+        hblSubDirectory.addWidget(self.cbSubDirectoryDeep)
+        self.hblBoxOptions.addLayout(hblSubDirectory)
+        MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
+        MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"),
+                        self.musicTagTargetTypeChanged)
+
+        MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
 
     def writeContents(self):
         self.changedValueNumber = 0
@@ -207,8 +244,7 @@ class SubFolderMusicTable(CoreTable):
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(self.values[_fileNo]["path"],
-                                  uni.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
+        MusicDetails.MusicDetails(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
 
     def cellClickedTable(self, _row, _column):
         currentItem = self.currentItem()
@@ -371,3 +407,40 @@ class SubFolderMusicTable(CoreTable):
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()))
                     self.item(rowNo, itemNo).setText(str(newString))
+
+    def musicTagSourceTypeChanged(self, _action=None):
+        try:
+            selectedType = str(self.MusicTagTypes[_action])
+            if self.checkUnSavedValues():
+                setSelectedTaggerTypeForReadName(selectedType)
+                self.refreshForColumns()
+                getMainWindow().SpecialTools.refreshForColumns()
+                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            self.cbTagSourceType.setCurrentIndex(
+                self.cbTagSourceType.findText(getSelectedTaggerTypeForReadName()))
+        except:
+            ReportBug.ReportBug()
+
+    def musicTagTargetTypeChanged(self, _action=None):
+        try:
+            selectedType = str(self.MusicTagTypes[_action])
+            setSelectedTaggerTypeForWriteName(selectedType)
+            self.cbTagTargetType.setCurrentIndex(
+                self.cbTagTargetType.findText(getSelectedTaggerTypeForWriteName()))
+        except:
+            ReportBug.ReportBug()
+
+    def subDirectoryDeepChanged(self, _action=None):
+        try:
+            selectedDeep = str(self.SubDirectoryDeeps[_action])
+            if self.checkUnSavedValues():
+                uni.setMySetting("subDirectoryDeep", int(selectedDeep))
+                self.refreshForColumns()
+                getMainWindow().SpecialTools.refreshForColumns()
+                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            self.cbSubDirectoryDeep.setCurrentIndex(
+                self.cbSubDirectoryDeep.findText(str(uni.MySettings["subDirectoryDeep"])))
+        except:
+            ReportBug.ReportBug()
+
+

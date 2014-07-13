@@ -27,6 +27,7 @@ import Taggers
 from Core import Records
 from Core import ReportBug
 from Tables import CoreTable
+import Amarok
 
 
 class AmarokCopyTable(CoreTable):
@@ -38,28 +39,50 @@ class AmarokCopyTable(CoreTable):
         self.amarokFilterKeyName = "AmarokFilterAmarokCopyTable"
         self.hiddenTableColumnsSettingKey = "hiddenAmarokCopyTableColumns"
         self.refreshColumns()
-        lblDestinationDir = MLabel(translate("AmarokCopyTable", "Destination Path : "))
+        lblDestinationDir = MLabel(translate("AmarokCopyTable", "Copy To:"))
         self.leDestinationDirPath = MLineEdit(fu.userDirectoryPath)
-        self.pbtnSelectDestinationDir = MPushButton(translate("AmarokCopyTable", "Browse"))
+        self.pbtnSelectDestinationDir = MPushButton(translate("AmarokCopyTable", "..."))
         self.connect(self.pbtnSelectDestinationDir, SIGNAL("clicked()"), self.selectDestinationDir)
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
-        self.hblBox = MHBoxLayout()
-        self.hblBox.addWidget(self.wFilter, 5)
-        self.hblBox.addWidget(lblDestinationDir)
-        self.hblBox.addWidget(self.leDestinationDirPath, 1)
-        self.hblBox.addWidget(self.pbtnSelectDestinationDir)
-        getMainWindow().MainLayout.addLayout(self.hblBox)
+        self.hblBoxOptions.addWidget(self.wFilter, 5)
+        self.hblBoxOptions.addWidget(lblDestinationDir)
+        self.hblBoxOptions.addWidget(self.leDestinationDirPath, 2)
+        self.hblBoxOptions.addWidget(self.pbtnSelectDestinationDir)
         pbtnVerifyTableValues = MPushButton(translate("AmarokCopyTable", "Verify Table"))
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self))
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, True))
-        self.isPlayNow = MToolButton()
-        self.isPlayNow.setToolTip(translate("AmarokCopyTable", "Play Now"))
-        self.isPlayNow.setIcon(MIcon("Images:playNow.png"))
-        self.isPlayNow.setCheckable(True)
-        self.isPlayNow.setAutoRaise(True)
-        self.isPlayNow.setChecked(uni.getBoolValue("isPlayNow"))
-        self.hblBox.insertWidget(self.hblBox.count() - 3, self.isPlayNow)
-        self.hblBox.insertWidget(self.hblBox.count() - 1, pbtnVerifyTableValues)
+        lblSourceDetails = MLabel(translate("AmarokCopyOptionsBar", "Read From:"))
+        lblTargetDetails = MLabel(translate("AmarokCopyOptionsBar", "Write To:"))
+        self.MusicTagSourceTypes = Amarok.getTagSourceTypes()
+        self.cbTagSourceType = MComboBox(self)
+        self.cbTagSourceType.addItems(self.MusicTagSourceTypes)
+        musicTagTargetTypes = Amarok.getTagTargetTypes()
+        self.MusicTagTargetTypes = []
+        for mttt in musicTagTargetTypes:
+            if mttt.find("Amarok") == -1:
+                self.MusicTagTargetTypes.append(mttt)
+        if Amarok.getSelectedTagTargetType("AmarokCopyTable") not in self.MusicTagTargetTypes:
+            Amarok.setSelectedTagTargetType(self.MusicTagTargetTypes[0], "AmarokCopyTable")
+        self.cbTagTargetType = MComboBox(self)
+        self.cbTagTargetType.addItems(self.MusicTagTargetTypes)
+        self.cbTagSourceType.setCurrentIndex(
+            self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
+        self.cbTagTargetType.setCurrentIndex(
+            self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
+        self.cbTagSourceType.setToolTip(translate("AmarokCopyOptionsBar", "You can select the ID3 tag source to read."))
+        self.cbTagTargetType.setToolTip(
+            translate("AmarokCopyOptionsBar", "You can select the ID3 tag target to write."))
+        hblTagSourceType = MHBoxLayout()
+        hblTagSourceType.addWidget(lblSourceDetails)
+        hblTagSourceType.addWidget(self.cbTagSourceType)
+        hblTagTargetType = MHBoxLayout()
+        hblTagTargetType.addWidget(lblTargetDetails)
+        hblTagTargetType.addWidget(self.cbTagTargetType)
+        self.vblBoxSourceAndTarget.addLayout(hblTagSourceType)
+        self.vblBoxSourceAndTarget.addLayout(hblTagTargetType)
+        self.hblBoxTools.addWidget(pbtnVerifyTableValues)
+        MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
+        MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
 
     def writeContents(self):
         self.changedValueNumber = 0
@@ -179,8 +202,7 @@ class AmarokCopyTable(CoreTable):
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(self.values[_fileNo]["path"],
-                                  uni.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
+        MusicDetails.MusicDetails(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
 
     def cellClickedTable(self, _row, _column):
         currentItem = self.currentItem()
@@ -408,5 +430,28 @@ class AmarokCopyTable(CoreTable):
                 0)
             if destinationDirPath is not None:
                 self.leDestinationDirPath.setText(str(destinationDirPath))
+        except:
+            ReportBug.ReportBug()
+
+
+    def musicTagSourceTypeChanged(self, _action=None):
+        try:
+            selectedType = str(self.MusicTagSourceTypes[_action])
+            if self.checkUnSavedValues():
+                Amarok.setSelectedTagSourseType(selectedType, "AmarokCopyTable")
+                self.refreshForColumns()
+                getMainWindow().SpecialTools.refreshForColumns()
+                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            self.cbTagSourceType.setCurrentIndex(
+                self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
+        except:
+            ReportBug.ReportBug()
+
+    def musicTagTargetTypeChanged(self, _action=None):
+        try:
+            selectedType = str(self.MusicTagTargetTypes[_action])
+            Amarok.setSelectedTagTargetType(selectedType, "AmarokCopyTable")
+            self.cbTagTargetType.setCurrentIndex(
+                self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
         except:
             ReportBug.ReportBug()

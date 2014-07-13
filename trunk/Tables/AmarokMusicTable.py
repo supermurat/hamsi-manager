@@ -27,6 +27,7 @@ import Taggers
 from Core import Records
 from Core import ReportBug
 from Tables import CoreTable
+import Amarok
 
 
 class AmarokMusicTable(CoreTable):
@@ -41,16 +42,35 @@ class AmarokMusicTable(CoreTable):
         pbtnVerifyTableValues = MPushButton(translate("AmarokMusicTable", "Verify Table"))
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self))
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, True))
-        self.isPlayNow = MToolButton()
-        self.isPlayNow.setToolTip(translate("AmarokMusicTable", "Play Now"))
-        self.isPlayNow.setIcon(MIcon("Images:playNow.png"))
-        self.isPlayNow.setCheckable(True)
-        self.isPlayNow.setAutoRaise(True)
-        self.isPlayNow.setChecked(uni.getBoolValue("isPlayNow"))
-        self.hblBox.insertWidget(self.hblBox.count() - 3, self.isPlayNow)
-        self.hblBox.insertWidget(self.hblBox.count() - 1, pbtnVerifyTableValues)
+        lblSourceDetails = MLabel(translate("AmarokMusicOptionsBar", "Read From:"))
+        lblTargetDetails = MLabel(translate("AmarokMusicOptionsBar", "Write To:"))
+        self.MusicTagSourceTypes = Amarok.getTagSourceTypes()
+        self.cbTagSourceType = MComboBox(self)
+        self.cbTagSourceType.addItems(self.MusicTagSourceTypes)
+        self.MusicTagTargetTypes = Amarok.getTagTargetTypes()
+        self.cbTagTargetType = MComboBox(self)
+        self.cbTagTargetType.addItems(self.MusicTagTargetTypes)
+        self.cbTagSourceType.setCurrentIndex(
+            self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
+        self.cbTagTargetType.setCurrentIndex(
+            self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
+        self.cbTagSourceType.setToolTip(
+            translate("AmarokMusicOptionsBar", "You can select the ID3 tag source to read."))
+        self.cbTagTargetType.setToolTip(
+            translate("AmarokMusicOptionsBar", "You can select the ID3 tag target to write."))
+        hblTagSourceType = MHBoxLayout()
+        hblTagSourceType.addWidget(lblSourceDetails)
+        hblTagSourceType.addWidget(self.cbTagSourceType)
+        hblTagTargetType = MHBoxLayout()
+        hblTagTargetType.addWidget(lblTargetDetails)
+        hblTagTargetType.addWidget(self.cbTagTargetType)
+        self.vblBoxSourceAndTarget.addLayout(hblTagSourceType)
+        self.vblBoxSourceAndTarget.addLayout(hblTagTargetType)
+        MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
+        MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
+        self.hblBoxOptions.addWidget(pbtnVerifyTableValues)
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
-        getMainWindow().MainLayout.addWidget(self.wFilter)
+        self.hblBoxOptions.addWidget(self.wFilter)
 
     def writeContents(self):
         self.changedValueNumber = 0
@@ -198,8 +218,7 @@ class AmarokMusicTable(CoreTable):
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(self.values[_fileNo]["path"],
-                                  uni.getBoolValue("isOpenDetailsInNewWindow"), self.isPlayNow.isChecked())
+        MusicDetails.MusicDetails(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
 
     def cellClickedTable(self, _row, _column):
         currentItem = self.currentItem()
@@ -421,3 +440,26 @@ class AmarokMusicTable(CoreTable):
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()))
                     self.item(rowNo, itemNo).setText(str(newString))
+
+
+    def musicTagSourceTypeChanged(self, _action=None):
+        try:
+            selectedType = str(self.MusicTagSourceTypes[_action])
+            if self.checkUnSavedValues():
+                Amarok.setSelectedTagSourseType(selectedType, "AmarokMusicTable")
+                self.refreshForColumns()
+                getMainWindow().SpecialTools.refreshForColumns()
+                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            self.cbTagSourceType.setCurrentIndex(
+                self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokMusicTable")))
+        except:
+            ReportBug.ReportBug()
+
+    def musicTagTargetTypeChanged(self, _action=None):
+        try:
+            selectedType = str(self.MusicTagTargetTypes[_action])
+            Amarok.setSelectedTagTargetType(selectedType, "AmarokMusicTable")
+            self.cbTagTargetType.setCurrentIndex(
+                self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokMusicTable")))
+        except:
+            ReportBug.ReportBug()

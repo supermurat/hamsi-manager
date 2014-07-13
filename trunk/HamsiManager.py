@@ -293,9 +293,6 @@ if RoutineChecks.checkMandatoryModules():
                                 uni.setMySetting("lastDirectory", self.FileManager.currentDirectory)
                                 uni.setMySetting("isMainWindowMaximized", self.isMaximized())
                                 uni.setMySetting("isShowAdvancedSelections", self.SpecialTools.isShowAdvancedSelections)
-                                if uni.tableType in ["2", "6", "8", "9"]:
-                                    try: uni.setMySetting("isPlayNow", self.Table.isPlayNow.isChecked())
-                                    except: pass
                                 uni.setMySetting("tableType", uni.tableType)
                                 uni.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 uni.saveSettings()
