@@ -33,6 +33,19 @@ class SubFolderTable(CoreTable):
         self.keyName = "subfolder"
         self.hiddenTableColumnsSettingKey = "hiddenSubFolderTableColumns"
         self.refreshColumns()
+        lblDetails = translate("SubDirectoryOptionsBar",
+                               "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
+        lblSubDirectoryDeep = MLabel(str(translate("SubDirectoryOptionsBar", "Deep") + " : "))
+        self.SubDirectoryDeeps = [str(x) for x in range(-1, 10)]
+        self.cbSubDirectoryDeep = MComboBox(self)
+        self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
+        self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(uni.MySettings["subDirectoryDeep"]))
+        self.cbSubDirectoryDeep.setToolTip(lblDetails)
+        hblSubDirectory = MHBoxLayout()
+        hblSubDirectory.addWidget(lblSubDirectoryDeep)
+        hblSubDirectory.addWidget(self.cbSubDirectoryDeep)
+        self.hblBoxTools.addLayout(hblSubDirectory)
+        MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
 
     def writeContents(self):
         self.changedValueNumber = 0
@@ -189,4 +202,16 @@ class SubFolderTable(CoreTable):
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "file")
                     self.item(rowNo, itemNo).setText(str(newString))
-          
+
+    def subDirectoryDeepChanged(self, _action=None):
+        try:
+            selectedDeep = str(self.SubDirectoryDeeps[_action])
+            if self.checkUnSavedValues():
+                uni.setMySetting("subDirectoryDeep", int(selectedDeep))
+                self.refreshForColumns()
+                getMainWindow().SpecialTools.refreshForColumns()
+                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            self.cbSubDirectoryDeep.setCurrentIndex(
+                self.cbSubDirectoryDeep.findText(str(uni.MySettings["subDirectoryDeep"])))
+        except:
+            ReportBug.ReportBug()

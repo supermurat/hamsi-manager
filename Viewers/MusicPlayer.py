@@ -68,30 +68,20 @@ class MusicPlayer(MWidget):
                 translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
         if _type == "bar":
             #little style for bar
-            self.playInBar = MToolButton(self)
-            self.playInBar.setToolTip(
-                translate("Player", "The Selected Files Are Played Here Instead Of The Details Window."))
-            self.playInBar.setIcon(MIcon("Images:playInBar.png"))
-            self.playInBar.setAutoRaise(True)
-            self.playInBar.setCheckable(True)
-            self.playInBar.setChecked(True)
             HBOXs = []
             HBOXs.append(MHBoxLayout())
             HBOXs[0].addWidget(self.tbPause)
             HBOXs[0].addWidget(self.tbPlay)
             HBOXs[0].addWidget(self.tbStop)
             HBOXs[0].addWidget(self.tbMute)
-            HBOXs[0].addWidget(self.playInBar)
             HBOXs.append(MHBoxLayout())
             if uni.windowMode == uni.windowModeKeys[1]:
-                self.playInBar.setMaximumHeight(16)
                 self.tbPause.setMaximumHeight(16)
                 self.tbMute.setMaximumHeight(16)
                 self.tbPlay.setMaximumHeight(16)
                 self.tbStop.setMaximumHeight(16)
             else:
                 HBOXs[1].addWidget(self.info)
-                self.playInBar.setMinimumHeight(22)
                 self.tbPause.setMinimumHeight(22)
                 self.tbMute.setMinimumHeight(22)
                 self.tbPlay.setMinimumHeight(22)

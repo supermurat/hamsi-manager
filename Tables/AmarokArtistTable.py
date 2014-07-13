@@ -39,7 +39,7 @@ class AmarokArtistTable(CoreTable):
         self.hiddenTableColumnsSettingKey = "hiddenAmarokArtistTableColumns"
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
-        getMainWindow().MainLayout.addWidget(self.wFilter)
+        self.hblBoxOptions.addWidget(self.wFilter)
 
     def writeContents(self):
         self.changedValueNumber = 0

@@ -398,12 +398,12 @@
     </message>
     <message>
         <location filename="Bars/AmarokCopyOptionsBar.py" line="114"/>
-        <source>Read From : </source>
+        <source>Read From:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Bars/AmarokCopyOptionsBar.py" line="116"/>
-        <source>Write To : </source>
+        <source>Write To:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -567,12 +567,12 @@
     </message>
     <message>
         <location filename="Bars/AmarokMusicOptionsBar.py" line="109"/>
-        <source>Read From : </source>
+        <source>Read From:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Bars/AmarokMusicOptionsBar.py" line="111"/>
-        <source>Write To : </source>
+        <source>Write To:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2557,12 +2557,12 @@
     </message>
     <message>
         <location filename="Bars/MusicOptionsBar.py" line="116"/>
-        <source>Read From : </source>
+        <source>Read From:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Bars/MusicOptionsBar.py" line="118"/>
-        <source>Write To : </source>
+        <source>Write To:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6830,7 +6830,7 @@
     </message>
     <message>
         <location filename="Tables/__init__.py" line="165"/>
-        <source>See Details</source>
+        <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

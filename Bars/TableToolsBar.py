@@ -63,12 +63,8 @@ class TableToolsBar(MToolBar):
             self.setIconSize(MSize(16, 16))
         else:
             self.setIconSize(MSize(32, 32))
-        getMainWindow().Menu.mSpecialOptions = MMenu(translate("MenuBar", "Special Options"), self)
-        getMainWindow().Menu.mSpecialOptions.setObjectName(translate("MenuBar", "Special Options"))
-        getMainWindow().Menu.mSpecialOptions.setTitle(translate("MenuBar", "Special Options"))
         getMainWindow().Menu.mTableTools = MMenu(translate("MenuBar", "Table Tools"), self)
         getMainWindow().Menu.mTableTools.setObjectName(translate("MenuBar", "Table Tools"))
-        getMainWindow().Menu.mTableTools.addMenu(getMainWindow().Menu.mSpecialOptions)
         getMainWindow().Menu.mTableTools.addActions(actgActionGroupTableTypes.actions())
         getMainWindow().Menu.mTableTools.addSeparator()
         getMainWindow().Menu.mTableTools.addActions(actgActionGroupReNamerTypes.actions())

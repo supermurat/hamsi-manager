@@ -274,6 +274,9 @@ def updateOldSettings(_oldVersion, _newVersion):
     if oldVersion < 1372:
         changedDefaultValuesKeys = changedDefaultValuesKeys + ["packagerUnneededDirectories",
                                                                "cleanerUnneededDirectories"]
+    if oldVersion < 1373:
+        uni.MySettings["AmarokTagSourceTypeAmarokMusicTable"] = "Amarok (Smart)"
+        uni.MySettings["AmarokTagSourceTypeAmarokCopyTable"] = "Amarok (Smart)"
 
     return newSettingsKeys, changedDefaultValuesKeys
 
@@ -297,8 +300,6 @@ def getKeysOfSettings():
             "lastUpdateControlDate", "updateInterval",
             "isCloseOnCleanAndPackage",
             "TableToolsBarButtonStyle", "ToolsBarButtonStyle", "PlayerBarButtonStyle",
-            "MusicOptionsBarButtonStyle", "SubDirectoryOptionsBarButtonStyle",
-            "CoverOptionsBarButtonStyle", "AmarokMusicOptionsBarButtonStyle", "AmarokCopyOptionsBarButtonStyle",
             "language", "isShowQuickMakeWindow", "isChangeExistIcon",
             "isClearFirstAndLastSpaceChars", "isEmendIncorrectChars", "validSentenceStructureForFile",
             "validSentenceStructureForDirectory",
@@ -409,11 +410,6 @@ def getDefaultValues():
         "TableToolsBarButtonStyle": "0",
         "ToolsBarButtonStyle": "0",
         "PlayerBarButtonStyle": "0",
-        "MusicOptionsBarButtonStyle": "0",
-        "SubDirectoryOptionsBarButtonStyle": "0",
-        "CoverOptionsBarButtonStyle": "0",
-        "AmarokMusicOptionsBarButtonStyle": "0",
-        "AmarokCopyOptionsBarButtonStyle": "0",
         "language": insLangCode,
         "isShowQuickMakeWindow": "True",
         "isChangeExistIcon": "False",
@@ -562,11 +558,6 @@ def getValueTypesAndValues():
         "TableToolsBarButtonStyle": ["int", list(range(0, 4))],
         "ToolsBarButtonStyle": ["int", list(range(0, 4))],
         "PlayerBarButtonStyle": ["int", list(range(0, 4))],
-        "MusicOptionsBarButtonStyle": ["int", list(range(0, 4))],
-        "SubDirectoryOptionsBarButtonStyle": ["int", list(range(0, 4))],
-        "CoverOptionsBarButtonStyle": ["int", list(range(0, 4))],
-        "AmarokMusicOptionsBarButtonStyle": ["int", list(range(0, 4))],
-        "AmarokCopyOptionsBarButtonStyle": ["int", list(range(0, 4))],
         "language": ["options", uni.getInstalledLanguagesCodes()],
         "isShowQuickMakeWindow": "bool",
         "isChangeExistIcon": "bool",

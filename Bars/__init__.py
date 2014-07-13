@@ -28,18 +28,12 @@ from Core import Execute
 from Core import Records
 from Core import Settings
 import FileUtils as fu
-from Options import QuickOptions
-from Bars import SubDirectoryOptionsBar, PlayerBar, MusicOptionsBar, CoverOptionsBar
-from Bars import AmarokMusicOptionsBar, AmarokCopyOptionsBar
+from Bars import PlayerBar
 
 
 class Bars():
     def __init__(self):
-        getMainWindow().MusicOptionsBar = None
-        getMainWindow().AmarokMusicOptionsBar = None
-        getMainWindow().AmarokCopyOptionsBar = None
-        getMainWindow().SubDirectoryOptionsBar = None
-        getMainWindow().CoverOptionsBar = None
+        pass
 
     def click(self, _action):
         try:
@@ -233,46 +227,9 @@ class Bars():
     def refreshBars(self):
         getMainWindow().Table = Tables.Tables(getMainWindow()).Table
         getMainWindow().SpecialTools = SpecialTools.SpecialTools(getMainWindow())
-        getMainWindow().Menu.mSpecialOptions.clear()
-        if uni.tableType == "2":
+        if uni.tableType in ["2", "6", "8", "9"]:
             getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
             getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().PlayerBar)
-            getMainWindow().MusicOptionsBar = MusicOptionsBar.MusicOptionsBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().MusicOptionsBar)
-            getMainWindow().MusicOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
-        elif uni.tableType == "3":
-            getMainWindow().SubDirectoryOptionsBar = SubDirectoryOptionsBar.SubDirectoryOptionsBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().SubDirectoryOptionsBar)
-            getMainWindow().SubDirectoryOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
-        elif uni.tableType == "4":
-            getMainWindow().CoverOptionsBar = CoverOptionsBar.CoverOptionsBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().CoverOptionsBar)
-            getMainWindow().CoverOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
-        elif uni.tableType == "6":
-            getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().PlayerBar)
-            getMainWindow().AmarokMusicOptionsBar = AmarokMusicOptionsBar.AmarokMusicOptionsBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().AmarokMusicOptionsBar)
-            getMainWindow().AmarokMusicOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
-        elif uni.tableType == "8":
-            getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().PlayerBar)
-            getMainWindow().AmarokCopyOptionsBar = AmarokCopyOptionsBar.AmarokCopyOptionsBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().AmarokCopyOptionsBar)
-            getMainWindow().AmarokCopyOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
-        elif uni.tableType == "9":
-            getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().PlayerBar)
-            getMainWindow().MusicOptionsBar = MusicOptionsBar.MusicOptionsBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().MusicOptionsBar)
-            getMainWindow().MusicOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
-            getMainWindow().SubDirectoryOptionsBar = SubDirectoryOptionsBar.SubDirectoryOptionsBar(getMainWindow())
-            getMainWindow().addToolBar(Mt.TopToolBarArea, getMainWindow().SubDirectoryOptionsBar)
-            getMainWindow().SubDirectoryOptionsBar.getSpecialOptions(getMainWindow().Menu.mSpecialOptions)
-        if len(getMainWindow().Menu.mSpecialOptions.actions()) == 0:
-            getMainWindow().Menu.mSpecialOptions.setEnabled(False)
-        else:
-            getMainWindow().Menu.mSpecialOptions.setEnabled(True)
         getMainWindow().Menu.refreshForTableType()
 
     def changeTableTypeByType(self, _tableType):
@@ -282,45 +239,10 @@ class Bars():
                     return False
                 uni.setMySetting(getMainWindow().Table.hiddenTableColumnsSettingKey,
                                  getMainWindow().Table.hiddenTableColumns)
-                if uni.tableType == "2":
+                if uni.tableType in ["2", "6", "8", "9"]:
                     getMainWindow().removeToolBar(getMainWindow().PlayerBar)
                     getMainWindow().PlayerBar.deleteLater()
                     getMainWindow().PlayerBar = None
-                    getMainWindow().removeToolBar(getMainWindow().MusicOptionsBar)
-                    getMainWindow().MusicOptionsBar.deleteLater()
-                    getMainWindow().MusicOptionsBar = None
-                elif uni.tableType == "3":
-                    getMainWindow().removeToolBar(getMainWindow().SubDirectoryOptionsBar)
-                    getMainWindow().SubDirectoryOptionsBar.deleteLater()
-                    getMainWindow().SubDirectoryOptionsBar = None
-                elif uni.tableType == "4":
-                    getMainWindow().removeToolBar(getMainWindow().CoverOptionsBar)
-                    getMainWindow().CoverOptionsBar.deleteLater()
-                    getMainWindow().CoverOptionsBar = None
-                elif uni.tableType == "6":
-                    getMainWindow().removeToolBar(getMainWindow().PlayerBar)
-                    getMainWindow().PlayerBar.deleteLater()
-                    getMainWindow().PlayerBar = None
-                    getMainWindow().removeToolBar(getMainWindow().AmarokMusicOptionsBar)
-                    getMainWindow().AmarokMusicOptionsBar.deleteLater()
-                    getMainWindow().AmarokMusicOptionsBar = None
-                elif uni.tableType == "8":
-                    getMainWindow().removeToolBar(getMainWindow().PlayerBar)
-                    getMainWindow().PlayerBar.deleteLater()
-                    getMainWindow().PlayerBar = None
-                    getMainWindow().removeToolBar(getMainWindow().AmarokCopyOptionsBar)
-                    getMainWindow().AmarokCopyOptionsBar.deleteLater()
-                    getMainWindow().AmarokCopyOptionsBar = None
-                elif uni.tableType == "9":
-                    getMainWindow().removeToolBar(getMainWindow().PlayerBar)
-                    getMainWindow().PlayerBar.deleteLater()
-                    getMainWindow().PlayerBar = None
-                    getMainWindow().removeToolBar(getMainWindow().MusicOptionsBar)
-                    getMainWindow().MusicOptionsBar.deleteLater()
-                    getMainWindow().MusicOptionsBar = None
-                    getMainWindow().removeToolBar(getMainWindow().SubDirectoryOptionsBar)
-                    getMainWindow().SubDirectoryOptionsBar.deleteLater()
-                    getMainWindow().SubDirectoryOptionsBar = None
                 try: getMainWindow().removeDockWidget(getMainWindow().dckSpecialTools)
                 except: pass
                 getMainWindow().resetCentralWidget()
@@ -351,51 +273,14 @@ class Bars():
     def getAllBarsStyleFromMySettings(self):
         getMainWindow().TableToolsBar.setToolButtonStyle(int(uni.MySettings["TableToolsBarButtonStyle"]))
         getMainWindow().ToolsBar.setToolButtonStyle(int(uni.MySettings["ToolsBarButtonStyle"]))
-        if uni.tableType == "2":
+        if uni.tableType in ["2", "6", "8", "9"]:
             getMainWindow().PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
-            getMainWindow().MusicOptionsBar.setToolButtonStyle(int(uni.MySettings["MusicOptionsBarButtonStyle"]))
-        elif uni.tableType == "3":
-            getMainWindow().SubDirectoryOptionsBar.setToolButtonStyle(
-                int(uni.MySettings["SubDirectoryOptionsBarButtonStyle"]))
-        elif uni.tableType == "4":
-            getMainWindow().CoverOptionsBar.setToolButtonStyle(int(uni.MySettings["CoverOptionsBarButtonStyle"]))
-        elif uni.tableType == "6":
-            getMainWindow().PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
-            getMainWindow().AmarokMusicOptionsBar.setToolButtonStyle(
-                int(uni.MySettings["AmarokMusicOptionsBarButtonStyle"]))
-        elif uni.tableType == "8":
-            getMainWindow().PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
-            getMainWindow().AmarokCopyOptionsBar.setToolButtonStyle(
-                int(uni.MySettings["AmarokCopyOptionsBarButtonStyle"]))
-        elif uni.tableType == "9":
-            getMainWindow().PlayerBar.setToolButtonStyle(int(uni.MySettings["PlayerBarButtonStyle"]))
-            getMainWindow().MusicOptionsBar.setToolButtonStyle(int(uni.MySettings["MusicOptionsBarButtonStyle"]))
-            getMainWindow().SubDirectoryOptionsBar.setToolButtonStyle(
-                int(uni.MySettings["SubDirectoryOptionsBarButtonStyle"]))
 
     def setAllBarsStyleToMySettings(self):
         uni.setMySetting("TableToolsBarButtonStyle", getMainWindow().TableToolsBar.toolButtonStyle())
         uni.setMySetting("ToolsBarButtonStyle", getMainWindow().ToolsBar.toolButtonStyle())
-        if uni.tableType == "2":
+        if uni.tableType in ["2", "6", "8", "9"]:
             uni.setMySetting("PlayerBarButtonStyle", getMainWindow().PlayerBar.toolButtonStyle())
-            uni.setMySetting("MusicOptionsBarButtonStyle", getMainWindow().MusicOptionsBar.toolButtonStyle())
-        elif uni.tableType == "3":
-            uni.setMySetting("SubDirectoryOptionsBarButtonStyle",
-                             getMainWindow().SubDirectoryOptionsBar.toolButtonStyle())
-        elif uni.tableType == "4":
-            uni.setMySetting("CoverOptionsBarButtonStyle", getMainWindow().CoverOptionsBar.toolButtonStyle())
-        elif uni.tableType == "6":
-            uni.setMySetting("PlayerBarButtonStyle", getMainWindow().PlayerBar.toolButtonStyle())
-            uni.setMySetting("AmarokMusicOptionsBarButtonStyle",
-                             getMainWindow().AmarokMusicOptionsBar.toolButtonStyle())
-        elif uni.tableType == "8":
-            uni.setMySetting("PlayerBarButtonStyle", getMainWindow().PlayerBar.toolButtonStyle())
-            uni.setMySetting("AmarokCopyOptionsBarButtonStyle", getMainWindow().AmarokCopyOptionsBar.toolButtonStyle())
-        elif uni.tableType == "9":
-            uni.setMySetting("PlayerBarButtonStyle", getMainWindow().PlayerBar.toolButtonStyle())
-            uni.setMySetting("MusicOptionsBarButtonStyle", getMainWindow().MusicOptionsBar.toolButtonStyle())
-            uni.setMySetting("SubDirectoryOptionsBarButtonStyle",
-                             getMainWindow().SubDirectoryOptionsBar.toolButtonStyle())
 
     def changeReNamerType(self, _action):
         try:

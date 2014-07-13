@@ -33,10 +33,24 @@ class CoverTable(CoreTable):
         self.keyName = "cover"
         self.hiddenTableColumnsSettingKey = "hiddenCoverTableColumns"
         self.refreshColumns()
+        lblDetails = translate("CoverOptionsBar",
+                               "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
+        lblSubDirectoryDeep = MLabel(str(translate("CoverOptionsBar", "Deep") + " : "))
+        self.SubDirectoryDeeps = [str(x) for x in range(-1, 10) if x != 0]
+        self.cbSubDirectoryDeep = MComboBox(self)
+        self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
+        self.cbSubDirectoryDeep.setCurrentIndex(
+            self.cbSubDirectoryDeep.findText(uni.MySettings["CoversSubDirectoryDeep"]))
+        self.cbSubDirectoryDeep.setToolTip(lblDetails)
+        hblSubDirectory = MHBoxLayout()
+        hblSubDirectory.addWidget(lblSubDirectoryDeep)
+        hblSubDirectory.addWidget(self.cbSubDirectoryDeep)
+        MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.coverDeepChanged)
         if uni.isActiveAmarok:
             pbtnGetFromAmarok = MPushButton(translate("CoverTable", "Get From Amarok"))
             MObject.connect(pbtnGetFromAmarok, SIGNAL("clicked()"), self.getFromAmarok)
-            self.hblBox.insertWidget(self.hblBox.count() - 1, pbtnGetFromAmarok)
+            self.hblBoxOptions.addWidget(pbtnGetFromAmarok)
+        self.hblBoxOptions.addLayout(hblSubDirectory)
 
     def writeContents(self):
         self.changedValueNumber = 0
@@ -337,5 +351,18 @@ class CoverTable(CoreTable):
                                         directoryAndValues["album"][0],
                                         directoryAndValues["genre"][0],
                                         directoryAndValues["year"][0]))
+        except:
+            ReportBug.ReportBug()
+
+    def coverDeepChanged(self, _action=None):
+        try:
+            selectedDeep = str(self.SubDirectoryDeeps[_action])
+            if self.checkUnSavedValues():
+                uni.setMySetting("CoversSubDirectoryDeep", int(selectedDeep))
+                self.refreshForColumns()
+                getMainWindow().SpecialTools.refreshForColumns()
+                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            self.cbSubDirectoryDeep.setCurrentIndex(
+                self.cbSubDirectoryDeep.findText(str(uni.MySettings["CoversSubDirectoryDeep"])))
         except:
             ReportBug.ReportBug()

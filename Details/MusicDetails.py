@@ -34,7 +34,7 @@ class MusicDetails(MDialog):
     global musicDialogs
     musicDialogs = []
 
-    def __init__(self, _filePath, _isOpenDetailsOnNewWindow=True, _isPlayNow=False):
+    def __init__(self, _filePath, _isOpenDetailsOnNewWindow=True):
         global musicDialogs
         _filePath = fu.checkSource(_filePath, "file")
         if _filePath is not None:
@@ -47,7 +47,7 @@ class MusicDetails(MDialog):
                         self.changeFile(_filePath)
                         self.activateWindow()
                         self.raise_()
-                        self.player.play(_filePath, _isPlayNow)
+                        self.player.play(_filePath, self.isPlayNow.isChecked())
                         break
                 if isHasOpenedDialog == False:
                     _isOpenDetailsOnNewWindow = True
@@ -88,7 +88,7 @@ class MusicDetails(MDialog):
                 else:
                     self.setLayout(self.vblMain)
                 self.show()
-                self.player.play(_filePath, _isPlayNow)
+                self.player.play(_filePath, self.isPlayNow.isChecked())
         else:
             Dialogs.showError(translate("MusicDetails", "File Does Not Exist"),
                               str(translate("MusicDetails",
@@ -106,6 +106,11 @@ class MusicDetails(MDialog):
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)
         vblClearable = MVBoxLayout(self.pnlClearable)
+        self.isPlayNow = MToolButton()
+        self.isPlayNow.setToolTip(translate("MusicDetails", "Play Suddenly Music When Open"))
+        self.isPlayNow.setText(translate("MusicDetails", "Play When Open"))
+        self.isPlayNow.setCheckable(True)
+        self.isPlayNow.setChecked(uni.getBoolValue("isPlayNow"))
         self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)
         self.infoLabels["baseNameOfDirectory"] = MLabel(self.labels[0])
         self.infoLabels["baseName"] = MLabel(self.labels[1])
@@ -224,7 +229,10 @@ class MusicDetails(MDialog):
         self.tabwTabs.addTab(self.pnlComments, translate("MusicDetails", "Comments"))
         self.tabwTabs.addTab(self.pnlLyrics, translate("MusicDetails", "Lyrics"))
         self.tabwTabs.addTab(self.pnlImages, translate("MusicDetails", "Images"))
-        vblClearable.addWidget(self.player)
+        hblPlayer = MHBoxLayout()
+        hblPlayer.addWidget(self.player)
+        hblPlayer.addWidget(self.isPlayNow)
+        vblClearable.addLayout(hblPlayer)
         vblClearable.addLayout(vblInfos)
         vblClearable.addWidget(self.tabwTabs)
         self.pbtnSelectImage.hide()
@@ -237,6 +245,7 @@ class MusicDetails(MDialog):
     def closeEvent(self, _event):
         try:
             self.player.stop()
+            uni.setMySetting("isPlayNow", self.isPlayNow.isChecked())
         except:
             pass
         ImageDetails.closeAllImageDialogs()

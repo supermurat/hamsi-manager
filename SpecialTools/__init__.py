@@ -53,6 +53,7 @@ class SpecialTools(MWidget):
         self.pbtnApply = MPushButton(translate("SpecialTools", "Apply"))
         self.pbtnApply.setIcon(MIcon("Images:apply.png"))
         self.pbtnApply.setObjectName("pbtnApply")
+        self.pbtnApply.setMinimumHeight(35)
         self.tbAddToBefore.setToolTip(translate("SpecialTools", "Add In Front"))
         self.btChange.setToolTip(translate("SpecialTools", "Change"))
         self.tbAddToAfter.setToolTip(translate("SpecialTools", "Append"))
