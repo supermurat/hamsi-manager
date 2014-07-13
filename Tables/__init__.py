@@ -271,6 +271,9 @@ class CoreTable(MTableWidget):
             rowNo = self.currentRow()
             if rowNo != -1:
                 self.showTableDetails(rowNo, self.currentColumn())
+            else:
+                Dialogs.toast(translate("Tables", "Please Select A Row"),
+                             translate("Tables", "Please select a row to show details."))
         except:
             ReportBug.ReportBug()
 

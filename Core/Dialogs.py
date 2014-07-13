@@ -232,6 +232,13 @@ def sleep(_title, _value=0, _isShowCancel=False):
         time.sleep(0.25)
 
 
+def toast(_title="Hamsi Manager", _detail="", _timeout=2):
+    from Core import MyThread
+    tw = MyToaster(_title, _detail)
+    myProcs = MyThread.MyThread(time.sleep, tw.close, args=[_timeout])
+    myProcs.start()
+
+
 def getItem(_title="Hamsi Cover", _detail="", _itemList=[""], _currentItem=0):
     if _detail == "":
         _detail = _title
@@ -317,7 +324,7 @@ def getExistingDirectory(_caption, _directory, _isUseLastPathKeyType=1, _lastPat
 class MyStateDialog(MDialog):
     def __init__(self, _title="", _isShowCancel=False, _connectToCancel=None, _isCheckLastShowTime=True):
         MDialog.__init__(self, getMainWindow())
-        if len(uni.MySettings) > 0 and isActivePyKDE4:
+        if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         self.title = _title
         self.isShowCancel = _isShowCancel
@@ -330,12 +337,57 @@ class MyStateDialog(MDialog):
 
     def setState(self, _value=0, _maxValue=100):
         showState(self.title, _value, _maxValue, self.isShowCancel, self.connectToCancel, self.isCheckLastShowTime)
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+class MyToaster(MDialog):
+    def __init__(self, _title, _detail):
+        MDialog.__init__(self, getMainWindow())
+        if isActivePyKDE4:
+            self.setButtons(MDialog.NoDefault)
+        self.setWindowFlags(Mt.FramelessWindowHint)
+        pnlMain = MWidget(self)
+        self.vblMain = MVBoxLayout(pnlMain)
+        self.lblTitle = MLabel()
+        self.lblTitle.setText(_title)
+        self.lblTitle.setAlignment(Mt.AlignHCenter | Mt.AlignVCenter)
+        self.lblTitle.setWordWrap(True)
+        self.lblDetails = MLabel()
+        self.lblDetails.setText(_detail)
+        self.lblDetails.setAlignment(Mt.AlignHCenter | Mt.AlignVCenter)
+        self.lblDetails.setWordWrap(True)
+        fontTitle = MFont()
+        fontTitle.setPointSize(18)
+        self.lblTitle.setFont(fontTitle)
+        fontDetails = MFont()
+        fontDetails.setPointSize(16)
+        self.lblDetails.setFont(fontDetails)
+        self.vblMain.addStretch(5)
+        self.vblMain.addWidget(self.lblTitle)
+        self.vblMain.addWidget(self.lblDetails)
+        self.vblMain.addStretch(5)
+        self.setMaximumSize(500, 300)
+        self.setMinimumSize(500, 300)
+        rect = MRect()
+        rect.setX((getMainWindow().width() / 2) - (self.width() / 2))
+        rect.setY((getMainWindow().height() / 2) - (self.height() / 2))
+        rect.setWidth(self.geometry().width())
+        rect.setHeight(self.geometry().height())
+        self.setGeometry(rect)
+        if isActivePyKDE4:
+            self.setMainWidget(pnlMain)
+        else:
+            self.setLayout(self.vblMain)
+        self.show()
+        opacityEffect = MGraphicsOpacityEffect(self)
+        opacityEffect.setOpacity(1)
+        pnlMain.setGraphicsEffect(opacityEffect)
+        self.anim = MPropertyAnimation(opacityEffect, "opacity")
+        self.anim.setDuration(2000)
+        self.anim.setStartValue(1.0)
+        self.anim.setEndValue(0.0)
+        self.anim.setEasingCurve(MEasingCurve.OutQuad)
+        self.anim.start(MAbstractAnimation.DeleteWhenStopped)
+
+    def close(self, _data=None):
+        self.hide()
+        self.done(0)
