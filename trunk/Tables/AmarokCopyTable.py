@@ -232,7 +232,7 @@ class AmarokCopyTable(CoreTable):
     def refreshColumns(self):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
         self.tableColumnsKey = Taggers.getAvailableKeysForTable()
-        self.valueKeys = ["baseNameOfDirectory", "baseName", "artist", "title", "album",
+        self.valueKeys = ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
                           "trackNum", "year", "genre", "firstComment", "firstLyrics"]
 
     def saveTable(self):

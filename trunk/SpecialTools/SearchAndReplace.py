@@ -132,7 +132,7 @@ class SearchAndReplace(MWidget):
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo, None, True):
                     newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
-                    newString = str(newString)
+                    newString = uni.trUnicode(newString)
                     myString = ""
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
                     informationSectionY = self.specialTools.cbInformationSectionY.value()

@@ -23,6 +23,8 @@ import platform
 from datetime import timedelta, datetime
 import FileUtils as fu
 from Core.MyObjects import *
+from BeautifulSoup import BeautifulSoup
+
 
 isStartingSuccessfully = False
 isStartedCloseProcess = False
@@ -104,7 +106,11 @@ def trUnicode(_s, _e="utf-8"):
         return _s
     if isinstance(_s, unicode):
         return _s
-    return unicode(_s, _e)
+    try:
+        return unicode(_s, _e)
+    except:
+        soup = BeautifulSoup(_s)
+        return soup.contents[0]
 
 
 def trDecode(_s, _e="utf-8", _p="strict"):
