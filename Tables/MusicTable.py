@@ -281,14 +281,16 @@ class MusicTable(CoreTable):
     def cellClickedTable(self, _row, _column):
         currentItem = self.currentItem()
         if currentItem is not None:
-            cellLenght = len(currentItem.text()) * 8
-            if cellLenght > self.columnWidth(_column):
-                self.setColumnWidth(_column, cellLenght)
             if _column == 9 or _column == 10:
                 if self.rowHeight(_row) < 150:
                     self.setRowHeight(_row, 150)
                 if self.columnWidth(_column) < 250:
                     self.setColumnWidth(_column, 250)
+            else:
+                cellLenght = len(currentItem.text()) * 8
+                if cellLenght > self.columnWidth(_column):
+                    self.setColumnWidth(_column, cellLenght)
+
 
     def cellDoubleClickedTable(self, _row, _column):
         try:
