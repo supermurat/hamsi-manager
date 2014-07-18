@@ -124,14 +124,15 @@ def replaceList(_s, _chars, _newChars):
 
 
 def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
+    _inputString = uni.trUnicode(_inputString)
     if _cbCharacterType == uni.validSentenceStructureKeys[0]:
         if uni.isPython3k:
-            return str(uni.trUnicode(_inputString)).title()
+            return str(_inputString).title()
         else:
             s = []
             prevIsCased = False
             prevC = ""
-            for c in uni.trUnicode(_inputString):
+            for c in _inputString:
                 if c.islower():
                     if not prevIsCased and prevC not in ("'", "`"):
                         c = c.upper()
@@ -148,21 +149,21 @@ def makeCorrectCaseSensitive(_inputString, _cbCharacterType):
             #return string.capwords(uni.trUnicode(_inputString)) #don't use this. Because; it clears whitespaces, it doesn't upper the letters whick is after ()[]-/*......
     elif _cbCharacterType == uni.validSentenceStructureKeys[1]:
         if uni.isPython3k:
-            return str(uni.trUnicode(_inputString)).lower()
+            return str(_inputString).lower()
         else:
-            return string.lower(uni.trUnicode(_inputString))
+            return string.lower(_inputString)
     elif _cbCharacterType == uni.validSentenceStructureKeys[2]:
         if uni.isPython3k:
-            return str(uni.trUnicode(_inputString)).upper()
+            return str(_inputString).upper()
         else:
-            return string.upper(uni.trUnicode(_inputString))
+            return string.upper(_inputString)
     elif _cbCharacterType == uni.validSentenceStructureKeys[3]:
         if uni.isPython3k:
-            return str(uni.trUnicode(_inputString)).capitalize()
+            return str(_inputString).capitalize()
         else:
-            return string.capitalize(uni.trUnicode(_inputString))
+            return string.capitalize(_inputString)
     else:
-        return str(uni.trUnicode(_inputString))
+        return str(_inputString)
 
 
 def getLink(_stringPath):
@@ -212,26 +213,28 @@ def searchAndReplaceFromSearchAndReplaceTable(_oldString):
 
 
 def searchAndReplace(_oldString, _searchStrings, _replaceStrings, _isCaseInsensitive=True, _isRegExp=False):
-    newString = _oldString
+    newString = uni.trUnicode(_oldString)
     for filterNo in range(0, len(_searchStrings)):
         if _searchStrings[filterNo] != "":
             if _isRegExp:
                 if _isCaseInsensitive:
                     pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]), re.I | re.U)
-                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
+                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), newString)
                 else:
                     pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]))
-                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
+                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), newString)
             else:
                 if _isCaseInsensitive:
                     pattern = re.compile(re.escape(uni.trUnicode(_searchStrings[filterNo])), re.I | re.U)
-                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), uni.trUnicode(newString))
+                    newString = re.sub(pattern, uni.trUnicode(_replaceStrings[filterNo]), newString)
                 else:
                     newString = newString.replace(_searchStrings[filterNo], _replaceStrings[filterNo])
     return newString
 
 
 def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True, _isRegExp=False):
+    _oldString = uni.trUnicode(_oldString)
+    _searchString = uni.trUnicode(_searchString)
     myString = ""
     if _cbClearType == translate("SpecialTools", "All"):
         myString = ""
@@ -250,15 +253,15 @@ def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True
     elif _cbClearType == translate("SpecialTools", "Selected Text"):
         if _isRegExp:
             if _isCaseInsensitive:
-                pattern = re.compile(uni.trUnicode(_searchString), re.I | re.U)
-                myString = re.sub(pattern, uni.trUnicode(""), uni.trUnicode(_oldString))
+                pattern = re.compile(_searchString, re.I | re.U)
+                myString = re.sub(pattern, uni.trUnicode(""), _oldString)
             else:
-                pattern = re.compile(uni.trUnicode(_searchString))
-                myString = re.sub(pattern, uni.trUnicode(""), uni.trUnicode(_oldString))
+                pattern = re.compile(_searchString)
+                myString = re.sub(pattern, uni.trUnicode(""), _oldString)
         else:
             if _isCaseInsensitive:
-                pattern = re.compile(re.escape(uni.trUnicode(_searchString)), re.I | re.U)
-                myString = re.sub(pattern, uni.trUnicode(""), uni.trUnicode(_oldString))
+                pattern = re.compile(re.escape(_searchString), re.I | re.U)
+                myString = re.sub(pattern, uni.trUnicode(""), _oldString)
             else:
                 myString = _oldString.replace(_searchString, "")
     return myString
@@ -266,7 +269,7 @@ def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True
 
 def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText=False, _searchStrings=[],
                          _isCaseInsensitive=True, _isRegExp=False):
-    newString = _inputString
+    newString = uni.trUnicode(_inputString)
     if isCorrectText:
         for filterNo in range(0, len(_searchStrings)):
             if _searchStrings[filterNo] != "":
@@ -278,7 +281,7 @@ def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText=False, _s
                         pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]), re.I | re.U)
                         newString = re.sub(pattern,
                                            uni.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)),
-                                           uni.trUnicode(newString))
+                                           newString)
                     else:
                         m = re.search(_searchStrings[filterNo], newString)
                         try: a = m.group(0)
@@ -286,13 +289,13 @@ def correctCaseSensitive(_inputString, _cbCharacterType, isCorrectText=False, _s
                         pattern = re.compile(uni.trUnicode(_searchStrings[filterNo]))
                         newString = re.sub(pattern,
                                            uni.trUnicode(makeCorrectCaseSensitive(m.group(0), _cbCharacterType)),
-                                           uni.trUnicode(newString))
+                                           newString)
                 else:
                     if _isCaseInsensitive:
                         pattern = re.compile(re.escape(uni.trUnicode(_searchStrings[filterNo])), re.I | re.U)
                         newString = re.sub(pattern, uni.trUnicode(
                             makeCorrectCaseSensitive(_searchStrings[filterNo], _cbCharacterType)),
-                                           uni.trUnicode(newString))
+                                           newString)
                     else:
                         newString = newString.replace(_searchStrings[filterNo],
                                                       makeCorrectCaseSensitive(_searchStrings[filterNo],

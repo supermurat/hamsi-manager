@@ -103,7 +103,7 @@ class CharacterState(MWidget):
                 continue
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
-                    newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
+                    newString = uni.trUnicode(getMainWindow().Table.item(rowNo, columnNo).text())
                     myString = ""
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
                     informationSectionY = self.specialTools.cbInformationSectionY.value()
