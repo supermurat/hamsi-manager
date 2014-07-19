@@ -213,41 +213,35 @@ class AmarokCoverTable(CoreTable):
 
                                         newPathOfParentDirectory = Organizer.emend(
                                             self.values[rowNo]["pathOfParentDirectory"], "directory")
-                                        itemPathOfParentDirectory = self.createItem(
-                                            newPathOfParentDirectory, self.values[rowNo]["pathOfParentDirectory"])
-                                        self.setItem(rowNo, 0, itemPathOfParentDirectory)
+                                        self.createItem(rowNo, 0, "pathOfParentDirectory",
+                                                        newPathOfParentDirectory, self.values[rowNo]["pathOfParentDirectory"])
 
                                         newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "directory")
-                                        itemBaseName = self.createItem(newBaseName,
-                                                                                  self.values[rowNo]["baseName"])
-                                        self.setItem(rowNo, 1, itemBaseName)
+                                        self.createItem(rowNo, 1, "pathOfParentDirectory",
+                                                        newBaseName, self.values[rowNo]["baseName"])
 
                                         newCurrentCover = fu.getShortPath(self.values[rowNo]["currentCover"],
                                                                           self.values[rowNo]["path"])
-                                        itemCurrentCover = self.createItem(newCurrentCover,
-                                                                                      newCurrentCover, True)
+                                        itemCurrentCover = self.createItem(rowNo, 2, "currentCover" ,
+                                                                           newCurrentCover, newCurrentCover, True)
                                         self.setItemColor(itemCurrentCover, rowNo, 2, "currentCover")
-                                        self.setItem(rowNo, 2, itemCurrentCover)
 
                                         newSourceCover = fu.getShortPath(self.values[rowNo]["sourceCover"],
                                                                          self.values[rowNo]["path"])
-                                        itemSourceCover = self.createItem(newSourceCover, fu.getShortPath(
+                                        itemSourceCover = self.createItem(rowNo, 3, "sourceCover",
+                                                                          newSourceCover, fu.getShortPath(
                                             self.values[rowNo]["currentCover"],
                                             self.values[rowNo]["path"]))
                                         self.setItemColor(itemSourceCover, rowNo, 3, "sourceCover")
-                                        self.setItem(rowNo, 3, itemSourceCover)
 
                                         newDestinationCover = Organizer.emend(
                                             fu.getShortPath(self.values[rowNo]["destinationCover"],
                                                             self.values[rowNo]["path"]), "file")
-                                        itemDestinationCover = self.createItem(newDestinationCover,
-                                                                                          fu.getShortPath(
-                                                                                              self.values[rowNo][
-                                                                                                  "currentCover"],
-                                                                                              self.values[rowNo][
-                                                                                                  "path"]))
+                                        itemDestinationCover = self.createItem(rowNo, 4, "destinationCover",
+                                            newDestinationCover,
+                                            fu.getShortPath(self.values[rowNo]["currentCover"],
+                                                            self.values[rowNo]["path"]))
                                         self.setItemColor(itemDestinationCover, rowNo, 4, "destinationCover")
-                                        self.setItem(rowNo, 4, itemDestinationCover)
                                         rowNo += 1
                                     else:
                                         allItemNumber -= 1

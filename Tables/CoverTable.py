@@ -267,19 +267,16 @@ class CoverTable(CoreTable):
 
                         newBaseNameOfDirectory = Organizer.emend(self.values[rowNo]["baseNameOfDirectory"],
                                                                  "directory")
-                        itemBaseNameOfDirectory = self.createItem(newBaseNameOfDirectory,
-                                                                             self.values[rowNo]["baseNameOfDirectory"])
-                        self.setItem(rowNo, 0, itemBaseNameOfDirectory)
+                        self.createItem(rowNo, 0, "baseNameOfDirectory",
+                                        newBaseNameOfDirectory, self.values[rowNo]["baseNameOfDirectory"])
 
                         newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "directory")
-                        itemBaseName = self.createItem(newBaseName,
-                                                                  self.values[rowNo]["baseName"])
-                        self.setItem(rowNo, 1, itemBaseName)
+                        self.createItem(rowNo, 1, "baseName", newBaseName, self.values[rowNo]["baseName"])
 
                         newCurrentCover = str(self.values[rowNo]["currentCover"])
                         newCurrentCover = newCurrentCover.replace(self.values[rowNo]["path"], ".")
-                        itemCurrentCover = self.createItem(newCurrentCover, newCurrentCover, True)
-                        self.setItem(rowNo, 2, itemCurrentCover)
+                        itemCurrentCover = self.createItem(rowNo, 2, "currentCover",
+                                                           newCurrentCover, newCurrentCover, True)
                         if self.values[rowNo]["isCorrectedFileContent"] == False:
                             itemCurrentCover.setBackground(MBrush(MColor(255, 163, 163)))
 
@@ -287,16 +284,14 @@ class CoverTable(CoreTable):
                         newSourceCover = newSourceCover.replace(self.values[rowNo]["path"], ".")
                         oldSourceCover = self.values[rowNo]["currentCover"]
                         oldSourceCover = oldSourceCover.replace(self.values[rowNo]["path"], ".")
-                        itemSourceCover = self.createItem(newSourceCover, oldSourceCover)
-                        self.setItem(rowNo, 3, itemSourceCover)
+                        self.createItem(rowNo, 3, "sourceCover", newSourceCover, oldSourceCover)
 
                         newDestinationCover = self.values[rowNo]["destinationCover"]
                         newDestinationCover = newDestinationCover.replace(self.values[rowNo]["path"], ".")
                         newDestinationCover = Organizer.emend(newDestinationCover, "file")
                         oldDestinationCover = self.values[rowNo]["currentCover"]
                         oldDestinationCover = oldDestinationCover.replace(self.values[rowNo]["path"], ".")
-                        itemDestinationCover = self.createItem(newDestinationCover, oldDestinationCover)
-                        self.setItem(rowNo, 4, itemDestinationCover)
+                        self.createItem(rowNo, 4, "destinationCover", newDestinationCover, oldDestinationCover)
                         rowNo += 1
                     else:
                         allItemNumber -= 1
