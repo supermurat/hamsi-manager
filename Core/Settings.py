@@ -277,7 +277,27 @@ def updateOldSettings(_oldVersion, _newVersion):
     if oldVersion < 1373:
         uni.MySettings["AmarokTagSourceTypeAmarokMusicTable"] = "Amarok (Smart)"
         uni.MySettings["AmarokTagSourceTypeAmarokCopyTable"] = "Amarok (Smart)"
-
+    if oldVersion < 1374:
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "database.sqlite"))
+        cur = con.cursor()
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'File/Directory Name', 'baseName');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Directory Name', 'baseName');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Directory', 'baseNameOfDirectory');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Album Artist', 'albumArtist');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'File Name', 'baseName');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Artist', 'artist');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Title', 'title');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Album', 'album');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Track No', 'trackNum');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Year', 'year');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Genre', 'genre');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Comment', 'firstComment');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Lyrics', 'firstLyrics');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Current Cover', 'currentCover');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Source Cover', 'sourceCover');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Destination Cover', 'destinationCover');")
+        cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'albumartist', 'albumArtist');")
+        con.commit()
     return newSettingsKeys, changedDefaultValuesKeys
 
 

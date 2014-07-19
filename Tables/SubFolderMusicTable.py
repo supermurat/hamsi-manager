@@ -187,9 +187,7 @@ class SubFolderMusicTable(CoreTable):
                                 Records.add(str(translate("SubFolderMusicTable", "Comment")),
                                             str(self.values[rowNo]["firstComment"]), value)
                                 self.changedValueNumber += 1
-                            if (self.tableColumnsKey.count("Lyrics") > 0 and
-                                    self.isChangeableItem(rowNo, 10,
-                                                          self.values[rowNo]["firstLyrics"], True, isCheckLike)):
+                            if self.isChangeableItem(rowNo, 10, self.values[rowNo]["firstLyrics"], True, isCheckLike):
                                 value = str(self.item(rowNo, 10).text())
                                 tagger.setFirstLyrics(value)
                                 changingTag["firstLyrics"] = value
@@ -276,8 +274,7 @@ class SubFolderMusicTable(CoreTable):
     def refreshColumns(self):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
         self.tableColumnsKey = Taggers.getAvailableKeysForTable()
-        self.valueKeys = ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
-                          "trackNum", "year", "genre", "firstComment", "firstLyrics"]
+        self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
 
     def saveTable(self):
         self.checkFileExtensions(1, "baseName")

@@ -168,7 +168,7 @@ class AmarokMusicTable(CoreTable):
                             Records.add(str(translate("AmarokMusicTable", "Comment")),
                                         str(self.values[rowNo]["firstComment"]), value)
                             self.changedValueNumber += 1
-                        if self.tableColumnsKey.count("Lyrics") > 0 and self.isChangeableItem(rowNo, 10):
+                        if self.isChangeableItem(rowNo, 10):
                             value = str(self.item(rowNo, 10).text())
                             if isSetTagOfFile: tagger.setFirstLyrics(value)
                             changingTag["firstLyrics"] = value
@@ -250,8 +250,7 @@ class AmarokMusicTable(CoreTable):
     def refreshColumns(self):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
         self.tableColumnsKey = Taggers.getAvailableKeysForTable()
-        self.valueKeys = ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
-                          "trackNum", "year", "genre", "firstComment", "firstLyrics"]
+        self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
 
     def saveTable(self):
         MusicDetails.MusicDetails.closeAllMusicDialogs()

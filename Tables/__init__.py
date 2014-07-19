@@ -156,6 +156,7 @@ class CoreTable(MTableWidget):
         self.setWordWrap(False)
         self.setVerticalScrollMode(self.ScrollPerPixel)
         self.setHorizontalScrollMode(self.ScrollPerPixel)
+        # self.setEditTriggers(MAbstractItemView.CurrentChanged) # TODO: make this an option
         MObject.connect(self, SIGNAL("cellClicked(int,int)"), self.cellClicked)
         MObject.connect(self, SIGNAL("itemChanged(QTableWidgetItem *)"), self.itemChanged)
         MObject.connect(self, SIGNAL("cellDoubleClicked(int,int)"), self.cellDoubleClicked)
@@ -405,6 +406,7 @@ class CoreTable(MTableWidget):
     def cellClicked(self, _row, _column):
         try:
             self.cellClickedTable(_row, _column)
+            # self.editItem(self.item(_row, _column)) # TODO: make this an option
         except:
             ReportBug.ReportBug()
 
@@ -563,9 +565,9 @@ class CoreTable(MTableWidget):
                             return True
         return False
 
-    def createItem(self, _value, _currentValue=None, _isReadOnly=False):
+    def createItem(self, _newValue, _currentValue=None, _isReadOnly=False):
         item = MyTableWidgetItem(_currentValue)
-        item.setText(str(_value))
+        item.setText(str(_newValue))
         item.isReadOnly = _isReadOnly
         if _isReadOnly:
             item.setToolTip(translate("Tables", "This value is NOT changeable!"))

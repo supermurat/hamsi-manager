@@ -92,7 +92,7 @@ class Tagger():
         except: return ""
 
 
-    def getAlbumArtist(self):  # TODO: don't use this for ID3v1
+    def getAlbumArtist(self):
         try: return self.getCorrectedValuesForMusicTagType(str(self.tag.getTextFrame("TPE2")))
         except: return ""
 
@@ -154,7 +154,7 @@ class Tagger():
     def setArtist(self, _value):
         self.tag._setArtist(self.correctValuesForMusicTagType(_value))
 
-    def setAlbumArtist(self, _value):  # TODO: don't use this for ID3v1
+    def setAlbumArtist(self, _value):
         self.tag.setTextFrame("TPE2", self.correctValuesForMusicTagType(_value))
 
     def setTitle(self, _value):
@@ -231,15 +231,20 @@ def getTaggerTypesName():
 
 
 def getAvailableKeysForTable():
-    keys = ["Directory", "File Name", "Artist", "Title", "Album", "Album Artist",
-            "Track No", "Year", "Genre", "Comment", "Lyrics"]
+    return ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
+            "trackNum", "year", "genre", "firstComment", "firstLyrics"]
+
+
+def getReadOnlyKeysForTable():
+    keys = []
     if Taggers.getSelectedTaggerTypeForRead() != getTaggerTypes()[0]:
-        t = keys.pop()
+        keys.append("albumArtist")
+        keys.append("firstLyrics")
     return keys
 
 
 def getAvailableLabelsForTable():
-    labels = [translate("MusicTable", "Directory"),
+    return [translate("MusicTable", "Directory"),
               translate("MusicTable", "File Name"),
               translate("MusicTable", "Artist"),
               translate("MusicTable", "Title"),
@@ -250,9 +255,6 @@ def getAvailableLabelsForTable():
               translate("MusicTable", "Genre"),
               translate("MusicTable", "Comment"),
               translate("MusicTable", "Lyrics")]
-    if Taggers.getSelectedTaggerTypeForRead() != getTaggerTypes()[0]:
-        t = labels.pop()
-    return labels
 
 
 

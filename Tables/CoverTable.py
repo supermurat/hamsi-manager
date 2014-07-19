@@ -219,9 +219,8 @@ class CoverTable(CoreTable):
                              translate("CoverTable", "Current Cover"),
                              translate("CoverTable", "Source Cover"),
                              translate("CoverTable", "Destination Cover")]
-        self.tableColumnsKey = ["Directory", "Directory Name", "Current Cover", "Source Cover",
-                                "Destination Cover"]
-        self.valueKeys = ["baseNameOfDirectory", "baseName", "currentCover", "sourceCover", "destinationCover"]
+        self.tableColumnsKey = ["baseNameOfDirectory", "baseName", "currentCover", "sourceCover", "destinationCover"]
+        self.tableReadOnlyColumnsKey = []
 
     def saveTable(self):
         self.checkFileExtensions(4, 3)

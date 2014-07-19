@@ -156,9 +156,8 @@ class AmarokCoverTable(CoreTable):
                              translate("AmarokCoverTable", "Current Cover"),
                              translate("AmarokCoverTable", "Source Cover"),
                              translate("AmarokCoverTable", "Destination Cover")]
-        self.tableColumnsKey = ["Directory", "Directory Name", "Current Cover", "Source Cover",
-                                "Destination Cover"]
-        self.valueKeys = ["baseNameOfDirectory", "baseName", "currentCover", "sourceCover", "destinationCover"]
+        self.tableColumnsKey = ["baseNameOfDirectory", "baseName", "currentCover", "sourceCover", "destinationCover"]
+        self.tableReadOnlyColumnsKey = []
 
 
     def saveTable(self):
