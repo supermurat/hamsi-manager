@@ -92,7 +92,8 @@ class CharacterEncoding(MWidget):
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                     if isUseRealValues:
-                        newString = str(getMainWindow().Table.values[rowNo][getMainWindow().Table.valueKeys[columnNo]])
+                        newString = str(getMainWindow().Table.values[rowNo][
+                            getMainWindow().Table.tableColumnsKey[columnNo]])
                     else:
                         newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
                     myString = ""

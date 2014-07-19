@@ -55,13 +55,13 @@ class AmarokArtistTable(CoreTable):
                 try:
                     if self.isRowHidden(rowNo) == False:
                         if self.isChangeableItem(rowNo, 1,
-                                                 str(self.values[rowNo]["name"])):
+                                                 str(self.values[rowNo]["currentArtist"])):
                             changedArtistValues.append({})
                             changedArtistValues[-1]["id"] = str(self.values[rowNo]["id"])
                             value = str(self.item(rowNo, 1).text())
                             changedArtistValues[-1]["name"] = value
                             Records.add(str(translate("AmarokArtistTable", "Artist")),
-                                        str(self.values[rowNo]["name"]), value)
+                                        str(self.values[rowNo]["currentArtist"]), value)
                             self.changedValueNumber += 1
                 except:
                     ReportBug.ReportBug()
@@ -95,7 +95,7 @@ class AmarokArtistTable(CoreTable):
         self.tableColumns = [translate("AmarokArtistTable", "Current Artist"),
                              translate("AmarokArtistTable", "Corrected Artist")]
         self.tableColumnsKey = ["currentArtist", "correctedArtist"]
-        self.valueKeys = ["name", "name"]
+        self.tableReadOnlyColumnsKey = []
 
 
     def saveTable(self):
@@ -128,16 +128,17 @@ class AmarokArtistTable(CoreTable):
                                 try:
                                     content = {}
                                     content["id"] = musicFileRow["id"]
-                                    content["name"] = musicFileRow["name"]
+                                    content["currentArtist"] = musicFileRow["name"]
+                                    content["correctedArtist"] = musicFileRow["name"]
                                     self.values.append(content)
 
-                                    currentName = content["name"]
+                                    currentName = content["currentArtist"]
                                     itemCurrentName = self.createItem(currentName, currentName, True)
                                     self.setItem(rowNo, 0, itemCurrentName)
 
-                                    newName = Organizer.emend(content["name"])
-                                    isReadOnlyNewName = (content["name"].strip() == "")
-                                    itemNewName = self.createItem(newName, content["name"],
+                                    newName = Organizer.emend(content["correctedArtist"])
+                                    isReadOnlyNewName = (content["correctedArtist"].strip() == "")
+                                    itemNewName = self.createItem(newName, content["currentArtist"],
                                                                              isReadOnlyNewName)
                                     self.setItem(rowNo, 1, itemNewName)
                                     rowNo += 1

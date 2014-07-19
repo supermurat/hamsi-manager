@@ -130,8 +130,8 @@ class FolderTable(CoreTable):
     def refreshColumns(self):
         self.tableColumns = [translate("FolderTable", "Directory"),
                              translate("FolderTable", "File/Directory Name")]
-        self.tableColumnsKey = ["Directory", "File/Directory Name"]
-        self.valueKeys = ["baseNameOfDirectory", "baseName"]
+        self.tableColumnsKey = ["baseNameOfDirectory", "baseName"]
+        self.tableReadOnlyColumnsKey = []
 
     def saveTable(self):
         self.checkFileExtensions(1, "baseName", True)

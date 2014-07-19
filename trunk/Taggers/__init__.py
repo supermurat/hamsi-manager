@@ -131,6 +131,10 @@ def getAvailableKeysForTable():
     return getLoaddedTagger().getAvailableKeysForTable()
 
 
+def getReadOnlyKeysForTable():
+    return getLoaddedTagger().getReadOnlyKeysForTable()
+
+
 def getImageTypes():
     return getLoaddedTagger().getImageTypes()
 

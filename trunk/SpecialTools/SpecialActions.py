@@ -25,7 +25,7 @@ import Tables
 from Core import Dialogs
 import sys
 from Core import ReportBug
-import Databases
+from Databases import BookmarksOfSpecialTools
 
 
 class SpecialActions(MWidget):
@@ -194,7 +194,7 @@ class SpecialActions(MWidget):
         try:
             self.makeClear()
             if _index > 0:
-                self.setActionCommand(eval(str(Databases.BookmarksOfSpecialTools.fetchAllByType()[_index - 1][2])))
+                self.setActionCommand(eval(str(BookmarksOfSpecialTools.fetchAllByType()[_index - 1][2])))
                 self.tbDeleteBookmark.setEnabled(True)
             else:
                 self.tbDeleteBookmark.setEnabled(False)
@@ -204,7 +204,7 @@ class SpecialActions(MWidget):
     def addBookmark(self):
         try:
             if whatDoesSpecialCommandDo(self.getActionCommand()):
-                Databases.BookmarksOfSpecialTools.insert(str(self.getActionCommand()))
+                BookmarksOfSpecialTools.insert(str(self.getActionCommand()))
                 self.refreshBookmarks()
                 self.cbBookmarks.setCurrentIndex(self.cbBookmarks.count() - 1)
         except:
@@ -213,8 +213,8 @@ class SpecialActions(MWidget):
     def deleteBookmark(self):
         try:
             if self.cbBookmarks.currentIndex() != -1 and self.cbBookmarks.currentIndex() != 0:
-                Databases.BookmarksOfSpecialTools.delete(
-                    Databases.BookmarksOfSpecialTools.fetchAllByType()[self.cbBookmarks.currentIndex() - 1][0])
+                BookmarksOfSpecialTools.delete(
+                    BookmarksOfSpecialTools.fetchAllByType()[self.cbBookmarks.currentIndex() - 1][0])
                 self.refreshBookmarks()
         except:
             ReportBug.ReportBug()
@@ -224,7 +224,7 @@ class SpecialActions(MWidget):
             self.makeClear()
             self.cbBookmarks.clear()
             self.cbBookmarks.addItem(translate("SpecialTools", "Please Select An Action!"))
-            for fav in Databases.BookmarksOfSpecialTools.fetchAllByType():
+            for fav in BookmarksOfSpecialTools.fetchAllByType():
                 self.cbBookmarks.addItem(str(fav[1]))
         except:
             ReportBug.ReportBug()
@@ -278,7 +278,7 @@ class SpecialActions(MWidget):
                     if objectName.find("Concatenate") == -1:
                         columnNo = getMainWindow().Table.tableColumnsKey.index(objectName)
                         valueOfField = str(getMainWindow().Table.item(rowNo, columnNo).text())
-                        if objectName == "File Name" or objectName == "File/Directory Name":
+                        if objectName == "baseName":
                             valueOfField, ext = fu.getFileNameParts(valueOfField)
                         sourceString += valueOfField
                         sourceList.append(valueOfField)

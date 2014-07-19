@@ -141,9 +141,8 @@ class SubFolderTable(CoreTable):
     def refreshColumns(self):
         self.tableColumns = [translate("SubFolderTable", "Directory"),
                              translate("SubFolderTable", "File Name")]
-        self.tableColumnsKey = ["Directory", "File Name"]
-        self.valueKeys = ["baseNameOfDirectory", "baseName", "artist", "title", "album",
-                          "trackNum", "year", "genre", "firstComment", "firstLyrics"]
+        self.tableColumnsKey = ["baseNameOfDirectory", "baseName"]
+        self.tableReadOnlyColumnsKey = []
 
     def saveTable(self):
         self.checkFileExtensions(1, "baseName")
