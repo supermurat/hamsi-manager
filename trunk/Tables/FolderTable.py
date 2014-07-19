@@ -158,13 +158,11 @@ class FolderTable(CoreTable):
                         self.values.append(content)
 
                         newBaseNameOfDirectory = Organizer.emend(content["baseNameOfDirectory"], "directory")
-                        itemBaseNameOfDirectory = self.createItem(newBaseNameOfDirectory,
-                                                                             content["baseNameOfDirectory"])
-                        self.setItem(rowNo, 0, itemBaseNameOfDirectory)
+                        self.createItem(rowNo, 0, "baseNameOfDirectory",
+                                        newBaseNameOfDirectory, content["baseNameOfDirectory"])
 
                         newBaseName = Organizer.emend(content["baseName"], fu.getObjectType(self.values[rowNo]["path"]))
-                        itemBaseName = self.createItem(newBaseName, content["baseName"])
-                        self.setItem(rowNo, 1, itemBaseName)
+                        self.createItem(rowNo, 1, "baseName", newBaseName, content["baseName"])
                         rowNo += 1
                     else:
                         allItemNumber -= 1

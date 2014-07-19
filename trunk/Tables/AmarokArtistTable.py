@@ -133,14 +133,12 @@ class AmarokArtistTable(CoreTable):
                                     self.values.append(content)
 
                                     currentName = content["currentArtist"]
-                                    itemCurrentName = self.createItem(currentName, currentName, True)
-                                    self.setItem(rowNo, 0, itemCurrentName)
+                                    self.createItem(rowNo, 0, "currentArtist", currentName, currentName, True)
 
                                     newName = Organizer.emend(content["correctedArtist"])
                                     isReadOnlyNewName = (content["correctedArtist"].strip() == "")
-                                    itemNewName = self.createItem(newName, content["currentArtist"],
-                                                                             isReadOnlyNewName)
-                                    self.setItem(rowNo, 1, itemNewName)
+                                    self.createItem(rowNo, 1, "correctedArtist",
+                                                    newName, content["currentArtist"], isReadOnlyNewName)
                                     rowNo += 1
                                 except:
                                     ReportBug.ReportBug()

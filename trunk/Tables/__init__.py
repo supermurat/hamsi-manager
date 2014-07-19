@@ -145,6 +145,9 @@ class Tables():
 class CoreTable(MTableWidget):
     def __init__(self, _parent):
         MTableWidget.__init__(self, _parent)
+        self.tableColumns = []
+        self.tableColumnsKey = []
+        self.tableReadOnlyColumnsKey = []
         self.isAskShowHiddenColumn = True
         self.currentDirectoryPath = ""
         self.newDirectoryPath = ""
@@ -565,13 +568,20 @@ class CoreTable(MTableWidget):
                             return True
         return False
 
-    def createItem(self, _newValue, _currentValue=None, _isReadOnly=False):
+    def createItem(self, _rowNo, _columnNo, _columnKey, _newValue, _currentValue=None, _isReadOnly=False):
         item = MyTableWidgetItem(_currentValue)
-        item.setText(str(_newValue))
         item.isReadOnly = _isReadOnly
-        if _isReadOnly:
+        item.columnKey = _columnKey
+        if not item.isReadOnly:
+            if item.columnKey in self.tableReadOnlyColumnsKey:
+                item.isReadOnly = True
+        if item.isReadOnly:
             item.setToolTip(translate("Tables", "This value is NOT changeable!"))
             item.setFlags(Mt.ItemIsSelectable | Mt.ItemIsEnabled)
+            item.setText("! " + str(_newValue))
+        else:
+            item.setText(str(_newValue))
+        self.setItem(_rowNo, _columnNo, item)
         return item
 
     def itemChanged(self, _item):
@@ -788,6 +798,7 @@ class MyTableWidgetItem(MTableWidgetItem):
         MTableWidgetItem.__init__(self, str(_value))
         self.currentText = str(_value)
         self.isReadOnly = False
+        self.columnKey = None
 
 
 

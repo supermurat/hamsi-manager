@@ -348,56 +348,45 @@ class AmarokCopyTable(CoreTable):
                                             content["firstComment"] = tagger.getFirstComment()
                                             content["firstLyrics"] = tagger.getFirstLyrics()
                                             self.values.append(content)
-
                                         newBaseNameOfDirectory = Organizer.emend(
                                             self.values[rowNo]["baseNameOfDirectory"], "directory")
-                                        itemBaseNameOfDirectory = self.createItem(newBaseNameOfDirectory,
-                                                                                  self.values[rowNo][
-                                                                                      "baseNameOfDirectory"])
-                                        self.setItem(rowNo, 0, itemBaseNameOfDirectory)
+                                        self.createItem(rowNo, 0, "baseNameOfDirectory", newBaseNameOfDirectory,
+                                                        self.values[rowNo]["baseNameOfDirectory"])
 
                                         newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "file")
-                                        itemBaseName = self.createItem(newBaseName, self.values[rowNo]["baseName"])
-                                        self.setItem(rowNo, 1, itemBaseName)
+                                        self.createItem(rowNo, 1, "baseName", newBaseName,
+                                                        self.values[rowNo]["baseName"])
 
                                         newArtist = Organizer.emend(self.values[rowNo]["artist"])
-                                        itemArtist = self.createItem(newArtist, self.values[rowNo]["artist"])
-                                        self.setItem(rowNo, 2, itemArtist)
+                                        self.createItem(rowNo, 2, "artist", newArtist, self.values[rowNo]["artist"])
 
                                         newTitle = Organizer.emend(self.values[rowNo]["title"])
-                                        itemTitle = self.createItem(newTitle, self.values[rowNo]["title"])
-                                        self.setItem(rowNo, 3, itemTitle)
+                                        self.createItem(rowNo, 3, "title", newTitle, self.values[rowNo]["title"])
 
                                         newAlbum = Organizer.emend(self.values[rowNo]["album"])
-                                        itemAlbum = self.createItem(newAlbum, self.values[rowNo]["album"])
-                                        self.setItem(rowNo, 4, itemAlbum)
+                                        self.createItem(rowNo, 4, "album", newAlbum, self.values[rowNo]["album"])
 
                                         newAlbumArtist = Organizer.emend(self.values[rowNo]["albumArtist"])
-                                        itemAlbumArtist = self.createItem(newAlbumArtist,
-                                                                          self.values[rowNo]["albumArtist"])
-                                        self.setItem(rowNo, 5, itemAlbumArtist)
+                                        self.createItem(rowNo, 5, "albumArtist", newAlbumArtist,
+                                                        self.values[rowNo]["albumArtist"])
 
                                         newTrackNum = str(self.values[rowNo]["trackNum"])
-                                        itemTrackNum = self.createItem(newTrackNum, self.values[rowNo]["trackNum"])
-                                        self.setItem(rowNo, 6, itemTrackNum)
+                                        self.createItem(rowNo, 6, "trackNum", newTrackNum,
+                                                        self.values[rowNo]["trackNum"])
 
                                         newYear = Organizer.emend(self.values[rowNo]["year"])
-                                        itemYear = self.createItem(newYear, self.values[rowNo]["year"])
-                                        self.setItem(rowNo, 7, itemYear)
+                                        self.createItem(rowNo, 7, "year", newYear, self.values[rowNo]["year"])
 
                                         newGenre = Organizer.emend(self.values[rowNo]["genre"])
-                                        itemGenre = self.createItem(newGenre, self.values[rowNo]["genre"])
-                                        self.setItem(rowNo, 8, itemGenre)
+                                        self.createItem(rowNo, 8, "genre", newGenre, self.values[rowNo]["genre"])
 
                                         newFirstComment = Organizer.emend(self.values[rowNo]["firstComment"])
-                                        itemFirstComment = self.createItem(newFirstComment,
-                                                                           self.values[rowNo]["firstComment"])
-                                        self.setItem(rowNo, 9, itemFirstComment)
+                                        self.createItem(rowNo, 9, "firstComment", newFirstComment,
+                                                        self.values[rowNo]["firstComment"])
 
                                         newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
-                                        itemFirstLyrics = self.createItem(newFirstLyrics,
-                                                                          self.values[rowNo]["firstLyrics"])
-                                        self.setItem(rowNo, 10, itemFirstLyrics)
+                                        self.createItem(rowNo, 10, "firstLyrics", newFirstLyrics,
+                                                        self.values[rowNo]["firstLyrics"])
                                         rowNo += 1
                                     else:
                                         allItemNumber -= 1
