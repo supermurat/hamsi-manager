@@ -37,11 +37,11 @@ class SubFolderMusicTable(CoreTable):
         self.keyName = "music"
         self.hiddenTableColumnsSettingKey = "hiddenSubFolderMusicTableColumns"
         self.refreshColumns()
-        pbtnVerifyTableValues = MPushButton(translate("SubFolderMusicTable", "Verify Table"))
+        pbtnVerifyTableValues = MPushButton(translate("MusicTable", "Verify Table"))
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self))
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, True))
-        lblSourceDetails = MLabel(translate("MusicOptionsBar", "Read From:"))
-        lblTargetDetails = MLabel(translate("MusicOptionsBar", "Write To:"))
+        lblSourceDetails = MLabel(translate("MusicTable", "Read From:"))
+        lblTargetDetails = MLabel(translate("MusicTable", "Write To:"))
         self.MusicTagTypes = getTaggerTypesName()
         self.cbTagSourceType = MComboBox(self)
         self.cbTagSourceType.addItems(self.MusicTagTypes)
@@ -53,13 +53,13 @@ class SubFolderMusicTable(CoreTable):
         self.cbTagTargetType.setCurrentIndex(
             self.cbTagTargetType.findText(getSelectedTaggerTypeForWriteName()))
         self.isActiveChanging = True
-        self.cbTagSourceType.setToolTip(translate("MusicOptionsBar",
+        self.cbTagSourceType.setToolTip(translate("MusicTable",
                                                   "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbTagTargetType.setToolTip(translate("MusicOptionsBar",
+        self.cbTagTargetType.setToolTip(translate("MusicTable",
                                                   "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        lblDetails = translate("SubDirectoryOptionsBar",
+        lblDetails = translate("SubFolderTable",
                                "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(str(translate("SubDirectoryOptionsBar", "Deep") + " : "))
+        lblSubDirectoryDeep = MLabel(str(translate("SubFolderTable", "Deep") + " : "))
         self.SubDirectoryDeeps = [str(x) for x in range(-1, 10)]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
@@ -121,7 +121,7 @@ class SubFolderMusicTable(CoreTable):
                                 value = str(self.item(rowNo, 2).text())
                                 tagger.setArtist(value)
                                 changingTag["artist"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Artist")),
+                                Records.add(str(translate("MusicTable", "Artist")),
                                             str(self.values[rowNo]["artist"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 3,
@@ -130,7 +130,7 @@ class SubFolderMusicTable(CoreTable):
                                 value = str(self.item(rowNo, 3).text())
                                 tagger.setTitle(value)
                                 changingTag["title"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Title")),
+                                Records.add(str(translate("MusicTable", "Title")),
                                             str(self.values[rowNo]["title"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 4,
@@ -139,7 +139,7 @@ class SubFolderMusicTable(CoreTable):
                                 value = str(self.item(rowNo, 4).text())
                                 tagger.setAlbum(value)
                                 changingTag["album"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Album")),
+                                Records.add(str(translate("MusicTable", "Album")),
                                             str(self.values[rowNo]["album"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 5,
@@ -148,7 +148,7 @@ class SubFolderMusicTable(CoreTable):
                                 value = str(self.item(rowNo, 5).text())
                                 tagger.setAlbumArtist(value)
                                 changingTag["albumArtist"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Album Artist")),
+                                Records.add(str(translate("MusicTable", "Album Artist")),
                                             str(self.values[rowNo]["albumArtist"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 6,
@@ -157,7 +157,7 @@ class SubFolderMusicTable(CoreTable):
                                 value = str(self.item(rowNo, 6).text())
                                 tagger.setTrackNum(value)
                                 changingTag["trackNum"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Track No")),
+                                Records.add(str(translate("MusicTable", "Track No")),
                                             str(self.values[rowNo]["trackNum"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 7,
@@ -166,7 +166,7 @@ class SubFolderMusicTable(CoreTable):
                                 value = str(self.item(rowNo, 7).text())
                                 tagger.setDate(value)
                                 changingTag["year"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Year")),
+                                Records.add(str(translate("MusicTable", "Year")),
                                             str(self.values[rowNo]["year"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 8,
@@ -175,7 +175,7 @@ class SubFolderMusicTable(CoreTable):
                                 value = str(self.item(rowNo, 8).text())
                                 tagger.setGenre(value)
                                 changingTag["genre"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Genre")),
+                                Records.add(str(translate("MusicTable", "Genre")),
                                             str(self.values[rowNo]["genre"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 9,
@@ -184,14 +184,14 @@ class SubFolderMusicTable(CoreTable):
                                 value = str(self.item(rowNo, 9).text())
                                 tagger.setFirstComment(value)
                                 changingTag["firstComment"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Comment")),
+                                Records.add(str(translate("MusicTable", "Comment")),
                                             str(self.values[rowNo]["firstComment"]), value)
                                 self.changedValueNumber += 1
                             if self.isChangeableItem(rowNo, 10, self.values[rowNo]["firstLyrics"], True, isCheckLike):
                                 value = str(self.item(rowNo, 10).text())
                                 tagger.setFirstLyrics(value)
                                 changingTag["firstLyrics"] = value
-                                Records.add(str(translate("SubFolderMusicTable", "Lyrics")),
+                                Records.add(str(translate("MusicTable", "Lyrics")),
                                             str(self.values[rowNo]["firstLyrics"]), value)
                                 self.changedValueNumber += 1
                             if len(changingTag) > 1:
@@ -266,8 +266,8 @@ class SubFolderMusicTable(CoreTable):
                 if uni.getBoolValue("isRunOnDoubleClick"):
                     self.showTableDetails(_row, _column)
         except:
-            Dialogs.showError(translate("SubFolderMusicTable", "Cannot Open Music File"),
-                              str(translate("SubFolderMusicTable",
+            Dialogs.showError(translate("MusicTable", "Cannot Open Music File"),
+                              str(translate("MusicTable",
                                             "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
                               ) % Organizer.getLink(self.values[_row]["path"]))
 

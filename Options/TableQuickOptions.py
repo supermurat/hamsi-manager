@@ -149,7 +149,6 @@ class TableQuickOptions(MMenu):
         for x, keyValue in enumerate(self.keysOfSettings):
             if keyValue not in self.hiddenKeys:
                 if self.typesOfValues[x][0] == "options":
-                    actionLabelList, selectedIndex = [], 0
                     actionLabelList = self.valuesOfOptions[self.typesOfValues[x][1]]
                     selectedIndex = self.valuesOfOptionsKeys[self.typesOfValues[x][1]].index(uni.MySettings[keyValue])
                     self.values.append(MMenu(self.labels[x], self))
@@ -169,19 +168,19 @@ class TableQuickOptions(MMenu):
                     self.values[-1].setChecked(uni.getBoolValue(keyValue))
                     self.addAction(self.values[-1])
                     MObject.connect(self.values[-1], SIGNAL("changed()"), self.valueChanged)
-                    self.values[-1].setStatusTip(self.toolTips[x])
                 self.values[-1].setObjectName(self.keysOfSettings[x])
                 self.values[-1].setToolTip(self.toolTips[x])
-            else:
+                self.values[-1].setStatusTip(self.toolTips[x])
+        else:
                 self.values.append(None)
 
     def valueChanged(self, _action=None):
         try:
             senderAction = self.sender()
-            if senderAction.parent() in self.values:
-                indexNo = self.values.index(senderAction.parent())
+            if senderAction.parent().objectName() in self.keysOfSettings:
+                indexNo = self.keysOfSettings.index(senderAction.parent().objectName())
             else:
-                indexNo = self.values.index(senderAction)
+                indexNo = self.keysOfSettings.index(senderAction.objectName())
             selectedValue = None
             if self.typesOfValues[indexNo] == "Yes/No":
                 if senderAction.isChecked():

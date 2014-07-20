@@ -506,11 +506,12 @@ class SpecialActionsCommandButton(MFrame):
         else:
             self.columnName = translate("SpecialActions", "Concatenate")
             toolTip = str(translate("SpecialActions", "If requires, Side columns will be concatenated with this."))
-        self.lblMoveHere = MLabel(self.columnName, self)
+        self.lblButton = MLabel(self.columnName, self)
+        self.lblButton.setToolTip(self.columnName)
         self.lePoint = MLineEdit("", self)
         self.lePoint.setToolTip(toolTip)
         self.HBox = MHBoxLayout()
-        self.HBox.addWidget(self.lblMoveHere)
+        self.HBox.addWidget(self.lblButton)
         self.HBox.addWidget(self.lePoint)
         self.setLayout(self.HBox)
         self.lePoint.hide()
@@ -525,11 +526,11 @@ class SpecialActionsCommandButton(MFrame):
 
     def showPoint(self):
         self.lePoint.show()
-        self.lblMoveHere.setText(self.columnName + ":")
+        self.lblButton.setText(self.columnName + ":")
 
     def hidePoint(self):
         self.lePoint.hide()
-        self.lblMoveHere.setText(self.columnName)
+        self.lblButton.setText(self.columnName)
 
     def mouseMoveEvent(self, _e):
         try:

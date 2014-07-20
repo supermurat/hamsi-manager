@@ -40,8 +40,8 @@ class MusicTable(CoreTable):
         pbtnVerifyTableValues = MPushButton(translate("MusicTable", "Verify Table"))
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self))
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, True))
-        lblSourceDetails = MLabel(translate("MusicOptionsBar", "Read From:"))
-        lblTargetDetails = MLabel(translate("MusicOptionsBar", "Write To:"))
+        lblSourceDetails = MLabel(translate("MusicTable", "Read From:"))
+        lblTargetDetails = MLabel(translate("MusicTable", "Write To:"))
         self.MusicTagTypes = getTaggerTypesName()
         self.cbTagSourceType = MComboBox(self)
         self.cbTagSourceType.addItems(self.MusicTagTypes)
@@ -53,9 +53,9 @@ class MusicTable(CoreTable):
         self.cbTagTargetType.setCurrentIndex(
             self.cbTagTargetType.findText(getSelectedTaggerTypeForWriteName()))
         self.isActiveChanging = True
-        self.cbTagSourceType.setToolTip(translate("MusicOptionsBar",
+        self.cbTagSourceType.setToolTip(translate("MusicTable",
                                                         "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbTagTargetType.setToolTip(translate("MusicOptionsBar",
+        self.cbTagTargetType.setToolTip(translate("MusicTable",
                                                          "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
         hblTagSourceType = MHBoxLayout()
         hblTagSourceType.addWidget(lblSourceDetails)

@@ -31,12 +31,14 @@ class TableToolsBar(MToolBar):
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
         actgActionGroupTableTypes = MActionGroup(self)
         actgActionGroupTableTypes.setObjectName(translate("ToolsBar", "Table Types"))
-        for x, name in uni.tableTypesNames.items():
-            a = actgActionGroupTableTypes.addAction(MIcon("Images:" + uni.tableTypeIcons[x]), name)
-            a.setCheckable(True)
-            a.setObjectName(name)
-            if uni.tableType == Tables.Tables.getThisTableType(name):
-                a.setChecked(True)
+        for x in uni.tableTypeOrder:
+            if x in uni.tableTypesNames.keys():
+                name = uni.tableTypesNames[x]
+                a = actgActionGroupTableTypes.addAction(MIcon("Images:" + uni.tableTypeIcons[x]), name)
+                a.setCheckable(True)
+                a.setObjectName(name)
+                if uni.tableType == Tables.Tables.getThisTableType(name):
+                    a.setChecked(True)
         self.addActions(actgActionGroupTableTypes.actions())
         self.addSeparator()
         self.fileReNamerTypeNames = [str(translate("ToolsBar", "Personal Computer")),
