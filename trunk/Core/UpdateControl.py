@@ -31,8 +31,8 @@ class UpdateControl(MDialog):
         QtWebKit = getMyObject("QtWebKit")
         if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
-        if _isNotInstall == False:
-            if uni.isUpdatable() == False:
+        if _isNotInstall is False:
+            if uni.isUpdatable() is False:
                 _isNotInstall = True
         self.isNotInstall = _isNotInstall
         self.pnlMain = MWidget()
@@ -44,7 +44,7 @@ class UpdateControl(MDialog):
         self.lblInfo.setOpenExternalLinks(True)
         self.lblInfo.setMinimumHeight(220)
         self.pbtnCancel = MPushButton(translate("UpdateControl", "Cancel"))
-        if self.isNotInstall == False:
+        if self.isNotInstall is False:
             self.pbtnDownloadAndInstall = MPushButton(translate("UpdateControl", "Download and Install"))
         else:
             self.pbtnDownloadAndInstall = MPushButton(translate("UpdateControl", "Download"))
@@ -109,7 +109,7 @@ class UpdateControl(MDialog):
     def loadFinished(self, _bitti):
         try:
             if (_bitti):
-                if self.isDownloading == False:
+                if self.isDownloading is False:
                     self.setFixedHeight(170)
                     self.prgbState.setVisible(False)
                     self.lblInfo.setVisible(True)
@@ -145,7 +145,7 @@ class UpdateControl(MDialog):
                                 self.setFixedHeight(330)
                             elif lastVersion < uni.intversion:
                                 self.pbtnDownloadAndInstall.setVisible(True)
-                                if self.isNotInstall == False:
+                                if self.isNotInstall is False:
                                     self.pbtnDownloadAndInstall.setText(
                                         translate("UpdateControl", "Download and Install") + " (!)")
                                 else:
@@ -194,8 +194,8 @@ class UpdateControl(MDialog):
 
     def downloadAndInstall(self):
         try:
-            if uni.isBuilt() == False:
-                if fu.isWritableFileOrDir(fu.HamsiManagerDirectory, True) == False:
+            if uni.isBuilt() is False:
+                if fu.isWritableFileOrDir(fu.HamsiManagerDirectory, True) is False:
                     from Core import Organizer
 
                     Dialogs.showError(translate("UpdateControl", "Access Denied"),
@@ -220,7 +220,7 @@ class UpdateControl(MDialog):
                 fileDialogTitle = translate("UpdateControl", "Save New Version Of Hamsi Manager")
             fileName = Dialogs.getSaveFileName(fileDialogTitle,
                                                fu.joinPath(fu.getDirName(fu.HamsiManagerDirectory), defaultFileName))
-            if self.isNotInstall == False or fileName is not None:
+            if self.isNotInstall is False or fileName is not None:
                 if fileName is None:
                     import random
 
@@ -264,7 +264,7 @@ class UpdateControl(MDialog):
             ReportBug.ReportBug()
 
     def install(self, _fileName):
-        if self.isNotInstall == False and uni.isBuilt():
+        if self.isNotInstall is False and uni.isBuilt():
             self.setWindowTitle(translate("UpdateControl", "Installing The Latest Release"))
             self.lblInfo.setText(translate("UpdateControl", "Latest release downloaded, initializing installation."))
             from Core.Execute import openWith

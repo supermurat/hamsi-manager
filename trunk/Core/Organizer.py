@@ -79,7 +79,7 @@ def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=
             _inputString = searchAndReplaceFromSearchAndReplaceTable(_inputString)
         if _isCorrectCaseSensitive:
             _inputString = makeCorrectCaseSensitive(_inputString, uni.MySettings["validSentenceStructure"])
-    if _isRichText == False:
+    if _isRichText is False:
         if uni.getBoolValue("isCorrectDoubleSpaceChars"):
             isFound = _inputString.find("  ")
             while isFound != -1:
@@ -240,11 +240,11 @@ def clear(_cbClearType, _oldString="", _searchString="", _isCaseInsensitive=True
         myString = ""
     elif _cbClearType == translate("SpecialTools", "Letters"):
         for char in _oldString:
-            if char.isalpha() == False:
+            if char.isalpha() is False:
                 myString += char
     elif _cbClearType == translate("SpecialTools", "Numbers"):
         for char in _oldString:
-            if char.isdigit() == False:
+            if char.isdigit() is False:
                 myString += char
     elif _cbClearType == translate("SpecialTools", "Other Characters"):
         for char in _oldString:

@@ -208,7 +208,7 @@ if RoutineChecks.checkMandatoryModules():
 
         def pageChanged(self, _isRunningManual=False):
             try:
-                if _isRunningManual == False:
+                if _isRunningManual is False:
                     senderObject = self.sender()
                     if senderObject == self.buttons[1]:
                         self.pageNo += 1
@@ -244,7 +244,7 @@ if RoutineChecks.checkMandatoryModules():
                     self.buttons[2].setVisible(False)
                     self.pbtnCancel.setVisible(False)
                     self.pbtnFinish.setVisible(True)
-                if _isRunningManual == False:
+                if _isRunningManual is False:
                     if senderObject == self.buttons[2]:
                         self.install()
             except:
@@ -265,9 +265,9 @@ if RoutineChecks.checkMandatoryModules():
                         Dialogs.showError(translate("Install", "The path you selected is not valid."),
                                           translate("Install",
                                                     "The selected path is Hamsi Manager source directory.<br>Please choose a valid installation path."))
-                    elif fu.isFile(self.installationDirectory) == False:
+                    elif fu.isFile(self.installationDirectory) is False:
                         isMakeInstall = True
-                        if fu.isDir(self.installationDirectory) == False:
+                        if fu.isDir(self.installationDirectory) is False:
                             self.lblActions.setText(translate("Install", "Creating Installation Folder..."))
                             fu.makeDirs(self.installationDirectory)
                         elif len(fu.listDir(self.installationDirectory)) > 0:
@@ -331,7 +331,7 @@ if RoutineChecks.checkMandatoryModules():
                 ReportBug.ReportBug()
 
         def closeEvent(self, _event):
-            if self.isInstallFinished == False:
+            if self.isInstallFinished is False:
                 answer = Dialogs.ask(translate("Install", "Finalizing Installation"),
                                      translate("Install", "Are You Sure You Want To Quit?"))
                 if answer != Dialogs.Yes:
@@ -342,7 +342,7 @@ if RoutineChecks.checkMandatoryModules():
                 if fu.isFile(fu.joinPath(self.installationDirectory, "HamsiManager.desktop")):
                     MyConfigure.reConfigureFile(fu.joinPath(self.installationDirectory, "HamsiManager.desktop"),
                                                 self.installationDirectory)
-                if self.isCreateDesktopShortcut != None:
+                if self.isCreateDesktopShortcut is not None:
                     if self.isCreateDesktopShortcut.checkState() == Mt.Checked:
                         desktopPath = uni.getUserDesktopPath()
                         if uni.isWindows:
@@ -351,7 +351,7 @@ if RoutineChecks.checkMandatoryModules():
                         else:
                             fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                             fu.writeToFile(fu.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
-                if self.isCreateExecutableLink != None:
+                if self.isCreateExecutableLink is not None:
                     executableLink = str(self.leExecutableLink.text())
                     if self.isCreateExecutableLink.checkState() == Mt.Checked:
                         if executableLink.strip() != "":
@@ -364,8 +364,8 @@ if RoutineChecks.checkMandatoryModules():
                         if fu.isDir("/usr/share/applications/"):
                             fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                             fu.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
-                if uni.isRunningAsRoot() == False:
-                    if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications")) == False:
+                if uni.isRunningAsRoot() is False:
+                    if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications")) is False:
                         fu.makeDirs(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))
                     fileContent = MyConfigure.getConfiguredDesktopFileContent(self.installationDirectory)
                     fu.writeToFile(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"),
@@ -377,7 +377,7 @@ if RoutineChecks.checkMandatoryModules():
 
                 ReportBug.ReportBug()
 
-    if uni.isRunningAsRoot() == False and uni.isRunableAsRoot():
+    if uni.isRunningAsRoot() is False and uni.isRunableAsRoot():
         answer = Dialogs.askSpecial(translate("Install", "Are You Want To Run As Root?"), translate("Install",
                                                                                                     "Hamsi Manager Installer is running with user privileges.<br>Do you want to run Hamsi Manager installer with root rights?<br><b>Note: </b>The other users on your system has to inherit these permissions and install the program to a location other than their /home directories."),
                                     translate("Install", "Yes"), translate("Install", "No (Continue as is)"), None)

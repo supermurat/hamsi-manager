@@ -108,7 +108,7 @@ class OptionsForm(MDialog):
             self.setLayout(vblMain)
         self.setWindowTitle(translate("Options", "Options"))
         if self.showType == "Normal":
-            if self.focusToCategory != None:
+            if self.focusToCategory is not None:
                 for x, category in enumerate(self.categories):
                     if self.focusToCategory == category:
                         self.tboxCategories.setCurrentIndex(x)
@@ -276,7 +276,7 @@ class OptionsForm(MDialog):
 
     def setVisibleFormItems(self, _category, _keyOfSetting, _visible):
         if _category.visibleKeys.count(_keyOfSetting) > 0 and _category.keysOfSettings.count(_keyOfSetting) > 0:
-            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)] == None:
+            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)] is None:
                 flForm = _category.flForm
             else:
                 flForm = _category.flForms[_category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]]
@@ -291,7 +291,7 @@ class OptionsForm(MDialog):
 
     def isVisibleFormItems(self, _category, _keyOfSetting):
         if _category.visibleKeys.count(_keyOfSetting) > 0 and _category.keysOfSettings.count(_keyOfSetting) > 0:
-            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)] == None:
+            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)] is None:
                 flForm = _category.flForm
             else:
                 flForm = _category.flForms[_category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]]
@@ -301,7 +301,7 @@ class OptionsForm(MDialog):
 
     def setEnabledFormItems(self, _category, _keyOfSetting, _visible):
         if _category.visibleKeys.count(_keyOfSetting) > 0 and _category.keysOfSettings.count(_keyOfSetting) > 0:
-            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)] == None:
+            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)] is None:
                 flForm = _category.flForm
             else:
                 flForm = _category.flForms[_category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]]
@@ -316,7 +316,7 @@ class OptionsForm(MDialog):
 
     def isEnabledFormItems(self, _category, _keyOfSetting):
         if _category.visibleKeys.count(_keyOfSetting) > 0 and _category.keysOfSettings.count(_keyOfSetting) > 0:
-            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)] == None:
+            if _category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)] is None:
                 flForm = _category.flForm
             else:
                 flForm = _category.flForms[_category.tabsOfSettings[_category.keysOfSettings.index(_keyOfSetting)]]
@@ -509,7 +509,7 @@ class OptionsForm(MDialog):
                                 else:
                                     if self.showType == "Normal":
                                         self.tboxCategories.setCurrentIndex(categoryNo)
-                                        if category.tabsOfSettings[x] != None:
+                                        if category.tabsOfSettings[x] is not None:
                                             category.tabwTabs.setCurrentIndex(category.tabsOfSettings[x])
                                     category.values[x].setStyleSheet("background-color: #FF5E5E;")
                                     isDontClose = True
@@ -523,7 +523,7 @@ class OptionsForm(MDialog):
             uni.saveSettings()
             if isSaveSearchAndReplaceTable:
                 self.categories[searchAndReplaceCategoryNo].searchAndReplaceTable.save()
-            if getMainWindow().Menu != None:
+            if getMainWindow().Menu is not None:
                 getMainWindow().Menu.refreshQuickOptions()
             Records.checkSize()
             if isDontClose: return False
@@ -698,7 +698,7 @@ class OptionsForm(MDialog):
                 lblLabel = MLabel(str(_category.labels[x] + " : "))
                 lblLabel.setToolTip(_category.toolTips[x])
                 _category.lblLabels.append(lblLabel)
-                if _category.tabsOfSettings[x] == None:
+                if _category.tabsOfSettings[x] is None:
                     _category.flForm.addRow(_category.lblLabels[x], valueLayout)
                     _category.flForm.keysOfSettings.append(keyValue)
                 else:
@@ -708,7 +708,7 @@ class OptionsForm(MDialog):
                     _category.parent().focusToCategory = _category
                     _category.values[x].setStyleSheet("background-color: #4D9AFF;")
                 if _category.parent().markedKeys.count(keyValue) > 0:
-                    if _category.parent().focusToCategory == None:
+                    if _category.parent().focusToCategory is None:
                         _category.parent().focusToCategory = _category
                     _category.values[x].setStyleSheet("background-color: #81DEFF;")
             else:

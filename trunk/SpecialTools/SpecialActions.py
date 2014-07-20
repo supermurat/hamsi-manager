@@ -365,7 +365,7 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
 
         if _isShowAlert:
             Dialogs.show(translate("Organizer", "What Does This Command Do?"), str(details))
-        if _isReturnDetails == False:
+        if _isReturnDetails is False:
             return True
         else:
             return details

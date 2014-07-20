@@ -97,7 +97,7 @@ class Configurator(MyDialog):
         self.show()
 
     def closeEvent(self, _event):
-        if self.isInstallFinished == False:
+        if self.isInstallFinished is False:
             answer = Dialogs.ask(translate("Reconfigure", "Finalizing Configuration"),
                                  translate("Reconfigure", "Are You Sure You Want To Quit?"))
             if answer != Dialogs.Yes:
@@ -211,35 +211,35 @@ class Configurator(MyDialog):
 
             clearAllChildren(self.wAvailableModules)
 
-            if eyeD3IsAvailable == False:
+            if eyeD3IsAvailable is False:
                 lblEyeD3 = MLabel(translate("Reconfigure",
                                             "<a href='http://eyed3.nicfit.net/'>'eyeD3'</a> (python-eyed3) named module has NOT installed in your system."))
                 lblEyeD3.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblEyeD3)
-            if mysqlIsAvailable == False:
+            if mysqlIsAvailable is False:
                 lblMysql = MLabel(translate("Reconfigure",
                                             "<a href='https://sourceforge.net/projects/mysql-python/'>'MySQL'</a> (python-mysql) named module has NOT installed on your system."))
                 lblMysql.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblMysql)
-            if musicbrainzIsAvailable == False:
+            if musicbrainzIsAvailable is False:
                 lblMusicbrainz = MLabel(translate("Reconfigure",
                                                   "<a href='http://musicbrainz.org/doc/python-musicbrainz2'>'Music Brainz'</a> (python-musicbrainz2) named module has NOT installed on your system."))
                 lblMusicbrainz.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblMusicbrainz)
-            if scintillaIsAvailable == False:
+            if scintillaIsAvailable is False:
                 lblScintilla = MLabel(translate("Reconfigure",
                                                 "<a href='http://www.riverbankcomputing.com/software/qscintilla/download'>'QScintilla'</a> (python-qt4-qscintilla) named module has NOT installed on your system."))
                 lblScintilla.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblScintilla)
             if uni.isWindows:
-                if pywin32IsAvailable == False:
+                if pywin32IsAvailable is False:
                     lblPywin32 = MLabel(translate("Reconfigure",
                                                   "<a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system."))
                     lblPywin32.setOpenExternalLinks(True)
                     self.vblAvailableModules.addWidget(lblPywin32)
 
-            if eyeD3IsAvailable == False or mysqlIsAvailable == False or musicbrainzIsAvailable == False or scintillaIsAvailable == False or (
-                    uni.isWindows and (mysqlIsAvailable == False)):
+            if eyeD3IsAvailable is False or mysqlIsAvailable is False or musicbrainzIsAvailable is False or scintillaIsAvailable is False or (
+                    uni.isWindows and (mysqlIsAvailable is False)):
                 lblAlert = MLabel(translate("Reconfigure",
                                             "<b>You have to install above modules to use some features.<br>If you don't want to use all features, you can continue without these modules.</b>"))
                 self.vblAvailableModules.addWidget(lblAlert)
@@ -253,7 +253,7 @@ class Configurator(MyDialog):
 
     def pageChanged(self, _isRunningManual=False):
         try:
-            if _isRunningManual == False:
+            if _isRunningManual is False:
                 senderObject = self.sender()
                 if senderObject == self.buttons[1]:
                     self.pageNo += 1
@@ -287,7 +287,7 @@ class Configurator(MyDialog):
                 self.pbtnCancel.setVisible(False)
                 self.pbtnFinish.setVisible(True)
                 self.isInstallFinished = True
-            if _isRunningManual == False:
+            if _isRunningManual is False:
                 if senderObject == self.buttons[2]:
                     self.reConfigure()
         except:
@@ -299,7 +299,7 @@ class Configurator(MyDialog):
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManager.desktop")):
                 if fu.isWritableFileOrDir(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManager.desktop")):
                     MyConfigure.reConfigureFile(fu.joinPath(fu.HamsiManagerDirectory, "HamsiManager.desktop"))
-            if self.isCreateDesktopShortcut != None:
+            if self.isCreateDesktopShortcut is not None:
                 if self.isCreateDesktopShortcut.checkState() == Mt.Checked:
                     desktopPath = uni.getUserDesktopPath()
                     if uni.isWindows:
@@ -309,7 +309,7 @@ class Configurator(MyDialog):
                         fu.writeToFile(fu.joinPath(desktopPath, "HamsiManager.desktop"), fileContent)
             if uni.isRunningAsRoot():
                 executableLink = str(self.leExecutableLink.text())
-                if self.isCreateExecutableLink != None:
+                if self.isCreateExecutableLink is not None:
                     if self.isCreateExecutableLink.checkState() == Mt.Checked:
                         if executableLink.strip() != "":
                             HamsiManagerFileName = Execute.findExecutableBaseName("HamsiManager")
@@ -329,8 +329,8 @@ class Configurator(MyDialog):
                         if fu.isDir("/usr/share/applications/"):
                             fileContent = MyConfigure.getConfiguredDesktopFileContent()
                             fu.writeToFile("/usr/share/applications/HamsiManager.desktop", fileContent)
-            if uni.isRunningAsRoot() == False:
-                if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications")) == False:
+            if uni.isRunningAsRoot() is False:
+                if fu.isDir(fu.joinPath(fu.userDirectoryPath, ".local", "applications")) is False:
                     fu.makeDirs(fu.joinPath(fu.userDirectoryPath, ".local", "applications"))
                 fileContent = MyConfigure.getConfiguredDesktopFileContent()
                 fu.writeToFile(fu.joinPath(fu.userDirectoryPath, ".local", "applications", "HamsiManager.desktop"),

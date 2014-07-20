@@ -193,7 +193,7 @@ class SpecialTools(MWidget):
                 self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x / 4, columnNo)
                 self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x / 4, columnNo + 1)
         self.specialActions.refreshBookmarks()
-        if self.isShowAdvancedSelections == False:
+        if self.isShowAdvancedSelections is False:
             self.hideAdvancedSelections()
         else:
             self.showAdvancedSelections()
@@ -253,7 +253,7 @@ class SpecialTools(MWidget):
 
     def showOrHideAdvancedSelections(self):
         try:
-            if self.isShowAdvancedSelections == False:
+            if self.isShowAdvancedSelections is False:
                 self.showAdvancedSelections()
             else:
                 self.hideAdvancedSelections()

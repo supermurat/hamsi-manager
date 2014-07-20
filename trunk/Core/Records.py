@@ -76,7 +76,7 @@ def restoreRecordType():
 def saveAllRecords():
     global recordContents, isSetTitle
     if "isSaveActions" not in uni.MySettings.keys() or uni.getBoolValue("isSaveActions"):
-        if fu.isFile(fu.recordFilePath) == False:
+        if fu.isFile(fu.recordFilePath) is False:
             create()
         setRecordType(1)
         fu.addToFile(fu.recordFilePath, recordContents)
@@ -102,7 +102,7 @@ def getBackupRecordsList():
 
 
 def read(_recordFilePath=None):
-    if _recordFilePath == None:
+    if _recordFilePath is None:
         _recordFilePath = fu.recordFilePath
     if fu.isFile(_recordFilePath):
         return fu.readFromFile(_recordFilePath, "utf-8")

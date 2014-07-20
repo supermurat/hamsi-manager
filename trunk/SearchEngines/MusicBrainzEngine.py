@@ -886,7 +886,7 @@ class Search(MDialog):
             self.isArtistImportantTemp = self.isArtistImportant
             self.isArtistChanged = True
             self.isArtistImportant = True
-        if self.isAlterAlbum == False:
+        if self.isAlterAlbum is False:
             cbTag = self.sender()
             rowNo = int(str(cbTag.objectName()).replace("Album", ""))
             for object in self.cbTags:

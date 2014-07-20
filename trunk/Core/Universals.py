@@ -189,11 +189,11 @@ def fillMySettings(_setAgain=False, _isCheckUpdate=True):
     fu.fileSystemEncoding = MySettings["fileSystemEncoding"]
     windowMode = MySettings["windowMode"]
     fu.themePath = fu.joinPath(fu.HamsiManagerDirectory, "Themes", MySettings["themeName"])
-    if tableType == None:
+    if tableType is None:
         tableType = MySettings["tableType"]
         if tableType not in tableTypesNames:
             tableType = "1"
-    if getBoolValue("isInstalledKDE4Language") == False:
+    if getBoolValue("isInstalledKDE4Language") is False:
         from Core import MyConfigure
 
         MyConfigure.installKDE4Languages()
@@ -260,7 +260,7 @@ def saveSettings(_key=None):
     from Core.Settings import setting
 
     sets = setting()
-    if _key == None:
+    if _key is None:
         keys = MySettings.keys()
     else:
         keys = [_key]
@@ -450,7 +450,7 @@ def getColorSchemesAndPath():
 
 
 def getScreenSize():
-    if getMainWindow() != None:
+    if getMainWindow() is not None:
         return MQtGui.QDesktopWidget().screenGeometry()
     else:
         return None
@@ -503,7 +503,7 @@ def getKDE4HomePath():
 
 def getLibraryDirectoryPath():
     global libPath
-    if libPath == None:
+    if libPath is None:
         if isActivePyKDE4:
             from PyKDE4 import pykdeconfig
 
@@ -579,7 +579,7 @@ def getDefaultLanguageCode():
 
 def getInstalledLanguagesCodes():
     global installedLanguagesCodes
-    if installedLanguagesCodes == None:
+    if installedLanguagesCodes is None:
         languages = []
         for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Languages")):
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", name)) and name[-3:] == ".qm":
@@ -594,7 +594,7 @@ def getInstalledLanguagesCodes():
 
 def getInstalledLanguagesNames():
     global installedLanguagesNames
-    if installedLanguagesNames == None:
+    if installedLanguagesNames is None:
         languages = []
         for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Languages")):
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", name)) and name[-3:] == ".qm":
@@ -614,8 +614,8 @@ def getHashTypes():
 def checkMysqldSafe(_isAskIfNotFound=True):
     from Core import Dialogs
 
-    if fu.isFile(MySettings["pathOfMysqldSafe"]) == False and fu.isFile(
-            "/usr/bin/" + MySettings["pathOfMysqldSafe"]) == False:
+    if fu.isFile(MySettings["pathOfMysqldSafe"]) is False and fu.isFile(
+            "/usr/bin/" + MySettings["pathOfMysqldSafe"]) is False:
         if _isAskIfNotFound:
             answer = Dialogs.ask(translate("EmbeddedDBCore", "\"mysqld_safe\" Not Found"),
                                  translate("EmbeddedDBCore",

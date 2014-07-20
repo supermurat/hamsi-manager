@@ -91,7 +91,7 @@ class SubFolderMusicTable(CoreTable):
         if uni.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
             import Amarok
 
-            if Amarok.checkAmarok(True, False) == False:
+            if Amarok.checkAmarok(True, False) is False:
                 return False
         uni.startThreadAction()
         allItemNumber = len(self.values)
@@ -229,7 +229,7 @@ class SubFolderMusicTable(CoreTable):
                 allItemNumber = rowNo + 1
             Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags And Informations"),
                               rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         if uni.isActiveAmarok and uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB"):
@@ -307,7 +307,7 @@ class SubFolderMusicTable(CoreTable):
                                               str(translate("FileUtils/Musics",
                                                             "\"%s\" : this file has the incorrect tag so can't read tags.")
                                               ) % Organizer.getLink(musicName))
-                        if tagger.isAvailableFile() == False:
+                        if tagger.isAvailableFile() is False:
                             isCanNoncompatible = True
                         content = {}
                         content["path"] = musicName
@@ -367,7 +367,7 @@ class SubFolderMusicTable(CoreTable):
             else:
                 allItemNumber = rowNo
             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process

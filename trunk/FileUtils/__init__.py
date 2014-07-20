@@ -137,7 +137,7 @@ def isExist(_oldPath):
 
 
 def isHidden(_path, _name=None):
-    if _name == None:
+    if _name is None:
         _name = getBaseName(_path)
     if _name.startswith('.'):
         return True
@@ -305,7 +305,7 @@ def getRealPath(_path, _parentPath=None):
     if len(_path) == 0:
         if uni.isWindows: return "C:" + sep
         return sep
-    if _parentPath != None:
+    if _parentPath is not None:
         _parentPath = getRealPath(_parentPath)
         if _path[:2] == "." + sep:
             _path = _parentPath + _path[1:]
@@ -404,13 +404,13 @@ def moveFileOrDir(_oldPath, _newPath, _isQuiet=True):
             try: os.rename(uni.trEncode(_oldPath, fileSystemEncoding), uni.trEncode(_newPath, fileSystemEncoding))
             except: os.rename(_oldPath, _newPath)
         else:
-            if isDir(getDirName(_newPath)) == False:
+            if isDir(getDirName(_newPath)) is False:
                 makeDirs(getDirName(_newPath))
             try: shutil.move(uni.trEncode(_oldPath, fileSystemEncoding), uni.trEncode(_newPath, fileSystemEncoding))
             except: shutil.move(_oldPath, _newPath)
         Records.add("Moved", _oldPath, _newPath)
     except:
-        if _isQuiet == False:
+        if _isQuiet is False:
             answer = Dialogs.askSpecial(translate("FileUtils", "An Error Has Occurred"),
                                         str(translate("FileUtils",
                                                       "\"%s\" > \"%s\" : an unknown error has occurred.<br>Please check it and try again.")) % (
@@ -432,7 +432,7 @@ def moveFileOrDir(_oldPath, _newPath, _isQuiet=True):
 
 def copyFileOrDir(_oldPath, _newPath):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    if isDir(getDirName(_newPath)) == False:
+    if isDir(getDirName(_newPath)) is False:
         makeDirs(getDirName(_newPath))
     if isFile(_oldPath):
         try: shutil.copy(uni.trEncode(_oldPath, fileSystemEncoding), uni.trEncode(_newPath, fileSystemEncoding))
@@ -451,7 +451,7 @@ def copyDirTree(_oldPath, _newPath):
 
 def copyDirContent(_oldPath, _newPath):
     _oldPath, _newPath = str(_oldPath), str(_newPath)
-    if isDir(_newPath) == False:
+    if isDir(_newPath) is False:
         makeDirs(_newPath)
     for contentPath in listDir(_oldPath):
         if isDir(joinPath(_oldPath, contentPath)):
@@ -560,7 +560,7 @@ def trSort(_info):
 
 def isReadableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
     realPath = _newPath
-    if isFile(realPath) == False:
+    if isFile(realPath) is False:
         realPath = getRealDirName(realPath)
     try:
         if os.access(uni.trEncode(realPath, fileSystemEncoding), os.R_OK):
@@ -568,7 +568,7 @@ def isReadableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
     except:
         if os.access(realPath, os.R_OK):
             return True
-    if _isOnlyCheck == False:
+    if _isOnlyCheck is False:
         if _isInLoop:
             okButtonLabel = translate("Dialogs", "Continue")
         else:
@@ -596,7 +596,7 @@ def isReadableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
 
 def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
     realPath = _newPath
-    if isFile(realPath) == False:
+    if isFile(realPath) is False:
         realPath = getRealDirName(realPath)
     try:
         if os.access(uni.trEncode(realPath, fileSystemEncoding), os.W_OK):
@@ -604,7 +604,7 @@ def isWritableFileOrDir(_newPath, _isOnlyCheck=False, _isInLoop=False):
     except:
         if os.access(realPath, os.W_OK):
             return True
-    if _isOnlyCheck == False:
+    if _isOnlyCheck is False:
         if _isInLoop:
             okButtonLabel = translate("Dialogs", "Continue")
         else:
@@ -681,7 +681,7 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
     if uni.isWindows:
         _oldPath = _oldPath.replace("\\", sep).replace("/", sep)
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
-    while isAvailableNameForEncoding(_newPath) == False:
+    while isAvailableNameForEncoding(_newPath) is False:
         _newPath = Dialogs.getText(translate("FileUtils", "Unavailable Name"),
                                    str(translate("FileUtils",
                                                  "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (
@@ -750,7 +750,7 @@ def checkDestination(_oldPath, _newPath, _isQuiet=False):
                             if _newPath == tDir:
                                 isAllowed = True
                                 return _newPath
-                        if isAllowed == False:
+                        if isAllowed is False:
                             if _isQuiet:
                                 appendingDirectories.append(_newPath)
                                 return _newPath
@@ -789,7 +789,7 @@ def checkNewDestination(_newPath, _isQuiet=False):
     _newPath = str(_newPath)
     if uni.isWindows:
         _newPath = _newPath.replace("\\", sep).replace("/", sep)
-    while isAvailableNameForEncoding(_newPath) == False:
+    while isAvailableNameForEncoding(_newPath) is False:
         _newPath = Dialogs.getText(translate("FileUtils", "Unavailable Name"),
                                    str(translate("FileUtils",
                                                  "\"%s\" : can not encoded by %s.<br>Please review and correct the name!<br>You can correct your file system encoding name in Options/Advanced, If you want.<br>You can click cancel to cancel this action.")) % (
@@ -865,7 +865,7 @@ def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=True):
         musicFileNames = []
         musicExtensions = uni.getListValue("musicExtensions")
     for name in listDir(_path):
-        if _isShowHiddens or isHidden(joinPath(_path, name), name) == False:
+        if _isShowHiddens or isHidden(joinPath(_path, name), name) is False:
             try: fileAndDirectoryNames.append(uni.trDecode(name, fileSystemEncoding))
             except: fileAndDirectoryNames.append(name)
     for name in fileAndDirectoryNames:
@@ -910,7 +910,7 @@ def readDirectoryWithSubDirectories(_path, _subDirectoryDeep=-1, _objectType="fi
     try: namesList = readDirectoryAll(_path)
     except: return []
     for name in namesList:
-        if _isShowHiddens or isHidden(joinPath(_path, name), name) == False:
+        if _isShowHiddens or isHidden(joinPath(_path, name), name) is False:
             if isDir(joinPath(_path, name)):
                 directories.append(name)
             else:
@@ -1012,7 +1012,7 @@ def readFromBinaryFile(_path):
 
 def writeToFile(_path, _contents=""):
     _path = str(_path)
-    if isDir(getDirName(_path)) == False:
+    if isDir(getDirName(_path)) is False:
         makeDirs(getDirName(_path))
     try: f = open(uni.trEncode(_path, fileSystemEncoding), "w")
     except: f = open(_path, "w")
@@ -1023,7 +1023,7 @@ def writeToFile(_path, _contents=""):
 
 def writeToBinaryFile(_path, _contents=""):
     _path = str(_path)
-    if isDir(getDirName(_path)) == False:
+    if isDir(getDirName(_path)) is False:
         makeDirs(getDirName(_path))
     try: f = open(uni.trEncode(_path, fileSystemEncoding), "wb")
     except: f = open(_path, "wb")
@@ -1089,7 +1089,7 @@ def clearEmptyDirectories(_path, _isShowState=False, _isCloseState=False, _isAut
                         except: pass
             if isDir(joinPath(_path, name)):
                 dontRemovingFilesCount += 1
-                if _isAutoCleanSubFolder == False:
+                if _isAutoCleanSubFolder is False:
                     break
                 if uni.getBoolValue("isDeleteEmptyDirectories"):
                     for f in uni.getListValue("ignoredDirectories"):
@@ -1304,14 +1304,14 @@ def completeSmartCheckIcon():
 
 def checkIcon(_path, _isClear=False):
     global isSmartCheckIcon, willCheckIconDirectories
-    if isSmartCheckIcon and _isClear == False:
+    if isSmartCheckIcon and _isClear is False:
         if willCheckIconDirectories.count(_path) == 0:
             willCheckIconDirectories.append(_path)
     else:
-        if _isClear == False:
+        if _isClear is False:
             coverPath = ""
             coverName = getFirstImageInDirectory(_path)
-            if coverName != None:
+            if coverName is not None:
                 coverPath = joinPath(_path, coverName)
             return setIconToDirectory(_path, coverPath)
         elif _isClear:
@@ -1329,24 +1329,24 @@ def getFirstImageInDirectory(_path, _coverNameIfExist=None, _isCheckDelete=False
                     cover = fileName
                 if uni.getListValue("imageExtensions").count((fileName.split(".")[-1]).lower()) != 0:
                     imageFiles.append(fileName)
-                    if cover == None:
+                    if cover is None:
                         for coverName in uni.getListValue("priorityIconNames"):
                             if str(fileName.split(".")[0]).lower() == str(coverName).lower():
                                 cover = fileName
                                 break
         if _isAsk and eval(uni.MySettings["isAskIfHasManyImagesInAlbumDirectory"].title()) and len(imageFiles) > 1:
             selectedIndex = 0
-            if cover != None:
+            if cover is not None:
                 selectedIndex = imageFiles.index(cover)
             cover = Dialogs.getItem(translate("FileUtils", "Select A Cover"),
                                     str(translate("FileUtils", "Please select a cover for \"%s\".")) % (
                                         Organizer.getLink(_path)), imageFiles, selectedIndex)
         else:
-            if cover == None and len(imageFiles) > 0:
+            if cover is None and len(imageFiles) > 0:
                 for imgFile in imageFiles:
                     cover = imgFile
                     break
-        if _isCheckDelete and cover != None:
+        if _isCheckDelete and cover is not None:
             if isWritableFileOrDir(_path):
                 if eval(uni.MySettings["isDeleteOtherImages"].title()):
                     for imgFile in imageFiles:
@@ -1359,7 +1359,7 @@ def setIconToDirectory(_path, _iconName=""):
     _path = str(_path)
     if isDir(_path):
         if isWritableFileOrDir(joinPath(_path, ".directory")):
-            if _iconName == None:
+            if _iconName is None:
                 return False
             _iconName = str(_iconName).strip()
             returnValue, isChanging, isChange, isCorrectFileContent, rows = False, False, True, False, []
@@ -1383,13 +1383,13 @@ def setIconToDirectory(_path, _iconName=""):
                             elif rows[rowNo][5] != "." and isFile(rows[rowNo][5:]):
                                 isFileExist = True
                             if isFileExist:
-                                if uni.getBoolValue("isChangeExistIcon") == False:
+                                if uni.getBoolValue("isChangeExistIcon") is False:
                                     isChange = False
                         isChanging = True
                         rows[rowNo] = "Icon=" + _iconName
                         returnValue = True
                 if isChange:
-                    if isChanging == False:
+                    if isChanging is False:
                         rows.append("Icon=" + _iconName)
                         returnValue = True
                 if isCorrectFileContent:
@@ -1474,14 +1474,14 @@ def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
                         dontRemovingFilesCount -= 1
                         isDeleted = True
                         break
-                if isDeleted == False:
+                if isDeleted is False:
                     if name[-1:] == "~":
                         removeFile(joinPath(_path, name))
                         dontRemovingFilesCount -= 1
                         continue
             if isDir(joinPath(_path, name)):
                 dontRemovingFilesCount += 1
-                if clearPackagingDirectory(joinPath(_path, name)) == False:
+                if clearPackagingDirectory(joinPath(_path, name)) is False:
                     dontRemovingFilesCount -= 1
         if dontRemovingFilesCount == 0 and uni.getBoolValue("isPackagerDeleteEmptyDirectories"):
             if _isShowState: Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
@@ -1530,7 +1530,7 @@ def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
                 except: pass
             if isDir(joinPath(_path, name)):
                 dontRemovingFilesCount += 1
-                if clearCleaningDirectory(joinPath(_path, name)) == False:
+                if clearCleaningDirectory(joinPath(_path, name)) is False:
                     dontRemovingFilesCount -= 1
         if dontRemovingFilesCount == 0 and uni.getBoolValue("isCleanerDeleteEmptyDirectories"):
             if _isShowState: Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
@@ -1841,12 +1841,12 @@ def getHashDigest(_filePath, _hashType="MD5"):
 
 def createHashDigestFile(_filePath, _digestFilePath=None, _hashType="MD5", _isAddFileExtension=True,
                          _digestContent=None):
-    if _digestContent == None:
+    if _digestContent is None:
         _digestContent = getHashDigest(_filePath, _hashType)
     fileExtension = ""
     if _isAddFileExtension:
         fileExtension = _hashType.lower()
-    if _digestFilePath == None:
+    if _digestFilePath is None:
         _digestFilePath = _filePath
     writeToFile(_digestFilePath + fileExtension, _digestContent)
     return True

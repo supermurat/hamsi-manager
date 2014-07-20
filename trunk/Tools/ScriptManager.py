@@ -101,7 +101,7 @@ class ScriptManager(MDialog):
         self.show()
 
     def closeEvent(self, _event):
-        if self.checkForSave() == False:
+        if self.checkForSave() is False:
             _event.ignore()
 
     @staticmethod

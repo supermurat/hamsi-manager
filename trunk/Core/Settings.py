@@ -41,14 +41,14 @@ def universalSetting():
 
 
 def checkSettings():
-    if fu.isDir(fu.pathOfSettingsDirectory) == False:
+    if fu.isDir(fu.pathOfSettingsDirectory) is False:
         fu.makeDirs(fu.pathOfSettingsDirectory)
         reFillSettings()
         reFillDatabases()
     else:
-        if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, "database.sqlite")) == False:
+        if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, "database.sqlite")) is False:
             reFillDatabases()
-        if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, uni.fileOfSettings)) == False:
+        if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, uni.fileOfSettings)) is False:
             reFillSettings()
         checkDatabases()
 
@@ -85,9 +85,9 @@ def reFillSettings(_makeBackUp=False):
 
 
 def emendValue(_keyOfSetting, _value, _defaultValue=None, _valueTypesAndValue=None):
-    if _valueTypesAndValue == None:
+    if _valueTypesAndValue is None:
         _valueTypesAndValue = getValueTypesAndValues()[_keyOfSetting]
-    if _defaultValue == None:
+    if _defaultValue is None:
         _defaultValue = getDefaultValues()[_keyOfSetting]
     if _valueTypesAndValue == "bool":
         try:
@@ -165,7 +165,7 @@ def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mir
         files.append("database.sqlite")
     if _settingType == "Settings" or _settingType == "All":
         files.append(uni.fileOfSettings)
-    if fu.isDir(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory)) == False:
+    if fu.isDir(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory)) is False:
         fu.makeDirs(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory))
     isReturn = False
     for file in files:
@@ -177,7 +177,7 @@ def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mir
 
             while 1 == 1:
                 newFileName = file[:file.find(".")] + "_" + str(random.randrange(0, 100000000)) + file[file.find("."):]
-                if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName)) == False:
+                if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName)) is False:
                     break
         else:
             newFileName = _newFileName

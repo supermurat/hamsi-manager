@@ -116,7 +116,7 @@ class AmarokCoverTable(CoreTable):
                 allItemNumber = rowNo + 1
             Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"), rowNo + 1, allItemNumber,
                               True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         if len(oldAndNewPathValues) > 0:
@@ -180,7 +180,7 @@ class AmarokCoverTable(CoreTable):
                 Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
-                    if directoriesAndValues != None:
+                    if directoriesAndValues is not None:
                         allItemNumber = len(directoriesAndValues)
                         self.setRowCount(allItemNumber)
                         rowNo = 0
@@ -195,7 +195,7 @@ class AmarokCoverTable(CoreTable):
                                         content["pathOfParentDirectory"] = fu.getDirName(dirPath)
                                         content["baseName"] = fu.getBaseName(dirPath)
                                         currentCover, isCorrectedFileContent = fu.getIconFromDirectory(dirPath)
-                                        if currentCover == None:
+                                        if currentCover is None:
                                             currentCover = ""
                                         content["currentCover"] = (currentCover)
                                         content["sourceCover"] = (dirRow["coverPath"][0].replace(dirPath, "."))
@@ -205,9 +205,9 @@ class AmarokCoverTable(CoreTable):
                                             dirRow["genre"][0],
                                             dirRow["year"][0]))
                                         content["flagColor"] = {}
-                                        if isCorrectedFileContent == False:
+                                        if isCorrectedFileContent is False:
                                             content["flagColor"]["currentCover"] = 255, 163, 163
-                                        if fu.isFile(content["sourceCover"]) == False:
+                                        if fu.isFile(content["sourceCover"]) is False:
                                             content["flagColor"]["sourceCover"] = 255, 163, 163
                                         self.values.append(content)
 
@@ -251,13 +251,13 @@ class AmarokCoverTable(CoreTable):
                             else:
                                 allItemNumber = rowNo
                             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-                            if isContinueThreadAction == False:
+                            if isContinueThreadAction is False:
                                 break
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
     def setItemColor(self, _item, _rowNo, _itemNo, _name):
-        if _item != None:
+        if _item is not None:
             if _name in self.values[_rowNo]["flagColor"]:
                 r, g, b = self.values[_rowNo]["flagColor"][_name]
                 _item.setBackground(MBrush(MColor(r, g, b)))

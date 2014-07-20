@@ -53,7 +53,7 @@ class AmarokArtistTable(CoreTable):
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if self.isRowHidden(rowNo) == False:
+                    if self.isRowHidden(rowNo) is False:
                         if self.isChangeableItem(rowNo, 1,
                                                  str(self.values[rowNo]["currentArtist"])):
                             changedArtistValues.append({})
@@ -68,7 +68,7 @@ class AmarokArtistTable(CoreTable):
             else:
                 allItemNumber = rowNo + 1
             Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         from Amarok import Operations
@@ -118,7 +118,7 @@ class AmarokArtistTable(CoreTable):
                 Dialogs.showState(translate("AmarokArtistTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
-                    if artistValues != None:
+                    if artistValues is not None:
                         allItemNumber = len(artistValues)
                         self.setRowCount(allItemNumber)
                         rowNo = 0
@@ -146,7 +146,7 @@ class AmarokArtistTable(CoreTable):
                             else:
                                 allItemNumber = rowNo
                             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-                            if isContinueThreadAction == False:
+                            if isContinueThreadAction is False:
                                 break
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process

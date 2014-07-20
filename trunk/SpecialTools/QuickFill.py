@@ -56,7 +56,7 @@ class QuickFill(MWidget):
     def fillAfter(self, _searchValue=""):
         try:
             self.fillFrom = self.sender()
-            if self.tmrFillAfter != None:
+            if self.tmrFillAfter is not None:
                 self.tmrFillAfter.stop()
                 self.tmrFillAfter.deleteLater()
             self.tmrFillAfter = MTimer(self)

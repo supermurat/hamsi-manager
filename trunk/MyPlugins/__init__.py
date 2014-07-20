@@ -109,7 +109,7 @@ class MyPlugins(MyDialog):
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(),
                                   ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin",
                                    "setupDirectory", "pluginVersion"], 0)
-        if pluginModule.installThisPlugin == None:
+        if pluginModule.installThisPlugin is None:
             if pluginModule.pluginDirectory == "":
                 try: fu.makeDirs(pluginModule.setupDirectory)
                 except: pass
@@ -130,17 +130,17 @@ class MyPlugins(MyDialog):
             isInstalled = pluginModule.installThisPlugin()
         if isInstalled:
             Settings.setUniversalSetting(str(pluginModule.pluginName), str(pluginModule.pluginVersion))
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"),
                              str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (
                                  pluginModule.pluginName))
         elif isInstalled == "AlreadyInstalled":
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Already Installed"),
                              str(translate("MyPlugins", "\"%s\" already installed on your system.")) % (
                                  pluginModule.pluginName))
         else:
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.showError(translate("MyPlugins", "Plug-in Installation Failed"),
                                   str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (
                                       pluginModule.pluginName))
@@ -150,7 +150,7 @@ class MyPlugins(MyDialog):
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(),
                                   ["pluginName", "pluginFiles", "pluginDirectory", "uninstallThisPlugin",
                                    "setupDirectory", "pluginVersion"], 0)
-        if pluginModule.uninstallThisPlugin == None:
+        if pluginModule.uninstallThisPlugin is None:
             if pluginModule.pluginDirectory == "":
                 for pluginFile in pluginModule.pluginFiles:
                     if fu.isFile(fu.joinPath(pluginModule.setupDirectory, pluginFile)):
@@ -164,17 +164,17 @@ class MyPlugins(MyDialog):
             isUninstalled = pluginModule.uninstallThisPlugin()
         if isUninstalled:
             Settings.setUniversalSetting(str(pluginModule.pluginName), str(""))
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Uninstallation Is Complete"),
                              str(translate("MyPlugins", "\"%s\" is uninstalled on your system.")) % (
                                  pluginModule.pluginName))
         elif isUninstalled == "AlreadyUninstalled":
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Already Uninstalled"),
                              str(translate("MyPlugins", "\"%s\" already uninstalled on your system.")) % (
                                  pluginModule.pluginName))
         else:
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.showError(translate("MyPlugins", "Plug-in Uninstallation Failed"),
                                   str(translate("MyPlugins", "\"%s\" failed to uninstall on your system.")) % (
                                       pluginModule.pluginName))
@@ -250,7 +250,7 @@ class MyPluginsForSystem(MWidget):
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(),
                                   ["pluginName", "pluginFiles", "pluginDirectory", "installThisPlugin",
                                    "setupDirectory", "pluginVersion"], 0)
-        if pluginModule.installThisPlugin == None:
+        if pluginModule.installThisPlugin is None:
             if pluginModule.pluginDirectory == "":
                 try: fu.makeDirs(pluginModule.setupDirectory)
                 except: pass
@@ -271,17 +271,17 @@ class MyPluginsForSystem(MWidget):
             isInstalled = pluginModule.installThisPlugin()
         if isInstalled:
             Settings.setUniversalSetting(str(pluginModule.pluginName), str(pluginModule.pluginVersion))
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Installation Is Complete"),
                              str(translate("MyPlugins", "\"%s\" is installed on your system.")) % (
                                  pluginModule.pluginName))
         elif isInstalled == "AlreadyInstalled":
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Already Installed"),
                              str(translate("MyPlugins", "\"%s\" already installed on your system.")) % (
                                  pluginModule.pluginName))
         else:
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.showError(translate("MyPlugins", "Plug-in Installation Failed"),
                                   str(translate("MyPlugins", "\"%s\" failed to install on your system.")) % (
                                       pluginModule.pluginName))
@@ -291,7 +291,7 @@ class MyPluginsForSystem(MWidget):
         pluginModule = __import__("MyPlugins." + _pluginName, globals(), locals(),
                                   ["pluginName", "pluginFiles", "pluginDirectory", "uninstallThisPlugin",
                                    "setupDirectory", "pluginVersion"], 0)
-        if pluginModule.uninstallThisPlugin == None:
+        if pluginModule.uninstallThisPlugin is None:
             if pluginModule.pluginDirectory == "":
                 for pluginFile in pluginModule.pluginFiles:
                     if fu.isFile(fu.joinPath(pluginModule.setupDirectory, pluginFile)):
@@ -305,17 +305,17 @@ class MyPluginsForSystem(MWidget):
             isUninstalled = pluginModule.uninstallThisPlugin()
         if isUninstalled:
             Settings.setUniversalSetting(str(pluginModule.pluginName), str(""))
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Uninstallation Is Complete"),
                              str(translate("MyPlugins", "\"%s\" is uninstalled on your system.")) % (
                                  pluginModule.pluginName))
         elif isUninstalled == "AlreadyUninstalled":
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.show(translate("MyPlugins", "Plug-in Already Uninstalled"),
                              str(translate("MyPlugins", "\"%s\" already uninstalled on your system.")) % (
                                  pluginModule.pluginName))
         else:
-            if _isQuiet == False:
+            if _isQuiet is False:
                 Dialogs.showError(translate("MyPlugins", "Plug-in Uninstallation Failed"),
                                   str(translate("MyPlugins", "\"%s\" failed to uninstall on your system.")) % (
                                       pluginModule.pluginName))

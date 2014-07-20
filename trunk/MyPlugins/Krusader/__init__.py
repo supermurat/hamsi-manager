@@ -222,7 +222,7 @@ def installThisPlugin():
     try:
         pluginStrings = fu.readFromFile(destinationPath + "useractions.xml")
     except:
-        if fu.isDir(destinationPath) == False:
+        if fu.isDir(destinationPath) is False:
             fu.makeDirs(destinationPath)
         if fu.isFile("/usr/share/apps/krusader/useraction_examples.xml"):
             pluginStrings = fu.readFromFile("/usr/share/apps/krusader/useraction_examples.xml")

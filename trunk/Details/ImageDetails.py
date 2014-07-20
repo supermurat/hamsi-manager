@@ -32,7 +32,7 @@ class ImageDetails(MDialog):
     def __init__(self, _file, _valueType="file", _isOpenDetailsOnNewWindow=True, _defaultMaxSize=[500, 400]):
         global imageDialogs
         self.defaultMaxSize = _defaultMaxSize
-        if _isOpenDetailsOnNewWindow == False:
+        if _isOpenDetailsOnNewWindow is False:
             isHasOpenedDialog = False
             for dialog in imageDialogs:
                 if dialog.isVisible():
@@ -42,7 +42,7 @@ class ImageDetails(MDialog):
                     dialog.activateWindow()
                     dialog.raise_()
                     break
-            if isHasOpenedDialog == False:
+            if isHasOpenedDialog is False:
                 _isOpenDetailsOnNewWindow = True
         if _isOpenDetailsOnNewWindow:
             imageDialogs.append(self)

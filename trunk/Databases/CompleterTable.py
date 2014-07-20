@@ -27,7 +27,7 @@ allForFetch, allForFetchByObjectName = None, {}
 
 def fetchAll():
     global allForFetch
-    if allForFetch == None:
+    if allForFetch is None:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute("SELECT * FROM " + tableName)
@@ -37,9 +37,9 @@ def fetchAll():
 
 def fetchAllByObjectName(_objectName=None):
     global allForFetchByObjectName
-    if _objectName == None:
+    if _objectName is None:
         _objectName = "%*%"
-    if _objectName not in allForFetchByObjectName or allForFetchByObjectName[_objectName] == None:
+    if _objectName not in allForFetchByObjectName or allForFetchByObjectName[_objectName] is None:
         con = getDefaultConnection()
         cur = con.cursor()
         if _objectName == "%*%":

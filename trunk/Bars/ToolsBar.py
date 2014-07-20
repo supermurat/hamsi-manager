@@ -76,7 +76,7 @@ class ToolsBar(MToolBar):
                                           translate("ToolsBar", "Show Last Actions"), self)
             self.actLastActions.setObjectName(translate("ToolsBar", "Show Last Actions"))
             self.actLastActions.setToolTip(translate("ToolsBar", "You can see last actions."))
-        if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") == False:
+        if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") is False:
             self.actAmarokEmbeddedDBConfigurator = MAction(MIcon("Images:amarokEmbeddedDBConfigurator.png"),
                                                            translate("ToolsBar",
                                                                      "Amarok Embedded Database Configurator"), self)
@@ -92,7 +92,7 @@ class ToolsBar(MToolBar):
         self.addAction(self.actScriptManager)
         if uni.getBoolValue("isSaveActions"):
             self.addAction(self.actLastActions)
-        if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") == False:
+        if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") is False:
             self.addAction(self.actAmarokEmbeddedDBConfigurator)
         self.addSeparator()
         self.addAction(self.clearEmptyDirectories)
@@ -114,7 +114,7 @@ class ToolsBar(MToolBar):
         getMainWindow().Menu.mTools.addAction(self.actScriptManager)
         if uni.getBoolValue("isSaveActions"):
             getMainWindow().Menu.mTools.addAction(self.actLastActions)
-        if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") == False:
+        if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") is False:
             getMainWindow().Menu.mTools.addAction(self.actAmarokEmbeddedDBConfigurator)
         getMainWindow().Menu.mTools.addSeparator()
         getMainWindow().Menu.mTools.addAction(self.clearEmptyDirectories)

@@ -33,7 +33,7 @@ class TextDetails(MDialog):
         global textDialogs
         _filePath = fu.checkSource(_filePath, "file")
         if _filePath is not None:
-            if _isOpenDetailsOnNewWindow == False:
+            if _isOpenDetailsOnNewWindow is False:
                 isHasOpenedDialog = False
                 for dialog in textDialogs:
                     if dialog.isVisible():
@@ -43,7 +43,7 @@ class TextDetails(MDialog):
                         self.activateWindow()
                         self.raise_()
                         break
-                if isHasOpenedDialog == False:
+                if isHasOpenedDialog is False:
                     _isOpenDetailsOnNewWindow = True
             if _isOpenDetailsOnNewWindow:
                 textDialogs.append(self)
@@ -93,7 +93,7 @@ class TextDetails(MDialog):
     def changeFile(self, _filePath, _isNew=False):
         self.fileValues = fu.readTextFile(_filePath, uni.MySettings["fileSystemEncoding"])
         self.setWindowTitle(str(fu.getBaseName(self.fileValues["path"])))
-        if self.pnlClearable != None:
+        if self.pnlClearable is not None:
             clearAllChildren(self.pnlClearable, True)
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)

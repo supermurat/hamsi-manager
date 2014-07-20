@@ -23,7 +23,7 @@ from Core import Dialogs
 from Core.MyObjects import *
 from Core import ReportBug
 from Core import Organizer
-import Databases
+from Databases import BookmarksOfDirectories
 
 
 class FileManager():
@@ -35,6 +35,7 @@ class FileManager():
         getMainWindow().Browser = None
         getMainWindow().Places = None
         getMainWindow().TreeBrowser = None
+        toolsFull = None
         if isActivePyKDE4:
             self.dirModelMain = MDirModel()
             self.dirLister = MDirLister()
@@ -65,7 +66,7 @@ class FileManager():
         self.trvFileManager.setModel(self.dirModelForTree)
         self.lstvFileManager.setModel(self.dirModel)
         self.currentDirectory = str(fu.getRealDirName(uni.MySettings["lastDirectory"]))
-        if fu.isDir(str(self.currentDirectory)) == False:
+        if fu.isDir(str(self.currentDirectory)) is False:
             self.currentDirectory = MDir.homePath()
         MObject.connect(self.trvFileManager, SIGNAL("clicked(QModelIndex)"), self.setMyCurrentIndexByTree)
         MObject.connect(self.lstvFileManager, SIGNAL("doubleClicked(QModelIndex)"), self.setMyCurrentIndex)
@@ -224,7 +225,8 @@ class FileManager():
                         if _isRemember:
                             self.future = []
                             self.history.append(self.currentDirectory)
-                        if _path[-1] == fu.sep: _path = _path[:-1]
+                        if _path[-1] == fu.sep:
+                            _path = _path[:-1]
                         self.currentDirectory = str(_path)
                         if isActivePyKDE4:
                             self.dirLister.openUrl(MUrl(self.currentDirectory))
@@ -239,7 +241,7 @@ class FileManager():
                             self.lstvFileManager.setRootIndex(self.dirModel.index(_path))
                             self.trvFileManager.setCurrentIndex(self.dirModelForTree.index(_path))
                         self.actForward.setEnabled(False)
-                        if _isOnlyBrowser == False:
+                        if _isOnlyBrowser is False:
                             self.showInTable()
                         self.actBack.setEnabled(True)
                         if str(self.currentDirectory) == fu.sep:
@@ -291,7 +293,7 @@ class FileManager():
 
     def makeRefresh(self, _newDirectoryPath="", _isOnlyBrowser=False):
         try:
-            if _newDirectoryPath != "" and _newDirectoryPath != True and _newDirectoryPath != False:
+            if _newDirectoryPath != "" and _newDirectoryPath is not True and _newDirectoryPath is not False:
                 self.goTo(_newDirectoryPath, False)
             else:
                 sourcePath = fu.checkSource(str(self.currentDirectory), "directory")
@@ -301,7 +303,7 @@ class FileManager():
                     else:
                         self.makeRefreshOnlyFileList()
                         self.makeRefreshOnlyFileListByTree()
-                        if _isOnlyBrowser == False:
+                        if _isOnlyBrowser is False:
                             self.showInTable()
                 else:
                     self.goTo(fu.getRealDirName(str(self.currentDirectory)), False)
@@ -309,14 +311,16 @@ class FileManager():
             ReportBug.ReportBug()
 
     def makeRefreshOnlyFileList(self, _index=""):
-        if _index == "": _index = self.lstvFileManager.currentIndex()
+        if _index == "":
+            _index = self.lstvFileManager.currentIndex()
         if isActivePyKDE4:
             return self.dirModelMain.itemForIndex(self.dirModel.mapToSource(_index)).refresh()
         else:
             return self.dirModel.refresh(_index)
 
     def makeRefreshOnlyFileListByTree(self, _index=""):
-        if _index == "": _index = self.trvFileManager.currentIndex()
+        if _index == "":
+            _index = self.trvFileManager.currentIndex()
         return self.dirModelForTree.refresh(_index)
 
     def getPathOfIndex(self, _index):
@@ -391,7 +395,7 @@ class FileManager():
 class BookmarksMenu(MMenu):
     def __init__(self, _parent):
         MMenu.__init__(self)
-        self._parent = _parent;
+        self._parent = _parent
         self.setTitle(translate("BookmarksMenu", "Bookmarks"))
         self.setIcon(MIcon("Images:bookmarks.png"))
         MObject.connect(self, SIGNAL("triggered(QAction *)"), self.triggered)
@@ -400,7 +404,7 @@ class BookmarksMenu(MMenu):
     def makeRefresh(self):
         try:
             self.clear()
-            for fav in Databases.BookmarksOfDirectories.fetchAll():
+            for fav in BookmarksOfDirectories.fetchAll():
                 self.addAction(str(fav[1])).setObjectName(str(fav[1]))
             self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(
                 translate("BookmarksMenu", "Edit Bookmarks"))
@@ -413,7 +417,7 @@ class BookmarksMenu(MMenu):
                 getMainWindow().FileManager.bookmarks.makeRefresh()
                 getMainWindow().FileManager.bookmarks.show()
                 return
-            for info in Databases.BookmarksOfDirectories.fetchAll():
+            for info in BookmarksOfDirectories.fetchAll():
                 if info[1] == str(_action.objectName()):
                     if fu.isDir(str(info[2])):
                         getMainWindow().FileManager.goTo(str(info[2]))
@@ -424,7 +428,7 @@ class BookmarksMenu(MMenu):
                                                            "\"%s\" cannot be found.<br>Delete this folder from the bookmarks?")) % Organizer.getLink(
                                                  info[1]))
                         if answer == Dialogs.Yes:
-                            Databases.BookmarksOfDirectories.delete(str(info[0]))
+                            BookmarksOfDirectories.delete(str(info[0]))
                             self.makeRefresh()
                             getMainWindow().FileManager.bookmarks.makeRefresh()
             getMainWindow().FileManager.makeRefreshOnlyFileList()
@@ -474,14 +478,14 @@ class Bookmarks(MDialog):
     def bookmarksChanged(self, _index):
         try:
             self.pathOfBookmark.setText(
-                str(Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
+                str(BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()][2]))
         except:
             ReportBug.ReportBug()
 
     def addBookmark(self):
         try:
             currentPath = getMainWindow().FileManager.getCurrentDirectoryPath()
-            Databases.BookmarksOfDirectories.insert(fu.splitPath(currentPath)[-1], currentPath)
+            BookmarksOfDirectories.insert(fu.splitPath(currentPath)[-1], currentPath)
             getMainWindow().FileManager.bookmarksMenu.makeRefresh()
             self.makeRefresh()
         except:
@@ -489,8 +493,8 @@ class Bookmarks(MDialog):
 
     def saveBookmark(self):
         try:
-            info = Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
-            Databases.BookmarksOfDirectories.update(info[0], str(self.cbBookmarks.currentText()),
+            info = BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
+            BookmarksOfDirectories.update(info[0], str(self.cbBookmarks.currentText()),
                                                     str(self.pathOfBookmark.text()))
             self.makeRefresh()
             getMainWindow().FileManager.bookmarksMenu.makeRefresh()
@@ -500,8 +504,8 @@ class Bookmarks(MDialog):
     def deleteBookmark(self):
         try:
             if self.cbBookmarks.currentIndex() != -1:
-                info = Databases.BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
-                Databases.BookmarksOfDirectories.delete(str(info[0]))
+                info = BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
+                BookmarksOfDirectories.delete(str(info[0]))
                 self.makeRefresh()
                 getMainWindow().FileManager.bookmarksMenu.makeRefresh()
         except:
@@ -510,11 +514,9 @@ class Bookmarks(MDialog):
     def makeRefresh(self):
         try:
             self.cbBookmarks.clear()
-            for fav in Databases.BookmarksOfDirectories.fetchAll():
+            for fav in BookmarksOfDirectories.fetchAll():
                 self.cbBookmarks.addItem(str(fav[1]))
         except:
             ReportBug.ReportBug()
-            
-            
-            
-            
+
+

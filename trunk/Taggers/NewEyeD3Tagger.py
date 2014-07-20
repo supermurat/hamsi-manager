@@ -70,7 +70,7 @@ class Tagger():
         return False
 
     def getCorrectedValues(self, _value):
-        if _value == None or _value == "None" or _value == "None/None":
+        if _value is None or _value == "None" or _value == "None/None":
             return ""
         return _value
 

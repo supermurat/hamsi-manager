@@ -38,7 +38,7 @@ class MusicDetails(MDialog):
         global musicDialogs
         _filePath = fu.checkSource(_filePath, "file")
         if _filePath is not None:
-            if _isOpenDetailsOnNewWindow == False:
+            if _isOpenDetailsOnNewWindow is False:
                 isHasOpenedDialog = False
                 for dialog in musicDialogs:
                     if dialog.isVisible():
@@ -49,7 +49,7 @@ class MusicDetails(MDialog):
                         self.raise_()
                         self.player.play(_filePath, self.isPlayNow.isChecked())
                         break
-                if isHasOpenedDialog == False:
+                if isHasOpenedDialog is False:
                     _isOpenDetailsOnNewWindow = True
             if _isOpenDetailsOnNewWindow:
                 musicDialogs.append(self)
@@ -101,7 +101,7 @@ class MusicDetails(MDialog):
         self.musicFile = _filePath
         self.musicValues = Musics.readMusicFile(self.musicFile)
         self.setWindowTitle(str(fu.getBaseName(self.musicFile)))
-        if self.pnlClearable != None:
+        if self.pnlClearable is not None:
             clearAllChildren(self.pnlClearable, True)
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)
@@ -296,7 +296,7 @@ class MusicDetails(MDialog):
 
     def addImage(self):
         try:
-            if self.isActiveAddImage == False:
+            if self.isActiveAddImage is False:
                 self.isActiveAddImage = True
                 self.pbtnAddImage.setText(translate("MusicDetails", "OK"))
                 self.pbtnSelectImage.show()

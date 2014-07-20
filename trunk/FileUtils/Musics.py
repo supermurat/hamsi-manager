@@ -39,7 +39,7 @@ def readMusicFile(_filePath, _isAlertWhenNotAvailable=True):
                               str(translate("FileUtils/Musics",
                                             "\"%s\" : this file has the incorrect tag so can't read tags.")
                               ) % Organizer.getLink(_filePath))
-        if tagger.isAvailableFile() == False:
+        if tagger.isAvailableFile() is False:
             isCanNoncompatible = True
         content = {}
         content["path"] = _filePath
@@ -69,7 +69,7 @@ def writeMusicFile(_oldMusicTagsValues, _newMusicTagsValues, _isImageAction=Fals
         baseName = _oldMusicTagsValues["baseName"]
         tagger = Taggers.getTagger()
         tagger.loadFileForWrite(_oldMusicTagsValues["path"])
-        if _isImageAction == False:
+        if _isImageAction is False:
             if _newMusicTagsValues["artist"] != _oldMusicTagsValues["artist"]:
                 tagger.setArtist(str(_newMusicTagsValues["artist"]))
             if _newMusicTagsValues["title"] != _oldMusicTagsValues["title"]:
@@ -100,7 +100,7 @@ def writeMusicFile(_oldMusicTagsValues, _newMusicTagsValues, _isImageAction=Fals
                                        fu.getObjectType(_oldMusicTagsValues["path"]))
         #Making changes on image files
         else:
-            if _ImagePath == False:
+            if _ImagePath is False:
                 tagger.removeImage(_imageDescription)
             else:
                 tagger.addImage(_ImageType, _ImagePath, _imageDescription)

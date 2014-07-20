@@ -55,7 +55,7 @@ def executeStringCommand(_command):
 def execute(_command=[], _executableName=None):
     if _executableName in ["HamsiManager", "HamsiManagerInstaller"]:
         pathOfExecutable = findExecutablePath(_executableName)
-        if pathOfExecutable == None:
+        if pathOfExecutable is None:
             from Core import Dialogs
 
             Dialogs.showError(translate("Execute", "Cannot Find Executable File"),
@@ -111,7 +111,7 @@ def findExecutableBaseName(_executableName):
 
 def findExecutablePath(_executableName):
     executableBaseName = findExecutableBaseName(_executableName)
-    if executableBaseName != None:
+    if executableBaseName is not None:
         return fu.joinPath(fu.HamsiManagerDirectory, executableBaseName)
     return None
 
@@ -175,7 +175,7 @@ def executeAsRoot(_command=[], _executableName=None):
         pathOfExecutable = None
         if _executableName in ["HamsiManager", "HamsiManagerInstaller"]:
             pathOfExecutable = findExecutablePath(_executableName)
-        if pathOfExecutable != None:
+        if pathOfExecutable is not None:
             _command = [pathOfExecutable] + _command
         return execute([fu.joinPath(uni.getLibraryDirectoryPath(), "kde4", "libexec", "kdesu")] + _command)
     return False

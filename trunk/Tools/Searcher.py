@@ -171,11 +171,11 @@ class Searcher(MyDialog):
 
     def setSourceToSearch(self, _isReload=True, _isLoadFromCache=False):
         try:
-            if self.sourceToSearch == None or _isReload:
+            if self.sourceToSearch is None or _isReload:
                 sourceToSearch = ""
                 self.isMultipleSource = False
                 pathToSearchs = str(self.lePathToSeach.text())
-                if fu.isExist(pathToSearchs) == False and pathToSearchs.find(";") != -1:
+                if fu.isExist(pathToSearchs) is False and pathToSearchs.find(";") != -1:
                     self.isMultipleSource = True
                 for pathToSearch in uni.getListFromListString(pathToSearchs, ";"):
                     if pathToSearch in self.sourceToSearchCache and _isLoadFromCache:
@@ -184,7 +184,7 @@ class Searcher(MyDialog):
                         pathToSearch = fu.checkSource(pathToSearch)
                         if pathToSearch is not None:
                             if fu.isReadableFileOrDir(pathToSearch):
-                                if fu.isFile(pathToSearch) and fu.isBinary(pathToSearch) == False:
+                                if fu.isFile(pathToSearch) and fu.isBinary(pathToSearch) is False:
                                     sts = fu.readFromFile(pathToSearch) + "\n"
                                     sourceToSearch += sts
                                     self.sourceToSearchCache[pathToSearch] = sts
@@ -225,7 +225,7 @@ class Searcher(MyDialog):
             if self.cckbIsClearDigits.checkState() == Mt.Checked:
                 clearedSearchValue1 = ""
                 for char in searchValue:
-                    if char.isdigit() == False:
+                    if char.isdigit() is False:
                         clearedSearchValue1 += char
                 if clearedSearchValue1 not in searchValueList:
                     searchValueList.append(clearedSearchValue1)
@@ -266,7 +266,7 @@ class Searcher(MyDialog):
     def searchAfter(self, _searchValue=""):
         try:
             if self.cckbIsRegExp.checkState() != Mt.Checked:
-                if self.tmrSearchAfter != None:
+                if self.tmrSearchAfter is not None:
                     self.tmrSearchAfter.stop()
                     self.tmrSearchAfter.deleteLater()
                 self.tmrSearchAfter = MTimer(self)

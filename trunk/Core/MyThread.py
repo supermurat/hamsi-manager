@@ -41,7 +41,7 @@ class MyThread(MThread):
         self.emit(SIGNAL("startedCallback"))
 
     def startCallback(self):
-        if self.callback != None:
+        if self.callback is not None:
             if type(self.callback) is list:
                 for cb in self.callback:
                     cb(self.data)
@@ -58,7 +58,7 @@ class MyTarPackStateThread(MThread):
         self.dlgState = _dlgState
 
     def run(self):
-        while self.isFinished == False:
+        while self.isFinished is False:
             self.dlgState.emit(SIGNAL("setState"), len(self.tarFile.members), self.maxMembers)
             time.sleep(0.05)
 
@@ -74,7 +74,7 @@ class MyWaitThread(MThread):
 
     def run(self):
         i = 0
-        while self.isFinished == False:
+        while self.isFinished is False:
             if i > 9:
                 i = 0
             self.dlgState.emit(SIGNAL("setState"), i, 10)

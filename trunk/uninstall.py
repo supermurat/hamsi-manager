@@ -161,7 +161,7 @@ if RoutineChecks.checkMandatoryModules():
 
         def pageChanged(self, _isRunningManual=False):
             try:
-                if _isRunningManual == False:
+                if _isRunningManual is False:
                     senderObject = self.sender()
                     if senderObject == self.buttons[1]:
                         self.pageNo += 1
@@ -190,7 +190,7 @@ if RoutineChecks.checkMandatoryModules():
                     self.buttons[2].setVisible(False)
                     self.pbtnCancel.setVisible(False)
                     self.pbtnFinish.setVisible(True)
-                if _isRunningManual == False:
+                if _isRunningManual is False:
                     if senderObject == self.buttons[2]:
                         self.uninstall()
             except:
@@ -254,7 +254,7 @@ if RoutineChecks.checkMandatoryModules():
 
                 ReportBug.ReportBug()
 
-    if uni.isRunningAsRoot() == False and uni.isRunableAsRoot():
+    if uni.isRunningAsRoot() is False and uni.isRunableAsRoot():
         answer = Dialogs.askSpecial(translate("Uninstall", "Are You Want To Run As Root?"), translate("Uninstall",
                                                                                                       "Hamsi Manager Uninstaller is running with user privileges.<br>Do you want to run Hamsi Manager Uninstaller with root rights?"),
                                     translate("Uninstall", "Yes"), translate("Uninstall", "No (Continue as is)"), None)

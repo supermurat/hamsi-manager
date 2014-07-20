@@ -42,7 +42,7 @@ def getNextScriptFilePath():
     i = 1
     while True:
         nextScriptFilePath = fu.joinPath(pathOfScripsDirectory, translate("Scripts", "Script") + "-" + str(i) + ".py")
-        if fu.isFile(nextScriptFilePath) == False:
+        if fu.isFile(nextScriptFilePath) is False:
             return nextScriptFilePath
         i = i + 1
 
@@ -61,7 +61,7 @@ def getScript(_filePath):
 
 
 def getScriptList():
-    if fu.isDir(pathOfScripsDirectory) == False:
+    if fu.isDir(pathOfScripsDirectory) is False:
         fu.makeDirs(pathOfScripsDirectory)
         createNewScript()
     scriptList = fu.readDirectory(pathOfScripsDirectory, "file")

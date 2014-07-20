@@ -30,21 +30,21 @@ from Core import ReportBug
 
 def getDirectoriesAndValues(_filter=""):
     db = Amarok.checkAndGetDB()
-    if db != None:
+    if db is not None:
         return Commands.getDirectoriesAndValues(_filter)
     return None
 
 
 def getAllMusicFileValuesWithNames(_filter="", _artistId=None):
     db = Amarok.checkAndGetDB()
-    if db != None:
+    if db is not None:
         return Commands.getAllMusicFileValuesWithNames(_filter, _artistId)
     return None
 
 
 def getAllArtistsValues(_filter=""):
     db = Amarok.checkAndGetDB()
-    if db != None:
+    if db is not None:
         return Commands.getAllArtistsValues(_filter)
     return None
 
@@ -66,7 +66,7 @@ def changePaths(_values, _type="auto"):
             allItemNumber = valueNo + 1
         Dialogs.showState(translate("Amarok/Operations", "Changing Paths In Amarok Database"),
                           valueNo + 1, allItemNumber, True)
-        if isContinueThreadAction == False:
+        if isContinueThreadAction is False:
             break
     uni.finishThreadAction()
 
@@ -85,7 +85,7 @@ def changeTags(_values):
             allItemNumber = valueNo + 1
         Dialogs.showState(translate("Amarok/Operations", "Changing Tags In Amarok Database"),
                           valueNo + 1, allItemNumber, True)
-        if isContinueThreadAction == False:
+        if isContinueThreadAction is False:
             break
     uni.finishThreadAction()
 
@@ -98,7 +98,7 @@ def changeArtistValues(_values):
         isContinueThreadAction = uni.isContinueThreadAction()
         if isContinueThreadAction:
             musicFilePathAndArtist = Commands.changeArtistValue(value)
-            if musicFilePathAndArtist != None:
+            if musicFilePathAndArtist is not None:
                 artistName = musicFilePathAndArtist[1]
                 for musicFilePath in musicFilePathAndArtist[0]:
                     if fu.isWritableFileOrDir(musicFilePath, False, True):
@@ -118,7 +118,7 @@ def changeArtistValues(_values):
         else:
             allItemNumber = x + 1
         Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), x + 1, allItemNumber, True)
-        if isContinueThreadAction == False:
+        if isContinueThreadAction is False:
             break
     uni.finishThreadAction()
 
