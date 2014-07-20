@@ -85,13 +85,13 @@ class StatusBar(MStatusBar):
 
     def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
         MApplication.processEvents()
-        if getMainWindow().isLockedMainForm == False:
+        if getMainWindow().isLockedMainForm is False:
             getMainWindow().lockForm()
         self.prgbState.setVisible(True)
         if _isShowCancel:
-            if self.connectionToCancel != None:
+            if self.connectionToCancel is not None:
                 MObject.disconnect(self.pbtnCancel, SIGNAL("clicked()"), self.connectionToCancel)
-            if _connectToCancel == None:
+            if _connectToCancel is None:
                 MObject.connect(self.pbtnCancel, SIGNAL("clicked()"), uni.cancelThreadAction)
                 self.connectionToCancel = uni.cancelThreadAction
             else:

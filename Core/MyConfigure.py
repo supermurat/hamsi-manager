@@ -46,9 +46,9 @@ def installKDE4Language(_language="tr_TR"):
         KDELocalateDir = str(KDELocalateDir)
         langFile = fu.joinPath(fu.HamsiManagerDirectory, "Languages", "DontTranslate", str(_language),
                                "HamsiManager.mo")
-        if fu.isFile(fu.joinPath(KDELocalateDir, "HamsiManager.mo")) == False:
+        if fu.isFile(fu.joinPath(KDELocalateDir, "HamsiManager.mo")) is False:
             if fu.isFile(langFile):
-                if fu.isDir(KDELocalateDir) == False:
+                if fu.isDir(KDELocalateDir) is False:
                     fu.makeDirs(KDELocalateDir)
                 fu.copyFileOrDir(langFile, fu.joinPath(KDELocalateDir, "HamsiManager.mo"))
         return True

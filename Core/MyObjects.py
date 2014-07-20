@@ -184,7 +184,7 @@ def setCompleter(_object, _objectName=None):
         _objectName = "%*%"
     from Databases import CompleterTable
 
-    if _objectName == None:
+    if _objectName is None:
         _objectName = _object.objectName()
     _objectName = str(_objectName)
     cmpCompleter = MCompleter(CompleterTable.fetchAllByObjectName(_objectName))
@@ -221,7 +221,7 @@ def getMainWindow():
 
 
 def getActiveWindow():
-    if MApplication.activeModalWidget() != None:
+    if MApplication.activeModalWidget() is not None:
         return MApplication.activeModalWidget()
     else:
         return getMainWindow()

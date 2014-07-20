@@ -145,7 +145,7 @@ class CoverTable(CoreTable):
                 allItemNumber = rowNo + 1
             Dialogs.showState(translate("FileUtils/Covers", "Writing Cover Informations"), rowNo + 1, allItemNumber,
                               True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         if self.rowCount() == len(oldAndNewPathValues) and isMovedToNewDirectory and isNewDirectoriesSame:
@@ -177,7 +177,7 @@ class CoverTable(CoreTable):
                             allItemNumber = rowNo + 1
                         Dialogs.showState(translate("FileUtils/Covers", "Writing Directory And File Informations"),
                                           rowNo + 1, allItemNumber, True)
-                        if isContinueThreadAction == False:
+                        if isContinueThreadAction is False:
                             break
                     uni.finishThreadAction()
                     if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
@@ -250,12 +250,12 @@ class CoverTable(CoreTable):
 
                         currentCover, isCorrectedFileContent = fu.getIconFromDirectory(dirName)
                         selectedName = None
-                        if isCorrectedFileContent and currentCover != None:
+                        if isCorrectedFileContent and currentCover is not None:
                             selectedName = fu.getBaseName(currentCover)
                         sourceCover = fu.getFirstImageInDirectory(dirName, selectedName, False, False)
-                        if currentCover == None:
+                        if currentCover is None:
                             currentCover = ""
-                        if sourceCover == None:
+                        if sourceCover is None:
                             sourceCover = ""
                         else:
                             sourceCover = fu.joinPath(dirName, sourceCover)
@@ -277,7 +277,7 @@ class CoverTable(CoreTable):
                         newCurrentCover = newCurrentCover.replace(self.values[rowNo]["path"], ".")
                         itemCurrentCover = self.createItem(rowNo, 2, "currentCover",
                                                            newCurrentCover, newCurrentCover, True)
-                        if self.values[rowNo]["isCorrectedFileContent"] == False:
+                        if self.values[rowNo]["isCorrectedFileContent"] is False:
                             itemCurrentCover.setBackground(MBrush(MColor(255, 163, 163)))
 
                         newSourceCover = str(self.values[rowNo]["sourceCover"])
@@ -301,7 +301,7 @@ class CoverTable(CoreTable):
             else:
                 allItemNumber = rowNo
             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
@@ -329,7 +329,7 @@ class CoverTable(CoreTable):
 
                 directoriesAndValues = Operations.getDirectoriesAndValues()
                 Dialogs.showState(translate("CoverTable", "Values Are Being Processed"), 2, 2)
-                if directoriesAndValues != None:
+                if directoriesAndValues is not None:
                     for rowNo in range(self.rowCount()):
                         if getMainWindow().checkHiddenColumn(3) and getMainWindow().checkHiddenColumn(4):
                             if self.isChangeableItem(rowNo, 3):

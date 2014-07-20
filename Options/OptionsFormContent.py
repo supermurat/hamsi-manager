@@ -40,7 +40,7 @@ class General(MWidget):
                                "updateInterval", "language"]
         self.tabsOfSettings = [None, None, None, None, None]
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -96,7 +96,7 @@ class Appearance(MWidget):
                                None, None, None,
                                None, None]
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -126,7 +126,7 @@ class Appearance(MWidget):
         styles = uni.getStyles()
         themes = uni.getInstalledThemes()
         schemes, schemePaths = uni.getColorSchemesAndPath()
-        if isActivePyKDE4 == False:
+        if isActivePyKDE4 is False:
             keyNo = self.keysOfSettings.index("colorSchemes")
             del self.keysOfSettings[keyNo]
             del self.labels[keyNo]
@@ -185,7 +185,7 @@ class Correct(MWidget):
                                None, None, None,
                                None, None, None, None, None, None]
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -259,7 +259,7 @@ class SearchAndReplace(MWidget):
         self.keysOfSettings = []
         self.tabsOfSettings = []
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -340,7 +340,7 @@ class SearchAndReplace(MWidget):
             try:
                 self.mMenu.setGeometry(_action.globalX(), _action.globalY(), 1, 1)
                 selected = self.mMenu.exec_()
-                if selected != None:
+                if selected is not None:
                     currentItem = self.currentItem()
                     if currentItem is not None:
                         if selected.objectName() == self.namesOfButtons[0]:
@@ -373,7 +373,7 @@ class SearchAndReplace(MWidget):
                 try:
                     lastRowNo = -1
                     for rowNo in range(self.rowCount(), 0, -1):
-                        if self.isRowHidden(rowNo - 1) == False:
+                        if self.isRowHidden(rowNo - 1) is False:
                             lastRowNo = rowNo - 1
                             break
                     if _item.row() == lastRowNo and self.item(lastRowNo, 1).text() != "":
@@ -451,7 +451,7 @@ class ClearGeneral(MWidget):
                                1, 1]
         self.tabNames = [translate("Options/ClearGeneral", "General"),
                          translate("Options/ClearGeneral", "Make On ..")]
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -552,7 +552,7 @@ class Cover(MWidget):
                                1, 1]
         self.tabNames = [translate("Options/Cover", "General"),
                          translate("Options/Cover", "For Amarok")]
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -593,7 +593,7 @@ class Cover(MWidget):
             MObject.connect(self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")],
                             SIGNAL("currentIndexChanged(int)"), self.activeAutoMakeIconToDirectory)
             self.activeAutoMakeIconToDirectory()
-        if uni.isActiveAmarok == False:
+        if uni.isActiveAmarok is False:
             self.tabwTabs.setTabEnabled(1, False)
 
     def activeAutoMakeIconToDirectory(self):
@@ -624,7 +624,7 @@ class Advanced(MWidget):
                                "maxDeletedDirectorySize"]
         self.tabsOfSettings = [None, None, None, None, None, None]
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -680,7 +680,7 @@ class Player(MWidget):
                                "mplayerAudioDevice"]
         self.tabsOfSettings = [None, None, None, None, None]
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -742,7 +742,7 @@ class Packager(MWidget):
                                None, None,
                                None, None]
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -789,7 +789,7 @@ class Cleaner(MWidget):
                                None, None,
                                None]
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -825,7 +825,7 @@ class Amarok(MWidget):
                                "amarokDBDB", "isReadOnlyAmarokDB", "isReadOnlyAmarokDBHost", "pathOfMysqldSafe"]
         self.tabsOfSettings = [None, None, None, None, None, None, None, None, None]
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -900,7 +900,7 @@ class Amarok(MWidget):
 
             self.saveSettingsForTest()
             amarokDb = Amarok.checkAndGetDB(False, True)
-            if amarokDb != None:
+            if amarokDb is not None:
                 answer = Dialogs.ask(translate("Options/Amarok", "Are You Want To Save"),
                                      translate("Options/Amarok", "Are you want to save this Amarok settings?"))
                 if answer == Dialogs.Yes:
@@ -924,7 +924,7 @@ class HiddenObjects(MWidget):
                                "isShowHiddensInMusicTable", "isShowHiddensInCoverTable"]
         self.tabsOfSettings = [0, 0, 0, 0, 0]
         self.tabNames = [translate("Options/ClearGeneral", "Show Hidden Files / Directories ...")]
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
@@ -944,7 +944,7 @@ class HiddenObjects(MWidget):
         self.typesOfValues = ["Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
-        if uni.isActiveDirectoryCover == False:
+        if uni.isActiveDirectoryCover is False:
             self.visibleKeys.remove("isShowHiddensInCoverTable")
         _parent.createOptions(self)
 
@@ -972,7 +972,7 @@ class MySettings(MWidget):
         self.keysOfSettings = []
         self.tabsOfSettings = []
         self.tabNames = []
-        if _visibleKeys == None:
+        if _visibleKeys is None:
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys

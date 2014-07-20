@@ -47,7 +47,7 @@ class SearchEngines(MMenu):
                         self.searchDepths[-1].setObjectName(str(len(self.actions) - 1) + "-MusicBrainz-" + str(no))
                         self.mSearchDepth.addAction(self.searchDepths[-1])
                     self.addMenu(self.mSearchDepth)
-        if isAnyAvailable == False:
+        if isAnyAvailable is False:
             self.actions.append(MAction(translate("SearchEngines", "You Have Not Any Search Engine"), self))
             self.actions[-1].setObjectName(translate("SearchEngines", "You Have Not Any Search Engine"))
             self.addAction(self.actions[-1])

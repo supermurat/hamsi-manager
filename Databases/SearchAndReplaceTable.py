@@ -27,7 +27,7 @@ allForFetch = None
 
 def fetchAll():
     global allForFetch
-    if allForFetch == None:
+    if allForFetch is None:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute("SELECT * FROM " + tableName)

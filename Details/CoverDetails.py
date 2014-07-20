@@ -37,7 +37,7 @@ class CoverDetails(MDialog):
         _coverValues[3] = Destination Cover Path
         """
         global coverDialogs
-        if _isOpenDetailsOnNewWindow == False:
+        if _isOpenDetailsOnNewWindow is False:
             isHasOpenedDialog = False
             for dialog in coverDialogs:
                 if dialog.isVisible():
@@ -47,7 +47,7 @@ class CoverDetails(MDialog):
                     dialog.activateWindow()
                     dialog.raise_()
                     break
-            if isHasOpenedDialog == False:
+            if isHasOpenedDialog is False:
                 _isOpenDetailsOnNewWindow = True
         if _isOpenDetailsOnNewWindow:
             coverDialogs.append(self)

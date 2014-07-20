@@ -53,7 +53,7 @@ class Tables():
         elif uni.tableType == "2":
             import Taggers
 
-            if Taggers.getTagger(True) != None:
+            if Taggers.getTagger(True) is not None:
                 from Tables import MusicTable
 
                 self.Table = MusicTable.MusicTable(_parent)
@@ -95,7 +95,7 @@ class Tables():
         elif uni.tableType == "6":
             import Taggers, Amarok
 
-            if Taggers.getTagger(True) != None and Amarok.checkAmarok(True, False):
+            if Taggers.getTagger(True) is not None and Amarok.checkAmarok(True, False):
                 import AmarokMusicTable
 
                 self.Table = AmarokMusicTable.AmarokMusicTable(_parent)
@@ -119,7 +119,7 @@ class Tables():
         elif uni.tableType == "8":
             import Taggers, Amarok
 
-            if Taggers.getTagger(True) != None and Amarok.checkAmarok(True, False):
+            if Taggers.getTagger(True) is not None and Amarok.checkAmarok(True, False):
                 import AmarokCopyTable
 
                 self.Table = AmarokCopyTable.AmarokCopyTable(_parent)
@@ -131,7 +131,7 @@ class Tables():
         elif uni.tableType == "9":
             import Taggers
 
-            if Taggers.getTagger(True) != None:
+            if Taggers.getTagger(True) is not None:
                 from Tables import SubFolderMusicTable
 
                 self.Table = SubFolderMusicTable.SubFolderMusicTable(_parent)
@@ -241,7 +241,7 @@ class CoreTable(MTableWidget):
             self.mContextMenu.addAction(actName).setObjectName(actName)
         self.mContextMenuOpenWithNames = [translate("Tables", "File Manager"),
                                           translate("Tables", "Default Application")]
-        if uni.isWindows == False:
+        if uni.isWindows is False:
             self.mContextMenuOpenWithNames.append(translate("Tables", "Konsole"))
         for actName in self.mContextMenuOpenWithNames:
             self.mContextMenuOpenWith.addAction(actName).setObjectName(actName)
@@ -308,7 +308,7 @@ class CoreTable(MTableWidget):
                 else:
                     point[-1].append("")
             point[-1].append(self.isRowHidden(rowNo))
-        if _isReturn == False:
+        if _isReturn is False:
             self.future = []
             self.history.append(point)
             self.checkActionsStates()
@@ -347,7 +347,7 @@ class CoreTable(MTableWidget):
             if currentItem is not None:
                 self.mContextMenu.setGeometry(_event.globalX(), _event.globalY(), 1, 1)
                 selectedItem = self.mContextMenu.exec_()
-                if selectedItem != None:
+                if selectedItem is not None:
                     if selectedItem.objectName() == self.mContextMenuActionNames[0]:
                         self.createHistoryPoint()
                         MApplication.clipboard().setText(currentItem.text())
@@ -373,7 +373,7 @@ class CoreTable(MTableWidget):
                         from Core import Execute
 
                         Execute.openWith([self.values[currentItem.row()]["path"]])
-                    elif uni.isWindows == False and selectedItem.objectName() == self.mContextMenuOpenWithNames[2]:
+                    elif uni.isWindows is False and selectedItem.objectName() == self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
 
                         Execute.execute(["konsole", "--workdir",
@@ -398,7 +398,7 @@ class CoreTable(MTableWidget):
     def refreshShowedAndHiddenColumns(self):
         self.hiddenTableColumns = []
         for x, act in enumerate(self.mContextMenuColumnsActions):
-            if act.isChecked() == False:
+            if act.isChecked() is False:
                 self.hiddenTableColumns.append(str(act.objectName()))
         for columnNo, columnKey in enumerate(self.tableColumnsKey):
             if self.hiddenTableColumns.count(columnKey) > 0:
@@ -547,12 +547,12 @@ class CoreTable(MTableWidget):
     def isChangeableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
         item = self.item(_rowNo, _columnNo)
         if item is not None:
-            if item.isReadOnly == False:
-                if self.isColumnHidden(_columnNo) != True and item.isSelected() == uni.getBoolValue(
+            if item.isReadOnly is False:
+                if self.isColumnHidden(_columnNo) is not True and item.isSelected() == uni.getBoolValue(
                     "isChangeSelected") or uni.getBoolValue("isChangeAll"):
-                    if _isCheckLike and _checkLikeThis != None:
+                    if _isCheckLike and _checkLikeThis is not None:
                         if str(_checkLikeThis) != str(item.text()):
-                            if isCanBeEmpty == False:
+                            if isCanBeEmpty is False:
                                 if str(item.text()).strip() != "":
                                     return True
                                 return False
@@ -560,7 +560,7 @@ class CoreTable(MTableWidget):
                                 return True
                         return False
                     else:
-                        if isCanBeEmpty == False:
+                        if isCanBeEmpty is False:
                             if str(item.text()).strip() != "":
                                 return True
                             return False
@@ -585,7 +585,7 @@ class CoreTable(MTableWidget):
         return item
 
     def itemChanged(self, _item):
-        if _item.text() != _item.currentText and _item.isReadOnly == False:
+        if _item.text() != _item.currentText and _item.isReadOnly is False:
             _item.setToolTip(_item.currentText)
             _item.setBackground(MBrush(MColor(142, 199, 255)))
 
@@ -593,19 +593,19 @@ class CoreTable(MTableWidget):
         if uni.getBoolValue("isCheckUnSavedValues") or _isForceToCheck:
             isClose = True
             for rowNo in range(self.rowCount()):
-                if isClose == False:
+                if isClose is False:
                     break
                 if self.isRowHidden(rowNo):
                     isClose = False
                     break
                 for columnNo in range(len(self.tableColumns)):
-                    if self.isColumnHidden(columnNo) == False:
-                        if self.item(rowNo, columnNo) != None:
+                    if self.isColumnHidden(columnNo) is False:
+                        if self.item(rowNo, columnNo) is not None:
                             if self.item(rowNo, columnNo).background() == MBrush(MColor(142, 199, 255)):
                                 isClose = False
                                 break
                         else: break
-            if isClose == False:
+            if isClose is False:
                 answer = Dialogs.ask(translate("Tables", "There Are Unsaved Values"),
                                      translate("Tables",
                                                "Do you want to save these values?<br>If you click to Yes : Table will be saved without any other question or option.<br>If you click to No : Application will be closed without doing any process.<br>If you click to Cancel : Application won't be closed."),
@@ -623,7 +623,7 @@ class CoreTable(MTableWidget):
         isYesToAll, isNoToAll = False, False
         for rowNo in range(self.rowCount()):
             if _isCheckFile:
-                if fu.isFile(self.values[rowNo]["path"]) == False:
+                if fu.isFile(self.values[rowNo]["path"]) is False:
                     continue
             if destinationParameterType == "fileNameKey":
                 sFileExt = fu.getFileExtension(self.values[rowNo][_fileNameKeyOrDestinationColumnNo])
@@ -657,7 +657,7 @@ class CoreTable(MTableWidget):
                         self.item(rowNo, _columnNo).setText(str(cFileName + "." + sFileExt))
 
     def askHiddenColumn(self, _columnNo, _isYesToAll=True):
-        if _isYesToAll == False:
+        if _isYesToAll is False:
             self.isAskShowHiddenColumn = True
         if self.isAskShowHiddenColumn:
             if _isYesToAll:
@@ -710,16 +710,16 @@ class CoreTable(MTableWidget):
                 info += " \n<h3>%s : </h3>" % (str(translate("Tables", "Table Contents")))
             info += " \n<table border=1> \n<tr> \n<td>*</td> \n"
             for columnNo in range(self.columnCount()):
-                if self.isColumnHidden(columnNo) == False:
+                if self.isColumnHidden(columnNo) is False:
                     info += "<td><b>"
                     info += str(self.tableColumns[columnNo])
                     info += "</b></td> \n"
             info += "</tr> \n"
             for rowNo in range(self.rowCount()):
-                if self.isRowHidden(rowNo) == False:
+                if self.isRowHidden(rowNo) is False:
                     info += " \n<tr> \n<td>" + str(rowNo + 1) + "</td> \n"
                     for columnNo in range(self.columnCount()):
-                        if self.isColumnHidden(columnNo) == False:
+                        if self.isColumnHidden(columnNo) is False:
                             info += "<td>"
                             info += str(str(self.item(rowNo, columnNo).text()))
                             info += "</td> \n"
@@ -732,15 +732,15 @@ class CoreTable(MTableWidget):
                 info += " %s : \n" % (str(translate("Tables", "Table Contents")))
             info += "*\t"
             for columnNo in range(self.columnCount()):
-                if self.isColumnHidden(columnNo) == False:
+                if self.isColumnHidden(columnNo) is False:
                     info += str(self.tableColumns[columnNo])
                     info += "\t"
             info += "\n"
             for rowNo in range(self.rowCount()):
                 info += str(rowNo + 1) + "\t"
-                if self.isRowHidden(rowNo) == False:
+                if self.isRowHidden(rowNo) is False:
                     for columnNo in range(self.columnCount()):
-                        if self.isColumnHidden(columnNo) == False:
+                        if self.isColumnHidden(columnNo) is False:
                             info += str(str(self.item(rowNo, columnNo).text()))
                             info += "\t"
                     info += "\n"

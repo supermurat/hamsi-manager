@@ -223,7 +223,7 @@ class QuickMakeWindow(MyDialog):
                     self.organizeWithHamsiManager(_oldPath)
                 return None
         if _isCheckWritable:
-            if fu.isWritableFileOrDir(_oldPath) == False:
+            if fu.isWritableFileOrDir(_oldPath) is False:
                 return None
         return _path
 

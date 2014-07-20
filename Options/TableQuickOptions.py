@@ -73,7 +73,7 @@ class TableQuickOptions(MMenu):
                               "Yes/No", "Yes/No"]
         self.valuesOfOptions = []
         self.valuesOfOptionsKeys = []
-        if uni.isActiveAmarok == False:
+        if uni.isActiveAmarok is False:
             self.hiddenKeys += ["isFileTableValuesChangeInAmarokDB",
                                 "isFolderTableValuesChangeInAmarokDB",
                                 "isMusicTableValuesChangeInAmarokDB",
@@ -116,25 +116,25 @@ class TableQuickOptions(MMenu):
     def checkEnableStates(self):
         if uni.getBoolValue("isForceOpenWithDefaultApplication"):
             actED = self.getActionByKey("isOpenDetailsInNewWindow")
-            if actED != None:
+            if actED is not None:
                 actED.setEnabled(False)
             actED = self.getActionByKey("isOpenWithDefaultApplication")
-            if actED != None:
+            if actED is not None:
                 actED.setEnabled(False)
         else:
             actED = self.getActionByKey("isOpenDetailsInNewWindow")
-            if actED != None:
+            if actED is not None:
                 actED.setEnabled(True)
             actED = self.getActionByKey("isOpenWithDefaultApplication")
-            if actED != None:
+            if actED is not None:
                 actED.setEnabled(True)
         if uni.getBoolValue("isChangeAll"):
             actED = self.getActionByKey("isChangeSelected")
-            if actED != None:
+            if actED is not None:
                 actED.setEnabled(False)
         else:
             actED = self.getActionByKey("isChangeSelected")
-            if actED != None:
+            if actED is not None:
                 actED.setEnabled(True)
 
     def getActionByKey(self, _key):

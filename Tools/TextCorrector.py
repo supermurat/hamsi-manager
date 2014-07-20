@@ -141,7 +141,7 @@ class TextCorrector(MyDialog):
     def save(self):
         try:
             filePath = str(self.leFilePath.text())
-            if self.fileValues != None:
+            if self.fileValues is not None:
                 from Core import Records
 
                 Records.setTitle(translate("TextCorrector", "Text File"))

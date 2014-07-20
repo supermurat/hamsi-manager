@@ -133,9 +133,9 @@ class Hasher(MyDialog):
         sourceFile = fu.checkSource(sourceFile, "file")
         if sourceFile is not None:
             hashType = str(self.cbHash.currentText())
-            if hashType != None:
+            if hashType is not None:
                 hashDigestContent = fu.getHashDigest(sourceFile, hashType)
-                if hashDigestContent != False:
+                if hashDigestContent is not False:
                     self.teHashDigest.setText(str(hashDigestContent))
                     if self.cbHashOutput.currentIndex() == 1:
                         if fu.createHashDigestFile(sourceFile, str(self.leHashDigestFile.text()), hashType, False,

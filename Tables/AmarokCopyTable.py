@@ -96,7 +96,7 @@ class AmarokCopyTable(CoreTable):
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if self.isRowHidden(rowNo) == False:
+                    if self.isRowHidden(rowNo) is False:
                         baseNameOfDirectory = str(self.values[rowNo]["baseNameOfDirectory"])
                         baseName = str(self.values[rowNo]["baseName"])
                         if self.isChangeableItem(rowNo, 0, baseNameOfDirectory):
@@ -197,7 +197,7 @@ class AmarokCopyTable(CoreTable):
             else:
                 allItemNumber = rowNo + 1
             Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         return True
@@ -261,7 +261,7 @@ class AmarokCopyTable(CoreTable):
                 Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
-                    if musicFileValuesWithNames != None:
+                    if musicFileValuesWithNames is not None:
                         allItemNumber = len(musicFileValuesWithNames)
                         self.setRowCount(allItemNumber)
                         rowNo = 0
@@ -397,7 +397,7 @@ class AmarokCopyTable(CoreTable):
                             else:
                                 allItemNumber = rowNo
                             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-                            if isContinueThreadAction == False:
+                            if isContinueThreadAction is False:
                                 break
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process

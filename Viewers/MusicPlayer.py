@@ -123,7 +123,7 @@ class MusicPlayer(MWidget):
             getMainWindow().StatusBar.showMessage(_info)
         else:
             MApplication.processEvents()
-            if self.info != None:
+            if self.info is not None:
                 self.info.setText(_info)
                 self.info.setMinimumWidth(len(self.info.text()) * 7)
 
@@ -131,7 +131,7 @@ class MusicPlayer(MWidget):
         try:
             MApplication.processEvents()
             playerName = uni.MySettings["playerName"]
-            if self.Player == None or self.PlayerName != playerName:
+            if self.Player is None or self.PlayerName != playerName:
                 self.stop()
                 self.PlayerName = playerName
                 if playerName == "Phonon":
@@ -153,7 +153,7 @@ class MusicPlayer(MWidget):
             if _filePath is not None:
                 import Taggers
 
-                if Taggers.getTagger(True) != None:
+                if Taggers.getTagger(True) is not None:
                     self.musicTags = Musics.readMusicFile(_filePath, False)
                     self.setInfoText(str(("%s - %s (%s)") % (
                         self.musicTags["artist"], self.musicTags["title"], self.musicTags["album"])))
@@ -218,7 +218,7 @@ class M_Phonon():
         self.muted = False
 
     def play(self, _filePath):
-        if self.m_media != None:
+        if self.m_media is not None:
             self.stop()
         try:
             from PyQt4.phonon import Phonon
@@ -246,7 +246,7 @@ class M_Phonon():
             self.paused = True
 
     def stop(self):
-        if self.m_media != None:
+        if self.m_media is not None:
             self.m_media.stop()
         self.paused = False
 
@@ -272,7 +272,7 @@ class M_Phonon_PySide():
         self.muted = False
 
     def play(self, _filePath):
-        if self.m_media != None:
+        if self.m_media is not None:
             self.stop()
         try:
             from PySide.phonon import Phonon
@@ -298,7 +298,7 @@ class M_Phonon_PySide():
             self.paused = True
 
     def stop(self):
-        if self.m_media != None:
+        if self.m_media is not None:
             self.m_media.stop()
         self.paused = False
 
@@ -322,7 +322,7 @@ class M_tkSnack():
         self.tada = None
 
     def play(self, _filePath):
-        if self.tada != None:
+        if self.tada is not None:
             self.stop()
         from Tkinter import Tk
         import tkSnack
@@ -337,7 +337,7 @@ class M_tkSnack():
         self.tada.pause()
 
     def stop(self):
-        if self.tada != None:
+        if self.tada is not None:
             self.tada.stop()
 
     def runTo(self, _second):
@@ -355,7 +355,7 @@ class M_MPlayer():
         self.popen = False
 
     def runCommand(self, _command):
-        if self.popen != False:
+        if self.popen is not False:
             from Core.Execute import writeToPopen
 
             writeToPopen(self.popen, _command)
@@ -363,7 +363,7 @@ class M_MPlayer():
     def play(self, _filePath):
         from Core import Execute
 
-        if self.popen != False:
+        if self.popen is not False:
             self.runCommand("quit")
         command = [uni.MySettings["mplayerPath"]]
         command += uni.MySettings["mplayerArgs"].split(" ")
@@ -398,12 +398,12 @@ class InfoScroller(MThread):
         self.parent = _parent
 
     def run(self):
-        if self.parent.info != None:
+        if self.parent.info is not None:
             x = 150
             breakCount = 0
             while 1 == 1:
                 try:
-                    if uni.isStartingSuccessfully and uni.isStartedCloseProcess == False:
+                    if uni.isStartingSuccessfully and uni.isStartedCloseProcess is False:
                         if self.parent.parent().isVisible():
                             try:
                                 self.parent.info.move(x, 0)

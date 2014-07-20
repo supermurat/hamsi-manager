@@ -160,7 +160,7 @@ if RoutineChecks.checkMandatoryModules():
                     ReportBug.ReportBug()
                     res = HamsiManagerApp.exec_()
                     uni.printForDevelopers("Shutting down, result %d" % res)
-            if RoutineChecks.isQuickMake == False:
+            if RoutineChecks.isQuickMake is False:
                 uni.printForDevelopers("NotQuickMake")
                 from Core import FileManager
                 import Bars
@@ -242,7 +242,7 @@ if RoutineChecks.checkMandatoryModules():
 
                         def closeEvent(self, _event):
                             try:
-                                if uni.isRaisedAnError == False:
+                                if uni.isRaisedAnError is False:
                                     if uni.isContinueThreadAction():
                                         uni.cancelThreadAction()
                                         _event.ignore()
@@ -258,13 +258,13 @@ if RoutineChecks.checkMandatoryModules():
                                 TextDetails.TextDetails.closeAllTextDialogs()
                                 CoverDetails.CoverDetails.closeAllCoverDialogs()
                                 uni.printForDevelopers("Closed Dialogs")
-                                if uni.isRaisedAnError == False:
-                                    if self.Table.checkUnSavedValues() == False:
+                                if uni.isRaisedAnError is False:
+                                    if self.Table.checkUnSavedValues() is False:
                                         uni.isStartedCloseProcess = False
                                         uni.printForDevelopers("Close ignored")
                                         _event.ignore()
                                 uni.printForDevelopers("Before RoutineChecks.checkBeforeCloseProcess")
-                                if RoutineChecks.checkBeforeCloseProcess() == False:
+                                if RoutineChecks.checkBeforeCloseProcess() is False:
                                     _event.ignore()
                                     return None
                                 uni.printForDevelopers("After RoutineChecks.checkBeforeCloseProcess")
@@ -297,7 +297,7 @@ if RoutineChecks.checkMandatoryModules():
                                 uni.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
                                 uni.saveSettings()
                                 Settings.saveUniversalSettings()
-                                if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") == False:
+                                if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") is False:
                                     import Amarok
 
                                     Amarok.stopEmbeddedDB()
@@ -306,7 +306,7 @@ if RoutineChecks.checkMandatoryModules():
                                 RoutineChecks.checkAfterCloseProcess()
                                 uni.printForDevelopers("After RoutineChecks.checkAfterCloseProcess")
                             except:
-                                if ReportBug.isClose == False:
+                                if ReportBug.isClose is False:
                                     ReportBug.ReportBug()
                                     _event.ignore()
 

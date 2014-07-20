@@ -206,7 +206,7 @@ class AmarokMusicTable(CoreTable):
             else:
                 allItemNumber = rowNo + 1
             Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags And Informations"), rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         from Amarok import Operations
@@ -276,7 +276,7 @@ class AmarokMusicTable(CoreTable):
                 Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
-                    if musicFileValuesWithNames != None:
+                    if musicFileValuesWithNames is not None:
                         allItemNumber = len(musicFileValuesWithNames)
                         self.setRowCount(allItemNumber)
                         rowNo = 0
@@ -414,7 +414,7 @@ class AmarokMusicTable(CoreTable):
                             else:
                                 allItemNumber = rowNo
                             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-                            if isContinueThreadAction == False:
+                            if isContinueThreadAction is False:
                                 break
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process

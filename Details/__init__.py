@@ -37,7 +37,7 @@ class Details():
                 if _path is not None:
                     isOpened = False
                     type = fu.getMimeType(_path)
-                    if type[0] != None:
+                    if type[0] is not None:
                         if type[0].split("/")[0] == "text":
                             from Details import TextDetails
 
@@ -46,7 +46,7 @@ class Details():
                         elif type[0].split("/")[0] == "audio":
                             import Taggers
 
-                            if Taggers.getTagger(True) != None:
+                            if Taggers.getTagger(True) is not None:
                                 from Details import MusicDetails
 
                                 MusicDetails.MusicDetails(_path, _isOpenDetailsOnNewWindow)
@@ -56,18 +56,18 @@ class Details():
 
                             ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)
                             isOpened = True
-                        elif fu.isBinary(_path) == False:
+                        elif fu.isBinary(_path) is False:
                             from Details import TextDetails
 
                             TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
                     else:
-                        if fu.isBinary(_path) == False:
+                        if fu.isBinary(_path) is False:
                             from Details import TextDetails
 
                             TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
-                    if isOpened == False:
+                    if isOpened is False:
                         if uni.getBoolValue("isOpenWithDefaultApplication"):
                             from Core import Execute
 

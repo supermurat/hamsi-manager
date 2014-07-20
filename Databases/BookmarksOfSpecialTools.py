@@ -28,7 +28,7 @@ allForFetch, allForFetchByType = None, {}
 
 def fetchAll():
     global allForFetch
-    if allForFetch == None:
+    if allForFetch is None:
         con = getDefaultConnection()
         cur = con.cursor()
         cur.execute("SELECT * FROM " + tableName)
@@ -38,9 +38,9 @@ def fetchAll():
 
 def fetchAllByType(_type=None):
     global allForFetchByType
-    if _type == None:
+    if _type is None:
         _type = getMainWindow().Table.keyName
-    if _type not in allForFetchByType or allForFetchByType[_type] == None:
+    if _type not in allForFetchByType or allForFetchByType[_type] is None:
         from SpecialTools import SpecialActions
 
         con = getDefaultConnection()
@@ -69,7 +69,7 @@ def checkValues(_value, _type):
 
 def insert(_value, _type=None):
     global allForFetch, allForFetchByType
-    if _type == None:
+    if _type is None:
         _type = getMainWindow().Table.keyName
     if checkValues(_value, _type):
         allForFetch, allForFetchByType[_type] = None, None
@@ -88,7 +88,7 @@ def insert(_value, _type=None):
 
 def update(_id, _value, _type=None):
     global allForFetch, allForFetchByType
-    if _type == None:
+    if _type is None:
         _type = getMainWindow().Table.keyName
     if checkValues(_value, _type):
         allForFetch, allForFetchByType[_type] = None, None
@@ -100,7 +100,7 @@ def update(_id, _value, _type=None):
 
 
 def delete(_id, _type=None):
-    if _type == None:
+    if _type is None:
         _type = getMainWindow().Table.keyName
     global allForFetch, allForFetchByType
     allForFetch, allForFetchByType[_type] = None, None

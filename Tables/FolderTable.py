@@ -41,7 +41,7 @@ class FolderTable(CoreTable):
         if uni.isActiveAmarok and uni.getBoolValue("isFolderTableValuesChangeInAmarokDB"):
             import Amarok
 
-            if Amarok.checkAmarok(True, False) == False:
+            if Amarok.checkAmarok(True, False) is False:
                 return False
         allItemNumber = len(self.values)
         Dialogs.showState(translate("FileUtils/Folders", "Writing Directory Informations"), 0, allItemNumber, True)
@@ -96,7 +96,7 @@ class FolderTable(CoreTable):
                 allItemNumber = rowNo + 1
             Dialogs.showState(translate("FileUtils/Folders", "Writing Directory And File Informations"), rowNo + 1,
                               allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         if (uni.isActiveAmarok and uni.getBoolValue("isFolderTableValuesChangeInAmarokDB") and
@@ -172,7 +172,7 @@ class FolderTable(CoreTable):
             else:
                 allItemNumber = rowNo
             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process

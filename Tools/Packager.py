@@ -174,7 +174,7 @@ class Packager(MyDialog):
             hashType = None
         else:
             hashType = str(self.cbHash.currentText())
-        if hashType != None:
+        if hashType is not None:
             if self.cbHashOutput.currentIndex() == 0:
                 if fu.createHashDigestFile(str(self.lePathOfPackage.text()), str(self.leHashDigestFile.text()),
                                            hashType, False):
@@ -186,7 +186,7 @@ class Packager(MyDialog):
                                       translate("Packager", "Hash digest file not cteated."))
             else:
                 hashDigestContent = fu.getHashDigest(str(self.lePathOfPackage.text()), hashType)
-                if hashDigestContent != False:
+                if hashDigestContent is not False:
                     MApplication.clipboard().setText(str(hashDigestContent))
                     Dialogs.show(translate("Packager", "Hash Digest Copied To Clipboard"),
                                  str(translate("Packager",

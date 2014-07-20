@@ -58,7 +58,7 @@ class ReportBug():
         try: uni.saveSettings()
         except: pass
 
-        if _isOnlyReport == False:
+        if _isOnlyReport is False:
             lastErrorDetailsValues = sys.exc_info()
             uni.isRaisedAnError = True
             cla, error, trbk = lastErrorDetailsValues
@@ -233,7 +233,7 @@ class ReportBugDialog(MDialog):
         except: pass
 
         try:
-            if Dialogs.pnlState != None:
+            if Dialogs.pnlState is not None:
                 Dialogs.showState("", 1, 1)
         except: pass
         pnlMain = MWidget(self)
@@ -302,7 +302,7 @@ class ReportBugDialog(MDialog):
         self.setMaximumSize(600, 375)
         self.show()
         self.setMaximumSize(10000, 10000)
-        if isShowFixMe and isQuickMake == False and uni.loggingLevel != logging.DEBUG:
+        if isShowFixMe and isQuickMake is False and uni.loggingLevel != logging.DEBUG:
             try:
                 answer = Dialogs.askSpecial(translate("ReportBug", "I Have A Suggestion!"),
                                             translate("ReportBug", "<b>Please check the following: ;</b><br>" +
@@ -381,7 +381,7 @@ class ReportBugDialog(MDialog):
         isClose = True
         try:
             self.close()
-            if uni.isStartingSuccessfully == False:
+            if uni.isStartingSuccessfully is False:
                 self.parent().close()
         except: pass
 

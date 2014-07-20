@@ -264,7 +264,7 @@ the Free Software Foundation; either version 2 of the License, or
     if options.runAsRoot:
         from Core import Execute
 
-        if uni.isRunningAsRoot() == False:
+        if uni.isRunningAsRoot() is False:
             strArgvs = []
             for tempArg in sys.argv:
                 if tempArg.find("-runAsRoot") == -1 and tempArg.find(Execute.findExecutablePath(
@@ -326,7 +326,7 @@ def checkAfterRunProcess():
 
             newOrChangedKeys = uni.newSettingsKeys + uni.changedDefaultValuesKeys
             OptionsForm.OptionsForm(getMainWindow(), "Normal", None, newOrChangedKeys)
-    elif uni.getBoolValue("isShowReconfigureWizard") and uni.isBuilt() == False:
+    elif uni.getBoolValue("isShowReconfigureWizard") and uni.isBuilt() is False:
         from Tools import Configurator
 
         Configurator.Configurator()
@@ -339,7 +339,7 @@ def checkWindowMode(_isCheck=False):
     if uni.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
         if uni.windowMode == uni.windowModeKeys[0]:
             screenSize = uni.getScreenSize()
-            if screenSize != None:
+            if screenSize is not None:
                 if screenSize.width() < 1024:
                     uni.windowMode = uni.windowModeKeys[1]
 
@@ -358,11 +358,11 @@ def checkAndCorrectWindowMode(_isCheck=False):
                 getMainWindow().insertToolBar(firstToolBar, getMainWindow().FileManager.tbarBrowserTools)
                 getMainWindow().FileManager.tbarBrowserTools.setVisible(True)
             try:
-                if getMainWindow().Browser != None and getMainWindow().Places != None:
+                if getMainWindow().Browser is not None and getMainWindow().Places is not None:
                     getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().Places)
-                if getMainWindow().Browser != None and getMainWindow().TreeBrowser != None:
+                if getMainWindow().Browser is not None and getMainWindow().TreeBrowser is not None:
                     getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().TreeBrowser)
-                if getMainWindow().Browser != None and getMainWindow().DirOperator != None:
+                if getMainWindow().Browser is not None and getMainWindow().DirOperator is not None:
                     getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().DirOperator)
                 try: getMainWindow().FileManager.dckwBrowserToolsFull.setVisible(False)
                 except: getMainWindow().FileManager.tbarBrowserToolsFull.setVisible(False)
@@ -443,7 +443,7 @@ def checkMandatoryModules():
 
                 pywin32IsAvailable = True
             except: pass
-            if pywin32IsAvailable == False:
+            if pywin32IsAvailable is False:
                 app = QtGui.QApplication(sys.argv)
                 w = QtGui.QWidget()
                 l = QtGui.QVBoxLayout(w)

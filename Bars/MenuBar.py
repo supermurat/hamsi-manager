@@ -124,7 +124,7 @@ class MenuBar(MMenuBar):
         MObject.connect(self, SIGNAL("triggered(QAction *)"), getMainWindow().Bars.click)
 
     def refreshForTableType(self):
-        if self.mMainPopupMenu == None:
+        if self.mMainPopupMenu is None:
             self.mMainPopupMenu = getMainWindow().createPopupMenu()
             self.mMainPopupMenu.setTitle(translate("MenuBar", "Panels"))
             self.mMainPopupMenu.setParent(getMainWindow())
@@ -140,7 +140,7 @@ class MenuBar(MMenuBar):
         self.refreshQuickOptions()
 
     def refreshQuickOptions(self):
-        if getMainWindow().Menu.mQuickOptions != None:
+        if getMainWindow().Menu.mQuickOptions is not None:
             getMainWindow().Menu.removeAction(getMainWindow().Menu.mQuickOptions.menuAction())
         getMainWindow().Menu.mQuickOptions = QuickOptions.QuickOptions(self)
         getMainWindow().Menu.insertMenu(getMainWindow().Menu.mSettings.menuAction(), getMainWindow().Menu.mQuickOptions)

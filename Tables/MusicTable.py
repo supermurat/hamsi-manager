@@ -81,7 +81,7 @@ class MusicTable(CoreTable):
         if uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
             import Amarok
 
-            if Amarok.checkAmarok(True, False) == False:
+            if Amarok.checkAmarok(True, False) is False:
                 return False
         uni.startThreadAction()
         allItemNumber = len(self.values)
@@ -223,7 +223,7 @@ class MusicTable(CoreTable):
             else:
                 allItemNumber = rowNo + 1
             Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags And Informations"), rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         if self.rowCount() == len(oldAndNewPathValues) and isMovedToNewDirectory and isNewDirectoriesSame:
@@ -255,7 +255,7 @@ class MusicTable(CoreTable):
                             allItemNumber = rowNo + 1
                         Dialogs.showState(translate("FileUtils/Covers", "Writing Directory And File Informations"),
                                           rowNo + 1, allItemNumber, True)
-                        if isContinueThreadAction == False:
+                        if isContinueThreadAction is False:
                             break
                     uni.finishThreadAction()
                     if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
@@ -337,7 +337,7 @@ class MusicTable(CoreTable):
                                               str(translate("FileUtils/Musics",
                                                             "\"%s\" : this file has the incorrect tag so can't read tags.")
                                               ) % Organizer.getLink(fu.joinPath(_path, musicName)))
-                        if tagger.isAvailableFile() == False:
+                        if tagger.isAvailableFile() is False:
                             isCanNoncompatible = True
                         content = {}
                         content["path"] = fu.joinPath(_path, musicName)
@@ -395,7 +395,7 @@ class MusicTable(CoreTable):
             else:
                 allItemNumber = rowNo
             Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-            if isContinueThreadAction == False:
+            if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process

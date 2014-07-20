@@ -31,7 +31,7 @@ class HtmlDetails(MDialog):
 
     def __init__(self, _file, _valueType="file", _isOpenDetailsOnNewWindow=True):
         global htmlDialogs
-        if _isOpenDetailsOnNewWindow == False:
+        if _isOpenDetailsOnNewWindow is False:
             isHasOpenedDialog = False
             for dialog in htmlDialogs:
                 if dialog.isVisible():
@@ -41,7 +41,7 @@ class HtmlDetails(MDialog):
                     dialog.activateWindow()
                     dialog.raise_()
                     break
-            if isHasOpenedDialog == False:
+            if isHasOpenedDialog is False:
                 _isOpenDetailsOnNewWindow = True
         if _isOpenDetailsOnNewWindow:
             QtWebKit = getMyObject("QtWebKit")

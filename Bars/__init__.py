@@ -133,7 +133,7 @@ class Bars():
 
                 SuggestIdea.SuggestIdea()
             elif actionName == translate("MenuBar", "About Hamsi Manager"):
-                if isActivePyKDE4 == False:
+                if isActivePyKDE4 is False:
                     MMessageBox.about(getMainWindow(), translate("MenuBar", "About Hamsi Manager"),
                                       uni.aboutOfHamsiManager)
             elif actionName == translate("ToolsBar", "Check Icon"):
@@ -144,7 +144,7 @@ class Bars():
                                        "Current directory icon checked.<br>The default action based on the data is executed."))
                 getMainWindow().setEnabled(True)
             elif actionName == translate("ToolsBar", "Clear Empty Directories"):
-                if getMainWindow().Table.checkUnSavedValues() == False:
+                if getMainWindow().Table.checkUnSavedValues() is False:
                     _action.setChecked(False)
                     return False
                 answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
@@ -235,7 +235,7 @@ class Bars():
     def changeTableTypeByType(self, _tableType):
         try:
             if uni.tableType != _tableType:
-                if getMainWindow().Table.checkUnSavedValues() == False:
+                if getMainWindow().Table.checkUnSavedValues() is False:
                     return False
                 uni.setMySetting(getMainWindow().Table.hiddenTableColumnsSettingKey,
                                  getMainWindow().Table.hiddenTableColumns)
@@ -262,7 +262,7 @@ class Bars():
             selectedType = Tables.Tables.getThisTableType(_action.objectName())
             if _action.isChecked() and uni.tableType != selectedType:
                 isChanged = self.changeTableTypeByType(selectedType)
-                if isChanged == False:
+                if isChanged is False:
                     _action.setChecked(False)
                     return False
             else:
@@ -284,7 +284,7 @@ class Bars():
 
     def changeReNamerType(self, _action):
         try:
-            if getMainWindow().Table.checkUnSavedValues() == False:
+            if getMainWindow().Table.checkUnSavedValues() is False:
                 _action.setChecked(False)
                 for x, typeName in enumerate(uni.fileReNamerTypeNamesKeys):
                     if typeName == uni.MySettings["fileReNamerType"]:

@@ -140,7 +140,7 @@ class QuickOptions(MMenu):
                                "isActiveClearGeneral", "isClearEmptyDirectoriesWhenSave",
                                "isAutoCleanSubFolderWhenSave",
                                "isActiveAutoMakeIconToDirectory"]
-        if uni.isActiveDirectoryCover == False:
+        if uni.isActiveDirectoryCover is False:
             self.hiddenKeys += ["isActiveAutoMakeIconToDirectory"]
         self.createActions()
         self.checkEnableStates()
@@ -148,22 +148,22 @@ class QuickOptions(MMenu):
     def checkEnableStates(self):
         if uni.getBoolValue("isActiveClearGeneral"):
             actED = self.getActionByKey("isClearEmptyDirectoriesWhenSave")
-            if actED != None:
+            if actED is not None:
                 actED.setEnabled(True)
             if uni.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                 actSF = self.getActionByKey("isAutoCleanSubFolderWhenSave")
-                if actSF != None:
+                if actSF is not None:
                     actSF.setEnabled(True)
             else:
                 actSF = self.getActionByKey("isAutoCleanSubFolderWhenSave")
-                if actSF != None:
+                if actSF is not None:
                     actSF.setEnabled(False)
         else:
             actED = self.getActionByKey("isClearEmptyDirectoriesWhenSave")
-            if actED != None:
+            if actED is not None:
                 actED.setEnabled(False)
             actSF = self.getActionByKey("isAutoCleanSubFolderWhenSave")
-            if actSF != None:
+            if actSF is not None:
                 actSF.setEnabled(False)
 
     def getActionByKey(self, _key):

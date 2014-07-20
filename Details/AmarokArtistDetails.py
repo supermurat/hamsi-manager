@@ -35,8 +35,8 @@ class AmarokArtistDetails(MDialog):
 
     def __init__(self, _artistId, _isOpenDetailsOnNewWindow=True):
         global amarokArtistDialogs
-        if Commands.getArtistName(_artistId) != None:
-            if _isOpenDetailsOnNewWindow == False:
+        if Commands.getArtistName(_artistId) is not None:
+            if _isOpenDetailsOnNewWindow is False:
                 isHasOpenedDialog = False
                 for dialog in amarokArtistDialogs:
                     if dialog.isVisible():
@@ -46,7 +46,7 @@ class AmarokArtistDetails(MDialog):
                         self.activateWindow()
                         self.raise_()
                         break
-                if isHasOpenedDialog == False:
+                if isHasOpenedDialog is False:
                     _isOpenDetailsOnNewWindow = True
             if _isOpenDetailsOnNewWindow:
                 amarokArtistDialogs.append(self)
@@ -100,7 +100,7 @@ class AmarokArtistDetails(MDialog):
         self.artistId = _artistId
         self.artistName = Commands.getArtistName(self.artistId)
         self.setWindowTitle(str(self.artistName))
-        if self.pnlClearable != None:
+        if self.pnlClearable is not None:
             clearAllChildren(self.pnlClearable, True)
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)

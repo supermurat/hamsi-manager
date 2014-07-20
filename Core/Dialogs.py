@@ -126,10 +126,10 @@ def askSpecial(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs
     mboxDialog.setText(str("<b>" + str(_title) + " : </b><br>" + str(_detail)))
     btn = btn1 = btn2 = btn3 = None
     btn = mboxDialog.addButton(_btnString, MyMessageBox.ActionRole)
-    if _btnString2 != None:
+    if _btnString2 is not None:
         btn2 = mboxDialog.addButton(_btnString2, MyMessageBox.ActionRole)
     btn1 = mboxDialog.addButton(_btnString1, MyMessageBox.ActionRole)
-    if _btnString3 != None:
+    if _btnString3 is not None:
         btn3 = mboxDialog.addButton(_btnString3, MyMessageBox.ActionRole)
     else:
         btn3 = None
@@ -143,13 +143,13 @@ def askSpecial(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs
     elif mboxDialog.clickedButton() == btn3:
         return _btnString3
     else:
-        if btn3 != None:
+        if btn3 is not None:
             return _btnString3
-        elif btn2 != None:
+        elif btn2 is not None:
             return _btnString2
-        elif btn1 != None:
+        elif btn1 is not None:
             return _btnString1
-        elif btn != None:
+        elif btn is not None:
             return _btnString
 
 
@@ -163,11 +163,11 @@ def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCa
     if uni.windowMode == uni.windowModeKeys[1] and uni.isCanBeShowOnMainWindow:
         return getMainWindow().StatusBar.showState(_title, _value, _maxValue, _isShowCancel, _connectToCancel)
     MApplication.processEvents()
-    if getMainWindow().StateDialog == None:
+    if getMainWindow().StateDialog is None:
         getMainWindow().StateDialogStateBar = MProgressBar()
         HBoxs = []
         if uni.getBoolValue("isMinimumWindowMode") and uni.isCanBeShowOnMainWindow:
-            if getMainWindow().isLockedMainForm == False:
+            if getMainWindow().isLockedMainForm is False:
                 getMainWindow().lockForm()
             getMainWindow().StateDialog = MDockWidget(translate("Dialogs", "Progress Bar"))
             getMainWindow().StateDialog.setObjectName(translate("Dialogs", "Progress Bar"))
@@ -197,7 +197,7 @@ def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCa
             getMainWindow().StateDialog.show()
         if _isShowCancel:
             pbtnCancel = MPushButton(translate("Dialogs", "Cancel"), getMainWindow().StateDialog)
-            if _connectToCancel == None:
+            if _connectToCancel is None:
                 MObject.connect(pbtnCancel, SIGNAL("clicked()"), uni.cancelThreadAction)
             else:
                 MObject.connect(pbtnCancel, SIGNAL("clicked()"), _connectToCancel)
@@ -249,7 +249,7 @@ def getItem(_title="Hamsi Cover", _detail="", _itemList=[""], _currentItem=0):
     else:
         selectedValue, isSelected = MInputDialog.getItem(getActiveWindow(), str(str(_title) + "!.."), str(str(_detail)),
                                                          [str(str(x)) for x in _itemList], _currentItem, False)
-    if isSelected == False:
+    if isSelected is False:
         return None
     return str(selectedValue)
 
@@ -263,7 +263,7 @@ def getText(_title="Hamsi Cover", _detail="", _default=""):
     else:
         selectedValue, isSelected = MInputDialog.getText(getActiveWindow(), str(str(_title) + "!.."), str(str(_detail)),
                                                          MLineEdit.Normal, str(_default))
-    if isSelected == False:
+    if isSelected is False:
         return None
     return str(selectedValue)
 
