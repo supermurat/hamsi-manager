@@ -17,14 +17,8 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
-import Tables
-from Core import Dialogs
-import sys
-from Core import ReportBug
-import Databases
 
 
 class CharacterEncoding(MWidget):
@@ -71,12 +65,17 @@ class CharacterEncoding(MWidget):
         pass
 
     def checkCompleters(self):
-        pass
+        if uni.getBoolValue("isActiveCompleter"):
+            pass
 
     def reFillCompleters(self):
-        pass
+        if uni.getBoolValue("isActiveCompleter"):
+            pass
 
     def apply(self):
+        self.checkCompleters()
+        self.reFillCompleters()
+        getMainWindow().Table.createHistoryPoint()
         getMainWindow().Table.isAskShowHiddenColumn = True
         sourceEncoding = str(self.cbSourceEncoding.currentText())
         destinationEncoding = str(self.cbDestinationEncoding.currentText())
@@ -87,7 +86,10 @@ class CharacterEncoding(MWidget):
         else:
             columns = [self.columns.currentIndex() - 1]
         for columnNo in columns:
-            if getMainWindow().Table.checkHiddenColumn(columnNo, False) == False:
+            columnKey = trStr(self.columns.itemData(columnNo + 1))
+            if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+                continue
+            if getMainWindow().Table.checkHiddenColumn(columnNo, False) is False:
                 continue
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo):

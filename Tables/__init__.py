@@ -689,6 +689,16 @@ class CoreTable(MTableWidget):
             return self.askHiddenColumn(_columnNo, _isYesToAll)
         return True
 
+    def checkReadOnlyColumn(self, _columnKey, _isAlert=True):
+        if _columnKey in self.tableReadOnlyColumnsKey:
+            if _isAlert:
+                Dialogs.show(translate("Tables", "Read Only Column"),
+                             str(translate("Tables", "%s is read only so you can't change it.")) % self.tableColumns[
+                                 self.tableColumnsKey.index(_columnKey)])
+            return False
+        return True
+
+
     def exportValues(self, _actionType="return", _formatType="html", _extInfo="no"):
         import os
 

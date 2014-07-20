@@ -298,6 +298,18 @@ def updateOldSettings(_oldVersion, _newVersion):
         cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'Destination Cover', 'destinationCover');")
         cur.execute("UPDATE bookmarksOfSpecialTools SET value=REPLACE(value,'albumartist', 'albumArtist');")
         con.commit()
+    if oldVersion < 1375:
+        con = sqlite.connect(fu.joinPath(fu.pathOfSettingsDirectory, "database.sqlite"))
+        cur = con.cursor()
+        cur.execute(
+            "DELETE FROM completerTable WHERE id NOT IN (SELECT MAX(id) FROM completerTable GROUP BY value,objectName);")
+        cur.execute(
+            "DELETE FROM bookmarksOfSpecialTools WHERE id NOT IN (SELECT MAX(id) FROM bookmarksOfSpecialTools GROUP BY value,type);")
+        cur.execute(
+            "DELETE FROM bookmarksOfDirectories WHERE id NOT IN (SELECT MAX(id) FROM bookmarksOfDirectories GROUP BY value,type,bookmark);")
+        cur.execute(
+            "DELETE FROM searchAndReplaceTable WHERE id NOT IN (SELECT MAX(id) FROM searchAndReplaceTable GROUP BY label,searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp);")
+        con.commit()
     return newSettingsKeys, changedDefaultValuesKeys
 
 

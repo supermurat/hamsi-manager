@@ -21,9 +21,7 @@ from Core import Organizer
 from Core import Universals as uni
 import FileUtils as fu
 from Core.MyObjects import *
-import Tables
 from Core import Dialogs
-import sys
 from Core import ReportBug
 from Databases import BookmarksOfSpecialTools
 
@@ -230,12 +228,17 @@ class SpecialActions(MWidget):
             ReportBug.ReportBug()
 
     def checkCompleters(self):
-        pass
+        if uni.getBoolValue("isActiveCompleter"):
+            pass
 
     def reFillCompleters(self):
-        pass
+        if uni.getBoolValue("isActiveCompleter"):
+            pass
 
     def apply(self):
+        self.checkCompleters()
+        self.reFillCompleters()
+        getMainWindow().Table.createHistoryPoint()
         actionCommand = self.getActionCommand()
         spliterIndex = actionCommand.index("~||~")
         leftKeys = actionCommand[:spliterIndex]
@@ -245,24 +248,11 @@ class SpecialActions(MWidget):
         getMainWindow().Table.isAskShowHiddenColumn = True
         if len(leftKeys) > 0 and len(rightKeys) > 0:
             for objectNameAndPoint in leftKeys:
-                objectNameAndPointList = objectNameAndPoint.split("~|~")
-                objectName = objectNameAndPointList[0]
-                if objectName.find("Concatenate") == -1:
-                    for no, column in enumerate(getMainWindow().Table.tableColumnsKey):
-                        if objectName == column:
-                            getMainWindow().Table.checkHiddenColumn(no)
-                            leftColumnKeys.append(objectNameAndPoint)
-                else:
-                    leftColumnKeys.append(objectNameAndPoint)
+                leftColumnKeys.append(objectNameAndPoint)
             for objectNameAndPoint in rightKeys:
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
                 objectName = objectNameAndPointList[0]
-                if objectName.find("Concatenate") == -1:
-                    for no, column in enumerate(getMainWindow().Table.tableColumnsKey):
-                        if objectName == column:
-                            getMainWindow().Table.checkHiddenColumn(no)
-                            rightColumnKeys.append(objectNameAndPoint)
-                else:
+                if getMainWindow().Table.checkReadOnlyColumn(objectName):
                     rightColumnKeys.append(objectNameAndPoint)
         if len(leftColumnKeys) > 0 and len(rightColumnKeys) > 0:
             for rowNo in range(getMainWindow().Table.rowCount()):
@@ -286,8 +276,6 @@ class SpecialActions(MWidget):
                             sourceListLogical += valueOfField.split(point)
                         else:
                             sourceListLogical.append(valueOfField)
-
-                        nextObjectName = ""
                         nextPoint = ""
                         if leftColumnKeys[-1] != objectNameAndPoint:
                             nextObjectNameAndPoint = leftColumnKeys[no + 1]
@@ -305,6 +293,8 @@ class SpecialActions(MWidget):
                     objectNameAndPointList = objectNameAndPoint.split("~|~")
                     objectName = objectNameAndPointList[0]
                     columnNo = getMainWindow().Table.tableColumnsKey.index(objectName)
+                    if getMainWindow().Table.checkHiddenColumn(columnNo) is False:
+                        continue
                     if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
                         newString = ""
                         if len(rightColumnKeys) == 1:

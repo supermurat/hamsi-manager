@@ -17,14 +17,9 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
-import Tables
-from Core import Dialogs
-import sys
 from Core import ReportBug
-import Databases
 from SpecialTools import SpecialActions
 from SpecialTools import SearchAndReplace
 from SpecialTools import Fill
@@ -182,7 +177,7 @@ class SpecialTools(MWidget):
             lbl = MLabel(columnName + ":")
             self.quickFill.lblColumns.append(lbl)
             le = MLineEdit("")
-            le.setObjectName(columnName)
+            le.setObjectName(columnKey)
             self.quickFill.leColumns.append(le)
             MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"),
                             self.quickFill.fillAfter)
@@ -300,9 +295,6 @@ class SpecialTools(MWidget):
 
     def apply(self):
         try:
-            self.checkCompleters()
-            self.reFillCompleters()
-            getMainWindow().Table.createHistoryPoint()
             if self.tabwTabs.currentIndex() == 0:
                 if SpecialActions.whatDoesSpecialCommandDo(self.specialActions.getActionCommand()):
                     self.specialActions.apply()
@@ -320,16 +312,6 @@ class SpecialTools(MWidget):
                 pass
         except:
             ReportBug.ReportBug()
-
-    def checkCompleters(self):
-        if uni.getBoolValue("isActiveCompleter"):
-            self.specialActions.checkCompleters()
-            self.searchAndReplace.checkCompleters()
-            self.fill.checkCompleters()
-            self.clear.checkCompleters()
-            self.characterState.checkCompleters()
-            self.characterEncoding.checkCompleters()
-            self.quickFill.checkCompleters()
 
     def reFillCompleters(self):
         if uni.getBoolValue("isActiveCompleter"):

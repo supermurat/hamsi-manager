@@ -54,20 +54,15 @@ def fetchAllByObjectName(_objectName=None):
     return allForFetchByObjectName[_objectName]
 
 
-def fetch(_id):
-    con = getDefaultConnection()
-    cur = con.cursor()
-    cur.execute("SELECT * FROM " + tableName + " where id=" + str(int(_id)))
-    return cur.fetchall()
-
-
 def checkValues(_objectName, _value):
-    if len(_objectName) == 0 or len(_value) == 0:
+    if len(_objectName.strip()) == 0 or len(_value.strip()) == 0:
         return False
     return True
 
 
 def insert(_objectName, _value):
+    _objectName = str(_objectName)
+    _value = str(_value)
     global allForFetch, allForFetchByObjectName
     if checkValues(_objectName, _value):
         allForFetch, allForFetchByObjectName[_objectName], allForFetchByObjectName["%*%"] = None, None, None
@@ -78,32 +73,9 @@ def insert(_objectName, _value):
                                                          "value": "'" + correctForSql(_value) + "'"},
                                                         ["objectName", "value"])
         cur.execute(sqlQueries[0])
-        cur.execute(sqlQueries[1])
+        # cur.execute(sqlQueries[1]) # does not need update query
         con.commit()
-        cur.execute("SELECT last_insert_rowid();")
-        return cur.fetchall()[0][0]
     return None
-
-
-def update(_id, _objectName, _value):
-    global allForFetch, allForFetchByObjectName
-    if checkValues(_objectName, _value):
-        allForFetch, allForFetchByObjectName[_objectName], allForFetchByObjectName["%*%"] = None, None, None
-        con = getDefaultConnection()
-        cur = con.cursor()
-        cur.execute(str(
-            "update " + tableName + " set objectName='" + correctForSql(_objectName) + "', value='" + correctForSql(
-                _value) + "' where id=" + str(int(_id))))
-        con.commit()
-
-
-def delete(_id):
-    global allForFetch, allForFetchByObjectName
-    allForFetch, allForFetchByObjectName = None, {}
-    con = getDefaultConnection()
-    cur = con.cursor()
-    cur.execute("delete from " + tableName + " where id=" + str(int(_id)))
-    con.commit()
 
 
 def getTableCreateQuery():

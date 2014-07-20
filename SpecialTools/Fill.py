@@ -17,14 +17,10 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
-import Tables
-from Core import Dialogs
-import sys
 from Core import ReportBug
-import Databases
+from Databases import CompleterTable
 
 
 class Fill(MWidget):
@@ -124,19 +120,27 @@ class Fill(MWidget):
             self.spStartDigit.setEnabled(False)
 
     def checkCompleters(self):
-        Databases.CompleterTable.insert(self.lblFill.text(), self.leFill.text())
+        if uni.getBoolValue("isActiveCompleter"):
+            CompleterTable.insert(self.lblFill.text(), self.leFill.text())
 
     def reFillCompleters(self):
-        setCompleter(self.leFill, self.lblFill.text())
+        if uni.getBoolValue("isActiveCompleter"):
+            setCompleter(self.leFill, self.lblFill.text())
 
     def apply(self):
+        self.checkCompleters()
+        self.reFillCompleters()
+        getMainWindow().Table.createHistoryPoint()
         newString = str(self.leFill.text())
         getMainWindow().Table.isAskShowHiddenColumn = True
         for No, columnName in enumerate(getMainWindow().Table.tableColumns):
             if str(self.columns.currentText()) == str(columnName):
                 columnNo = No
                 break
-        if getMainWindow().Table.checkHiddenColumn(columnNo, False) == False:
+        columnKey = trStr(self.columns.itemData(self.columns.currentIndex()))
+        if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+            return False
+        if getMainWindow().Table.checkHiddenColumn(columnNo, False) is False:
             return False
         if self.cbFillType.currentIndex() == 1:
             newString = int(self.spStartDigit.value()) - 1

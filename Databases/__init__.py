@@ -89,7 +89,7 @@ def correctForUser(_string):
 
 
 def getAmendedSQLInsertOrUpdateQueries(_table, _columnNamesAndValues, _primaryColumns):
-    sqlString0 = "INSERT INTO " + _table + "("
+    sqlString0 = "INSERT INTO " + _table + " ("
     sqlString1 = ") SELECT "
     sqlString2 = " FROM " + _table + " WHERE (SELECT COUNT(*) FROM " + _table + " WHERE "
     sqlString3 = "UPDATE " + _table + " SET "
@@ -111,7 +111,7 @@ def getAmendedSQLInsertOrUpdateQueries(_table, _columnNamesAndValues, _primaryCo
             sqlString4 += key + "=" + str(value)
             j += 1
         i += 1
-    return [sqlString0 + sqlString1 + sqlString2 + ")=0;", sqlString3 + sqlString4 + ";"]
+    return [sqlString0 + sqlString1 + sqlString2 + ")=0 LIMIT 1;", sqlString3 + sqlString4 + ";"]
 
 
 def getAmendedSQLSelectOrInsertAndSelectQueries(_table, _selectedColumn, _columnNamesAndValues):
@@ -124,11 +124,10 @@ def getAmendedSQLSelectOrInsertAndSelectQueries(_table, _selectedColumn, _column
         if j > 0:
             sqlString1 += ","
             sqlString2 += ","
-        sqlString1 += key
-        sqlString2 += str(value)
-        if j > 0:
             sqlString0 += " AND "
             sqlString3 += " , "
+        sqlString1 += key
+        sqlString2 += str(value)
         sqlString0 += key + "=" + str(value)
         sqlString3 += key + "=" + key
         j += 1

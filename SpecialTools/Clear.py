@@ -20,11 +20,7 @@
 from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
-import Tables
-from Core import Dialogs
-import sys
-from Core import ReportBug
-import Databases
+from Databases import CompleterTable
 
 
 class Clear(MWidget):
@@ -92,19 +88,27 @@ class Clear(MWidget):
         self.cckbRegExp.setChecked(False)
 
     def checkCompleters(self):
-        Databases.CompleterTable.insert(self.lblClear.text(), self.leClear.text())
+        if uni.getBoolValue("isActiveCompleter"):
+            CompleterTable.insert(self.lblClear.text(), self.leClear.text())
 
     def reFillCompleters(self):
-        setCompleter(self.leClear, self.lblClear.text())
+        if uni.getBoolValue("isActiveCompleter"):
+            setCompleter(self.leClear, self.lblClear.text())
 
     def apply(self):
+        self.checkCompleters()
+        self.reFillCompleters()
+        getMainWindow().Table.createHistoryPoint()
         getMainWindow().Table.isAskShowHiddenColumn = True
         if self.columns.currentIndex() == 0:
             columns = list(range(0, getMainWindow().Table.columnCount()))
         else:
             columns = [self.columns.currentIndex() - 1]
         for columnNo in columns:
-            if getMainWindow().Table.checkHiddenColumn(columnNo, False) == False:
+            columnKey = trStr(self.columns.itemData(columnNo + 1))
+            if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+                continue
+            if getMainWindow().Table.checkHiddenColumn(columnNo, False) is False:
                 continue
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
