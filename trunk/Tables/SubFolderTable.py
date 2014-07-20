@@ -33,9 +33,9 @@ class SubFolderTable(CoreTable):
         self.keyName = "subfolder"
         self.hiddenTableColumnsSettingKey = "hiddenSubFolderTableColumns"
         self.refreshColumns()
-        lblDetails = translate("SubDirectoryOptionsBar",
+        lblDetails = translate("SubFolderTable",
                                "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
-        lblSubDirectoryDeep = MLabel(str(translate("SubDirectoryOptionsBar", "Deep") + " : "))
+        lblSubDirectoryDeep = MLabel(str(translate("SubFolderTable", "Deep") + " : "))
         self.SubDirectoryDeeps = [str(x) for x in range(-1, 10)]
         self.cbSubDirectoryDeep = MComboBox(self)
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)

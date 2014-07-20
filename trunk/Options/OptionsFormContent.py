@@ -905,7 +905,6 @@ class Amarok(MWidget):
                                      translate("Options/Amarok", "Are you want to save this Amarok settings?"))
                 if answer == Dialogs.Yes:
                     uni.saveSettings()
-            amarokDb = None
         except:
             ReportBug.ReportBug()
 

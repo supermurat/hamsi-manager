@@ -48,11 +48,11 @@ class AmarokCopyTable(CoreTable):
         self.hblBoxOptions.addWidget(lblDestinationDir)
         self.hblBoxOptions.addWidget(self.leDestinationDirPath, 2)
         self.hblBoxOptions.addWidget(self.pbtnSelectDestinationDir)
-        pbtnVerifyTableValues = MPushButton(translate("AmarokCopyTable", "Verify Table"))
+        pbtnVerifyTableValues = MPushButton(translate("MusicTable", "Verify Table"))
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self))
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, True))
-        lblSourceDetails = MLabel(translate("AmarokCopyOptionsBar", "Read From:"))
-        lblTargetDetails = MLabel(translate("AmarokCopyOptionsBar", "Write To:"))
+        lblSourceDetails = MLabel(translate("MusicTable", "Read From:"))
+        lblTargetDetails = MLabel(translate("MusicTable", "Write To:"))
         self.MusicTagSourceTypes = Amarok.getTagSourceTypes()
         self.cbTagSourceType = MComboBox(self)
         self.cbTagSourceType.addItems(self.MusicTagSourceTypes)
@@ -69,9 +69,10 @@ class AmarokCopyTable(CoreTable):
             self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
         self.cbTagTargetType.setCurrentIndex(
             self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
-        self.cbTagSourceType.setToolTip(translate("AmarokCopyOptionsBar", "You can select the ID3 tag source to read."))
-        self.cbTagTargetType.setToolTip(
-            translate("AmarokCopyOptionsBar", "You can select the ID3 tag target to write."))
+        self.cbTagSourceType.setToolTip(translate("MusicTable",
+                                                  "You can select the ID3 tag source you want to read.<br><font color=blue>Amarok (Smart) is recommended.</font>"))
+        self.cbTagTargetType.setToolTip(translate("MusicTable",
+                                                  "You can select the ID3 tag target you want to write.<br><font color=blue>Amarok + ID3 V2 is recommended.</font>"))
         hblTagSourceType = MHBoxLayout()
         hblTagSourceType.addWidget(lblSourceDetails)
         hblTagSourceType.addWidget(self.cbTagSourceType)
@@ -127,68 +128,68 @@ class AmarokCopyTable(CoreTable):
                                         if self.isChangeableItem(rowNo, 2):
                                             value = str(self.item(rowNo, 2).text())
                                             tagger.setArtist(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Artist")),
+                                            Records.add(str(translate("MusicTable", "Artist")),
                                                         str(self.values[rowNo]["artist"]),
                                                         value)
                                             self.changedValueNumber += 1
                                         if self.isChangeableItem(rowNo, 3):
                                             value = str(self.item(rowNo, 3).text())
                                             tagger.setTitle(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Title")),
+                                            Records.add(str(translate("MusicTable", "Title")),
                                                         str(self.values[rowNo]["title"]),
                                                         value)
                                             self.changedValueNumber += 1
                                         if self.isChangeableItem(rowNo, 4):
                                             value = str(self.item(rowNo, 4).text())
                                             tagger.setAlbum(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Album")),
+                                            Records.add(str(translate("MusicTable", "Album")),
                                                         str(self.values[rowNo]["album"]),
                                                         value)
                                             self.changedValueNumber += 1
                                         if self.isChangeableItem(rowNo, 5):
                                             value = str(self.item(rowNo, 5).text())
                                             tagger.setAlbumArtist(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Album Artist")),
+                                            Records.add(str(translate("MusicTable", "Album Artist")),
                                                         str(self.values[rowNo]["albumArtist"]),
                                                         value)
                                             self.changedValueNumber += 1
                                         if self.isChangeableItem(rowNo, 6):
                                             value = str(self.item(rowNo, 6).text())
                                             tagger.setTrackNum(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Track No")),
+                                            Records.add(str(translate("MusicTable", "Track No")),
                                                         str(self.values[rowNo]["trackNum"]),
                                                         value)
                                             self.changedValueNumber += 1
                                         if self.isChangeableItem(rowNo, 7):
                                             value = str(self.item(rowNo, 7).text())
                                             tagger.setDate(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Year")),
+                                            Records.add(str(translate("MusicTable", "Year")),
                                                         str(self.values[rowNo]["year"]), value)
                                             self.changedValueNumber += 1
                                         if self.isChangeableItem(rowNo, 8):
                                             value = str(self.item(rowNo, 8).text())
                                             tagger.setGenre(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Genre")),
+                                            Records.add(str(translate("MusicTable", "Genre")),
                                                         str(self.values[rowNo]["genre"]),
                                                         value)
                                             self.changedValueNumber += 1
                                         if self.isChangeableItem(rowNo, 9):
                                             value = str(self.item(rowNo, 9).text())
                                             tagger.setFirstComment(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Comment")), str(
+                                            Records.add(str(translate("MusicTable", "Comment")), str(
                                                 self.values[rowNo]["firstComment"]), value)
                                             self.changedValueNumber += 1
                                         if self.isChangeableItem(rowNo, 10):
                                             value = str(self.item(rowNo, 10).text())
                                             tagger.setFirstLyrics(value)
-                                            Records.add(str(translate("AmarokCopyTable", "Lyrics")),
+                                            Records.add(str(translate("MusicTable", "Lyrics")),
                                                         str(self.values[rowNo]["firstLyrics"]),
                                                         value)
                                             self.changedValueNumber += 1
                                         tagger.update()
                                     except:
-                                        Dialogs.showError(translate("AmarokCopyTable", "Tags Cannot Changed"),
-                                                          str(translate("AmarokCopyTable",
+                                        Dialogs.showError(translate("MusicTable", "Tags Cannot Changed"),
+                                                          str(translate("MusicTable",
                                                                         "\"%s\" : cannot be changed tags.")
                                                           ) % Organizer.getLink(newFilePath))
                 except:
@@ -226,8 +227,8 @@ class AmarokCopyTable(CoreTable):
                 if uni.getBoolValue("isRunOnDoubleClick"):
                     self.showTableDetails(_row, _column)
         except:
-            Dialogs.showError(translate("AmarokCopyTable", "Cannot Open Music File"),
-                              str(translate("AmarokCopyTable",
+            Dialogs.showError(translate("MusicTable", "Cannot Open Music File"),
+                              str(translate("MusicTable",
                                             "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
                               ) % Organizer.getLink(self.values[_row]["path"]))
 

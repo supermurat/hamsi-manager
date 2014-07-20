@@ -63,7 +63,7 @@ tableTypeIcons = {"0": "folderTable.png",
                   "4": "coverTable.png",
                   "5": "amarokCoverTable.png",
                   "6": "amarokMusicTable.png",
-                  "7": "amarokMusicTable.png",
+                  "7": "amarokArtistTable.png",
                   "8": "amarokCopyTable.png",
                   "9": "subFolderMusicTable.png"}
 iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
@@ -92,7 +92,7 @@ if isActiveAmarok:
                             "6": translate("Tables", "Amarok Music Table"),
                             "7": translate("Tables", "Amarok Artist Table"),
                             "8": translate("Tables", "Amarok Copy Table")})
-
+tableTypeOrder = ["0", "1", "2", "3", "9", "4", "5", "6", "7", "8"]
 
 def setPathOfSettingsDirectory(_path):
     _path = str(_path)
