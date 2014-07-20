@@ -17,14 +17,10 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
-import Tables
-from Core import Dialogs
-import sys
 from Core import ReportBug
-import Databases
+from Databases import CompleterTable
 
 
 class QuickFill(MWidget):
@@ -48,12 +44,14 @@ class QuickFill(MWidget):
             self.leColumns[x].hide()
 
     def checkCompleters(self):
-        for x in range(0, len(self.leColumns)):
-            Databases.CompleterTable.insert(self.lblColumns[x].text(), self.leColumns[x].text())
+        if uni.getBoolValue("isActiveCompleter"):
+            for x in range(0, len(self.leColumns)):
+                CompleterTable.insert(self.lblColumns[x].text(), self.leColumns[x].text())
 
     def reFillCompleters(self):
-        for x in range(0, len(self.leColumns)):
-            setCompleter(self.leColumns[x], self.lblColumns[x].text())
+        if uni.getBoolValue("isActiveCompleter"):
+            for x in range(0, len(self.leColumns)):
+                setCompleter(self.leColumns[x], self.lblColumns[x].text())
 
     def fillAfter(self, _searchValue=""):
         try:
@@ -72,9 +70,6 @@ class QuickFill(MWidget):
 
     def fill(self, _searchValue=""):
         try:
-            self.checkCompleters()
-            self.reFillCompleters()
-            getMainWindow().Table.createHistoryPoint()
             self.apply()
         except:
             from Core import ReportBug
@@ -82,13 +77,19 @@ class QuickFill(MWidget):
             ReportBug.ReportBug()
 
     def apply(self):
+        self.checkCompleters()
+        self.reFillCompleters()
+        getMainWindow().Table.createHistoryPoint()
         _newString = str(self.fillFrom.text())
         getMainWindow().Table.isAskShowHiddenColumn = True
-        for No, columnName in enumerate(getMainWindow().Table.tableColumns):
-            if str(self.fillFrom.objectName()) == str(columnName):
-                columnNo = No
+        for cno, ckey in enumerate(getMainWindow().Table.tableColumnsKey):
+            if str(self.fillFrom.objectName()) == str(ckey):
+                columnKey = ckey
+                columnNo = cno
                 break
-        if getMainWindow().Table.checkHiddenColumn(columnNo, False) == False:
+        if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+            return False
+        if getMainWindow().Table.checkHiddenColumn(columnNo, False) is False:
             return False
         for rowNo in range(getMainWindow().Table.rowCount()):
             if getMainWindow().Table.isChangeableItem(rowNo, columnNo):

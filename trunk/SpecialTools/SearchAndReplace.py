@@ -20,11 +20,7 @@
 from Core import Organizer
 from Core import Universals as uni
 from Core.MyObjects import *
-import Tables
-from Core import Dialogs
-import sys
-from Core import ReportBug
-import Databases
+from Databases import CompleterTable
 
 
 class SearchAndReplace(MWidget):
@@ -103,14 +99,19 @@ class SearchAndReplace(MWidget):
         sarled = SearchAndReplaceListEditDialog(self)
 
     def checkCompleters(self):
-        Databases.CompleterTable.insert(self.lblSearch.text(), self.leSearch.text())
-        Databases.CompleterTable.insert(self.lblReplace.text(), self.leReplace.text())
+        if uni.getBoolValue("isActiveCompleter"):
+            CompleterTable.insert(self.lblSearch.text(), self.leSearch.text())
+            CompleterTable.insert(self.lblReplace.text(), self.leReplace.text())
 
     def reFillCompleters(self):
-        setCompleter(self.leReplace, self.lblReplace.text())
-        setCompleter(self.leSearch, self.lblSearch.text())
+        if uni.getBoolValue("isActiveCompleter"):
+            setCompleter(self.leReplace, self.lblReplace.text())
+            setCompleter(self.leSearch, self.lblSearch.text())
 
     def apply(self):
+        self.checkCompleters()
+        self.reFillCompleters()
+        getMainWindow().Table.createHistoryPoint()
         searchStrings = str(self.leSearch.text()).split(";")
         replaceStrings = str(self.leReplace.text()).split(";")
         for filterNo in range(0, len(searchStrings)):
@@ -127,7 +128,10 @@ class SearchAndReplace(MWidget):
         else:
             columns = [self.columns.currentIndex() - 1]
         for columnNo in columns:
-            if getMainWindow().Table.isColumnHidden(columnNo):
+            columnKey = trStr(self.columns.itemData(columnNo + 1))
+            if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+                continue
+            if getMainWindow().Table.checkHiddenColumn(columnNo, False) is False:
                 continue
             for rowNo in range(getMainWindow().Table.rowCount()):
                 if getMainWindow().Table.isChangeableItem(rowNo, columnNo, None, True):
