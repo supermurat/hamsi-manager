@@ -282,7 +282,6 @@ def checkAfterRunProcess():
     from Core.MyObjects import getMainWindow
     from Core import Universals as uni
     from Core import Dialogs
-    from Core import UpdateControl
     from Core.MyObjects import translate, isActivePyKDE4
     import FileUtils as fu
 
@@ -295,15 +294,14 @@ def checkAfterRunProcess():
             from Options import OptionsForm
 
             OptionsForm.OptionsForm(getMainWindow(), _focusTo="fileSystemEncoding")
-    if uni.getBoolValue("isMakeAutoDesign") or uni.getBoolValue("isShowWindowModeSuggestion"):
+    if uni.getBoolValue("isMakeAutoDesign"):
         getMainWindow().TableToolsBar.setVisible(False)
         getMainWindow().ToolsBar.setVisible(False)
         if isActivePyKDE4:
             getMainWindow().Browser.setVisible(False)
             getMainWindow().TreeBrowser.setVisible(False)
             getMainWindow().FileManager.urlNavigator.setMinimumWidth(150)
-            try: getMainWindow().FileManager.dckwBrowserToolsFull.setVisible(False)
-            except: getMainWindow().FileManager.tbarBrowserToolsFull.setVisible(False)
+            getMainWindow().FileManager.tbarBrowserToolsFull.setVisible(False)
         try: getMainWindow().PlayerBar.setVisible(False)
         except: pass
     checkAndCorrectWindowMode()
@@ -333,43 +331,29 @@ def checkAfterRunProcess():
         uni.setMySetting("isShowReconfigureWizard", "False")
 
 
-def checkWindowMode(_isCheck=False):
-    from Core import Universals as uni
-
-    if uni.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
-        if uni.windowMode == uni.windowModeKeys[0]:
-            screenSize = uni.getScreenSize()
-            if screenSize is not None:
-                if screenSize.width() < 1024:
-                    uni.windowMode = uni.windowModeKeys[1]
-
-
 def checkAndCorrectWindowMode(_isCheck=False):
     from Core.MyObjects import getMainWindow
     from Core import Universals as uni
-    from Core import Dialogs
-    from Core.MyObjects import translate, MToolBar
+    from Core.MyObjects import MToolBar
 
-    if uni.getBoolValue("isShowWindowModeSuggestion") or _isCheck:
-        if uni.windowMode == uni.windowModeKeys[1]:
-            if len(getMainWindow().findChildren(MToolBar)) > 0:
-                firstToolBar = getMainWindow().findChildren(MToolBar)[0]
-                getMainWindow().removeToolBar(getMainWindow().FileManager.tbarBrowserTools)
-                getMainWindow().insertToolBar(firstToolBar, getMainWindow().FileManager.tbarBrowserTools)
-                getMainWindow().FileManager.tbarBrowserTools.setVisible(True)
-            try:
-                if getMainWindow().Browser is not None and getMainWindow().Places is not None:
-                    getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().Places)
-                if getMainWindow().Browser is not None and getMainWindow().TreeBrowser is not None:
-                    getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().TreeBrowser)
-                if getMainWindow().Browser is not None and getMainWindow().DirOperator is not None:
-                    getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().DirOperator)
-                try: getMainWindow().FileManager.dckwBrowserToolsFull.setVisible(False)
-                except: getMainWindow().FileManager.tbarBrowserToolsFull.setVisible(False)
-                geometries = uni.getListValue("MainWindowGeometries")
-                getMainWindow().setGeometry(int(geometries[0]), int(geometries[1]), 700, 500)
-            except: pass
-            uni.setMySetting("isShowWindowModeSuggestion", False)
+    if _isCheck:
+        if len(getMainWindow().findChildren(MToolBar)) > 0:
+            firstToolBar = getMainWindow().findChildren(MToolBar)[0]
+            getMainWindow().removeToolBar(getMainWindow().FileManager.tbarBrowserTools)
+            getMainWindow().insertToolBar(firstToolBar, getMainWindow().FileManager.tbarBrowserTools)
+            getMainWindow().FileManager.tbarBrowserTools.setVisible(True)
+        try:
+            if getMainWindow().Browser is not None and getMainWindow().Places is not None:
+                getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().Places)
+            if getMainWindow().Browser is not None and getMainWindow().TreeBrowser is not None:
+                getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().TreeBrowser)
+            if getMainWindow().Browser is not None and getMainWindow().DirOperator is not None:
+                getMainWindow().tabifyDockWidget(getMainWindow().Browser, getMainWindow().DirOperator)
+            getMainWindow().FileManager.tbarBrowserToolsFull.setVisible(False)
+            geometries = uni.getListValue("MainWindowGeometries")
+            getMainWindow().setGeometry(int(geometries[0]), int(geometries[1]), 700, 500)
+        except:
+            pass
 
 
 def checkBeforeCloseProcess():

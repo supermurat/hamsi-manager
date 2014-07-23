@@ -61,10 +61,7 @@ class TableToolsBar(MToolBar):
         if uni.fileReNamerTypeNamesKeys.count(str(uni.MySettings["fileReNamerType"])) == 0:
             self.actsFileReNamerTypes[0].setChecked(True)
         self.addActions(actgActionGroupReNamerTypes.actions())
-        if uni.windowMode == uni.windowModeKeys[1]:
-            self.setIconSize(MSize(16, 16))
-        else:
-            self.setIconSize(MSize(32, 32))
+        self.setIconSize(MSize(16, 16))
         getMainWindow().Menu.mTableTools = MMenu(translate("MenuBar", "Table Tools"), self)
         getMainWindow().Menu.mTableTools.setObjectName(translate("MenuBar", "Table Tools"))
         getMainWindow().Menu.mTableTools.addActions(actgActionGroupTableTypes.actions())

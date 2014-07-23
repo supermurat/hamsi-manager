@@ -99,10 +99,7 @@ class ToolsBar(MToolBar):
         self.addAction(self.actRemoveOnlySubFiles)
         if uni.isActiveDirectoryCover:
             self.addAction(self.actCheckIcon)
-        if uni.windowMode == uni.windowModeKeys[1]:
-            self.setIconSize(MSize(16, 16))
-        else:
-            self.setIconSize(MSize(32, 32))
+        self.setIconSize(MSize(16, 16))
         getMainWindow().Menu.mTools = MMenu(translate("MenuBar", "Tools"), self)
         getMainWindow().Menu.mTools.setObjectName(translate("MenuBar", "Tools"))
         getMainWindow().Menu.mTools.addAction(self.actHash)

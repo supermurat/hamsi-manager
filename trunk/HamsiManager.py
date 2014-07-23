@@ -144,7 +144,6 @@ if RoutineChecks.checkMandatoryModules():
             MApplication.setPalette(plt)
         uni.printForDevelopers("Before RoutineChecks.checkMyModules")
         if RoutineChecks.checkMyModules(HamsiManagerApp):
-            RoutineChecks.checkWindowMode()
             if RoutineChecks.isQuickMake:
                 uni.printForDevelopers("QuickMake")
                 try:
@@ -280,11 +279,8 @@ if RoutineChecks.checkMandatoryModules():
                                                  self.Table.hiddenTableColumns)
                                 self.Bars.setAllBarsStyleToMySettings()
                                 Records.setRecordType(1)
-                                subFixForStateFile = ""
-                                if uni.windowMode != uni.windowModeKeys[0]:
-                                    subFixForStateFile = uni.windowMode
                                 fu.writeToBinaryFile(
-                                    fu.joinPath(fu.pathOfSettingsDirectory, "LastState" + subFixForStateFile),
+                                    fu.joinPath(fu.pathOfSettingsDirectory, "LastState"),
                                     self.saveState())
                                 Records.restoreRecordType()
                                 geometry = [self.geometry().x(), self.geometry().y(), self.geometry().width(),
@@ -325,11 +321,8 @@ if RoutineChecks.checkMandatoryModules():
                         try:
                             uni.printForDevelopers("Before MainWindow.restoreState")
                             state = MByteArray()
-                            subFixForStateFile = ""
-                            if uni.windowMode != uni.windowModeKeys[0]:
-                                subFixForStateFile = uni.windowMode
                             state.append(fu.readFromBinaryFile(
-                                fu.joinPath(fu.pathOfSettingsDirectory, "LastState" + subFixForStateFile)))
+                                fu.joinPath(fu.pathOfSettingsDirectory, "LastState")))
                             currentMainWindow.restoreState(state)
                             uni.printForDevelopers("After MainWindow.restoreState")
                         except: pass

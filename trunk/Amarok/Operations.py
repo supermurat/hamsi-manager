@@ -121,10 +121,3 @@ def changeArtistValues(_values):
         if isContinueThreadAction is False:
             break
     uni.finishThreadAction()
-
-
-
-
-
-            
-

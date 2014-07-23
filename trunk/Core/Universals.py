@@ -34,7 +34,6 @@ isShowVerifySettings = False
 changedDefaultValuesKeys = []
 newSettingsKeys = []
 isCanBeShowOnMainWindow = False
-windowMode = "Normal"
 threadActionState = None
 tableType = None
 fileOfSettings = "mySettings.ini"
@@ -55,7 +54,6 @@ validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don
 fileExtensionIsKeys = ["After The First Point", "After The Last Point", "Be Smart"]
 mplayerSoundDevices = ["alsa", "pulse", "oss", "jack", "arts", "esd", "sdl", "nas", "mpegpes", "v4l2", "pcm"]
 imageExtStringOnlyPNGAndJPG = "(*.png *.jpg *.jpeg *.PNG *.JPG *.JPEG)"
-windowModeKeys = ["Normal", "Mini"]
 tableTypeIcons = {"0": "folderTable.png",
                   "1": "fileTable.png",
                   "2": "musicTable.png",
@@ -93,6 +91,7 @@ if isActiveAmarok:
                             "7": translate("Tables", "Amarok Artist Table"),
                             "8": translate("Tables", "Amarok Copy Table")})
 tableTypeOrder = ["0", "1", "2", "3", "9", "4", "5", "6", "7", "8"]
+
 
 def setPathOfSettingsDirectory(_path):
     _path = str(_path)
@@ -164,11 +163,11 @@ def getUtf8Data(_key):
 
 
 def fillMySettings(_setAgain=False, _isCheckUpdate=True):
-    global MySettings, isShowVerifySettings, changedDefaultValuesKeys, newSettingsKeys, windowMode, tableType
+    global MySettings, isShowVerifySettings, changedDefaultValuesKeys, newSettingsKeys, tableType
     from Core import Settings
 
     sets = Settings.setting()
-    settingVersion = trStr(sets.value("settingsVersion"))
+    currentSettingVersion = trStr(sets.value("settingsVersion"))
     defaultValues = Settings.getDefaultValues()
     valueTypesAndValues = Settings.getValueTypesAndValues()
     for keyValue in Settings.getKeysOfSettings():
@@ -183,11 +182,11 @@ def fillMySettings(_setAgain=False, _isCheckUpdate=True):
             MySettings[keyValue] = str(Settings.emendValue(keyValue, value, "", "str"))
     newSettingVersion = str(MySettings["settingsVersion"])
     if _isCheckUpdate:
-        if newSettingVersion != settingVersion:
-            newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(settingVersion, newSettingVersion)
+        if newSettingVersion != currentSettingVersion:
+            newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(currentSettingVersion,
+                                                                                   newSettingVersion)
             isShowVerifySettings = True
     fu.fileSystemEncoding = MySettings["fileSystemEncoding"]
-    windowMode = MySettings["windowMode"]
     fu.themePath = fu.joinPath(fu.HamsiManagerDirectory, "Themes", MySettings["themeName"])
     if tableType is None:
         tableType = MySettings["tableType"]
@@ -315,13 +314,20 @@ def setLastPathByEvent(_keyPath, _path):
 
 def getLastPathKey(_caption, _directory, _filter, _isUseLastPathKeyType=1, _lastPathKey=None):
     pathKey = None
-    if _isUseLastPathKeyType == 0: pass
-    elif _isUseLastPathKeyType == 1: pathKey = _caption
-    elif _isUseLastPathKeyType == 2: pathKey = _caption + " - " + _directory
-    elif _isUseLastPathKeyType == 3: pathKey = _directory
-    elif _isUseLastPathKeyType == 4 and _lastPathKey is not None: pathKey = _caption + " - " + _lastPathKey
-    elif _isUseLastPathKeyType == 5 and _lastPathKey is not None: pathKey = _caption + " - " + _directory + " - " + _lastPathKey
-    elif _isUseLastPathKeyType == 6 and _lastPathKey is not None: pathKey = _directory + " - " + _lastPathKey
+    if _isUseLastPathKeyType == 0:
+        pass
+    elif _isUseLastPathKeyType == 1:
+        pathKey = _caption
+    elif _isUseLastPathKeyType == 2:
+        pathKey = _caption + " - " + _directory
+    elif _isUseLastPathKeyType == 3:
+        pathKey = _directory
+    elif _isUseLastPathKeyType == 4 and _lastPathKey is not None:
+        pathKey = _caption + " - " + _lastPathKey
+    elif _isUseLastPathKeyType == 5 and _lastPathKey is not None:
+        pathKey = _caption + " - " + _directory + " - " + _lastPathKey
+    elif _isUseLastPathKeyType == 6 and _lastPathKey is not None:
+        pathKey = _directory + " - " + _lastPathKey
     else: pathKey = _isUseLastPathKeyType
     return pathKey
 

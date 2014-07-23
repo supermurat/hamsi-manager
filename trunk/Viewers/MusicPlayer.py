@@ -61,11 +61,6 @@ class MusicPlayer(MWidget):
         MObject.connect(self.tbMute, SIGNAL("clicked()"), self.mute)
         MObject.connect(self.tbPlay, SIGNAL("clicked()"), self.play)
         MObject.connect(self.tbStop, SIGNAL("clicked()"), self.stop)
-        if _type == "bar" and uni.windowMode == uni.windowModeKeys[1]:
-            pass
-        else:
-            self.info = MLabel(
-                translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
         if _type == "bar":
             #little style for bar
             HBOXs = []
@@ -75,17 +70,10 @@ class MusicPlayer(MWidget):
             HBOXs[0].addWidget(self.tbStop)
             HBOXs[0].addWidget(self.tbMute)
             HBOXs.append(MHBoxLayout())
-            if uni.windowMode == uni.windowModeKeys[1]:
-                self.tbPause.setMaximumHeight(16)
-                self.tbMute.setMaximumHeight(16)
-                self.tbPlay.setMaximumHeight(16)
-                self.tbStop.setMaximumHeight(16)
-            else:
-                HBOXs[1].addWidget(self.info)
-                self.tbPause.setMinimumHeight(22)
-                self.tbMute.setMinimumHeight(22)
-                self.tbPlay.setMinimumHeight(22)
-                self.tbStop.setMinimumHeight(22)
+            self.tbPause.setMaximumHeight(16)
+            self.tbMute.setMaximumHeight(16)
+            self.tbPlay.setMaximumHeight(16)
+            self.tbStop.setMaximumHeight(16)
             VBOX = MVBoxLayout()
             VBOX.setSpacing(0)
             VBOX.addLayout(HBOXs[1])
@@ -94,6 +82,8 @@ class MusicPlayer(MWidget):
             self.setMaximumSize(150, 40)
         elif _type == "dialog":
             #full style for dialog
+            self.info = MLabel(
+                translate("Player", "Please Select The File You Want To Play And Click The Play Button."))
             HBOXs = []
             HBOXs.append(MHBoxLayout())
             HBOXs[0].addWidget(self.tbPause)
@@ -114,12 +104,11 @@ class MusicPlayer(MWidget):
             self.tbPlay.setMinimumHeight(22)
             self.tbStop.setMinimumHeight(22)
             self.setMaximumSize(390, 44)
-        if self.type != "bar" or uni.windowMode != uni.windowModeKeys[1]:
             self.infoScroller = InfoScroller(self)
             self.infoScroller.start()
 
     def setInfoText(self, _info):
-        if self.type == "bar" and uni.windowMode == uni.windowModeKeys[1]:
+        if self.type == "bar":
             getMainWindow().StatusBar.showMessage(_info)
         else:
             MApplication.processEvents()
