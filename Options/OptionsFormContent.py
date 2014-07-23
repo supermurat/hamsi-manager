@@ -91,7 +91,7 @@ class Appearance(MWidget):
         self.values, self.lblLabels = [], []
         self.keysOfSettings = ["applicationStyle", "themeName", "colorSchemes",
                                "isMinimumWindowMode", "isShowQuickMakeWindow",
-                               "isShowTransactionDetails", "windowMode", "isResizeTableColumnsToContents"]
+                               "isShowTransactionDetails", "isResizeTableColumnsToContents"]
         self.tabsOfSettings = [None, None, None,
                                None, None, None,
                                None, None]
@@ -100,7 +100,7 @@ class Appearance(MWidget):
             self.visibleKeys = self.keysOfSettings
         else:
             self.visibleKeys = _visibleKeys
-        self.neededRestartSettingKeys = ["themeName", "windowMode"]
+        self.neededRestartSettingKeys = ["themeName"]
         self.valuesOfOptionsKeys = []
         self.labels = [translate("Options/Appearance", "Application Style"),
                        translate("Options/Appearance", "Application Theme"),
@@ -108,7 +108,6 @@ class Appearance(MWidget):
                        translate("Options/Appearance", "Activate Minimal Window Mode"),
                        translate("Options/Appearance", "Show Quick Make Dialog"),
                        translate("Options/Appearance", "Show Transaction Details"),
-                       translate("Options/Appearance", "Window Mode"),
                        translate("Options/Appearance", "Resize Table Columns")]
         self.toolTips = [translate("Options/Appearance", "You can select style for Hamsi Manager."),
                          translate("Options/Appearance", "You can select theme for Hamsi Manager."),
@@ -118,11 +117,9 @@ class Appearance(MWidget):
                          translate("Options/Appearance",
                                    "Are you want to show quick make dialog in runed with command line or my plugins?"),
                          translate("Options/Appearance", "Are you want to show transaction details after save table?"),
-                         translate("Options/Appearance",
-                                   "You can select window mode.You can select \"Mini\" section for netbook or small screen."),
                          translate("Options/Appearance", "Are you want to resize table columns to contents?")]
-        self.typesOfValues = [["options", 0], ["options", 1], ["options", 3],
-                              "Yes/No", "Yes/No", "Yes/No", ["options", 2], "Yes/No"]
+        self.typesOfValues = [["options", 0], ["options", 1], ["options", 2],
+                              "Yes/No", "Yes/No", "Yes/No", "Yes/No"]
         styles = uni.getStyles()
         themes = uni.getInstalledThemes()
         schemes, schemePaths = uni.getColorSchemesAndPath()
@@ -132,11 +129,8 @@ class Appearance(MWidget):
             del self.labels[keyNo]
             del self.toolTips[keyNo]
             del self.typesOfValues[keyNo]
-        self.valuesOfOptions = [styles, themes,
-                                [translate("Options/Appearance", "Normal"),
-                                 translate("Options/Appearance", "Mini")], schemes]
-        self.valuesOfOptionsKeys = [styles, themes,
-                                    uni.windowModeKeys, schemePaths]
+        self.valuesOfOptions = [styles, themes, schemes]
+        self.valuesOfOptionsKeys = [styles, themes, schemePaths]
         _parent.createOptions(self)
         if self.visibleKeys.count("applicationStyle") > 0:
             MObject.connect(self.values[self.keysOfSettings.index("applicationStyle")],
@@ -144,9 +138,6 @@ class Appearance(MWidget):
         if self.visibleKeys.count("colorSchemes") > 0:
             MObject.connect(self.values[self.keysOfSettings.index("colorSchemes")], SIGNAL("currentIndexChanged(int)"),
                             self.schemeChanged)
-        if self.visibleKeys.count("windowMode") > 0:
-            MObject.connect(self.values[self.keysOfSettings.index("windowMode")], SIGNAL("currentIndexChanged(int)"),
-                            self.windowModeChanged)
 
     def styleChanged(self, _value):
         MApplication.setStyle(self.values[self.keysOfSettings.index("applicationStyle")].currentText())
@@ -160,9 +151,6 @@ class Appearance(MWidget):
         else:
             plt = MApplication.desktop().palette()
         MApplication.setPalette(plt)
-
-    def windowModeChanged(self, _value):
-        uni.setMySetting("isShowWindowModeSuggestion", True)
 
 
 class Correct(MWidget):

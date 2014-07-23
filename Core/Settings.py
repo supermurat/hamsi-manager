@@ -268,7 +268,7 @@ def updateOldSettings(_oldVersion, _newVersion):
     if oldVersion < 1170:
         newSettingsKeys = newSettingsKeys + ["maxDeletedDirectorySize"]
     if oldVersion < 1190:
-        changedDefaultValuesKeys = changedDefaultValuesKeys + ["applicationStyle", "windowMode", "fileExtensionIs"]
+        changedDefaultValuesKeys = changedDefaultValuesKeys + ["applicationStyle", "fileExtensionIs"]
     if oldVersion < 1371:
         changedDefaultValuesKeys = changedDefaultValuesKeys + ["fileExtensionIs"]
     if oldVersion < 1372:
@@ -353,8 +353,8 @@ def getKeysOfSettings():
             "isDeleteEmptyDirectories",
             "isCleanerDeleteEmptyDirectories", "isPackagerDeleteEmptyDirectories",
             "remindMeLaterForUpdate", "remindMeLaterShowDateForUpdate",
-            "isShowTransactionDetails", "windowMode", "isInstalledKDE4Language",
-            "isShowWindowModeSuggestion", "isMakeAutoDesign", "isShowReconfigureWizard",
+            "isShowTransactionDetails", "isInstalledKDE4Language",
+            "isMakeAutoDesign", "isShowReconfigureWizard",
             "isAskIfHasManyImagesInAlbumDirectory", "isDeleteOtherImages",
             "CoversSubDirectoryDeep",
             "amarokDBHost", "amarokDBPort", "amarokDBUser",
@@ -488,9 +488,7 @@ def getDefaultValues():
         "remindMeLaterForUpdate": "-1",
         "remindMeLaterShowDateForUpdate": datetime.now().strftime("%Y %m %d %H %M %S"),
         "isShowTransactionDetails": "False",
-        "windowMode": uni.windowModeKeys[1],
         "isInstalledKDE4Language": "False",
-        "isShowWindowModeSuggestion": "True",
         "isMakeAutoDesign": "True",
         "isShowReconfigureWizard": "True",
         "isAskIfHasManyImagesInAlbumDirectory": "True",
@@ -634,9 +632,7 @@ def getValueTypesAndValues():
         "remindMeLaterForUpdate": ["int", list(range(-1, 7))],
         "remindMeLaterShowDateForUpdate": "date",
         "isShowTransactionDetails": "bool",
-        "windowMode": ["options", uni.windowModeKeys],
         "isInstalledKDE4Language": "bool",
-        "isShowWindowModeSuggestion": "bool",
         "isMakeAutoDesign": "bool",
         "isShowReconfigureWizard": "bool",
         "isAskIfHasManyImagesInAlbumDirectory": "bool",

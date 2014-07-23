@@ -137,62 +137,33 @@ class FileManager():
         self.actForward.setEnabled(False)
         self.goTo(self.currentDirectory)
         self.trvFileManager.setColumnWidth(0, 250)
-        if uni.windowMode == uni.windowModeKeys[1]:
-            tools.setIconSize(MSize(16, 16))
-            self.tbarBrowserTools = MToolBar(_parent)
-            self.tbarBrowserTools.setWindowTitle(translate("FileManager", "Browser Tools"))
-            self.tbarBrowserTools.setObjectName(translate("FileManager", "Browser Tools"))
-            self.tbarBrowserTools.setIconSize(MSize(16, 16))
-            self.tbarBrowserTools.addWidget(tools)
-            _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserTools)
+        tools.setIconSize(MSize(16, 16))
+        self.tbarBrowserTools = MToolBar(_parent)
+        self.tbarBrowserTools.setWindowTitle(translate("FileManager", "Browser Tools"))
+        self.tbarBrowserTools.setObjectName(translate("FileManager", "Browser Tools"))
+        self.tbarBrowserTools.setIconSize(MSize(16, 16))
+        self.tbarBrowserTools.addWidget(tools)
+        _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserTools)
+        self.tbarLocationBar = MToolBar(_parent)
+        self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
+        self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
+        self.tbarLocationBar.setIconSize(MSize(16, 16))
+        self.tbarLocationBar.addWidget(self.leNavigator)
+        _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
+        if isActivePyKDE4:
+            toolsFull.setIconSize(MSize(16, 16))
+            self.tbarBrowserToolsFull = MToolBar(_parent)
+            self.tbarBrowserToolsFull.setWindowTitle(translate("FileManager", "Browser Tools (KDE4)"))
+            self.tbarBrowserToolsFull.setObjectName(translate("FileManager", "Browser Tools (KDE4)"))
+            self.tbarBrowserToolsFull.setIconSize(MSize(16, 16))
+            self.tbarBrowserToolsFull.addWidget(toolsFull)
+            _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserToolsFull)
             self.tbarLocationBar = MToolBar(_parent)
-            self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
-            self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
+            self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar (KDE4)"))
+            self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
             self.tbarLocationBar.setIconSize(MSize(16, 16))
-            self.tbarLocationBar.addWidget(self.leNavigator)
+            self.tbarLocationBar.addWidget(self.urlNavigator)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
-            if isActivePyKDE4:
-                toolsFull.setIconSize(MSize(16, 16))
-                self.tbarBrowserToolsFull = MToolBar(_parent)
-                self.tbarBrowserToolsFull.setWindowTitle(translate("FileManager", "Browser Tools (KDE4)"))
-                self.tbarBrowserToolsFull.setObjectName(translate("FileManager", "Browser Tools (KDE4)"))
-                self.tbarBrowserToolsFull.setIconSize(MSize(16, 16))
-                self.tbarBrowserToolsFull.addWidget(toolsFull)
-                _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserToolsFull)
-                self.tbarLocationBar = MToolBar(_parent)
-                self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar (KDE4)"))
-                self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
-                self.tbarLocationBar.setIconSize(MSize(16, 16))
-                self.tbarLocationBar.addWidget(self.urlNavigator)
-                _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
-        else:
-            tools.setIconSize(MSize(22, 22))
-            self.dckwBrowserTools = MDockWidget(translate("FileManager", "Browser Tools"))
-            self.dckwBrowserTools.setObjectName(translate("FileManager", "Browser Tools"))
-            self.dckwBrowserTools.setWidget(tools)
-            self.dckwBrowserTools.setAllowedAreas(Mt.AllDockWidgetAreas)
-            self.dckwBrowserTools.setFeatures(MDockWidget.AllDockWidgetFeatures)
-            _parent.addDockWidget(Mt.LeftDockWidgetArea, self.dckwBrowserTools)
-            self.tbarLocationBar = MToolBar(_parent)
-            self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
-            self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
-            self.tbarLocationBar.setIconSize(MSize(16, 16))
-            self.tbarLocationBar.addWidget(self.leNavigator)
-            _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
-            if isActivePyKDE4:
-                toolsFull.setIconSize(MSize(22, 22))
-                self.dckwBrowserToolsFull = MDockWidget(translate("FileManager", "Browser Tools (KDE4)"))
-                self.dckwBrowserToolsFull.setObjectName(translate("FileManager", "Browser Tools (KDE4)"))
-                self.dckwBrowserToolsFull.setWidget(toolsFull)
-                self.dckwBrowserToolsFull.setAllowedAreas(Mt.AllDockWidgetAreas)
-                self.dckwBrowserToolsFull.setFeatures(MDockWidget.AllDockWidgetFeatures)
-                _parent.addDockWidget(Mt.LeftDockWidgetArea, self.dckwBrowserToolsFull)
-                self.tbarLocationBar = MToolBar(_parent)
-                self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar (KDE4)"))
-                self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
-                self.tbarLocationBar.setIconSize(MSize(16, 16))
-                self.tbarLocationBar.addWidget(self.urlNavigator)
-                _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
         getMainWindow().Browser = MDockWidget(translate("FileManager", "Browser"))
         getMainWindow().Browser.setObjectName(translate("FileManager", "Browser"))
         getMainWindow().Browser.setWidget(self.lstvFileManager)
@@ -424,9 +395,9 @@ class BookmarksMenu(MMenu):
                         return
                     else:
                         answer = Dialogs.ask(translate("BookmarksMenu", "Cannot Find Folder"),
-                                             str(translate("BookmarksMenu",
-                                                           "\"%s\" cannot be found.<br>Delete this folder from the bookmarks?")) % Organizer.getLink(
-                                                 info[1]))
+                                    str(translate("BookmarksMenu",
+                                        "\"%s\" cannot be found.<br>Delete this folder from the bookmarks?")) %
+                                    Organizer.getLink(info[1]))
                         if answer == Dialogs.Yes:
                             BookmarksOfDirectories.delete(str(info[0]))
                             self.makeRefresh()
@@ -440,7 +411,7 @@ class BookmarksMenu(MMenu):
 class Bookmarks(MDialog):
     def __init__(self, _parent):
         MDialog.__init__(self)
-        self._parent = _parent;
+        self._parent = _parent
         if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
         self.setWindowTitle(translate("Bookmarks", "Bookmarks"))
@@ -494,8 +465,7 @@ class Bookmarks(MDialog):
     def saveBookmark(self):
         try:
             info = BookmarksOfDirectories.fetchAll()[self.cbBookmarks.currentIndex()]
-            BookmarksOfDirectories.update(info[0], str(self.cbBookmarks.currentText()),
-                                                    str(self.pathOfBookmark.text()))
+            BookmarksOfDirectories.update(info[0], str(self.cbBookmarks.currentText()), str(self.pathOfBookmark.text()))
             self.makeRefresh()
             getMainWindow().FileManager.bookmarksMenu.makeRefresh()
         except:
@@ -518,5 +488,3 @@ class Bookmarks(MDialog):
                 self.cbBookmarks.addItem(str(fav[1]))
         except:
             ReportBug.ReportBug()
-
-

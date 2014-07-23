@@ -160,7 +160,7 @@ def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCa
             return None
         else:
             lastInfoTime = (datetime.now().microsecond / 60000)
-    if uni.windowMode == uni.windowModeKeys[1] and uni.isCanBeShowOnMainWindow:
+    if uni.isCanBeShowOnMainWindow:
         return getMainWindow().StatusBar.showState(_title, _value, _maxValue, _isShowCancel, _connectToCancel)
     MApplication.processEvents()
     if getMainWindow().StateDialog is None:
