@@ -278,7 +278,7 @@ the Free Software Foundation; either version 2 of the License, or
     return True
 
 
-def checkAfterRunProcess():
+def checkAfterRunProcessStep1():
     from Core.MyObjects import getMainWindow
     from Core import Universals as uni
     from Core import Dialogs
@@ -329,6 +329,14 @@ def checkAfterRunProcess():
 
         Configurator.Configurator()
         uni.setMySetting("isShowReconfigureWizard", "False")
+
+
+def checkAfterRunProcessStep2():
+    from Core import Universals as uni
+    for command in uni.runAfter:
+        action = command["action"]
+        action(*command["args"], **command["kwargs"])
+        uni.printForDevelopers(str(command))
 
 
 def checkAndCorrectWindowMode(_isCheck=False):

@@ -26,7 +26,6 @@ from Options import QuickOptions
 class MenuBar(MMenuBar):
     def __init__(self, _parent):
         MMenuBar.__init__(self, _parent)
-        self.mMainPopupMenu = None
         self.mTableTools = None
         self.mQuickOptions = None
         self.mFile = self.addMenu(translate("MenuBar", "File"))
@@ -110,7 +109,8 @@ class MenuBar(MMenuBar):
                     actUpdate.setObjectName(translate("MenuBar", "Update"))
                     self.mHelpMenu.insertAction(self.mHelpMenu.actions()[actUNo], actUpdate)
                     break
-                except: actUNo = actUNo - 3
+                except:
+                    actUNo -= 3
         else:
             self.mHelpMenu.addAction(translate("MenuBar", "Report Bug")).setObjectName(
                 translate("MenuBar", "Report Bug"))
@@ -124,19 +124,8 @@ class MenuBar(MMenuBar):
         MObject.connect(self, SIGNAL("triggered(QAction *)"), getMainWindow().Bars.click)
 
     def refreshForTableType(self):
-        if self.mMainPopupMenu is None:
-            self.mMainPopupMenu = getMainWindow().createPopupMenu()
-            self.mMainPopupMenu.setTitle(translate("MenuBar", "Panels"))
-            self.mMainPopupMenu.setParent(getMainWindow())
-            self.mMainPopupMenu.setObjectName(translate("MenuBar", "Panels"))
-            if len(self.mView.actions()) == 0:
-                self.mView.addMenu(self.mMainPopupMenu)
-            else:
-                self.mView.insertMenu(self.mView.actions()[0], self.mMainPopupMenu)
-        else:
-            mTemp = getMainWindow().createPopupMenu()
-            self.mMainPopupMenu.clear()
-            self.mMainPopupMenu.addActions(mTemp.actions())
+        #self.mView.clear()
+        self.mView.addActions(getMainWindow().createPopupMenu().actions())
         self.refreshQuickOptions()
 
     def refreshQuickOptions(self):

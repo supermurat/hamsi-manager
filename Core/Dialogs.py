@@ -233,10 +233,15 @@ def sleep(_title, _value=0, _isShowCancel=False):
 
 
 def toast(_title="Hamsi Manager", _detail="", _timeout=2):
-    from Core import MyThread
-    tw = MyToaster(_title, _detail)
-    myProcs = MyThread.MyThread(time.sleep, tw.close, args=[_timeout])
-    myProcs.start()
+    if uni.isCanBeShowOnMainWindow:
+        from Core import MyThread
+
+        tw = MyToaster(_title, _detail, _timeout)
+        myProcs = MyThread.MyThread(time.sleep, tw.close, args=[_timeout])
+        myProcs.start()
+    else:
+        command = {"action": toast, "args": [_title, _detail, _timeout], "kwargs": {}}
+        uni.runAfter.append(command)
 
 
 def getItem(_title="Hamsi Cover", _detail="", _itemList=[""], _currentItem=0):
@@ -340,7 +345,7 @@ class MyStateDialog(MDialog):
 
 
 class MyToaster(MDialog):
-    def __init__(self, _title, _detail):
+    def __init__(self, _title, _detail, _timeout=3):
         MDialog.__init__(self, getMainWindow())
         if isActivePyKDE4:
             self.setButtons(MDialog.NoDefault)
@@ -365,8 +370,8 @@ class MyToaster(MDialog):
         self.vblMain.addWidget(self.lblTitle)
         self.vblMain.addWidget(self.lblDetails)
         self.vblMain.addStretch(5)
-        self.setMaximumSize(500, 300)
-        self.setMinimumSize(500, 300)
+        self.setMaximumSize(600, 300)
+        self.setMinimumSize(600, 300)
         rect = MRect()
         rect.setX((getMainWindow().width() / 2) - (self.width() / 2))
         rect.setY((getMainWindow().height() / 2) - (self.height() / 2))
@@ -382,7 +387,7 @@ class MyToaster(MDialog):
         opacityEffect.setOpacity(1)
         pnlMain.setGraphicsEffect(opacityEffect)
         self.anim = MPropertyAnimation(opacityEffect, "opacity")
-        self.anim.setDuration(2000)
+        self.anim.setDuration(_timeout*1000)
         self.anim.setStartValue(1.0)
         self.anim.setEndValue(0.0)
         self.anim.setEasingCurve(MEasingCurve.OutQuad)
