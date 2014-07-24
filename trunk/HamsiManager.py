@@ -335,11 +335,12 @@ if RoutineChecks.checkMandatoryModules():
                                                       int(geometries[3]))
                         currentMainWindow.show()
                     uni.printForDevelopers("Before RoutineChecks.checkAfterRunProcess")
-                    RoutineChecks.checkAfterRunProcess()
+                    RoutineChecks.checkAfterRunProcessStep1()
                     uni.printForDevelopers("After RoutineChecks.checkAfterRunProcess")
                     uni.setMySetting("isMakeAutoDesign", "False")
                     uni.isStartingSuccessfully = True
                     uni.isCanBeShowOnMainWindow = True
+                    RoutineChecks.checkAfterRunProcessStep2()
                 except:
                     ReportBug.ReportBug()
                 res = None

@@ -91,7 +91,7 @@ if isActiveAmarok:
                             "7": translate("Tables", "Amarok Artist Table"),
                             "8": translate("Tables", "Amarok Copy Table")})
 tableTypeOrder = ["0", "1", "2", "3", "9", "4", "5", "6", "7", "8"]
-
+runAfter = []
 
 def setPathOfSettingsDirectory(_path):
     _path = str(_path)

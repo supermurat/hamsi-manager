@@ -70,7 +70,7 @@ class MyWaitThread(MThread):
     def __init__(self, _title):
         MThread.__init__(self, getActiveWindow())
         self.isFinished = False
-        self.dlgState = dlgState = Dialogs.MyStateDialog(_title, False, None, False)
+        self.dlgState = Dialogs.MyStateDialog(_title, False, None, False)
 
     def run(self):
         i = 0

@@ -144,12 +144,6 @@ class FileManager():
         self.tbarBrowserTools.setIconSize(MSize(16, 16))
         self.tbarBrowserTools.addWidget(tools)
         _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserTools)
-        self.tbarLocationBar = MToolBar(_parent)
-        self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
-        self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
-        self.tbarLocationBar.setIconSize(MSize(16, 16))
-        self.tbarLocationBar.addWidget(self.leNavigator)
-        _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
         if isActivePyKDE4:
             toolsFull.setIconSize(MSize(16, 16))
             self.tbarBrowserToolsFull = MToolBar(_parent)
@@ -163,6 +157,13 @@ class FileManager():
             self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
             self.tbarLocationBar.setIconSize(MSize(16, 16))
             self.tbarLocationBar.addWidget(self.urlNavigator)
+            _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
+        else:
+            self.tbarLocationBar = MToolBar(_parent)
+            self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
+            self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
+            self.tbarLocationBar.setIconSize(MSize(16, 16))
+            self.tbarLocationBar.addWidget(self.leNavigator)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
         getMainWindow().Browser = MDockWidget(translate("FileManager", "Browser"))
         getMainWindow().Browser.setObjectName(translate("FileManager", "Browser"))
@@ -355,6 +356,7 @@ class FileManager():
             if uni.tableType in ["0", "1", "2", "3", "4", "9"]:
                 getMainWindow().Table.refresh(self.getCurrentDirectoryPath())
             else:
+                Dialogs.toast(translate("Tables", "Please edit query and click to Apply Query Icon."))
                 getMainWindow().StatusBar.setTableInfo(uni.tableTypesNames[uni.tableType] + str(" : ~ "))
         except:
             ReportBug.ReportBug()
