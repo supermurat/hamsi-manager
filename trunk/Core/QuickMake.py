@@ -18,8 +18,8 @@
 
 import sys
 import os
-from Core.RoutineChecks import QuickMakeParameters
-from Core import RoutineChecks
+from Core.CommandLineOptions import QuickMakeParameters
+from Core import CommandLineOptions
 from Core import Dialogs
 from Core import Records
 from Core import Organizer
@@ -229,7 +229,7 @@ class QuickMakeWindow(MyDialog):
 
     def organizeWithHamsiManager(self, _oldPath):
         uni.setMySetting("lastDirectory", fu.getRealDirName(_oldPath, True))
-        RoutineChecks.isQuickMake = False
+        CommandLineOptions.isQuickMake = False
         self.close()
 
     def pack(self):

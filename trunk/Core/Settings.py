@@ -410,7 +410,7 @@ def getDefaultValues():
         "hiddenAmarokCopyTableColumns": str([]),
         "hiddenSubFolderMusicTableColumns": str([]),
         "isPlayNow": "False",
-        "MainWindowGeometries": str([50, 50, 850, 533]),
+        "MainWindowGeometries": str([50, 50, 900, 600]),
         "tableType": "1",
         "activeTabNoOfSpecialTools": "0",
         "unneededFiles": str(['Thumbs.db']),

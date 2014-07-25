@@ -28,9 +28,9 @@ try:
 except:
     pass
 
-from Core import RoutineChecks
+import Core
 
-if RoutineChecks.checkMandatoryModules():
+if Core.checkMandatoryModules():
     from Core.MyObjects import *
     import FileUtils as fu
 

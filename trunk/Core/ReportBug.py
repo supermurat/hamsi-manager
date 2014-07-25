@@ -28,7 +28,7 @@ from Core import Settings
 import Options
 import traceback
 import logging
-from Core.RoutineChecks import isQuickMake, QuickMakeParameters, myArgvs
+from Core.CommandLineOptions import isQuickMake, QuickMakeParameters, myArgvs
 
 if uni.isPython3k:
     from urllib.parse import unquote, quote
