@@ -45,9 +45,9 @@ machineType = platform.machine()
 isPython3k = float(sys.version[:3]) >= 3.0
 isWindows = os.name == "nt"
 Catalog = "HamsiManager"
-version = "1.3.7"
-intversion = 1375
-settingVersion = "1375"
+version = "1.3.8"
+intversion = 1380
+settingVersion = "1380"
 aboutOfHamsiManager = ""
 fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
 validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
@@ -182,7 +182,7 @@ def fillMySettings(_setAgain=False, _isCheckUpdate=True):
             MySettings[keyValue] = str(Settings.emendValue(keyValue, value, "", "str"))
     newSettingVersion = str(MySettings["settingsVersion"])
     if _isCheckUpdate:
-        if newSettingVersion != currentSettingVersion:
+        if str(currentSettingVersion) is not "" and newSettingVersion != currentSettingVersion:
             newSettingsKeys, changedDefaultValuesKeys = Settings.updateOldSettings(currentSettingVersion,
                                                                                    newSettingVersion)
             isShowVerifySettings = True

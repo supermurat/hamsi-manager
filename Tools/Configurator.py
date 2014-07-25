@@ -182,7 +182,7 @@ class Configurator(MyDialog):
             scintillaIsAvailable = False
             pywin32IsAvailable = False
             try:
-                import eyeD3
+                import eyed3
 
                 eyeD3IsAvailable = True
             except: pass

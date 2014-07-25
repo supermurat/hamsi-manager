@@ -26,18 +26,19 @@ try:
 except:
     pass
 
-from Core import RoutineChecks
+import Core
 
-if RoutineChecks.checkMandatoryModules():
+if Core.checkMandatoryModules():
     from Core.MyObjects import *
     import FileUtils as fu
 
     fu.initStartupVariables()
     from Core import Universals as uni
 
-    uni.printForDevelopers("Before uni.setPaths")
-    uni.printForDevelopers("Before RoutineChecks.checkParameters")
-    if RoutineChecks.checkParameters():
+    uni.printForDevelopers("Before CommandLineOptions")
+    from Core import CommandLineOptions
+    uni.printForDevelopers("Before CommandLineOptions.checkCommandLineOptions")
+    if CommandLineOptions.checkCommandLineOptions():
         from Core import ReportBug
 
         uni.printForDevelopers("Before Settings")
@@ -81,7 +82,7 @@ if RoutineChecks.checkMandatoryModules():
             uni.printForDevelopers("Before MCmdLineArgs")
             MCmdLineArgs.init(sys.argv, aboutOfHamsiManager)
             options = MCmdLineOptions()
-            for x in RoutineChecks.optionList:
+            for x in CommandLineOptions.optionList:
                 options.add(x, ki18n(x + " For Only PyKDE4 Requirement"))
             MCmdLineArgs.addCmdLineOptions(options)
             uni.printForDevelopers("Before MApplication")
@@ -142,16 +143,16 @@ if RoutineChecks.checkMandatoryModules():
             else:
                 plt = MApplication.desktop().palette()
             MApplication.setPalette(plt)
-        uni.printForDevelopers("Before RoutineChecks.checkMyModules")
-        if RoutineChecks.checkMyModules(HamsiManagerApp):
-            if RoutineChecks.isQuickMake:
+        uni.printForDevelopers("Before Core.checkMyModules")
+        if Core.checkMyModules(HamsiManagerApp):
+            setApplication(HamsiManagerApp)
+            if CommandLineOptions.isQuickMake:
                 uni.printForDevelopers("QuickMake")
                 try:
-                    setApplication(HamsiManagerApp)
                     from Core import QuickMake
 
                     quickMake = QuickMake.QuickMake()
-                    if RoutineChecks.isQuickMake:
+                    if CommandLineOptions.isQuickMake:
                         res = HamsiManagerApp.exec_()
                         uni.saveSettings()
                         uni.printForDevelopers("Shutting down, result %d" % res)
@@ -159,156 +160,14 @@ if RoutineChecks.checkMandatoryModules():
                     ReportBug.ReportBug()
                     res = HamsiManagerApp.exec_()
                     uni.printForDevelopers("Shutting down, result %d" % res)
-            if RoutineChecks.isQuickMake is False:
+            if CommandLineOptions.isQuickMake is False:
                 uni.printForDevelopers("NotQuickMake")
-                from Core import FileManager
-                import Bars
-                from Bars import TableToolsBar, ToolsBar, StatusBar, MenuBar
-
-                uni.printForDevelopers("After Modules")
                 try:
-                    class Main(MMainWindow):
-                        def __init__(self):
-                            MMainWindow.__init__(self, None)
-                            uni.printForDevelopers("Started __init__")
-                            self.setObjectName("RealMainWindow")
-                            setApplication(HamsiManagerApp)
-                            setMainWindow(self)
-                            self.isLockedMainForm = False
-                            self.Menu = None
-                            self.Table = None
-                            self.CentralWidget = MWidget()
-                            self.createMainLayout()
-                            uni.printForDevelopers("Before Bars.Bars")
-                            self.Bars = Bars.Bars()
-                            uni.printForDevelopers("Before Bars.StatusBar")
-                            self.StatusBar = StatusBar.StatusBar(self)
-                            uni.printForDevelopers("Before Bars.MenuBar")
-                            self.Menu = MenuBar.MenuBar(self)
-                            uni.printForDevelopers("Before Bars.ToolsBar")
-                            self.ToolsBar = ToolsBar.ToolsBar(self)
-                            uni.printForDevelopers("Before Bars.TableToolsBar")
-                            self.TableToolsBar = TableToolsBar.TableToolsBar(self)
-                            uni.printForDevelopers("Before Bars.refreshBars")
-                            self.Bars.refreshBars()
-                            uni.printForDevelopers("Before FileManager.FileManager")
-                            self.FileManager = FileManager.FileManager(self)
-                            uni.printForDevelopers("After FileManager.FileManager")
-                            self.setMainLayout()
-                            self.setCentralWidget(self.CentralWidget)
-                            self.setMenuBar(self.Menu)
-                            self.setStatusBar(self.StatusBar)
-                            uni.printForDevelopers("Before Menu.refreshForTableType")
-                            self.Menu.refreshForTableType()
-                            uni.printForDevelopers("Before Bars.getAllBarsStyleFromMySettings")
-                            self.Bars.getAllBarsStyleFromMySettings()
-                            self.setCorner(Mt.TopLeftCorner, Mt.LeftDockWidgetArea)
-                            self.setCorner(Mt.BottomLeftCorner, Mt.LeftDockWidgetArea)
-                            uni.printForDevelopers("End of __init__")
+                    uni.printForDevelopers("Before MyMainWindow")
+                    from Core import MyMainWindow
 
-                        def createMainLayout(self):
-                            self.MainLayout = MVBoxLayout()
-
-                        def setMainLayout(self):
-                            self.CentralWidget.setLayout(self.MainLayout)
-
-                        def resetCentralWidget(self):
-                            clearAllChildren(self.CentralWidget)
-                            self.MainLayout = self.CentralWidget.layout()
-                            if self.MainLayout is None:
-                                self.createMainLayout()
-                                self.setMainLayout()
-
-                        def lockForm(self):
-                            self.CentralWidget.setEnabled(False)
-                            for wid in self.findChildren(MDockWidget):
-                                wid.setEnabled(False)
-                            for wid in self.findChildren(MToolBar):
-                                wid.setEnabled(False)
-                            for wid in self.findChildren(MMenuBar):
-                                wid.setEnabled(False)
-                            self.isLockedMainForm = True
-
-                        def unlockForm(self):
-                            self.CentralWidget.setEnabled(True)
-                            for wid in self.findChildren(MDockWidget):
-                                wid.setEnabled(True)
-                            for wid in self.findChildren(MToolBar):
-                                wid.setEnabled(True)
-                            for wid in self.findChildren(MMenuBar):
-                                wid.setEnabled(True)
-                            self.isLockedMainForm = False
-
-                        def closeEvent(self, _event):
-                            try:
-                                if uni.isRaisedAnError is False:
-                                    if uni.isContinueThreadAction():
-                                        uni.cancelThreadAction()
-                                        _event.ignore()
-                                uni.isStartedCloseProcess = True
-                                uni.printForDevelopers("Started closeEvent")
-                                MApplication.setQuitOnLastWindowClosed(True)
-                                try: self.PlayerBar.MusicPlayer.stop()
-                                except: pass
-                                from Core import Records
-                                from Details import MusicDetails, TextDetails, CoverDetails
-
-                                MusicDetails.MusicDetails.closeAllMusicDialogs()
-                                TextDetails.TextDetails.closeAllTextDialogs()
-                                CoverDetails.CoverDetails.closeAllCoverDialogs()
-                                uni.printForDevelopers("Closed Dialogs")
-                                if uni.isRaisedAnError is False:
-                                    if self.Table.checkUnSavedValues() is False:
-                                        uni.isStartedCloseProcess = False
-                                        uni.printForDevelopers("Close ignored")
-                                        _event.ignore()
-                                uni.printForDevelopers("Before RoutineChecks.checkBeforeCloseProcess")
-                                if RoutineChecks.checkBeforeCloseProcess() is False:
-                                    _event.ignore()
-                                    return None
-                                uni.printForDevelopers("After RoutineChecks.checkBeforeCloseProcess")
-                                if isActivePyKDE4:
-                                    uni.printForDevelopers("Before Save KDE Configs")
-                                    kconf = MGlobal.config()
-                                    kconfGroup = MConfigGroup(kconf, "DirectoryOperator")
-                                    self.FileManager.dirOperator.writeConfig(kconfGroup)
-                                    self.FileManager.actCollection.writeSettings(kconfGroup)
-                                    uni.printForDevelopers("After Save KDE Configs")
-                                uni.printForDevelopers("Before Save Configs")
-                                uni.setMySetting(self.Table.hiddenTableColumnsSettingKey,
-                                                 self.Table.hiddenTableColumns)
-                                self.Bars.setAllBarsStyleToMySettings()
-                                Records.setRecordType(1)
-                                fu.writeToBinaryFile(
-                                    fu.joinPath(fu.pathOfSettingsDirectory, "LastState"),
-                                    self.saveState())
-                                Records.restoreRecordType()
-                                geometry = [self.geometry().x(), self.geometry().y(), self.geometry().width(),
-                                            self.geometry().height()]
-                                uni.setMySetting("MainWindowGeometries", geometry)
-                                uni.setMySetting("lastDirectory", self.FileManager.currentDirectory)
-                                uni.setMySetting("isMainWindowMaximized", self.isMaximized())
-                                uni.setMySetting("isShowAdvancedSelections", self.SpecialTools.isShowAdvancedSelections)
-                                uni.setMySetting("tableType", uni.tableType)
-                                uni.setMySetting("activeTabNoOfSpecialTools", self.SpecialTools.tabwTabs.currentIndex())
-                                uni.saveSettings()
-                                Settings.saveUniversalSettings()
-                                if uni.isActiveAmarok and uni.getBoolValue("amarokIsUseHost") is False:
-                                    import Amarok
-
-                                    Amarok.stopEmbeddedDB()
-                                uni.printForDevelopers("After Save Configs")
-                                uni.printForDevelopers("Before RoutineChecks.checkAfterCloseProcess")
-                                RoutineChecks.checkAfterCloseProcess()
-                                uni.printForDevelopers("After RoutineChecks.checkAfterCloseProcess")
-                            except:
-                                if ReportBug.isClose is False:
-                                    ReportBug.ReportBug()
-                                    _event.ignore()
-
-                    uni.printForDevelopers("Before Main")
-                    currentMainWindow = Main()
-                    uni.printForDevelopers("After Main")
+                    currentMainWindow = MyMainWindow.MyMainWindow()
+                    uni.printForDevelopers("After MyMainWindow")
                     if str(currentMainWindow.windowTitle()) == "":
                         currentMainWindow.setWindowTitle("Hamsi Manager " + uni.version)
                     if isActivePyKDE4:
@@ -321,8 +180,7 @@ if RoutineChecks.checkMandatoryModules():
                         try:
                             uni.printForDevelopers("Before MainWindow.restoreState")
                             state = MByteArray()
-                            state.append(fu.readFromBinaryFile(
-                                fu.joinPath(fu.pathOfSettingsDirectory, "LastState")))
+                            state.append(fu.readFromBinaryFile(fu.joinPath(fu.pathOfSettingsDirectory, "LastState")))
                             currentMainWindow.restoreState(state)
                             uni.printForDevelopers("After MainWindow.restoreState")
                         except: pass
@@ -334,13 +192,13 @@ if RoutineChecks.checkMandatoryModules():
                         currentMainWindow.setGeometry(int(geometries[0]), int(geometries[1]), int(geometries[2]),
                                                       int(geometries[3]))
                         currentMainWindow.show()
-                    uni.printForDevelopers("Before RoutineChecks.checkAfterRunProcess")
-                    RoutineChecks.checkAfterRunProcessStep1()
-                    uni.printForDevelopers("After RoutineChecks.checkAfterRunProcess")
-                    uni.setMySetting("isMakeAutoDesign", "False")
+                    uni.printForDevelopers("Before # After Run Processes Step 1")
+                    currentMainWindow.doAfterRunProcessesStep1()
+                    uni.printForDevelopers("After # After Run Processes Step 1")
                     uni.isStartingSuccessfully = True
                     uni.isCanBeShowOnMainWindow = True
-                    RoutineChecks.checkAfterRunProcessStep2()
+                    currentMainWindow.doAfterRunProcessesStep2()
+                    uni.printForDevelopers("After # After Run Processes Step 2")
                 except:
                     ReportBug.ReportBug()
                 res = None
