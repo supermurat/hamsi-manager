@@ -217,7 +217,7 @@ tracks.album AS 'albumId',
 albums.artist AS 'albumArtistId',
 tracks.year AS 'yearId',
 tracks.genre AS 'genreId',
-tracks.tracknumber,
+tracks.tracknumber AS 'trackNumber',
 tracks.comment AS 'comment',
 artists.name AS 'artist',
 albums.name AS 'album',
@@ -475,7 +475,6 @@ def changeDirectoryPath(_oldPath, _newPath):
         db.query("UPDATE urls SET rpath=REPLACE(rpath, '.%s/', '.%s/') WHERE deviceid = %s " % (
             withOutDevicePoint["oldPath"], withOutDevicePoint["newPath"], withOutDevicePoint["id"]))
     db.query("UPDATE images SET path=REPLACE(path, '%s/', '%s/')" % (_oldPath, _newPath))
-    db.query("UPDATE lyrics SET url=REPLACE(url, '.%s/', '.%s/')" % (_oldPath, _newPath))
     db.query("UPDATE statistics_permanent SET url=REPLACE(url, '%s/', '%s/')" % (_oldPathUrl, _newPathUrl))
     db.commit()
     return True
@@ -550,8 +549,10 @@ def changeArtistValue(_values):
     if len(_values) > 1:
         db = Amarok.checkAndGetDB()
         try:
-            db.query("UPDATE artists SET name='%s' WHERE id=%s" % (
-                Databases.correctForSql(_values["name"]), _values["id"]))
+            queryUpdate = "UPDATE artists SET name='%s' WHERE id=%s" % (
+                Databases.correctForSql(_values["name"]), _values["id"])
+            uni.printForDevelopers("Query - changeArtistValue : " + queryUpdate)
+            db.query(queryUpdate)
             db.commit()
             return [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
         except Amarok.getMySQLModule().IntegrityError as error:
@@ -564,11 +565,16 @@ def changeArtistValue(_values):
 
 def changeArtistWithAnother(_currentArtistId, _artistWillBeSelectedId):
     db = Amarok.checkAndGetDB()
-    db.query("UPDATE tracks SET artist=%s WHERE artist=%s" % (_artistWillBeSelectedId, _currentArtistId))
+    queryUpdate1 = "UPDATE tracks SET artist=%s WHERE artist=%s" % (_artistWillBeSelectedId, _currentArtistId)
+    uni.printForDevelopers("Query - changeArtistWithAnother - queryUpdate1 : " + queryUpdate1)
+    db.query(queryUpdate1)
     db.commit()
     try:
         db = Amarok.checkAndGetDB()
-        db.query("UPDATE albums SET artist=%s WHERE artist=%s" % (_artistWillBeSelectedId, _currentArtistId))
+        queryUpdate2 = "UPDATE albums SET artist=%s WHERE artist=%s" % (_artistWillBeSelectedId, _currentArtistId)
+        uni.printForDevelopers("Query - changeArtistWithAnother - queryUpdate2 : " + queryUpdate2)
+        db.query(queryUpdate2)
+
         db.commit()
     except Amarok.getMySQLModule().IntegrityError as error:
         db = Amarok.checkAndGetDB()
@@ -592,20 +598,26 @@ def changeArtistWithAnother(_currentArtistId, _artistWillBeSelectedId):
 
 def changeAlbumWithAnother(_currentAlbumId, _albumWillBeSelectedId):
     db = Amarok.checkAndGetDB()
-    db.query("UPDATE tracks SET album=%s WHERE album=%s" % (_albumWillBeSelectedId, _currentAlbumId))
+    queryUpdate = "UPDATE tracks SET album=%s WHERE album=%s" % (_albumWillBeSelectedId, _currentAlbumId)
+    uni.printForDevelopers("Query - changeAlbumWithAnother : " + queryUpdate)
+    db.query(queryUpdate)
     db.commit()
 
 
 def deleteArtist(_artistId):
     db = Amarok.checkAndGetDB()
-    db.query("DELETE FROM artists WHERE id=%s" % (_artistId))
+    queryUpdate = "DELETE FROM artists WHERE id=%s" % (_artistId)
+    uni.printForDevelopers("Query - deleteArtist : " + queryUpdate)
+    db.query(queryUpdate)
     db.commit()
     return True
 
 
 def deleteAlbum(_albumId):
     db = Amarok.checkAndGetDB()
-    db.query("DELETE FROM albums WHERE id=%s" % (_albumId))
+    queryUpdate = "DELETE FROM albums WHERE id=%s" % (_albumId)
+    uni.printForDevelopers("Query - deleteAlbum : " + queryUpdate)
+    db.query(queryUpdate)
     db.commit()
     return True
 

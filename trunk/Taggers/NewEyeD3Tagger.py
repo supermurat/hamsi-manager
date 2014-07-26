@@ -47,6 +47,9 @@ class Tagger():
                                    Taggers.getSelectedTaggerTypeForRead()).tag
         except:
             self.tag = id3.TagFile(self.filePath, Taggers.getSelectedTaggerTypeForRead()).tag
+        if self.tag is None:
+            self.tag = id3.Tag()
+            self.tag.parse(self.filePath, id3.ID3_ANY_VERSION)
 
     def loadFileForWrite(self, _filePath, _isCorrect=True):
         self.filePath = _filePath
@@ -56,6 +59,9 @@ class Tagger():
                                    Taggers.getSelectedTaggerTypeForWrite()).tag
         except:
             self.tag = id3.TagFile(self.filePath, Taggers.getSelectedTaggerTypeForWrite()).tag
+        if self.tag is None:
+            self.tag = id3.Tag()
+            self.tag.parse(self.filePath, id3.ID3_ANY_VERSION)
 
     def update(self):
         if self.isCorrect:
