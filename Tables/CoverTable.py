@@ -322,14 +322,12 @@ class CoverTable(CoreTable):
         try:
             import Amarok
 
-            Dialogs.showState(translate("CoverTable", "Checking For Amarok..."), 0, 2)
+            Dialogs.showState(translate("CoverTable", "Checking For Amarok..."), 0, 1)
             if Amarok.checkAmarok():
-                Dialogs.showState(translate("CoverTable", "Getting Values From Amarok"), 1, 2,
-                                  _isCheckLastShowTime=False)
                 from Amarok import Operations
 
                 directoriesAndValues = Operations.getDirectoriesAndValues()
-                Dialogs.showState(translate("CoverTable", "Values Are Being Processed"), 2, 2)
+                Dialogs.showState(translate("CoverTable", "Values Are Being Processed"), 1, 1)
                 if directoriesAndValues is not None:
                     for rowNo in range(self.rowCount()):
                         if getMainWindow().checkHiddenColumn(3) and getMainWindow().checkHiddenColumn(4):

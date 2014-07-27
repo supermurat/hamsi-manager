@@ -112,17 +112,14 @@ class MusicDetails(MDialog):
             import Amarok
 
             uni.startThreadAction()
-            Dialogs.showState(translate("AmarokCoverTable", "Checking For Amarok..."), 0, 2)
+            Dialogs.showState(translate("MusicDetails", "Getting Values From Amarok"), 0, 1)
             if Amarok.checkAmarok():
-                Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2,
-                                  _isCheckLastShowTime=False)
                 isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
                     from Amarok import Operations
 
                     musicFileRows = Operations.getAllMusicFileValuesWithNames("filename:\"" + _filePath + "\"")
-                    Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2,
-                                      _isCheckLastShowTime=False)
+                    Dialogs.showState(translate("MusicDetails", "Values Are Being Processed"), 1, 1)
                     if len(musicFileRows)>0:
                         musicFileRow = musicFileRows[0]
                         content = {}

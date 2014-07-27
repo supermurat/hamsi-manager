@@ -27,7 +27,6 @@ import time
 Ok, Cancel, Yes, No, Continue = 1, 2, 3, 4, 5
 lastInfoTime = (datetime.now().microsecond / 60000)
 
-
 def show(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs", "OK")):
     MApplication.processEvents()
     if _detail == "":
@@ -155,14 +154,12 @@ def askSpecial(_title="Hamsi Manager", _detail="", _btnString=translate("Dialogs
 
 def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None, _isCheckLastShowTime=True):
     global lastInfoTime
-    if _isCheckLastShowTime:
-        if lastInfoTime == (datetime.now().microsecond / 60000) and _maxValue != _value:
+    if _isCheckLastShowTime and _value != _maxValue:
+        if lastInfoTime == (datetime.now().microsecond / 60000):
             return None
-        else:
-            lastInfoTime = (datetime.now().microsecond / 60000)
+    lastInfoTime = (datetime.now().microsecond / 60000)
     if uni.isCanBeShowOnMainWindow:
         return getMainWindow().StatusBar.showState(_title, _value, _maxValue, _isShowCancel, _connectToCancel)
-    MApplication.processEvents()
     if getMainWindow().StateDialog is None:
         getMainWindow().StateDialogStateBar = MProgressBar()
         HBoxs = []
@@ -221,6 +218,7 @@ def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCa
             getMainWindow().StateDialog.setModal(False)
             getMainWindow().StateDialog.close()
         getMainWindow().StateDialog = None
+    MApplication.processEvents()
 
 
 def sleep(_title, _value=0, _isShowCancel=False):
@@ -326,19 +324,14 @@ def getExistingDirectory(_caption, _directory, _isUseLastPathKeyType=1, _lastPat
     return str(filePath)
 
 
-class MyStateDialog(MDialog):
+class MyStateObject(MObject):
     def __init__(self, _title="", _isShowCancel=False, _connectToCancel=None, _isCheckLastShowTime=True):
-        MDialog.__init__(self, getMainWindow())
-        if isActivePyKDE4:
-            self.setButtons(MDialog.NoDefault)
+        MObject.__init__(self, getMainWindow())
         self.title = _title
         self.isShowCancel = _isShowCancel
         self.connectToCancel = _connectToCancel
         self.isCheckLastShowTime = _isCheckLastShowTime
         self.connect(self, SIGNAL("setState"), self.setState)
-
-    def setTitle(self, _title):
-        self.title = _title
 
     def setState(self, _value=0, _maxValue=100):
         showState(self.title, _value, _maxValue, self.isShowCancel, self.connectToCancel, self.isCheckLastShowTime)

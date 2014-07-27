@@ -84,7 +84,6 @@ class StatusBar(MStatusBar):
                 self.setSelectionInfo(translate("Tables", "Just unselected informations will be changed"))
 
     def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
-        MApplication.processEvents()
         if getMainWindow().isLockedMainForm is False:
             getMainWindow().lockForm()
         self.prgbState.setVisible(True)
@@ -110,4 +109,4 @@ class StatusBar(MStatusBar):
             self.prgbState.setRange(0, 100)
             if getMainWindow().isLockedMainForm:
                 getMainWindow().unlockForm()
-        
+        MApplication.processEvents()

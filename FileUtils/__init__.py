@@ -161,15 +161,21 @@ def isBinary(_path):
     try: f = open(uni.trEncode(_path, fileSystemEncoding), 'rb')
     except: f = open(_path, 'rb')
     try:
-        CHUNKSIZE = 1024
-        while 1:
-            chunk = f.read(CHUNKSIZE)
-            if '\0' in chunk:  # found null byte
-                return True
-            if len(chunk) < CHUNKSIZE:
-                break  # done
-    finally:
+        chunk = f.read(1024)
         f.close()
+        if '\0' in chunk:  # found null byte
+            return True
+        else:
+            printableExtendedAscii = b'\n\r\t\f\b'
+            if bytes is str:
+                printableExtendedAscii += b''.join(map(chr, range(32, 256)))
+            else:
+                printableExtendedAscii += bytes(range(32, 256))
+            control_chars = chunk.translate(None, printableExtendedAscii)
+            nontext_ratio = float(len(control_chars)) / float(len(chunk))
+            return nontext_ratio > 0.3
+    except:
+        pass
     return False
 
 
@@ -1562,8 +1568,7 @@ def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
     try: tar = tarfile.open(uni.trEncode(_filePath, fileSystemEncoding), "w:" + _packageType)
     except: tar = tarfile.open(_filePath, "w:" + _packageType)
     maxMembers = len(readDirectoryWithSubDirectoriesThread(_sourcePath, -1, "fileAndDirectory", True)) + 1
-    dlgState = Dialogs.MyStateDialog(translate("FileUtils", "Creating Tar File"))
-    infoProcess = MyThread.MyTarPackStateThread(tar, maxMembers, dlgState)
+    infoProcess = MyThread.MyTarPackStateThread(translate("FileUtils", "Creating Tar File"), tar, maxMembers)
     try:
         myProcs = MyThread.MyThread(tar.add, infoProcess.finish, args=[uni.trEncode(_sourcePath, fileSystemEncoding)],
                                     kwargs={"arcname": uni.trEncode(_realSourceBaseName, fileSystemEncoding)})
