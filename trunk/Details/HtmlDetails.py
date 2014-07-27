@@ -25,19 +25,18 @@ from Core import Organizer
 from Core import Universals as uni
 
 
-class HtmlDetails(MDialog):
-    global htmlDialogs
-    htmlDialogs = []
+currentDialogs = []
 
+class HtmlDetails(MDialog):
+    global currentDialogs
     def __init__(self, _file, _valueType="file", _isOpenDetailsOnNewWindow=True):
-        global htmlDialogs
+        global currentDialogs
         if _isOpenDetailsOnNewWindow is False:
             isHasOpenedDialog = False
-            for dialog in htmlDialogs:
+            for dialog in currentDialogs:
                 if dialog.isVisible():
                     isHasOpenedDialog = True
-                    self = dialog
-                    self.changeFile(_file, _valueType)
+                    dialog.changeFile(_file, _valueType)
                     dialog.activateWindow()
                     dialog.raise_()
                     break
@@ -45,7 +44,7 @@ class HtmlDetails(MDialog):
                 _isOpenDetailsOnNewWindow = True
         if _isOpenDetailsOnNewWindow:
             QtWebKit = getMyObject("QtWebKit")
-            htmlDialogs.append(self)
+            currentDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
             if isActivePyKDE4:
                 self.setButtons(MDialog.NoDefault)
@@ -78,12 +77,3 @@ class HtmlDetails(MDialog):
         else:
             self.setWindowTitle(str(str(translate("HtmlDetails", "Html Details ( %s )")) % (_file)))
             self.wvWeb.setUrl(MUrl(str(_file)))
-
-    @staticmethod
-    def closeAllHtmlDialogs():
-        for dialog in htmlDialogs:
-            try:
-                if dialog.isVisible():
-                    dialog.close()
-            except:
-                continue

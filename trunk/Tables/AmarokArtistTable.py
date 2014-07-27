@@ -17,23 +17,22 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from Core import Organizer
-import FileUtils as fu
-import SearchEngines
 from Core.MyObjects import *
+import Details
 from Details import AmarokArtistDetails
 from Core import Universals as uni
 from Core import Dialogs
-import Taggers
 from Core import Records
 from Core import ReportBug
 from Tables import CoreTable
+import Amarok
+from Amarok import Operations
+from Amarok import Filter
 
 
 class AmarokArtistTable(CoreTable):
     def __init__(self, *args, **kwargs):
         CoreTable.__init__(self, *args, **kwargs)
-        from Amarok import Filter
-
         self.keyName = "ADCArtist"
         self.amarokFilterKeyName = "AmarokFilterArtistTable"
         self.hiddenTableColumnsSettingKey = "hiddenAmarokArtistTableColumns"
@@ -45,8 +44,6 @@ class AmarokArtistTable(CoreTable):
         self.changedValueNumber = 0
         changedArtistValues = []
         uni.startThreadAction()
-        import Amarok
-
         allItemNumber = len(self.values)
         Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
         for rowNo in range(self.rowCount()):
@@ -71,8 +68,6 @@ class AmarokArtistTable(CoreTable):
             if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
-        from Amarok import Operations
-
         Operations.changeArtistValues(changedArtistValues)
         return True
 
@@ -99,21 +94,17 @@ class AmarokArtistTable(CoreTable):
 
 
     def saveTable(self):
-        AmarokArtistDetails.AmarokArtistDetails.closeAllAmarokArtistDialogs()
+        Details.closeAllDialogs()
         return self.writeContents()
 
     def refreshTable(self, _path):
         self.values = []
         uni.startThreadAction()
-        import Amarok
-
         Dialogs.showState(translate("AmarokArtistTable", "Checking For Amarok..."), 0, 2)
         if Amarok.checkAmarok():
             Dialogs.showState(translate("AmarokArtistTable", "Getting Values From Amarok"), 1, 2)
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
-                from Amarok import Operations
-
                 artistValues = Operations.getAllArtistsValues(uni.MySettings[self.amarokFilterKeyName])
                 Dialogs.showState(translate("AmarokArtistTable", "Values Are Being Processed"), 2, 2)
                 isContinueThreadAction = uni.isContinueThreadAction()

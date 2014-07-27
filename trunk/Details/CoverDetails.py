@@ -17,40 +17,37 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import os, sys
 from Core.MyObjects import *
 from Viewers import ImageViewer
 from Core import Dialogs
-from Core import Organizer
 from Core import Universals as uni
 import FileUtils as fu
 
 
-class CoverDetails(MDialog):
-    global coverDialogs
-    coverDialogs = []
+currentDialogs = []
 
+class CoverDetails(MDialog):
+    global currentDialogs
     def __init__(self, _coverValues, _isOpenDetailsOnNewWindow=True, _FocusedInfoNo=None):
         """_coverValues[0] = Directory Path
         _coverValues[1] = Current Cover Path
         _coverValues[2] = Source Cover Path
         _coverValues[3] = Destination Cover Path
         """
-        global coverDialogs
+        global currentDialogs
         if _isOpenDetailsOnNewWindow is False:
             isHasOpenedDialog = False
-            for dialog in coverDialogs:
+            for dialog in currentDialogs:
                 if dialog.isVisible():
                     isHasOpenedDialog = True
-                    self = dialog
-                    self.changeCoverValues(_coverValues)
+                    dialog.changeCoverValues(_coverValues)
                     dialog.activateWindow()
                     dialog.raise_()
                     break
             if isHasOpenedDialog is False:
                 _isOpenDetailsOnNewWindow = True
         if _isOpenDetailsOnNewWindow:
-            coverDialogs.append(self)
+            currentDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
             if isActivePyKDE4:
                 self.setButtons(MDialog.NoDefault)
@@ -146,16 +143,3 @@ class CoverDetails(MDialog):
                                                                                    " *.")), 0)
         if imagePath is not None:
             self.lePathOfDestination.setText(imagePath)
-
-    @staticmethod
-    def closeAllCoverDialogs():
-        for dialog in coverDialogs:
-            try:
-                if dialog.isVisible():
-                    dialog.close()
-            except:
-                continue
-    
-    
-     
-     

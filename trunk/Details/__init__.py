@@ -22,6 +22,9 @@ from Core import Dialogs
 from Core import Organizer
 from Core import Universals as uni
 from Core import ReportBug
+from Core import Execute
+import Taggers
+from Details import MusicDetails, TextDetails, CoverDetails, ImageDetails, AmarokArtistDetails, HtmlDetails
 
 
 class Details():
@@ -29,8 +32,6 @@ class Details():
         try:
             if uni.getBoolValue("isForceOpenWithDefaultApplication"):
                 _path = fu.checkSource(_filePath)
-                from Core import Execute
-
                 Execute.openWith([_path])
             else:
                 _path = fu.checkSource(_filePath, "file", False)
@@ -39,38 +40,24 @@ class Details():
                     type = fu.getMimeType(_path)
                     if type[0] is not None:
                         if type[0].split("/")[0] == "text":
-                            from Details import TextDetails
-
                             TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
                         elif type[0].split("/")[0] == "audio":
-                            import Taggers
-
                             if Taggers.getTagger(True) is not None:
-                                from Details import MusicDetails
-
                                 MusicDetails.MusicDetails(_path, _isOpenDetailsOnNewWindow)
                                 isOpened = True
                         elif type[0].split("/")[0] == "image":
-                            from Details import ImageDetails
-
                             ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)
                             isOpened = True
                         elif fu.isBinary(_path) is False:
-                            from Details import TextDetails
-
                             TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
                     else:
                         if fu.isBinary(_path) is False:
-                            from Details import TextDetails
-
                             TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
                     if isOpened is False:
                         if uni.getBoolValue("isOpenWithDefaultApplication"):
-                            from Core import Execute
-
                             Execute.openWith([_path])
                         else:
                             Dialogs.showError(translate("Details", "File Is Not Supported"),
@@ -79,8 +66,6 @@ class Details():
                                                   str(_path)))
                 elif fu.isDir(_filePath):
                     if uni.getBoolValue("isOpenWithDefaultApplication"):
-                        from Core import Execute
-
                         Execute.openWith([_filePath])
                     else:
                         Dialogs.showError(translate("Details", "Directories Is Not Supported"),
@@ -100,5 +85,49 @@ class Details():
                                         translate("QuickMake", "Report This Bug"), translate("QuickMake", "OK"), None)
             if answer == translate("QuickMake", "Report This Bug"):
                 ReportBug.ReportBug()
-        
- 
+
+
+def closeAllDialogs():
+    for dialog in MusicDetails.currentDialogs:
+        try:
+            if dialog.isVisible():
+                dialog.player.stop()
+                dialog.close()
+                MusicDetails.currentDialogs.remove(dialog)
+        except:
+            continue
+    for dialog in AmarokArtistDetails.currentDialogs:
+        try:
+            if dialog.isVisible():
+                dialog.close()
+                AmarokArtistDetails.currentDialogs.remove(dialog)
+        except:
+            continue
+    for dialog in CoverDetails.currentDialogs:
+        try:
+            if dialog.isVisible():
+                dialog.close()
+                CoverDetails.currentDialogs.remove(dialog)
+        except:
+            continue
+    for dialog in HtmlDetails.currentDialogs:
+        try:
+            if dialog.isVisible():
+                dialog.close()
+                HtmlDetails.currentDialogs.remove(dialog)
+        except:
+            continue
+    for dialog in TextDetails.currentDialogs:
+        try:
+            if dialog.isVisible():
+                dialog.close()
+                TextDetails.currentDialogs.remove(dialog)
+        except:
+            continue
+    for dialog in ImageDetails.currentDialogs:
+        try:
+            if dialog.isVisible():
+                dialog.close()
+                ImageDetails.currentDialogs.remove(dialog)
+        except:
+            continue

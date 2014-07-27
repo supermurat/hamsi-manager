@@ -17,39 +17,37 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-from FileUtils import Musics
-import FileUtils as fu
-import os, sys
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
 from Core import Universals as uni
 from Core import ReportBug
+from Core import Records
 import Amarok
-from Amarok import Operations, Commands
+from Amarok import Operations
+from Amarok import Commands
 
+
+currentDialogs = []
 
 class AmarokArtistDetails(MDialog):
-    global amarokArtistDialogs
-    amarokArtistDialogs = []
-
+    global currentDialogs
     def __init__(self, _artistId, _isOpenDetailsOnNewWindow=True):
-        global amarokArtistDialogs
+        global currentDialogs
         if Commands.getArtistName(_artistId) is not None:
             if _isOpenDetailsOnNewWindow is False:
                 isHasOpenedDialog = False
-                for dialog in amarokArtistDialogs:
+                for dialog in currentDialogs:
                     if dialog.isVisible():
                         isHasOpenedDialog = True
-                        self = dialog
-                        self.changeArtist(_artistId)
-                        self.activateWindow()
-                        self.raise_()
+                        dialog.changeArtist(_artistId)
+                        dialog.activateWindow()
+                        dialog.raise_()
                         break
                 if isHasOpenedDialog is False:
                     _isOpenDetailsOnNewWindow = True
             if _isOpenDetailsOnNewWindow:
-                amarokArtistDialogs.append(self)
+                currentDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
                 if isActivePyKDE4:
                     self.setButtons(MDialog.NoDefault)
@@ -149,19 +147,8 @@ class AmarokArtistDetails(MDialog):
         vblInfos.addWidget(self.twSongs)
         vblClearable.addLayout(vblInfos)
 
-    @staticmethod
-    def closeAllAmarokArtistDialogs():
-        for dialog in amarokArtistDialogs:
-            try:
-                if dialog.isVisible():
-                    dialog.close()
-            except:
-                continue
-
     def save(self):
         try:
-            from Core import Records
-
             Records.setTitle(translate("AmarokArtistDetails", "Amarok - Artist"))
             Operations.changeArtistValues(
                 [{"id": self.artistId, "name": str(self.infoValues["correctedArtist"].text())}])
