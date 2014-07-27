@@ -251,7 +251,8 @@ class AmarokCopyTable(CoreTable):
 
         Dialogs.showState(translate("AmarokCoverTable", "Checking For Amarok..."), 0, 2)
         if Amarok.checkAmarok():
-            Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2)
+            Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2,
+                              _isCheckLastShowTime=False)
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations

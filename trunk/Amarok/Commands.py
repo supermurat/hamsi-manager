@@ -42,8 +42,13 @@ def getSQLConditionPartByPartOfFilter(_partOfFilterString=""):
     _partOfFilterString = Databases.correctForSql(_partOfFilterString)
     if _partOfFilterString.find("filename:") != -1:
         filterPart = _partOfFilterString.replace("filename:", "")
-        return " ( LOWER(urls.rpath) LIKE LOWER('%s') OR LOWER(devices.lastmountpoint) LIKE LOWER('%s') ) " % (
-            "%" + filterPart + "%", "%" + filterPart + "%")
+        return (" ( LOWER( \n"
+                "REPLACE( \n"
+                "CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END, \n"
+                "SUBSTRING( urls.rpath , 2 )), \n"
+                "CONCAT('/', \n"
+                "CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END, \n"
+                "SUBSTRING( urls.rpath , 2 ))), '')) LIKE LOWER('%s') ) ") % ("%" + filterPart + "%")
     elif _partOfFilterString.find("title:") != -1:
         filterPart = _partOfFilterString.replace("title:", "")
         return " ( LOWER(tracks.title) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
@@ -94,17 +99,22 @@ def getSQLConditionPartByPartOfFilter(_partOfFilterString=""):
         return " ( CAST( years.name AS INT )  = %s ) " % (filterPart)
     else:
         filterPart = _partOfFilterString
-        return (" ( LOWER(urls.rpath) LIKE LOWER('%s') OR LOWER(devices.lastmountpoint) LIKE LOWER('%s') "
-                "OR LOWER(tracks.title) LIKE LOWER('%s') "
-                "OR LOWER(artists.name) LIKE LOWER('%s') "
-                "OR LOWER(albums.name) LIKE LOWER('%s') "
-                "OR LOWER(albumartists.name) LIKE LOWER('%s') "
-                "OR LOWER(genres.name) LIKE LOWER('%s') "
-                "OR LOWER(tracks.comment) LIKE LOWER('%s') "
-                "OR LOWER(years.name) LIKE LOWER('%s') ) " % (
+        return (" ( LOWER( \n"
+                "REPLACE( \n"
+                "CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END, \n"
+                "SUBSTRING( urls.rpath , 2 )), \n"
+                "CONCAT('/', \n"
+                "CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END, \n"
+                "SUBSTRING( urls.rpath , 2 ))), '')) LIKE LOWER('%s') ) \n"
+                "OR LOWER(tracks.title) LIKE LOWER('%s') \n"
+                "OR LOWER(artists.name) LIKE LOWER('%s') \n"
+                "OR LOWER(albums.name) LIKE LOWER('%s') \n"
+                "OR LOWER(albumartists.name) LIKE LOWER('%s') \n"
+                "OR LOWER(genres.name) LIKE LOWER('%s') \n"
+                "OR LOWER(tracks.comment) LIKE LOWER('%s') \n"
+                "OR LOWER(years.name) LIKE LOWER('%s') ) \n" % (
                 "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%",
-                "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%",
-                "%" + filterPart + "%"))
+                "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%", "%" + filterPart + "%"))
 
 
 def getSQLConditionValues(sqlCondition, _filter, _listOfFilters):
@@ -132,15 +142,18 @@ def getSQLConditionByFilter(_filter="", _isAppendWhere=True):
         return ""  # Incorrect filter string
     if _isAppendWhere: sqlCondition = " WHERE "
     else: sqlCondition = ""
-    listOfSpecialAndQuoted = re.findall(r"([a-zA-Z]* ?: ?\"[ a-zA-Z0-9+_\-\.]*\")", _filter)  #['artist:"like this"']
-    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecialAndQuoted)
-    listOfSpecial1 = re.findall(r"([a-zA-Z]* ?: ?< ?[a-zA-Z0-9+_\-\.]+)", _filter)  #['rating:<likeThis']
+    _filter = uni.trUnicode(_filter)
+    listOfSpecialAndQuoted1 = re.findall(r"([a-zA-Z]* ?: ?\'[\w\-\./\s ]*\')", _filter, re.I | re.U)  # ['artist:'like this'']
+    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecialAndQuoted1)
+    listOfSpecialAndQuoted2 = re.findall(r"([a-zA-Z]* ?: ?\"[\w\-\./\s ]*\")", _filter, re.I | re.U)  # ['artist:"like this"']
+    sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecialAndQuoted2)
+    listOfSpecial1 = re.findall(r"([a-zA-Z]* ?: ?< ?[\w+\-\./]+)", _filter, re.I | re.U)  #['rating:<likeThis']
     sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial1)
-    listOfSpecial2 = re.findall(r"([a-zA-Z]* ?: ?> ?[a-zA-Z0-9+_\-\.]+)", _filter)  #['rating:>likeThis']
+    listOfSpecial2 = re.findall(r"([a-zA-Z]* ?: ?> ?[\w+\-\./]+)", _filter, re.I | re.U)  #['rating:>likeThis']
     sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial2)
-    listOfSpecial = re.findall(r"([a-zA-Z]* ?: ?[a-zA-Z0-9+_\-\.]+)", _filter)  #['artist:likeThis']
+    listOfSpecial = re.findall(r"([a-zA-Z]* ?: ?[\w+\-\./]+)", _filter, re.I | re.U)  #['artist:likeThis']
     sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfSpecial)
-    listOfQuoted = re.findall(r"(\"[ a-zA-Z0-9+_\-\.]*\")", _filter)  #['"like this"']
+    listOfQuoted = re.findall(r"(\"[ \w+\-\./]*\")", _filter, re.I | re.U)  #['"like this"']
     sqlCondition, _filter = getSQLConditionValues(sqlCondition, _filter, listOfQuoted)
     listOfFilters = _filter.split(" ")
     if listOfFilters != [""]:
