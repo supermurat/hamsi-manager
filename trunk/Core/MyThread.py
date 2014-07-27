@@ -50,12 +50,12 @@ class MyThread(MThread):
 
 
 class MyTarPackStateThread(MThread):
-    def __init__(self, _tarFile, _maxMembers, _dlgState):
+    def __init__(self, _title, _tarFile, _maxMembers):
         MThread.__init__(self, getActiveWindow())
         self.isFinished = False
         self.tarFile = _tarFile
         self.maxMembers = _maxMembers
-        self.dlgState = _dlgState
+        self.dlgState = Dialogs.MyStateObject(_title, False, None, False)
 
     def run(self):
         while self.isFinished is False:
@@ -70,7 +70,7 @@ class MyWaitThread(MThread):
     def __init__(self, _title):
         MThread.__init__(self, getActiveWindow())
         self.isFinished = False
-        self.dlgState = Dialogs.MyStateDialog(_title, False, None, False)
+        self.dlgState = Dialogs.MyStateObject(_title, False, None, False)
 
     def run(self):
         i = 0
@@ -84,4 +84,3 @@ class MyWaitThread(MThread):
 
     def finish(self, _returnValue=None):
         self.isFinished = True
-

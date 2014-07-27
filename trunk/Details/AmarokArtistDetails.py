@@ -96,7 +96,18 @@ class AmarokArtistDetails(MDialog):
 
     def changeArtist(self, _artistId, _isNew=False):
         self.artistId = _artistId
-        self.artistName = Commands.getArtistName(self.artistId)
+        self.songTableContentValues = None
+        uni.startThreadAction()
+        Dialogs.showState(translate("AmarokArtistDetails", "Getting Values From Amarok"), 0, 1)
+        if Amarok.checkAmarok():
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                self.artistName = Commands.getArtistName(self.artistId)
+                self.songTableContentValues = Operations.getAllMusicFileValuesWithNames("", self.artistId)
+                Dialogs.showState(translate("MusicDetails", "Values Are Being Processed"), 1, 1)
+        uni.finishThreadAction()
+        if self.songTableContentValues is None:
+            self.close()
         self.setWindowTitle(str(self.artistName))
         if self.pnlClearable is not None:
             clearAllChildren(self.pnlClearable, True)
@@ -107,7 +118,6 @@ class AmarokArtistDetails(MDialog):
         self.infoLabels["correctedArtist"] = MLabel(self.labels[1])
         self.infoValues["currentArtist"] = MLineEdit(str(self.artistName))
         self.infoValues["correctedArtist"] = MLineEdit(str(Organizer.emend(self.artistName)))
-        self.songTableContentValues = Operations.getAllMusicFileValuesWithNames("", self.artistId)
         self.twSongs = MTableWidget()
         self.twSongs.clear()
         self.twSongs.setColumnCount(len(self.songTableColumns))

@@ -105,7 +105,7 @@ def getSQLConditionPartByPartOfFilter(_partOfFilterString=""):
                 "SUBSTRING( urls.rpath , 2 )), \n"
                 "CONCAT('/', \n"
                 "CONCAT(CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END, \n"
-                "SUBSTRING( urls.rpath , 2 ))), '')) LIKE LOWER('%s') ) \n"
+                "SUBSTRING( urls.rpath , 2 ))), '')) LIKE LOWER('%s') \n"
                 "OR LOWER(tracks.title) LIKE LOWER('%s') \n"
                 "OR LOWER(artists.name) LIKE LOWER('%s') \n"
                 "OR LOWER(albums.name) LIKE LOWER('%s') \n"
