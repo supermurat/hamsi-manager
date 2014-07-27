@@ -25,27 +25,26 @@ from Core import Organizer
 from Core import Universals as uni
 
 
-class ImageDetails(MDialog):
-    global imageDialogs
-    imageDialogs = []
+currentDialogs = []
 
+class ImageDetails(MDialog):
+    global currentDialogs
     def __init__(self, _file, _valueType="file", _isOpenDetailsOnNewWindow=True, _defaultMaxSize=[500, 400]):
-        global imageDialogs
+        global currentDialogs
         self.defaultMaxSize = _defaultMaxSize
         if _isOpenDetailsOnNewWindow is False:
             isHasOpenedDialog = False
-            for dialog in imageDialogs:
+            for dialog in currentDialogs:
                 if dialog.isVisible():
                     isHasOpenedDialog = True
-                    self = dialog
-                    self.changeFile(_file, _valueType)
+                    dialog.changeFile(_file, _valueType)
                     dialog.activateWindow()
                     dialog.raise_()
                     break
             if isHasOpenedDialog is False:
                 _isOpenDetailsOnNewWindow = True
         if _isOpenDetailsOnNewWindow:
-            imageDialogs.append(self)
+            currentDialogs.append(self)
             MDialog.__init__(self, MApplication.activeWindow())
             if isActivePyKDE4:
                 self.setButtons(MDialog.NoDefault)
@@ -77,12 +76,3 @@ class ImageDetails(MDialog):
         else:
             self.setWindowTitle(str(str(translate("ImageDetails", "Image Details ( %s )")) % (_file)))
         self.wImage.changeCoverValues(_file, _valueType)
-
-    @staticmethod
-    def closeAllImageDialogs():
-        for dialog in imageDialogs:
-            try:
-                if dialog.isVisible():
-                    dialog.close()
-            except:
-                continue

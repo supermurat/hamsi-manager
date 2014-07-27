@@ -17,8 +17,6 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-import sys
-import os
 from Core.MyObjects import *
 import FileUtils as fu
 from Core import Universals as uni
@@ -30,7 +28,7 @@ from Core import ReportBug
 from Core import Records
 from Core import Dialogs
 from Options import OptionsForm
-from Details import MusicDetails, TextDetails, CoverDetails
+import Details
 
 
 class MyMainWindow(MMainWindow):
@@ -160,9 +158,7 @@ class MyMainWindow(MMainWindow):
                 self.PlayerBar.MusicPlayer.stop()
             except:
                 pass
-            MusicDetails.MusicDetails.closeAllMusicDialogs()
-            TextDetails.TextDetails.closeAllTextDialogs()
-            CoverDetails.CoverDetails.closeAllCoverDialogs()
+            Details.closeAllDialogs()
             uni.printForDevelopers("Closed Dialogs")
             if uni.isRaisedAnError is False:
                 if self.Table.checkUnSavedValues() is False:

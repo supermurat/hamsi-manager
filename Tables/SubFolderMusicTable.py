@@ -20,7 +20,7 @@ from Core import Organizer
 import FileUtils as fu
 import SearchEngines
 from Core.MyObjects import *
-from Details import MusicDetails
+import Details
 from Core import Universals as uni
 from Core import Dialogs
 import Taggers
@@ -242,7 +242,7 @@ class SubFolderMusicTable(CoreTable):
         return True
 
     def showTableDetails(self, _fileNo, _infoNo):
-        MusicDetails.MusicDetails(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
+        Details.Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
 
     def cellClickedTable(self, _row, _column):
         currentItem = self.currentItem()
@@ -277,8 +277,8 @@ class SubFolderMusicTable(CoreTable):
         self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
 
     def saveTable(self):
+        Details.closeAllDialogs()
         self.checkFileExtensions(1, "baseName")
-        MusicDetails.MusicDetails.closeAllMusicDialogs()
         return self.writeContents()
 
     def refreshTable(self, _path):

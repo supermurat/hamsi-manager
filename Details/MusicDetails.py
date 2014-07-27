@@ -19,41 +19,40 @@
 
 from FileUtils import Musics
 import FileUtils as fu
-import os, sys
 from Core.MyObjects import *
 from Core import Dialogs
 from Core import Organizer
 from Viewers import MusicPlayer
-from Details.ImageDetails import ImageDetails
+from Details import ImageDetails
 from Core import Universals as uni
 from Core import ReportBug
 import Taggers
 
+currentDialogs = []
 
 class MusicDetails(MDialog):
-    global musicDialogs
-    musicDialogs = []
-
+    global currentDialogs
     def __init__(self, _filePath, _isOpenDetailsOnNewWindow=True):
-        global musicDialogs
+        global currentDialogs
+        MDialog.__init__(self, MApplication.activeWindow())
+        self.currenctImageDialogs = []
         _filePath = fu.checkSource(_filePath, "file")
         if _filePath is not None:
             if _isOpenDetailsOnNewWindow is False:
                 isHasOpenedDialog = False
-                for dialog in musicDialogs:
+                for dialog in currentDialogs:
                     if dialog.isVisible():
                         isHasOpenedDialog = True
-                        self = dialog
-                        self.changeFile(_filePath)
-                        self.activateWindow()
-                        self.raise_()
-                        self.player.play(_filePath, self.isPlayNow.isChecked())
+                        dialog.closeCurrenctImageDialogs()
+                        dialog.changeFile(_filePath)
+                        dialog.activateWindow()
+                        dialog.raise_()
+                        dialog.player.play(_filePath, dialog.isPlayNow.isChecked())
                         break
                 if isHasOpenedDialog is False:
                     _isOpenDetailsOnNewWindow = True
             if _isOpenDetailsOnNewWindow:
-                musicDialogs.append(self)
-                MDialog.__init__(self, MApplication.activeWindow())
+                currentDialogs.append(self)
                 if isActivePyKDE4:
                     self.setButtons(MDialog.NoDefault)
                 self.isActiveAddImage = False
@@ -77,7 +76,7 @@ class MusicDetails(MDialog):
                 self.pnlMain = MWidget()
                 self.vblMain = MVBoxLayout(self.pnlMain)
                 self.pnlClearable = None
-                self.changeFile(_filePath, True)
+                self.changeFile(_filePath)
 
                 buttonHBOXs = MHBoxLayout()
                 buttonHBOXs.addWidget(self.pbtnSave)
@@ -97,7 +96,7 @@ class MusicDetails(MDialog):
             if hasattr(getMainWindow(),
                        "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
 
-    def changeFile(self, _filePath, _isNew=False):
+    def changeFile(self, _filePath):
         self.musicFile = _filePath
         self.musicValues = Musics.readMusicFile(self.musicFile)
         self.setWindowTitle(str(fu.getBaseName(self.musicFile)))
@@ -248,15 +247,14 @@ class MusicDetails(MDialog):
             uni.setMySetting("isPlayNow", self.isPlayNow.isChecked())
         except:
             pass
-        ImageDetails.closeAllImageDialogs()
+        self.closeCurrenctImageDialogs()
 
-    @staticmethod
-    def closeAllMusicDialogs():
-        for dialog in musicDialogs:
+    def closeCurrenctImageDialogs(self):
+        for dialog in self.currenctImageDialogs:
             try:
                 if dialog.isVisible():
-                    dialog.player.stop()
                     dialog.close()
+                    self.currenctImageDialogs.remove(dialog)
             except:
                 continue
 
@@ -265,7 +263,6 @@ class MusicDetails(MDialog):
             from Core import Records
 
             Records.setTitle(translate("MusicDetails", "Music File"))
-            ImageDetails.closeAllImageDialogs()
             newMusicValues = {}
             newMusicValues["baseNameOfDirectory"] = str(self.infoValues["baseNameOfDirectory"].text())
             newMusicValues["baseName"] = str(self.infoValues["baseName"].text())
@@ -289,8 +286,9 @@ class MusicDetails(MDialog):
 
     def openImageDetails(self, _index):
         try:
-            ImageDetails(self.musicValues["images"][_index.row()][3], "data",
-                         self.isOpenImageDetailsOnNewWindow.isChecked())
+            self.currenctImageDialogs.append(ImageDetails.ImageDetails(self.musicValues["images"][_index.row()][3],
+                                                                       "data",
+                                                                       self.isOpenImageDetailsOnNewWindow.isChecked()))
         except:
             ReportBug.ReportBug()
 
@@ -309,7 +307,6 @@ class MusicDetails(MDialog):
                 self.pbtnSaveAsImage.hide()
             else:
                 if fu.isFile(self.leImagePath.text()):
-                    ImageDetails.closeAllImageDialogs()
                     imageType = Taggers.getImageTypesNo()[self.cbImageType.currentIndex()]
                     description = str(imageType)
                     Musics.writeMusicFile(self.musicValues, None, True, imageType, str(self.leImagePath.text()),
@@ -326,7 +323,6 @@ class MusicDetails(MDialog):
     def deleteImage(self):
         try:
             if self.lstwImages.currentRow() != -1:
-                ImageDetails.closeAllImageDialogs()
                 description = self.musicValues["images"][self.lstwImages.currentRow()][4]
                 Musics.writeMusicFile(self.musicValues, None, True,
                                       self.musicValues["images"][self.lstwImages.currentRow()][0], False, description)

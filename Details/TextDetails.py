@@ -25,28 +25,27 @@ from Core import Universals as uni
 from Core import ReportBug
 
 
-class TextDetails(MDialog):
-    global textDialogs
-    textDialogs = []
+currentDialogs = []
 
+class TextDetails(MDialog):
+    global currentDialogs
     def __init__(self, _filePath, _isOpenDetailsOnNewWindow):
-        global textDialogs
+        global currentDialogs
         _filePath = fu.checkSource(_filePath, "file")
         if _filePath is not None:
             if _isOpenDetailsOnNewWindow is False:
                 isHasOpenedDialog = False
-                for dialog in textDialogs:
+                for dialog in currentDialogs:
                     if dialog.isVisible():
                         isHasOpenedDialog = True
-                        self = dialog
-                        self.changeFile(_filePath)
-                        self.activateWindow()
-                        self.raise_()
+                        dialog.changeFile(_filePath)
+                        dialog.activateWindow()
+                        dialog.raise_()
                         break
                 if isHasOpenedDialog is False:
                     _isOpenDetailsOnNewWindow = True
             if _isOpenDetailsOnNewWindow:
-                textDialogs.append(self)
+                currentDialogs.append(self)
                 MDialog.__init__(self, MApplication.activeWindow())
                 if isActivePyKDE4:
                     self.setButtons(MDialog.NoDefault)
@@ -130,15 +129,6 @@ class TextDetails(MDialog):
                               str(translate("TextDetails",
                                             "File can not decode by \"%s\" codec.<br>Please select another file encoding type.")
                               ) % str(self.sourceCharSet.currentText()))
-
-    @staticmethod
-    def closeAllTextDialogs():
-        for dialog in textDialogs:
-            try:
-                if dialog.isVisible():
-                    dialog.close()
-            except:
-                continue
 
     def save(self):
         try:
