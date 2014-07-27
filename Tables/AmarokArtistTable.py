@@ -102,7 +102,8 @@ class AmarokArtistTable(CoreTable):
         uni.startThreadAction()
         Dialogs.showState(translate("AmarokArtistTable", "Checking For Amarok..."), 0, 2)
         if Amarok.checkAmarok():
-            Dialogs.showState(translate("AmarokArtistTable", "Getting Values From Amarok"), 1, 2)
+            Dialogs.showState(translate("AmarokArtistTable", "Getting Values From Amarok"), 1, 2,
+                              _isCheckLastShowTime=False)
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 artistValues = Operations.getAllArtistsValues(uni.MySettings[self.amarokFilterKeyName])

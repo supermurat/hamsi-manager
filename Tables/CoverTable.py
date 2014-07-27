@@ -324,7 +324,8 @@ class CoverTable(CoreTable):
 
             Dialogs.showState(translate("CoverTable", "Checking For Amarok..."), 0, 2)
             if Amarok.checkAmarok():
-                Dialogs.showState(translate("CoverTable", "Getting Values From Amarok"), 1, 2)
+                Dialogs.showState(translate("CoverTable", "Getting Values From Amarok"), 1, 2,
+                                  _isCheckLastShowTime=False)
                 from Amarok import Operations
 
                 directoriesAndValues = Operations.getDirectoriesAndValues()

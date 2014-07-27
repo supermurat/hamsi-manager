@@ -96,20 +96,91 @@ class MusicDetails(MDialog):
             if hasattr(getMainWindow(),
                        "FileManager") and getMainWindow().FileManager is not None: getMainWindow().FileManager.makeRefresh()
 
-    def changeFile(self, _filePath):
+    def changeFile(self, _filePath, _readFrom="tag"):
         self.musicFile = _filePath
-        self.musicValues = Musics.readMusicFile(self.musicFile)
+        self.musicValues = None
+        self.isPlayNow = MToolButton()
+        self.isPlayNow.setToolTip(translate("MusicDetails", "Play Suddenly Music When Open"))
+        self.isPlayNow.setText(translate("MusicDetails", "Play When Open"))
+        self.isPlayNow.setCheckable(True)
+        self.isPlayNow.setChecked(uni.getBoolValue("isPlayNow"))
+        self.isGetFromAmarok = MToolButton()
+        self.isGetFromAmarok.setToolTip(translate("MusicDetails", "Get Values From Amarok"))
+        self.isGetFromAmarok.setText(translate("MusicDetails", "Get From Amarok"))
+        self.isGetFromAmarok.setCheckable(True)
+        if _readFrom.count("Amarok") > 0:
+            import Amarok
+
+            uni.startThreadAction()
+            Dialogs.showState(translate("AmarokCoverTable", "Checking For Amarok..."), 0, 2)
+            if Amarok.checkAmarok():
+                Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 1, 2,
+                                  _isCheckLastShowTime=False)
+                isContinueThreadAction = uni.isContinueThreadAction()
+                if isContinueThreadAction:
+                    from Amarok import Operations
+
+                    musicFileRows = Operations.getAllMusicFileValuesWithNames("filename:\"" + _filePath + "\"")
+                    Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 2, 2,
+                                      _isCheckLastShowTime=False)
+                    if len(musicFileRows)>0:
+                        musicFileRow = musicFileRows[0]
+                        content = {}
+                        content["path"] = musicFileRow["filePath"]
+                        content["baseNameOfDirectory"] = fu.getBaseName(
+                            fu.getDirName(musicFileRow["filePath"]))
+                        content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
+                        content["artist"] = musicFileRow["artist"]
+                        content["title"] = musicFileRow["title"]
+                        content["album"] = musicFileRow["album"]
+                        content["albumArtist"] = musicFileRow["albumArtist"]
+                        content["trackNum"] = musicFileRow["trackNumber"]
+                        content["year"] = musicFileRow["year"]
+                        content["genre"] = musicFileRow["genre"]
+                        content["firstComment"] = musicFileRow["comment"]
+                        content["firstLyrics"] = musicFileRow["lyrics"]
+                        content["images"] = []
+                        if _readFrom == "Amarok (Smart)":
+                            tagger = Taggers.getTagger()
+                            try:
+                                tagger.loadFile(musicFileRow["filePath"])
+                            except:
+                                pass
+                            else:
+                                if content["artist"].strip() == "":
+                                    content["artist"] = tagger.getArtist()
+                                if content["title"].strip() == "":
+                                    content["title"] = tagger.getTitle()
+                                if content["album"].strip() == "":
+                                    content["album"] = tagger.getAlbum()
+                                if content["albumArtist"].strip() == "":
+                                    content["albumArtist"] = tagger.getAlbumArtist()
+                                if str(content["trackNum"]).strip() == "":
+                                    content["trackNum"] = tagger.getTrackNum()
+                                if str(content["year"]).strip() == "":
+                                    content["year"] = tagger.getYear()
+                                if content["genre"].strip() == "":
+                                    content["genre"] = tagger.getGenre()
+                                if content["firstComment"].strip() == "":
+                                    content["firstComment"] = tagger.getFirstComment()
+                                if content["firstLyrics"].strip() == "":
+                                    content["firstLyrics"] = tagger.getFirstLyrics()
+                                content["images"] = tagger.getImages()
+                        self.isGetFromAmarok.setChecked(True)
+                        self.musicValues = content
+                    else:
+                        Dialogs.show(translate("MusicDetails", "Not Exist In Amarok"),
+                                     translate("MusicDetails", "This music file not exist in Amarok DB."))
+            uni.finishThreadAction()
+        if self.musicValues is None:
+            self.isGetFromAmarok.setChecked(False)
+            self.musicValues = Musics.readMusicFile(self.musicFile)
         self.setWindowTitle(str(fu.getBaseName(self.musicFile)))
         if self.pnlClearable is not None:
             clearAllChildren(self.pnlClearable, True)
         self.pnlClearable = MWidget()
         self.vblMain.insertWidget(0, self.pnlClearable, 20)
         vblClearable = MVBoxLayout(self.pnlClearable)
-        self.isPlayNow = MToolButton()
-        self.isPlayNow.setToolTip(translate("MusicDetails", "Play Suddenly Music When Open"))
-        self.isPlayNow.setText(translate("MusicDetails", "Play When Open"))
-        self.isPlayNow.setCheckable(True)
-        self.isPlayNow.setChecked(uni.getBoolValue("isPlayNow"))
         self.player = MusicPlayer.MusicPlayer(self, "dialog", _filePath)
         self.infoLabels["baseNameOfDirectory"] = MLabel(self.labels[0])
         self.infoLabels["baseName"] = MLabel(self.labels[1])
@@ -153,9 +224,10 @@ class MusicDetails(MDialog):
         self.lblImageType = MLabel(translate("MusicDetails", "Image Type: "))
 
         self.lstwImages = MListWidget()
-        self.lstwImages.setGridSize(MSize(250, 100))
+        self.lstwImages.setGridSize(MSize(350, 100))
         self.lstwImages.setIconSize(MSize(98, 98))
         MObject.connect(self.lstwImages, SIGNAL("doubleClicked(QModelIndex)"), self.openImageDetails)
+        MObject.connect(self.isGetFromAmarok, SIGNAL("toggled(bool)"), self.isGetFromAmarokTiggered)
         self.lstwImages.clear()
         for image in self.musicValues["images"]:
             if len(image) == 5:
@@ -229,8 +301,11 @@ class MusicDetails(MDialog):
         self.tabwTabs.addTab(self.pnlLyrics, translate("MusicDetails", "Lyrics"))
         self.tabwTabs.addTab(self.pnlImages, translate("MusicDetails", "Images"))
         hblPlayer = MHBoxLayout()
+        vblExtraButtons = MVBoxLayout()
         hblPlayer.addWidget(self.player)
-        hblPlayer.addWidget(self.isPlayNow)
+        vblExtraButtons.addWidget(self.isPlayNow)
+        vblExtraButtons.addWidget(self.isGetFromAmarok)
+        hblPlayer.addLayout(vblExtraButtons)
         vblClearable.addLayout(hblPlayer)
         vblClearable.addLayout(vblInfos)
         vblClearable.addWidget(self.tabwTabs)
@@ -370,4 +445,9 @@ class MusicDetails(MDialog):
                 self.leImagePath.setText(imagePath)
         except:
             ReportBug.ReportBug()
-            
+
+    def isGetFromAmarokTiggered(self, _action):
+        readFrom = "tag"
+        if self.isGetFromAmarok.isChecked():
+            readFrom = "Amarok (Smart)"
+        self.changeFile(self.musicFile, readFrom)
