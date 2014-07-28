@@ -97,24 +97,42 @@ def changeArtistValues(_values):
     for x, value in enumerate(_values):
         isContinueThreadAction = uni.isContinueThreadAction()
         if isContinueThreadAction:
-            musicFilePathAndArtist = Commands.changeArtistValue(value)
-            if musicFilePathAndArtist is not None:
-                artistName = musicFilePathAndArtist[1]
-                for musicFilePath in musicFilePathAndArtist[0]:
-                    if fu.isWritableFileOrDir(musicFilePath, False, True):
-                        Records.add(str(translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
-                        currentArtistName = ""
-                        tagger = Taggers.getTagger()
-                        if tagger is not None:
-                            try:
-                                tagger.loadFileForWrite(musicFilePath)
-                                currentArtistName = tagger.getArtist()
-                            except:
-                                tagger.loadFileForWrite(musicFilePath)
-                            tagger.setArtist(artistName)
-                            tagger.update()
-                            Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName),
-                                        artistName)
+            try:
+                musicFilePathAndArtist = Commands.changeArtistValue(value)
+                if musicFilePathAndArtist is not None:
+                    artistName = musicFilePathAndArtist[0]
+                    for musicFilePath in musicFilePathAndArtist[1]:
+                        if fu.isWritableFileOrDir(musicFilePath, False, True):
+                            Records.add(str(translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
+                            currentArtistName = ""
+                            tagger = Taggers.getTagger()
+                            if tagger is not None:
+                                try:
+                                    tagger.loadFileForWrite(musicFilePath)
+                                    currentArtistName = tagger.getArtist()
+                                except:
+                                    tagger.loadFileForWrite(musicFilePath)
+                                tagger.setArtist(artistName)
+                                tagger.update()
+                                Records.add(str(translate("Amarok/Operations", "Artist")), str(currentArtistName),
+                                            artistName)
+                    for musicFilePath in musicFilePathAndArtist[2]:
+                        if fu.isWritableFileOrDir(musicFilePath, False, True):
+                            Records.add(str(translate("Amarok/Operations", "File will be updated")), str(musicFilePath))
+                            currentArtistName = ""
+                            tagger = Taggers.getTagger()
+                            if tagger is not None:
+                                try:
+                                    tagger.loadFileForWrite(musicFilePath)
+                                    currentArtistName = tagger.getAlbumArtist()
+                                except:
+                                    tagger.loadFileForWrite(musicFilePath)
+                                tagger.setAlbumArtist(artistName)
+                                tagger.update()
+                                Records.add(str(translate("Amarok/Operations", "albumArtist")), str(currentArtistName),
+                                            artistName)
+            except:
+                ReportBug.ReportBug()
         else:
             allItemNumber = x + 1
         Dialogs.showState(translate("Amarok/Operations", "Writing Music Tags"), x + 1, allItemNumber, True)

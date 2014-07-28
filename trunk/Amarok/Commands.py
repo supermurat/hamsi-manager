@@ -52,15 +52,15 @@ def getSQLConditionPartByPartOfFilter(_partOfFilterString=""):
     elif _partOfFilterString.find("title:") != -1:
         filterPart = _partOfFilterString.replace("title:", "")
         return " ( LOWER(tracks.title) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
+    elif _partOfFilterString.find("albumartist:") != -1:
+        filterPart = _partOfFilterString.replace("albumartist:", "")
+        return " ( LOWER(albumartists.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("artist:") != -1:
         filterPart = _partOfFilterString.replace("artist:", "")
         return " ( LOWER(artists.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("album:") != -1:
         filterPart = _partOfFilterString.replace("album:", "")
         return " ( LOWER(albums.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
-    elif _partOfFilterString.find("albumartist:") != -1:
-        filterPart = _partOfFilterString.replace("albumartist:", "")
-        return " ( LOWER(albumartists.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
     elif _partOfFilterString.find("genre:") != -1:
         filterPart = _partOfFilterString.replace("genre:", "")
         return " ( LOWER(genres.name) LIKE LOWER('%s') ) " % ("%" + filterPart + "%")
@@ -284,6 +284,34 @@ FROM tracks
 INNER JOIN urls ON urls.id = tracks.url
 LEFT JOIN devices ON devices.id = urls.deviceid
 WHERE tracks.artist=""" + str(_artistId) + " ORDER BY filePath "
+    uni.printForDevelopers("Query - getAllMusicFilePathsByArtistId : " + query)
+    db.query(query)
+    r = db.store_result()
+    musicFileValues = []
+    rows = r.fetch_row(0)
+    for row in rows:
+        musicFileValues.append(row[0])
+    return musicFileValues
+
+
+def getAllMusicFilePathsByAlbumArtistId(_artistId):
+    db = Amarok.checkAndGetDB()
+    query = """
+SELECT
+    REPLACE(
+        CONCAT(
+            CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+            SUBSTRING( urls.rpath , 2 )),
+        CONCAT('/',
+                CONCAT( CASE WHEN devices.lastmountpoint IS NOT NULL THEN devices.lastmountpoint ELSE '' END,
+                    SUBSTRING( urls.rpath , 2 )))
+    , '') AS 'filePath'
+FROM tracks
+INNER JOIN urls ON urls.id = tracks.url
+LEFT JOIN devices ON devices.id = urls.deviceid
+LEFT JOIN albums ON albums.id = tracks.album
+LEFT JOIN artists albumartists ON albumartists.id = albums.artist
+WHERE albums.artist=""" + str(_artistId) + " ORDER BY filePath "
     uni.printForDevelopers("Query - getAllMusicFilePathsByArtistId : " + query)
     db.query(query)
     r = db.store_result()
@@ -567,9 +595,13 @@ def changeArtistValue(_values):
             uni.printForDevelopers("Query - changeArtistValue : " + queryUpdate)
             db.query(queryUpdate)
             db.commit()
-            return [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
+            return [_values["name"],
+                    getAllMusicFilePathsByArtistId(_values["id"]),
+                    getAllMusicFilePathsByAlbumArtistId(_values["id"])]
         except Amarok.getMySQLModule().IntegrityError as error:
-            returnValues = [getAllMusicFilePathsByArtistId(_values["id"]), _values["name"]]
+            returnValues = [_values["name"],
+                            getAllMusicFilePathsByArtistId(_values["id"]),
+                            getAllMusicFilePathsByAlbumArtistId(_values["id"])]
             changeArtistWithAnother(_values["id"], getArtistId(_values["name"]))
             deleteArtist(_values["id"])
             return returnValues
