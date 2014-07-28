@@ -145,10 +145,10 @@ class Tagger():
             imageTypesNo = getImageTypesNo()
             for image in self.tag.images:
                 images.append([])
-                for no, type in enumerate(imageTypes):
+                for no, imageType in enumerate(imageTypes):
                     if str(image.picture_type) == imageTypesNo[no]:
                         images[-1].append(no)
-                        images[-1].append(type)
+                        images[-1].append(imageType)
                         break
                 images[-1].append(image.mime_type)
                 images[-1].append(image.image_data)

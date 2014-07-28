@@ -79,20 +79,12 @@ if os.name == "posix":
     data_files.append((fu.joinPath("/", "usr", "share", "pixmaps"),
                        [fu.joinPath(HamsiManagerDirectory, "Themes", "Default", "Images", "hamsi.png")]))
 
-eyed3ModuleName = "eyeD3"
-
-try:
-    import eyed3
-
-    eyed3ModuleName = "eyed3"
-except: pass
-
 packages = ["Amarok", "Core", "Databases", "Details", "FileUtils", "Languages",
             "MyPlugins", "Options", "SearchEngines", "SpecialTools", "Tables", "Taggers", "Tools", "Viewers", "Bars",
             "hashlib", "tarfile", "urllib", "PyQt4",
             "sqlite3", "ctypes",
             "PyKDE4", "_mysql",
-            eyed3ModuleName, "musicbrainz2"]
+            "eyed3", "musicbrainz2"]
 
 exeBase = "Console"
 fileExtension = ""
@@ -103,7 +95,7 @@ if float(sys.version[:3]) < 2.7:
     packages.append("pysqlite2")
 
 if float(sys.version[:3]) >= 3.0:
-    packages.remove(eyed3ModuleName)
+    packages.remove("eyed3")
     packages.remove("musicbrainz2")
 
 if os.name == "nt":
@@ -150,6 +142,6 @@ setup(
     }
     },
     executables=[MainExe],
-    data_files=data_files
+    data_files=data_files, requires=['PyQt4', 'BeautifulSoup', 'cx_Freeze', 'eyed3']
 )
 

@@ -53,8 +53,8 @@ if Core.checkMandatoryModules():
             appName = "HamsiManager"
             programName = ki18n("Hamsi Manager")
             version = uni.version
-            license = MAboutData.License_GPL_V3
-            copyright = ki18n(str("Murat Demir (mopened@gmail.com)"))
+            appLicense = MAboutData.License_GPL_V3
+            appCopyright = ki18n(str("Murat Demir (mopened@gmail.com)"))
             kde4LangCode = (str(MLocale(uni.Catalog).language()) + "_" +
                             str(MLocale(uni.Catalog).country()).upper())
             text = ki18n(str(""))
@@ -69,7 +69,7 @@ if Core.checkMandatoryModules():
             description = ki18n(str(aboutFileContent))
             uni.printForDevelopers("Before MAboutData")
             aboutOfHamsiManager = MAboutData(appName, uni.Catalog, programName, version, description,
-                                             license, copyright, text, homePage, bugEmail)
+                                             appLicense, appCopyright, text, homePage, bugEmail)
             aboutOfHamsiManager.addAuthor(ki18n(str("Murat Demir")), ki18n(str("Project Manager and Developer")),
                                           "mopened@gmail.com", "hamsiapps.com")
             aboutOfHamsiManager.setProgramIconName(str(fu.joinPath(fu.themePath, "Images", "hamsi.png")))

@@ -77,6 +77,8 @@ class QuickFill(MWidget):
             ReportBug.ReportBug()
 
     def apply(self):
+        columnKey = None
+        columnNo = None
         self.checkCompleters()
         self.reFillCompleters()
         getMainWindow().Table.createHistoryPoint()

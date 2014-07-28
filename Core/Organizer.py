@@ -173,13 +173,13 @@ def getLink(_stringPath):
     return "<a href=\"file://%s\" target=\"_blank\">%s</a>" % (_stringPath, _stringPath)
 
 
-def getCorrectedFileSize(bytes, precision=2):
-    bytes = int(bytes)
-    if bytes is 0:
+def getCorrectedFileSize(_bytes, _precision=2):
+    _bytes = int(_bytes)
+    if _bytes is 0:
         return '0 byte'
-    log = math.floor(math.log(bytes, 1024))
-    return "%.*f %s" % (precision,
-                        bytes / math.pow(1024, log),
+    log = math.floor(math.log(_bytes, 1024))
+    return "%.*f %s" % (_precision,
+                        _bytes / math.pow(1024, log),
                         ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
                         [int(log)])
 

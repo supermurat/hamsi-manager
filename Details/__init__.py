@@ -37,16 +37,16 @@ class Details():
                 _path = fu.checkSource(_filePath, "file", False)
                 if _path is not None:
                     isOpened = False
-                    type = fu.getMimeType(_path)
-                    if type[0] is not None:
-                        if type[0].split("/")[0] == "text":
+                    mtype = fu.getMimeType(_path)
+                    if mtype[0] is not None:
+                        if mtype[0].split("/")[0] == "text":
                             TextDetails.TextDetails(_path, _isOpenDetailsOnNewWindow)
                             isOpened = True
-                        elif type[0].split("/")[0] == "audio":
+                        elif mtype[0].split("/")[0] == "audio":
                             if Taggers.getTagger(True) is not None:
                                 MusicDetails.MusicDetails(_path, _isOpenDetailsOnNewWindow)
                                 isOpened = True
-                        elif type[0].split("/")[0] == "image":
+                        elif mtype[0].split("/")[0] == "image":
                             ImageDetails.ImageDetails(_path, "file", _isOpenDetailsOnNewWindow)
                             isOpened = True
                         elif fu.isBinary(_path) is False:

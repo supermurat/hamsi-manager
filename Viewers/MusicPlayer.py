@@ -269,6 +269,7 @@ class M_Phonon_PySide():
             Dialogs.showError(translate("Player", "Phonon Is Not Installed On Your System."),
                               translate("Player",
                                         "We could not find the Phonon(PySide) module installed on your system.<br>Please choose another player from the options or <br>check your Phonon installation."))
+            return False
         if not self.m_media:
             self.m_media = Phonon.MediaObject()
             self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory)

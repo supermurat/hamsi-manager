@@ -161,6 +161,7 @@ if Core.checkMandatoryModules():
 
         def pageChanged(self, _isRunningManual=False):
             try:
+                senderObject = None
                 if _isRunningManual is False:
                     senderObject = self.sender()
                     if senderObject == self.buttons[1]:

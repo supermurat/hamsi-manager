@@ -145,6 +145,7 @@ class AmarokArtistTable(CoreTable):
         for rowNo in range(self.rowCount()):
             for itemNo in range(self.columnCount()):
                 if self.isChangeableItem(rowNo, itemNo):
+                    newString = None
                     if itemNo == 0:
                         continue
                     elif itemNo == 1:

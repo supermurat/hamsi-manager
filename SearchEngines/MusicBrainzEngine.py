@@ -278,12 +278,13 @@ class Search(MDialog):
         """Returns artists that are similar to the one selected.
         Returned[x][0]:Match             Returned[x][1]:Artist ID
         Returned[x][2]:Name              Returned[x][3]:Nickname"""
+        returnedValues = None
         try:
             return self.searchedArtists[1][self.searchedArtists[0].index(_artistName)]
         except: pass
         self.searchedArtists[0].append(_artistName)
         values, controlValue = [], 1
-        while controlValue > 0 and controlValue < 4:
+        while 4 > controlValue > 0:
             try:
                 returnedValues = Query().getArtists(ArtistFilter(_artistName, limit=5))
                 controlValue = 0
@@ -304,12 +305,13 @@ class Search(MDialog):
         Returned[x][2]:Name             Returned[x][3]:Asin
         Returned[x][4]:Text             Returned[x][5]:Genre
         Returned[x][6]:Artist Id	      Returned[x][7]:Artist Name"""
+        returnedValues = None
         try:
             return self.searchedAlbums[1][self.searchedAlbums[0].index(_albumName)]
         except: pass
         self.searchedAlbums[0].append(_albumName)
         values, controlValue = [], 1
-        while controlValue > 0 and controlValue < 4:
+        while 4 > controlValue > 0:
             try:
                 returnedValues = Query().getReleases(ReleaseFilter(query=_albumName))
                 controlValue = 0
@@ -332,12 +334,13 @@ class Search(MDialog):
         Returned[x][2]:Title		    Returned[x][3]:Length
         Returned[x][4]:Album Id		  Returned[x][5]:Album Name
         Returned[x][6]:Artist Id	  Returned[x][7]:Artist Name"""
+        returnedValues = None
         try:
             return self.searchedTitles[1][self.searchedTitles[0].index(_titleName)]
         except: pass
         self.searchedTitles[0].append(_titleName)
         values, controlValue = [], 1
-        while controlValue > 0 and controlValue < 4:
+        while 4 > controlValue > 0:
             try:
                 returnedValues = Query().getTracks(TrackFilter(query=_titleName))
                 controlValue = 0
@@ -360,12 +363,13 @@ class Search(MDialog):
         Returned[2]:Nickname		Returned[3]:Unique Name
         Returned[4]:Genre		    Returned[5]:Beginning Date
         Returned[6]:End Date		Returned[7]:Tags"""
+        artist = None
         try:
             return self.searchedDetailsOfArtist[1][self.searchedDetailsOfArtist[0].index(_artistId)]
         except: pass
         self.searchedDetailsOfArtist[0].append(_artistId)
         controlValue = 1
-        while controlValue > 0 and controlValue < 4:
+        while 4 > controlValue > 0:
             try:
                 q = Query()
                 inc = webservice.ArtistIncludes(tags=True)
@@ -404,7 +408,8 @@ class Search(MDialog):
                 for albumTypeNo, albumType in enumerate(albumTypes):
                     if albumTypeNo <= _searchDepth:
                         controlValue = 1
-                        while controlValue > 0 and controlValue < 4:
+                        artist = None
+                        while 4 > controlValue > 0:
                             try:
                                 q = Query()
                                 inc = webservice.ArtistIncludes(releases=(albumState, albumType), tags=True)
@@ -434,12 +439,13 @@ class Search(MDialog):
         Returned[8][4]:Label name
         Returned[9]:CDs
         Returned[9][0]:CD ID				        Returned[9][1]:Disc Sector"""
+        release = None
         try:
             return self.searchedDetailsOfAlbum[1][self.searchedDetailsOfAlbum[0].index(_albumId)]
         except: pass
         self.searchedDetailsOfAlbum[0].append(_albumId)
         controlValue = 1
-        while controlValue > 0 and controlValue < 4:
+        while 4 > controlValue > 0:
             try:
                 q = webservice.Query()
                 inc = webservice.ReleaseIncludes(artist=True, releaseEvents=True, labels=True, discs=True, tracks=True)
@@ -470,12 +476,13 @@ class Search(MDialog):
         """Returns all titles for the selected album ID..
         Returned[x][0]:Id               Returned[x][1]:Title
         Returned[x][2]:Length"""
+        release = None
         try:
             return self.searchedSongsOfAlbum[1][self.searchedSongsOfAlbum[0].index(_albumId)]
         except: pass
         self.searchedSongsOfAlbum[0].append(_albumId)
         values, controlValue = [], 1
-        while controlValue > 0 and controlValue < 4:
+        while 4 > controlValue > 0:
             try:
                 q = webservice.Query()
                 inc = webservice.ReleaseIncludes(artist=True, releaseEvents=True, labels=True, discs=True, tracks=True)
@@ -535,6 +542,8 @@ class Search(MDialog):
 
     def showInList(self):
         HBoxs = []
+        tagNames = []
+        tagNamesKeys = []
         if len(self.trueSongs) > 0 or len(self.falseSongs) > 0 or len(self.songsOfAlbum) > 0 or len(
             self.songsOfArtist) > 0:
             tagNames = [translate("MusicTable", "Artist"),
@@ -699,14 +708,14 @@ class Search(MDialog):
     def selectAlbum(self):
         for rowNo in self.rows:
             if len(self.rows) - 1 != self.rows[-1]:
-                rowNo = rowNo / 2
+                rowNo /= 2
             self.findChild(MComboBox, "Album" + str(rowNo)).setCurrentIndex(
                 self.findChild(MComboBox, "Album0").currentIndex())
 
     def sortBySelectedAlbum(self):
         for rowNo in self.rows:
             if len(self.rows) - 1 != self.rows[-1]:
-                rowNo = rowNo / 2
+                rowNo /= 2
             self.findChild(MComboBox, "Title" + str(rowNo)).setCurrentIndex(rowNo)
 
     def showSuggest(self, _isHidden=False):
@@ -739,8 +748,8 @@ class Search(MDialog):
     def applySuggest(self, _action):
         if str(_action.objectName()) == str(self.labelsOfSuggests[0]):
             isPracticable = True
-            id = self.getAlbumIdFromAlbum(self.findChild(MComboBox, "Album0").currentText())
-            if len(self.rows) != len(self.getSongsOfAlbum(id)):
+            albumId = self.getAlbumIdFromAlbum(self.findChild(MComboBox, "Album0").currentText())
+            if len(self.rows) != len(self.getSongsOfAlbum(albumId)):
                 isPracticable = False
                 answer = Dialogs.ask(translate("SearchEngines", "Number Of Songs Are Different"),
                                      translate("SearchEngines",
@@ -815,9 +824,9 @@ class Search(MDialog):
             rowNo = int(str(self.sender().objectName()).replace("Artist", ""))
             self.isAlterAlbum = True
             cbTag = self.sender()
-            for object in self.cbTags:
-                if str(object.objectName()) == "Title" + str(rowNo):
-                    object.clear()
+            for objectTag in self.cbTags:
+                if str(objectTag.objectName()) == "Title" + str(rowNo):
+                    objectTag.clear()
                     for song in self.songsOfArtist:
                         if song[3] == rowNo:
                             for x, tag in enumerate(song[1]):
@@ -825,13 +834,13 @@ class Search(MDialog):
                                     if song[0][x] == str(cbTag.currentText()):
                                         for t in tag:
                                             for s in t:
-                                                if object.findText(str(s)) == -1:
-                                                    object.addItem(str(s))
+                                                if objectTag.findText(str(s)) == -1:
+                                                    objectTag.addItem(str(s))
                                 else:
                                     for t in tag:
                                         for s in t:
-                                            if object.findText(str(s)) == -1:
-                                                object.addItem(str(s))
+                                            if objectTag.findText(str(s)) == -1:
+                                                objectTag.addItem(str(s))
                             break
                     for song in self.songsOfAlbum:
                         if song[3] == rowNo:
@@ -840,29 +849,29 @@ class Search(MDialog):
                                     if song[0][x] == str(cbTag.currentText()):
                                         for t in tag:
                                             for s in t:
-                                                if object.findText(str(s)) == -1:
-                                                    object.addItem(str(s))
+                                                if objectTag.findText(str(s)) == -1:
+                                                    objectTag.addItem(str(s))
                                 else:
                                     for t in tag:
                                         for s in t:
-                                            if object.findText(str(s)) == -1:
-                                                object.addItem(str(s))
+                                            if objectTag.findText(str(s)) == -1:
+                                                objectTag.addItem(str(s))
                             break
-                if str(object.objectName()) == "Album" + str(rowNo):
-                    object.clear()
+                if str(objectTag.objectName()) == "Album" + str(rowNo):
+                    objectTag.clear()
                     for song in self.songsOfArtist:
                         if song[3] == rowNo:
                             for x, tag in enumerate(song[2]):
                                 if _index != cbTag.count() - 1:
                                     if song[0][x] == str(cbTag.currentText()):
                                         for t in tag:
-                                            if object.findText(str(t)) == -1:
-                                                object.addItem(str(t))
+                                            if objectTag.findText(str(t)) == -1:
+                                                objectTag.addItem(str(t))
                                 else:
                                     for t in tag:
-                                        if object.findText(str(t)) == -1:
-                                            object.addItem(str(t))
-                            object.addItem(translate("SearchEngines", "All Albums"))
+                                        if objectTag.findText(str(t)) == -1:
+                                            objectTag.addItem(str(t))
+                            objectTag.addItem(translate("SearchEngines", "All Albums"))
                             break
                     for song in self.songsOfAlbum:
                         if song[3] == rowNo:
@@ -870,13 +879,13 @@ class Search(MDialog):
                                 if _index != cbTag.count() - 1:
                                     if song[0][x] == str(cbTag.currentText()):
                                         for t in tag:
-                                            if object.findText(str(t)) == -1:
-                                                object.addItem(str(t))
+                                            if objectTag.findText(str(t)) == -1:
+                                                objectTag.addItem(str(t))
                                 else:
                                     for t in tag:
-                                        if object.findText(str(t)) == -1:
-                                            object.addItem(str(t))
-                            object.addItem(translate("SearchEngines", "All Albums"))
+                                        if objectTag.findText(str(t)) == -1:
+                                            objectTag.addItem(str(t))
+                            objectTag.addItem(translate("SearchEngines", "All Albums"))
                             break
             self.isAlterAlbum = False
 
@@ -889,40 +898,40 @@ class Search(MDialog):
         if self.isAlterAlbum is False:
             cbTag = self.sender()
             rowNo = int(str(cbTag.objectName()).replace("Album", ""))
-            for object in self.cbTags:
-                if str(object.objectName()) == "Artist" + str(rowNo):
-                    artistObject = object
+            for objectTag in self.cbTags:
+                if str(objectTag.objectName()) == "Artist" + str(rowNo):
+                    artistObject = objectTag
                     break
-            for object in self.cbTags:
-                if str(object.objectName()) == "Title" + str(rowNo):
-                    object.clear()
+            for objectTag in self.cbTags:
+                if str(objectTag.objectName()) == "Title" + str(rowNo):
+                    objectTag.clear()
                     for song in self.songsOfArtist:
                         if song[3] == rowNo:
                             if self.isArtistImportant and self.isArtistChanged:
                                 if artistObject.currentIndex() != artistObject.count() - 1:
                                     if _index != cbTag.count() - 1:
                                         for t in song[1][artistObject.currentIndex()][cbTag.currentIndex()]:
-                                            if object.findText(str(t)) == -1:
-                                                object.addItem(str(t))
+                                            if objectTag.findText(str(t)) == -1:
+                                                objectTag.addItem(str(t))
                                     else:
                                         for y, tag in enumerate(song[2][artistObject.currentIndex()]):
                                             for t in song[1][artistObject.currentIndex()][y]:
-                                                if object.findText(str(t)) == -1:
-                                                    object.addItem(str(t))
+                                                if objectTag.findText(str(t)) == -1:
+                                                    objectTag.addItem(str(t))
                                 else:
                                     if _index != cbTag.count() - 1:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]):
                                                 if song[2][x][y] == cbTag.currentText():
                                                     for t in song[1][x][y]:
-                                                        if object.findText(str(t)) == -1:
-                                                            object.addItem(str(t))
+                                                        if objectTag.findText(str(t)) == -1:
+                                                            objectTag.addItem(str(t))
                                     else:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]):
                                                 for t in song[1][x][y]:
-                                                    if object.findText(str(t)) == -1:
-                                                        object.addItem(str(t))
+                                                    if objectTag.findText(str(t)) == -1:
+                                                        objectTag.addItem(str(t))
                             else:
                                 for x, tag in enumerate(song[1]):
                                     for y, tagm in enumerate(tag):
@@ -931,35 +940,35 @@ class Search(MDialog):
                                             artistObject.setCurrentIndex(x)
                                             self.isAlterArtist = True
                                             for t in song[1][x][y]:
-                                                if object.findText(str(t)) == -1:
-                                                    object.addItem(str(t))
+                                                if objectTag.findText(str(t)) == -1:
+                                                    objectTag.addItem(str(t))
                     for song in self.songsOfAlbum:
                         if song[3] == rowNo:
                             if self.isArtistImportant and self.isArtistChanged:
                                 if artistObject.currentIndex() != artistObject.count() - 1:
                                     if _index != cbTag.count() - 1:
                                         for t in song[1][artistObject.currentIndex()][cbTag.currentIndex()]:
-                                            if object.findText(str(t)) == -1:
-                                                object.addItem(str(t))
+                                            if objectTag.findText(str(t)) == -1:
+                                                objectTag.addItem(str(t))
                                     else:
                                         for y, tag in enumerate(song[2][artistObject.currentIndex()]):
                                             for t in song[1][artistObject.currentIndex()][y]:
-                                                if object.findText(str(t)) == -1:
-                                                    object.addItem(str(t))
+                                                if objectTag.findText(str(t)) == -1:
+                                                    objectTag.addItem(str(t))
                                 else:
                                     if _index != cbTag.count() - 1:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]):
                                                 if song[2][x][y] == cbTag.currentText():
                                                     for t in song[1][x][y]:
-                                                        if object.findText(str(t)) == -1:
-                                                            object.addItem(str(t))
+                                                        if objectTag.findText(str(t)) == -1:
+                                                            objectTag.addItem(str(t))
                                     else:
                                         for x, tag in enumerate(song[0]):
                                             for y, tag1 in enumerate(song[2][x]):
                                                 for t in song[1][x][y]:
-                                                    if object.findText(str(t)) == -1:
-                                                        object.addItem(str(t))
+                                                    if objectTag.findText(str(t)) == -1:
+                                                        objectTag.addItem(str(t))
                             else:
                                 for x, tag in enumerate(song[1]):
                                     for y, tagm in enumerate(tag):
@@ -968,8 +977,8 @@ class Search(MDialog):
                                             artistObject.setCurrentIndex(x)
                                             self.isAlterArtist = True
                                             for t in song[1][x][y]:
-                                                if object.findText(str(t)) == -1:
-                                                    object.addItem(str(t))
+                                                if objectTag.findText(str(t)) == -1:
+                                                    objectTag.addItem(str(t))
                     break
         if _index == self.sender().count() - 1:
             self.isArtistChanged = self.isArtistChangedTemp

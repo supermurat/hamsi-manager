@@ -44,7 +44,7 @@ def getNextScriptFilePath():
         nextScriptFilePath = fu.joinPath(pathOfScripsDirectory, translate("Scripts", "Script") + "-" + str(i) + ".py")
         if fu.isFile(nextScriptFilePath) is False:
             return nextScriptFilePath
-        i = i + 1
+        i += 1
 
 
 def createNewScript():

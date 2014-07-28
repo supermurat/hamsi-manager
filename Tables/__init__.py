@@ -747,6 +747,8 @@ class CoreTable(MTableWidget):
         if _actionType == "return":
             return info
         elif _actionType == "file":
+            fileExt = None
+            formatTypeName = None
             if _formatType == "html":
                 if _extInfo != "no":
                     strHeader = ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \n" +
@@ -785,12 +787,13 @@ class CoreTable(MTableWidget):
                 QtWebKit = getMyObject("QtWebKit")
                 wvWeb = QtWebKit.QWebView()
                 wvWeb.setHtml(str(info))
+                vblMain.addWidget(wvWeb)
             elif _formatType == "plainText":
-                wvWeb = MTextEdit()
-                wvWeb.setPlainText(str(info))
+                teContent = MTextEdit()
+                teContent.setPlainText(str(info))
+                vblMain.addWidget(teContent)
             pbtnClose = MPushButton(translate("Tables", "OK"))
             MObject.connect(pbtnClose, SIGNAL("clicked()"), dDialog.close)
-            vblMain.addWidget(wvWeb)
             vblMain.addWidget(pbtnClose)
             if isActivePyKDE4:
                 dDialog.setMainWidget(mainPanel)

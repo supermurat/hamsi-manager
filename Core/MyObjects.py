@@ -64,7 +64,9 @@ for obj in dir(QtNetwork):
 
 MQtGui, MQtCore = QtGui, QtCore
 
+# noinspection PyCallByClass
 MQtCore.QTextCodec.setCodecForCStrings(MQtCore.QTextCodec.codecForName("utf-8"))
+# noinspection PyCallByClass
 MQtCore.QTextCodec.setCodecForTr(MQtCore.QTextCodec.codecForName("utf-8"))
 
 try:

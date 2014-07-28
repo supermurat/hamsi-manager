@@ -120,6 +120,7 @@ class Clear(MWidget):
                     oldString = str(self.leClear.text())
                     cbClearType = self.cbClearType.currentText()
                     isRegExp = self.cckbRegExp.isChecked()
+                    myString = None
                     if self.specialTools.cbInformationSection.currentIndex() == 0:
                         myString = Organizer.clear(cbClearType, newString,
                                                    oldString, isCaseInsensitive, isRegExp)

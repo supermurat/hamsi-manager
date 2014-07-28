@@ -54,9 +54,9 @@ def getLoaddedTagger():
 
 
 def getSelectedTaggerTypeForRead():
-    type = getSelectedTaggerTypeForReadName()
+    selectedTaggerType = getSelectedTaggerTypeForReadName()
     for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
-        if type == getTaggerTypesName()[x]:
+        if selectedTaggerType == getTaggerTypesName()[x]:
             return v
     return getLoaddedTagger().getTaggerTypes()[0]
 
@@ -75,19 +75,19 @@ def getSelectedTaggerTypeForReadName():
 
 
 def setSelectedTaggerTypeForReadName(_typeName, _isSetType=True):
-    type = getLoaddedTagger().getTaggerTypes()[0]
+    selectedTaggerType = getLoaddedTagger().getTaggerTypes()[0]
     for x, v in enumerate(getTaggerTypesName()):
         if _typeName == v:
-            type = getLoaddedTagger().getTaggerTypes()[x]
+            selectedTaggerType = getLoaddedTagger().getTaggerTypes()[x]
     uni.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", _typeName)
     if _isSetType:
-        setSelectedTaggerTypeForRead(type, False)
+        setSelectedTaggerTypeForRead(selectedTaggerType, False)
 
 
 def getSelectedTaggerTypeForWrite():
-    type = getSelectedTaggerTypeForWriteName()
+    selectedTaggerType = getSelectedTaggerTypeForWriteName()
     for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
-        if type == getTaggerTypesName()[x]:
+        if selectedTaggerType == getTaggerTypesName()[x]:
             return v
     return getLoaddedTagger().getTaggerTypes()[0]
 
@@ -106,13 +106,13 @@ def getSelectedTaggerTypeForWriteName():
 
 
 def setSelectedTaggerTypeForWriteName(_typeName, _isSetType=True):
-    type = getLoaddedTagger().getTaggerTypes()[0]
+    selectedTaggerType = getLoaddedTagger().getTaggerTypes()[0]
     for x, v in enumerate(getTaggerTypesName()):
         if _typeName == v:
-            type = getLoaddedTagger().getTaggerTypes()[x]
+            selectedTaggerType = getLoaddedTagger().getTaggerTypes()[x]
     uni.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", _typeName)
     if _isSetType:
-        setSelectedTaggerTypeForWrite(type, False)
+        setSelectedTaggerTypeForWrite(selectedTaggerType, False)
 
 
 def getTaggerTypes():

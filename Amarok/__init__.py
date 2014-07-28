@@ -172,25 +172,25 @@ def checkAndGetDB(_isNoAlertIfSuccessfully=True, _isReCheck=False):
                                   translate("Amarok", "Amarok database is not accessible."))
             return None
         except:
-            cla, error, trbk = sys.exc_info()
-            if str(error).find("Unknown MySQL server host") != -1:
+            cla, currentError, trbk = sys.exc_info()
+            if str(currentError).find("Unknown MySQL server host") != -1:
                 Dialogs.showError(translate("Amarok", "Not Connected To Database"), str(
                     translate("Amarok", "Unknown MySQL server host \"%s\" <br><b>Details</b> : %s")) % (
-                                      uni.MySettings["amarokDBHost"], str(error)))
-            elif str(error).find("Access denied for user") != -1:
+                                      uni.MySettings["amarokDBHost"], str(currentError)))
+            elif str(currentError).find("Access denied for user") != -1:
                 Dialogs.showError(translate("Amarok", "Not Connected To Database"),
                                   str(translate("Amarok", "Access denied for user \"%s\" <br><b>Details</b> : %s")) % (
-                                      uni.MySettings["amarokDBUser"], str(error)))
-            elif str(error).find("Unknown database") != -1:
+                                      uni.MySettings["amarokDBUser"], str(currentError)))
+            elif str(currentError).find("Unknown database") != -1:
                 Dialogs.showError(translate("Amarok", "Not Connected To Database"),
                                   str(translate("Amarok", "Unknown database \"%s\" <br><b>Details</b> : %s")) % (
-                                      uni.MySettings["amarokDBDB"], str(error)))
-            elif str(error).find("Can't connect to local MySQL server through socket") != -1:
+                                      uni.MySettings["amarokDBDB"], str(currentError)))
+            elif str(currentError).find("Can't connect to local MySQL server through socket") != -1:
                 Dialogs.showError(translate("Amarok", "Not Connected To Database"), str(translate("Amarok",
                                                                                                   "Can't connect to local MySQL server through socket \"%s\" <br><b>Details</b> : %s")) % (
-                                      str(error).replace(
+                                      str(currentError).replace(
                                           "(2002, \"Can't connect to local MySQL server through socket '",
-                                          "").replace("' (2)\")", ""), str(error)))
+                                          "").replace("' (2)\")", ""), str(currentError)))
             else:
                 ReportBug.ReportBug()
             return None

@@ -205,6 +205,7 @@ class Searcher(MyDialog):
         searchValue = str(self.leSearch.text())
         if searchValue != "":
             searchValueList = [searchValue]
+            clearedSearchValues = []
             if self.cckbIsNormalizeUTF8Chars.checkState() == Mt.Checked or self.cckbIsNormalizeUTF8CharsAndClearVowels.checkState() == Mt.Checked:
                 clearedSearchValue = ''.join(c for c in unicodedata.normalize('NFKD', uni.trUnicode(searchValue)) if
                                              unicodedata.category(c) != 'Mn')

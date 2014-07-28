@@ -430,7 +430,7 @@ def getOrInsertGenre(_genre):
 
 def getOrInsertDirectory(_directory, _deviceId):
     _deviceId = str(_deviceId)
-    if _directory[-1] != "/": _directory = _directory + "/"
+    if _directory[-1] != "/": _directory += "/"
     if _directory[0] != ".": _directory = "." + _directory
     db = Amarok.checkAndGetDB()
     sqlSelectCommand = "SELECT id FROM directories WHERE deviceid=" + _deviceId + " AND dir='" + Databases.correctForSql(
