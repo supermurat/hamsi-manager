@@ -307,7 +307,7 @@ def getOpenFileNames(_caption, _directory, _filter, _isUseLastPathKeyType=1, _la
     if pathKey is not None: _directory = uni.getLastPathByEvent(pathKey, _directory)
     filePaths = QFileDialog.getOpenFileNames(getActiveWindow(), str(_caption),
                                              str(_directory), str(_filter))
-    if filePaths == []:
+    if not filePaths:
         return None
     if pathKey is not None: uni.setLastPathByEvent(pathKey, str(filePaths[-1]))
     return list(filePaths)

@@ -168,15 +168,16 @@ def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mir
     if fu.isDir(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory)) is False:
         fu.makeDirs(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory))
     isReturn = False
-    for file in files:
+    for backupFile in files:
         if _newFileName == "mirror":
-            newFileName = file
+            newFileName = backupFile
         elif _newFileName == "random":
             isReturn = True
             import random
 
             while 1 == 1:
-                newFileName = file[:file.find(".")] + "_" + str(random.randrange(0, 100000000)) + file[file.find("."):]
+                newFileName = (backupFile[:backupFile.find(".")] + "_" + str(random.randrange(0, 100000000)) +
+                               backupFile[backupFile.find("."):])
                 if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName)) is False:
                     break
         else:
@@ -184,7 +185,7 @@ def makeBackUp(_settingType="All", _backUpDirectory="BackUps", _newFileName="mir
         if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName)):
             fu.removeFile(fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName))
         try:
-            fu.copyFileOrDir(fu.joinPath(fu.pathOfSettingsDirectory, file),
+            fu.copyFileOrDir(fu.joinPath(fu.pathOfSettingsDirectory, backupFile),
                              fu.joinPath(fu.pathOfSettingsDirectory, _backUpDirectory, newFileName))
             if isReturn:
                 return newFileName
@@ -198,22 +199,23 @@ def restoreBackUp(_settingType="All", _isMakeBackUp=True):
         files.append("database.sqlite")
     if _settingType == "Settings" or _settingType == "All":
         files.append(uni.fileOfSettings)
-    for file in files:
+    for backupFile in files:
+        oldInfo = ""
         if _isMakeBackUp:
-            oldInfo = fu.readFromFile(fu.joinPath(fu.pathOfSettingsDirectory, file))
+            oldInfo = fu.readFromFile(fu.joinPath(fu.pathOfSettingsDirectory, backupFile))
         else:
             try:
-                fu.removeFile(fu.joinPath(fu.pathOfSettingsDirectory, file))
+                fu.removeFile(fu.joinPath(fu.pathOfSettingsDirectory, backupFile))
             except: pass
         try:
-            if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file)):
-                fu.moveFileOrDir(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file),
-                                 fu.joinPath(fu.pathOfSettingsDirectory, file))
+            if fu.isFile(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", backupFile)):
+                fu.moveFileOrDir(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", backupFile),
+                                 fu.joinPath(fu.pathOfSettingsDirectory, backupFile))
             else:
                 isSuccessfully = False
         except: pass
         if _isMakeBackUp:
-            fu.writeToFile(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", file), oldInfo)
+            fu.writeToFile(fu.joinPath(fu.pathOfSettingsDirectory, "BackUps", backupFile), oldInfo)
     return isSuccessfully
 
 

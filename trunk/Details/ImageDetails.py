@@ -74,5 +74,5 @@ class ImageDetails(MDialog):
         if _valueType == "data":
             self.setWindowTitle(translate("ImageDetails", "Image Details"))
         else:
-            self.setWindowTitle(str(str(translate("ImageDetails", "Image Details ( %s )")) % (_file)))
+            self.setWindowTitle(str(str(translate("ImageDetails", "Image Details ( %s )")) % _file))
         self.wImage.changeCoverValues(_file, _valueType)

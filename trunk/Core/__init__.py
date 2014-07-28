@@ -20,6 +20,7 @@
 import sys
 import os
 
+# noinspection PyCallByClass
 def checkMyModules(_HamsiManagerApp):
     try:
         import SpecialTools

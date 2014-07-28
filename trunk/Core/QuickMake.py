@@ -16,12 +16,10 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import sys
-import os
+
 from Core.CommandLineOptions import QuickMakeParameters
 from Core import CommandLineOptions
 from Core import Dialogs
-from Core import Records
 from Core import Organizer
 import FileUtils as fu
 from Core.MyObjects import *
@@ -34,6 +32,8 @@ class QuickMake():
         if len(QuickMakeParameters) > 1 or (len(QuickMakeParameters) == 1 and (
                     QuickMakeParameters[0] == "plugins" or QuickMakeParameters[0] == "configurator")):
             answer = None
+            makeThisAction = None
+            actionName = None
             isShowQuickMakeWindow = True
             tempWindow = MMainWindow()
             self.quickMakeWindow = QuickMakeWindow()

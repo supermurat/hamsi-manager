@@ -20,7 +20,7 @@
 import sys
 import os
 import platform
-from datetime import timedelta, datetime
+from datetime import datetime
 import FileUtils as fu
 from Core.MyObjects import *
 from BeautifulSoup import BeautifulSoup
@@ -463,6 +463,7 @@ def getScreenSize():
 
 
 def getUserDesktopPath():
+    desktopPath = None
     if isActivePyKDE4:
         from PyKDE4.kdeui import KGlobalSettings
 
@@ -594,8 +595,8 @@ def getInstalledLanguagesCodes():
                     languages.append(langCode)
         if languages.count("en_GB") == 0:
             languages.append("en_GB")
-        installedLanguagesNames = languages
-    return installedLanguagesNames
+        installedLanguagesCodes = languages
+    return installedLanguagesCodes
 
 
 def getInstalledLanguagesNames():

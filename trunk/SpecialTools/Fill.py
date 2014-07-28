@@ -128,6 +128,7 @@ class Fill(MWidget):
             setCompleter(self.leFill, self.lblFill.text())
 
     def apply(self):
+        columnNo = None
         self.checkCompleters()
         self.reFillCompleters()
         getMainWindow().Table.createHistoryPoint()

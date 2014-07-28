@@ -208,6 +208,7 @@ if Core.checkMandatoryModules():
 
         def pageChanged(self, _isRunningManual=False):
             try:
+                senderObject = None
                 if _isRunningManual is False:
                     senderObject = self.sender()
                     if senderObject == self.buttons[1]:
@@ -271,19 +272,19 @@ if Core.checkMandatoryModules():
                             self.lblActions.setText(translate("Install", "Creating Installation Folder..."))
                             fu.makeDirs(self.installationDirectory)
                         elif len(fu.listDir(self.installationDirectory)) > 0:
-                            answer = Dialogs.askSpecial(
+                            currenctAnswer = Dialogs.askSpecial(
                                 translate("Install", "The Installation Path You Selected Is Not Empty."),
                                 translate("Install",
                                           "If the path you selected is an \"Hamsi Manager\" installation path, <b>I recommend you to delete the older files.</b><br>Do you want me to clear the installation path/folder for you?<br><b>Note: </b> Your personal settings are <b>never deleted</b>."),
                                 translate("Install", "Yes (Recommended)"),
                                 translate("Install", "No (Overwrite)"),
                                 translate("Install", "Cancel"))
-                            if answer == translate("Install", "Yes (Recommended)"):
+                            if currenctAnswer == translate("Install", "Yes (Recommended)"):
                                 self.lblActions.setText(translate("Install", "Clearing Installation Path..."))
                                 fu.removeFileOrDir(self.installationDirectory)
                                 fu.makeDirs(self.installationDirectory)
                                 isMakeInstall = True
-                            elif answer == translate("Install", "No (Overwrite)"):
+                            elif currenctAnswer == translate("Install", "No (Overwrite)"):
                                 isMakeInstall = True
                             else:
                                 isMakeInstall = False
@@ -332,9 +333,9 @@ if Core.checkMandatoryModules():
 
         def closeEvent(self, _event):
             if self.isInstallFinished is False:
-                answer = Dialogs.ask(translate("Install", "Finalizing Installation"),
+                currentAnswer = Dialogs.ask(translate("Install", "Finalizing Installation"),
                                      translate("Install", "Are You Sure You Want To Quit?"))
-                if answer != Dialogs.Yes:
+                if currentAnswer != Dialogs.Yes:
                     _event.ignore()
 
         def finish(self):

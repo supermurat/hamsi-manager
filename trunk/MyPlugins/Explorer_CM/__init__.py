@@ -46,7 +46,7 @@ def installThisPlugin():
     executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
     iconPath = fu.joinPath(fu.themePath, "Images", "HamsiManager-16x16-1.ico")
 
-    actionsValues = [{"object": "*",
+    actionsValues = [{"regObject": "*",
                       "key": "HamsiManager",
                       "title": "Hamsi Manager",
                       "icon": fu.joinPath(fu.themePath, "Images", "HamsiManager-16x16-1.ico"),
@@ -71,7 +71,7 @@ def installThisPlugin():
                                    "icon": fu.joinPath(fu.themePath, "Images", "search.ico"),
                                    "command": executeCommandOfHamsiManager + " --qm --search \"%1\""}
                       ]},
-                     {"object": "Directory",
+                     {"regObject": "Directory",
                       "key": "HamsiManager",
                       "title": "Hamsi Manager",
                       "icon": fu.joinPath(fu.themePath, "Images", "HamsiManager-16x16-1.ico"),
@@ -124,7 +124,7 @@ def installThisPlugin():
                                    "icon": fu.joinPath(fu.themePath, "Images", "search.ico"),
                                    "command": executeCommandOfHamsiManager + " --qm --search \"%1\""}
                       ]},
-                     {"object": "Directory\\Background",
+                     {"regObject": "Directory\\Background",
                       "key": "HamsiManager",
                       "title": "Hamsi Manager",
                       "icon": fu.joinPath(fu.themePath, "Images", "HamsiManager-16x16-1.ico"),
@@ -177,7 +177,7 @@ def installThisPlugin():
                                    "icon": fu.joinPath(fu.themePath, "Images", "search.ico"),
                                    "command": executeCommandOfHamsiManager + " --qm --search \"%V\""}
                       ]},
-                     {"object": "*",
+                     {"regObject": "*",
                       "key": "HamsiManagerManage",
                       "title": translate("MyPlugins/Explorer_CM", "Hamsi Manager ( Manage )"),
                       "icon": fu.joinPath(fu.themePath, "Images", "HamsiManager-16x16-1.ico"),
@@ -206,7 +206,7 @@ def installThisPlugin():
                                    "icon": fu.joinPath(fu.themePath, "Images", "subFolderMusicTable.ico"),
                                    "command": executeCommandOfHamsiManager + " -t 9 \"%1\""}
                       ]},
-                     {"object": "Directory",
+                     {"regObject": "Directory",
                       "key": "HamsiManagerManage",
                       "title": translate("MyPlugins/Explorer_CM", "Hamsi Manager ( Manage )"),
                       "icon": fu.joinPath(fu.themePath, "Images", "HamsiManager-16x16-1.ico"),
@@ -235,7 +235,7 @@ def installThisPlugin():
                                    "icon": fu.joinPath(fu.themePath, "Images", "subFolderMusicTable.ico"),
                                    "command": executeCommandOfHamsiManager + " -t 9 \"%1\""}
                       ]},
-                     {"object": "Directory\\Background",
+                     {"regObject": "Directory\\Background",
                       "key": "HamsiManagerManage",
                       "title": translate("MyPlugins/Explorer_CM", "Hamsi Manager ( Manage )"),
                       "icon": fu.joinPath(fu.themePath, "Images", "HamsiManager-16x16-1.ico"),
@@ -267,25 +267,25 @@ def installThisPlugin():
     ]
     rootReg = winreg.ConnectRegistry(None, winreg.HKEY_CLASSES_ROOT)
     try:
-        for object in actionsValues:
-            mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
-            winreg.CreateKey(mainKey, object["key"])
-            hamsiKey = winreg.OpenKey(mainKey, object["key"], 0, winreg.KEY_WRITE)
+        for regObject in actionsValues:
+            mainKey = winreg.OpenKey(rootReg, regObject["regObject"] + "\\shell", 0, winreg.KEY_WRITE)
+            winreg.CreateKey(mainKey, regObject["key"])
+            hamsiKey = winreg.OpenKey(mainKey, regObject["key"], 0, winreg.KEY_WRITE)
             winreg.SetValueEx(hamsiKey, "MUIVerb", 0, winreg.REG_SZ,
-                              uni.trEncode(str(object["title"]), fu.defaultFileSystemEncoding))
+                              uni.trEncode(str(regObject["title"]), fu.defaultFileSystemEncoding))
             winreg.SetValueEx(hamsiKey, "ExtendedSubCommandsKey", 0, winreg.REG_SZ,
-                              object["object"] + "\\ContextMenus\\" + object["key"])
+                              regObject["regObject"] + "\\ContextMenus\\" + regObject["key"])
             try: winreg.SetValueEx(hamsiKey, "Icon", 0, winreg.REG_SZ,
-                                   uni.trEncode(str(object["icon"]), fu.defaultFileSystemEncoding))
-            except: winreg.SetValueEx(hamsiKey, "Icon", 0, winreg.REG_SZ, str(object["icon"]))
-            winreg.CreateKey(rootReg, object["object"] + "\\ContextMenus")
-            mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
-            for action in object["actions"]:
+                                   uni.trEncode(str(regObject["icon"]), fu.defaultFileSystemEncoding))
+            except: winreg.SetValueEx(hamsiKey, "Icon", 0, winreg.REG_SZ, str(regObject["icon"]))
+            winreg.CreateKey(rootReg, regObject["regObject"] + "\\ContextMenus")
+            mainContextMenusKey = winreg.OpenKey(rootReg, regObject["regObject"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
+            for action in regObject["actions"]:
                 if action["key"] == "checkIcon":
                     if uni.isActiveDirectoryCover is False:
                         continue
-                winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"])
-                actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0,
+                winreg.CreateKey(mainContextMenusKey, regObject["key"] + "\\Shell\\" + action["key"])
+                actionKey = winreg.OpenKey(mainContextMenusKey, regObject["key"] + "\\Shell\\" + action["key"], 0,
                                            winreg.KEY_WRITE)
                 try: winreg.SetValueEx(actionKey, "MUIVerb", 0, winreg.REG_SZ,
                                        uni.trEncode(str(action["title"]), fu.defaultFileSystemEncoding))
@@ -293,9 +293,9 @@ def installThisPlugin():
                 try: winreg.SetValueEx(actionKey, "Icon", 0, winreg.REG_SZ,
                                        uni.trEncode(str(action["icon"]), fu.defaultFileSystemEncoding))
                 except: winreg.SetValueEx(actionKey, "Icon", 0, winreg.REG_SZ, str(action["icon"]))
-                winreg.CreateKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"] + "\\command")
+                winreg.CreateKey(mainContextMenusKey, regObject["key"] + "\\Shell\\" + action["key"] + "\\command")
                 actionCommandKey = winreg.OpenKey(mainContextMenusKey,
-                                                  object["key"] + "\\Shell\\" + action["key"] + "\\command", 0,
+                                                  regObject["key"] + "\\Shell\\" + action["key"] + "\\command", 0,
                                                   winreg.KEY_WRITE)
                 try: winreg.SetValueEx(actionCommandKey, "", 0, winreg.REG_SZ,
                                        uni.trEncode(str(action["command"]), fu.defaultFileSystemEncoding))
@@ -331,7 +331,7 @@ def uninstallThisPlugin():
     executeCommandOfHamsiManager = Execute.getExecuteCommandOfHamsiManager()
     iconPath = fu.joinPath(fu.themePath, "Images", "HamsiManager-16x16-1.ico")
 
-    actionsValues = [{"object": "*",
+    actionsValues = [{"regObject": "*",
                       "key": "HamsiManager",
                       "actions": [{"key": "copyPath"},
                                   {"key": "emendFile"},
@@ -339,7 +339,7 @@ def uninstallThisPlugin():
                                   {"key": "textCorrector"},
                                   {"key": "search"}
                       ]},
-                     {"object": "Directory",
+                     {"regObject": "Directory",
                       "key": "HamsiManager",
                       "actions": [{"key": "copyPath"},
                                   {"key": "emendDirectory"},
@@ -354,7 +354,7 @@ def uninstallThisPlugin():
                                   {"key": "clear"},
                                   {"key": "search"}
                       ]},
-                     {"object": "Directory\\Background",
+                     {"regObject": "Directory\\Background",
                       "key": "HamsiManager",
                       "actions": [{"key": "copyPath"},
                                   {"key": "emendDirectory"},
@@ -369,7 +369,7 @@ def uninstallThisPlugin():
                                   {"key": "clear"},
                                   {"key": "search"}
                       ]},
-                     {"object": "*",
+                     {"regObject": "*",
                       "key": "HamsiManagerManage",
                       "actions": [{"key": "Organize"},
                                   {"key": "Organize0"},
@@ -378,7 +378,7 @@ def uninstallThisPlugin():
                                   {"key": "Organize3"},
                                   {"key": "Organize9"}
                       ]},
-                     {"object": "Directory",
+                     {"regObject": "Directory",
                       "key": "HamsiManagerManage",
                       "actions": [{"key": "Organize"},
                                   {"key": "Organize0"},
@@ -387,7 +387,7 @@ def uninstallThisPlugin():
                                   {"key": "Organize3"},
                                   {"key": "Organize9"}
                       ]},
-                     {"object": "Directory\\Background",
+                     {"regObject": "Directory\\Background",
                       "key": "HamsiManagerManage",
                       "actions": [{"key": "Organize"},
                                   {"key": "Organize0"},
@@ -399,29 +399,29 @@ def uninstallThisPlugin():
     ]
     rootReg = winreg.ConnectRegistry(None, winreg.HKEY_CLASSES_ROOT)
     try:
-        for object in actionsValues:
-            mainKey = winreg.OpenKey(rootReg, object["object"] + "\\shell", 0, winreg.KEY_WRITE)
-            try: winreg.DeleteKey(mainKey, object["key"])
+        for regObject in actionsValues:
+            mainKey = winreg.OpenKey(rootReg, regObject["regObject"] + "\\shell", 0, winreg.KEY_WRITE)
+            try: winreg.DeleteKey(mainKey, regObject["key"])
             except: pass
             winreg.CloseKey(mainKey)
-            mainContextMenusKey = winreg.OpenKey(rootReg, object["object"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
-            for action in object["actions"]:
+            mainContextMenusKey = winreg.OpenKey(rootReg, regObject["regObject"] + "\\ContextMenus", 0, winreg.KEY_WRITE)
+            for action in regObject["actions"]:
                 try:
-                    actionKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell\\" + action["key"], 0,
+                    actionKey = winreg.OpenKey(mainContextMenusKey, regObject["key"] + "\\Shell\\" + action["key"], 0,
                                                winreg.KEY_WRITE)
                     try: winreg.DeleteKey(actionKey, "command")
                     except: pass
                     winreg.CloseKey(actionKey)
-                    shellKey = winreg.OpenKey(mainContextMenusKey, object["key"] + "\\Shell", 0, winreg.KEY_WRITE)
+                    shellKey = winreg.OpenKey(mainContextMenusKey, regObject["key"] + "\\Shell", 0, winreg.KEY_WRITE)
                     try: winreg.DeleteKey(shellKey, action["key"])
                     except: pass
                     winreg.CloseKey(shellKey)
                 except: pass
-            objectKey = winreg.OpenKey(mainContextMenusKey, object["key"], 0, winreg.KEY_WRITE)
+            objectKey = winreg.OpenKey(mainContextMenusKey, regObject["key"], 0, winreg.KEY_WRITE)
             try: winreg.DeleteKey(objectKey, "Shell")
             except: pass
             winreg.CloseKey(objectKey)
-            try: winreg.DeleteKey(mainContextMenusKey, object["key"])
+            try: winreg.DeleteKey(mainContextMenusKey, regObject["key"])
             except: pass
             winreg.CloseKey(mainContextMenusKey)
     except WindowsError:

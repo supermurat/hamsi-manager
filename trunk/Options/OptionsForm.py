@@ -539,6 +539,7 @@ class OptionsForm(MDialog):
             valueTypesAndValues = Settings.getValueTypesAndValues()
             x = _category.keysOfSettings.index(_keyValue)
             if _category.visibleKeys.count(_keyValue) > 0:
+                value = None
                 if _category.typesOfValues[x] == "string":
                     value = str(_category.values[x].text())
                 elif _category.typesOfValues[x] == "richtext":
@@ -619,7 +620,7 @@ class OptionsForm(MDialog):
                 valueLayout = MHBoxLayout()
                 typeOfValue = "string"
                 if _category.neededRestartSettingKeys.count(keyValue) > 0:
-                    _category.labels[x] = _category.labels[x] + " <font color=red>*</font> "
+                    _category.labels[x] += " <font color=red>*</font> "
                     isNeededRestart = True
                 if _category.typesOfValues[x] == "string":
                     _category.values.append(MLineEdit())

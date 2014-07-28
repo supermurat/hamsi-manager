@@ -832,13 +832,8 @@ def checkNewDestination(_newPath, _isQuiet=False):
                                                           _newPath, translate("FileUtils", "All Files") + " (*)", 0)
                         if newPath is not None:
                             return checkNewDestination(newPath, _isQuiet)
-                        return False
-                    else:
-                        return False
             elif isDir(_newPath):
-                if _isQuiet:
-                    return False
-                else:
+                if not _isQuiet:
                     answer = Dialogs.ask(translate("FileUtils", "Current Directory Name"),
                                          str(translate("FileUtils",
                                                        "\"%s\" : there already exists a directory with the same name.<br>Are you want to choose another name?")) % Organizer.getLink(
@@ -848,24 +843,17 @@ def checkNewDestination(_newPath, _isQuiet=False):
                                                   translate("FileUtils", "Choose Another Name"), _newPath)
                         if newPath is not None:
                             return checkNewDestination(newPath, _isQuiet)
-                        return False
-                    else:
-                        return False
-            else:
-                return False
-        else:
-            return False
     else:
         if isWritableFileOrDir(getDirName(_newPath)):
             return _newPath
-        else:
-            return False
     return False
 
 
 def readDirectory(_path, _objectType="fileAndDirectory", _isShowHiddens=True):
     global appendingDirectories
     appendingDirectories = []
+    musicExtensions = []
+    musicFileNames = []
     fileAndDirectoryNames, fileNames, directoryNames = [], [], []
     if _objectType == "music":
         musicFileNames = []
@@ -1436,7 +1424,7 @@ def getIconFromDirectory(_path):
         info = readFromFile(joinPath(_path, ".directory"))
         if info.find("[Desktop Entry]") == -1 and len(info) > 0:
             isCorrectedFileContent = False
-        if info.find("[Desktop Entry]") > info.find("Icon=") and info.find("Icon=") > -1:
+        if info.find("[Desktop Entry]") > info.find("Icon=") > -1:
             isCorrectedFileContent = False
         rows = info.split("\n")
         for rowNo in range(len(rows)):
@@ -1469,8 +1457,9 @@ def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
         dontRemovingFilesCount = 0
         filesAndDirectories = readDirectoryAll(_path)
         for nameNo, name in enumerate(filesAndDirectories):
-            if _isShowState: Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo,
-                                               len(filesAndDirectories))
+            if _isShowState:
+                Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo,
+                                  len(filesAndDirectories))
             if isFile(joinPath(_path, name)):
                 dontRemovingFilesCount += 1
                 isDeleted = False
@@ -1490,17 +1479,18 @@ def clearPackagingDirectory(_path, _isShowState=False, _isCloseState=False):
                 if clearPackagingDirectory(joinPath(_path, name)) is False:
                     dontRemovingFilesCount -= 1
         if dontRemovingFilesCount == 0 and uni.getBoolValue("isPackagerDeleteEmptyDirectories"):
-            if _isShowState: Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
+            if _isShowState:
+                Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
             removeDir(_path)
             if _isCloseState:
                 Dialogs.showState(translate("FileUtils", "Empty Directories Deleted"), 1, 1)
-                Dialogs.show(translate("FileUtils", "Project Directory Deleted"), str("FileUtils", translate(
-                    "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(_path))
-            return False
-        if _isCloseState: Dialogs.showState(translate("FileUtils", "Empty Directories Deleted"), 1, 1)
+                Dialogs.show(translate("FileUtils", "Project Directory Deleted"),
+                             str(translate("FileUtils", "\"%s\" deleted.Because this directory is empty.")) %
+                             Organizer.getLink(_path))
+        if _isCloseState:
+            Dialogs.showState(translate("FileUtils", "Empty Directories Deleted"), 1, 1)
         return True
-    else:
-        False
+    return False
 
 
 def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
@@ -1517,8 +1507,9 @@ def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
         dontRemovingFilesCount = 0
         filesAndDirectories = readDirectoryAll(_path)
         for nameNo, name in enumerate(filesAndDirectories):
-            if _isShowState: Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo,
-                                               len(filesAndDirectories))
+            if _isShowState:
+                Dialogs.showState(translate("FileUtils", "Checking Empty Directories"), nameNo,
+                                  len(filesAndDirectories))
             if isFile(joinPath(_path, name)):
                 dontRemovingFilesCount += 1
                 for ext in uni.getListValue("cleanerUnneededFileExtensions"):
@@ -1539,18 +1530,18 @@ def clearCleaningDirectory(_path, _isShowState=False, _isCloseState=False):
                 if clearCleaningDirectory(joinPath(_path, name)) is False:
                     dontRemovingFilesCount -= 1
         if dontRemovingFilesCount == 0 and uni.getBoolValue("isCleanerDeleteEmptyDirectories"):
-            if _isShowState: Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
+            if _isShowState:
+                Dialogs.showState(translate("FileUtils", "Deleting Empty Directories"), 0, 1)
             removeDir(_path)
             if _isCloseState:
                 Dialogs.showState(translate("FileUtils", "Empty Directories Deleted"), 1, 1)
                 Dialogs.show(translate("FileUtils", "Project Directory Deleted"), str(
                     translate("FileUtils", "\"%s\" deleted.Because this directory is empty.")) % Organizer.getLink(
                     _path))
-            return False
-        if _isCloseState: Dialogs.showState(translate("FileUtils", "Project Directory Cleaned"), 1, 1)
+        if _isCloseState:
+            Dialogs.showState(translate("FileUtils", "Project Directory Cleaned"), 1, 1)
         return True
-    else:
-        False
+    return False
 
 
 def makePack(_filePath, _packageType, _sourcePath, _realSourceBaseName):
@@ -1620,18 +1611,18 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                 info += " %s<br> \n" % (_path)
             dirNumber = _path.count(sep)
             findStrings, replaceStrings = [], []
-            for x, file in enumerate(files):
-                if isDir(file):
-                    findStrings.append(file)
+            for x, tFile in enumerate(files):
+                if isDir(tFile):
+                    findStrings.append(tFile)
                     replaceStrings.append((uni.getUtf8Data("upright") + "&nbsp;&nbsp;&nbsp;" * (
-                        file.count(sep) - dirNumber)) + uni.getUtf8Data("upright+right") + "&nbsp;")
+                        tFile.count(sep) - dirNumber)) + uni.getUtf8Data("upright+right") + "&nbsp;")
             findStrings.reverse()
             replaceStrings.reverse()
-            fileList = list(range(len(files)))
-            for x, file in enumerate(files):
-                fileList[x] = file
+            fileList = list(files)
+            for x, tFile in enumerate(files):
+                fileList[x] = tFile
                 for y, fstr in enumerate(findStrings):
-                    if file != fstr:
+                    if tFile != fstr:
                         fileList[x] = fileList[x].replace(fstr + sep, replaceStrings[y])
                 if x > 0:
                     tin = fileList[x - 1].find(uni.getUtf8Data("upright+right"))
@@ -1666,19 +1657,19 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
                 info += _path + "\n"
             dirNumber = _path.count(sep)
             findStrings, replaceStrings = [], []
-            for x, file in enumerate(files):
-                if isDir(file):
-                    findStrings.append(file)
+            for x, tFile in enumerate(files):
+                if isDir(tFile):
+                    findStrings.append(tFile)
                     replaceStrings.append(
-                        (uni.getUtf8Data("upright") + "   " * (file.count(sep) - dirNumber)) + uni.getUtf8Data(
+                        (uni.getUtf8Data("upright") + "   " * (tFile.count(sep) - dirNumber)) + uni.getUtf8Data(
                             "upright+right") + " ")
             findStrings.reverse()
             replaceStrings.reverse()
-            fileList = list(range(len(files)))
-            for x, file in enumerate(files):
-                fileList[x] = file
+            fileList = list(files)
+            for x, tFile in enumerate(files):
+                fileList[x] = tFile
                 for y, fstr in enumerate(findStrings):
-                    if file != fstr:
+                    if tFile != fstr:
                         fileList[x] = fileList[x].replace(fstr + sep, replaceStrings[y])
                 if x > 0:
                     tin = fileList[x - 1].find(uni.getUtf8Data("upright+right"))
@@ -1754,6 +1745,8 @@ def getFileTree(_path, _subDirectoryDeep=-1, _outputTarget="return", _outputType
     if _outputTarget == "return":
         return info
     elif _outputTarget == "file":
+        fileExt = None
+        formatTypeName = None
         if _outputType == "html":
             if _extInfo != "no":
                 strHeader = ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \n" +
@@ -1828,6 +1821,7 @@ def fixToSize(_path, _size, _clearFrom="head"):
 def getHashDigest(_filePath, _hashType="MD5"):
     import hashlib
 
+    m = None
     if _hashType == "MD5":
         m = hashlib.md5()
     elif _hashType == "SHA1":
