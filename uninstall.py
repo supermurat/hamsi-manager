@@ -45,13 +45,15 @@ if Core.checkMandatoryModules():
     MDir.setSearchPaths("Images", MStringList(str(fu.joinPath(fu.themePath, "Images"))))
     StyleFile = open(fu.joinPath(fu.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
-    languageFile = MTranslator()
     if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "Qt_" + defaultLangCode + ".qm")):
-        languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "Qt_" + defaultLangCode + ".qm")))
-    elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_" + defaultLangCode + ".qm")):
+        languageFileQt = MTranslator()
+        languageFileQt.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "Qt_" + defaultLangCode + ".qm")))
+        HamsiManagerApp.installTranslator(languageFileQt)
+    if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_" + defaultLangCode + ".qm")):
+        languageFile = MTranslator()
         languageFile.load(
             str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_" + defaultLangCode + ".qm")))
-    HamsiManagerApp.installTranslator(languageFile)
+        HamsiManagerApp.installTranslator(languageFile)
     MTextCodec.setCodecForCStrings(MTextCodec.codecForName("utf-8"))
     MTextCodec.setCodecForTr(MTextCodec.codecForName("utf-8"))
     HamsiManagerApp.setWindowIcon(MIcon("Images:hamsi.png"))

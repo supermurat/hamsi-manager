@@ -113,10 +113,10 @@ if Core.checkMandatoryModules():
             uni.aboutOfHamsiManager = str(aboutFileContent)
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory,
                                      "Languages", "Qt_" + uni.MySettings["language"] + ".qm")):
-                languageFile = MTranslator()
-                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory,
+                languageFileQt = MTranslator()
+                languageFileQt.load(str(fu.joinPath(fu.HamsiManagerDirectory,
                                                   "Languages", "Qt_" + uni.MySettings["language"] + ".qm")))
-                HamsiManagerApp.installTranslator(languageFile)
+                HamsiManagerApp.installTranslator(languageFileQt)
             if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory,
                                      "Languages", "HamsiManager_" + uni.MySettings["language"] + ".qm")):
                 languageFile = MTranslator()
