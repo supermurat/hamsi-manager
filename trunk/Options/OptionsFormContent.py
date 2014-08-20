@@ -567,7 +567,8 @@ class Cover(MWidget):
                          translate("Options/Cover",
                                    "Do you want to change directory icon when directory copied or changed?"),
                          translate("Options/Cover", "Do you want to change directory icon when file moved?"),
-                         translate("Options/Cover", "You can set icon name format."),
+                         (str(translate("Options/Cover", "You can set icon name format. You can use : %s")) %
+                            uni.getStringFromList(uni.getIconNameFormatLabels(), ", ")),
                          translate("Options/Cover", "You can select file type of icon.")]
         self.typesOfValues = ["list", "Yes/No", "Yes/No",
                               "Yes/No", "Yes/No", "Yes/No", "Yes/No", "Yes/No",
@@ -575,7 +576,7 @@ class Cover(MWidget):
         self.valuesOfOptions = [["png", "jpg"]]
         self.valuesOfOptionsKeys = [["png", "jpg"]]
         self.stringSearchList = [uni.iconNameFormatKeys]
-        self.stringReplaceList = [uni.iconNameFormatLabels]
+        self.stringReplaceList = [uni.getIconNameFormatLabels()]
         _parent.createOptions(self)
         if self.visibleKeys.count("isActiveAutoMakeIconToDirectory") > 0:
             MObject.connect(self.values[self.keysOfSettings.index("isActiveAutoMakeIconToDirectory")],

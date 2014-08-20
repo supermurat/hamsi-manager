@@ -357,7 +357,7 @@ class FileManager():
                 getMainWindow().Table.refresh(self.getCurrentDirectoryPath())
             else:
                 Dialogs.toast(translate("Tables", "Please edit query and click to Apply Query Icon."))
-                getMainWindow().StatusBar.setTableInfo(uni.tableTypesNames[uni.tableType] + str(" : ~ "))
+                getMainWindow().StatusBar.setTableInfo(uni.getTableTypesNames()[uni.tableType] + str(" : ~ "))
         except:
             ReportBug.ReportBug()
 

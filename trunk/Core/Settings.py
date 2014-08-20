@@ -561,7 +561,7 @@ def getValueTypesAndValues():
         "hiddenSubFolderMusicTableColumns": "list",
         "isPlayNow": "bool",
         "MainWindowGeometries": ["intStaticListLen", 4],
-        "tableType": ["options", uni.tableTypesNames.keys()],
+        "tableType": ["options", uni.getTableTypesNames().keys()],
         "activeTabNoOfSpecialTools": ["int", list(range(0, 7))],
         "unneededFiles": "list",
         "ignoredFiles": "list",
