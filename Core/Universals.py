@@ -23,8 +23,6 @@ import platform
 from datetime import datetime
 import FileUtils as fu
 from Core.MyObjects import *
-from BeautifulSoup import BeautifulSoup
-
 
 isStartingSuccessfully = False
 isStartedCloseProcess = False
@@ -65,10 +63,6 @@ tableTypeIcons = {"0": "folderTable.png",
                   "8": "amarokCopyTable.png",
                   "9": "subFolderMusicTable.png"}
 iconNameFormatKeys = ["%Artist%", "%Album%", "%Year%", "%Genre%"]
-iconNameFormatLabels = [translate("Variables", "%Artist%"),
-                        translate("Variables", "%Album%"),
-                        translate("Variables", "%Year%"),
-                        translate("Variables", "%Genre%")]
 willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", "amarokDBPass", "amarokDBDB"]
 
 isActiveDirectoryCover = True
@@ -78,20 +72,31 @@ if isWindows == "nt":
     isActiveDirectoryCover = False
     isActiveAmarok = False
 
-tableTypesNames = {"0": translate("Tables", "Folder Table"),
-                   "1": translate("Tables", "File Table"),
-                   "2": translate("Tables", "Music Table"),
-                   "3": translate("Tables", "Subfolder Table"),
-                   "9": translate("Tables", "Subfolder Music Table")}
-if isActiveDirectoryCover:
-    tableTypesNames.update({"4": translate("Tables", "Cover Table")})
-if isActiveAmarok:
-    tableTypesNames.update({"5": translate("Tables", "Amarok Cover Table"),
-                            "6": translate("Tables", "Amarok Music Table"),
-                            "7": translate("Tables", "Amarok Artist Table"),
-                            "8": translate("Tables", "Amarok Copy Table")})
 tableTypeOrder = ["0", "1", "2", "3", "9", "4", "5", "6", "7", "8"]
 runAfter = []
+
+def getTableTypesNames():
+    tableTypesNames = {"0": translate("Tables", "Folder Table"),
+                       "1": translate("Tables", "File Table"),
+                       "2": translate("Tables", "Music Table"),
+                       "3": translate("Tables", "Subfolder Table"),
+                       "9": translate("Tables", "Subfolder Music Table")}
+    if isActiveDirectoryCover:
+        tableTypesNames.update({"4": translate("Tables", "Cover Table")})
+    if isActiveAmarok:
+        tableTypesNames.update({"5": translate("Tables", "Amarok Cover Table"),
+                                "6": translate("Tables", "Amarok Music Table"),
+                                "7": translate("Tables", "Amarok Artist Table"),
+                                "8": translate("Tables", "Amarok Copy Table")})
+    return tableTypesNames
+
+
+def getIconNameFormatLabels():
+    return [translate("Variables", "%Artist%"),
+            translate("Variables", "%Album%"),
+            translate("Variables", "%Year%"),
+            translate("Variables", "%Genre%")]
+
 
 def setPathOfSettingsDirectory(_path):
     _path = str(_path)
@@ -108,8 +113,12 @@ def trUnicode(_s, _e="utf-8"):
     try:
         return unicode(_s, _e)
     except:
+        try:
+            from bs4 import BeautifulSoup
+        except:
+            from BeautifulSoup import BeautifulSoup
         soup = BeautifulSoup(_s)
-        return soup.contents[0]
+        return soup.text
 
 
 def trDecode(_s, _e="utf-8", _p="strict"):
@@ -190,7 +199,7 @@ def fillMySettings(_setAgain=False, _isCheckUpdate=True):
     fu.themePath = fu.joinPath(fu.HamsiManagerDirectory, "Themes", MySettings["themeName"])
     if tableType is None:
         tableType = MySettings["tableType"]
-        if tableType not in tableTypesNames:
+        if tableType not in getTableTypesNames():
             tableType = "1"
     if getBoolValue("isInstalledKDE4Language") is False:
         from Core import MyConfigure

@@ -33,10 +33,10 @@ class Tables():
 
     @staticmethod
     def getThisTableType(_tableType):
-        if _tableType in uni.tableTypesNames:
+        if _tableType in uni.getTableTypesNames():
             return _tableType
         else:
-            for x, name in uni.tableTypesNames.items():
+            for x, name in uni.getTableTypesNames().items():
                 if str(name) == str(_tableType):
                     return x
         return "1"
@@ -477,13 +477,13 @@ class CoreTable(MTableWidget):
         if uni.getBoolValue("isResizeTableColumnsToContents"):
             self.resizeColumnsToContents()
         getMainWindow().StatusBar.setTableInfo(
-            uni.tableTypesNames[uni.tableType] + str(" : ") + str(str(self.rowCount())))
+            uni.getTableTypesNames()[uni.tableType] + str(" : ") + str(str(self.rowCount())))
 
     def save(self):
         try:
             from Core import Records
 
-            Records.setTitle(uni.tableTypesNames[uni.tableType])
+            Records.setTitle(uni.getTableTypesNames()[uni.tableType])
             fu.activateSmartCheckIcon()
             fu.activateSmartCheckEmptyDirectories()
             from Core import MyThread

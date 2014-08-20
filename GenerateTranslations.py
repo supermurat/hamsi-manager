@@ -45,11 +45,11 @@ if Core.checkMandatoryModules():
     TRANSLATIONS = ""
     directoriesAndFiles = fu.readDirectoryWithSubDirectories(fu.HamsiManagerDirectory)
     for fileName in directoriesAndFiles:
-        if fu.isFile(fileName) and fileName.find(".py") > -1:
+        if (fu.isFile(fileName) and fileName.find(".py") > -1 and
+                    fileName.find(".pyc") == -1 and fileName.find(".pyw") == -1):
             SOURCES += fileName.replace(fu.HamsiManagerDirectory + fu.sep, "") + " \\\n         "
 
     for fileName in ["Languages" + fu.sep + "HamsiManager_tr_TR.ts",
-                     "Languages" + fu.sep + "HamsiManagerWithQt_tr_TR.ts",
                      "Languages" + fu.sep + "HamsiManager_untranslated.ts"]:
         TRANSLATIONS += fileName + " \\\n         "
 

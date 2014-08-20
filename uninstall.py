@@ -46,9 +46,8 @@ if Core.checkMandatoryModules():
     StyleFile = open(fu.joinPath(fu.themePath, "Style.qss"))
     HamsiManagerApp.setStyleSheet(StyleFile.read())
     languageFile = MTranslator()
-    if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_" + defaultLangCode + ".qm")):
-        languageFile.load(
-            str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManagerWithQt_" + defaultLangCode + ".qm")))
+    if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "Qt_" + defaultLangCode + ".qm")):
+        languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "Qt_" + defaultLangCode + ".qm")))
     elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_" + defaultLangCode + ".qm")):
         languageFile.load(
             str(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "HamsiManager_" + defaultLangCode + ".qm")))

@@ -31,9 +31,10 @@ class TableToolsBar(MToolBar):
         self.setObjectName(translate("TableToolsBar", "Table Tools"))
         actgActionGroupTableTypes = MActionGroup(self)
         actgActionGroupTableTypes.setObjectName(translate("ToolsBar", "Table Types"))
+        tableTypesNames = uni.getTableTypesNames()
         for x in uni.tableTypeOrder:
-            if x in uni.tableTypesNames.keys():
-                name = uni.tableTypesNames[x]
+            if x in tableTypesNames.keys():
+                name = tableTypesNames[x]
                 a = actgActionGroupTableTypes.addAction(MIcon("Images:" + uni.tableTypeIcons[x]), name)
                 a.setCheckable(True)
                 a.setObjectName(name)

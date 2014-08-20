@@ -111,17 +111,17 @@ if Core.checkMandatoryModules():
                 aboutFileContent = fu.readFromFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages", "About_en_GB"),
                                                    "utf-8")
             uni.aboutOfHamsiManager = str(aboutFileContent)
-            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages",
-                                     "HamsiManagerWithQt_" + uni.MySettings["language"] + ".qm")):
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory,
+                                     "Languages", "Qt_" + uni.MySettings["language"] + ".qm")):
                 languageFile = MTranslator()
-                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages",
-                                                  "HamsiManagerWithQt_" + uni.MySettings["language"] + ".qm")))
+                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory,
+                                                  "Languages", "Qt_" + uni.MySettings["language"] + ".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
-            elif fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Languages",
-                                       "HamsiManager_" + uni.MySettings["language"] + ".qm")):
+            if fu.isFile(fu.joinPath(fu.HamsiManagerDirectory,
+                                     "Languages", "HamsiManager_" + uni.MySettings["language"] + ".qm")):
                 languageFile = MTranslator()
-                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory, "Languages",
-                                                  "HamsiManager_" + uni.MySettings["language"] + ".qm")))
+                languageFile.load(str(fu.joinPath(fu.HamsiManagerDirectory,
+                                                  "Languages", "HamsiManager_" + uni.MySettings["language"] + ".qm")))
                 HamsiManagerApp.installTranslator(languageFile)
         uni.printForDevelopers("Before MTextCodec setCodecFor..")
         HamsiManagerApp.setApplicationName("HamsiManager")

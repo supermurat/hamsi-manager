@@ -142,6 +142,7 @@ setup(
     }
     },
     executables=[MainExe],
-    data_files=data_files, requires=['PyQt4', 'BeautifulSoup', 'cx_Freeze', 'eyed3']
+    data_files=data_files,
+    requires=['PyQt4', 'cx_Freeze', 'eyed3']
 )
 
