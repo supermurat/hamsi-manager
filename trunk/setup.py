@@ -23,8 +23,8 @@ import os, sys
 HamsiManagerDirectory = os.getcwd()
 sys.path.insert(0, HamsiManagerDirectory)
 try:
-    from Core import Universals as uni
     import FileUtils as fu
+    from Core import Universals as uni
 except:
     HamsiManagerDirectory = os.path.dirname(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(HamsiManagerDirectory)))))
