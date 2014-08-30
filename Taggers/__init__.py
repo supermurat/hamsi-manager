@@ -61,27 +61,12 @@ def getSelectedTaggerTypeForRead():
     return getLoaddedTagger().getTaggerTypes()[0]
 
 
-def setSelectedTaggerTypeForRead(_type, _isSetTypeName=True):
-    typeName = getTaggerTypesName()[0]
-    for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
-        if v == _type:
-            typeName = getTaggerTypesName()[x]
-    if _isSetTypeName:
-        setSelectedTaggerTypeForReadName(typeName, False)
-
-
 def getSelectedTaggerTypeForReadName():
     return uni.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", getTaggerTypesName()[0])
 
 
-def setSelectedTaggerTypeForReadName(_typeName, _isSetType=True):
-    selectedTaggerType = getLoaddedTagger().getTaggerTypes()[0]
-    for x, v in enumerate(getTaggerTypesName()):
-        if _typeName == v:
-            selectedTaggerType = getLoaddedTagger().getTaggerTypes()[x]
+def setSelectedTaggerTypeForReadName(_typeName):
     uni.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", _typeName)
-    if _isSetType:
-        setSelectedTaggerTypeForRead(selectedTaggerType, False)
 
 
 def getSelectedTaggerTypeForWrite():
@@ -92,27 +77,12 @@ def getSelectedTaggerTypeForWrite():
     return getLoaddedTagger().getTaggerTypes()[0]
 
 
-def setSelectedTaggerTypeForWrite(_type, _isSetTypeName=True):
-    typeName = getTaggerTypesName()[0]
-    for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
-        if v == _type:
-            typeName = getTaggerTypesName()[x]
-    if _isSetTypeName:
-        setSelectedTaggerTypeForWriteName(typeName, False)
-
-
 def getSelectedTaggerTypeForWriteName():
     return uni.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", getTaggerTypesName()[0])
 
 
-def setSelectedTaggerTypeForWriteName(_typeName, _isSetType=True):
-    selectedTaggerType = getLoaddedTagger().getTaggerTypes()[0]
-    for x, v in enumerate(getTaggerTypesName()):
-        if _typeName == v:
-            selectedTaggerType = getLoaddedTagger().getTaggerTypes()[x]
+def setSelectedTaggerTypeForWriteName(_typeName):
     uni.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", _typeName)
-    if _isSetType:
-        setSelectedTaggerTypeForWrite(selectedTaggerType, False)
 
 
 def getTaggerTypes():

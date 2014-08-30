@@ -312,6 +312,15 @@ def updateOldSettings(_oldVersion, _newVersion):
         cur.execute(
             "DELETE FROM searchAndReplaceTable WHERE id NOT IN (SELECT MAX(id) FROM searchAndReplaceTable GROUP BY label,searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp);")
         con.commit()
+    if oldVersion < 1951:
+        try:
+            del uni.MySettings["eyeD3TaggerTypeNameForRead"]
+            del uni.MySettings["eyeD3TaggerTypeNameForWrite"]
+        except:
+            pass
+        setting().remove("eyeD3TaggerTypeNameForRead")
+        setting().remove("eyeD3TaggerTypeNameForWrite")
+        setting().sync()
     return newSettingsKeys, changedDefaultValuesKeys
 
 

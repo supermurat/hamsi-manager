@@ -66,8 +66,7 @@ class MusicTable(CoreTable):
         self.vblBoxSourceAndTarget.addLayout(hblTagSourceType)
         self.vblBoxSourceAndTarget.addLayout(hblTagTargetType)
         MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
-        MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"),
-                        self.musicTagTargetTypeChanged)
+        MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
         self.hblBoxOptions.addWidget(pbtnVerifyTableValues)
 
     def writeContents(self):
@@ -424,8 +423,7 @@ class MusicTable(CoreTable):
                 self.refreshForColumns()
                 getMainWindow().SpecialTools.refreshForColumns()
                 self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
-            self.cbTagSourceType.setCurrentIndex(
-                self.cbTagSourceType.findText(getSelectedTaggerTypeForReadName()))
+            self.cbTagSourceType.setCurrentIndex(self.cbTagSourceType.findText(getSelectedTaggerTypeForReadName()))
         except:
             ReportBug.ReportBug()
 
