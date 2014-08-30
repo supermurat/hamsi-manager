@@ -29,6 +29,8 @@ import Taggers
 from Core.MyObjects import *
 import FileUtils as fu
 from Core import Universals as uni
+from datetime import datetime
+from time import gmtime
 
 pluginName = "eyed3"
 
@@ -171,7 +173,7 @@ class Tagger():
 
     def setTrackNum(self, _value):
         if _value.find("/") != -1:
-            if Taggers.getSelectedTaggerTypeForRead() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
+            if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
                 self.tag._setTrackNum(tuple(_value.split("/")))
             else:
                 val = _value.split("/")[0]
@@ -185,16 +187,18 @@ class Tagger():
             self.tag._setTrackNum((val, None))
 
     def setDate(self, _value):
-        if len(_value) == 4:
+        if len(str(_value)) == 4:
             val = _value
-            try: val = int(val)
-            except: val = None
+            try:
+                val = int(val)
+                if Taggers.getSelectedTaggerTypeForWrite() is not id3.ID3_V2_4:
+                    val = datetime.strptime(str(val), '%Y')
+            except:
+                val = None
             self.tag._setRecordingDate(val)
         elif _value == "":
             self.tag._setRecordingDate(None)
         else:
-            from time import gmtime
-
             self.tag._setRecordingDate(gmtime()[0])
 
     def setGenre(self, _value):
@@ -207,13 +211,13 @@ class Tagger():
         self.tag.lyrics.set(self.correctValuesForMusicTagType(_value))
 
     def addImage(self, _imageType, _imagePath, _description):
-        if Taggers.getSelectedTaggerTypeForRead() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
+        if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
             imageData = fu.readFromBinaryFile(_imagePath)
             mimeType = fu.getMimeType(_imagePath)[0]
             self.tag.images.set(int(_imageType), imageData, mimeType, uni.trUnicode(_description))
 
     def removeImage(self, _description):
-        if Taggers.getSelectedTaggerTypeForRead() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
+        if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
             self.tag.images.remove(uni.trUnicode(_description))
 
 
