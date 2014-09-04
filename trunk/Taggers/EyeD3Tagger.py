@@ -73,7 +73,7 @@ class Tagger():
             self.tag.save()
 
     def isAvailableFile(self):
-        if fu.checkExtension(self.filePath, "mp3") or fu.checkExtension(self.filePath, "ogg"):
+        if fu.checkExtension(self.filePath, "mp3"):
             return True
         return False
 
