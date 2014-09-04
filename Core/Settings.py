@@ -266,16 +266,15 @@ def updateOldSettings(_oldVersion, _newVersion):
             "INSERT INTO searchAndReplaceTable(label,searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp) SELECT searching,searching,replacing,intIsActive,intIsCaseSensitive,intIsRegExp FROM tmpSearchAndReplaceTable;"))
         cur.execute(str("DROP TABLE tmpSearchAndReplaceTable;"))
         con.commit()
-        newSettingsKeys = newSettingsKeys + ["isCorrectValueWithSearchAndReplaceTable"]
+        newSettingsKeys += ["isCorrectValueWithSearchAndReplaceTable"]
     if oldVersion < 1170:
-        newSettingsKeys = newSettingsKeys + ["maxDeletedDirectorySize"]
+        newSettingsKeys += ["maxDeletedDirectorySize"]
     if oldVersion < 1190:
-        changedDefaultValuesKeys = changedDefaultValuesKeys + ["applicationStyle", "fileExtensionIs"]
+        changedDefaultValuesKeys += ["applicationStyle", "fileExtensionIs"]
     if oldVersion < 1371:
-        changedDefaultValuesKeys = changedDefaultValuesKeys + ["fileExtensionIs"]
+        changedDefaultValuesKeys += ["fileExtensionIs"]
     if oldVersion < 1372:
-        changedDefaultValuesKeys = changedDefaultValuesKeys + ["packagerUnneededDirectories",
-                                                               "cleanerUnneededDirectories"]
+        changedDefaultValuesKeys += ["packagerUnneededDirectories", "cleanerUnneededDirectories"]
     if oldVersion < 1373:
         uni.MySettings["AmarokTagSourceTypeAmarokMusicTable"] = "Amarok (Smart)"
         uni.MySettings["AmarokTagSourceTypeAmarokCopyTable"] = "Amarok (Smart)"
@@ -321,6 +320,8 @@ def updateOldSettings(_oldVersion, _newVersion):
         setting().remove("eyeD3TaggerTypeNameForRead")
         setting().remove("eyeD3TaggerTypeNameForWrite")
         setting().sync()
+    if oldVersion < 1952:
+        changedDefaultValuesKeys += ["musicExtensions"]
     return newSettingsKeys, changedDefaultValuesKeys
 
 
@@ -427,7 +428,7 @@ def getDefaultValues():
         "unneededFiles": str(['Thumbs.db']),
         "ignoredFiles": str(['.directory']),
         "imageExtensions": str(['png', 'gif', 'jpeg', 'jpg']),
-        "musicExtensions": str(['mp3', 'ogg']),
+        "musicExtensions": str(['mp3']),
         "priorityIconNames": str(['cover']),
         "unneededFileExtensions": str([]),
         "ignoredFileExtensions": str(['m3u']),
