@@ -30,7 +30,6 @@ from Core.MyObjects import *
 import FileUtils as fu
 from Core import Universals as uni
 from datetime import datetime
-from time import gmtime
 
 pluginName = "eyed3"
 
@@ -191,15 +190,19 @@ class Tagger():
             val = _value
             try:
                 val = int(val)
-                if Taggers.getSelectedTaggerTypeForWrite() is not id3.ID3_V2_4:
-                    val = datetime.strptime(str(val), '%Y')
             except:
                 val = None
-            self.tag._setRecordingDate(val)
+            try:
+                self.tag._setRecordingDate(val)
+            except AttributeError as err:
+                self.tag._setRecordingDate(datetime.strptime(str(val), '%Y'))
         elif _value == "":
             self.tag._setRecordingDate(None)
         else:
-            self.tag._setRecordingDate(gmtime()[0])
+            try:
+                self.tag._setRecordingDate(datetime.today().year)
+            except AttributeError as err:
+                self.tag._setRecordingDate(datetime.today())
 
     def setGenre(self, _value):
         self.tag._setGenre(self.correctValuesForMusicTagType(_value))

@@ -169,14 +169,14 @@ class AmarokCoverTable(CoreTable):
         uni.startThreadAction()
         import Amarok
 
-        Dialogs.showState(translate("AmarokCoverTable", "Getting Values From Amarok"), 0, 1)
+        Dialogs.showState(translate("AmarokMusicTable", "Getting Values From Amarok"), 0, 1)
         if Amarok.checkAmarok():
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 from Amarok import Operations
 
                 directoriesAndValues = Operations.getDirectoriesAndValues(uni.MySettings[self.amarokFilterKeyName])
-                Dialogs.showState(translate("AmarokCoverTable", "Values Are Being Processed"), 1, 1)
+                Dialogs.showState(translate("AmarokMusicTable", "Values Are Being Processed"), 1, 1)
                 isContinueThreadAction = uni.isContinueThreadAction()
                 if isContinueThreadAction:
                     if directoriesAndValues is not None:

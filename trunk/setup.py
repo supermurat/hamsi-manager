@@ -143,6 +143,6 @@ setup(
     },
     executables=[MainExe],
     data_files=data_files,
-    requires=['PyQt4', 'cx_Freeze', 'eyed3']
+    requires=['PyQt4', 'cx_Freeze']
 )
 

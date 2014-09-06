@@ -425,16 +425,6 @@
 <context>
     <name>AmarokCoverTable</name>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="267"/>
-        <source>Getting Values From Amarok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Tables/AmarokMusicTable.py" line="275"/>
-        <source>Values Are Being Processed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="Tables/AmarokCoverTable.py" line="148"/>
         <source>Cannot Open File</source>
         <translation type="unfinished"></translation>
@@ -467,6 +457,19 @@
     <message>
         <location filename="Tables/AmarokCoverTable.py" line="158"/>
         <source>Destination Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AmarokMusicTable</name>
+    <message>
+        <location filename="Tables/AmarokMusicTable.py" line="267"/>
+        <source>Getting Values From Amarok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tables/AmarokMusicTable.py" line="275"/>
+        <source>Values Are Being Processed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -925,12 +928,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="634"/>
+        <location filename="Core/Universals.py" line="636"/>
         <source>&quot;mysqld_safe&quot; Not Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="634"/>
+        <location filename="Core/Universals.py" line="636"/>
         <source>Executable &quot;mysqld_safe&quot; file is not found. Are you want to set path of this file?&lt;br&gt;&lt;b&gt;Note :&lt;/b&gt; &quot;mysql-common&quot; must be installed on your system.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1493,7 +1496,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="256"/>
+        <location filename="Tables/MusicTable.py" line="255"/>
         <source>Writing Directory And File Informations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1542,12 +1545,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="232"/>
+        <location filename="Tables/MusicTable.py" line="231"/>
         <source>There Are More Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="232"/>
+        <location filename="Tables/MusicTable.py" line="231"/>
         <source>&quot;%s&quot; : there are more files in this directory.&lt;br&gt;Are you want to move all found files into new directory?&lt;br&gt;New Directory : &quot;%s&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1818,157 +1821,157 @@
 <context>
     <name>Install</name>
     <message>
-        <location filename="install.py" line="91"/>
+        <location filename="install.py" line="92"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="229"/>
+        <location filename="install.py" line="230"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="93"/>
+        <location filename="install.py" line="94"/>
         <source>Install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="275"/>
+        <location filename="install.py" line="276"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="101"/>
+        <location filename="install.py" line="102"/>
         <source>Check Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="106"/>
+        <location filename="install.py" line="107"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="145"/>
+        <location filename="install.py" line="146"/>
         <source>Please Select A Folder For Installation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="150"/>
+        <location filename="install.py" line="151"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="171"/>
+        <location filename="install.py" line="172"/>
         <source>Installation Complete.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="177"/>
+        <location filename="install.py" line="178"/>
         <source>Add To The System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="190"/>
+        <location filename="install.py" line="191"/>
         <source>Create Desktop Shortcut.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="204"/>
+        <location filename="install.py" line="205"/>
         <source>Please select a folder for installation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="235"/>
+        <location filename="install.py" line="236"/>
         <source>Accept</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="325"/>
+        <location filename="install.py" line="326"/>
         <source>The path you selected is not valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="272"/>
+        <location filename="install.py" line="273"/>
         <source>Creating Installation Folder...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="275"/>
+        <location filename="install.py" line="276"/>
         <source>The Installation Path You Selected Is Not Empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="282"/>
+        <location filename="install.py" line="283"/>
         <source>Yes (Recommended)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="287"/>
+        <location filename="install.py" line="288"/>
         <source>No (Overwrite)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="283"/>
+        <location filename="install.py" line="284"/>
         <source>Clearing Installation Path...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="295"/>
+        <location filename="install.py" line="296"/>
         <source>Copying Files And Folders...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="336"/>
+        <location filename="install.py" line="337"/>
         <source>Finalizing Installation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="336"/>
+        <location filename="install.py" line="337"/>
         <source>Are You Sure You Want To Quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="382"/>
+        <location filename="install.py" line="383"/>
         <source>Are You Want To Run As Root?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="385"/>
+        <location filename="install.py" line="386"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="382"/>
+        <location filename="install.py" line="383"/>
         <source>No (Continue as is)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="390"/>
+        <location filename="install.py" line="391"/>
         <source>Hamsi Manager Installer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="179"/>
+        <location filename="install.py" line="180"/>
         <source>Executable Link Path : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="266"/>
+        <location filename="install.py" line="267"/>
         <source>The selected path is Hamsi Manager source directory.&lt;br&gt;Please choose a valid installation path.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="275"/>
+        <location filename="install.py" line="276"/>
         <source>If the path you selected is an &quot;Hamsi Manager&quot; installation path, &lt;b&gt;I recommend you to delete the older files.&lt;/b&gt;&lt;br&gt;Do you want me to clear the installation path/folder for you?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt; Your personal settings are &lt;b&gt;never deleted&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="325"/>
+        <location filename="install.py" line="326"/>
         <source>The selected path points to a file not a folder.&lt;br&gt;Please choose a valid installation path.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="install.py" line="382"/>
+        <location filename="install.py" line="383"/>
         <source>Hamsi Manager Installer is running with user privileges.&lt;br&gt;Do you want to run Hamsi Manager installer with root rights?&lt;br&gt;&lt;b&gt;Note: &lt;/b&gt;The other users on your system has to inherit these permissions and install the program to a location other than their /home directories.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2387,22 +2390,22 @@
 <context>
     <name>MusicTable</name>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="255"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="262"/>
         <source>Artist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="256"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="263"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="257"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="264"/>
         <source>Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="254"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="261"/>
         <source>File Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2412,27 +2415,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="259"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="266"/>
         <source>Track No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="260"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="267"/>
         <source>Year</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="261"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="268"/>
         <source>Genre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="262"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="269"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="263"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="270"/>
         <source>Lyrics</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2447,7 +2450,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="253"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="260"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2472,7 +2475,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Taggers/NewEyeD3Tagger.py" line="258"/>
+        <location filename="Taggers/EyeD3Tagger.py" line="265"/>
         <source>Album Artist</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6276,7 +6279,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Bars/StatusBar.py" line="38"/>
+        <location filename="Bars/StatusBar.py" line="39"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6511,52 +6514,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="81"/>
+        <location filename="Core/Universals.py" line="79"/>
         <source>Folder Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="82"/>
+        <location filename="Core/Universals.py" line="80"/>
         <source>File Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="83"/>
+        <location filename="Core/Universals.py" line="81"/>
         <source>Music Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="84"/>
+        <location filename="Core/Universals.py" line="82"/>
         <source>Subfolder Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="85"/>
+        <location filename="Core/Universals.py" line="83"/>
         <source>Subfolder Music Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="87"/>
+        <location filename="Core/Universals.py" line="85"/>
         <source>Cover Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="89"/>
+        <location filename="Core/Universals.py" line="87"/>
         <source>Amarok Cover Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="89"/>
+        <location filename="Core/Universals.py" line="87"/>
         <source>Amarok Music Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="89"/>
+        <location filename="Core/Universals.py" line="87"/>
         <source>Amarok Artist Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="89"/>
+        <location filename="Core/Universals.py" line="87"/>
         <source>Amarok Copy Table</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7136,87 +7139,87 @@
 <context>
     <name>Uninstall</name>
     <message>
-        <location filename="uninstall.py" line="90"/>
+        <location filename="uninstall.py" line="91"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="181"/>
+        <location filename="uninstall.py" line="182"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="92"/>
+        <location filename="uninstall.py" line="93"/>
         <source>Uninstall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="99"/>
+        <location filename="uninstall.py" line="100"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="102"/>
+        <location filename="uninstall.py" line="103"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="117"/>
+        <location filename="uninstall.py" line="118"/>
         <source>Are you sure you want to uninstall Hamsi Manager?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="156"/>
+        <location filename="uninstall.py" line="157"/>
         <source>Please Select Directory Of Hamsi Manager To Uninstall.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="129"/>
+        <location filename="uninstall.py" line="130"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="144"/>
+        <location filename="uninstall.py" line="145"/>
         <source>Uninstallation Completed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="262"/>
+        <location filename="uninstall.py" line="263"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="224"/>
+        <location filename="uninstall.py" line="225"/>
         <source>The path you selected is not valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="259"/>
+        <location filename="uninstall.py" line="260"/>
         <source>Are You Want To Run As Root?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="259"/>
+        <location filename="uninstall.py" line="260"/>
         <source>No (Continue as is)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="267"/>
+        <location filename="uninstall.py" line="268"/>
         <source>Hamsi Manager Uninstaller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="211"/>
+        <location filename="uninstall.py" line="212"/>
         <source>The selected path is Hamsi Manager source directory.&lt;br&gt;Please choose a valid uninstallation path.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="224"/>
+        <location filename="uninstall.py" line="225"/>
         <source>The selected path points to a file not a folder.&lt;br&gt;Please choose a valid Uninstallation path.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uninstall.py" line="259"/>
+        <location filename="uninstall.py" line="260"/>
         <source>Hamsi Manager Uninstaller is running with user privileges.&lt;br&gt;Do you want to run Hamsi Manager Uninstaller with root rights?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7224,12 +7227,12 @@
 <context>
     <name>Universals</name>
     <message>
-        <location filename="Core/Universals.py" line="286"/>
+        <location filename="Core/Universals.py" line="288"/>
         <source>Are You Sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="286"/>
+        <location filename="Core/Universals.py" line="288"/>
         <source>Are you want to cancel these transactions?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7360,27 +7363,27 @@
 <context>
     <name>Variables</name>
     <message>
-        <location filename="Core/Universals.py" line="97"/>
+        <location filename="Core/Universals.py" line="95"/>
         <source>%Artist%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="98"/>
+        <location filename="Core/Universals.py" line="96"/>
         <source>%Album%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="99"/>
+        <location filename="Core/Universals.py" line="97"/>
         <source>%Year%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="100"/>
+        <location filename="Core/Universals.py" line="98"/>
         <source>%Genre%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Core/Universals.py" line="487"/>
+        <location filename="Core/Universals.py" line="489"/>
         <source>Desktop</source>
         <translation type="unfinished"></translation>
     </message>
