@@ -29,6 +29,7 @@ class StatusBar(MStatusBar):
             lblInfo = MLabel(str("<span style=\"color: #FF0000\">" + translate("StatusBar",
                                                                                "Hamsi Manager running as root") + "</span>"))
             self.addWidget(lblInfo)
+        self.tableInfo = ""
         self.connectionToCancel = None
         self.lblInfo = MLabel("")
         self.hideInfo()
@@ -65,8 +66,9 @@ class StatusBar(MStatusBar):
         self.lblSelectionInfo.setText("")
 
     def setTableInfo(self, _info):
-        self.lblTableInfo.setText(str(_info))
-        getMainWindow().setWindowTitle("Hamsi Manager " + uni.version + " - " + str(_info))
+        self.tableInfo = str(_info)
+        self.lblTableInfo.setText(self.tableInfo)
+        getMainWindow().setWindowTitle(self.tableInfo + " - Hamsi Manager " + uni.version)
 
     def setImportantInfo(self, _info):
         self.lblImportantInfo.setText(str("<span style=\"color: #FF0000\">" + _info + "</span>"))
@@ -86,6 +88,8 @@ class StatusBar(MStatusBar):
     def showState(self, _title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCancel=None):
         if getMainWindow().isLockedMainForm is False:
             getMainWindow().lockForm()
+        getMainWindow().setWindowTitle("(" + str(_value) + "/" + str(_maxValue) + ") " + self.tableInfo +
+                                       " - Hamsi Manager " + uni.version)
         self.prgbState.setVisible(True)
         if _isShowCancel:
             if self.connectionToCancel is not None:
@@ -103,6 +107,7 @@ class StatusBar(MStatusBar):
         self.prgbState.setValue(_value)
         self.showInfo(_title + " ( " + str(_value) + " / " + str(_maxValue) + " )")
         if _value == _maxValue:
+            self.setTableInfo(self.tableInfo)
             self.hideInfo()
             self.prgbState.setVisible(False)
             self.pbtnCancel.setVisible(False)
