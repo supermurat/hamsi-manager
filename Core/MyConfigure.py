@@ -65,10 +65,10 @@ def createShortCutFile(_destinationPath, _installationDirectory=fu.HamsiManagerD
     shortcut = shell.CreateShortCut(_destinationPath)
     targetPath = Execute.getExecuteCommandOfHamsiManagerAsList()
     if len(targetPath) > 1:
-        shortcut.Targetpath = targetPath[0]
-        shortcut.Arguments = targetPath[1]
+        shortcut.Targetpath = targetPath[0].replace(fu.HamsiManagerDirectory, _installationDirectory)
+        shortcut.Arguments = targetPath[1].replace(fu.HamsiManagerDirectory, _installationDirectory)
     else:
-        shortcut.Targetpath = targetPath[0]
+        shortcut.Targetpath = targetPath[0].replace(fu.HamsiManagerDirectory, _installationDirectory)
     shortcut.WorkingDirectory = _installationDirectory
     shortcut.IconLocation = fu.joinPath(fu.themePath.replace(fu.HamsiManagerDirectory, _installationDirectory),
                                         "Images", "hamsi.ico")

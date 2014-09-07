@@ -214,7 +214,6 @@ if Core.checkMandatoryModules():
                                                     "The selected path is Hamsi Manager source directory.<br>Please choose a valid uninstallation path."))
                     elif fu.isDir(self.UninstallationDirectory):
                         fu.removeFileOrDir(self.UninstallationDirectory)
-                        self.pageNo += 1
                     else:
                         self.pageNo -= 1
                         Dialogs.showError(translate("Uninstall", "The path you selected is not valid."),
