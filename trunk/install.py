@@ -171,15 +171,10 @@ if Core.checkMandatoryModules():
                 VBox.addWidget(self.prgbState)
                 HBox.addLayout(VBox)
             elif _pageNo == 4:
-                import MyPlugins
-
                 VBox = MVBoxLayout()
                 self.lblFinished = MLabel(translate("Install", "Installation Complete."))
                 VBox.addStretch(10)
                 VBox.addWidget(self.lblFinished)
-                VBox.addStretch(2)
-                wPlugins = MyPlugins.MyPluginsForSystem(pnlPage, "install")
-                VBox.addWidget(wPlugins)
                 VBox.addStretch(2)
                 self.isCreateDesktopShortcut = None
                 self.isCreateExecutableLink = None
