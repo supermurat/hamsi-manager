@@ -144,8 +144,11 @@ if Core.checkMandatoryModules():
                 HBox.addWidget(teCopying)
             elif _pageNo == 2:
                 lblPleaseSelect = MLabel(translate("Install", "Please Select A Folder For Installation."))
-                installationDirPath = str(Settings.getUniversalSetting("HamsiManagerPath", str(
-                    fu.joinPath(fu.getDirName(fu.HamsiManagerDirectory), "Hamsi"))))
+                installationDirPath = Settings.getUniversalSetting("HamsiManagerPath", None)
+                if installationDirPath is not None:
+                    installationDirPath = fu.getDirName(installationDirPath)
+                else:
+                    installationDirPath = fu.joinPath(fu.getDirName(fu.HamsiManagerDirectory), "Hamsi")
                 self.leInstallationDirectory = MLineEdit(
                     str(Settings.getUniversalSetting("pathOfInstallationDirectory", str(installationDirPath))))
                 self.pbtnSelectInstallationDirectory = MPushButton(translate("Install", "Browse"))
@@ -168,10 +171,16 @@ if Core.checkMandatoryModules():
                 VBox.addWidget(self.prgbState)
                 HBox.addLayout(VBox)
             elif _pageNo == 4:
+                import MyPlugins
+
                 VBox = MVBoxLayout()
                 self.lblFinished = MLabel(translate("Install", "Installation Complete."))
                 VBox.addStretch(10)
                 VBox.addWidget(self.lblFinished)
+                VBox.addStretch(2)
+                wPlugins = MyPlugins.MyPluginsForSystem(pnlPage, "install")
+                VBox.addWidget(wPlugins)
+                VBox.addStretch(2)
                 self.isCreateDesktopShortcut = None
                 self.isCreateExecutableLink = None
                 if uni.isRunningAsRoot():
@@ -282,7 +291,8 @@ if Core.checkMandatoryModules():
                                 translate("Install", "Cancel"))
                             if currenctAnswer == translate("Install", "Yes (Recommended)"):
                                 self.lblActions.setText(translate("Install", "Clearing Installation Path..."))
-                                fu.removeFileOrDir(self.installationDirectory)
+                                try:fu.removeFileOrDir(self.installationDirectory)
+                                except:pass
                                 fu.makeDirs(self.installationDirectory)
                                 isMakeInstall = True
                             elif currenctAnswer == translate("Install", "No (Overwrite)"):
@@ -297,13 +307,12 @@ if Core.checkMandatoryModules():
                             installFileName = Execute.findExecutableBaseName("HamsiManagerInstaller")
                             for fileNo, fileName in enumerate(directoriesAndFiles):
                                 MApplication.processEvents()
-                                newFileName = self.installationDirectory + fileName.replace(fu.HamsiManagerDirectory,
-                                                                                            "")
-                                if fu.isDir(fileName):
+                                newFileName = self.installationDirectory + fileName.replace(fu.HamsiManagerDirectory,"")
+                                if fu.isDir(fileName) and fileName.find(".svn") == -1:
                                     try: fu.makeDirs(newFileName)
                                     except: pass
-                                elif fu.isFile(fileName) and fu.getBaseName(
-                                    fileName) != "install.py" and fu.getBaseName(fileName) != installFileName:
+                                elif (fu.isFile(fileName) and fu.getBaseName(fileName) != "install.py" and
+                                        fu.getBaseName(fileName) != installFileName and fileName.find(".svn") == -1):
                                     try:
                                         fu.copyFileOrDir(fileName, newFileName)
                                     except:

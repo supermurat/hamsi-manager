@@ -64,7 +64,7 @@ def saveUniversalSettings():
             mySetting.setValue(keyValue, trQVariant(values[x]))
 
 
-def getUniversalSetting(_key, _defaultValue):
+def getUniversalSetting(_key, _defaultValue = None):
     mySetting = universalSetting()
     value = str(trStr(mySetting.value(_key)))
     if value == "":
