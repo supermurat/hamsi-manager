@@ -68,7 +68,7 @@ willNotReportSettings = ["amarokDBHost", "amarokDBPort", "amarokDBUser", "amarok
 isActiveDirectoryCover = True
 isActiveAmarok = True
 
-if isWindows == "nt":
+if isWindows:
     isActiveDirectoryCover = False
     isActiveAmarok = False
 
