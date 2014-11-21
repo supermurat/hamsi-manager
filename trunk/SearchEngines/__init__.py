@@ -24,7 +24,7 @@ from Core import ReportBug
 
 
 class SearchEngines(MMenu):
-    def __init__(self, _parent, _isCheckSingleFile=False):
+    def __init__(self, _parent, _contentType = "value", _isCheckSingleFile=False):
         self.isCheckSingleFile = _isCheckSingleFile
         MMenu.__init__(self, _parent)
         self.setTitle(translate("SearchEngines", "Verify On The Internet"))
@@ -32,9 +32,10 @@ class SearchEngines(MMenu):
         self.searchEnginesNames = uni.getSearchEnginesNames()
         isAnyAvailable = False
         for sEngine in self.searchEnginesNames:
-            sEngineModule = __import__("SearchEngines." + sEngine, globals(), locals(), ["isAvailable", "pluginName"],
-                                       0)
-            if sEngineModule.isAvailable:
+            sEngineModule = __import__("SearchEngines." + sEngine, globals(), locals(),
+                                       ["isAvailable", "pluginName", "contentType"], 0)
+            if sEngineModule.isAvailable and (_contentType == sEngineModule.contentType
+                                              or sEngineModule.contentType == "*"):
                 isAnyAvailable = True
                 self.actions.append(MAction(str(sEngineModule.pluginName), self))
                 self.actions[-1].setObjectName(str(len(self.actions) - 1))
@@ -61,15 +62,17 @@ class SearchEngines(MMenu):
                                        "Not found any search engine in your system. Please install a search engine module. Now supporting only musicbrainz module (python-musicbrainz2)."))
             else:
                 if self.parent().rowCount() != 0:
-                    selectedSearchDepth = 3
                     if str(_action.objectName()).find("-MusicBrainz-") != -1:
+                        selectedSearchDepth = 3
                         info = _action.objectName().split("-")
                         engine = self.searchEnginesNames[int(info[0])]
                         selectedSearchDepth = info[2]
+                        sEngineModule = __import__("SearchEngines." + engine, globals(), locals(), ["Search"], 0)
+                        sEngineModule.Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
                     else:
                         engine = self.searchEnginesNames[int(_action.objectName())]
-                    sEngineModule = __import__("SearchEngines." + engine, globals(), locals(), ["Search"], 0)
-                    sEngineModule.Search(self.parent(), self.isCheckSingleFile, selectedSearchDepth)
+                        sEngineModule = __import__("SearchEngines." + engine, globals(), locals(), ["Search"], 0)
+                        sEngineModule.Search(self.parent(), self.isCheckSingleFile)
                 else:
                     Dialogs.show(translate("SearchEngines", "Table Is Empty"),
                                  translate("SearchEngines", "Nothing to be done because the table is empty."))

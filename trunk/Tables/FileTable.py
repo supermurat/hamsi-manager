@@ -25,6 +25,7 @@ from Core import Dialogs
 from Core import Universals as uni
 from Core import ReportBug
 from Tables import CoreTable
+import SearchEngines
 
 
 class FileTable(CoreTable):
@@ -33,6 +34,10 @@ class FileTable(CoreTable):
         self.keyName = "file"
         self.hiddenTableColumnsSettingKey = "hiddenFileTableColumns"
         self.refreshColumns()
+        pbtnVerifyTableValues = MPushButton(translate("FileTable", "Verify Table"))
+        pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self, "value"))
+        self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "value", True))
+        self.hblBoxTools.addWidget(pbtnVerifyTableValues)
 
     def writeContents(self):
         self.changedValueNumber = 0

@@ -38,8 +38,8 @@ class MusicTable(CoreTable):
         self.hiddenTableColumnsSettingKey = "hiddenMusicTableColumns"
         self.refreshColumns()
         pbtnVerifyTableValues = MPushButton(translate("MusicTable", "Verify Table"))
-        pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self))
-        self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, True))
+        pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self, "music"))
+        self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "music", True))
         lblSourceDetails = MLabel(translate("MusicTable", "Read From:"))
         lblTargetDetails = MLabel(translate("MusicTable", "Write To:"))
         self.MusicTagTypes = getTaggerTypesName()

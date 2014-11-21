@@ -25,6 +25,7 @@ from Core import Dialogs
 from Core import Universals as uni
 from Core import ReportBug
 from Tables import CoreTable
+import SearchEngines
 
 
 class SubFolderTable(CoreTable):
@@ -46,6 +47,10 @@ class SubFolderTable(CoreTable):
         hblSubDirectory.addWidget(self.cbSubDirectoryDeep)
         self.hblBoxTools.addLayout(hblSubDirectory)
         MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
+        pbtnVerifyTableValues = MPushButton(translate("FileTable", "Verify Table"))
+        pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self, "value"))
+        self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "value", True))
+        self.hblBoxTools.addWidget(pbtnVerifyTableValues)
 
     def writeContents(self):
         self.changedValueNumber = 0

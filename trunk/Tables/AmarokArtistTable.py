@@ -28,6 +28,7 @@ from Tables import CoreTable
 import Amarok
 from Amarok import Operations
 from Amarok import Filter
+import SearchEngines
 
 
 class AmarokArtistTable(CoreTable):
@@ -39,6 +40,10 @@ class AmarokArtistTable(CoreTable):
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
         self.hblBoxOptions.addWidget(self.wFilter)
+        pbtnVerifyTableValues = MPushButton(translate("FileTable", "Verify Table"))
+        pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self, "value"))
+        self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "value", True))
+        self.hblBoxTools.addWidget(pbtnVerifyTableValues)
 
     def writeContents(self):
         self.changedValueNumber = 0
