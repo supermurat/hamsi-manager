@@ -25,6 +25,7 @@ from Core import Dialogs
 from Core import Universals as uni
 from Core import ReportBug
 from Tables import CoreTable
+import SearchEngines
 
 
 class AmarokCoverTable(CoreTable):
@@ -38,6 +39,10 @@ class AmarokCoverTable(CoreTable):
         self.refreshColumns()
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
         self.hblBoxOptions.addWidget(self.wFilter)
+        pbtnVerifyTableValues = MPushButton(translate("FileTable", "Verify Table"))
+        pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self, "value"))
+        self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "value", True))
+        self.hblBoxTools.addWidget(pbtnVerifyTableValues)
 
     def writeContents(self):
         self.changedValueNumber = 0

@@ -534,15 +534,18 @@ class CoreTable(MTableWidget):
             ReportBug.ReportBug()
 
     def fillSelectionInfo(self):
-        if uni.getBoolValue("isChangeAll"):
-            self.pbtnSave.setText(translate("Tables", "Write To Disc"))
-            self.pbtnSave.setToolTip(translate("Tables", "All informations will be changed"))
-        else:
-            self.pbtnSave.setText(str(" ! " + translate("Tables", "Write To Disc") + " ! "))
-            if uni.getBoolValue("isChangeSelected"):
-                self.pbtnSave.setToolTip(translate("Tables", "Just selected informations will be changed"))
+        try:
+            if uni.getBoolValue("isChangeAll"):
+                self.pbtnSave.setText(translate("Tables", "Write To Disc"))
+                self.pbtnSave.setToolTip(translate("Tables", "All informations will be changed"))
             else:
-                self.pbtnSave.setToolTip(translate("Tables", "Just unselected informations will be changed"))
+                self.pbtnSave.setText(str(" ! " + translate("Tables", "Write To Disc") + " ! "))
+                if uni.getBoolValue("isChangeSelected"):
+                    self.pbtnSave.setToolTip(translate("Tables", "Just selected informations will be changed"))
+                else:
+                    self.pbtnSave.setToolTip(translate("Tables", "Just unselected informations will be changed"))
+        except:
+            ReportBug.ReportBug()
 
     def isChangeableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
         item = self.item(_rowNo, _columnNo)
@@ -585,9 +588,13 @@ class CoreTable(MTableWidget):
         return item
 
     def itemChanged(self, _item):
-        if _item.text() != _item.currentText and _item.isReadOnly is False:
-            _item.setToolTip(_item.currentText)
-            _item.setBackground(MBrush(MColor(142, 199, 255)))
+        try:
+            if hasattr(_item, "currentText"):
+                if _item.text() != _item.currentText and _item.isReadOnly is False:
+                    _item.setToolTip(_item.currentText)
+                    _item.setBackground(MBrush(MColor(142, 199, 255)))
+        except:
+            ReportBug.ReportBug()
 
     def checkUnSavedValues(self, _isForceToCheck=False):
         if uni.getBoolValue("isCheckUnSavedValues") or _isForceToCheck:
@@ -697,7 +704,6 @@ class CoreTable(MTableWidget):
                                  self.tableColumnsKey.index(_columnKey)])
             return False
         return True
-
 
     def exportValues(self, _actionType="return", _formatType="html", _extInfo="no"):
         import os

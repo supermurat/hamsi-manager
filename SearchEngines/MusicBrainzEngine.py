@@ -18,6 +18,7 @@
 
 
 isAvailable = False
+contentType = "music"
 try:
     from musicbrainz2 import webservice, model, utils
     from musicbrainz2.webservice import Query, ArtistFilter, WebServiceError, ReleaseFilter, TrackFilter
@@ -28,6 +29,7 @@ from Core.MyObjects import *
 from Core import Dialogs
 import time
 from Core import Universals as uni
+from Core import ReportBug
 
 pluginName = "MusicBrainz"
 
