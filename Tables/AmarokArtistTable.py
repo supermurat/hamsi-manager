@@ -56,8 +56,7 @@ class AmarokArtistTable(CoreTable):
             if isContinueThreadAction:
                 try:
                     if self.isRowHidden(rowNo) is False:
-                        if self.isChangeableItem(rowNo, 1,
-                                                 str(self.values[rowNo]["currentArtist"])):
+                        if self.isChangeableItem(rowNo, "correctedArtist", str(self.values[rowNo]["currentArtist"])):
                             changedArtistValues.append({})
                             changedArtistValues[-1]["id"] = str(self.values[rowNo]["id"])
                             value = str(self.item(rowNo, 1).text())
@@ -128,12 +127,12 @@ class AmarokArtistTable(CoreTable):
                                     self.values.append(content)
 
                                     currentName = content["currentArtist"]
-                                    self.createItem(rowNo, 0, "currentArtist", currentName, currentName, True)
+                                    self.createItem(rowNo, "currentArtist", currentName, currentName, True)
 
                                     newName = Organizer.emend(content["correctedArtist"])
                                     isReadOnlyNewName = (content["correctedArtist"].strip() == "")
-                                    self.createItem(rowNo, 1, "correctedArtist",
-                                                    newName, content["currentArtist"], isReadOnlyNewName)
+                                    self.createItem(rowNo, "correctedArtist", newName, content["currentArtist"],
+                                                    isReadOnlyNewName)
                                     rowNo += 1
                                 except:
                                     ReportBug.ReportBug()
@@ -149,7 +148,8 @@ class AmarokArtistTable(CoreTable):
     def correctTable(self):
         for rowNo in range(self.rowCount()):
             for itemNo in range(self.columnCount()):
-                if self.isChangeableItem(rowNo, itemNo):
+                coloumKey = self.getColumnKeyFromNo(itemNo)
+                if self.isChangeableItem(rowNo, coloumKey):
                     newString = None
                     if itemNo == 0:
                         continue

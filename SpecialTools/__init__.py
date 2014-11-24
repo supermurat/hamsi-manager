@@ -167,24 +167,26 @@ class SpecialTools(MWidget):
         self.characterEncoding.columns.addItem(translate("SpecialTools", "All"))
         for columnName in getMainWindow().Table.tableColumns:
             columnKey = getMainWindow().Table.getColumnKeyFromName(columnName)
-            self.searchAndReplace.columns.addItem(columnName, trQVariant(columnKey))
-            self.fill.columns.addItem(columnName, trQVariant(columnKey))
-            self.clear.columns.addItem(columnName, trQVariant(columnKey))
-            self.characterState.columns.addItem(columnName, trQVariant(columnKey))
-            self.characterEncoding.columns.addItem(columnName, trQVariant(columnKey))
+            if columnKey not in getMainWindow().Table.tableReadOnlyColumnsKey:
+                self.searchAndReplace.columns.addItem(columnName, trQVariant(columnKey))
+                self.fill.columns.addItem(columnName, trQVariant(columnKey))
+                self.clear.columns.addItem(columnName, trQVariant(columnKey))
+                self.characterState.columns.addItem(columnName, trQVariant(columnKey))
+                self.characterEncoding.columns.addItem(columnName, trQVariant(columnKey))
+                lbl = MLabel(columnName + ":")
+                self.quickFill.lblColumns.append(lbl)
+                le = MLineEdit("")
+                le.setObjectName(columnKey)
+                self.quickFill.leColumns.append(le)
+                MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"),
+                                self.quickFill.fillAfter)
             tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, columnKey)
             self.specialActions.pbtnAddObjects.append(tb)
-            lbl = MLabel(columnName + ":")
-            self.quickFill.lblColumns.append(lbl)
-            le = MLineEdit("")
-            le.setObjectName(columnKey)
-            self.quickFill.leColumns.append(le)
-            MObject.connect(self.quickFill.leColumns[-1], SIGNAL("textChanged(const QString&)"),
-                            self.quickFill.fillAfter)
         for x in range(0, len(self.specialActions.pbtnAddObjects)):
             self.specialActions.specialActionsCommandContainerAvailable.addToWidgetList(
                 self.specialActions.pbtnAddObjects[x])
-            if len(self.specialActions.pbtnAddObjects) < 7:
+        for x in range(0, len(self.quickFill.leColumns)):
+            if len(self.quickFill.leColumns) < 7:
                 columnNo = (x * 2) - ((x / 2) * (2 * 2))
                 self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x / 2, columnNo)
                 self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x / 2, columnNo + 1)

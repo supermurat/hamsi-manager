@@ -141,12 +141,12 @@ class Fill(MWidget):
         columnKey = trStr(self.columns.itemData(self.columns.currentIndex()))
         if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
             return False
-        if getMainWindow().Table.checkHiddenColumn(columnNo, False) is False:
+        if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
             return False
         if self.cbFillType.currentIndex() == 1:
             newString = int(self.spStartDigit.value()) - 1
         for rowNo in range(getMainWindow().Table.rowCount()):
-            if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
+            if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
                 if self.cbFillType.currentIndex() == 1:
                     if self.cbSort.currentIndex() == 0:
                         newString += 1

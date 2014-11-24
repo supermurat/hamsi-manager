@@ -270,6 +270,12 @@ class CoreTable(MTableWidget):
                 return self.tableColumns[x]
         return _keyName
 
+    def getColumnNoFromKey(self, _keyName):
+        return self.tableColumnsKey.index(_keyName)
+
+    def getColumnKeyFromNo(self, _no):
+        return self.tableColumnsKey[_no]
+
     def showDetails(self):
         try:
             rowNo = self.currentRow()
@@ -406,16 +412,16 @@ class CoreTable(MTableWidget):
             else:
                 self.showColumn(columnNo)
 
-    def cellClicked(self, _row, _column):
+    def cellClicked(self, _rowNo, _columnNo):
         try:
-            self.cellClickedTable(_row, _column)
+            self.cellClickedTable(_rowNo, _columnNo)
             # self.editItem(self.item(_row, _column)) # TODO: make this an option
         except:
             ReportBug.ReportBug()
 
-    def cellDoubleClicked(self, _row, _column):
+    def cellDoubleClicked(self, _rowNo, _columnNo):
         try:
-            self.cellDoubleClickedTable(_row, _column)
+            self.cellDoubleClickedTable(_rowNo, _columnNo)
         except:
             ReportBug.ReportBug()
 
@@ -547,12 +553,13 @@ class CoreTable(MTableWidget):
         except:
             ReportBug.ReportBug()
 
-    def isChangeableItem(self, _rowNo, _columnNo, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
-        item = self.item(_rowNo, _columnNo)
+    def isChangeableItem(self, _rowNo, _columnKey, _checkLikeThis=None, isCanBeEmpty=True, _isCheckLike=True):
+        columnNo = self.getColumnNoFromKey(_columnKey)
+        item = self.item(_rowNo, columnNo)
         if item is not None:
             if item.isReadOnly is False:
-                if self.isColumnHidden(_columnNo) is not True and item.isSelected() == uni.getBoolValue(
-                    "isChangeSelected") or uni.getBoolValue("isChangeAll"):
+                if (self.isColumnHidden(columnNo) is not True and
+                        (item.isSelected() == uni.getBoolValue("isChangeSelected") or uni.getBoolValue("isChangeAll"))):
                     if _isCheckLike and _checkLikeThis is not None:
                         if str(_checkLikeThis) != str(item.text()):
                             if isCanBeEmpty is False:
@@ -571,7 +578,8 @@ class CoreTable(MTableWidget):
                             return True
         return False
 
-    def createItem(self, _rowNo, _columnNo, _columnKey, _newValue, _currentValue=None, _isReadOnly=False):
+    def createItem(self, _rowNo, _columnKey, _newValue, _currentValue=None, _isReadOnly=False):
+        columnNo = self.getColumnNoFromKey(_columnKey)
         item = MyTableWidgetItem(_currentValue)
         item.isReadOnly = _isReadOnly
         item.columnKey = _columnKey
@@ -584,7 +592,7 @@ class CoreTable(MTableWidget):
             item.setText("! " + str(_newValue))
         else:
             item.setText(str(_newValue))
-        self.setItem(_rowNo, _columnNo, item)
+        self.setItem(_rowNo, columnNo, item)
         return item
 
     def itemChanged(self, _item):
@@ -623,22 +631,21 @@ class CoreTable(MTableWidget):
                     return False
         return True
 
-    def checkFileExtensions(self, _columnNo, _fileNameKeyOrDestinationColumnNo, _isCheckFile=False):
-        destinationParameterType = "fileNameKey"
-        if type(_fileNameKeyOrDestinationColumnNo) == type(0):
-            destinationParameterType = "destinationColumnNo"
+    def checkFileExtensions(self, _columnKey, _columnKeyOfSource, _isCheckFile=False):
+        columnNo = self.getColumnNoFromKey(_columnKey)
         isYesToAll, isNoToAll = False, False
         for rowNo in range(self.rowCount()):
             if _isCheckFile:
                 if fu.isFile(self.values[rowNo]["path"]) is False:
                     continue
-            if destinationParameterType == "fileNameKey":
-                sFileExt = fu.getFileExtension(self.values[rowNo][_fileNameKeyOrDestinationColumnNo])
+            if _columnKey == _columnKeyOfSource:
+                sFileExt = fu.getFileExtension(self.values[rowNo][_columnKeyOfSource])
                 sFilePath = self.values[rowNo]["path"]
             else:
-                sFileExt = fu.getFileExtension(str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text()))
-                sFilePath = str(self.item(rowNo, _fileNameKeyOrDestinationColumnNo).text())
-            cFileName = str(self.item(rowNo, _columnNo).text())
+                columnNoOfSource = self.getColumnNoFromKey(_columnKeyOfSource)
+                sFileExt = fu.getFileExtension(str(self.item(rowNo, columnNoOfSource).text()))
+                sFilePath = str(self.item(rowNo, _columnKeyOfSource).text())
+            cFileName = str(self.item(rowNo, columnNo).text())
             if sFileExt != "":
                 if fu.getFileExtension(cFileName) != sFileExt:
                     if isYesToAll:
@@ -661,9 +668,9 @@ class CoreTable(MTableWidget):
                         isNoToAll = True
                         answer = Dialogs.No
                     if answer == Dialogs.Yes or answer == translate("Dialogs", "Yes"):
-                        self.item(rowNo, _columnNo).setText(str(cFileName + "." + sFileExt))
+                        self.item(rowNo, columnNo).setText(str(cFileName + "." + sFileExt))
 
-    def askHiddenColumn(self, _columnNo, _isYesToAll=True):
+    def askHiddenColumn(self, _columnKey, _isYesToAll=True):
         if _isYesToAll is False:
             self.isAskShowHiddenColumn = True
         if self.isAskShowHiddenColumn:
@@ -671,7 +678,7 @@ class CoreTable(MTableWidget):
                 answer = Dialogs.askSpecial(translate("Tables", "Hidden Field"),
                                             str(translate("Tables",
                                                           "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (
-                                                self.tableColumns[_columnNo]),
+                                                self.getColumnNameFromKey(_columnKey)),
                                             translate("Dialogs", "Yes"),
                                             translate("Dialogs", "No"),
                                             translate("Dialogs", "Yes To All"))
@@ -679,7 +686,7 @@ class CoreTable(MTableWidget):
                 answer = Dialogs.ask(translate("Tables", "Hidden Field"),
                                      str(translate("Tables",
                                                    "\"%s\": you have hidden this field in the table.<br>Do you want to activate this field and perform the action?")) % (
-                                         self.tableColumns[_columnNo]))
+                                         self.getColumnNameFromKey(_columnKey)))
             if answer == Dialogs.No or answer == translate("Dialogs", "No"):
                 Dialogs.showError(translate("Tables", "Action Cancelled"),
                                   translate("Tables",
@@ -687,13 +694,13 @@ class CoreTable(MTableWidget):
                 return False
             elif answer == translate("Dialogs", "Yes To All"):
                 self.isAskShowHiddenColumn = False
-        self.mContextMenuColumnsActions[_columnNo].setChecked(True)
+        self.mContextMenuColumnsActions[self.getColumnNoFromKey(_columnKey)].setChecked(True)
         self.refreshShowedAndHiddenColumns()
         return True
 
-    def checkHiddenColumn(self, _columnNo, _isYesToAll=True):
-        if self.isColumnHidden(_columnNo):
-            return self.askHiddenColumn(_columnNo, _isYesToAll)
+    def checkHiddenColumn(self, _columnKey, _isYesToAll=True):
+        if self.isColumnHidden(self.getColumnNoFromKey(_columnKey)):
+            return self.askHiddenColumn(_columnKey, _isYesToAll)
         return True
 
     def checkReadOnlyColumn(self, _columnKey, _isAlert=True):
@@ -706,8 +713,6 @@ class CoreTable(MTableWidget):
         return True
 
     def exportValues(self, _actionType="return", _formatType="html", _extInfo="no"):
-        import os
-
         info = ""
         if _formatType == "html":
             if _extInfo == "no":

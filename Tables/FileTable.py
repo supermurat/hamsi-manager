@@ -16,7 +16,7 @@
 ## along with HamsiManager; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
+import stat
 from Core import Organizer
 import FileUtils as fu
 from Core.MyObjects import *
@@ -62,14 +62,14 @@ class FileTable(CoreTable):
                             baseNameOfDirectory = str(
                                 self.values[rowNo]["baseNameOfDirectory"])
                             baseName = str(self.values[rowNo]["baseName"])
-                            if self.isChangeableItem(rowNo, 0, baseNameOfDirectory):
+                            if self.isChangeableItem(rowNo, "baseNameOfDirectory", baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.item(rowNo, 0).text())
                                 self.changedValueNumber += 1
                                 newDirectoryPath = fu.joinPath(
                                     fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
                                     baseNameOfDirectory)
                                 self.setNewDirectory(newDirectoryPath)
-                            if self.isChangeableItem(rowNo, 1, baseName, False):
+                            if self.isChangeableItem(rowNo, "baseName", baseName, False):
                                 baseName = str(self.item(rowNo, 1).text())
                                 self.changedValueNumber += 1
                             newFilePath = fu.joinPath(
@@ -130,39 +130,78 @@ class FileTable(CoreTable):
 
     def refreshColumns(self):
         self.tableColumns = [translate("FileTable", "Directory"),
-                             translate("FileTable", "File Name")]
-        self.tableColumnsKey = ["baseNameOfDirectory", "baseName"]
-        self.tableReadOnlyColumnsKey = []
+                             translate("FileTable", "File Name"),
+                             translate("FileTable", "Size"),
+                             translate("FileTable", "Last Accessed"),
+                             translate("FileTable", "Last Modified"),
+                             translate("FileTable", "Last Metadata Changed"),
+                             translate("FileTable", "Access Rights"),
+                             translate("FileTable", "User ID Of Owner"),
+                             translate("FileTable", "Group ID Of Owner"),
+                             translate("FileTable", "Number Of Hard Links")
+        ]
+        self.tableColumnsKey = ["baseNameOfDirectory", "baseName", "size", "lastAccessed", "lastModified",
+                                "lastMetadataChanged", "accessRights", "userIDOfOwner", "groupIDOfOwner",
+                                "numberOfHardLinks"]
+        self.tableReadOnlyColumnsKey = ["size", "lastAccessed", "lastModified", "lastMetadataChanged",
+                                        "accessRights", "userIDOfOwner", "groupIDOfOwner", "numberOfHardLinks"]
 
     def saveTable(self):
-        self.checkFileExtensions(1, "baseName")
+        self.checkFileExtensions("baseName", "baseName")
         return self.writeContents()
 
-    def refreshTable(self, _directoryPath):
+    def refreshTable(self, _path):
         self.values = []
-        fileNames = fu.readDirectory(_directoryPath, "file", uni.getBoolValue("isShowHiddensInFileTable"))
+        fileNames = fu.readDirectory(_path, "file", uni.getBoolValue("isShowHiddensInFileTable"))
         allItemNumber = len(fileNames)
         uni.startThreadAction()
-        baseNameOfDirectory = fu.getBaseName(_directoryPath)
+        baseNameOfDirectory = fu.getBaseName(_path)
         rowNo = 0
         self.setRowCount(allItemNumber)
-        for fileName in fileNames:
+        for baseName in fileNames:
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if fu.isReadableFileOrDir(fu.joinPath(_directoryPath, fileName), False, True):
+                    if fu.isReadableFileOrDir(fu.joinPath(_path, baseName), False, True):
+                        details = fu.getDetails(fu.joinPath(_path, baseName))
                         content = {}
-                        content["path"] = fu.joinPath(_directoryPath, fileName)
+                        content["path"] = fu.joinPath(_path, baseName)
                         content["baseNameOfDirectory"] = baseNameOfDirectory
-                        content["baseName"] = fileName
+                        content["baseName"] = baseName
+                        content["accessRights"] = oct(stat.S_IMODE(details[stat.ST_MODE]))
+                        content["numberOfHardLinks"] = details[stat.ST_NLINK]
+                        content["userIDOfOwner"] = details[stat.ST_UID]
+                        content["groupIDOfOwner"] = details[stat.ST_GID]
+                        content["size"] = details[stat.ST_SIZE]
+                        content["lastAccessed"] = details[stat.ST_ATIME]
+                        content["lastModified"] = details[stat.ST_MTIME]
+                        content["lastMetadataChanged"] = details[stat.ST_CTIME] #time of creation on Windows
                         self.values.append(content)
 
                         newBaseNameOfDirectory = Organizer.emend(content["baseNameOfDirectory"], "directory")
-                        self.createItem(rowNo, 0, "baseNameOfDirectory",
-                                        newBaseNameOfDirectory, content["baseNameOfDirectory"])
+                        self.createItem(rowNo, "baseNameOfDirectory", newBaseNameOfDirectory,
+                                        content["baseNameOfDirectory"])
 
                         newBaseName = Organizer.emend(content["baseName"], "file")
-                        self.createItem(rowNo, 1, "baseName", newBaseName, content["baseName"])
+                        self.createItem(rowNo, "baseName", newBaseName, content["baseName"])
+
+                        self.createItem(rowNo, "size", Organizer.getCorrectedFileSize(content["size"]))
+
+                        self.createItem(rowNo, "lastAccessed", Organizer.getCorrectedTime(content["lastAccessed"]))
+
+                        self.createItem(rowNo, "lastModified", Organizer.getCorrectedTime(content["lastModified"]))
+
+                        self.createItem(rowNo, "lastMetadataChanged",
+                                        Organizer.getCorrectedTime(content["lastMetadataChanged"]))
+
+                        self.createItem(rowNo, "accessRights", content["accessRights"])
+
+                        self.createItem(rowNo, "userIDOfOwner", content["userIDOfOwner"])
+
+                        self.createItem(rowNo, "groupIDOfOwner", content["groupIDOfOwner"])
+
+                        self.createItem(rowNo, "numberOfHardLinks", content["numberOfHardLinks"])
+
                         rowNo += 1
                     else:
                         allItemNumber -= 1
@@ -179,9 +218,9 @@ class FileTable(CoreTable):
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
-            for itemNo in range(
-                self.columnCount()):
-                if self.isChangeableItem(rowNo, itemNo):
+            for itemNo in range(self.columnCount()):
+                coloumKey = self.getColumnKeyFromNo(itemNo)
+                if self.isChangeableItem(rowNo, coloumKey):
                     if itemNo == 0:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "directory")
                     else:

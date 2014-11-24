@@ -131,10 +131,10 @@ class SearchAndReplace(MWidget):
             columnKey = trStr(self.columns.itemData(columnNo + 1))
             if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
                 continue
-            if getMainWindow().Table.checkHiddenColumn(columnNo, False) is False:
+            if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
                 continue
             for rowNo in range(getMainWindow().Table.rowCount()):
-                if getMainWindow().Table.isChangeableItem(rowNo, columnNo, None, True):
+                if getMainWindow().Table.isChangeableItem(rowNo, columnKey, None, True):
                     newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
                     newString = uni.trUnicode(newString)
                     myString = ""

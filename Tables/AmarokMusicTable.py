@@ -112,63 +112,63 @@ class AmarokMusicTable(CoreTable):
                                 isSetTagOfFile = True
                                 tagger = Taggers.getTagger()
                                 tagger.loadFileForWrite(self.values[rowNo]["path"])
-                        if self.isChangeableItem(rowNo, 2):
+                        if self.isChangeableItem(rowNo, "artist"):
                             value = str(self.item(rowNo, 2).text())
                             if isSetTagOfFile: tagger.setArtist(value)
                             changingTag["artist"] = value
                             Records.add(str(translate("MusicTable", "Artist")),
                                         str(self.values[rowNo]["artist"]), value)
                             self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, 3):
+                        if self.isChangeableItem(rowNo, "title"):
                             value = str(self.item(rowNo, 3).text())
                             if isSetTagOfFile: tagger.setTitle(value)
                             changingTag["title"] = value
                             Records.add(str(translate("MusicTable", "Title")),
                                         str(self.values[rowNo]["title"]), value)
                             self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, 4):
+                        if self.isChangeableItem(rowNo, "album"):
                             value = str(self.item(rowNo, 4).text())
                             if isSetTagOfFile: tagger.setAlbum(value)
                             changingTag["album"] = value
                             Records.add(str(translate("MusicTable", "Album")),
                                         str(self.values[rowNo]["album"]), value)
                             self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, 5):
+                        if self.isChangeableItem(rowNo, "albumArtist"):
                             value = str(self.item(rowNo, 5).text())
                             if isSetTagOfFile: tagger.setAlbumArtist(value)
                             changingTag["albumArtist"] = value
                             Records.add(str(translate("MusicTable", "Album Artist")),
                                         str(self.values[rowNo]["albumArtist"]), value)
                             self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, 6):
+                        if self.isChangeableItem(rowNo, "trackNum"):
                             value = str(self.item(rowNo, 6).text())
                             if isSetTagOfFile: tagger.setTrackNum(value)
                             changingTag["trackNum"] = value
                             Records.add(str(translate("MusicTable", "Track No")),
                                         str(self.values[rowNo]["trackNum"]), value)
                             self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, 7):
+                        if self.isChangeableItem(rowNo, "year"):
                             value = str(self.item(rowNo, 7).text())
                             if isSetTagOfFile: tagger.setDate(value)
                             changingTag["year"] = value
                             Records.add(str(translate("MusicTable", "Year")),
                                         str(self.values[rowNo]["year"]), value)
                             self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, 8):
+                        if self.isChangeableItem(rowNo, "genre"):
                             value = str(self.item(rowNo, 8).text())
                             if isSetTagOfFile: tagger.setGenre(value)
                             changingTag["genre"] = value
                             Records.add(str(translate("MusicTable", "Genre")),
                                         str(self.values[rowNo]["genre"]), value)
                             self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, 9):
+                        if self.isChangeableItem(rowNo, "firstComment"):
                             value = str(self.item(rowNo, 9).text())
                             if isSetTagOfFile: tagger.setFirstComment(value)
                             changingTag["firstComment"] = value
                             Records.add(str(translate("MusicTable", "Comment")),
                                         str(self.values[rowNo]["firstComment"]), value)
                             self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, 10):
+                        if self.isChangeableItem(rowNo, "firstLyrics"):
                             value = str(self.item(rowNo, 10).text())
                             if isSetTagOfFile: tagger.setFirstLyrics(value)
                             changingTag["firstLyrics"] = value
@@ -180,10 +180,10 @@ class AmarokMusicTable(CoreTable):
                         if isWritableFileOrDir:
                             if isSetTagOfFile:
                                 tagger.update()
-                            if self.isChangeableItem(rowNo, 0, baseNameOfDirectory):
+                            if self.isChangeableItem(rowNo, "baseNameOfDirectory", baseNameOfDirectory):
                                 baseNameOfDirectory = str(self.item(rowNo, 0).text())
                                 self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, 1, baseName, False):
+                            if self.isChangeableItem(rowNo, "baseName", baseName, False):
                                 baseName = str(self.item(rowNo, 1).text())
                                 self.changedValueNumber += 1
                             newFilePath = fu.joinPath(
@@ -254,7 +254,7 @@ class AmarokMusicTable(CoreTable):
 
     def saveTable(self):
         Details.closeAllDialogs()
-        self.checkFileExtensions(1, "baseName")
+        self.checkFileExtensions("baseName", "baseName")
         return self.writeContents()
 
     def refreshTable(self, _path):
@@ -367,42 +367,40 @@ class AmarokMusicTable(CoreTable):
                                             self.values.append(content)
                                         newBaseNameOfDirectory = Organizer.emend(
                                             self.values[rowNo]["baseNameOfDirectory"], "directory")
-                                        self.createItem(rowNo, 0, "baseNameOfDirectory", newBaseNameOfDirectory,
+                                        self.createItem(rowNo, "baseNameOfDirectory", newBaseNameOfDirectory,
                                                         self.values[rowNo]["baseNameOfDirectory"])
 
                                         newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "file")
-                                        self.createItem(rowNo, 1, "baseName", newBaseName,
-                                                        self.values[rowNo]["baseName"])
+                                        self.createItem(rowNo, "baseName", newBaseName, self.values[rowNo]["baseName"])
 
                                         newArtist = Organizer.emend(self.values[rowNo]["artist"])
-                                        self.createItem(rowNo, 2, "artist", newArtist, self.values[rowNo]["artist"])
+                                        self.createItem(rowNo, "artist", newArtist, self.values[rowNo]["artist"])
 
                                         newTitle = Organizer.emend(self.values[rowNo]["title"])
-                                        self.createItem(rowNo, 3, "title", newTitle, self.values[rowNo]["title"])
+                                        self.createItem(rowNo, "title", newTitle, self.values[rowNo]["title"])
 
                                         newAlbum = Organizer.emend(self.values[rowNo]["album"])
-                                        self.createItem(rowNo, 4, "album", newAlbum, self.values[rowNo]["album"])
+                                        self.createItem(rowNo, "album", newAlbum, self.values[rowNo]["album"])
 
                                         newAlbumArtist = Organizer.emend(self.values[rowNo]["albumArtist"])
-                                        self.createItem(rowNo, 5, "albumArtist", newAlbumArtist,
+                                        self.createItem(rowNo, "albumArtist", newAlbumArtist,
                                                         self.values[rowNo]["albumArtist"])
 
                                         newTrackNum = str(self.values[rowNo]["trackNum"])
-                                        self.createItem(rowNo, 6, "trackNum", newTrackNum,
-                                                        self.values[rowNo]["trackNum"])
+                                        self.createItem(rowNo, "trackNum", newTrackNum, self.values[rowNo]["trackNum"])
 
                                         newYear = Organizer.emend(self.values[rowNo]["year"])
-                                        self.createItem(rowNo, 7, "year", newYear, self.values[rowNo]["year"])
+                                        self.createItem(rowNo, "year", newYear, self.values[rowNo]["year"])
 
                                         newGenre = Organizer.emend(self.values[rowNo]["genre"])
-                                        self.createItem(rowNo, 8, "genre", newGenre, self.values[rowNo]["genre"])
+                                        self.createItem(rowNo, "genre", newGenre, self.values[rowNo]["genre"])
 
                                         newFirstComment = Organizer.emend(self.values[rowNo]["firstComment"])
-                                        self.createItem(rowNo, 9, "firstComment", newFirstComment,
+                                        self.createItem(rowNo, "firstComment", newFirstComment,
                                                         self.values[rowNo]["firstComment"])
 
                                         newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
-                                        self.createItem(rowNo, 10, "firstLyrics", newFirstLyrics,
+                                        self.createItem(rowNo, "firstLyrics", newFirstLyrics,
                                                         self.values[rowNo]["firstLyrics"])
                                         rowNo += 1
                                     else:
@@ -421,7 +419,8 @@ class AmarokMusicTable(CoreTable):
     def correctTable(self):
         for rowNo in range(self.rowCount()):
             for itemNo in range(self.columnCount()):
-                if self.isChangeableItem(rowNo, itemNo):
+                coloumKey = self.getColumnKeyFromNo(itemNo)
+                if self.isChangeableItem(rowNo, coloumKey):
                     if itemNo == 0:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "directory")
                     elif itemNo == 1:

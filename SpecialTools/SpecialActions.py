@@ -291,11 +291,11 @@ class SpecialActions(MWidget):
                         pass
                 for no, objectNameAndPoint in enumerate(rightColumnKeys):
                     objectNameAndPointList = objectNameAndPoint.split("~|~")
-                    objectName = objectNameAndPointList[0]
-                    columnNo = getMainWindow().Table.tableColumnsKey.index(objectName)
-                    if getMainWindow().Table.checkHiddenColumn(columnNo) is False:
+                    columnKey = objectNameAndPointList[0]
+                    columnNo = getMainWindow().Table.getColumnNoFromKey(columnKey)
+                    if getMainWindow().Table.checkHiddenColumn(columnKey) is False:
                         continue
-                    if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
+                    if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
                         newString = ""
                         if len(rightColumnKeys) == 1:
                             newString = sourceString
