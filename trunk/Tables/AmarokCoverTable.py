@@ -63,12 +63,12 @@ class AmarokCoverTable(CoreTable):
                             pathOfParentDirectory = str(
                                 self.values[rowNo]["pathOfParentDirectory"])
                             baseName = str(self.values[rowNo]["baseName"])
-                            if self.isChangeableItem(rowNo, 3) or self.isChangeableItem(rowNo, 4):
+                            if self.isChangeableItem(rowNo, "sourceCover") or self.isChangeableItem(rowNo, "destinationCover"):
                                 sourcePath = self.values[rowNo]["sourceCover"]
                                 destinationPath = self.values[rowNo]["destinationCover"]
-                                if self.isChangeableItem(rowNo, 3):
+                                if self.isChangeableItem(rowNo, "sourceCover"):
                                     sourcePath = str(self.item(rowNo, 3).text()).strip()
-                                if self.isChangeableItem(rowNo, 4):
+                                if self.isChangeableItem(rowNo, "destinationCover"):
                                     destinationPath = str(self.item(rowNo, 4).text()).strip()
                                 if (str(self.item(rowNo,
                                                   2).text()) != sourcePath or sourcePath != destinationPath or str(
@@ -96,10 +96,10 @@ class AmarokCoverTable(CoreTable):
                                     else:
                                         fu.setIconToDirectory(self.values[rowNo]["path"], "")
                                         self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, 0, pathOfParentDirectory):
+                            if self.isChangeableItem(rowNo, "baseNameOfDirectory", pathOfParentDirectory):
                                 pathOfParentDirectory = str(self.item(rowNo, 0).text())
                                 self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, 1, baseName, False):
+                            if self.isChangeableItem(rowNo, "baseName", baseName, False):
                                 baseName = str(self.item(rowNo, 1).text())
                                 self.changedValueNumber += 1
                             newFilePath = fu.joinPath(pathOfParentDirectory, baseName)
@@ -166,7 +166,7 @@ class AmarokCoverTable(CoreTable):
 
 
     def saveTable(self):
-        self.checkFileExtensions(4, 3)
+        self.checkFileExtensions("destinationCover", "sourceCover")
         return self.writeContents()
 
     def refreshTable(self, _path):
@@ -217,34 +217,35 @@ class AmarokCoverTable(CoreTable):
 
                                         newPathOfParentDirectory = Organizer.emend(
                                             self.values[rowNo]["pathOfParentDirectory"], "directory")
-                                        self.createItem(rowNo, 0, "pathOfParentDirectory",
-                                                        newPathOfParentDirectory, self.values[rowNo]["pathOfParentDirectory"])
+                                        self.createItem(rowNo, "pathOfParentDirectory", newPathOfParentDirectory,
+                                                        self.values[rowNo]["pathOfParentDirectory"])
 
                                         newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "directory")
-                                        self.createItem(rowNo, 1, "pathOfParentDirectory",
-                                                        newBaseName, self.values[rowNo]["baseName"])
+                                        self.createItem(rowNo, "pathOfParentDirectory", newBaseName,
+                                                        self.values[rowNo]["baseName"])
 
                                         newCurrentCover = fu.getShortPath(self.values[rowNo]["currentCover"],
                                                                           self.values[rowNo]["path"])
-                                        itemCurrentCover = self.createItem(rowNo, 2, "currentCover" ,
-                                                                           newCurrentCover, newCurrentCover, True)
+                                        itemCurrentCover = self.createItem(rowNo, "currentCover", newCurrentCover,
+                                                                           newCurrentCover, True)
                                         self.setItemColor(itemCurrentCover, rowNo, 2, "currentCover")
 
                                         newSourceCover = fu.getShortPath(self.values[rowNo]["sourceCover"],
                                                                          self.values[rowNo]["path"])
-                                        itemSourceCover = self.createItem(rowNo, 3, "sourceCover",
-                                                                          newSourceCover, fu.getShortPath(
-                                            self.values[rowNo]["currentCover"],
-                                            self.values[rowNo]["path"]))
+                                        itemSourceCover = self.createItem(rowNo, "sourceCover", newSourceCover,
+                                                                          fu.getShortPath(
+                                                                              self.values[rowNo]["currentCover"],
+                                                                              self.values[rowNo]["path"]))
                                         self.setItemColor(itemSourceCover, rowNo, 3, "sourceCover")
 
                                         newDestinationCover = Organizer.emend(
                                             fu.getShortPath(self.values[rowNo]["destinationCover"],
                                                             self.values[rowNo]["path"]), "file")
-                                        itemDestinationCover = self.createItem(rowNo, 4, "destinationCover",
-                                            newDestinationCover,
-                                            fu.getShortPath(self.values[rowNo]["currentCover"],
-                                                            self.values[rowNo]["path"]))
+                                        itemDestinationCover = self.createItem(rowNo, "destinationCover",
+                                                                               newDestinationCover,
+                                                                               fu.getShortPath(
+                                                                                   self.values[rowNo]["currentCover"],
+                                                                                   self.values[rowNo]["path"]))
                                         self.setItemColor(itemDestinationCover, rowNo, 4, "destinationCover")
                                         rowNo += 1
                                     else:
@@ -269,7 +270,8 @@ class AmarokCoverTable(CoreTable):
     def correctTable(self):
         for rowNo in range(self.rowCount()):
             for itemNo in range(self.columnCount()):
-                if self.isChangeableItem(rowNo, itemNo):
+                coloumKey = self.getColumnKeyFromNo(itemNo)
+                if self.isChangeableItem(rowNo, coloumKey):
                     if itemNo == 0 or itemNo == 1:
                         newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "directory")
                     elif itemNo == 2 or itemNo == 3:

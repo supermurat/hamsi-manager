@@ -52,7 +52,7 @@ from PyQt4 import QtCore
 for obj in dir(QtCore):
     if obj[0] == "Q":
         exec ("M" + obj[1:] + " = QtCore." + obj)
-    else:
+    elif obj is not "oct":
         exec (obj + " = QtCore." + obj)
 from PyQt4 import QtNetwork
 

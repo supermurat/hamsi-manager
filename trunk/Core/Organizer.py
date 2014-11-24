@@ -176,12 +176,10 @@ def getLink(_stringPath):
 def getCorrectedFileSize(_bytes, _precision=2):
     _bytes = int(_bytes)
     if _bytes is 0:
-        return '0 byte'
+        return '0 B'
     log = math.floor(math.log(_bytes, 1024))
-    return "%.*f %s" % (_precision,
-                        _bytes / math.pow(1024, log),
-                        ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
-                        [int(log)])
+    return "%.*f %s" % (_precision, _bytes / math.pow(1024, log),
+                        ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'][int(log)])
 
 
 def getCorrectedTime(_timeValue):

@@ -91,10 +91,10 @@ class QuickFill(MWidget):
                 break
         if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
             return False
-        if getMainWindow().Table.checkHiddenColumn(columnNo, False) is False:
+        if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
             return False
         for rowNo in range(getMainWindow().Table.rowCount()):
-            if getMainWindow().Table.isChangeableItem(rowNo, columnNo):
+            if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
                 myString = str(_newString)
                 if self.specialTools.btChange.isChecked():
                     pass
