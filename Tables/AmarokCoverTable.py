@@ -269,16 +269,16 @@ class AmarokCoverTable(CoreTable):
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
-            for itemNo in range(self.columnCount()):
-                coloumKey = self.getColumnKeyFromNo(itemNo)
+            for coloumKey in self.getWritableColumnKeys():
+                coloumNo = self.getColumnNoFromKey(coloumKey)
                 if self.isChangeableItem(rowNo, coloumKey):
-                    if itemNo == 0 or itemNo == 1:
-                        newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "directory")
-                    elif itemNo == 2 or itemNo == 3:
-                        newString = str(str(self.item(rowNo, itemNo).text()))
+                    if coloumKey == "baseNameOfDirectory" or coloumKey == "baseName":
+                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "directory")
+                    elif coloumKey == "currentCover" or coloumKey == "sourceCover":
+                        newString = str(str(self.item(rowNo, coloumNo).text()))
                     else:
-                        newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "file")
-                    self.item(rowNo, itemNo).setText(str(newString))
+                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "file")
+                    self.item(rowNo, coloumNo).setText(str(newString))
 
 
 

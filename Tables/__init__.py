@@ -252,6 +252,12 @@ class CoreTable(MTableWidget):
         self.checkActionsStates()
         self.fillSelectionInfo()
 
+    def getWritableColumnKeys(self):
+        writableKeys = list(self.tableColumnsKey)
+        for name in self.tableReadOnlyColumnsKey:
+            writableKeys.remove(name)
+        return writableKeys
+
     def getColumnKeyFromName(self, _nameWithMark):
         for x, name in enumerate(self.tableColumns):
             if str(name) == str(_nameWithMark).replace("&", ""):

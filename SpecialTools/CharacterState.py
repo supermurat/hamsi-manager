@@ -31,7 +31,7 @@ class CharacterState(MWidget):
         self.cckbCorrectText = MCheckBox(translate("SpecialTools", "Correct Text"))
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblCharacterType = MLabel(translate("SpecialTools", "Character Format: "))
-        self.columns = MComboBox()
+        self.columns = MyComboBox()
         self.cbCharacterType = MComboBox()
         self.cbCharacterType.addItems([translate("Options", "Title"),
                                        translate("Options", "All Small"),
@@ -92,22 +92,23 @@ class CharacterState(MWidget):
     def apply(self):
         self.checkCompleters()
         self.reFillCompleters()
-        getMainWindow().Table.createHistoryPoint()
-        getMainWindow().Table.isAskShowHiddenColumn = True
+        getMainTable().createHistoryPoint()
+        getMainTable().isAskShowHiddenColumn = True
         searchStrings = str(self.leSearch.text()).split(";")
-        if self.columns.currentIndex() == 0:
-            columns = list(range(0, getMainWindow().Table.columnCount()))
+        selectedColumnKey = self.columns.currentData()
+        if selectedColumnKey == "all":
+            columnKeys = getMainTable().getWritableColumnKeys()
         else:
-            columns = [self.columns.currentIndex() - 1]
-        for columnNo in columns:
-            columnKey = trStr(self.columns.itemData(columnNo + 1))
-            if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+            columnKeys = [selectedColumnKey]
+        for columnKey in columnKeys:
+            columnNo = getMainTable().getColumnNoFromKey(columnKey)
+            if getMainTable().checkReadOnlyColumn(columnKey) is False:
                 continue
-            if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
+            if getMainTable().checkHiddenColumn(columnKey, False) is False:
                 continue
-            for rowNo in range(getMainWindow().Table.rowCount()):
-                if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
-                    newString = uni.trUnicode(getMainWindow().Table.item(rowNo, columnNo).text())
+            for rowNo in range(getMainTable().rowCount()):
+                if getMainTable().isChangeableItem(rowNo, columnKey):
+                    newString = uni.trUnicode(getMainTable().item(rowNo, columnNo).text())
                     myString = ""
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
                     informationSectionY = self.specialTools.cbInformationSectionY.value()
@@ -152,6 +153,6 @@ class CharacterState(MWidget):
                         myString += Organizer.correctCaseSensitive(newString[informationSectionY:], cbCharacterType,
                                                                    isCorrectText, searchStrings, isCaseInsensitive,
                                                                    isRegExp)
-                    getMainWindow().Table.item(rowNo, columnNo).setText(str(myString))
+                    getMainTable().item(rowNo, columnNo).setText(str(myString))
             
     

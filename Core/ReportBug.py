@@ -399,21 +399,21 @@ class ReportBugDialog(MDialog):
                     translate("ReportBug", "Contents Directory : ")) + "</b>" + currentDirectoryPath + "</p>"
                 settingText += "<p><h3>" + str(translate("ReportBug", "Table Contents : ")) + "</h3>"
                 try:
-                    settingText += getMainWindow().Table.exportValues("return", "html", "no")
+                    settingText += getMainTable().exportValues("return", "html", "no")
                 except: pass
                 settingText += "<hr><p><h3>" + str(
                     translate("ReportBug", "File Information : ")) + "</h3><table border=1>"
                 try:
-                    for rowValues in getMainWindow().Table.values:
+                    for rowValues in getMainTable().values:
                         settingText += "<tr><td>" + str(
                             uni.trUnicode(rowValues["path"], fu.fileSystemEncoding)) + "</td></tr>"
                     settingText += "</table></p><hr><p><h3>" + str(translate("ReportBug", "File Details : ")) + "</h3>"
-                    if len(getMainWindow().Table.values) > 0:
+                    if len(getMainTable().values) > 0:
                         settingText += "<table border=1><tr>"
-                        for key, value in getMainWindow().Table.values[0].items():
+                        for key, value in getMainTable().values[0].items():
                             settingText += "<td><b>" + key + "</b></td>"
                         settingText += "</tr>"
-                        for rowValues in getMainWindow().Table.values:
+                        for rowValues in getMainTable().values:
                             settingText += "<tr>"
                             for key, value in rowValues.items():
                                 settingText += "<td>" + str(value) + "</td>"

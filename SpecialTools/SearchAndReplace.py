@@ -45,8 +45,7 @@ class SearchAndReplace(MWidget):
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
         self.leSearch.setToolTip(str(srExamples + sExample + "</table>"))
         self.leReplace.setToolTip(str(srExamples + rExample + "</table>"))
-        self.columns = MComboBox()
-        self.columns.addItem(translate("SpecialTools", "All"))
+        self.columns = MyComboBox()
         self.pbtnEditValueForSearch = MPushButton(translate("Options", "*"))
         self.pbtnEditValueForSearch.setObjectName(
             str(translate("Options", "Edit Values With Advanced Value Editor") + "For Search"))
@@ -111,7 +110,7 @@ class SearchAndReplace(MWidget):
     def apply(self):
         self.checkCompleters()
         self.reFillCompleters()
-        getMainWindow().Table.createHistoryPoint()
+        getMainTable().createHistoryPoint()
         searchStrings = str(self.leSearch.text()).split(";")
         replaceStrings = str(self.leReplace.text()).split(";")
         for filterNo in range(0, len(searchStrings)):
@@ -123,19 +122,20 @@ class SearchAndReplace(MWidget):
                 replaceStrings[filterNo] = searchStrings[filterNo] + replaceStrings[filterNo]
         while len(replaceStrings) != len(searchStrings):
             replaceStrings.append("")
-        if self.columns.currentIndex() == 0:
-            columns = list(range(0, getMainWindow().Table.columnCount()))
+        selectedColumnKey = self.columns.currentData()
+        if selectedColumnKey == "all":
+            columnKeys = getMainTable().getWritableColumnKeys()
         else:
-            columns = [self.columns.currentIndex() - 1]
-        for columnNo in columns:
-            columnKey = trStr(self.columns.itemData(columnNo + 1))
-            if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+            columnKeys = [selectedColumnKey]
+        for columnKey in columnKeys:
+            columnNo = getMainTable().getColumnNoFromKey(columnKey)
+            if getMainTable().checkReadOnlyColumn(columnKey) is False:
                 continue
-            if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
+            if getMainTable().checkHiddenColumn(columnKey, False) is False:
                 continue
-            for rowNo in range(getMainWindow().Table.rowCount()):
-                if getMainWindow().Table.isChangeableItem(rowNo, columnKey, None, True):
-                    newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
+            for rowNo in range(getMainTable().rowCount()):
+                if getMainTable().isChangeableItem(rowNo, columnKey, None, True):
+                    newString = str(getMainTable().item(rowNo, columnNo).text())
                     newString = uni.trUnicode(newString)
                     myString = ""
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
@@ -173,7 +173,7 @@ class SearchAndReplace(MWidget):
                         myString += newString[informationSectionX:informationSectionY]
                         myString += Organizer.searchAndReplace(newString[informationSectionY:], searchStrings,
                                                                replaceStrings, isCaseInsensitive, isRegExp)
-                    getMainWindow().Table.item(rowNo, columnNo).setText(str(myString))
+                    getMainTable().item(rowNo, columnNo).setText(str(myString))
 
 
 class SearchAndReplaceListEditDialog(MDialog):

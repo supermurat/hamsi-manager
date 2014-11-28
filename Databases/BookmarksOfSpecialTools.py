@@ -39,7 +39,7 @@ def fetchAll():
 def fetchAllByType(_type=None):
     global allForFetchByType
     if _type is None:
-        _type = getMainWindow().Table.keyName
+        _type = getMainTable().keyName
     if _type not in allForFetchByType or allForFetchByType[_type] is None:
         from SpecialTools import SpecialActions
 
@@ -70,7 +70,7 @@ def checkValues(_value, _type):
 def insert(_value, _type=None):
     global allForFetch, allForFetchByType
     if _type is None:
-        _type = getMainWindow().Table.keyName
+        _type = getMainTable().keyName
     if checkValues(_value, _type):
         allForFetch, allForFetchByType[_type] = None, None
         con = getDefaultConnection()
@@ -89,7 +89,7 @@ def insert(_value, _type=None):
 def update(_id, _value, _type=None):
     global allForFetch, allForFetchByType
     if _type is None:
-        _type = getMainWindow().Table.keyName
+        _type = getMainTable().keyName
     if checkValues(_value, _type):
         allForFetch, allForFetchByType[_type] = None, None
         con = getDefaultConnection()
@@ -101,7 +101,7 @@ def update(_id, _value, _type=None):
 
 def delete(_id, _type=None):
     if _type is None:
-        _type = getMainWindow().Table.keyName
+        _type = getMainTable().keyName
     global allForFetch, allForFetchByType
     allForFetch, allForFetchByType[_type] = None, None
     con = getDefaultConnection()

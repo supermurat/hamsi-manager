@@ -354,7 +354,7 @@ class FileManager():
     def showInTable(self):
         try:
             if uni.tableType in ["0", "1", "2", "3", "4", "9"]:
-                getMainWindow().Table.refresh(self.getCurrentDirectoryPath())
+                getMainTable().refresh(self.getCurrentDirectoryPath())
             else:
                 Dialogs.toast(translate("Tables", "Please edit query and click to Apply Query Icon."))
                 getMainWindow().StatusBar.setTableInfo(uni.getTableTypesNames()[uni.tableType] + str(" : ~ "))

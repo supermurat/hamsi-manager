@@ -161,13 +161,13 @@ class SpecialTools(MWidget):
         self.specialActions.pbtnAddObjects = []
         self.quickFill.lblColumns = []
         self.quickFill.leColumns = []
-        self.searchAndReplace.columns.addItem(translate("SpecialTools", "All"))
-        self.clear.columns.addItem(translate("SpecialTools", "All"))
-        self.characterState.columns.addItem(translate("SpecialTools", "All"))
-        self.characterEncoding.columns.addItem(translate("SpecialTools", "All"))
-        for columnName in getMainWindow().Table.tableColumns:
-            columnKey = getMainWindow().Table.getColumnKeyFromName(columnName)
-            if columnKey not in getMainWindow().Table.tableReadOnlyColumnsKey:
+        self.searchAndReplace.columns.addItem(translate("SpecialTools", "All"), trQVariant("all"))
+        self.clear.columns.addItem(translate("SpecialTools", "All"), trQVariant("all"))
+        self.characterState.columns.addItem(translate("SpecialTools", "All"), trQVariant("all"))
+        self.characterEncoding.columns.addItem(translate("SpecialTools", "All"), trQVariant("all"))
+        for columnName in getMainTable().tableColumns:
+            columnKey = getMainTable().getColumnKeyFromName(columnName)
+            if columnKey not in getMainTable().tableReadOnlyColumnsKey:
                 self.searchAndReplace.columns.addItem(columnName, trQVariant(columnKey))
                 self.fill.columns.addItem(columnName, trQVariant(columnKey))
                 self.clear.columns.addItem(columnName, trQVariant(columnKey))

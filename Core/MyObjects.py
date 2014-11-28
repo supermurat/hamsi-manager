@@ -229,6 +229,14 @@ def getActiveWindow():
         return getMainWindow()
 
 
+def getMainTable():
+    return MainWindowUseGetMainWindow.Table
+
+
+def setMainTable(_table):
+    MainWindowUseGetMainWindow.Table = _table
+
+
 class MyComboBox(MComboBox):
     def __init__(self):
         MComboBox.__init__(self)

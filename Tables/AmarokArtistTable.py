@@ -147,12 +147,10 @@ class AmarokArtistTable(CoreTable):
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
-            for itemNo in range(self.columnCount()):
-                coloumKey = self.getColumnKeyFromNo(itemNo)
+            for coloumKey in self.getWritableColumnKeys():
+                coloumNo = self.getColumnNoFromKey(coloumKey)
                 if self.isChangeableItem(rowNo, coloumKey):
                     newString = None
-                    if itemNo == 0:
-                        continue
-                    elif itemNo == 1:
-                        newString = Organizer.emend(str(self.item(rowNo, itemNo).text()))
-                    self.item(rowNo, itemNo).setText(str(newString))
+                    if coloumKey == "correctedArtist":
+                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()))
+                    self.item(rowNo, coloumNo).setText(str(newString))

@@ -218,13 +218,13 @@ class FileTable(CoreTable):
 
     def correctTable(self):
         for rowNo in range(self.rowCount()):
-            for itemNo in range(self.columnCount()):
-                coloumKey = self.getColumnKeyFromNo(itemNo)
+            for coloumKey in self.getWritableColumnKeys():
+                coloumNo = self.getColumnNoFromKey(coloumKey)
                 if self.isChangeableItem(rowNo, coloumKey):
-                    if itemNo == 0:
-                        newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "directory")
+                    if coloumKey == "baseNameOfDirectory":
+                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "directory")
                     else:
-                        newString = Organizer.emend(str(self.item(rowNo, itemNo).text()), "file")
-                    self.item(rowNo, itemNo).setText(str(newString))
+                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "file")
+                    self.item(rowNo, coloumNo).setText(str(newString))
     
     

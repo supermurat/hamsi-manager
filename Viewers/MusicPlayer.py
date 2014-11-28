@@ -133,7 +133,7 @@ class MusicPlayer(MWidget):
                     self.Player = M_MPlayer()
             self.stop()
             if _filePath == "":
-                _filePath = getMainWindow().Table.values[getMainWindow().Table.currentRow()]["path"]
+                _filePath = getMainTable().values[getMainTable().currentRow()]["path"]
             if _filePath == "" and self.file != "":
                 _filePath = self.file
             else:
