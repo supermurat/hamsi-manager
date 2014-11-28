@@ -35,7 +35,7 @@ class Fill(MWidget):
         self.spCharNumberOfDigit = MSpinBox()
         self.spCharNumberOfDigit.setRange(1, 20)
         self.spCharNumberOfDigit.setValue(2)
-        self.columns = MComboBox()
+        self.columns = MyComboBox()
         lblColumns = MLabel(translate("SpecialTools", "Column: "))
         lblColumns.setFixedWidth(60)
         self.lblFill = MLabel(translate("SpecialTools", "Text: "))
@@ -128,25 +128,21 @@ class Fill(MWidget):
             setCompleter(self.leFill, self.lblFill.text())
 
     def apply(self):
-        columnNo = None
         self.checkCompleters()
         self.reFillCompleters()
-        getMainWindow().Table.createHistoryPoint()
+        getMainTable().createHistoryPoint()
         newString = str(self.leFill.text())
-        getMainWindow().Table.isAskShowHiddenColumn = True
-        for No, columnName in enumerate(getMainWindow().Table.tableColumns):
-            if str(self.columns.currentText()) == str(columnName):
-                columnNo = No
-                break
-        columnKey = trStr(self.columns.itemData(self.columns.currentIndex()))
-        if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+        getMainTable().isAskShowHiddenColumn = True
+        columnKey = self.columns.currentData()
+        columnNo = getMainTable().getColumnNoFromKey(columnKey)
+        if getMainTable().checkReadOnlyColumn(columnKey) is False:
             return False
-        if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
+        if getMainTable().checkHiddenColumn(columnKey, False) is False:
             return False
         if self.cbFillType.currentIndex() == 1:
             newString = int(self.spStartDigit.value()) - 1
-        for rowNo in range(getMainWindow().Table.rowCount()):
-            if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
+        for rowNo in range(getMainTable().rowCount()):
+            if getMainTable().isChangeableItem(rowNo, columnKey):
                 if self.cbFillType.currentIndex() == 1:
                     if self.cbSort.currentIndex() == 0:
                         newString += 1
@@ -168,9 +164,9 @@ class Fill(MWidget):
                 if self.specialTools.btChange.isChecked():
                     pass
                 elif self.specialTools.tbAddToBefore.isChecked():
-                    myString += str(getMainWindow().Table.item(rowNo, columnNo).text())
+                    myString += str(getMainTable().item(rowNo, columnNo).text())
                 elif self.specialTools.tbAddToAfter.isChecked():
-                    myString = str(getMainWindow().Table.item(rowNo, columnNo).text()) + myString
-                getMainWindow().Table.item(rowNo, columnNo).setText(str(uni.trUnicode(myString)))
+                    myString = str(getMainTable().item(rowNo, columnNo).text()) + myString
+                getMainTable().item(rowNo, columnNo).setText(str(uni.trUnicode(myString)))
                     
     

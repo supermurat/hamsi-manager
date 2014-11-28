@@ -104,18 +104,18 @@ class Search(MDialog):
         try:
             if self.isCheckSingleFile:
                 self.prgbState.setRange(0, 1)
-                self.rows = list(range(getMainWindow().Table.currentRow(), getMainWindow().Table.currentRow() + 1))
+                self.rows = list(range(getMainTable().currentRow(), getMainTable().currentRow() + 1))
                 self.heightValue = 150
             else:
-                self.prgbState.setRange(0, getMainWindow().Table.rowCount())
-                self.rows = list(range(getMainWindow().Table.rowCount()))
-                if getMainWindow().Table.rowCount() < 7:
+                self.prgbState.setRange(0, getMainTable().rowCount())
+                self.rows = list(range(getMainTable().rowCount()))
+                if getMainTable().rowCount() < 7:
                     self.heightValue = 300
                 else:
                     self.heightValue = 500
             valuesOfFiles = []
             for rowNo in self.rows:
-                valuesOfFiles.append([str(getMainWindow().Table.item(rowNo, 1).text()), rowNo])
+                valuesOfFiles.append([str(getMainTable().item(rowNo, 1).text()), rowNo])
             uni.startThreadAction()
             self.emit(SIGNAL("changedProgressBarValue"), 0)
             for valuesOfFile in valuesOfFiles:

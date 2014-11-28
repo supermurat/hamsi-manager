@@ -193,8 +193,8 @@ class TableQuickOptions(MMenu):
             uni.setMySetting(self.keysOfSettings[indexNo], selectedValue)
             self.checkEnableStates()
             getMainWindow().StatusBar.fillSelectionInfo()
-            if getMainWindow().Table is not None:
-                getMainWindow().Table.fillSelectionInfo()
+            if getMainTable() is not None:
+                getMainTable().fillSelectionInfo()
         except:
             ReportBug.ReportBug()
         

@@ -19,12 +19,6 @@
 
 from Core.MyObjects import *
 from Core import Universals as uni
-from Core import Dialogs
-import FileUtils as fu
-import Options
-from Core import Organizer
-import Amarok
-from Amarok import Commands
 from Core import ReportBug
 
 
@@ -61,7 +55,7 @@ class FilterWidget(MWidget):
     def apply(self):
         try:
             uni.setMySetting(self.filterKeyName, str(self.leFilter.text()))
-            getMainWindow().Table.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            getMainTable().refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
         except:
             ReportBug.ReportBug()
 

@@ -238,24 +238,24 @@ class SpecialActions(MWidget):
     def apply(self):
         self.checkCompleters()
         self.reFillCompleters()
-        getMainWindow().Table.createHistoryPoint()
+        getMainTable().createHistoryPoint()
         actionCommand = self.getActionCommand()
         spliterIndex = actionCommand.index("~||~")
         leftKeys = actionCommand[:spliterIndex]
         rightKeys = actionCommand[spliterIndex + 1:]
         leftColumnKeys = []
         rightColumnKeys = []
-        getMainWindow().Table.isAskShowHiddenColumn = True
+        getMainTable().isAskShowHiddenColumn = True
         if len(leftKeys) > 0 and len(rightKeys) > 0:
             for objectNameAndPoint in leftKeys:
                 leftColumnKeys.append(objectNameAndPoint)
             for objectNameAndPoint in rightKeys:
                 objectNameAndPointList = objectNameAndPoint.split("~|~")
                 objectName = objectNameAndPointList[0]
-                if getMainWindow().Table.checkReadOnlyColumn(objectName):
+                if getMainTable().checkReadOnlyColumn(objectName):
                     rightColumnKeys.append(objectNameAndPoint)
         if len(leftColumnKeys) > 0 and len(rightColumnKeys) > 0:
-            for rowNo in range(getMainWindow().Table.rowCount()):
+            for rowNo in range(getMainTable().rowCount()):
                 sourceString = ""
                 sourceList = []
                 sourceListLogical = []
@@ -266,8 +266,8 @@ class SpecialActions(MWidget):
                     if len(objectNameAndPointList) > 1:
                         point = objectNameAndPointList[1]
                     if objectName.find("Concatenate") == -1:
-                        columnNo = getMainWindow().Table.tableColumnsKey.index(objectName)
-                        valueOfField = str(getMainWindow().Table.item(rowNo, columnNo).text())
+                        columnNo = getMainTable().tableColumnsKey.index(objectName)
+                        valueOfField = str(getMainTable().item(rowNo, columnNo).text())
                         if objectName == "baseName":
                             valueOfField, ext = fu.getFileNameParts(valueOfField)
                         sourceString += valueOfField
@@ -292,10 +292,10 @@ class SpecialActions(MWidget):
                 for no, objectNameAndPoint in enumerate(rightColumnKeys):
                     objectNameAndPointList = objectNameAndPoint.split("~|~")
                     columnKey = objectNameAndPointList[0]
-                    columnNo = getMainWindow().Table.getColumnNoFromKey(columnKey)
-                    if getMainWindow().Table.checkHiddenColumn(columnKey) is False:
+                    columnNo = getMainTable().getColumnNoFromKey(columnKey)
+                    if getMainTable().checkHiddenColumn(columnKey) is False:
                         continue
-                    if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
+                    if getMainTable().isChangeableItem(rowNo, columnKey):
                         newString = ""
                         if len(rightColumnKeys) == 1:
                             newString = sourceString
@@ -310,10 +310,10 @@ class SpecialActions(MWidget):
                             if self.specialTools.btChange.isChecked():
                                 pass
                             elif self.specialTools.tbAddToBefore.isChecked():
-                                newString += str(getMainWindow().Table.item(rowNo, columnNo).text())
+                                newString += str(getMainTable().item(rowNo, columnNo).text())
                             elif self.specialTools.tbAddToAfter.isChecked():
-                                newString = str(getMainWindow().Table.item(rowNo, columnNo).text()) + newString
-                            getMainWindow().Table.item(rowNo, columnNo).setText(str(newString.strip()))
+                                newString = str(getMainTable().item(rowNo, columnNo).text()) + newString
+                            getMainTable().item(rowNo, columnNo).setText(str(newString.strip()))
 
 
 def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetails=False):
@@ -331,7 +331,7 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
             if len(objectNameAndPointList) > 1:
                 point = objectNameAndPointList[1]
             if objectName.find("Concatenate") == -1:
-                leftNames += getMainWindow().Table.getColumnNameFromKey(objectName)
+                leftNames += getMainTable().getColumnNameFromKey(objectName)
             else:
                 leftNames += translate("Organizer", "Concatenate")
             if point != "":
@@ -348,7 +348,7 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
             if len(objectNameAndPointList) > 1:
                 point = objectNameAndPointList[1]
             if objectName.find("Concatenate") == -1:
-                rightNames += getMainWindow().Table.getColumnNameFromKey(objectName)
+                rightNames += getMainTable().getColumnNameFromKey(objectName)
             else:
                 rightNames += translate("Organizer", "Concatenate")
             if point != "":
@@ -376,6 +376,7 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
 
 
 class SpecialActionsCommandContainer(MFrame):
+    # FIXME: add key for panel and check readonly columns on drop event
     def __init__(self, _parent, _moveHereLabel=False):
         MFrame.__init__(self, _parent)
         self.setAcceptDrops(True)
@@ -489,7 +490,7 @@ class SpecialActionsCommandButton(MFrame):
         MFrame.__init__(self, _parent)
         self.setObjectName(_columnNameKey)
         if _columnNameKey.find("Concatenate") == -1:
-            self.columnName = getMainWindow().Table.getColumnNameFromKey(_columnNameKey)
+            self.columnName = getMainTable().getColumnNameFromKey(_columnNameKey)
             toolTip = str(translate("SpecialActions",
                                     "If requires, \"%s\" will be separated by this. You can leave blank not to separate it.")) % (
                           self.columnName)

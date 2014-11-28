@@ -37,8 +37,7 @@ class Clear(MWidget):
                                    translate("SpecialTools", "Numbers"),
                                    translate("SpecialTools", "Other Characters"),
                                    translate("SpecialTools", "Selected Text")])
-        self.columns = MComboBox()
-        self.columns.addItem(translate("SpecialTools", "All"))
+        self.columns = MyComboBox()
         self.cckbCaseInsensitive = MCheckBox(translate("SpecialTools", "Case Insensitive"))
         self.cckbRegExp = MCheckBox(translate("SpecialTools", "Regular Expression (RegExp)"))
         self.cckbCaseInsensitive.setChecked(True)
@@ -98,21 +97,22 @@ class Clear(MWidget):
     def apply(self):
         self.checkCompleters()
         self.reFillCompleters()
-        getMainWindow().Table.createHistoryPoint()
-        getMainWindow().Table.isAskShowHiddenColumn = True
-        if self.columns.currentIndex() == 0:
-            columns = list(range(0, getMainWindow().Table.columnCount()))
+        getMainTable().createHistoryPoint()
+        getMainTable().isAskShowHiddenColumn = True
+        selectedColumnKey = self.columns.currentData()
+        if selectedColumnKey == "all":
+            columnKeys = getMainTable().getWritableColumnKeys()
         else:
-            columns = [self.columns.currentIndex() - 1]
-        for columnNo in columns:
-            columnKey = trStr(self.columns.itemData(columnNo + 1))
-            if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+            columnKeys = [selectedColumnKey]
+        for columnKey in columnKeys:
+            columnNo = getMainTable().getColumnNoFromKey(columnKey)
+            if getMainTable().checkReadOnlyColumn(columnKey) is False:
                 continue
-            if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
+            if getMainTable().checkHiddenColumn(columnKey, False) is False:
                 continue
-            for rowNo in range(getMainWindow().Table.rowCount()):
-                if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
-                    newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
+            for rowNo in range(getMainTable().rowCount()):
+                if getMainTable().isChangeableItem(rowNo, columnKey):
+                    newString = str(getMainTable().item(rowNo, columnNo).text())
                     newString = uni.trDecode(newString, "utf-8")
                     informationSectionX = self.specialTools.cbInformationSectionX.value()
                     informationSectionY = self.specialTools.cbInformationSectionY.value()
@@ -151,6 +151,6 @@ class Clear(MWidget):
                         myString += newString[informationSectionX:informationSectionY]
                         myString += Organizer.clear(cbClearType, newString[informationSectionY:],
                                                     oldString, isCaseInsensitive, isRegExp)
-                    getMainWindow().Table.item(rowNo, columnNo).setText(str(myString))
+                    getMainTable().item(rowNo, columnNo).setText(str(myString))
     
     

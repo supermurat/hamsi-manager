@@ -69,18 +69,18 @@ class Bars():
                 getMainWindow().close()
             elif actionName == translate("MenuBar", "HTML Format"):
                 if _action.parent().objectName() == translate("MenuBar", "Export To File"):
-                    getMainWindow().Table.exportValues("file", "html", "title")
+                    getMainTable().exportValues("file", "html", "title")
                 elif _action.parent().objectName() == translate("MenuBar", "Show In New Window"):
-                    getMainWindow().Table.exportValues("dialog", "html", "title")
+                    getMainTable().exportValues("dialog", "html", "title")
                 elif _action.parent().objectName() == translate("MenuBar", "Copy To Clipboard"):
-                    getMainWindow().Table.exportValues("clipboard", "html", "title")
+                    getMainTable().exportValues("clipboard", "html", "title")
             elif actionName == translate("MenuBar", "Text Format"):
                 if _action.parent().objectName() == translate("MenuBar", "Export To File"):
-                    getMainWindow().Table.exportValues("file", "plainText", "title")
+                    getMainTable().exportValues("file", "plainText", "title")
                 elif _action.parent().objectName() == translate("MenuBar", "Show In New Window"):
-                    getMainWindow().Table.exportValues("dialog", "plainText", "title")
+                    getMainTable().exportValues("dialog", "plainText", "title")
                 elif _action.parent().objectName() == translate("MenuBar", "Copy To Clipboard"):
-                    getMainWindow().Table.exportValues("clipboard", "plainText", "title")
+                    getMainTable().exportValues("clipboard", "plainText", "title")
             elif actionName == translate("MenuBar", "HTML Format (File Tree)"):
                 if _action.parent().objectName() == translate("MenuBar", "Export To File"):
                     fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "file", "html", "fileTree",
@@ -144,7 +144,7 @@ class Bars():
                                        "Current directory icon checked.<br>The default action based on the data is executed."))
                 getMainWindow().setEnabled(True)
             elif actionName == translate("ToolsBar", "Clear Empty Directories"):
-                if getMainWindow().Table.checkUnSavedValues() is False:
+                if getMainTable().checkUnSavedValues() is False:
                     _action.setChecked(False)
                     return False
                 answer = Dialogs.ask(translate("ToolsBar", "Empty Directories Will Be Removed"),
@@ -225,7 +225,7 @@ class Bars():
             ReportBug.ReportBug()
 
     def refreshBars(self):
-        getMainWindow().Table = Tables.Tables(getMainWindow()).Table
+        setMainTable(Tables.Tables(getMainWindow()).Table)
         getMainWindow().SpecialTools = SpecialTools.SpecialTools(getMainWindow())
         if uni.tableType in ["2", "6", "8", "9"]:
             getMainWindow().PlayerBar = PlayerBar.PlayerBar(getMainWindow())
@@ -235,10 +235,10 @@ class Bars():
     def changeTableTypeByType(self, _tableType):
         try:
             if uni.tableType != _tableType:
-                if getMainWindow().Table.checkUnSavedValues() is False:
+                if getMainTable().checkUnSavedValues() is False:
                     return False
-                uni.setMySetting(getMainWindow().Table.hiddenTableColumnsSettingKey,
-                                 getMainWindow().Table.hiddenTableColumns)
+                uni.setMySetting(getMainTable().hiddenTableColumnsSettingKey,
+                                 getMainTable().hiddenTableColumns)
                 if uni.tableType in ["2", "6", "8", "9"]:
                     getMainWindow().removeToolBar(getMainWindow().PlayerBar)
                     getMainWindow().PlayerBar.deleteLater()
@@ -284,7 +284,7 @@ class Bars():
 
     def changeReNamerType(self, _action):
         try:
-            if getMainWindow().Table.checkUnSavedValues() is False:
+            if getMainTable().checkUnSavedValues() is False:
                 _action.setChecked(False)
                 for x, typeName in enumerate(uni.fileReNamerTypeNamesKeys):
                     if typeName == uni.MySettings["fileReNamerType"]:

@@ -30,7 +30,7 @@ class CharacterEncoding(MWidget):
         lblSourceValues = MLabel(translate("SpecialTools", "Source Values : "))
         lblSourceEncoding = MLabel(translate("SpecialTools", "Source Encoding : "))
         lblDestinationEncoding = MLabel(translate("SpecialTools", "Destination Encoding : "))
-        self.columns = MComboBox()
+        self.columns = MyComboBox()
         self.cbSourceEncoding = MComboBox()
         self.cbSourceEncoding.addItems(uni.getCharSets())
         self.cbDestinationEncoding = MComboBox()
@@ -41,13 +41,11 @@ class CharacterEncoding(MWidget):
         self.cbSourceValues = MComboBox()
         self.cbSourceValues.addItems([translate("Options", "Real Values"),
                                       translate("Options", "Table Contents")])
-        HBoxs = []
-        HBoxs.append(MHBoxLayout())
+        HBoxs = [MHBoxLayout(), MHBoxLayout()]
         HBoxs[0].addWidget(lblColumns)
         HBoxs[0].addWidget(self.columns)
         HBoxs[0].addWidget(lblSourceValues)
         HBoxs[0].addWidget(self.cbSourceValues)
-        HBoxs.append(MHBoxLayout())
         HBoxs[1].addWidget(lblSourceEncoding)
         HBoxs[1].addWidget(self.cbSourceEncoding)
         HBoxs[1].addWidget(lblDestinationEncoding)
@@ -65,43 +63,44 @@ class CharacterEncoding(MWidget):
         pass
 
     def checkCompleters(self):
-        if uni.getBoolValue("isActiveCompleter"):
-            pass
+        pass
 
     def reFillCompleters(self):
-        if uni.getBoolValue("isActiveCompleter"):
-            pass
+        pass
 
     def apply(self):
         self.checkCompleters()
         self.reFillCompleters()
-        getMainWindow().Table.createHistoryPoint()
-        getMainWindow().Table.isAskShowHiddenColumn = True
+        getMainTable().createHistoryPoint()
+        getMainTable().isAskShowHiddenColumn = True
         sourceEncoding = str(self.cbSourceEncoding.currentText())
         destinationEncoding = str(self.cbDestinationEncoding.currentText())
         sourceValues = str(self.cbSourceValues.currentText())
         isUseRealValues = (sourceValues == translate("Options", "Real Values"))
-        if self.columns.currentIndex() == 0:
-            columns = list(range(0, getMainWindow().Table.columnCount()))
+        selectedColumnKey = self.columns.currentData()
+        if selectedColumnKey == "all":
+            columnKeys = getMainTable().getWritableColumnKeys()
         else:
-            columns = [self.columns.currentIndex() - 1]
-        for columnNo in columns:
-            columnKey = trStr(self.columns.itemData(columnNo + 1))
-            if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+            columnKeys = [selectedColumnKey]
+        for columnKey in columnKeys:
+            columnNo = getMainTable().getColumnNoFromKey(columnKey)
+            if getMainTable().checkReadOnlyColumn(columnKey) is False:
                 continue
-            if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
+            if getMainTable().checkHiddenColumn(columnKey, False) is False:
                 continue
-            for rowNo in range(getMainWindow().Table.rowCount()):
-                if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
+            for rowNo in range(getMainTable().rowCount()):
+                if getMainTable().isChangeableItem(rowNo, columnKey):
                     if isUseRealValues:
-                        newString = str(getMainWindow().Table.values[rowNo][
-                            getMainWindow().Table.tableColumnsKey[columnNo]])
+                        newString = str(getMainTable().values[rowNo][columnKey])
                     else:
-                        newString = str(getMainWindow().Table.item(rowNo, columnNo).text())
+                        newString = str(getMainTable().item(rowNo, columnNo).text())
                     myString = ""
-                    try: myString = uni.trDecode(newString, sourceEncoding, "ignore")
-                    except: pass
-                    try: myString = str(uni.trEncode(myString, destinationEncoding, "ignore"))
-                    except: pass
-                    getMainWindow().Table.item(rowNo, columnNo).setText(str(myString))
-            
+                    try:
+                        myString = uni.trDecode(newString, sourceEncoding, "ignore")
+                    except:
+                        pass
+                    try:
+                        myString = str(uni.trEncode(myString, destinationEncoding, "ignore"))
+                    except:
+                        pass
+                    getMainTable().item(rowNo, columnNo).setText(str(myString))

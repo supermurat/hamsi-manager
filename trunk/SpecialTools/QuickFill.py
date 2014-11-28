@@ -81,27 +81,27 @@ class QuickFill(MWidget):
         columnNo = None
         self.checkCompleters()
         self.reFillCompleters()
-        getMainWindow().Table.createHistoryPoint()
+        getMainTable().createHistoryPoint()
         _newString = str(self.fillFrom.text())
-        getMainWindow().Table.isAskShowHiddenColumn = True
-        for cno, ckey in enumerate(getMainWindow().Table.tableColumnsKey):
+        getMainTable().isAskShowHiddenColumn = True
+        for cno, ckey in enumerate(getMainTable().tableColumnsKey):
             if str(self.fillFrom.objectName()) == str(ckey):
                 columnKey = ckey
                 columnNo = cno
                 break
-        if getMainWindow().Table.checkReadOnlyColumn(columnKey) is False:
+        if getMainTable().checkReadOnlyColumn(columnKey) is False:
             return False
-        if getMainWindow().Table.checkHiddenColumn(columnKey, False) is False:
+        if getMainTable().checkHiddenColumn(columnKey, False) is False:
             return False
-        for rowNo in range(getMainWindow().Table.rowCount()):
-            if getMainWindow().Table.isChangeableItem(rowNo, columnKey):
+        for rowNo in range(getMainTable().rowCount()):
+            if getMainTable().isChangeableItem(rowNo, columnKey):
                 myString = str(_newString)
                 if self.specialTools.btChange.isChecked():
                     pass
                 elif self.specialTools.tbAddToBefore.isChecked():
-                    myString += str(getMainWindow().Table.item(rowNo, columnNo).text())
+                    myString += str(getMainTable().item(rowNo, columnNo).text())
                 elif self.specialTools.tbAddToAfter.isChecked():
-                    myString = str(getMainWindow().Table.item(rowNo, columnNo).text()) + myString
-                getMainWindow().Table.item(rowNo, columnNo).setText(str(uni.trUnicode(myString)))
+                    myString = str(getMainTable().item(rowNo, columnNo).text()) + myString
+                getMainTable().item(rowNo, columnNo).setText(str(uni.trUnicode(myString)))
                     
     
