@@ -16,6 +16,7 @@
 # along with HamsiManager; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import stat
 from Core import Organizer
 import FileUtils as fu
 import SearchEngines
@@ -88,6 +89,14 @@ class SubFolderMusicTable(CoreTable):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
         self.tableColumnsKey = Taggers.getAvailableKeysForTable()
         self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
+        self.tableColumns += [
+            translate("FileTable", "Size"),
+            translate("FileTable", "Last Accessed"),
+            translate("FileTable", "Last Modified"),
+            translate("FileTable", "Last Metadata Changed")
+        ]
+        self.tableColumnsKey += ["size", "lastAccessed", "lastModified", "lastMetadataChanged"]
+        self.tableReadOnlyColumnsKey += ["size", "lastAccessed", "lastModified", "lastMetadataChanged"]
 
     def saveTable(self):
         Details.closeAllDialogs()
@@ -107,26 +116,27 @@ class SubFolderMusicTable(CoreTable):
         uni.startThreadAction()
         rowNo = 0
         self.setRowCount(allItemNumber)
-        for musicName in musicFileNames:
+        for filePath in musicFileNames:
             isContinueThreadAction = uni.isContinueThreadAction()
             if isContinueThreadAction:
                 try:
-                    if fu.isReadableFileOrDir(musicName, False, True):
+                    if fu.isReadableFileOrDir(filePath, False, True):
                         tagger = Taggers.getTagger()
                         try:
-                            tagger.loadFile(musicName)
+                            tagger.loadFile(filePath)
                         except:
                             Dialogs.showError(translate("FileUtils/Musics", "Incorrect Tag"),
                                               str(translate("FileUtils/Musics",
                                                             "\"%s\" : this file has the incorrect tag so can't read tags.")
-                                              ) % Organizer.getLink(musicName))
+                                              ) % Organizer.getLink(filePath))
                         if tagger.isAvailableFile() is False:
                             isCanNoncompatible = True
+                        details = fu.getDetails(filePath)
                         content = {}
-                        content["path"] = musicName
+                        content["path"] = filePath
                         content["baseNameOfDirectory"] = str(
-                            str(fu.getBaseName(_path)) + str(fu.getDirName(musicName)).replace(_path, ""))
-                        content["baseName"] = fu.getBaseName(musicName)
+                            str(fu.getBaseName(_path)) + str(fu.getDirName(filePath)).replace(_path, ""))
+                        content["baseName"] = fu.getBaseName(filePath)
                         content["artist"] = tagger.getArtist()
                         content["title"] = tagger.getTitle()
                         content["album"] = tagger.getAlbum()
@@ -136,6 +146,10 @@ class SubFolderMusicTable(CoreTable):
                         content["genre"] = tagger.getGenre()
                         content["firstComment"] = tagger.getFirstComment()
                         content["firstLyrics"] = tagger.getFirstLyrics()
+                        content["size"] = details[stat.ST_SIZE]
+                        content["lastAccessed"] = details[stat.ST_ATIME]
+                        content["lastModified"] = details[stat.ST_MTIME]
+                        content["lastMetadataChanged"] = details[stat.ST_CTIME]
                         self.values.append(content)
 
                         newBaseNameOfDirectory = Organizer.emend(self.values[rowNo]["baseNameOfDirectory"], "directory")
@@ -171,6 +185,16 @@ class SubFolderMusicTable(CoreTable):
 
                         newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
                         self.createItem(rowNo, "firstLyrics", newFirstLyrics, self.values[rowNo]["firstLyrics"])
+
+                        self.createItem(rowNo, "size", Organizer.getCorrectedFileSize(content["size"]))
+
+                        self.createItem(rowNo, "lastAccessed", Organizer.getCorrectedTime(content["lastAccessed"]))
+
+                        self.createItem(rowNo, "lastModified", Organizer.getCorrectedTime(content["lastModified"]))
+
+                        self.createItem(rowNo, "lastMetadataChanged",
+                                        Organizer.getCorrectedTime(content["lastMetadataChanged"]))
+
                         rowNo += 1
                     else:
                         allItemNumber -= 1

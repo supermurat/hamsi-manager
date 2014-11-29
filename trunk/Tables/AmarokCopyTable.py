@@ -16,6 +16,7 @@
 # along with HamsiManager; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import stat
 from Core import Organizer
 import FileUtils as fu
 import SearchEngines
@@ -89,6 +90,14 @@ class AmarokCopyTable(CoreTable):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
         self.tableColumnsKey = Taggers.getAvailableKeysForTable()
         self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
+        self.tableColumns += [
+            translate("FileTable", "Size"),
+            translate("FileTable", "Last Accessed"),
+            translate("FileTable", "Last Modified"),
+            translate("FileTable", "Last Metadata Changed")
+        ]
+        self.tableColumnsKey += ["size", "lastAccessed", "lastModified", "lastMetadataChanged"]
+        self.tableReadOnlyColumnsKey += ["size", "lastAccessed", "lastModified", "lastMetadataChanged"]
 
     def saveTable(self):
         Details.closeAllDialogs()
@@ -121,10 +130,11 @@ class AmarokCopyTable(CoreTable):
                             isContinueThreadAction = uni.isContinueThreadAction()
                             if isContinueThreadAction:
                                 try:
-                                    if fu.isFile(musicFileRow["filePath"]) and fu.isReadableFileOrDir(
-                                        musicFileRow["filePath"], False, True):
+                                    if (fu.isFile(musicFileRow["filePath"]) and
+                                            fu.isReadableFileOrDir(musicFileRow["filePath"], False, True)):
+                                        details = fu.getDetails(musicFileRow["filePath"])
+                                        content = {}
                                         if Amarok.getSelectedTagSourseType("AmarokMusicTable") == "Amarok (Smart)":
-                                            content = {}
                                             content["path"] = musicFileRow["filePath"]
                                             content["baseNameOfDirectory"] = fu.getBaseName(
                                                 fu.getDirName(musicFileRow["filePath"]))
@@ -162,9 +172,7 @@ class AmarokCopyTable(CoreTable):
                                                     content["firstComment"] = tagger.getFirstComment()
                                                 if content["firstLyrics"].strip() == "":
                                                     content["firstLyrics"] = tagger.getFirstLyrics()
-                                            self.values.append(content)
                                         elif Amarok.getSelectedTagSourseType("AmarokCopyTable") == "Only Amarok":
-                                            content = {}
                                             content["path"] = musicFileRow["filePath"]
                                             content["baseNameOfDirectory"] = ""
                                             content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
@@ -177,7 +185,6 @@ class AmarokCopyTable(CoreTable):
                                             content["genre"] = musicFileRow["genre"]
                                             content["firstComment"] = musicFileRow["comment"]
                                             content["firstLyrics"] = musicFileRow["lyrics"]
-                                            self.values.append(content)
                                         else:
                                             tagger = Taggers.getTagger()
                                             try:
@@ -187,7 +194,6 @@ class AmarokCopyTable(CoreTable):
                                                                   str(translate("FileUtils/Musics",
                                                                                 "\"%s\" : this file has the incorrect tag so can't read tags.")
                                                                   ) % Organizer.getLink(musicFileRow["filePath"]))
-                                            content = {}
                                             content["path"] = musicFileRow["filePath"]
                                             content["baseNameOfDirectory"] = ""
                                             content["baseName"] = fu.getBaseName(musicFileRow["filePath"])
@@ -200,7 +206,11 @@ class AmarokCopyTable(CoreTable):
                                             content["genre"] = tagger.getGenre()
                                             content["firstComment"] = tagger.getFirstComment()
                                             content["firstLyrics"] = tagger.getFirstLyrics()
-                                            self.values.append(content)
+                                        content["size"] = details[stat.ST_SIZE]
+                                        content["lastAccessed"] = details[stat.ST_ATIME]
+                                        content["lastModified"] = details[stat.ST_MTIME]
+                                        content["lastMetadataChanged"] = details[stat.ST_CTIME]
+                                        self.values.append(content)
                                         newBaseNameOfDirectory = Organizer.emend(
                                             self.values[rowNo]["baseNameOfDirectory"], "directory")
                                         self.createItem(rowNo, "baseNameOfDirectory", newBaseNameOfDirectory,
@@ -238,6 +248,18 @@ class AmarokCopyTable(CoreTable):
                                         newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
                                         self.createItem(rowNo, "firstLyrics", newFirstLyrics,
                                                         self.values[rowNo]["firstLyrics"])
+
+                                        self.createItem(rowNo, "size", Organizer.getCorrectedFileSize(content["size"]))
+
+                                        self.createItem(rowNo, "lastAccessed",
+                                                        Organizer.getCorrectedTime(content["lastAccessed"]))
+
+                                        self.createItem(rowNo, "lastModified",
+                                                        Organizer.getCorrectedTime(content["lastModified"]))
+
+                                        self.createItem(rowNo, "lastMetadataChanged",
+                                                        Organizer.getCorrectedTime(content["lastMetadataChanged"]))
+
                                         rowNo += 1
                                     else:
                                         allItemNumber -= 1
