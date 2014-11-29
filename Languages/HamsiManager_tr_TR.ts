@@ -4036,7 +4036,7 @@
     <message>
         <location filename="Options/OptionsFormContent.py" line="922"/>
         <source>In SubFolder Table</source>
-        <translation>Altdizin Tablosunda</translation>
+        <translation>Alt Dizin Tablosunda</translation>
     </message>
     <message>
         <location filename="Options/OptionsFormContent.py" line="923"/>
@@ -6517,7 +6517,7 @@
     <message>
         <location filename="Core/Universals.py" line="82"/>
         <source>Subfolder Table</source>
-        <translation>Altdizin Tablosu</translation>
+        <translation>Alt Dizin Tablosu</translation>
     </message>
     <message>
         <location filename="Tables/__init__.py" line="169"/>
