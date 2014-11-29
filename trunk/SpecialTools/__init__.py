@@ -183,7 +183,7 @@ class SpecialTools(MWidget):
             tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, columnKey)
             self.specialActions.pbtnAddObjects.append(tb)
         for x in range(0, len(self.specialActions.pbtnAddObjects)):
-            self.specialActions.specialActionsCommandContainerAvailable.addToWidgetList(
+            self.specialActions.saccAvailable.addToWidgetList(
                 self.specialActions.pbtnAddObjects[x])
         for x in range(0, len(self.quickFill.leColumns)):
             if len(self.quickFill.leColumns) < 7:
