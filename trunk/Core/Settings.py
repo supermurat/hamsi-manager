@@ -322,6 +322,18 @@ def updateOldSettings(_oldVersion, _newVersion):
         setting().sync()
     if oldVersion < 1952:
         changedDefaultValuesKeys += ["musicExtensions"]
+    if oldVersion < 2006:
+        try:
+            del uni.MySettings["eyed3TaggerTypeNameForRead"]
+            del uni.MySettings["eyed3TaggerTypeNameForWrite"]
+        except:
+            pass
+        try:
+            setting().remove("eyed3TaggerTypeNameForRead")
+            setting().remove("eyed3TaggerTypeNameForWrite")
+            setting().sync()
+        except:
+            pass
     return newSettingsKeys, changedDefaultValuesKeys
 
 

@@ -194,8 +194,9 @@ class FolderTable(CoreTable):
             if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
-        if (uni.isActiveAmarok and uni.getBoolValue("isFolderTableValuesChangeInAmarokDB") and
-                    len(oldAndNewPathValues) > 0):
+        if (uni.isActiveAmarok and
+                uni.getBoolValue("isFolderTableValuesChangeInAmarokDB") and
+                len(oldAndNewPathValues) > 0):
             import Amarok
             from Amarok import Operations
 

@@ -25,7 +25,6 @@ try:
 
     isAvailable = True
 except: pass
-import Taggers
 from Core.MyObjects import *
 import FileUtils as fu
 from Core import Universals as uni
@@ -39,14 +38,13 @@ class Tagger():
         self.tag = None
         self.isCorrect = True
 
-    def loadFile(self, _filePath):
+    def loadFile(self, _filePath, _tagVersion=id3.ID3_V2_4):
         self.filePath = _filePath
         self.isCorrect = False
         try:
-            self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding),
-                                   Taggers.getSelectedTaggerTypeForRead()).tag
+            self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding), _tagVersion).tag
         except:
-            self.tag = id3.TagFile(self.filePath, Taggers.getSelectedTaggerTypeForRead()).tag
+            self.tag = id3.TagFile(self.filePath, _tagVersion).tag
         if self.tag is None:
             self.tag = id3.Tag()
             self.tag.parse(self.filePath, id3.ID3_ANY_VERSION)
@@ -55,18 +53,16 @@ class Tagger():
         self.filePath = _filePath
         self.isCorrect = _isCorrect
         try:
-            self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding),
-                                   Taggers.getSelectedTaggerTypeForWrite()).tag
+            self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding), id3.ID3_V2_4).tag
         except:
-            self.tag = id3.TagFile(self.filePath, Taggers.getSelectedTaggerTypeForWrite()).tag
+            self.tag = id3.TagFile(self.filePath, id3.ID3_V2_4).tag
         if self.tag is None:
             self.tag = id3.Tag()
             self.tag.parse(self.filePath, id3.ID3_ANY_VERSION)
 
     def update(self):
         if self.isCorrect:
-            selectedTaggerTypeForWrite = Taggers.getSelectedTaggerTypeForWrite()
-            self.tag.save(version=selectedTaggerTypeForWrite, encoding="utf8")
+            self.tag.save(version=id3.ID3_V2_4, encoding="utf8")
         else:
             self.tag.save()
 
@@ -82,16 +78,13 @@ class Tagger():
 
     def getCorrectedValuesForMusicTagType(self, _value):
         _value = self.getCorrectedValues(_value)
-        if Taggers.getSelectedTaggerTypeForRead() in (id3.ID3_V1_1, id3.ID3_V1_0, id3.ID3_V1):
+        if not self.tag.isV2():
             return uni.trEncode(uni.trUnicode(_value), "latin1")
         else:
             return _value
 
     def correctValuesForMusicTagType(self, _value):
-        if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V1_1, id3.ID3_V1_0, id3.ID3_V1):
-            return uni.trUnicode(str(_value), "latin1")
-        else:
-            return uni.trUnicode(str(_value))
+        return uni.trUnicode(str(_value))
 
     def getArtist(self):
         try: return self.getCorrectedValuesForMusicTagType(str(self.tag._getArtist()))
@@ -112,7 +105,7 @@ class Tagger():
 
     def getTrackNum(self):
         try:
-            if Taggers.getSelectedTaggerTypeForRead() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
+            if self.tag.isV2():
                 trackNum = self.tag._getTrackNum()
                 if trackNum[1] is not None:
                     return self.getCorrectedValues(str(trackNum[0]) + "/" + str(trackNum[1]))
@@ -171,13 +164,7 @@ class Tagger():
 
     def setTrackNum(self, _value):
         if _value.find("/") != -1:
-            if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
-                self.tag._setTrackNum(tuple(_value.split("/")))
-            else:
-                val = _value.split("/")[0]
-                try: val = int(val)
-                except: val = None
-                self.tag._setTrackNum((val, None))
+            self.tag._setTrackNum(tuple(_value.split("/")))
         else:
             val = _value
             try: val = int(val)
@@ -213,14 +200,12 @@ class Tagger():
         self.tag.lyrics.set(self.correctValuesForMusicTagType(_value))
 
     def addImage(self, _imageType, _imagePath, _description):
-        if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
-            imageData = fu.readFromBinaryFile(_imagePath)
-            mimeType = fu.getMimeType(_imagePath)[0]
-            self.tag.images.set(int(_imageType), imageData, mimeType, uni.trUnicode(_description))
+        imageData = fu.readFromBinaryFile(_imagePath)
+        mimeType = fu.getMimeType(_imagePath)[0]
+        self.tag.images.set(int(_imageType), imageData, mimeType, uni.trUnicode(_description))
 
     def removeImage(self, _description):
-        if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
-            self.tag.images.remove(uni.trUnicode(_description))
+        self.tag.images.remove(uni.trUnicode(_description))
 
     def getImageTypes(self):
         return ["Other (Default)", "Icon", "Other Icon", "Front Cover", "Back Cover", "Leaflet", "Media",
@@ -242,11 +227,7 @@ class Tagger():
                 "trackNum", "year", "genre", "firstComment", "firstLyrics"]
 
     def getReadOnlyKeysForTable(self):
-        keys = []
-        if Taggers.getSelectedTaggerTypeForRead() != self.getTaggerTypes()[0]:
-            keys.append("albumArtist")
-            keys.append("firstLyrics")
-        return keys
+        return []
 
     def getAvailableLabelsForTable(self):
         return [translate("MusicTable", "Directory"),

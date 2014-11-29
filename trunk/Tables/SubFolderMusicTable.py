@@ -209,10 +209,9 @@ class SubFolderMusicTable(CoreTable):
                             baseName = str(self.values[rowNo]["baseName"])
                             tagger = Taggers.getTagger()
                             tagger.loadFileForWrite(self.values[rowNo]["path"])
-                            isCheckLike = (
-                                Taggers.getSelectedTaggerTypeForRead() == Taggers.getSelectedTaggerTypeForWrite() or
-                                (uni.isActiveAmarok and
-                                 uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB")))
+                            isCheckLike = (not self.tag.isV2() or
+                                           (uni.isActiveAmarok and
+                                            uni.getBoolValue("isSubFolderMusicTableValuesChangeInAmarokDB")))
                             if self.isChangeableItem(rowNo, "artist", self.values[rowNo]["artist"], True,
                                                      isCheckLike):
                                 value = str(self.item(rowNo, 2).text())
