@@ -45,57 +45,11 @@ class AmarokArtistTable(CoreTable):
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "value", True))
         self.hblBoxTools.addWidget(pbtnVerifyTableValues)
 
-    def writeContents(self):
-        self.changedValueNumber = 0
-        changedArtistValues = []
-        uni.startThreadAction()
-        allItemNumber = len(self.values)
-        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
-        for rowNo in range(self.rowCount()):
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    if self.isRowHidden(rowNo) is False:
-                        if self.isChangeableItem(rowNo, "correctedArtist", str(self.values[rowNo]["currentArtist"])):
-                            changedArtistValues.append({})
-                            changedArtistValues[-1]["id"] = str(self.values[rowNo]["id"])
-                            value = str(self.item(rowNo, 1).text())
-                            changedArtistValues[-1]["name"] = value
-                            Records.add(str(translate("AmarokArtistTable", "Artist")),
-                                        str(self.values[rowNo]["currentArtist"]), value)
-                            self.changedValueNumber += 1
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = rowNo + 1
-            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction is False:
-                break
-        uni.finishThreadAction()
-        Operations.changeArtistValues(changedArtistValues)
-        return True
-
-    def showTableDetails(self, _fileNo, _infoNo):
-        AmarokArtistDetails.AmarokArtistDetails(self.values[_fileNo]["id"],
-                                                uni.getBoolValue("isOpenDetailsInNewWindow"))
-
-    def cellClickedTable(self, _row, _column):
-        currentItem = self.currentItem()
-        if currentItem is not None:
-            cellLenght = len(currentItem.text()) * 8
-            if cellLenght > self.columnWidth(_column):
-                self.setColumnWidth(_column, cellLenght)
-
-    def cellDoubleClickedTable(self, _row, _column):
-        if uni.getBoolValue("isRunOnDoubleClick"):
-            self.showTableDetails(_row, _column)
-
     def refreshColumns(self):
         self.tableColumns = [translate("AmarokArtistTable", "Current Artist"),
                              translate("AmarokArtistTable", "Corrected Artist")]
         self.tableColumnsKey = ["currentArtist", "correctedArtist"]
         self.tableReadOnlyColumnsKey = []
-
 
     def saveTable(self):
         Details.closeAllDialogs()
@@ -145,6 +99,36 @@ class AmarokArtistTable(CoreTable):
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
+    def writeContents(self):
+        self.changedValueNumber = 0
+        changedArtistValues = []
+        uni.startThreadAction()
+        allItemNumber = len(self.values)
+        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
+        for rowNo in range(self.rowCount()):
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    if self.isRowHidden(rowNo) is False:
+                        if self.isChangeableItem(rowNo, "correctedArtist", str(self.values[rowNo]["currentArtist"])):
+                            changedArtistValues.append({})
+                            changedArtistValues[-1]["id"] = str(self.values[rowNo]["id"])
+                            value = str(self.item(rowNo, 1).text())
+                            changedArtistValues[-1]["name"] = value
+                            Records.add(str(translate("AmarokArtistTable", "Artist")),
+                                        str(self.values[rowNo]["currentArtist"]), value)
+                            self.changedValueNumber += 1
+                except:
+                    ReportBug.ReportBug()
+            else:
+                allItemNumber = rowNo + 1
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
+            if isContinueThreadAction is False:
+                break
+        uni.finishThreadAction()
+        Operations.changeArtistValues(changedArtistValues)
+        return True
+
     def correctTable(self):
         for rowNo in range(self.rowCount()):
             for coloumKey in self.getWritableColumnKeys():
@@ -154,3 +138,17 @@ class AmarokArtistTable(CoreTable):
                     if coloumKey == "correctedArtist":
                         newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()))
                     self.item(rowNo, coloumNo).setText(str(newString))
+
+    def showTableDetails(self, _fileNo, _infoNo):
+        AmarokArtistDetails.AmarokArtistDetails(self.values[_fileNo]["id"], uni.getBoolValue("isOpenDetailsInNewWindow"))
+
+    def cellClickedTable(self, _row, _column):
+        currentItem = self.currentItem()
+        if currentItem is not None:
+            cellLenght = len(currentItem.text()) * 8
+            if cellLenght > self.columnWidth(_column):
+                self.setColumnWidth(_column, cellLenght)
+
+    def cellDoubleClickedTable(self, _row, _column):
+        if uni.getBoolValue("isRunOnDoubleClick"):
+            self.showTableDetails(_row, _column)

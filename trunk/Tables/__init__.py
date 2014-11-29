@@ -28,6 +28,7 @@ from Options import TableQuickOptions
 
 class Tables():
     def __init__(self, _parent):
+        self.Table = None
         self.setTable(_parent)
         self.Table.initByTable()
 
@@ -93,7 +94,8 @@ class Tables():
 
                 self.Table = FileTable.FileTable(_parent)
         elif uni.tableType == "6":
-            import Taggers, Amarok
+            import Taggers
+            import Amarok
 
             if Taggers.getTagger(True) is not None and Amarok.checkAmarok(True, False):
                 import AmarokMusicTable
@@ -117,7 +119,8 @@ class Tables():
 
                 self.Table = FileTable.FileTable(_parent)
         elif uni.tableType == "8":
-            import Taggers, Amarok
+            import Taggers
+            import Amarok
 
             if Taggers.getTagger(True) is not None and Amarok.checkAmarok(True, False):
                 import AmarokCopyTable
@@ -148,6 +151,12 @@ class CoreTable(MTableWidget):
         self.tableColumns = []
         self.tableColumnsKey = []
         self.tableReadOnlyColumnsKey = []
+        self.hiddenTableColumns = []
+        self.mContextMenuColumns = None
+        self.mContextMenuOpenWith = None
+        self.mContextMenuActionNames = []
+        self.mContextMenuOpenWithNames = []
+        self.mContextMenuColumnsActions = []
         self.isAskShowHiddenColumn = True
         self.currentDirectoryPath = ""
         self.newDirectoryPath = ""
@@ -258,18 +267,6 @@ class CoreTable(MTableWidget):
             writableKeys.remove(name)
         return writableKeys
 
-    def getColumnKeyFromName(self, _nameWithMark):
-        for x, name in enumerate(self.tableColumns):
-            if str(name) == str(_nameWithMark).replace("&", ""):
-                return self.tableColumnsKey[x]
-        return _nameWithMark
-
-    def getColumnNameFromName(self, _nameWithMark):
-        for x, name in enumerate(self.tableColumns):
-            if str(name) == str(_nameWithMark).replace("&", ""):
-                return self.tableColumns[x]
-        return _nameWithMark
-
     def getColumnNameFromKey(self, _keyName):
         for x, name in enumerate(self.tableColumnsKey):
             if str(name) == str(_keyName):
@@ -279,9 +276,6 @@ class CoreTable(MTableWidget):
     def getColumnNoFromKey(self, _keyName):
         return self.tableColumnsKey.index(_keyName)
 
-    def getColumnKeyFromNo(self, _no):
-        return self.tableColumnsKey[_no]
-
     def showDetails(self):
         try:
             rowNo = self.currentRow()
@@ -289,7 +283,7 @@ class CoreTable(MTableWidget):
                 self.showTableDetails(rowNo, self.currentColumn())
             else:
                 Dialogs.toast(translate("Tables", "Please Select A Row"),
-                             translate("Tables", "Please select a row to show details."))
+                              translate("Tables", "Please select a row to show details."))
         except:
             ReportBug.ReportBug()
 
@@ -513,13 +507,13 @@ class CoreTable(MTableWidget):
                 if uni.tableType in ["0", "1", "2", "3", "4", "9"]:
                     if uni.getBoolValue("isClearEmptyDirectoriesWhenSave"):
                         fu.checkEmptyDirectories(self.currentDirectoryPath, True, True,
-                                                    uni.getBoolValue("isAutoCleanSubFolderWhenSave"))
+                                                 uni.getBoolValue("isAutoCleanSubFolderWhenSave"))
                 fu.completeSmartCheckEmptyDirectories(True, True)
                 isDirStillExist = fu.isDir(self.currentDirectoryPath)
                 if uni.tableType in ["0", "1", "2", "3", "9"]:
-                    if uni.isActiveDirectoryCover and uni.getBoolValue(
-                        "isActiveAutoMakeIconToDirectory") and uni.getBoolValue(
-                        "isAutoMakeIconToDirectoryWhenSave"):
+                    if (uni.isActiveDirectoryCover and
+                            uni.getBoolValue("isActiveAutoMakeIconToDirectory") and
+                            uni.getBoolValue("isAutoMakeIconToDirectoryWhenSave")):
                         if isDirStillExist:
                             fu.checkIcon(self.currentDirectoryPath)
                         if self.currentDirectoryPath != self.newDirectoryPath:
@@ -829,6 +823,3 @@ class MyTableWidgetItem(MTableWidgetItem):
         self.currentText = str(_value)
         self.isReadOnly = False
         self.columnKey = None
-
-
-

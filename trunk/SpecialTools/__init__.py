@@ -165,8 +165,8 @@ class SpecialTools(MWidget):
         self.clear.columns.addItem(translate("SpecialTools", "All"), trQVariant("all"))
         self.characterState.columns.addItem(translate("SpecialTools", "All"), trQVariant("all"))
         self.characterEncoding.columns.addItem(translate("SpecialTools", "All"), trQVariant("all"))
-        for columnName in getMainTable().tableColumns:
-            columnKey = getMainTable().getColumnKeyFromName(columnName)
+        for columnKey in getMainTable().tableColumnsKey:
+            columnName = getMainTable().getColumnNameFromKey(columnKey)
             if columnKey not in getMainTable().tableReadOnlyColumnsKey:
                 self.searchAndReplace.columns.addItem(columnName, trQVariant(columnKey))
                 self.fill.columns.addItem(columnName, trQVariant(columnKey))
