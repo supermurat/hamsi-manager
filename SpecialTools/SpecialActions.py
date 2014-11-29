@@ -57,27 +57,24 @@ class SpecialActions(MWidget):
         MObject.connect(self.tbAddBookmark, SIGNAL("clicked()"), self.addBookmark)
         MObject.connect(self.tbDeleteBookmark, SIGNAL("clicked()"), self.deleteBookmark)
 
-        self.specialActionsCommandContainerAvailable = SpecialActionsCommandContainer(self, translate("SpecialActions",
-                                                                                                      "Availables - Move Here Not To Use"))
-
-        self.specialActionsCommandContainerLeft = SpecialActionsCommandContainer(self, translate("SpecialActions",
-                                                                                                 "Move Here To Use As Source"))
-        self.specialActionsCommandContainerRight = SpecialActionsCommandContainer(self, translate("SpecialActions",
-                                                                                                  "Move Here To Set"))
+        self.saccAvailable = SpecialActionsCommandContainer(self, "available", translate("SpecialActions", "Availables - Move Here Not To Use"))
+        self.saccLeft = SpecialActionsCommandContainer(self, "left",
+                                                       translate("SpecialActions", "Move Here To Use As Source"))
+        self.saccRight = SpecialActionsCommandContainer(self, "right", translate("SpecialActions", "Move Here To Set"))
 
         saConcatenate = SpecialActionsCommandButton(self, "Concatenate")
-        self.specialActionsCommandContainerAvailable.addToWidgetList(saConcatenate)
+        self.saccAvailable.addToWidgetList(saConcatenate)
 
         self.HBoxs = []
         self.HBoxs.append(MHBoxLayout())
         self.HBoxs[0].addWidget(self.cbBookmarks)
         self.HBoxs[0].addWidget(self.tbDeleteBookmark)
         self.HBoxs.append(MHBoxLayout())
-        self.HBoxs[1].addWidget(self.specialActionsCommandContainerAvailable)
+        self.HBoxs[1].addWidget(self.saccAvailable)
         self.HBoxs.append(MHBoxLayout())
-        self.HBoxs[2].addWidget(self.specialActionsCommandContainerLeft, 10)
+        self.HBoxs[2].addWidget(self.saccLeft, 10)
         self.HBoxs[2].addWidget(self.lblSplit, 1)
-        self.HBoxs[2].addWidget(self.specialActionsCommandContainerRight, 10)
+        self.HBoxs[2].addWidget(self.saccRight, 10)
         self.HBoxs[2].addWidget(self.tbClear, 1)
         self.HBoxs[2].addWidget(self.tbAddBookmark, 1)
         self.HBoxs[2].addWidget(self.tbWhatDoesThisCommandDo, 1)
@@ -97,9 +94,9 @@ class SpecialActions(MWidget):
         self.tbWhatDoesThisCommandDo.show()
         self.tbAddBookmark.show()
         self.tbDeleteBookmark.show()
-        self.specialActionsCommandContainerAvailable.show()
-        self.specialActionsCommandContainerLeft.show()
-        self.specialActionsCommandContainerRight.show()
+        self.saccAvailable.show()
+        self.saccLeft.show()
+        self.saccRight.show()
         self.lblSplit.show()
 
     def hideAdvancedSelections(self):
@@ -109,20 +106,20 @@ class SpecialActions(MWidget):
         self.tbWhatDoesThisCommandDo.hide()
         self.tbAddBookmark.hide()
         self.tbDeleteBookmark.hide()
-        self.specialActionsCommandContainerAvailable.hide()
-        self.specialActionsCommandContainerLeft.hide()
-        self.specialActionsCommandContainerRight.hide()
+        self.saccAvailable.hide()
+        self.saccLeft.hide()
+        self.saccRight.hide()
         self.lblSplit.hide()
 
     def getActionCommand(self):
         leftKeys = []
-        for child in self.specialActionsCommandContainerLeft.widgetList:
+        for child in self.saccLeft.widgetList:
             objectName = str(child.objectName())
             point = str(child.getPoint())
             if objectName not in ["", "MoveHere"]:
                 leftKeys.append(objectName + "~|~" + point)
         rightKeys = []
-        for child in self.specialActionsCommandContainerRight.widgetList:
+        for child in self.saccRight.widgetList:
             objectName = str(child.objectName())
             point = str(child.getPoint())
             if objectName not in ["", "MoveHere"]:
@@ -140,15 +137,15 @@ class SpecialActions(MWidget):
             if len(objectNameAndPointList) > 1:
                 point = objectNameAndPointList[1]
             if objectName.find("Concatenate") == -1:
-                child = getChild(self.specialActionsCommandContainerAvailable, objectName)
+                child = getChild(self.saccAvailable, objectName)
                 if child is None:
-                    child = getChild(self.specialActionsCommandContainerLeft, objectName)
+                    child = getChild(self.saccLeft, objectName)
                 if child is None:
-                    child = getChild(self.specialActionsCommandContainerRight, objectName)
+                    child = getChild(self.saccRight, objectName)
             else:
                 child = SpecialActionsCommandButton(self, objectName)
             child.setPoint(point)
-            self.specialActionsCommandContainerLeft.addToWidgetList(child)
+            self.saccLeft.addToWidgetList(child)
         for objectNameAndPoint in rightKeys:
             objectNameAndPointList = objectNameAndPoint.split("~|~")
             objectName = objectNameAndPointList[0]
@@ -156,29 +153,29 @@ class SpecialActions(MWidget):
             if len(objectNameAndPointList) > 1:
                 point = objectNameAndPointList[1]
             if objectName.find("Concatenate") == -1:
-                child = getChild(self.specialActionsCommandContainerAvailable, objectName)
+                child = getChild(self.saccAvailable, objectName)
                 if child is None:
-                    child = getChild(self.specialActionsCommandContainerLeft, objectName)
+                    child = getChild(self.saccLeft, objectName)
                 if child is None:
-                    child = getChild(self.specialActionsCommandContainerRight, objectName)
+                    child = getChild(self.saccRight, objectName)
             else:
                 child = SpecialActionsCommandButton(self, objectName)
             child.setPoint(point)
-            self.specialActionsCommandContainerRight.addToWidgetList(child)
+            self.saccRight.addToWidgetList(child)
 
     def makeClear(self):
         try:
-            for child in getAllChildren(self.specialActionsCommandContainerLeft):
+            for child in getAllChildren(self.saccLeft):
                 objectName = str(child.objectName())
                 if objectName not in ["", "MoveHere"]:
-                    self.specialActionsCommandContainerAvailable.addToWidgetList(child)
-            for child in getAllChildren(self.specialActionsCommandContainerRight):
+                    self.saccAvailable.addToWidgetList(child)
+            for child in getAllChildren(self.saccRight):
                 objectName = str(child.objectName())
                 if objectName not in ["", "MoveHere"]:
-                    self.specialActionsCommandContainerAvailable.addToWidgetList(child)
-            self.specialActionsCommandContainerAvailable.checkLabelMoveHere()
-            self.specialActionsCommandContainerLeft.checkLabelMoveHere()
-            self.specialActionsCommandContainerRight.checkLabelMoveHere()
+                    self.saccAvailable.addToWidgetList(child)
+            self.saccAvailable.checkLabelMoveHere()
+            self.saccLeft.checkLabelMoveHere()
+            self.saccRight.checkLabelMoveHere()
         except:
             ReportBug.ReportBug()
 
@@ -376,9 +373,9 @@ def whatDoesSpecialCommandDo(_actionCommand, _isShowAlert=False, _isReturnDetail
 
 
 class SpecialActionsCommandContainer(MFrame):
-    # FIXME: add key for panel and check readonly columns on drop event
-    def __init__(self, _parent, _moveHereLabel=False):
+    def __init__(self, _parent, _containerKey, _moveHereLabel=False):
         MFrame.__init__(self, _parent)
+        self.containerKey = _containerKey
         self.setAcceptDrops(True)
         self.HBox = MHBoxLayout()
         self.HBox1 = MHBoxLayout()
@@ -407,28 +404,28 @@ class SpecialActionsCommandContainer(MFrame):
             self.widgetList.append(_widget)
             self.addToLayout(_widget)
             self.checkLabelMoveHere()
-            if self.parent().specialActionsCommandContainerAvailable == self:
+            if self.parent().saccAvailable == self:
                 _widget.hidePoint()
                 if str(_widget.objectName()).find("Concatenate-") > -1:
                     _widget.hide()
-            elif self.parent().specialActionsCommandContainerLeft == self:
+            elif self.parent().saccLeft == self:
                 _widget.showPoint()
-            elif self.parent().specialActionsCommandContainerRight == self:
+            elif self.parent().saccRight == self:
                 _widget.hidePoint()
         except:
             ReportBug.ReportBug()
 
     def removeFromOtherWidgetList(self, _widget):
         try:
-            if _widget in self.parent().specialActionsCommandContainerAvailable.widgetList:
-                self.parent().specialActionsCommandContainerAvailable.widgetList.remove(_widget)
-                self.parent().specialActionsCommandContainerAvailable.checkLabelMoveHere()
-            if _widget in self.parent().specialActionsCommandContainerLeft.widgetList:
-                self.parent().specialActionsCommandContainerLeft.widgetList.remove(_widget)
-                self.parent().specialActionsCommandContainerLeft.checkLabelMoveHere()
-            if _widget in self.parent().specialActionsCommandContainerRight.widgetList:
-                self.parent().specialActionsCommandContainerRight.widgetList.remove(_widget)
-                self.parent().specialActionsCommandContainerRight.checkLabelMoveHere()
+            if _widget in self.parent().saccAvailable.widgetList:
+                self.parent().saccAvailable.widgetList.remove(_widget)
+                self.parent().saccAvailable.checkLabelMoveHere()
+            if _widget in self.parent().saccLeft.widgetList:
+                self.parent().saccLeft.widgetList.remove(_widget)
+                self.parent().saccLeft.checkLabelMoveHere()
+            if _widget in self.parent().saccRight.widgetList:
+                self.parent().saccRight.widgetList.remove(_widget)
+                self.parent().saccRight.checkLabelMoveHere()
         except:
             ReportBug.ReportBug()
 
@@ -438,26 +435,26 @@ class SpecialActionsCommandContainer(MFrame):
 
     def dropEvent(self, _e):
         try:
-            #baData = _e.mimeData().data("SpecialActionsCommandButton")
-            #objectNameOfButton = str(baData)
             btn = _e.source()
-            if str(btn.objectName()).find("Concatenate") == -1:
-                if btn not in self.widgetList:
+            objectName = str(btn.objectName())
+            if self.containerKey == "right" and objectName not in getMainTable().getWritableColumnKeys():
+                Dialogs.toast(translate("SpecialTools", "This Column Is Readonly!"),
+                              translate("SpecialTools", "You should move here writable columns!"))
+            else:
+                if objectName.find("Concatenate") == -1:
                     self.addToWidgetList(btn)
                 else:
-                    self.addToWidgetList(btn)  #
-            else:
-                if btn not in self.widgetList:
-                    if self == self.parent().specialActionsCommandContainerAvailable:
-                        self.addToWidgetList(btn)
-                    elif self == self.parent().specialActionsCommandContainerLeft:
-                        child = SpecialActionsCommandButton(self.parent(), self.createNextConcatenateObjectName())
-                        self.addToWidgetList(child)
-                    elif self == self.parent().specialActionsCommandContainerRight:
-                        pass
-                else:
-                    self.addToWidgetList(btn)  #
-            _e.accept()
+                    if btn not in self.widgetList:
+                        if self == self.parent().saccAvailable:
+                            self.addToWidgetList(btn)
+                        elif self == self.parent().saccLeft:
+                            child = SpecialActionsCommandButton(self.parent(), self.createNextConcatenateObjectName())
+                            self.addToWidgetList(child)
+                        elif self == self.parent().saccRight:
+                            pass
+                    else:
+                        self.addToWidgetList(btn)  #
+                _e.accept()
         except:
             ReportBug.ReportBug()
 
@@ -467,9 +464,9 @@ class SpecialActionsCommandContainer(MFrame):
         while 1:
             newObjectName = objectName + str(i)
             isExist = False
-            for _widget in (self.parent().specialActionsCommandContainerAvailable.widgetList +
-                                self.parent().specialActionsCommandContainerLeft.widgetList +
-                                self.parent().specialActionsCommandContainerRight.widgetList):
+            for _widget in (self.parent().saccAvailable.widgetList +
+                            self.parent().saccLeft.widgetList +
+                            self.parent().saccRight.widgetList):
                 if str(_widget.objectName()) == newObjectName:
                     isExist = True
                     break
