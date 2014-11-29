@@ -39,95 +39,6 @@ class FileTable(CoreTable):
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "value", True))
         self.hblBoxTools.addWidget(pbtnVerifyTableValues)
 
-    def writeContents(self):
-        self.changedValueNumber = 0
-        oldAndNewPathValues = []
-        if uni.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB"):
-            import Amarok
-
-            if Amarok.checkAmarok(True, False) is False:
-                return False
-        uni.startThreadAction()
-        allItemNumber = len(self.values)
-        Dialogs.showState(translate("FileUtils/Files", "Writing File Informations"), 0, allItemNumber, True)
-        for rowNo in range(self.rowCount()):
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    if fu.isWritableFileOrDir(self.values[rowNo]["path"], False, True):
-                        if self.isRowHidden(rowNo):
-                            fu.removeFileOrDir(self.values[rowNo]["path"])
-                            self.changedValueNumber += 1
-                        else:
-                            baseNameOfDirectory = str(
-                                self.values[rowNo]["baseNameOfDirectory"])
-                            baseName = str(self.values[rowNo]["baseName"])
-                            if self.isChangeableItem(rowNo, "baseNameOfDirectory", baseNameOfDirectory):
-                                baseNameOfDirectory = str(self.item(rowNo, 0).text())
-                                self.changedValueNumber += 1
-                                newDirectoryPath = fu.joinPath(
-                                    fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
-                                    baseNameOfDirectory)
-                                self.setNewDirectory(newDirectoryPath)
-                            if self.isChangeableItem(rowNo, "baseName", baseName, False):
-                                baseName = str(self.item(rowNo, 1).text())
-                                self.changedValueNumber += 1
-                            newFilePath = fu.joinPath(
-                                fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
-                                baseNameOfDirectory, baseName)
-                            oldFilePath = fu.getRealPath(self.values[rowNo]["path"])
-                            newFilePath = fu.getRealPath(newFilePath)
-                            if oldFilePath != newFilePath:
-                                oldAndNewPaths = {}
-                                oldAndNewPaths["oldPath"] = oldFilePath
-                                oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath, "file")
-                                if oldFilePath != oldAndNewPaths["newPath"]:
-                                    oldAndNewPathValues.append(oldAndNewPaths)
-                                    oldDirName = fu.getDirName(oldFilePath)
-                                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                                        fu.checkEmptyDirectories(oldDirName, True, True,
-                                                              uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
-                                    if (uni.isActiveDirectoryCover and
-                                            uni.getBoolValue("isActiveAutoMakeIconToDirectory") and
-                                            uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove")):
-                                        fu.checkIcon(oldDirName)
-                                        fu.checkIcon(fu.getDirName(oldAndNewPaths["newPath"]))
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = rowNo + 1
-            Dialogs.showState(translate("FileUtils/Files", "Writing File Informations"), rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction is False:
-                break
-        uni.finishThreadAction()
-        if (uni.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB") and
-                len(oldAndNewPathValues) > 0):
-            import Amarok
-            from Amarok import Operations
-
-            Operations.changePaths(oldAndNewPathValues, "file")
-        return True
-
-    def showTableDetails(self, _fileNo, _infoNo):
-        Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
-
-    def cellClickedTable(self, _row, _column):
-        currentItem = self.currentItem()
-        if currentItem is not None:
-            cellLenght = len(currentItem.text()) * 8
-            if cellLenght > self.columnWidth(_column):
-                self.setColumnWidth(_column, cellLenght)
-
-    def cellDoubleClickedTable(self, _row, _column):
-        try:
-            if uni.getBoolValue("isRunOnDoubleClick"):
-                self.showTableDetails(_row, _column)
-        except:
-            Dialogs.showError(translate("FileTable", "Cannot Open File"),
-                              str(translate("FileTable",
-                                            "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
-                              ) % Organizer.getLink(self.values[_row]["path"]))
-
     def refreshColumns(self):
         self.tableColumns = [translate("FileTable", "Directory"),
                              translate("FileTable", "File Name"),
@@ -216,6 +127,75 @@ class FileTable(CoreTable):
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
+    def writeContents(self):
+        self.changedValueNumber = 0
+        oldAndNewPathValues = []
+        if uni.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB"):
+            import Amarok
+
+            if Amarok.checkAmarok(True, False) is False:
+                return False
+        uni.startThreadAction()
+        allItemNumber = len(self.values)
+        Dialogs.showState(translate("FileUtils/Files", "Writing File Informations"), 0, allItemNumber, True)
+        for rowNo in range(self.rowCount()):
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    if fu.isWritableFileOrDir(self.values[rowNo]["path"], False, True):
+                        if self.isRowHidden(rowNo):
+                            fu.removeFileOrDir(self.values[rowNo]["path"])
+                            self.changedValueNumber += 1
+                        else:
+                            baseNameOfDirectory = str(
+                                self.values[rowNo]["baseNameOfDirectory"])
+                            baseName = str(self.values[rowNo]["baseName"])
+                            if self.isChangeableItem(rowNo, "baseNameOfDirectory", baseNameOfDirectory):
+                                baseNameOfDirectory = str(self.item(rowNo, 0).text())
+                                self.changedValueNumber += 1
+                                newDirectoryPath = fu.joinPath(
+                                    fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
+                                    baseNameOfDirectory)
+                                self.setNewDirectory(newDirectoryPath)
+                            if self.isChangeableItem(rowNo, "baseName", baseName, False):
+                                baseName = str(self.item(rowNo, 1).text())
+                                self.changedValueNumber += 1
+                            newFilePath = fu.joinPath(
+                                fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
+                                baseNameOfDirectory, baseName)
+                            oldFilePath = fu.getRealPath(self.values[rowNo]["path"])
+                            newFilePath = fu.getRealPath(newFilePath)
+                            if oldFilePath != newFilePath:
+                                oldAndNewPaths = {}
+                                oldAndNewPaths["oldPath"] = oldFilePath
+                                oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath, "file")
+                                if oldFilePath != oldAndNewPaths["newPath"]:
+                                    oldAndNewPathValues.append(oldAndNewPaths)
+                                    oldDirName = fu.getDirName(oldFilePath)
+                                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                                        fu.checkEmptyDirectories(oldDirName, True, True,
+                                                              uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
+                                    if (uni.isActiveDirectoryCover and
+                                            uni.getBoolValue("isActiveAutoMakeIconToDirectory") and
+                                            uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove")):
+                                        fu.checkIcon(oldDirName)
+                                        fu.checkIcon(fu.getDirName(oldAndNewPaths["newPath"]))
+                except:
+                    ReportBug.ReportBug()
+            else:
+                allItemNumber = rowNo + 1
+            Dialogs.showState(translate("FileUtils/Files", "Writing File Informations"), rowNo + 1, allItemNumber, True)
+            if isContinueThreadAction is False:
+                break
+        uni.finishThreadAction()
+        if (uni.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB") and
+                len(oldAndNewPathValues) > 0):
+            import Amarok
+            from Amarok import Operations
+
+            Operations.changePaths(oldAndNewPathValues, "file")
+        return True
+
     def correctTable(self):
         for rowNo in range(self.rowCount()):
             for coloumKey in self.getWritableColumnKeys():
@@ -226,5 +206,23 @@ class FileTable(CoreTable):
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "file")
                     self.item(rowNo, coloumNo).setText(str(newString))
-    
-    
+
+    def showTableDetails(self, _fileNo, _infoNo):
+        Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
+
+    def cellClickedTable(self, _row, _column):
+        currentItem = self.currentItem()
+        if currentItem is not None:
+            cellLenght = len(currentItem.text()) * 8
+            if cellLenght > self.columnWidth(_column):
+                self.setColumnWidth(_column, cellLenght)
+
+    def cellDoubleClickedTable(self, _row, _column):
+        try:
+            if uni.getBoolValue("isRunOnDoubleClick"):
+                self.showTableDetails(_row, _column)
+        except:
+            Dialogs.showError(translate("FileTable", "Cannot Open File"),
+                              str(translate("FileTable",
+                                            "\"%s\" : cannot be opened. Please make sure that you selected a text file.")
+                              ) % Organizer.getLink(self.values[_row]["path"]))

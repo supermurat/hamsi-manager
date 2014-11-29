@@ -84,6 +84,111 @@ class SubFolderMusicTable(CoreTable):
 
         MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
 
+    def refreshColumns(self):
+        self.tableColumns = Taggers.getAvailableLabelsForTable()
+        self.tableColumnsKey = Taggers.getAvailableKeysForTable()
+        self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
+
+    def saveTable(self):
+        Details.closeAllDialogs()
+        self.checkFileExtensions("baseName", "baseName")
+        return self.writeContents()
+
+    def refreshTable(self, _path):
+        self.values = []
+        self.setColumnWidth(6, 70)
+        self.setColumnWidth(7, 40)
+        musicFileNames = fu.readDirectoryWithSubDirectoriesThread(_path,
+                                                                  int(uni.MySettings["subDirectoryDeep"]), "music",
+                                                                  uni.getBoolValue(
+                                                                      "isShowHiddensInSubFolderMusicTable"))
+        isCanNoncompatible = False
+        allItemNumber = len(musicFileNames)
+        uni.startThreadAction()
+        rowNo = 0
+        self.setRowCount(allItemNumber)
+        for musicName in musicFileNames:
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    if fu.isReadableFileOrDir(musicName, False, True):
+                        tagger = Taggers.getTagger()
+                        try:
+                            tagger.loadFile(musicName)
+                        except:
+                            Dialogs.showError(translate("FileUtils/Musics", "Incorrect Tag"),
+                                              str(translate("FileUtils/Musics",
+                                                            "\"%s\" : this file has the incorrect tag so can't read tags.")
+                                              ) % Organizer.getLink(musicName))
+                        if tagger.isAvailableFile() is False:
+                            isCanNoncompatible = True
+                        content = {}
+                        content["path"] = musicName
+                        content["baseNameOfDirectory"] = str(
+                            str(fu.getBaseName(_path)) + str(fu.getDirName(musicName)).replace(_path, ""))
+                        content["baseName"] = fu.getBaseName(musicName)
+                        content["artist"] = tagger.getArtist()
+                        content["title"] = tagger.getTitle()
+                        content["album"] = tagger.getAlbum()
+                        content["albumArtist"] = tagger.getAlbumArtist()
+                        content["trackNum"] = tagger.getTrackNum()
+                        content["year"] = tagger.getYear()
+                        content["genre"] = tagger.getGenre()
+                        content["firstComment"] = tagger.getFirstComment()
+                        content["firstLyrics"] = tagger.getFirstLyrics()
+                        self.values.append(content)
+
+                        newBaseNameOfDirectory = Organizer.emend(self.values[rowNo]["baseNameOfDirectory"], "directory")
+                        self.createItem(rowNo, "baseNameOfDirectory", newBaseNameOfDirectory,
+                                        self.values[rowNo]["baseNameOfDirectory"])
+
+                        newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "file")
+                        self.createItem(rowNo, "baseName", newBaseName, self.values[rowNo]["baseName"])
+
+                        newArtist = Organizer.emend(self.values[rowNo]["artist"])
+                        self.createItem(rowNo, "artist", newArtist, self.values[rowNo]["artist"])
+
+                        newTitle = Organizer.emend(self.values[rowNo]["title"])
+                        self.createItem(rowNo, "title", newTitle, self.values[rowNo]["title"])
+
+                        newAlbum = Organizer.emend(self.values[rowNo]["album"])
+                        self.createItem(rowNo, "album", newAlbum, self.values[rowNo]["album"])
+
+                        newAlbumArtist = Organizer.emend(self.values[rowNo]["albumArtist"])
+                        self.createItem(rowNo, "albumArtist", newAlbumArtist, self.values[rowNo]["albumArtist"])
+
+                        newTrackNum = str(self.values[rowNo]["trackNum"])
+                        self.createItem(rowNo, "trackNum", newTrackNum, self.values[rowNo]["trackNum"])
+
+                        newYear = Organizer.emend(self.values[rowNo]["year"])
+                        self.createItem(rowNo, "year", newYear, self.values[rowNo]["year"])
+
+                        newGenre = Organizer.emend(self.values[rowNo]["genre"])
+                        self.createItem(rowNo, "genre", newGenre, self.values[rowNo]["genre"])
+
+                        newFirstComment = Organizer.emend(self.values[rowNo]["firstComment"])
+                        self.createItem(rowNo, "firstComment", newFirstComment, self.values[rowNo]["firstComment"])
+
+                        newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
+                        self.createItem(rowNo, "firstLyrics", newFirstLyrics, self.values[rowNo]["firstLyrics"])
+                        rowNo += 1
+                    else:
+                        allItemNumber -= 1
+                except:
+                    ReportBug.ReportBug()
+                    allItemNumber -= 1
+            else:
+                allItemNumber = rowNo
+            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
+            if isContinueThreadAction is False:
+                break
+        uni.finishThreadAction()
+        self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
+        if isCanNoncompatible:
+            Dialogs.show(translate("FileUtils/Musics", "Possible ID3 Mismatch"),
+                         translate("FileUtils/Musics",
+                                   "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
+
     def writeContents(self):
         self.changedValueNumber = 0
         oldAndNewPathValues = []
@@ -231,6 +336,19 @@ class SubFolderMusicTable(CoreTable):
                 Operations.changePaths(oldAndNewPathValues, "file")
         return True
 
+    def correctTable(self):
+        for rowNo in range(self.rowCount()):
+            for coloumKey in self.getWritableColumnKeys():
+                coloumNo = self.getColumnNoFromKey(coloumKey)
+                if self.isChangeableItem(rowNo, coloumKey):
+                    if coloumKey == "baseNameOfDirectory":
+                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "directory")
+                    elif coloumKey == "baseName":
+                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "file")
+                    else:
+                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()))
+                    self.item(rowNo, coloumNo).setText(str(newString))
+
     def showTableDetails(self, _fileNo, _infoNo):
         Details.Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
 
@@ -247,7 +365,6 @@ class SubFolderMusicTable(CoreTable):
                 if cellLenght > self.columnWidth(_column):
                     self.setColumnWidth(_column, cellLenght)
 
-
     def cellDoubleClickedTable(self, _row, _column):
         try:
             if _column == 9 or _column == 10:
@@ -260,124 +377,6 @@ class SubFolderMusicTable(CoreTable):
                               str(translate("MusicTable",
                                             "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
                               ) % Organizer.getLink(self.values[_row]["path"]))
-
-    def refreshColumns(self):
-        self.tableColumns = Taggers.getAvailableLabelsForTable()
-        self.tableColumnsKey = Taggers.getAvailableKeysForTable()
-        self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
-
-    def saveTable(self):
-        Details.closeAllDialogs()
-        self.checkFileExtensions("baseName", "baseName")
-        return self.writeContents()
-
-    def refreshTable(self, _path):
-        self.values = []
-        self.setColumnWidth(6, 70)
-        self.setColumnWidth(7, 40)
-        musicFileNames = fu.readDirectoryWithSubDirectoriesThread(_path,
-                                                                  int(uni.MySettings["subDirectoryDeep"]), "music",
-                                                                  uni.getBoolValue(
-                                                                      "isShowHiddensInSubFolderMusicTable"))
-        isCanNoncompatible = False
-        allItemNumber = len(musicFileNames)
-        uni.startThreadAction()
-        rowNo = 0
-        self.setRowCount(allItemNumber)
-        for musicName in musicFileNames:
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    if fu.isReadableFileOrDir(musicName, False, True):
-                        tagger = Taggers.getTagger()
-                        try:
-                            tagger.loadFile(musicName)
-                        except:
-                            Dialogs.showError(translate("FileUtils/Musics", "Incorrect Tag"),
-                                              str(translate("FileUtils/Musics",
-                                                            "\"%s\" : this file has the incorrect tag so can't read tags.")
-                                              ) % Organizer.getLink(musicName))
-                        if tagger.isAvailableFile() is False:
-                            isCanNoncompatible = True
-                        content = {}
-                        content["path"] = musicName
-                        content["baseNameOfDirectory"] = str(
-                            str(fu.getBaseName(_path)) + str(fu.getDirName(musicName)).replace(_path, ""))
-                        content["baseName"] = fu.getBaseName(musicName)
-                        content["artist"] = tagger.getArtist()
-                        content["title"] = tagger.getTitle()
-                        content["album"] = tagger.getAlbum()
-                        content["albumArtist"] = tagger.getAlbumArtist()
-                        content["trackNum"] = tagger.getTrackNum()
-                        content["year"] = tagger.getYear()
-                        content["genre"] = tagger.getGenre()
-                        content["firstComment"] = tagger.getFirstComment()
-                        content["firstLyrics"] = tagger.getFirstLyrics()
-                        self.values.append(content)
-
-                        newBaseNameOfDirectory = Organizer.emend(self.values[rowNo]["baseNameOfDirectory"], "directory")
-                        self.createItem(rowNo, "baseNameOfDirectory", newBaseNameOfDirectory,
-                                        self.values[rowNo]["baseNameOfDirectory"])
-
-                        newBaseName = Organizer.emend(self.values[rowNo]["baseName"], "file")
-                        self.createItem(rowNo, "baseName", newBaseName, self.values[rowNo]["baseName"])
-
-                        newArtist = Organizer.emend(self.values[rowNo]["artist"])
-                        self.createItem(rowNo, "artist", newArtist, self.values[rowNo]["artist"])
-
-                        newTitle = Organizer.emend(self.values[rowNo]["title"])
-                        self.createItem(rowNo, "title", newTitle, self.values[rowNo]["title"])
-
-                        newAlbum = Organizer.emend(self.values[rowNo]["album"])
-                        self.createItem(rowNo, "album", newAlbum, self.values[rowNo]["album"])
-
-                        newAlbumArtist = Organizer.emend(self.values[rowNo]["albumArtist"])
-                        self.createItem(rowNo, "albumArtist", newAlbumArtist, self.values[rowNo]["albumArtist"])
-
-                        newTrackNum = str(self.values[rowNo]["trackNum"])
-                        self.createItem(rowNo, "trackNum", newTrackNum, self.values[rowNo]["trackNum"])
-
-                        newYear = Organizer.emend(self.values[rowNo]["year"])
-                        self.createItem(rowNo, "year", newYear, self.values[rowNo]["year"])
-
-                        newGenre = Organizer.emend(self.values[rowNo]["genre"])
-                        self.createItem(rowNo, "genre", newGenre, self.values[rowNo]["genre"])
-
-                        newFirstComment = Organizer.emend(self.values[rowNo]["firstComment"])
-                        self.createItem(rowNo, "firstComment", newFirstComment, self.values[rowNo]["firstComment"])
-
-                        newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
-                        self.createItem(rowNo, "firstLyrics", newFirstLyrics, self.values[rowNo]["firstLyrics"])
-                        rowNo += 1
-                    else:
-                        allItemNumber -= 1
-                except:
-                    ReportBug.ReportBug()
-                    allItemNumber -= 1
-            else:
-                allItemNumber = rowNo
-            Dialogs.showState(translate("Tables", "Generating Table..."), rowNo, allItemNumber, True)
-            if isContinueThreadAction is False:
-                break
-        uni.finishThreadAction()
-        self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
-        if isCanNoncompatible:
-            Dialogs.show(translate("FileUtils/Musics", "Possible ID3 Mismatch"),
-                         translate("FileUtils/Musics",
-                                   "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
-
-    def correctTable(self):
-        for rowNo in range(self.rowCount()):
-            for coloumKey in self.getWritableColumnKeys():
-                coloumNo = self.getColumnNoFromKey(coloumKey)
-                if self.isChangeableItem(rowNo, coloumKey):
-                    if coloumKey == "baseNameOfDirectory":
-                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "directory")
-                    elif coloumKey == "baseName":
-                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()), "file")
-                    else:
-                        newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()))
-                    self.item(rowNo, coloumNo).setText(str(newString))
 
     def musicTagSourceTypeChanged(self, _action=None):
         try:
@@ -413,5 +412,3 @@ class SubFolderMusicTable(CoreTable):
                 self.cbSubDirectoryDeep.findText(str(uni.MySettings["subDirectoryDeep"])))
         except:
             ReportBug.ReportBug()
-
-

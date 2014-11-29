@@ -69,226 +69,6 @@ class MusicTable(CoreTable):
         MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
         self.hblBoxOptions.addWidget(pbtnVerifyTableValues)
 
-    def writeContents(self):
-        self.changedValueNumber = 0
-        oldAndNewPathValues = []
-        changingTags = []
-        isNewDirectoriesSame = True
-        isMovedToNewDirectory = False
-        currentDirectoryPath = ""
-        newDirectoryPath = ""
-        if uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
-            import Amarok
-
-            if Amarok.checkAmarok(True, False) is False:
-                return False
-        uni.startThreadAction()
-        allItemNumber = len(self.values)
-        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
-        for rowNo in range(self.rowCount()):
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    changingTag = {"path": self.values[rowNo]["path"]}
-                    if fu.isWritableFileOrDir(self.values[rowNo]["path"], False, True):
-                        if self.isRowHidden(rowNo):
-                            fu.removeFileOrDir(self.values[rowNo]["path"])
-                            self.changedValueNumber += 1
-                        else:
-                            baseNameOfDirectory = str(
-                                self.values[rowNo]["baseNameOfDirectory"])
-                            baseName = str(self.values[rowNo]["baseName"])
-                            tagger = Taggers.getTagger()
-                            tagger.loadFileForWrite(self.values[rowNo]["path"])
-                            isCheckLike = (
-                                Taggers.getSelectedTaggerTypeForRead() == Taggers.getSelectedTaggerTypeForWrite() or
-                                (uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"))
-                            )
-                            if self.isChangeableItem(rowNo, "artist", self.values[rowNo]["artist"], True, isCheckLike):
-                                value = str(self.item(rowNo, 2).text())
-                                tagger.setArtist(value)
-                                changingTag["artist"] = value
-                                Records.add(str(translate("MusicTable", "Artist")),
-                                            str(self.values[rowNo]["artist"]), value)
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, "title", self.values[rowNo]["title"], True, isCheckLike):
-                                value = str(self.item(rowNo, 3).text())
-                                tagger.setTitle(value)
-                                changingTag["title"] = value
-                                Records.add(str(translate("MusicTable", "Title")),
-                                            str(self.values[rowNo]["title"]), value)
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, "album", self.values[rowNo]["album"], True, isCheckLike):
-                                value = str(self.item(rowNo, 4).text())
-                                tagger.setAlbum(value)
-                                changingTag["album"] = value
-                                Records.add(str(translate("MusicTable", "Album")),
-                                            str(self.values[rowNo]["album"]), value)
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, "albumArtist", self.values[rowNo]["albumArtist"], True,
-                                                     isCheckLike):
-                                value = str(self.item(rowNo, 5).text())
-                                tagger.setAlbumArtist(value)
-                                changingTag["albumArtist"] = value
-                                Records.add(str(translate("MusicTable", "Album Artist")),
-                                            str(self.values[rowNo]["albumArtist"]), value)
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, "trackNum", self.values[rowNo]["trackNum"],
-                                                     True, isCheckLike):
-                                value = str(self.item(rowNo, 6).text())
-                                tagger.setTrackNum(value)
-                                changingTag["trackNum"] = value
-                                Records.add(str(translate("MusicTable", "Track No")),
-                                            str(self.values[rowNo]["trackNum"]), value)
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, "year", self.values[rowNo]["year"], True, isCheckLike):
-                                value = str(self.item(rowNo, 7).text())
-                                tagger.setDate(value)
-                                changingTag["year"] = value
-                                Records.add(str(translate("MusicTable", "Year")),
-                                            str(self.values[rowNo]["year"]), value)
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, "genre", self.values[rowNo]["genre"], True, isCheckLike):
-                                value = str(self.item(rowNo, 8).text())
-                                tagger.setGenre(value)
-                                changingTag["genre"] = value
-                                Records.add(str(translate("MusicTable", "Genre")),
-                                            str(self.values[rowNo]["genre"]), value)
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, "firstComment", self.values[rowNo]["firstComment"],
-                                                     True, isCheckLike):
-                                value = str(self.item(rowNo, 9).text())
-                                tagger.setFirstComment(value)
-                                changingTag["firstComment"] = value
-                                Records.add(str(translate("MusicTable", "Comment")),
-                                            str(self.values[rowNo]["firstComment"]), value)
-                                self.changedValueNumber += 1
-                            if self.isChangeableItem(rowNo, "firstLyrics", self.values[rowNo]["firstLyrics"], True, isCheckLike):
-                                value = str(self.item(rowNo, 10).text())
-                                tagger.setFirstLyrics(value)
-                                changingTag["firstLyrics"] = value
-                                Records.add(str(translate("MusicTable", "Lyrics")),
-                                            str(self.values[rowNo]["firstLyrics"]), value)
-                                self.changedValueNumber += 1
-                            if len(changingTag) > 1:
-                                changingTags.append(changingTag)
-                            tagger.update()
-                            if self.isChangeableItem(rowNo, "baseNameOfDirectory", baseNameOfDirectory):
-                                baseNameOfDirectory = str(self.item(rowNo, 0).text())
-                                self.changedValueNumber += 1
-                                isMovedToNewDirectory = True
-                                currentDirectoryPath = fu.getDirName(
-                                    self.values[rowNo]["path"])
-                                newDirectoryPath = fu.joinPath(
-                                    fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
-                                    baseNameOfDirectory)
-                                self.setNewDirectory(newDirectoryPath)
-                                if rowNo > 0:
-                                    if str(self.item(rowNo - 1, 0).text()) != baseNameOfDirectory:
-                                        isNewDirectoriesSame = False
-                            if self.isChangeableItem(rowNo, "baseName", baseName, False):
-                                baseName = str(self.item(rowNo, 1).text())
-                                self.changedValueNumber += 1
-                            newFilePath = fu.joinPath(
-                                fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
-                                baseNameOfDirectory, baseName)
-                            oldFilePath = fu.getRealPath(self.values[rowNo]["path"])
-                            newFilePath = fu.getRealPath(newFilePath)
-                            if oldFilePath != newFilePath:
-                                oldAndNewPaths = {}
-                                oldAndNewPaths["oldPath"] = oldFilePath
-                                oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath, "file")
-                                if oldFilePath != oldAndNewPaths["newPath"]:
-                                    oldAndNewPathValues.append(oldAndNewPaths)
-                                    oldDirName = fu.getDirName(oldFilePath)
-                                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                                        fu.checkEmptyDirectories(oldDirName, True, True,
-                                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = rowNo + 1
-            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags And Informations"), rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction is False:
-                break
-        uni.finishThreadAction()
-        if self.rowCount() == len(oldAndNewPathValues) and isMovedToNewDirectory and isNewDirectoriesSame:
-            otherFileNames = fu.readDirectory(currentDirectoryPath, "fileAndDirectory", True)
-            if len(otherFileNames) > 0:
-                answer = Dialogs.ask(translate("FileUtils/Musics", "There Are More Files"),
-                                     str(translate("FileUtils/Musics",
-                                                   "\"%s\" : there are more files in this directory.<br>Are you want to move all found files into new directory?<br>New Directory : \"%s\"")) % (
-                                         Organizer.getLink(currentDirectoryPath), Organizer.getLink(newDirectoryPath)))
-                if answer == Dialogs.Yes:
-                    uni.startThreadAction()
-                    allItemNumber = len(otherFileNames)
-                    for rowNo, fileName in enumerate(otherFileNames):
-                        isContinueThreadAction = uni.isContinueThreadAction()
-                        if isContinueThreadAction:
-                            try:
-                                oldFilePath = fu.getRealPath(fu.joinPath(currentDirectoryPath, fileName))
-                                newFilePath = fu.getRealPath(fu.joinPath(newDirectoryPath, fileName))
-                                if oldFilePath != newFilePath:
-                                    oldAndNewPaths = {}
-                                    oldAndNewPaths["oldPath"] = oldFilePath
-                                    oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath,
-                                                                                fu.getObjectType(oldFilePath))
-                                    if oldFilePath != oldAndNewPaths["newPath"]:
-                                        oldAndNewPathValues.append(oldAndNewPaths)
-                            except:
-                                ReportBug.ReportBug()
-                        else:
-                            allItemNumber = rowNo + 1
-                        Dialogs.showState(translate("FileUtils/Covers", "Writing Directory And File Informations"),
-                                          rowNo + 1, allItemNumber, True)
-                        if isContinueThreadAction is False:
-                            break
-                    uni.finishThreadAction()
-                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
-                        fu.checkEmptyDirectories(currentDirectoryPath, True, True,
-                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
-                    if (uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and
-                            uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove")):
-                        fu.checkIcon(newDirectoryPath)
-        if uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
-            import Amarok
-            from Amarok import Operations
-
-            Operations.changeTags(changingTags)
-            if len(oldAndNewPathValues) > 0:
-                Operations.changePaths(oldAndNewPathValues, "file")
-        return True
-
-    def showTableDetails(self, _fileNo, _infoNo):
-        Details.Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
-
-    def cellClickedTable(self, _row, _column):
-        currentItem = self.currentItem()
-        if currentItem is not None:
-            if _column == 9 or _column == 10:
-                if self.rowHeight(_row) < 150:
-                    self.setRowHeight(_row, 150)
-                if self.columnWidth(_column) < 250:
-                    self.setColumnWidth(_column, 250)
-            else:
-                cellLenght = len(currentItem.text()) * 8
-                if cellLenght > self.columnWidth(_column):
-                    self.setColumnWidth(_column, cellLenght)
-
-
-    def cellDoubleClickedTable(self, _row, _column):
-        try:
-            if _column == 9 or _column == 10:
-                self.showTableDetails(_row, _column)
-            else:
-                if uni.getBoolValue("isRunOnDoubleClick"):
-                    self.showTableDetails(_row, _column)
-        except:
-            Dialogs.showError(translate("MusicTable", "Cannot Open Music File"),
-                              str(translate("MusicTable",
-                                            "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
-                              ) % Organizer.getLink(self.values[_row]["path"]))
-
     def refreshColumns(self):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
         self.tableColumnsKey = Taggers.getAvailableKeysForTable()
@@ -390,6 +170,197 @@ class MusicTable(CoreTable):
                          translate("FileUtils/Musics",
                                    "Some of the files presented in the table may not support ID3 technology.<br>Please check the files and make sure they support ID3 information before proceeding."))
 
+    def writeContents(self):
+        self.changedValueNumber = 0
+        oldAndNewPathValues = []
+        changingTags = []
+        isNewDirectoriesSame = True
+        isMovedToNewDirectory = False
+        currentDirectoryPath = ""
+        newDirectoryPath = ""
+        if uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
+            import Amarok
+
+            if Amarok.checkAmarok(True, False) is False:
+                return False
+        uni.startThreadAction()
+        allItemNumber = len(self.values)
+        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
+        for rowNo in range(self.rowCount()):
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    changingTag = {"path": self.values[rowNo]["path"]}
+                    if fu.isWritableFileOrDir(self.values[rowNo]["path"], False, True):
+                        if self.isRowHidden(rowNo):
+                            fu.removeFileOrDir(self.values[rowNo]["path"])
+                            self.changedValueNumber += 1
+                        else:
+                            baseNameOfDirectory = str(
+                                self.values[rowNo]["baseNameOfDirectory"])
+                            baseName = str(self.values[rowNo]["baseName"])
+                            tagger = Taggers.getTagger()
+                            tagger.loadFileForWrite(self.values[rowNo]["path"])
+                            isCheckLike = (
+                                Taggers.getSelectedTaggerTypeForRead() == Taggers.getSelectedTaggerTypeForWrite() or
+                                (uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"))
+                            )
+                            if self.isChangeableItem(rowNo, "artist", self.values[rowNo]["artist"], True, isCheckLike):
+                                value = str(self.item(rowNo, 2).text())
+                                tagger.setArtist(value)
+                                changingTag["artist"] = value
+                                Records.add(str(translate("MusicTable", "Artist")),
+                                            str(self.values[rowNo]["artist"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, "title", self.values[rowNo]["title"], True, isCheckLike):
+                                value = str(self.item(rowNo, 3).text())
+                                tagger.setTitle(value)
+                                changingTag["title"] = value
+                                Records.add(str(translate("MusicTable", "Title")),
+                                            str(self.values[rowNo]["title"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, "album", self.values[rowNo]["album"], True, isCheckLike):
+                                value = str(self.item(rowNo, 4).text())
+                                tagger.setAlbum(value)
+                                changingTag["album"] = value
+                                Records.add(str(translate("MusicTable", "Album")),
+                                            str(self.values[rowNo]["album"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, "albumArtist", self.values[rowNo]["albumArtist"], True,
+                                                     isCheckLike):
+                                value = str(self.item(rowNo, 5).text())
+                                tagger.setAlbumArtist(value)
+                                changingTag["albumArtist"] = value
+                                Records.add(str(translate("MusicTable", "Album Artist")),
+                                            str(self.values[rowNo]["albumArtist"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, "trackNum", self.values[rowNo]["trackNum"],
+                                                     True, isCheckLike):
+                                value = str(self.item(rowNo, 6).text())
+                                tagger.setTrackNum(value)
+                                changingTag["trackNum"] = value
+                                Records.add(str(translate("MusicTable", "Track No")),
+                                            str(self.values[rowNo]["trackNum"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, "year", self.values[rowNo]["year"], True, isCheckLike):
+                                value = str(self.item(rowNo, 7).text())
+                                tagger.setDate(value)
+                                changingTag["year"] = value
+                                Records.add(str(translate("MusicTable", "Year")),
+                                            str(self.values[rowNo]["year"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, "genre", self.values[rowNo]["genre"], True, isCheckLike):
+                                value = str(self.item(rowNo, 8).text())
+                                tagger.setGenre(value)
+                                changingTag["genre"] = value
+                                Records.add(str(translate("MusicTable", "Genre")),
+                                            str(self.values[rowNo]["genre"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, "firstComment", self.values[rowNo]["firstComment"],
+                                                     True, isCheckLike):
+                                value = str(self.item(rowNo, 9).text())
+                                tagger.setFirstComment(value)
+                                changingTag["firstComment"] = value
+                                Records.add(str(translate("MusicTable", "Comment")),
+                                            str(self.values[rowNo]["firstComment"]), value)
+                                self.changedValueNumber += 1
+                            if self.isChangeableItem(rowNo, "firstLyrics", self.values[rowNo]["firstLyrics"],
+                                                     True, isCheckLike):
+                                value = str(self.item(rowNo, 10).text())
+                                tagger.setFirstLyrics(value)
+                                changingTag["firstLyrics"] = value
+                                Records.add(str(translate("MusicTable", "Lyrics")),
+                                            str(self.values[rowNo]["firstLyrics"]), value)
+                                self.changedValueNumber += 1
+                            if len(changingTag) > 1:
+                                changingTags.append(changingTag)
+                            tagger.update()
+                            if self.isChangeableItem(rowNo, "baseNameOfDirectory", baseNameOfDirectory):
+                                baseNameOfDirectory = str(self.item(rowNo, 0).text())
+                                self.changedValueNumber += 1
+                                isMovedToNewDirectory = True
+                                currentDirectoryPath = fu.getDirName(
+                                    self.values[rowNo]["path"])
+                                newDirectoryPath = fu.joinPath(
+                                    fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
+                                    baseNameOfDirectory)
+                                self.setNewDirectory(newDirectoryPath)
+                                if rowNo > 0:
+                                    if str(self.item(rowNo - 1, 0).text()) != baseNameOfDirectory:
+                                        isNewDirectoriesSame = False
+                            if self.isChangeableItem(rowNo, "baseName", baseName, False):
+                                baseName = str(self.item(rowNo, 1).text())
+                                self.changedValueNumber += 1
+                            newFilePath = fu.joinPath(
+                                fu.getDirName(fu.getDirName(self.values[rowNo]["path"])),
+                                baseNameOfDirectory, baseName)
+                            oldFilePath = fu.getRealPath(self.values[rowNo]["path"])
+                            newFilePath = fu.getRealPath(newFilePath)
+                            if oldFilePath != newFilePath:
+                                oldAndNewPaths = {}
+                                oldAndNewPaths["oldPath"] = oldFilePath
+                                oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath, "file")
+                                if oldFilePath != oldAndNewPaths["newPath"]:
+                                    oldAndNewPathValues.append(oldAndNewPaths)
+                                    oldDirName = fu.getDirName(oldFilePath)
+                                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                                        fu.checkEmptyDirectories(oldDirName, True, True,
+                                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
+                except:
+                    ReportBug.ReportBug()
+            else:
+                allItemNumber = rowNo + 1
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags And Informations"), rowNo + 1, allItemNumber, True)
+            if isContinueThreadAction is False:
+                break
+        uni.finishThreadAction()
+        if self.rowCount() == len(oldAndNewPathValues) and isMovedToNewDirectory and isNewDirectoriesSame:
+            otherFileNames = fu.readDirectory(currentDirectoryPath, "fileAndDirectory", True)
+            if len(otherFileNames) > 0:
+                answer = Dialogs.ask(translate("FileUtils/Musics", "There Are More Files"),
+                                     str(translate("FileUtils/Musics",
+                                                   "\"%s\" : there are more files in this directory.<br>Are you want to move all found files into new directory?<br>New Directory : \"%s\"")) % (
+                                         Organizer.getLink(currentDirectoryPath), Organizer.getLink(newDirectoryPath)))
+                if answer == Dialogs.Yes:
+                    uni.startThreadAction()
+                    allItemNumber = len(otherFileNames)
+                    for rowNo, fileName in enumerate(otherFileNames):
+                        isContinueThreadAction = uni.isContinueThreadAction()
+                        if isContinueThreadAction:
+                            try:
+                                oldFilePath = fu.getRealPath(fu.joinPath(currentDirectoryPath, fileName))
+                                newFilePath = fu.getRealPath(fu.joinPath(newDirectoryPath, fileName))
+                                if oldFilePath != newFilePath:
+                                    oldAndNewPaths = {}
+                                    oldAndNewPaths["oldPath"] = oldFilePath
+                                    oldAndNewPaths["newPath"] = fu.moveOrChange(oldFilePath, newFilePath,
+                                                                                fu.getObjectType(oldFilePath))
+                                    if oldFilePath != oldAndNewPaths["newPath"]:
+                                        oldAndNewPathValues.append(oldAndNewPaths)
+                            except:
+                                ReportBug.ReportBug()
+                        else:
+                            allItemNumber = rowNo + 1
+                        Dialogs.showState(translate("FileUtils/Covers", "Writing Directory And File Informations"),
+                                          rowNo + 1, allItemNumber, True)
+                        if isContinueThreadAction is False:
+                            break
+                    uni.finishThreadAction()
+                    if uni.getBoolValue("isClearEmptyDirectoriesWhenFileMove"):
+                        fu.checkEmptyDirectories(currentDirectoryPath, True, True,
+                                                 uni.getBoolValue("isAutoCleanSubFolderWhenFileMove"))
+                    if (uni.isActiveDirectoryCover and uni.getBoolValue("isActiveAutoMakeIconToDirectory") and
+                            uni.getBoolValue("isAutoMakeIconToDirectoryWhenFileMove")):
+                        fu.checkIcon(newDirectoryPath)
+        if uni.isActiveAmarok and uni.getBoolValue("isMusicTableValuesChangeInAmarokDB"):
+            import Amarok
+            from Amarok import Operations
+
+            Operations.changeTags(changingTags)
+            if len(oldAndNewPathValues) > 0:
+                Operations.changePaths(oldAndNewPathValues, "file")
+        return True
+
     def correctTable(self):
         for rowNo in range(self.rowCount()):
             for coloumKey in self.getWritableColumnKeys():
@@ -402,6 +373,35 @@ class MusicTable(CoreTable):
                     else:
                         newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()))
                     self.item(rowNo, coloumNo).setText(str(newString))
+
+    def showTableDetails(self, _fileNo, _infoNo):
+        Details.Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
+
+    def cellClickedTable(self, _row, _column):
+        currentItem = self.currentItem()
+        if currentItem is not None:
+            if _column == 9 or _column == 10:
+                if self.rowHeight(_row) < 150:
+                    self.setRowHeight(_row, 150)
+                if self.columnWidth(_column) < 250:
+                    self.setColumnWidth(_column, 250)
+            else:
+                cellLenght = len(currentItem.text()) * 8
+                if cellLenght > self.columnWidth(_column):
+                    self.setColumnWidth(_column, cellLenght)
+
+    def cellDoubleClickedTable(self, _row, _column):
+        try:
+            if _column == 9 or _column == 10:
+                self.showTableDetails(_row, _column)
+            else:
+                if uni.getBoolValue("isRunOnDoubleClick"):
+                    self.showTableDetails(_row, _column)
+        except:
+            Dialogs.showError(translate("MusicTable", "Cannot Open Music File"),
+                              str(translate("MusicTable",
+                                            "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
+                              ) % Organizer.getLink(self.values[_row]["path"]))
 
     def musicTagSourceTypeChanged(self, _action=None):
         try:

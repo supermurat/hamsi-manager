@@ -85,153 +85,6 @@ class AmarokCopyTable(CoreTable):
         MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
         MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
 
-    def writeContents(self):
-        self.changedValueNumber = 0
-        uni.startThreadAction()
-        import Amarok
-
-        allItemNumber = len(self.values)
-        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
-        for rowNo in range(self.rowCount()):
-            isContinueThreadAction = uni.isContinueThreadAction()
-            if isContinueThreadAction:
-                try:
-                    if self.isRowHidden(rowNo) is False:
-                        baseNameOfDirectory = str(self.values[rowNo]["baseNameOfDirectory"])
-                        baseName = str(self.values[rowNo]["baseName"])
-                        if self.isChangeableItem(rowNo, "baseNameOfDirectory", baseNameOfDirectory):
-                            baseNameOfDirectory = str(self.item(rowNo, 0).text())
-                            self.changedValueNumber += 1
-                        if self.isChangeableItem(rowNo, "baseName", baseName, False):
-                            baseName = str(self.item(rowNo, 1).text())
-                            self.changedValueNumber += 1
-                        newFilePath = fu.getRealPath(
-                            fu.joinPath(str(self.leDestinationDirPath.text()), baseNameOfDirectory,
-                                        baseName))
-                        if fu.isFile(self.values[rowNo]["path"]) and fu.isReadableFileOrDir(
-                            self.values[rowNo]["path"], False, True):
-                            if fu.isWritableFileOrDir(newFilePath, False, True):
-                                newFilePathCopied = fu.copyOrChange(self.values[rowNo]["path"],
-                                                                    newFilePath)
-                                if self.values[rowNo]["path"] != newFilePathCopied:
-                                    newFilePath = newFilePathCopied
-                                    try:
-                                        if Amarok.getSelectedTagTargetType("AmarokCopyTable").find("ID3") > -1:
-                                            typeTemp = Amarok.getSelectedTagTargetType("AmarokCopyTable").split(" + ")
-                                            if len(typeTemp) > 1:
-                                                taggerType = typeTemp[1]
-                                            else:
-                                                taggerType = typeTemp[0]
-                                            Taggers.setSelectedTaggerTypeForWriteName(taggerType)
-                                        tagger = Taggers.getTagger()
-                                        tagger.loadFileForWrite(newFilePath)
-                                        if self.isChangeableItem(rowNo, "artist"):
-                                            value = str(self.item(rowNo, 2).text())
-                                            tagger.setArtist(value)
-                                            Records.add(str(translate("MusicTable", "Artist")),
-                                                        str(self.values[rowNo]["artist"]),
-                                                        value)
-                                            self.changedValueNumber += 1
-                                        if self.isChangeableItem(rowNo, "title"):
-                                            value = str(self.item(rowNo, 3).text())
-                                            tagger.setTitle(value)
-                                            Records.add(str(translate("MusicTable", "Title")),
-                                                        str(self.values[rowNo]["title"]),
-                                                        value)
-                                            self.changedValueNumber += 1
-                                        if self.isChangeableItem(rowNo, "album"):
-                                            value = str(self.item(rowNo, 4).text())
-                                            tagger.setAlbum(value)
-                                            Records.add(str(translate("MusicTable", "Album")),
-                                                        str(self.values[rowNo]["album"]),
-                                                        value)
-                                            self.changedValueNumber += 1
-                                        if self.isChangeableItem(rowNo, "albumArtist"):
-                                            value = str(self.item(rowNo, 5).text())
-                                            tagger.setAlbumArtist(value)
-                                            Records.add(str(translate("MusicTable", "Album Artist")),
-                                                        str(self.values[rowNo]["albumArtist"]),
-                                                        value)
-                                            self.changedValueNumber += 1
-                                        if self.isChangeableItem(rowNo, "trackNum"):
-                                            value = str(self.item(rowNo, 6).text())
-                                            tagger.setTrackNum(value)
-                                            Records.add(str(translate("MusicTable", "Track No")),
-                                                        str(self.values[rowNo]["trackNum"]),
-                                                        value)
-                                            self.changedValueNumber += 1
-                                        if self.isChangeableItem(rowNo, "year"):
-                                            value = str(self.item(rowNo, 7).text())
-                                            tagger.setDate(value)
-                                            Records.add(str(translate("MusicTable", "Year")),
-                                                        str(self.values[rowNo]["year"]), value)
-                                            self.changedValueNumber += 1
-                                        if self.isChangeableItem(rowNo, "genre"):
-                                            value = str(self.item(rowNo, 8).text())
-                                            tagger.setGenre(value)
-                                            Records.add(str(translate("MusicTable", "Genre")),
-                                                        str(self.values[rowNo]["genre"]),
-                                                        value)
-                                            self.changedValueNumber += 1
-                                        if self.isChangeableItem(rowNo, "firstComment"):
-                                            value = str(self.item(rowNo, 9).text())
-                                            tagger.setFirstComment(value)
-                                            Records.add(str(translate("MusicTable", "Comment")), str(
-                                                self.values[rowNo]["firstComment"]), value)
-                                            self.changedValueNumber += 1
-                                        if self.isChangeableItem(rowNo, "firstLyrics"):
-                                            value = str(self.item(rowNo, 10).text())
-                                            tagger.setFirstLyrics(value)
-                                            Records.add(str(translate("MusicTable", "Lyrics")),
-                                                        str(self.values[rowNo]["firstLyrics"]),
-                                                        value)
-                                            self.changedValueNumber += 1
-                                        tagger.update()
-                                    except:
-                                        Dialogs.showError(translate("MusicTable", "Tags Cannot Changed"),
-                                                          str(translate("MusicTable",
-                                                                        "\"%s\" : cannot be changed tags.")
-                                                          ) % Organizer.getLink(newFilePath))
-                except:
-                    ReportBug.ReportBug()
-            else:
-                allItemNumber = rowNo + 1
-            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
-            if isContinueThreadAction is False:
-                break
-        uni.finishThreadAction()
-        return True
-
-    def showTableDetails(self, _fileNo, _infoNo):
-        Details.Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
-
-    def cellClickedTable(self, _row, _column):
-        currentItem = self.currentItem()
-        if currentItem is not None:
-            if _column == 9 or _column == 10:
-                if self.rowHeight(_row) < 150:
-                    self.setRowHeight(_row, 150)
-                if self.columnWidth(_column) < 250:
-                    self.setColumnWidth(_column, 250)
-            else:
-                cellLenght = len(currentItem.text()) * 8
-                if cellLenght > self.columnWidth(_column):
-                    self.setColumnWidth(_column, cellLenght)
-
-
-    def cellDoubleClickedTable(self, _row, _column):
-        try:
-            if _column == 9 or _column == 10:
-                self.showTableDetails(_row, _column)
-            else:
-                if uni.getBoolValue("isRunOnDoubleClick"):
-                    self.showTableDetails(_row, _column)
-        except:
-            Dialogs.showError(translate("MusicTable", "Cannot Open Music File"),
-                              str(translate("MusicTable",
-                                            "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
-                              ) % Organizer.getLink(self.values[_row]["path"]))
-
     def refreshColumns(self):
         self.tableColumns = Taggers.getAvailableLabelsForTable()
         self.tableColumnsKey = Taggers.getAvailableKeysForTable()
@@ -399,6 +252,123 @@ class AmarokCopyTable(CoreTable):
         uni.finishThreadAction()
         self.setRowCount(len(self.values))  # In case of Non Readable Files and Canceled process
 
+    def writeContents(self):
+        self.changedValueNumber = 0
+        uni.startThreadAction()
+        import Amarok
+
+        allItemNumber = len(self.values)
+        Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), 0, allItemNumber, True)
+        for rowNo in range(self.rowCount()):
+            isContinueThreadAction = uni.isContinueThreadAction()
+            if isContinueThreadAction:
+                try:
+                    if self.isRowHidden(rowNo) is False:
+                        baseNameOfDirectory = str(self.values[rowNo]["baseNameOfDirectory"])
+                        baseName = str(self.values[rowNo]["baseName"])
+                        if self.isChangeableItem(rowNo, "baseNameOfDirectory", baseNameOfDirectory):
+                            baseNameOfDirectory = str(self.item(rowNo, 0).text())
+                            self.changedValueNumber += 1
+                        if self.isChangeableItem(rowNo, "baseName", baseName, False):
+                            baseName = str(self.item(rowNo, 1).text())
+                            self.changedValueNumber += 1
+                        newFilePath = fu.getRealPath(
+                            fu.joinPath(str(self.leDestinationDirPath.text()), baseNameOfDirectory,
+                                        baseName))
+                        if fu.isFile(self.values[rowNo]["path"]) and fu.isReadableFileOrDir(
+                            self.values[rowNo]["path"], False, True):
+                            if fu.isWritableFileOrDir(newFilePath, False, True):
+                                newFilePathCopied = fu.copyOrChange(self.values[rowNo]["path"],
+                                                                    newFilePath)
+                                if self.values[rowNo]["path"] != newFilePathCopied:
+                                    newFilePath = newFilePathCopied
+                                    try:
+                                        if Amarok.getSelectedTagTargetType("AmarokCopyTable").find("ID3") > -1:
+                                            typeTemp = Amarok.getSelectedTagTargetType("AmarokCopyTable").split(" + ")
+                                            if len(typeTemp) > 1:
+                                                taggerType = typeTemp[1]
+                                            else:
+                                                taggerType = typeTemp[0]
+                                            Taggers.setSelectedTaggerTypeForWriteName(taggerType)
+                                        tagger = Taggers.getTagger()
+                                        tagger.loadFileForWrite(newFilePath)
+                                        if self.isChangeableItem(rowNo, "artist"):
+                                            value = str(self.item(rowNo, 2).text())
+                                            tagger.setArtist(value)
+                                            Records.add(str(translate("MusicTable", "Artist")),
+                                                        str(self.values[rowNo]["artist"]),
+                                                        value)
+                                            self.changedValueNumber += 1
+                                        if self.isChangeableItem(rowNo, "title"):
+                                            value = str(self.item(rowNo, 3).text())
+                                            tagger.setTitle(value)
+                                            Records.add(str(translate("MusicTable", "Title")),
+                                                        str(self.values[rowNo]["title"]),
+                                                        value)
+                                            self.changedValueNumber += 1
+                                        if self.isChangeableItem(rowNo, "album"):
+                                            value = str(self.item(rowNo, 4).text())
+                                            tagger.setAlbum(value)
+                                            Records.add(str(translate("MusicTable", "Album")),
+                                                        str(self.values[rowNo]["album"]),
+                                                        value)
+                                            self.changedValueNumber += 1
+                                        if self.isChangeableItem(rowNo, "albumArtist"):
+                                            value = str(self.item(rowNo, 5).text())
+                                            tagger.setAlbumArtist(value)
+                                            Records.add(str(translate("MusicTable", "Album Artist")),
+                                                        str(self.values[rowNo]["albumArtist"]),
+                                                        value)
+                                            self.changedValueNumber += 1
+                                        if self.isChangeableItem(rowNo, "trackNum"):
+                                            value = str(self.item(rowNo, 6).text())
+                                            tagger.setTrackNum(value)
+                                            Records.add(str(translate("MusicTable", "Track No")),
+                                                        str(self.values[rowNo]["trackNum"]),
+                                                        value)
+                                            self.changedValueNumber += 1
+                                        if self.isChangeableItem(rowNo, "year"):
+                                            value = str(self.item(rowNo, 7).text())
+                                            tagger.setDate(value)
+                                            Records.add(str(translate("MusicTable", "Year")),
+                                                        str(self.values[rowNo]["year"]), value)
+                                            self.changedValueNumber += 1
+                                        if self.isChangeableItem(rowNo, "genre"):
+                                            value = str(self.item(rowNo, 8).text())
+                                            tagger.setGenre(value)
+                                            Records.add(str(translate("MusicTable", "Genre")),
+                                                        str(self.values[rowNo]["genre"]),
+                                                        value)
+                                            self.changedValueNumber += 1
+                                        if self.isChangeableItem(rowNo, "firstComment"):
+                                            value = str(self.item(rowNo, 9).text())
+                                            tagger.setFirstComment(value)
+                                            Records.add(str(translate("MusicTable", "Comment")), str(
+                                                self.values[rowNo]["firstComment"]), value)
+                                            self.changedValueNumber += 1
+                                        if self.isChangeableItem(rowNo, "firstLyrics"):
+                                            value = str(self.item(rowNo, 10).text())
+                                            tagger.setFirstLyrics(value)
+                                            Records.add(str(translate("MusicTable", "Lyrics")),
+                                                        str(self.values[rowNo]["firstLyrics"]),
+                                                        value)
+                                            self.changedValueNumber += 1
+                                        tagger.update()
+                                    except:
+                                        Dialogs.showError(translate("MusicTable", "Tags Cannot Changed"),
+                                                          str(translate("MusicTable",
+                                                                        "\"%s\" : cannot be changed tags.")
+                                                          ) % Organizer.getLink(newFilePath))
+                except:
+                    ReportBug.ReportBug()
+            else:
+                allItemNumber = rowNo + 1
+            Dialogs.showState(translate("FileUtils/Musics", "Writing Music Tags"), rowNo + 1, allItemNumber, True)
+            if isContinueThreadAction is False:
+                break
+        uni.finishThreadAction()
+        return True
+
     def correctTable(self):
         for rowNo in range(self.rowCount()):
             for coloumKey in self.getWritableColumnKeys():
@@ -412,16 +382,34 @@ class AmarokCopyTable(CoreTable):
                         newString = Organizer.emend(str(self.item(rowNo, coloumNo).text()))
                     self.item(rowNo, coloumNo).setText(str(newString))
 
-    def selectDestinationDir(self):
-        try:
-            destinationDirPath = Dialogs.getExistingDirectory(
-                translate("AmarokCopyTable", "Please Select Destination Directory"), self.leDestinationDirPath.text(),
-                0)
-            if destinationDirPath is not None:
-                self.leDestinationDirPath.setText(str(destinationDirPath))
-        except:
-            ReportBug.ReportBug()
+    def showTableDetails(self, _fileNo, _infoNo):
+        Details.Details(self.values[_fileNo]["path"], uni.getBoolValue("isOpenDetailsInNewWindow"))
 
+    def cellClickedTable(self, _row, _column):
+        currentItem = self.currentItem()
+        if currentItem is not None:
+            if _column == 9 or _column == 10:
+                if self.rowHeight(_row) < 150:
+                    self.setRowHeight(_row, 150)
+                if self.columnWidth(_column) < 250:
+                    self.setColumnWidth(_column, 250)
+            else:
+                cellLenght = len(currentItem.text()) * 8
+                if cellLenght > self.columnWidth(_column):
+                    self.setColumnWidth(_column, cellLenght)
+
+    def cellDoubleClickedTable(self, _row, _column):
+        try:
+            if _column == 9 or _column == 10:
+                self.showTableDetails(_row, _column)
+            else:
+                if uni.getBoolValue("isRunOnDoubleClick"):
+                    self.showTableDetails(_row, _column)
+        except:
+            Dialogs.showError(translate("MusicTable", "Cannot Open Music File"),
+                              str(translate("MusicTable",
+                                            "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
+                              ) % Organizer.getLink(self.values[_row]["path"]))
 
     def musicTagSourceTypeChanged(self, _action=None):
         try:
@@ -444,3 +432,14 @@ class AmarokCopyTable(CoreTable):
                 self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
         except:
             ReportBug.ReportBug()
+
+    def selectDestinationDir(self):
+        try:
+            destinationDirPath = Dialogs.getExistingDirectory(
+                translate("AmarokCopyTable", "Please Select Destination Directory"), self.leDestinationDirPath.text(),
+                0)
+            if destinationDirPath is not None:
+                self.leDestinationDirPath.setText(str(destinationDirPath))
+        except:
+            ReportBug.ReportBug()
+
