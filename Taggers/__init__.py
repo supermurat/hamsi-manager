@@ -46,37 +46,3 @@ def getTagger(_isAlertIfNotExist=False, _isReloadAgain=False):
         return None
     except:
         ReportBug.ReportBug()
-
-
-def getSelectedTaggerTypeForRead():
-    selectedTaggerType = getSelectedTaggerTypeForReadName()
-    for x, v in enumerate(getTagger().getTaggerTypes()):
-        if selectedTaggerType == getTagger().getTaggerTypesName()[x]:
-            return v
-    return getTagger().getTaggerTypes()[0]
-
-
-def getSelectedTaggerTypeForReadName():
-    return uni.getValue(getTagger().pluginName + "TaggerTypeNameForRead", getTagger().getTaggerTypesName()[0])
-
-
-def setSelectedTaggerTypeForReadName(_typeName):
-    uni.setMySetting(getTagger().pluginName + "TaggerTypeNameForRead", _typeName)
-
-
-def getSelectedTaggerTypeForWrite():
-    selectedTaggerType = getSelectedTaggerTypeForWriteName()
-    for x, v in enumerate(getTagger().getTaggerTypes()):
-        if selectedTaggerType == getTagger().getTaggerTypesName()[x]:
-            return v
-    return getTagger().getTaggerTypes()[0]
-
-
-def getSelectedTaggerTypeForWriteName():
-    return uni.getValue(getTagger().pluginName + "TaggerTypeNameForWrite", getTagger().getTaggerTypesName()[0])
-
-
-def setSelectedTaggerTypeForWriteName(_typeName):
-    uni.setMySetting(getTagger().pluginName + "TaggerTypeNameForWrite", _typeName)
-
-

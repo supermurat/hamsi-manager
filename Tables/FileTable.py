@@ -188,7 +188,8 @@ class FileTable(CoreTable):
             if isContinueThreadAction is False:
                 break
         uni.finishThreadAction()
-        if (uni.isActiveAmarok and uni.getBoolValue("isFileTableValuesChangeInAmarokDB") and
+        if (uni.isActiveAmarok and
+                uni.getBoolValue("isFileTableValuesChangeInAmarokDB") and
                 len(oldAndNewPathValues) > 0):
             import Amarok
             from Amarok import Operations

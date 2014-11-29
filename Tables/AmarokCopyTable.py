@@ -53,38 +53,19 @@ class AmarokCopyTable(CoreTable):
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self, "music"))
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "music", True))
         lblSourceDetails = MLabel(translate("MusicTable", "Read From:"))
-        lblTargetDetails = MLabel(translate("MusicTable", "Write To:"))
         self.MusicTagSourceTypes = Amarok.getTagSourceTypes()
         self.cbTagSourceType = MComboBox(self)
         self.cbTagSourceType.addItems(self.MusicTagSourceTypes)
-        musicTagTargetTypes = Amarok.getTagTargetTypes()
-        self.MusicTagTargetTypes = []
-        for mttt in musicTagTargetTypes:
-            if mttt.find("Amarok") == -1:
-                self.MusicTagTargetTypes.append(mttt)
-        if Amarok.getSelectedTagTargetType("AmarokCopyTable") not in self.MusicTagTargetTypes:
-            Amarok.setSelectedTagTargetType(self.MusicTagTargetTypes[0], "AmarokCopyTable")
-        self.cbTagTargetType = MComboBox(self)
-        self.cbTagTargetType.addItems(self.MusicTagTargetTypes)
         self.cbTagSourceType.setCurrentIndex(
             self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
-        self.cbTagTargetType.setCurrentIndex(
-            self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
         self.cbTagSourceType.setToolTip(translate("MusicTable",
                                                   "You can select the ID3 tag source you want to read.<br><font color=blue>Amarok (Smart) is recommended.</font>"))
-        self.cbTagTargetType.setToolTip(translate("MusicTable",
-                                                  "You can select the ID3 tag target you want to write.<br><font color=blue>Amarok + ID3 V2 is recommended.</font>"))
         hblTagSourceType = MHBoxLayout()
         hblTagSourceType.addWidget(lblSourceDetails)
         hblTagSourceType.addWidget(self.cbTagSourceType)
-        hblTagTargetType = MHBoxLayout()
-        hblTagTargetType.addWidget(lblTargetDetails)
-        hblTagTargetType.addWidget(self.cbTagTargetType)
         self.vblBoxSourceAndTarget.addLayout(hblTagSourceType)
-        self.vblBoxSourceAndTarget.addLayout(hblTagTargetType)
         self.hblBoxTools.addWidget(pbtnVerifyTableValues)
         MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
-        MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"), self.musicTagTargetTypeChanged)
 
     def refreshColumns(self):
         self.tableColumns = Taggers.getTagger().getAvailableLabelsForTable()
@@ -305,13 +286,6 @@ class AmarokCopyTable(CoreTable):
                                 if self.values[rowNo]["path"] != newFilePathCopied:
                                     newFilePath = newFilePathCopied
                                     try:
-                                        if Amarok.getSelectedTagTargetType("AmarokCopyTable").find("ID3") > -1:
-                                            typeTemp = Amarok.getSelectedTagTargetType("AmarokCopyTable").split(" + ")
-                                            if len(typeTemp) > 1:
-                                                taggerType = typeTemp[1]
-                                            else:
-                                                taggerType = typeTemp[0]
-                                            Taggers.setSelectedTaggerTypeForWriteName(taggerType)
                                         tagger = Taggers.getTagger()
                                         tagger.loadFileForWrite(newFilePath)
                                         if self.isChangeableItem(rowNo, "artist"):
@@ -443,15 +417,6 @@ class AmarokCopyTable(CoreTable):
                 self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
             self.cbTagSourceType.setCurrentIndex(
                 self.cbTagSourceType.findText(Amarok.getSelectedTagSourseType("AmarokCopyTable")))
-        except:
-            ReportBug.ReportBug()
-
-    def musicTagTargetTypeChanged(self, _action=None):
-        try:
-            selectedType = str(self.MusicTagTargetTypes[_action])
-            Amarok.setSelectedTagTargetType(selectedType, "AmarokCopyTable")
-            self.cbTagTargetType.setCurrentIndex(
-                self.cbTagTargetType.findText(Amarok.getSelectedTagTargetType("AmarokCopyTable")))
         except:
             ReportBug.ReportBug()
 

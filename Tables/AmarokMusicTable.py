@@ -293,13 +293,7 @@ class AmarokMusicTable(CoreTable):
                             baseNameOfDirectory = str(
                                 self.values[rowNo]["baseNameOfDirectory"])
                             baseName = str(self.values[rowNo]["baseName"])
-                            if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("ID3") > -1:
-                                typeTemp = Amarok.getSelectedTagTargetType("AmarokMusicTable").split(" + ")
-                                if len(typeTemp) > 1:
-                                    taggerType = typeTemp[1]
-                                else:
-                                    taggerType = typeTemp[0]
-                                Taggers.setSelectedTaggerTypeForWriteName(taggerType)
+                            if Amarok.getSelectedTagTargetType("AmarokMusicTable").find("To File") > -1:
                                 isSetTagOfFile = True
                                 tagger = Taggers.getTagger()
                                 tagger.loadFileForWrite(self.values[rowNo]["path"])

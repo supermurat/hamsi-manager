@@ -215,20 +215,12 @@ def openEmbeddedDBConfigurator():
 
 
 def getTagSourceTypes():
-    from Taggers import getTagger
-
-    tagSourceTypes = ["Amarok (Smart)", "Only Amarok"]
-    tagSourceTypes += getTagger().getTaggerTypesName()
+    tagSourceTypes = ["Amarok (Smart)", "Only Amarok", "From File"]
     return tagSourceTypes
 
 
 def getTagTargetTypes():
-    from Taggers import getTagger
-
-    tagTargetTypes = ["Amarok"]
-    for tagerTypeName in getTagger().getTaggerTypesName():
-        tagTargetTypes.append("Amarok + " + tagerTypeName)
-    tagTargetTypes += getTagger().getTaggerTypesName()
+    tagTargetTypes = ["Amarok", "To File"]
     return tagTargetTypes
 
 
@@ -244,10 +236,6 @@ def getSelectedTagTargetType(_tableName="AmarokMusicTable"):
 
 def setSelectedTagSourseType(_type, _tableName="AmarokMusicTable"):
     uni.setMySetting("AmarokTagSourceType" + _tableName, _type)
-    if _type not in ["Amarok (Smart)", "Only Amarok"]:
-        from Taggers import setSelectedTaggerTypeForReadName
-
-        setSelectedTaggerTypeForReadName(_type)
 
 
 def setSelectedTagTargetType(_type, _tableName="AmarokMusicTable"):
