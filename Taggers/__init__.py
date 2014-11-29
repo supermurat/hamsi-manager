@@ -26,17 +26,18 @@ taggersNames = []
 loaddedTagger = None
 
 
-def getTagger(_isAlertIfNotExist=False):
+def getTagger(_isAlertIfNotExist=False, _isReloadAgain=False):
     global taggersNames, loaddedTagger
     try:
+        if not _isReloadAgain and loaddedTagger is not None:
+            return loaddedTagger
         if len(taggersNames) == 0:
             taggersNames = uni.getTaggersNames()
         for tagger in taggersNames:
-            taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger"], 0)
-            TaggerLoaded = __import__("Taggers." + tagger, globals(), locals(), [tagger], 0)
+            taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger", tagger], 0)
             if taggerModule.isAvailable:
-                loaddedTagger = TaggerLoaded
-                return taggerModule.Tagger()
+                loaddedTagger = taggerModule.Tagger()
+                return loaddedTagger
         if _isAlertIfNotExist:
             Dialogs.show(translate("Taggers", "You Have Not Any Tagger"),
                          translate("Taggers", "Not found any tagger in your system. "
@@ -47,69 +48,35 @@ def getTagger(_isAlertIfNotExist=False):
         ReportBug.ReportBug()
 
 
-def getLoaddedTagger():
-    if loaddedTagger is None:
-        getTagger()
-    return loaddedTagger
-
-
 def getSelectedTaggerTypeForRead():
     selectedTaggerType = getSelectedTaggerTypeForReadName()
-    for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
-        if selectedTaggerType == getTaggerTypesName()[x]:
+    for x, v in enumerate(getTagger().getTaggerTypes()):
+        if selectedTaggerType == getTagger().getTaggerTypesName()[x]:
             return v
-    return getLoaddedTagger().getTaggerTypes()[0]
+    return getTagger().getTaggerTypes()[0]
 
 
 def getSelectedTaggerTypeForReadName():
-    return uni.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", getTaggerTypesName()[0])
+    return uni.getValue(getTagger().pluginName + "TaggerTypeNameForRead", getTagger().getTaggerTypesName()[0])
 
 
 def setSelectedTaggerTypeForReadName(_typeName):
-    uni.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForRead", _typeName)
+    uni.setMySetting(getTagger().pluginName + "TaggerTypeNameForRead", _typeName)
 
 
 def getSelectedTaggerTypeForWrite():
     selectedTaggerType = getSelectedTaggerTypeForWriteName()
-    for x, v in enumerate(getLoaddedTagger().getTaggerTypes()):
-        if selectedTaggerType == getTaggerTypesName()[x]:
+    for x, v in enumerate(getTagger().getTaggerTypes()):
+        if selectedTaggerType == getTagger().getTaggerTypesName()[x]:
             return v
-    return getLoaddedTagger().getTaggerTypes()[0]
+    return getTagger().getTaggerTypes()[0]
 
 
 def getSelectedTaggerTypeForWriteName():
-    return uni.getValue(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", getTaggerTypesName()[0])
+    return uni.getValue(getTagger().pluginName + "TaggerTypeNameForWrite", getTagger().getTaggerTypesName()[0])
 
 
 def setSelectedTaggerTypeForWriteName(_typeName):
-    uni.setMySetting(getLoaddedTagger().pluginName + "TaggerTypeNameForWrite", _typeName)
-
-
-def getTaggerTypes():
-    return getLoaddedTagger().getTaggerTypes()
-
-
-def getTaggerTypesName():
-    return getLoaddedTagger().getTaggerTypesName()
-
-
-def getAvailableLabelsForTable():
-    return getLoaddedTagger().getAvailableLabelsForTable()
-
-
-def getAvailableKeysForTable():
-    return getLoaddedTagger().getAvailableKeysForTable()
-
-
-def getReadOnlyKeysForTable():
-    return getLoaddedTagger().getReadOnlyKeysForTable()
-
-
-def getImageTypes():
-    return getLoaddedTagger().getImageTypes()
-
-
-def getImageTypesNo():
-    return getLoaddedTagger().getImageTypesNo()
+    uni.setMySetting(getTagger().pluginName + "TaggerTypeNameForWrite", _typeName)
 
 

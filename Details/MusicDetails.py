@@ -217,7 +217,7 @@ class MusicDetails(MDialog):
         self.leImagePath = MLineEdit("")
         self.lblImagePath = MLabel(translate("MusicDetails", "Image Path: "))
         self.cbImageType = MComboBox()
-        self.cbImageType.addItems(Taggers.getImageTypes())
+        self.cbImageType.addItems(Taggers.getTagger().getImageTypes())
         self.lblImageType = MLabel(translate("MusicDetails", "Image Type: "))
 
         self.lstwImages = MListWidget()
@@ -379,7 +379,7 @@ class MusicDetails(MDialog):
                 self.pbtnSaveAsImage.hide()
             else:
                 if fu.isFile(self.leImagePath.text()):
-                    imageType = Taggers.getImageTypesNo()[self.cbImageType.currentIndex()]
+                    imageType = Taggers.getTagger().getImageTypesNo()[self.cbImageType.currentIndex()]
                     description = str(imageType)
                     Musics.writeMusicFile(self.musicValues, None, True, imageType, str(self.leImagePath.text()),
                                           description)

@@ -31,11 +31,10 @@ import FileUtils as fu
 from Core import Universals as uni
 from datetime import datetime
 
-pluginName = "eyed3"
-
 
 class Tagger():
     def __init__(self):
+        self.pluginName = "eyed3"
         self.filePath = None
         self.tag = None
         self.isCorrect = True
@@ -142,8 +141,8 @@ class Tagger():
     def getImages(self):
         try:
             images = []
-            imageTypes = getImageTypes()
-            imageTypesNo = getImageTypesNo()
+            imageTypes = self.getImageTypes()
+            imageTypesNo = self.getImageTypesNo()
             for image in self.tag.images:
                 images.append([])
                 for no, imageType in enumerate(imageTypes):
@@ -223,53 +222,41 @@ class Tagger():
         if Taggers.getSelectedTaggerTypeForWrite() in (id3.ID3_V2_4, id3.ID3_V2_3, id3.ID3_V2_2, id3.ID3_V2):
             self.tag.images.remove(uni.trUnicode(_description))
 
+    def getImageTypes(self):
+        return ["Other (Default)", "Icon", "Other Icon", "Front Cover", "Back Cover", "Leaflet", "Media",
+                "Lead Artist", "Artist", "Leader", "Band", "Composer", "Lyrics By", "Recorded At",
+                "Recording", "Performing", "Video", "Made Famous", "Example", "Band Logo", "Publisher Logo"]
 
-def getImageTypes():
-    return ["Other (Default)", "Icon", "Other Icon", "Front Cover", "Back Cover", "Leaflet", "Media",
-            "Lead Artist", "Artist", "Leader", "Band", "Composer", "Lyrics By", "Recorded At",
-            "Recording", "Performing", "Video", "Made Famous", "Example", "Band Logo", "Publisher Logo"]
+    def getImageTypesNo(self):
+        return ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "10", "11", "12", "13",
+                "14"]
 
+    def getTaggerTypes(self):
+        return [id3.ID3_V2_4, id3.ID3_V1_1]
 
-def getImageTypesNo():
-    return ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "10", "11", "12", "13",
-            "14"]
+    def getTaggerTypesName(self):
+        return ["ID3 V2", "ID3 V1"]
 
+    def getAvailableKeysForTable(self):
+        return ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
+                "trackNum", "year", "genre", "firstComment", "firstLyrics"]
 
-def getTaggerTypes():
-    return [id3.ID3_V2_4, id3.ID3_V1_1]
+    def getReadOnlyKeysForTable(self):
+        keys = []
+        if Taggers.getSelectedTaggerTypeForRead() != self.getTaggerTypes()[0]:
+            keys.append("albumArtist")
+            keys.append("firstLyrics")
+        return keys
 
-
-def getTaggerTypesName():
-    return ["ID3 V2", "ID3 V1"]
-
-
-def getAvailableKeysForTable():
-    return ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
-            "trackNum", "year", "genre", "firstComment", "firstLyrics"]
-
-
-def getReadOnlyKeysForTable():
-    keys = []
-    if Taggers.getSelectedTaggerTypeForRead() != getTaggerTypes()[0]:
-        keys.append("albumArtist")
-        keys.append("firstLyrics")
-    return keys
-
-
-def getAvailableLabelsForTable():
-    return [translate("MusicTable", "Directory"),
-              translate("MusicTable", "File Name"),
-              translate("MusicTable", "Artist"),
-              translate("MusicTable", "Title"),
-              translate("MusicTable", "Album"),
-              translate("MusicTable", "Album Artist"),
-              translate("MusicTable", "Track No"),
-              translate("MusicTable", "Year"),
-              translate("MusicTable", "Genre"),
-              translate("MusicTable", "Comment"),
-              translate("MusicTable", "Lyrics")]
-
-
-
-        
-
+    def getAvailableLabelsForTable(self):
+        return [translate("MusicTable", "Directory"),
+                translate("MusicTable", "File Name"),
+                translate("MusicTable", "Artist"),
+                translate("MusicTable", "Title"),
+                translate("MusicTable", "Album"),
+                translate("MusicTable", "Album Artist"),
+                translate("MusicTable", "Track No"),
+                translate("MusicTable", "Year"),
+                translate("MusicTable", "Genre"),
+                translate("MusicTable", "Comment"),
+                translate("MusicTable", "Lyrics")]
