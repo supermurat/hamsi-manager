@@ -28,8 +28,6 @@ import Taggers
 from Core import Records
 from Core import ReportBug
 from Tables import CoreTable
-from Taggers import getTaggerTypesName, getSelectedTaggerTypeForReadName, setSelectedTaggerTypeForReadName
-from Taggers import getSelectedTaggerTypeForWriteName, setSelectedTaggerTypeForWriteName
 
 
 class SubFolderMusicTable(CoreTable):
@@ -41,23 +39,6 @@ class SubFolderMusicTable(CoreTable):
         pbtnVerifyTableValues = MPushButton(translate("MusicTable", "Verify Table"))
         pbtnVerifyTableValues.setMenu(SearchEngines.SearchEngines(self, "music"))
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "music", True))
-        lblSourceDetails = MLabel(translate("MusicTable", "Read From:"))
-        lblTargetDetails = MLabel(translate("MusicTable", "Write To:"))
-        self.MusicTagTypes = getTaggerTypesName()
-        self.cbTagSourceType = MComboBox(self)
-        self.cbTagSourceType.addItems(self.MusicTagTypes)
-        self.cbTagTargetType = MComboBox(self)
-        self.cbTagTargetType.addItems(self.MusicTagTypes)
-        self.isActiveChanging = False
-        self.cbTagSourceType.setCurrentIndex(
-            self.cbTagSourceType.findText(getSelectedTaggerTypeForReadName()))
-        self.cbTagTargetType.setCurrentIndex(
-            self.cbTagTargetType.findText(getSelectedTaggerTypeForWriteName()))
-        self.isActiveChanging = True
-        self.cbTagSourceType.setToolTip(translate("MusicTable",
-                                                  "You can select the ID3 tag source you want to read.<br><font color=blue>ID3 V2 is recommended.</font>"))
-        self.cbTagTargetType.setToolTip(translate("MusicTable",
-                                                  "You can select the ID3 tag target you want to write.<br><font color=blue>ID3 V2 is recommended.</font>"))
         lblDetails = translate("SubFolderTable",
                                "You can select sub directory deep.<br><font color=blue>You can select \"-1\" for all sub directories.</font>")
         lblSubDirectoryDeep = MLabel(str(translate("SubFolderTable", "Deep") + " : "))
@@ -66,29 +47,17 @@ class SubFolderMusicTable(CoreTable):
         self.cbSubDirectoryDeep.addItems(self.SubDirectoryDeeps)
         self.cbSubDirectoryDeep.setCurrentIndex(self.cbSubDirectoryDeep.findText(uni.MySettings["subDirectoryDeep"]))
         self.cbSubDirectoryDeep.setToolTip(lblDetails)
-        hblTagSourceType = MHBoxLayout()
-        hblTagSourceType.addWidget(lblSourceDetails)
-        hblTagSourceType.addWidget(self.cbTagSourceType)
-        hblTagTargetType = MHBoxLayout()
-        hblTagTargetType.addWidget(lblTargetDetails)
-        hblTagTargetType.addWidget(self.cbTagTargetType)
-        self.vblBoxSourceAndTarget.addLayout(hblTagSourceType)
-        self.vblBoxSourceAndTarget.addLayout(hblTagTargetType)
         self.hblBoxOptions.addWidget(pbtnVerifyTableValues)
         hblSubDirectory = MHBoxLayout()
         hblSubDirectory.addWidget(lblSubDirectoryDeep)
         hblSubDirectory.addWidget(self.cbSubDirectoryDeep)
         self.hblBoxOptions.addLayout(hblSubDirectory)
-        MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
-        MObject.connect(self.cbTagTargetType, SIGNAL("currentIndexChanged(int)"),
-                        self.musicTagTargetTypeChanged)
-
         MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
 
     def refreshColumns(self):
-        self.tableColumns = Taggers.getAvailableLabelsForTable()
-        self.tableColumnsKey = Taggers.getAvailableKeysForTable()
-        self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
+        self.tableColumns = Taggers.getTagger().getAvailableLabelsForTable()
+        self.tableColumnsKey = Taggers.getTagger().getAvailableKeysForTable()
+        self.tableReadOnlyColumnsKey = Taggers.getTagger().getReadOnlyKeysForTable()
         self.tableColumns += [
             translate("FileTable", "Size"),
             translate("FileTable", "Last Accessed"),
@@ -401,28 +370,6 @@ class SubFolderMusicTable(CoreTable):
                               str(translate("MusicTable",
                                             "\"%s\" : cannot be opened. Please make sure that you selected a music file.")
                               ) % Organizer.getLink(self.values[_row]["path"]))
-
-    def musicTagSourceTypeChanged(self, _action=None):
-        try:
-            selectedType = str(self.MusicTagTypes[_action])
-            if self.checkUnSavedValues():
-                setSelectedTaggerTypeForReadName(selectedType)
-                self.refreshForColumns()
-                getMainWindow().SpecialTools.refreshForColumns()
-                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
-            self.cbTagSourceType.setCurrentIndex(
-                self.cbTagSourceType.findText(getSelectedTaggerTypeForReadName()))
-        except:
-            ReportBug.ReportBug()
-
-    def musicTagTargetTypeChanged(self, _action=None):
-        try:
-            selectedType = str(self.MusicTagTypes[_action])
-            setSelectedTaggerTypeForWriteName(selectedType)
-            self.cbTagTargetType.setCurrentIndex(
-                self.cbTagTargetType.findText(getSelectedTaggerTypeForWriteName()))
-        except:
-            ReportBug.ReportBug()
 
     def subDirectoryDeepChanged(self, _action=None):
         try:

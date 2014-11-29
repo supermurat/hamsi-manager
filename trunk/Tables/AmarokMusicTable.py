@@ -74,9 +74,9 @@ class AmarokMusicTable(CoreTable):
         self.hblBoxOptions.addWidget(self.wFilter)
 
     def refreshColumns(self):
-        self.tableColumns = Taggers.getAvailableLabelsForTable()
-        self.tableColumnsKey = Taggers.getAvailableKeysForTable()
-        self.tableReadOnlyColumnsKey = Taggers.getReadOnlyKeysForTable()
+        self.tableColumns = Taggers.getTagger().getAvailableLabelsForTable()
+        self.tableColumnsKey = Taggers.getTagger().getAvailableKeysForTable()
+        self.tableReadOnlyColumnsKey = Taggers.getTagger().getReadOnlyKeysForTable()
         self.tableColumns += [
             translate("FileTable", "Size"),
             translate("FileTable", "Last Accessed"),

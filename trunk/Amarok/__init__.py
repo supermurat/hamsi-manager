@@ -215,20 +215,20 @@ def openEmbeddedDBConfigurator():
 
 
 def getTagSourceTypes():
-    from Taggers import getTaggerTypesName
+    from Taggers import getTagger
 
     tagSourceTypes = ["Amarok (Smart)", "Only Amarok"]
-    tagSourceTypes += getTaggerTypesName()
+    tagSourceTypes += getTagger().getTaggerTypesName()
     return tagSourceTypes
 
 
 def getTagTargetTypes():
-    from Taggers import getTaggerTypesName
+    from Taggers import getTagger
 
     tagTargetTypes = ["Amarok"]
-    for tagerTypeName in getTaggerTypesName():
+    for tagerTypeName in getTagger().getTaggerTypesName():
         tagTargetTypes.append("Amarok + " + tagerTypeName)
-    tagTargetTypes += getTaggerTypesName()
+    tagTargetTypes += getTagger().getTaggerTypesName()
     return tagTargetTypes
 
 
