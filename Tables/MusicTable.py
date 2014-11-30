@@ -196,7 +196,7 @@ class MusicTable(CoreTable):
                             baseName = str(self.values[rowNo]["baseName"])
                             tagger = Taggers.getTagger()
                             tagger.loadFileForWrite(self.values[rowNo]["path"])
-                            isCheckLike = (not self.tag.isV2() or
+                            isCheckLike = (tagger.isNeedUpdate or
                                            (uni.isActiveAmarok and
                                             uni.getBoolValue("isMusicTableValuesChangeInAmarokDB")))
                             if self.isChangeableItem(rowNo, "artist", self.values[rowNo]["artist"], True, isCheckLike):

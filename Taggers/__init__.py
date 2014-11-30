@@ -33,6 +33,9 @@ def getTagger(_isAlertIfNotExist=False, _isReloadAgain=False):
             return loaddedTagger
         if len(taggersNames) == 0:
             taggersNames = uni.getTaggersNames()
+        # TODO: make people to select their options # default should be mutagen!
+        # if taggersNames.index("mutagenTagger"):
+        #     taggersNames = ["mutagen3Tagger"]
         for tagger in taggersNames:
             taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger", tagger], 0)
             if taggerModule.isAvailable:
