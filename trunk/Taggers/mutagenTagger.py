@@ -19,9 +19,7 @@
 
 isAvailable = False
 try:
-    import eyed3
-    from eyed3 import id3
-    from eyed3 import mp3
+    from mutagen import id3
 
     isAvailable = True
 except: pass
@@ -33,29 +31,25 @@ from datetime import datetime
 
 class Tagger():
     def __init__(self):
-        self.pluginName = "eyed3"
+        self.pluginName = "mutagen"
         self.isSupportImages = True
         self.filePath = None
-        self.tag = None
+        self.tags = None
         self.isCorrect = True
         self.isSave = False
         self.isNeedUpdate = False
 
-    def loadFile(self, _filePath, _tagVersion=id3.ID3_V2_4):
+
+    def loadFile(self, _filePath):
         self.filePath = _filePath
         self.isCorrect = False
         self.isSave = False
         self.isNeedUpdate = False
         try:
-            self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding), _tagVersion).tag
+            self.tags = id3.ID3(uni.trEncode(self.filePath, fu.fileSystemEncoding))
         except:
-            self.tag = id3.TagFile(self.filePath, _tagVersion).tag
-        if self.tag is None:
-            self.isNeedUpdate = True
-            self.isSave = True
-            self.tag = id3.Tag()
-            self.tag.parse(self.filePath, id3.ID3_ANY_VERSION)
-        elif not self.tag.isV2():
+            self.tags = id3.ID3(self.filePath)
+        if self.tags.version is not (2, 4, 0):
             self.isNeedUpdate = True
             self.isSave = True
 
@@ -65,23 +59,19 @@ class Tagger():
         self.isSave = False
         self.isNeedUpdate = False
         try:
-            self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding), id3.ID3_V2_4).tag
+            self.tags = id3.ID3(uni.trEncode(self.filePath, fu.fileSystemEncoding))
         except:
-            self.tag = id3.TagFile(self.filePath, id3.ID3_V2_4).tag
-        if self.tag is None:
-            self.isNeedUpdate = True
-            self.isSave = True
-            self.tag = id3.Tag()
-            self.tag.parse(self.filePath, id3.ID3_ANY_VERSION)
-        elif not self.tag.isV2():
+            self.tags = id3.ID3(self.filePath)
+        if self.tags.version is not (2, 4, 0):
             self.isNeedUpdate = True
             self.isSave = True
 
     def update(self):
         if self.isCorrect or self.isNeedUpdate:
-            self.tag.save(version=id3.ID3_V2_4, encoding="utf8")
+            self.tags.update_to_v24()
+            self.tags.save()
         elif self.isSave:
-            self.tag.save()
+            self.tags.save()
 
     def isAvailableFile(self):
         if fu.checkExtension(self.filePath, "mp3"):
@@ -95,57 +85,50 @@ class Tagger():
 
     def getCorrectedValuesForMusicTagType(self, _value):
         _value = self.getCorrectedValues(_value)
-        if not self.tag.isV2():
-            return uni.trEncode(uni.trUnicode(_value), "latin1")
-        else:
-            return _value
+        return _value
 
     def correctValuesForMusicTagType(self, _value):
         return uni.trUnicode(str(_value))
 
     def getArtist(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag._getArtist()))
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tags["TPE1"]))
         except: return ""
 
-
     def getAlbumArtist(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag.getTextFrame("TPE2")))
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tags["TPE2"]))
         except: return ""
 
     def getTitle(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag._getTitle()))
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tags["TIT2"]))
         except: return ""
 
     def getAlbum(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag._getAlbum()))
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tags["TALB"]))
         except: return ""
 
     def getTrackNum(self):
         try:
-            if self.tag.isV2():
-                trackNum = self.tag._getTrackNum()
-                if trackNum[1] is not None:
-                    return self.getCorrectedValues(str(trackNum[0]) + "/" + str(trackNum[1]))
-                else:
-                    return self.getCorrectedValues(trackNum[0])
-            else:
-                return self.getCorrectedValues(self.tag._getTrackNum()[0])
-        except: return ""
+            return self.getCorrectedValues(str(self.tags["TRCK"]) + "/" + str(self.tags["TPOS"]))
+        except:
+            try:
+                return self.getCorrectedValues(str(self.tags["TRCK"]))
+            except:
+                return ""
 
     def getYear(self):
-        try: return self.getCorrectedValues(self.tag._getRecordingDate().year)
+        try: return self.getCorrectedValues(self.tags["TDRC"])
         except: return ""
 
     def getGenre(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag._getGenre().name))
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tags["TCON"]))
         except: return ""
 
     def getFirstComment(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag.comments.get(u"").text))
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tags.getall("COMM")[0].text[0]))
         except: return ""
 
     def getFirstLyrics(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag.lyrics.get(u"").text))
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tags.getall("USLT")[0]))
         except: return ""
 
     def getImages(self):
@@ -153,87 +136,77 @@ class Tagger():
             images = []
             imageTypes = self.getImageTypes()
             imageTypesNo = self.getImageTypesNo()
-            for image in self.tag.images:
+            for image in self.tags.getall("APIC"):
                 images.append([])
                 for no, imageType in enumerate(imageTypes):
-                    if str(image.picture_type) == imageTypesNo[no]:
+                    if str(image.type) == imageTypesNo[no]:
                         images[-1].append(no)
                         images[-1].append(imageType)
                         break
-                images[-1].append(image.mime_type)
-                images[-1].append(image.image_data)
-                images[-1].append(image.description)
+                images[-1].append(image.mime)
+                images[-1].append(image.data)
+                images[-1].append(image.desc)
             return images
         except:
             return []
 
     def setArtist(self, _value):
         self.isSave = True
-        self.tag._setArtist(self.correctValuesForMusicTagType(_value))
+        self.tags["TPE1"] = id3.TPE1(encoding=3, text=self.correctValuesForMusicTagType(_value))
 
     def setAlbumArtist(self, _value):
         self.isSave = True
-        self.tag.setTextFrame("TPE2", self.correctValuesForMusicTagType(_value))
+        self.tags["TPE2"] = id3.TPE2(encoding=3, text=self.correctValuesForMusicTagType(_value))
 
     def setTitle(self, _value):
         self.isSave = True
-        self.tag._setTitle(self.correctValuesForMusicTagType(_value))
+        self.tags["TIT2"] = id3.TIT2(encoding=3, text=self.correctValuesForMusicTagType(_value))
 
     def setAlbum(self, _value):
         self.isSave = True
-        self.tag._setAlbum(self.correctValuesForMusicTagType(_value))
+        self.tags["TALB"] = id3.TALB(encoding=3, text=self.correctValuesForMusicTagType(_value))
 
     def setTrackNum(self, _value):
         self.isSave = True
-        if _value.find("/") != -1:
-            self.tag._setTrackNum(tuple(_value.split("/")))
-        else:
-            val = _value
-            try: val = int(val)
-            except: val = None
-            self.tag._setTrackNum((val, None))
+        values = _value.split("/")
+        try:
+            self.tags["TRCK"] = id3.TRCK(encoding=3, text=self.correctValuesForMusicTagType(_value))
+            if len(values) > 1:
+                self.tags["TPOS"] = id3.TPOS(encoding=3, text=self.correctValuesForMusicTagType(_value))
+        except:
+            pass
 
     def setDate(self, _value):
         self.isSave = True
-        if len(str(_value)) == 4:
-            val = _value
-            try:
-                val = int(val)
-            except:
-                val = None
-            try:
-                self.tag._setRecordingDate(val)
-            except AttributeError as err:
-                self.tag._setRecordingDate(datetime.strptime(str(val), '%Y'))
-        elif _value == "":
-            self.tag._setRecordingDate(None)
-        else:
-            try:
-                self.tag._setRecordingDate(datetime.today().year)
-            except AttributeError as err:
-                self.tag._setRecordingDate(datetime.today())
+        try:
+            self.tags["TDRC"] = id3.TDRC(encoding=3, text=self.correctValuesForMusicTagType(_value))
+        except:
+            pass
 
     def setGenre(self, _value):
         self.isSave = True
-        self.tag._setGenre(self.correctValuesForMusicTagType(_value))
+        self.tags["TCON"] = id3.TCON(encoding=3, text=self.correctValuesForMusicTagType(_value))
 
     def setFirstComment(self, _value):
         self.isSave = True
-        self.tag.comments.set(self.correctValuesForMusicTagType(_value))
+        self.tags.setall("COMM", [id3.COMM(encoding=3, text=self.correctValuesForMusicTagType(_value))])
 
     def setFirstLyrics(self, _value):
         self.isSave = True
-        self.tag.lyrics.set(self.correctValuesForMusicTagType(_value))
+        self.tags["USLT"] = id3.USLT(encoding=3, text=self.correctValuesForMusicTagType(_value))
 
     def addImage(self, _imageType, _imagePath, _description):
         self.isSave = True
         imageData = fu.readFromBinaryFile(_imagePath)
         mimeType = fu.getMimeType(_imagePath)[0]
-        self.tag.images.set(int(_imageType), imageData, mimeType, uni.trUnicode(_description))
+        self.tags.add(id3.APIC(encoding=3, mime=mimeType, type=int(_imageType),
+                                           desc=uni.trUnicode(_description), data=imageData))
 
     def removeImage(self, _description):
         self.isSave = True
-        self.tag.images.remove(uni.trUnicode(_description))
+        for no, img in enumerate(self.tags.getall("APIC")):
+            if img.desc == _description:
+                del self.tags[img.HashKey]
 
     def getImageTypes(self):
         return ["Other (Default)", "Icon", "Other Icon", "Front Cover", "Back Cover", "Leaflet", "Media",
