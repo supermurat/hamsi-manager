@@ -32,8 +32,9 @@ from datetime import datetime
 
 
 class Tagger():
+    # eyed3 usage examples in python/site-packages/eyed3/plugins/classic.py
     def __init__(self):
-        self.pluginName = "eyed3"
+        self.pluginName = "Eyed3"
         self.isSupportImages = True
         self.filePath = None
         self.tag = None
@@ -141,11 +142,11 @@ class Tagger():
         except: return ""
 
     def getFirstComment(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag.comments.get(u"").text))
+        try:return self.getCorrectedValuesForMusicTagType(str(self.tag.comments[0].text))
         except: return ""
 
     def getFirstLyrics(self):
-        try: return self.getCorrectedValuesForMusicTagType(str(self.tag.lyrics.get(u"").text))
+        try: return self.getCorrectedValuesForMusicTagType(str(self.tag.lyrics[0].text))
         except: return ""
 
     def getImages(self):
@@ -219,11 +220,11 @@ class Tagger():
 
     def setFirstComment(self, _value):
         self.isSave = True
-        self.tag.comments.set(self.correctValuesForMusicTagType(_value))
+        self.tag.comments.set(self.correctValuesForMusicTagType(_value), u"", "eng")
 
     def setFirstLyrics(self, _value):
         self.isSave = True
-        self.tag.lyrics.set(self.correctValuesForMusicTagType(_value))
+        self.tag.lyrics.set(self.correctValuesForMusicTagType(_value), u"", "eng")
 
     def addImage(self, _imageType, _imagePath, _description):
         self.isSave = True
