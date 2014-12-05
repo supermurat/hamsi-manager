@@ -43,7 +43,7 @@ machineType = platform.machine()
 isPython3k = float(sys.version[:3]) >= 3.0
 isWindows = os.name == "nt"
 Catalog = "HamsiManager"
-version = "2.0"
+version = "2.0.0.7"
 intversion = 2007
 settingVersion = "2007"
 aboutOfHamsiManager = ""

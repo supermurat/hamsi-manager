@@ -220,7 +220,7 @@ def getTagSourceTypes():
 
 
 def getTagTargetTypes():
-    tagTargetTypes = ["Amarok", "To File"]
+    tagTargetTypes = ["Amarok", "Amarok + To File", "To File"]
     return tagTargetTypes
 
 

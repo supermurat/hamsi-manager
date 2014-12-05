@@ -66,6 +66,22 @@ class AmarokCopyTable(CoreTable):
         self.vblBoxSourceAndTarget.addLayout(hblTagSourceType)
         self.hblBoxTools.addWidget(pbtnVerifyTableValues)
         MObject.connect(self.cbTagSourceType, SIGNAL("currentIndexChanged(int)"), self.musicTagSourceTypeChanged)
+        lblTagger = MLabel(translate("MusicTable", "Tag Module:"))
+        taggerMachineNames = uni.getTaggersMachineNames()
+        taggerNames = Taggers.getTaggerNames()
+        self.cbTagger = MyComboBox()
+        self.cbTagger.addDataItems(taggerMachineNames, taggerNames)
+        self.cbTagger.setCurrentIndex(
+            self.cbTagger.findText(Taggers.getTaggerName(uni.MySettings["preferedTaggerModule"])))
+        self.cbTagger.setToolTip(translate("MusicTable",
+                                           "You can select the ID3 tag module you want to use.<br><font color=blue>Mutagen is recommended.</font>"))
+        hblTagger = MHBoxLayout()
+        hblTagger.addWidget(lblTagger)
+        hblTagger.addWidget(self.cbTagger)
+        lblTagger.setMaximumWidth(100)
+        self.cbTagger.setMaximumWidth(100)
+        self.hblBoxTools.addLayout(hblTagger)
+        MObject.connect(self.cbTagger, SIGNAL("currentIndexChanged(int)"), self.cbTaggerChanged)
 
     def refreshColumns(self):
         self.tableColumns = Taggers.getTagger().getAvailableLabelsForTable()
@@ -427,6 +443,20 @@ class AmarokCopyTable(CoreTable):
                 0)
             if destinationDirPath is not None:
                 self.leDestinationDirPath.setText(str(destinationDirPath))
+        except:
+            ReportBug.ReportBug()
+
+    def cbTaggerChanged(self, _action=None):
+        try:
+            tagger = self.cbTagger.currentData()
+            if self.checkUnSavedValues():
+                uni.setMySetting("preferedTaggerModule", tagger)
+                t = Taggers.getTagger(True, True)
+                self.refreshForColumns()
+                getMainWindow().SpecialTools.refreshForColumns()
+                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            self.cbTagger.setCurrentIndex(
+                self.cbTagger.findText(Taggers.getTaggerName(uni.MySettings["preferedTaggerModule"])))
         except:
             ReportBug.ReportBug()
 
