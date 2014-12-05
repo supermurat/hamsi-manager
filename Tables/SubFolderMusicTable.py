@@ -53,6 +53,22 @@ class SubFolderMusicTable(CoreTable):
         hblSubDirectory.addWidget(self.cbSubDirectoryDeep)
         self.hblBoxOptions.addLayout(hblSubDirectory)
         MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
+        lblTagger = MLabel(translate("MusicTable", "Tag Module:"))
+        taggerMachineNames = uni.getTaggersMachineNames()
+        taggerNames = Taggers.getTaggerNames()
+        self.cbTagger = MyComboBox()
+        self.cbTagger.addDataItems(taggerMachineNames, taggerNames)
+        self.cbTagger.setCurrentIndex(
+            self.cbTagger.findText(Taggers.getTaggerName(uni.MySettings["preferedTaggerModule"])))
+        self.cbTagger.setToolTip(translate("MusicTable",
+                                           "You can select the ID3 tag module you want to use.<br><font color=blue>Mutagen is recommended.</font>"))
+        hblTagger = MHBoxLayout()
+        hblTagger.addWidget(lblTagger)
+        hblTagger.addWidget(self.cbTagger)
+        lblTagger.setMaximumWidth(100)
+        self.cbTagger.setMaximumWidth(100)
+        self.hblBoxTools.addLayout(hblTagger)
+        MObject.connect(self.cbTagger, SIGNAL("currentIndexChanged(int)"), self.cbTaggerChanged)
 
     def refreshColumns(self):
         self.tableColumns = Taggers.getTagger().getAvailableLabelsForTable()
@@ -380,5 +396,19 @@ class SubFolderMusicTable(CoreTable):
                 self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
             self.cbSubDirectoryDeep.setCurrentIndex(
                 self.cbSubDirectoryDeep.findText(str(uni.MySettings["subDirectoryDeep"])))
+        except:
+            ReportBug.ReportBug()
+
+    def cbTaggerChanged(self, _action=None):
+        try:
+            tagger = self.cbTagger.currentData()
+            if self.checkUnSavedValues():
+                uni.setMySetting("preferedTaggerModule", tagger)
+                t = Taggers.getTagger(True, True)
+                self.refreshForColumns()
+                getMainWindow().SpecialTools.refreshForColumns()
+                self.refresh(getMainWindow().FileManager.getCurrentDirectoryPath())
+            self.cbTagger.setCurrentIndex(
+                self.cbTagger.findText(Taggers.getTaggerName(uni.MySettings["preferedTaggerModule"])))
         except:
             ReportBug.ReportBug()
