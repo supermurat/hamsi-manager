@@ -334,6 +334,8 @@ def updateOldSettings(_oldVersion, _newVersion):
             setting().sync()
         except:
             pass
+    if oldVersion < 2007:
+        newSettingsKeys += ["preferedTaggerModule"]
     return newSettingsKeys, changedDefaultValuesKeys
 
 
@@ -397,7 +399,8 @@ def getKeysOfSettings():
             "isShowHiddensInSubFolderTable", "isShowHiddensInFolderTable", "isShowHiddensInFileTable",
             "isShowHiddensInMusicTable", "isShowHiddensInCoverTable", "isShowHiddensInSubFolderMusicTable",
             "isShowHiddensInFileTree",
-            "isDecodeURLStrings", "isCheckUnSavedValues", "isAutoSaveScripts", "maxDeletedDirectorySize"]
+            "isDecodeURLStrings", "isCheckUnSavedValues", "isAutoSaveScripts", "maxDeletedDirectorySize",
+            "preferedTaggerModule"]
 
 
 def getDefaultValues():
@@ -558,7 +561,8 @@ def getDefaultValues():
         "isDecodeURLStrings": "True",
         "isCheckUnSavedValues": "False",
         "isAutoSaveScripts": "True",
-        "maxDeletedDirectorySize": "2048"
+        "maxDeletedDirectorySize": "2048",
+        "preferedTaggerModule": "mutagenTagger"
     }
 
 
@@ -702,7 +706,8 @@ def getValueTypesAndValues():
         "isDecodeURLStrings": "bool",
         "isCheckUnSavedValues": "bool",
         "isAutoSaveScripts": "bool",
-        "maxDeletedDirectorySize": "int"
+        "maxDeletedDirectorySize": "int",
+        "preferedTaggerModule": ["options", uni.getTaggersMachineNames()]
     }
 
 

@@ -44,8 +44,8 @@ isPython3k = float(sys.version[:3]) >= 3.0
 isWindows = os.name == "nt"
 Catalog = "HamsiManager"
 version = "2.0"
-intversion = 2006
-settingVersion = "2006"
+intversion = 2007
+settingVersion = "2007"
 aboutOfHamsiManager = ""
 fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
 validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]
@@ -544,22 +544,22 @@ def getSearchEnginesNames():
             moduleName = name.split(".")[0]
             moduleNameExt = name.split(".")[1]
             if engines.count(moduleName) == 0:
-                if name[:1] != "." and moduleName != "__init__" and ["py", "pyc", "pyd"].count(
-                    moduleNameExt) == 1 and fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "SearchEngines", name)):
+                if (name[:1] != "." and moduleName != "__init__" and ["py", "pyc", "pyd"].count(moduleNameExt) == 1 and
+                        fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "SearchEngines", name))):
                     engines.append(moduleName)
         except: pass
     return engines
 
 
-def getTaggersNames():
+def getTaggersMachineNames():
     taggers = []
     for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Taggers")):
         try:
             moduleName = name.split(".")[0]
             moduleNameExt = name.split(".")[1]
             if taggers.count(moduleName) == 0:
-                if name[:1] != "." and moduleName != "__init__" and ["py", "pyc", "pyd"].count(
-                    moduleNameExt) == 1 and fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Taggers", name)):
+                if (name[:1] != "." and moduleName != "__init__" and ["py", "pyc", "pyd"].count(moduleNameExt) == 1 and
+                        fu.isFile(fu.joinPath(fu.HamsiManagerDirectory, "Taggers", name))):
                     taggers.append(moduleName)
         except: pass
     return taggers
@@ -569,8 +569,8 @@ def getMyPluginsNames():
     plugins = []
     for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins")):
         try:
-            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and fu.isDir(
-                fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins", name)):
+            if (name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and
+                    fu.isDir(fu.joinPath(fu.HamsiManagerDirectory, "MyPlugins", name))):
                 plugins.append(name)
         except: pass
     return plugins
@@ -580,8 +580,8 @@ def getInstalledThemes():
     themes = []
     for name in fu.readDirectoryAll(fu.joinPath(fu.HamsiManagerDirectory, "Themes")):
         try:
-            if name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and fu.isDir(
-                fu.joinPath(fu.HamsiManagerDirectory, "Themes", name)):
+            if (name[:1] != "." and name[:2] != "__" and name[-2:] != "__" and
+                    fu.isDir(fu.joinPath(fu.HamsiManagerDirectory, "Themes", name))):
                 themes.append(name)
         except: pass
     return themes

@@ -31,7 +31,7 @@ from datetime import datetime
 
 class Tagger():
     def __init__(self):
-        self.pluginName = "mutagen"
+        self.pluginName = "Mutagen"
         self.isSupportImages = True
         self.filePath = None
         self.tags = None
@@ -170,16 +170,16 @@ class Tagger():
         self.isSave = True
         values = _value.split("/")
         try:
-            self.tags["TRCK"] = id3.TRCK(encoding=3, text=self.correctValuesForMusicTagType(_value))
+            self.tags["TRCK"] = id3.TRCK(encoding=3, text=str(int(self.correctValuesForMusicTagType(values[0]))))
             if len(values) > 1:
-                self.tags["TPOS"] = id3.TPOS(encoding=3, text=self.correctValuesForMusicTagType(_value))
+                self.tags["TPOS"] = id3.TPOS(encoding=3, text=str(int(self.correctValuesForMusicTagType(values[1]))))
         except:
             pass
 
     def setDate(self, _value):
         self.isSave = True
         try:
-            self.tags["TDRC"] = id3.TDRC(encoding=3, text=self.correctValuesForMusicTagType(_value))
+            self.tags["TDRC"] = id3.TDRC(encoding=3, text=str(int(self.correctValuesForMusicTagType(_value))))
         except:
             pass
 
@@ -189,11 +189,23 @@ class Tagger():
 
     def setFirstComment(self, _value):
         self.isSave = True
-        self.tags.setall("COMM", [id3.COMM(encoding=3, text=self.correctValuesForMusicTagType(_value))])
+        keys = self.tags.getall("COMM")
+        for key in keys:
+            self.tags[key.HashKey] = id3.COMM(encoding=3, text=self.correctValuesForMusicTagType(_value),
+                                              lang=key.lang, desc=key.desc)
+        if len(keys) == 0:
+            #self.tags["COMM::'XXX'"] = id3.COMM(encoding=3, text=self.correctValuesForMusicTagType(_value), lang="XXX")
+            self.tags["COMM::'eng'"] = id3.COMM(encoding=3, text=self.correctValuesForMusicTagType(_value), lang="eng")
 
     def setFirstLyrics(self, _value):
         self.isSave = True
-        self.tags["USLT"] = id3.USLT(encoding=3, text=self.correctValuesForMusicTagType(_value))
+        keys = self.tags.getall("USLT")
+        for key in keys:
+            self.tags[key.HashKey] = id3.USLT(encoding=3, text=self.correctValuesForMusicTagType(_value),
+                                              lang=key.lang, desc=key.desc)
+        if len(keys) == 0:
+            #self.tags["USLT::'XXX'"] = id3.USLT(encoding=3, text=self.correctValuesForMusicTagType(_value), lang="XXX")
+            self.tags["USLT::'eng'"] = id3.USLT(encoding=3, text=self.correctValuesForMusicTagType(_value), lang="eng")
 
     def addImage(self, _imageType, _imagePath, _description):
         self.isSave = True

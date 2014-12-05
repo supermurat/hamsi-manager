@@ -31,7 +31,7 @@ from datetime import datetime
 
 class Tagger():
     def __init__(self):
-        self.pluginName = "taglib"
+        self.pluginName = "Taglib"
         self.isSupportImages = False
         self.filePath = None
         self.tagFile = None
@@ -155,16 +155,16 @@ class Tagger():
         self.isSave = True
         values = _value.split("/")
         try:
-            self.tags["TRACKNUMBER"] = [int(values[0].strip())]
+            self.tags["TRACKNUMBER"] = [str(int(values[0].strip()))]
             if len(values) > 1:
-                self.tags["DISCNUMBER"] = [int(values[1].strip())]
+                self.tags["DISCNUMBER"] = [str(int(values[1].strip()))]
         except:
             pass
 
     def setDate(self, _value):
         self.isSave = True
         try:
-            self.tags["DATE"] = [int(_value[0])]
+            self.tags["DATE"] = [str(int(_value))]
         except:
             pass
 

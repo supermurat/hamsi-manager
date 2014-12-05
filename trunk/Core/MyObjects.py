@@ -243,3 +243,7 @@ class MyComboBox(MComboBox):
 
     def currentData(self):
         return trStr(self.itemData(self.currentIndex()))
+
+    def addDataItems(self, _keys, _names):
+        for x, key in enumerate(_keys):
+            self.addItem(_names[x], trQVariant(key))

@@ -22,23 +22,25 @@ from Core import Universals as uni
 from Core import Dialogs
 from Core import ReportBug
 
-taggersNames = []
 loaddedTagger = None
 
 
 def getTagger(_isAlertIfNotExist=False, _isReloadAgain=False):
-    global taggersNames, loaddedTagger
+    global loaddedTagger
     try:
         if not _isReloadAgain and loaddedTagger is not None:
             return loaddedTagger
-        if len(taggersNames) == 0:
-            taggersNames = uni.getTaggersNames()
-        # TODO: make people to select their options # default should be mutagen!
-        # if taggersNames.index("mutagenTagger"):
-        #     taggersNames = ["mutagen3Tagger"]
+        preferedTaggerModule = uni.MySettings["preferedTaggerModule"]
+        taggerModule = __import__("Taggers." + preferedTaggerModule, globals(), locals(), ["isAvailable", "Tagger", preferedTaggerModule], 0)
+        if taggerModule.isAvailable:
+            loaddedTagger = taggerModule.Tagger()
+            return loaddedTagger
+
+        taggersNames = uni.getTaggersMachineNames()
         for tagger in taggersNames:
             taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger", tagger], 0)
             if taggerModule.isAvailable:
+                uni.setMySetting("preferedTaggerModule", tagger)
                 loaddedTagger = taggerModule.Tagger()
                 return loaddedTagger
         if _isAlertIfNotExist:
@@ -49,3 +51,33 @@ def getTagger(_isAlertIfNotExist=False, _isReloadAgain=False):
         return None
     except:
         ReportBug.ReportBug()
+
+
+def isAvailable(_taggerModule):
+    try:
+        taggerModule = __import__("Taggers." + _taggerModule, globals(), locals(), ["isAvailable"], 0)
+        return taggerModule.isAvailable
+    except:
+        ReportBug.ReportBug()
+
+
+def getTaggerName(_taggerModule):
+    try:
+        taggerModule = __import__("Taggers." + _taggerModule, globals(), locals(), ["isAvailable", "Tagger"], 0)
+        return taggerModule.Tagger().pluginName
+    except:
+        ReportBug.ReportBug()
+        return _taggerModule
+
+
+def getTaggerNames():
+    try:
+        taggerMachineNames = uni.getTaggersMachineNames()
+        names = []
+        for tagger in taggerMachineNames:
+            taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger"], 0)
+            names.append(taggerModule.Tagger().pluginName)
+        return names
+    except:
+        ReportBug.ReportBug()
+        return []
