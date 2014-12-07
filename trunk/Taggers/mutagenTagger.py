@@ -20,25 +20,26 @@
 isAvailable = False
 try:
     from mutagen import id3
+    from mutagen import mp3
 
     isAvailable = True
 except: pass
 from Core.MyObjects import *
 import FileUtils as fu
 from Core import Universals as uni
-from datetime import datetime
 
 
 class Tagger():
     def __init__(self):
         self.pluginName = "Mutagen"
         self.isSupportImages = True
+        self.isSupportInfo = True
         self.filePath = None
         self.tags = None
+        self.info = None
         self.isCorrect = True
         self.isSave = False
         self.isNeedUpdate = False
-
 
     def loadFile(self, _filePath):
         self.filePath = _filePath
@@ -47,8 +48,10 @@ class Tagger():
         self.isNeedUpdate = False
         try:
             self.tags = id3.ID3(uni.trEncode(self.filePath, fu.fileSystemEncoding))
+            self.info = mp3.MP3(uni.trEncode(self.filePath, fu.fileSystemEncoding)).info
         except:
             self.tags = id3.ID3(self.filePath)
+            self.info = mp3.MP3(self.filePath).info
         if self.tags.version is not (2, 4, 0):
             self.isNeedUpdate = True
             self.isSave = True
@@ -150,6 +153,23 @@ class Tagger():
         except:
             return []
 
+    def getLength(self):
+        try: return str(round((self.info.length / 60), 2)).replace(".", ":")
+        except: return ""
+
+    def getBitrate(self):
+        try: return str(self.info.bitrate / 1000) + " kbps"
+        except: return ""
+
+    def getSampleRate(self):
+        try: return str(self.info.sample_rate) + " Hz"
+        except: return ""
+
+    def getMode(self):
+        modes = {0: "STEREO", 1: "JOINTSTEREO", 2: "DUALCHANNEL", 3: "MONO"}
+        try: return modes[self.info.mode]
+        except: return ""
+
     def setArtist(self, _value):
         self.isSave = True
         self.tags["TPE1"] = id3.TPE1(encoding=3, text=self.correctValuesForMusicTagType(_value))
@@ -231,10 +251,10 @@ class Tagger():
 
     def getAvailableKeysForTable(self):
         return ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
-                "trackNum", "year", "genre", "firstComment", "firstLyrics"]
+                "trackNum", "year", "genre", "firstComment", "firstLyrics", "length", "bitrate", "sampleRate", "mode"]
 
     def getReadOnlyKeysForTable(self):
-        return []
+        return ["length", "bitrate", "sampleRate", "mode"]
 
     def getAvailableLabelsForTable(self):
         return [translate("MusicTable", "Directory"),
@@ -247,4 +267,8 @@ class Tagger():
                 translate("MusicTable", "Year"),
                 translate("MusicTable", "Genre"),
                 translate("MusicTable", "Comment"),
-                translate("MusicTable", "Lyrics")]
+                translate("MusicTable", "Lyrics"),
+                translate("MusicTable", "Length"),
+                translate("MusicTable", "Bitrate"),
+                translate("MusicTable", "Sample Rate"),
+                translate("MusicTable", "Mode")]

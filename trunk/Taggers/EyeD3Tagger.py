@@ -36,8 +36,10 @@ class Tagger():
     def __init__(self):
         self.pluginName = "Eyed3"
         self.isSupportImages = True
+        self.isSupportInfo = True
         self.filePath = None
         self.tag = None
+        self.info = None
         self.isCorrect = True
         self.isSave = False
         self.isNeedUpdate = False
@@ -49,8 +51,10 @@ class Tagger():
         self.isNeedUpdate = False
         try:
             self.tag = id3.TagFile(uni.trEncode(self.filePath, fu.fileSystemEncoding), _tagVersion).tag
+            self.info = mp3.Mp3AudioFile(uni.trEncode(self.filePath, fu.fileSystemEncoding)).info
         except:
             self.tag = id3.TagFile(self.filePath, _tagVersion).tag
+            self.info = mp3.Mp3AudioFile(self.filePath).info
         if self.tag is None:
             self.isNeedUpdate = True
             self.isSave = True
@@ -168,6 +172,22 @@ class Tagger():
         except:
             return []
 
+    def getLength(self):
+        try: return str(round((float(self.info.time_secs) / 60), 2)).replace(".", ":")
+        except: return ""
+
+    def getBitrate(self):
+        try: return str(self.info.bit_rate[1]) + " kbps"
+        except: return ""
+
+    def getSampleRate(self):
+        try: return str(self.info.sample_freq) + " Hz"
+        except: return ""
+
+    def getMode(self):
+        try: return self.info.mode
+        except: return ""
+
     def setArtist(self, _value):
         self.isSave = True
         self.tag._setArtist(self.correctValuesForMusicTagType(_value))
@@ -247,10 +267,10 @@ class Tagger():
 
     def getAvailableKeysForTable(self):
         return ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
-                "trackNum", "year", "genre", "firstComment", "firstLyrics"]
+                "trackNum", "year", "genre", "firstComment", "firstLyrics", "length", "bitrate", "sampleRate", "mode"]
 
     def getReadOnlyKeysForTable(self):
-        return []
+        return ["length", "bitrate", "sampleRate", "mode"]
 
     def getAvailableLabelsForTable(self):
         return [translate("MusicTable", "Directory"),
@@ -263,4 +283,8 @@ class Tagger():
                 translate("MusicTable", "Year"),
                 translate("MusicTable", "Genre"),
                 translate("MusicTable", "Comment"),
-                translate("MusicTable", "Lyrics")]
+                translate("MusicTable", "Lyrics"),
+                translate("MusicTable", "Length"),
+                translate("MusicTable", "Bitrate"),
+                translate("MusicTable", "Sample Rate"),
+                translate("MusicTable", "Mode")]

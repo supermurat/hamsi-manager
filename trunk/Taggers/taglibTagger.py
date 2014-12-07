@@ -33,6 +33,7 @@ class Tagger():
     def __init__(self):
         self.pluginName = "Taglib"
         self.isSupportImages = False
+        self.isSupportInfo = True
         self.filePath = None
         self.tagFile = None
         self.tags = None
@@ -135,6 +136,23 @@ class Tagger():
     def getImages(self):
         return []
 
+    def getLength(self):
+        try: return str(round((float(self.tagFile.length) / 60), 2)).replace(".", ":")
+        except: return ""
+
+    def getBitrate(self):
+        try: return str(self.tagFile.bitrate) + " kbps"
+        except: return ""
+
+    def getSampleRate(self):
+        try: return str(self.tagFile.sampleRate) + " Hz"
+        except: return ""
+
+    def getMode(self):
+        modes = {1: "MONO", 2: "STEREO"}
+        try: return modes[self.tagFile.channels]
+        except: return ""
+
     def setArtist(self, _value):
         self.isSave = True
         self.tags["ARTIST"] = [self.correctValuesForMusicTagType(_value)]
@@ -194,10 +212,10 @@ class Tagger():
 
     def getAvailableKeysForTable(self):
         return ["baseNameOfDirectory", "baseName", "artist", "title", "album", "albumArtist",
-                "trackNum", "year", "genre", "firstComment", "firstLyrics"]
+                "trackNum", "year", "genre", "firstComment", "firstLyrics", "length", "bitrate", "sampleRate", "mode"]
 
     def getReadOnlyKeysForTable(self):
-        return []
+        return ["length", "bitrate", "sampleRate", "mode"]
 
     def getAvailableLabelsForTable(self):
         return [translate("MusicTable", "Directory"),
@@ -210,4 +228,8 @@ class Tagger():
                 translate("MusicTable", "Year"),
                 translate("MusicTable", "Genre"),
                 translate("MusicTable", "Comment"),
-                translate("MusicTable", "Lyrics")]
+                translate("MusicTable", "Lyrics"),
+                translate("MusicTable", "Length"),
+                translate("MusicTable", "Bitrate"),
+                translate("MusicTable", "Sample Rate"),
+                translate("MusicTable", "Mode")]
