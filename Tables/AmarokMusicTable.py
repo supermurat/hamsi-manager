@@ -155,7 +155,11 @@ class AmarokMusicTable(CoreTable):
                                             try:
                                                 tagger.loadFile(musicFileRow["filePath"])
                                             except:
-                                                pass
+                                                if tagger.isSupportInfo:
+                                                    content["length"] = ""
+                                                    content["bitrate"] = ""
+                                                    content["sampleRate"] = ""
+                                                    content["mode"] = ""
                                             else:
                                                 if content["artist"].strip() == "":
                                                     content["artist"] = tagger.getArtist()
@@ -175,6 +179,11 @@ class AmarokMusicTable(CoreTable):
                                                     content["firstComment"] = tagger.getFirstComment()
                                                 if content["firstLyrics"].strip() == "":
                                                     content["firstLyrics"] = tagger.getFirstLyrics()
+                                                if tagger.isSupportInfo:
+                                                    content["length"] = tagger.getLength()
+                                                    content["bitrate"] = tagger.getBitrate()
+                                                    content["sampleRate"] = tagger.getSampleRate()
+                                                    content["mode"] = tagger.getMode()
                                         elif Amarok.getSelectedTagSourseType("AmarokMusicTable") == "Only Amarok":
                                             content["path"] = musicFileRow["filePath"]
                                             content["baseNameOfDirectory"] = fu.getBaseName(
@@ -189,6 +198,20 @@ class AmarokMusicTable(CoreTable):
                                             content["genre"] = musicFileRow["genre"]
                                             content["firstComment"] = musicFileRow["comment"]
                                             content["firstLyrics"] = musicFileRow["lyrics"]
+                                            tagger = Taggers.getTagger()
+                                            if tagger.isSupportInfo:
+                                                try:
+                                                    tagger.loadFile(musicFileRow["filePath"])
+                                                except:
+                                                    content["length"] = ""
+                                                    content["bitrate"] = ""
+                                                    content["sampleRate"] = ""
+                                                    content["mode"] = ""
+                                                else:
+                                                    content["length"] = tagger.getLength()
+                                                    content["bitrate"] = tagger.getBitrate()
+                                                    content["sampleRate"] = tagger.getSampleRate()
+                                                    content["mode"] = tagger.getMode()
                                         else:
                                             tagger = Taggers.getTagger()
                                             try:
@@ -211,6 +234,11 @@ class AmarokMusicTable(CoreTable):
                                             content["genre"] = tagger.getGenre()
                                             content["firstComment"] = tagger.getFirstComment()
                                             content["firstLyrics"] = tagger.getFirstLyrics()
+                                            if tagger.isSupportInfo:
+                                                content["length"] = tagger.getLength()
+                                                content["bitrate"] = tagger.getBitrate()
+                                                content["sampleRate"] = tagger.getSampleRate()
+                                                content["mode"] = tagger.getMode()
                                         content["size"] = details[stat.ST_SIZE]
                                         content["lastAccessed"] = details[stat.ST_ATIME]
                                         content["lastModified"] = details[stat.ST_MTIME]
@@ -253,6 +281,12 @@ class AmarokMusicTable(CoreTable):
                                         newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
                                         self.createItem(rowNo, "firstLyrics", newFirstLyrics,
                                                         self.values[rowNo]["firstLyrics"])
+
+                                        if Taggers.getTagger().isSupportInfo:
+                                            self.createItem(rowNo, "length", content["length"])
+                                            self.createItem(rowNo, "bitrate", content["bitrate"])
+                                            self.createItem(rowNo, "sampleRate", content["sampleRate"])
+                                            self.createItem(rowNo, "mode", content["mode"])
 
                                         self.createItem(rowNo, "size", Organizer.getCorrectedFileSize(content["size"]))
 

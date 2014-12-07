@@ -115,6 +115,11 @@ class MusicTable(CoreTable):
                         content["genre"] = tagger.getGenre()
                         content["firstComment"] = tagger.getFirstComment()
                         content["firstLyrics"] = tagger.getFirstLyrics()
+                        if tagger.isSupportInfo:
+                            content["length"] = tagger.getLength()
+                            content["bitrate"] = tagger.getBitrate()
+                            content["sampleRate"] = tagger.getSampleRate()
+                            content["mode"] = tagger.getMode()
                         content["size"] = details[stat.ST_SIZE]
                         content["lastAccessed"] = details[stat.ST_ATIME]
                         content["lastModified"] = details[stat.ST_MTIME]
@@ -153,6 +158,12 @@ class MusicTable(CoreTable):
 
                         newFirstLyrics = Organizer.emend(self.values[rowNo]["firstLyrics"])
                         self.createItem(rowNo, "firstLyrics", newFirstLyrics, self.values[rowNo]["firstLyrics"])
+
+                        if tagger.isSupportInfo:
+                            self.createItem(rowNo, "length", content["length"])
+                            self.createItem(rowNo, "bitrate", content["bitrate"])
+                            self.createItem(rowNo, "sampleRate", content["sampleRate"])
+                            self.createItem(rowNo, "mode", content["mode"])
 
                         self.createItem(rowNo, "size", Organizer.getCorrectedFileSize(content["size"]))
 
