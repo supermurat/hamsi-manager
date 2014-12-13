@@ -42,11 +42,21 @@ class Tagger():
         self.isNeedUpdate = False
 
     def loadFile(self, _filePath):
+        self.tags = None
+        self.info = None
         self.filePath = _filePath
         self.isCorrect = False
         self.isSave = False
         self.isNeedUpdate = False
         try:
+            self.tags = id3.ID3(uni.trEncode(self.filePath, fu.fileSystemEncoding))
+            self.info = mp3.MP3(uni.trEncode(self.filePath, fu.fileSystemEncoding)).info
+        except id3.error:
+            self.isNeedUpdate = True
+            self.isSave = True
+            self.tags = id3.ID3()
+            self.tags.add(id3.TPE1(encoding=3, text=""))
+            self.tags.save(uni.trEncode(self.filePath, fu.fileSystemEncoding))
             self.tags = id3.ID3(uni.trEncode(self.filePath, fu.fileSystemEncoding))
             self.info = mp3.MP3(uni.trEncode(self.filePath, fu.fileSystemEncoding)).info
         except:
@@ -57,11 +67,20 @@ class Tagger():
             self.isSave = True
 
     def loadFileForWrite(self, _filePath, _isCorrect=True):
+        self.tags = None
+        self.info = None
         self.filePath = _filePath
         self.isCorrect = _isCorrect
         self.isSave = False
         self.isNeedUpdate = False
         try:
+            self.tags = id3.ID3(uni.trEncode(self.filePath, fu.fileSystemEncoding))
+        except id3.error:
+            self.isNeedUpdate = True
+            self.isSave = True
+            self.tags = id3.ID3()
+            self.tags.add(id3.TPE1(encoding=3, text=""))
+            self.tags.save(uni.trEncode(self.filePath, fu.fileSystemEncoding))
             self.tags = id3.ID3(uni.trEncode(self.filePath, fu.fileSystemEncoding))
         except:
             self.tags = id3.ID3(self.filePath)
