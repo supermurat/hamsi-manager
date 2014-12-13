@@ -45,6 +45,8 @@ class Tagger():
         self.isNeedUpdate = False
 
     def loadFile(self, _filePath, _tagVersion=id3.ID3_V2_4):
+        self.tag = None
+        self.info = None
         self.filePath = _filePath
         self.isCorrect = False
         self.isSave = False
@@ -65,6 +67,8 @@ class Tagger():
             self.isSave = True
 
     def loadFileForWrite(self, _filePath, _isCorrect=True):
+        self.tag = None
+        self.info = None
         self.filePath = _filePath
         self.isCorrect = _isCorrect
         self.isSave = False
