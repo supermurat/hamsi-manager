@@ -180,6 +180,8 @@ class Tagger():
             self.tags["TRACKNUMBER"] = [str(int(values[0].strip()))]
             if len(values) > 1:
                 self.tags["DISCNUMBER"] = [str(int(values[1].strip()))]
+            elif len(values) == 1 and self.tags["DISCNUMBER"] is not None:
+                del self.tags["DISCNUMBER"]
         except:
             pass
 

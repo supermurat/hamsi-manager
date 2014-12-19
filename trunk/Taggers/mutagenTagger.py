@@ -212,6 +212,8 @@ class Tagger():
             self.tags["TRCK"] = id3.TRCK(encoding=3, text=str(int(self.correctValuesForMusicTagType(values[0]))))
             if len(values) > 1:
                 self.tags["TPOS"] = id3.TPOS(encoding=3, text=str(int(self.correctValuesForMusicTagType(values[1]))))
+            elif len(values) == 1 and self.tags["TPOS"] is not None:
+                del self.tags["TPOS"]
         except:
             pass
 
