@@ -84,7 +84,7 @@ packages = ["Amarok", "Core", "Databases", "Details", "FileUtils", "Languages",
             "hashlib", "tarfile", "urllib", "PyQt4",
             "sqlite3", "ctypes",
             "PyKDE4", "_mysql",
-            "eyed3", "musicbrainz2"]
+            "mutagen", "eyed3", "musicbrainz2"]
 
 exeBase = "Console"
 fileExtension = ""
@@ -95,6 +95,7 @@ if float(sys.version[:3]) < 2.7:
     packages.append("pysqlite2")
 
 if float(sys.version[:3]) >= 3.0:
+    packages.remove("mutagen")
     packages.remove("eyed3")
     packages.remove("musicbrainz2")
 
