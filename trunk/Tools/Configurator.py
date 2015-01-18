@@ -176,11 +176,18 @@ class Configurator(MyDialog):
 
     def checkAvailableModules(self):
         try:
+            mutagenIsAvailable = False
             eyeD3IsAvailable = False
             mysqlIsAvailable = False
             musicbrainzIsAvailable = False
             scintillaIsAvailable = False
             pywin32IsAvailable = False
+            try:
+                from mutagen import id3
+                from mutagen import mp3
+
+                mutagenIsAvailable = True
+            except: pass
             try:
                 import eyed3
 
@@ -211,6 +218,11 @@ class Configurator(MyDialog):
 
             clearAllChildren(self.wAvailableModules)
 
+            if mutagenIsAvailable is False:
+                lblMutagen = MLabel(translate("Reconfigure",
+                                            "<a href='https://bitbucket.org/lazka/mutagen/'>'mutagen'</a> (python-mutagen) named module has NOT installed in your system."))
+                lblMutagen.setOpenExternalLinks(True)
+                self.vblAvailableModules.addWidget(lblMutagen)
             if eyeD3IsAvailable is False:
                 lblEyeD3 = MLabel(translate("Reconfigure",
                                             "<a href='http://eyed3.nicfit.net/'>'eyeD3'</a> (python-eyed3) named module has NOT installed in your system."))
