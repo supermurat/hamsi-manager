@@ -24,15 +24,11 @@ from Core import Dialogs
 import FileUtils as fu
 from Core import Records
 from Core import Settings
+from Core import Organizer
 import Options
 import traceback
 import logging
 from Core.CommandLineOptions import isQuickMake, QuickMakeParameters, myArgvs
-
-if uni.isPython3k:
-    from urllib.parse import unquote, quote
-else:
-    from urllib import unquote, quote
 
 isClose = False
 bugDialog = None
@@ -218,6 +214,8 @@ class ReportBugDialog(MDialog):
             isShowFixMe = False
         else:
             isShowFixMe = True
+        if currentMainWindow is None:
+            setMainWindow(self)
         try: MDialog.__init__(self, currentMainWindow)
         except: MDialog.__init__(self, None)
         self.pathOfReportFile = _pathOfReportFile
@@ -331,10 +329,10 @@ class ReportBugDialog(MDialog):
         self.nrpBack = self.namMain.post(self.nrqPost,
                                          "p=HamsiManager&l=" + str(language) + "&v=" + str(uni.intversion) +
                                          "&thankYouMessages=new style" +
-                                         "&userNotes=" + quote(str(self.teUserNotes.toHtml())) +
-                                         "&error=" + quote(str(self.teErrorDetails.toHtml())) +
-                                         "&nameAndSurname=" + quote(str(self.leName.text())) +
-                                         "&mail=" + quote(str(self.leEMailAddress.text()))
+                                         "&userNotes=" + Organizer.quote(str(self.teUserNotes.toHtml())) +
+                                         "&error=" + Organizer.quote(str(self.teErrorDetails.toHtml())) +
+                                         "&nameAndSurname=" + Organizer.quote(str(self.leName.text())) +
+                                         "&mail=" + Organizer.quote(str(self.leEMailAddress.text()))
         )
         self.connect(self.nrpBack, SIGNAL("downloadProgress (qint64,qint64)"), self.sending)
         Dialogs.showState(translate("ReportBug", "Sending Your Report"), 0, 100, True, self.cancelSending)

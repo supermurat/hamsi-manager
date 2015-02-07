@@ -182,6 +182,7 @@ class Configurator(MyDialog):
             musicbrainzIsAvailable = False
             scintillaIsAvailable = False
             pywin32IsAvailable = False
+            beautifulsoup4IsAvailable = False
             try:
                 from mutagen import id3
                 from mutagen import mp3
@@ -208,6 +209,14 @@ class Configurator(MyDialog):
                 from PyQt4.Qsci import QsciScintilla
 
                 scintillaIsAvailable = True
+            except: pass
+            try:
+                try:
+                    from bs4 import BeautifulSoup
+                except:
+                    from BeautifulSoup import BeautifulSoup
+
+                beautifulsoup4IsAvailable = True
             except: pass
             if uni.isWindows:
                 try:
@@ -258,6 +267,11 @@ class Configurator(MyDialog):
                 btnCheckAvailableModules = MPushButton(translate("Reconfigure", "Check Again"))
                 self.vblAvailableModules.addWidget(btnCheckAvailableModules)
                 self.connect(btnCheckAvailableModules, SIGNAL("clicked()"), self.checkAvailableModules)
+            if beautifulsoup4IsAvailable is False:
+                lblBeautifulsoup4 = MLabel(translate("Reconfigure",
+                                            "<a href='http://www.crummy.com/software/BeautifulSoup/'>'beautifulsoup4' / 'bs4'</a> (python-beautifulsoup4) named module has NOT installed in your system."))
+                lblBeautifulsoup4.setOpenExternalLinks(True)
+                self.vblAvailableModules.addWidget(lblBeautifulsoup4)
 
             self.wAvailableModules.setLayout(self.vblAvailableModules)
         except:

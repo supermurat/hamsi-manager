@@ -22,14 +22,8 @@ from Core.MyObjects import *
 from Core import Universals as uni
 from Core import Dialogs
 from Core import ReportBug
+from Core import Organizer
 import Options
-from Options import OptionsForm
-
-if uni.isPython3k:
-    from urllib.parse import unquote, quote
-else:
-    from urllib import unquote, quote
-
 
 class SuggestIdea(MDialog):
     def __init__(self):
@@ -101,9 +95,9 @@ class SuggestIdea(MDialog):
                                              "p=HamsiManager&l=" + str(uni.MySettings["language"]) + "&v=" + str(
                                                  uni.intversion) +
                                              "&thankYouMessages=new style" +
-                                             "&userNotes=" + quote(str(self.teIdea.toHtml())) +
-                                             "&nameAndSurname=" + quote(str(self.leName.text())) +
-                                             "&mail=" + quote(str(self.leEMailAddress.text()))
+                                             "&userNotes=" + Organizer.quote(str(self.teIdea.toHtml())) +
+                                             "&nameAndSurname=" + Organizer.quote(str(self.leName.text())) +
+                                             "&mail=" + Organizer.quote(str(self.leEMailAddress.text()))
             )
             self.connect(self.nrpBack, SIGNAL("downloadProgress (qint64,qint64)"), self.sending)
             Dialogs.showState(translate("SuggestIdea", "Sending Your Idea"), 0, 100, True, self.cancelSending)

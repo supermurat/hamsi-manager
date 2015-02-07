@@ -73,8 +73,7 @@ class AmarokMusicTable(CoreTable):
         self.wFilter = Filter.FilterWidget(self, self.amarokFilterKeyName)
         self.hblBoxOptions.addWidget(self.wFilter)
         lblTagger = MLabel(translate("MusicTable", "Tag Module:"))
-        taggerMachineNames = uni.getTaggersMachineNames()
-        taggerNames = Taggers.getTaggerNames()
+        taggerMachineNames, taggerNames = Taggers.getTaggerNames()
         self.cbTagger = MyComboBox()
         self.cbTagger.addDataItems(taggerMachineNames, taggerNames)
         self.cbTagger.setCurrentIndex(
