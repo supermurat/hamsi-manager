@@ -182,9 +182,8 @@ class SpecialTools(MWidget):
                                 self.quickFill.fillAfter)
             tb = SpecialActions.SpecialActionsCommandButton(self.specialActions, columnKey)
             self.specialActions.pbtnAddObjects.append(tb)
-        for x in range(0, len(self.specialActions.pbtnAddObjects)):
-            self.specialActions.saccAvailable.addToWidgetList(
-                self.specialActions.pbtnAddObjects[x])
+        for btn in self.specialActions.pbtnAddObjects:
+            self.specialActions.saccAvailable.addToWidgetList(btn)
         for x in range(0, len(self.quickFill.leColumns)):
             if len(self.quickFill.leColumns) < 7:
                 columnNo = (x * 2) - ((x / 2) * (2 * 2))
@@ -267,11 +266,11 @@ class SpecialTools(MWidget):
         self.pnlAdvancedSelections.setVisible(True)
         self.isShowAdvancedSelections = True
         if uni.isWindows:
-            self.tabwTabs.setMaximumHeight(215)
-            self.setMaximumHeight(215)
+            self.tabwTabs.setMaximumHeight(235)
+            self.setMaximumHeight(235)
         else:
-            self.tabwTabs.setMaximumHeight(185)
-            self.setMaximumHeight(185)
+            self.tabwTabs.setMaximumHeight(205)
+            self.setMaximumHeight(205)
         self.specialActions.showAdvancedSelections()
         self.fill.showAdvancedSelections()
         self.searchAndReplace.showAdvancedSelections()

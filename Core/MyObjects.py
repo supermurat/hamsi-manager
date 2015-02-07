@@ -140,7 +140,7 @@ def getAllChildren(_object, _objectName=None):
         selectedChildren = []
         for child in children:
             if str(child.objectName()).find(_objectName) > -1:
-                selectedChildren.append()
+                selectedChildren.append(child)
         return selectedChildren
     return children
 
