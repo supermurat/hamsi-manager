@@ -44,7 +44,9 @@ class Tagger():
         self.isSave = False
         self.isNeedUpdate = False
 
-    def loadFile(self, _filePath, _tagVersion=id3.ID3_V2_4):
+    def loadFile(self, _filePath, _tagVersion=None):
+        if _tagVersion is None:
+            _tagVersion = id3.ID3_V2_4
         self.tag = None
         self.info = None
         self.filePath = _filePath

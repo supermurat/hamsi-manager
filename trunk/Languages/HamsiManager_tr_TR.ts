@@ -408,7 +408,7 @@
 <context>
     <name>AmarokCopyTable</name>
     <message>
-        <location filename="Tables/AmarokCopyTable.py" line="475"/>
+        <location filename="Tables/AmarokCopyTable.py" line="474"/>
         <source>Please Select Destination Directory</source>
         <translation>Lütfen Hedef Dizini Seçiniz</translation>
     </message>
@@ -464,12 +464,12 @@
 <context>
     <name>AmarokMusicTable</name>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="117"/>
+        <location filename="Tables/AmarokMusicTable.py" line="116"/>
         <source>Getting Values From Amarok</source>
         <translation>Değerler Amarok`tan Getiriliyor</translation>
     </message>
     <message>
-        <location filename="Tables/AmarokMusicTable.py" line="125"/>
+        <location filename="Tables/AmarokMusicTable.py" line="124"/>
         <source>Values Are Being Processed</source>
         <translation>Değerler İşleniyor</translation>
     </message>
@@ -1542,7 +1542,7 @@
         <translation>Kapak Bilgileri Yazılıyor</translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="365"/>
+        <location filename="Tables/MusicTable.py" line="364"/>
         <source>Writing Directory And File Informations</source>
         <translation>Dizin Ve Dosya Bilgileri Yazılıyor</translation>
     </message>
@@ -1571,42 +1571,42 @@
 <context>
     <name>FileUtils/Musics</name>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="208"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="207"/>
         <source>Possible ID3 Mismatch</source>
         <translation>ID3 Uyumsuzluğu Olabilir</translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="208"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="207"/>
         <source>Some of the files presented in the table may not support ID3 technology.&lt;br&gt;Please check the files and make sure they support ID3 information before proceeding.</source>
         <translation>Tabloda gösterilen bazı dosyalar ID3 tekonolojisini desteklemiyor olabilir.&lt;br&gt;Lütfen işlem yapmadan önce durumdan emin olunuz.</translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="223"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="222"/>
         <source>Writing Music Tags</source>
         <translation>Müzik Etiketleri Yazılıyor</translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="113"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="112"/>
         <source>Incorrect Tag</source>
         <translation>Hatalı Etiket</translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="113"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="112"/>
         <source>&quot;%s&quot; : this file has the incorrect tag so can&apos;t read tags.</source>
         <translation>&quot;%s&quot; : dosyasının etiketleri hatalı bu yüzden etiketleri okunamıyor.</translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="341"/>
+        <location filename="Tables/MusicTable.py" line="340"/>
         <source>There Are More Files</source>
         <translation>Daha Fazla Dosya Var</translation>
     </message>
     <message>
-        <location filename="Tables/MusicTable.py" line="341"/>
+        <location filename="Tables/MusicTable.py" line="340"/>
         <source>&quot;%s&quot; : there are more files in this directory.&lt;br&gt;Are you want to move all found files into new directory?&lt;br&gt;New Directory : &quot;%s&quot;</source>
         <translation>&quot;%s&quot; dizininde başka dosyalarda var.&lt;br&gt;Bulunan tüm dosyaları yeni dizine taşımak ister misiniz?&lt;br&gt;Yeni Dizin : &quot;%s&quot;</translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="344"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="343"/>
         <source>Writing Music Tags And Informations</source>
         <translation>Müzik Etiketleri Ve Bilgileri Yazılıyor</translation>
     </message>
@@ -2491,12 +2491,12 @@
         <translation>Dizin</translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="395"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="394"/>
         <source>Cannot Open Music File</source>
         <translation>Müzik Dosyası Açılamadı</translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="395"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="394"/>
         <source>&quot;%s&quot; : cannot be opened. Please make sure that you selected a music file.</source>
         <translation>&quot;%s&quot; : dosyası açılamadı. Lütfen bir müzik dosyası seçtiğinizden emin olunuz.</translation>
     </message>
@@ -2526,12 +2526,12 @@
         <translation>Albüm Sanatçısı</translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCopyTable.py" line="404"/>
+        <location filename="Tables/AmarokCopyTable.py" line="403"/>
         <source>Tags Cannot Changed</source>
         <translation>Etiketler Değiştirilemedi</translation>
     </message>
     <message>
-        <location filename="Tables/AmarokCopyTable.py" line="404"/>
+        <location filename="Tables/AmarokCopyTable.py" line="403"/>
         <source>&quot;%s&quot; : cannot be changed tags.</source>
         <translation>&quot;%s&quot; : etiketler değiştirilemedi.</translation>
     </message>
@@ -2551,7 +2551,7 @@
         <translation>Etiket Modülü:</translation>
     </message>
     <message>
-        <location filename="Tables/SubFolderMusicTable.py" line="63"/>
+        <location filename="Tables/SubFolderMusicTable.py" line="62"/>
         <source>You can select the ID3 tag module you want to use.&lt;br&gt;&lt;font color=blue&gt;Mutagen is recommended.&lt;/font&gt;</source>
         <translation>Kullanmak istediğiniz ID3 etiket modülünü seçebilirsiniz.&lt;br&gt;&lt;font color=blue&gt;Mutagen önerilmektedir.&lt;/font&gt;</translation>
     </message>
@@ -5202,7 +5202,7 @@
         <translation>Geri</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="285"/>
+        <location filename="Tools/Configurator.py" line="299"/>
         <source>Forward</source>
         <translation>İleri</translation>
     </message>
@@ -5232,17 +5232,17 @@
         <translation>Masaüstüne Kısayol Oluştur.</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="290"/>
+        <location filename="Tools/Configurator.py" line="304"/>
         <source>Accept</source>
         <translation>Kabul Ediyorum</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="336"/>
+        <location filename="Tools/Configurator.py" line="350"/>
         <source>Other Hamsi Manager Was Detected</source>
         <translation>Farklı Bir Hamsi Manager Tespit Edildi</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="336"/>
+        <location filename="Tools/Configurator.py" line="350"/>
         <source>Other Hamsi Manager executable file was detected. Are you want to delete old executable file? You can delete this old executable file : &quot;%s&quot;</source>
         <translation>Farklı bir Hamsi Manager çalıştırılabilir dosyası tespit edildi. Eksi çalıştırılabilir dosyayı silmek ister misiniz? Şu eski çalıştırılabilir dosyayı silebilirsiniz : &quot;%s&quot;</translation>
     </message>
@@ -5262,37 +5262,37 @@
         <translation>Yapılandır</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="227"/>
+        <location filename="Tools/Configurator.py" line="236"/>
         <source>&lt;a href=&apos;http://eyed3.nicfit.net/&apos;&gt;&apos;eyeD3&apos;&lt;/a&gt; (python-eyed3) named module has NOT installed in your system.</source>
         <translation>&lt;a href=&apos;http://eyed3.nicfit.net/&apos;&gt;&apos;eyeD3&apos;&lt;/a&gt; (python-eyed3) isimli modül sisteminizde kurulu değil.</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="232"/>
+        <location filename="Tools/Configurator.py" line="241"/>
         <source>&lt;a href=&apos;https://sourceforge.net/projects/mysql-python/&apos;&gt;&apos;MySQL&apos;&lt;/a&gt; (python-mysql) named module has NOT installed on your system.</source>
         <translation>&lt;a href=&apos;https://sourceforge.net/projects/mysql-python/&apos;&gt;&apos;MySQL&apos;&lt;/a&gt; (python-mysql) isimli modül sisteminizde kurulu değil.</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="237"/>
+        <location filename="Tools/Configurator.py" line="246"/>
         <source>&lt;a href=&apos;http://musicbrainz.org/doc/python-musicbrainz2&apos;&gt;&apos;Music Brainz&apos;&lt;/a&gt; (python-musicbrainz2) named module has NOT installed on your system.</source>
         <translation>&lt;a href=&apos;http://musicbrainz.org/doc/python-musicbrainz2&apos;&gt;&apos;Music Brainz&apos;&lt;/a&gt; (python-musicbrainz2) isimli modül sisteminizde kurulu değil.</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="242"/>
+        <location filename="Tools/Configurator.py" line="251"/>
         <source>&lt;a href=&apos;http://www.riverbankcomputing.com/software/qscintilla/download&apos;&gt;&apos;QScintilla&apos;&lt;/a&gt; (python-qt4-qscintilla) named module has NOT installed on your system.</source>
         <translation>&lt;a href=&apos;http://www.riverbankcomputing.com/software/qscintilla/download&apos;&gt;&apos;QScintilla&apos;&lt;/a&gt; (python-qt4-qscintilla) isimli modül sisteminizde kurulu değil.</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="248"/>
+        <location filename="Tools/Configurator.py" line="257"/>
         <source>&lt;a href=&apos;https://sourceforge.net/projects/pywin32/&apos;&gt;&apos;Python for Windows Extensions&apos;&lt;/a&gt; (pywin32) named module has NOT installed on your system.</source>
         <translation>&lt;a href=&apos;https://sourceforge.net/projects/pywin32/&apos;&gt;&apos;Python for Windows Extensions&apos;&lt;/a&gt; (pywin32) isimli modül sisteminizde kurulu değil.</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="255"/>
+        <location filename="Tools/Configurator.py" line="264"/>
         <source>&lt;b&gt;You have to install above modules to use some features.&lt;br&gt;If you don&apos;t want to use all features, you can continue without these modules.&lt;/b&gt;</source>
         <translation>&lt;b&gt;Bazı özellikleri kullanabilmeniz için yukarıdaki modülleri kurmanız gerekmektedir.&lt;br&gt;Eğer tüm özellikleri kullanmak istemiyorsanız, bu modülleri kurmadan devam edebilirsiniz.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="258"/>
+        <location filename="Tools/Configurator.py" line="267"/>
         <source>Check Again</source>
         <translation>Tekrar Kontrol Et</translation>
     </message>
@@ -5302,9 +5302,14 @@
         <translation>Hamsi Manager Yapılandırıcısı</translation>
     </message>
     <message>
-        <location filename="Tools/Configurator.py" line="222"/>
+        <location filename="Tools/Configurator.py" line="231"/>
         <source>&lt;a href=&apos;https://bitbucket.org/lazka/mutagen/&apos;&gt;&apos;mutagen&apos;&lt;/a&gt; (python-mutagen) named module has NOT installed in your system.</source>
         <translation>&lt;a href=&apos;https://bitbucket.org/lazka/mutagen/&apos;&gt;&apos;mutagen&apos;&lt;/a&gt; (python-mutagen) isimli modül sisteminizde kurulu değil.</translation>
+    </message>
+    <message>
+        <location filename="Tools/Configurator.py" line="271"/>
+        <source>&lt;a href=&apos;http://www.crummy.com/software/BeautifulSoup/&apos;&gt;&apos;beautifulsoup4&apos; / &apos;bs4&apos;&lt;/a&gt; (python-beautifulsoup4) named module has NOT installed in your system.</source>
+        <translation>&lt;a href=&apos;http://www.crummy.com/software/BeautifulSoup/&apos;&gt;&apos;beautifulsoup4&apos; / &apos;bs4&apos;&lt;/a&gt; (python-beautifulsoup4) isimli modül sisteminizde kurulu değil.</translation>
     </message>
 </context>
 <context>
@@ -5361,87 +5366,87 @@
 <context>
     <name>ReportBug</name>
     <message>
-        <location filename="Core/ReportBug.py" line="74"/>
+        <location filename="Core/ReportBug.py" line="70"/>
         <source>Error : </source>
         <translation>Hata : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="74"/>
+        <location filename="Core/ReportBug.py" line="70"/>
         <source>Error Name : </source>
         <translation>Hata Adı : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="74"/>
+        <location filename="Core/ReportBug.py" line="70"/>
         <source>Error arguments : </source>
         <translation>Hata Argümanları : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="74"/>
+        <location filename="Core/ReportBug.py" line="70"/>
         <source>Last Signal Sender (Object Name,Object Text) : </source>
         <translation>Son Sinyali Gönderen (Nesne Adı,Nesne Metni) : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="398"/>
+        <location filename="Core/ReportBug.py" line="396"/>
         <source>Contents Directory : </source>
         <translation>İçerik Dizini : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="404"/>
+        <location filename="Core/ReportBug.py" line="402"/>
         <source>File Information : </source>
         <translation>Dosya Bilgileri : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="410"/>
+        <location filename="Core/ReportBug.py" line="408"/>
         <source>File Details : </source>
         <translation>Dosya Detayları : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="299"/>
+        <location filename="Core/ReportBug.py" line="297"/>
         <source>Please Report This Bug!..</source>
         <translation>Lütfen Hatayı Bildiriniz!..</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="305"/>
+        <location filename="Core/ReportBug.py" line="303"/>
         <source>I Have A Suggestion!</source>
         <translation>Bir Önerimiz Var!</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="192"/>
+        <location filename="Core/ReportBug.py" line="188"/>
         <source>Report Bug</source>
         <translation>Hatayı Bildir</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="243"/>
+        <location filename="Core/ReportBug.py" line="241"/>
         <source>Show Details File</source>
         <translation>Detay Dosyasını Göster</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="315"/>
+        <location filename="Core/ReportBug.py" line="313"/>
         <source>Last Directory</source>
         <translation>Son Dizini</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="317"/>
+        <location filename="Core/ReportBug.py" line="315"/>
         <source>Settings</source>
         <translation>Ayarları</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="305"/>
+        <location filename="Core/ReportBug.py" line="303"/>
         <source>Ignore</source>
         <translation>Görmezden Gel</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="305"/>
+        <location filename="Core/ReportBug.py" line="303"/>
         <source>&lt;b&gt;Please check the following: ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;If you have received this error when you were checking the last folder, reset the &quot;Last Directory&quot;,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;If you have received this error due to your changed settings, reset the &quot;Settings&quot;,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;If you continue to receive this error even after resetting the settings, reset &quot;All&quot;.&lt;br&gt;&lt;br&gt;&lt;b&gt;You can enable Hamsi Manager to run as normal.&lt;br&gt;Please take a moment to send us the error report.&lt;/b&gt;</source>
         <translation>&lt;b&gt;Bu hatayı ;&lt;/b&gt;&lt;br&gt;&lt;b&gt;1-)&lt;/b&gt;Girmiş olduğunuz son dizini okuma sırasında alıyorsanız &quot;Son Dizini&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;2-)&lt;/b&gt;Son yapmış olduğunuz ayarlar neticesinde alıyorsanız &quot;Ayarları&quot; sıfırlayarak,&lt;br&gt;&lt;b&gt;3-)&lt;/b&gt;Ayarları sıfırladıktan sonrada almaya devam ediyorsanız &quot;Hepsini&quot; sıfırlayarak,&lt;br&gt;&lt;br&gt;&lt;b&gt;Hamsi Manager`in açılmasını sağlayabilirsiniz.&lt;br&gt;Lütfen hatayı bize bildiriniz.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="319"/>
+        <location filename="Core/ReportBug.py" line="317"/>
         <source>All</source>
         <translation>Hepsini</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="400"/>
+        <location filename="Core/ReportBug.py" line="398"/>
         <source>Table Contents : </source>
         <translation>Tablo İçeriği : </translation>
     </message>
@@ -5486,152 +5491,152 @@
         <translation>İlginiz için şimdiden teşekkür ederiz.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="192"/>
+        <location filename="Core/ReportBug.py" line="188"/>
         <source>Thank you for sending us your error report. You have already contributed a lot to make the next release even better..&lt;br&gt;</source>
         <translation>Göndermiş olduğunuz hata bildirimi için teşekkür ederiz.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="89"/>
+        <location filename="Core/ReportBug.py" line="85"/>
         <source>Active Dialog`s Titles : </source>
         <translation>Aktif Diyalogların Başlıkları : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="98"/>
+        <location filename="Core/ReportBug.py" line="94"/>
         <source>Application Version : </source>
         <translation>Uygulama Versiyonu : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="155"/>
+        <location filename="Core/ReportBug.py" line="151"/>
         <source>Table Type No : </source>
         <translation>Tablo Tarzı Numarası : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="103"/>
+        <location filename="Core/ReportBug.py" line="99"/>
         <source>Is Starting Successfully : </source>
         <translation>Başlangıç Başarılı Mı : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="105"/>
+        <location filename="Core/ReportBug.py" line="101"/>
         <source>Is Quick Make : </source>
         <translation>Hızlı Yap Aktif Mi : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="107"/>
+        <location filename="Core/ReportBug.py" line="103"/>
         <source>Quick Make Parameters : </source>
         <translation>Hızlı Yap Parametreleri : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="109"/>
+        <location filename="Core/ReportBug.py" line="105"/>
         <source>My Parameters : </source>
         <translation>Parametrelerim : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="244"/>
+        <location filename="Core/ReportBug.py" line="242"/>
         <source>Check Update</source>
         <translation>Güncellemeleri Kontrol Et</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="252"/>
+        <location filename="Core/ReportBug.py" line="250"/>
         <source>I cannot send the error details due to some character errors.&lt;br&gt;To see the details, please click on the &quot;Show details file&quot; button.</source>
         <translation>Bazı karakter hatalarından ötürü hata detaylarını gönderemiyorum.&lt;br&gt;Detayları görmek için, lütfen &quot;Detay Dosyasını Göster&quot; butonuna tıklayınız.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="423"/>
+        <location filename="Core/ReportBug.py" line="421"/>
         <source>Note : You can check and delete your personal informations.</source>
         <translation>Not : Kişisel bilgilerinizi kontrol edip silebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="239"/>
+        <location filename="Core/ReportBug.py" line="237"/>
         <source>Send And Close</source>
         <translation>Gönder Ve Kapat</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="240"/>
+        <location filename="Core/ReportBug.py" line="238"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="260"/>
+        <location filename="Core/ReportBug.py" line="258"/>
         <source>Notes : </source>
         <translation>Notlar : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="261"/>
+        <location filename="Core/ReportBug.py" line="259"/>
         <source>Name And Surname : </source>
         <translation>Adınız Ve Soyadınız : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="262"/>
+        <location filename="Core/ReportBug.py" line="260"/>
         <source>E-mail Address : </source>
         <translation>E-posta Adresiniz : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="287"/>
+        <location filename="Core/ReportBug.py" line="285"/>
         <source>Contact Informations : </source>
         <translation>İletişim Bilgileri : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="351"/>
+        <location filename="Core/ReportBug.py" line="349"/>
         <source>Sending Your Report</source>
         <translation>Bildiriminiz Gönderiliyor</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="353"/>
+        <location filename="Core/ReportBug.py" line="351"/>
         <source>Report Received Successfully</source>
         <translation>Bildiriminiz Başarıyla Alındı</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="353"/>
+        <location filename="Core/ReportBug.py" line="351"/>
         <source>Thank you for sending us your report. You have contributed a lot to make the next release even better.</source>
         <translation>Bize bildirimde bulunduğunuz için teşekkür ederiz. Bir sonraki sürümü daha iyi yapmamız için katkıda bulundunuz.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="357"/>
+        <location filename="Core/ReportBug.py" line="355"/>
         <source>Report Sending Canceled</source>
         <translation>Bildirim Gönderimi İptal Edildi</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="357"/>
+        <location filename="Core/ReportBug.py" line="355"/>
         <source>Report sending canceled successfully.</source>
         <translation>Bildirim gönderimi başarıyla iptal edildi.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="360"/>
+        <location filename="Core/ReportBug.py" line="358"/>
         <source>An Error Has Occurred.</source>
         <translation>Bir Hata Oluştu.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="360"/>
+        <location filename="Core/ReportBug.py" line="358"/>
         <source>An unknown error has occurred. Please try again.</source>
         <translation>Bilinmeyen bir hata oluştu. Lütfen tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="263"/>
+        <location filename="Core/ReportBug.py" line="261"/>
         <source>Note : Will be kept strictly confidential. It will be used solely to learn information about of your report.</source>
         <translation>Kesinlikle gizli tutulacaktır. Bu sadece sizin bildiriminiz hakkında bilgi edinmek için kullanılacaktır.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="72"/>
+        <location filename="Core/ReportBug.py" line="68"/>
         <source>Errors : </source>
         <translation>Hatalar : </translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="245"/>
+        <location filename="Core/ReportBug.py" line="243"/>
         <source>Send Table Contents For More Details</source>
         <translation>Daha Fazla Detay İçin Tablo İçeriğini Gönder</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="192"/>
+        <location filename="Core/ReportBug.py" line="188"/>
         <source>&lt;b&gt;Error description :&lt;/b&gt; &lt;br&gt;(Be can null)&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Please write what you did before you received the error here.</source>
         <translation>&lt;b&gt;Hata Açıklaması :&lt;/b&gt; &lt;br&gt;(Boş bırakabilirsiniz)&lt;br&gt;&lt;b&gt;Not:&lt;/b&gt;Hatayı almadan önce yaptığınız son işlemi bu alanda belirtmeniz önemle rica olunur.</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="192"/>
+        <location filename="Core/ReportBug.py" line="188"/>
         <source>&lt;b&gt;Name and Surname :&lt;/b&gt; (Be can null)</source>
         <translation>&lt;b&gt;Adınız ve Soyadınız :&lt;/b&gt; (Boş bırakabilirsiniz)</translation>
     </message>
     <message>
-        <location filename="Core/ReportBug.py" line="192"/>
+        <location filename="Core/ReportBug.py" line="188"/>
         <source>&lt;b&gt;E-mail address :&lt;/b&gt; (Be can null)&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;Will be kept strictly confidential. It will be used solely to report you back once the problem is solved..</source>
         <translation>&lt;b&gt;Mail Adresiniz :&lt;/b&gt; (Boş bırakabilirsiniz)&lt;br&gt;&lt;b&gt;Not:&lt;/b&gt;Problem çözülünce size haber vermek için kullanılacaktır..</translation>
     </message>
@@ -5918,27 +5923,27 @@
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="SearchEngines/GoogleEngine.py" line="45"/>
+        <location filename="SearchEngines/GoogleEngine.py" line="44"/>
         <source>Progress State</source>
         <translation>İşlem Durumu</translation>
     </message>
     <message>
-        <location filename="SearchEngines/GoogleEngine.py" line="174"/>
+        <location filename="SearchEngines/GoogleEngine.py" line="173"/>
         <source>Files identified correctly:</source>
         <translation>Doğru isimlendirilmiş dosyalar:</translation>
     </message>
     <message>
-        <location filename="SearchEngines/GoogleEngine.py" line="187"/>
+        <location filename="SearchEngines/GoogleEngine.py" line="186"/>
         <source>Files identified correctly but with errors:</source>
         <translation>Hatalı isimlendirilmiş dosyalar:</translation>
     </message>
     <message>
-        <location filename="SearchEngines/GoogleEngine.py" line="201"/>
+        <location filename="SearchEngines/GoogleEngine.py" line="200"/>
         <source>Files identified incorrectly:</source>
         <translation>Tamamen yanlış isimlendirilmiş dosyalar:</translation>
     </message>
     <message>
-        <location filename="SearchEngines/GoogleEngine.py" line="214"/>
+        <location filename="SearchEngines/GoogleEngine.py" line="213"/>
         <source>Files that caused errors:</source>
         <translation>Hata oluşturan dosyalar:</translation>
     </message>
@@ -6436,87 +6441,87 @@
 <context>
     <name>SuggestIdea</name>
     <message>
-        <location filename="Core/SuggestIdea.py" line="89"/>
+        <location filename="Core/SuggestIdea.py" line="83"/>
         <source>Please Suggest Idea</source>
         <translation>Lütfen Öneride Bulununuz</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="44"/>
+        <location filename="Core/SuggestIdea.py" line="38"/>
         <source>Send And Close</source>
         <translation>Gönder Ve Kapat</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="45"/>
+        <location filename="Core/SuggestIdea.py" line="39"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="51"/>
+        <location filename="Core/SuggestIdea.py" line="45"/>
         <source>Idea : </source>
         <translation>Öneriniz : </translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="52"/>
+        <location filename="Core/SuggestIdea.py" line="46"/>
         <source>Name And Surname : </source>
         <translation>Adınız Ve Soyadınız : </translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="53"/>
+        <location filename="Core/SuggestIdea.py" line="47"/>
         <source>E-mail Address : </source>
         <translation>E-posta Adresiniz : </translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="54"/>
+        <location filename="Core/SuggestIdea.py" line="48"/>
         <source>Note : Will be kept strictly confidential. It will be used solely to learn information about of your idea.</source>
         <translation>Kesinlikle gizli tutulacaktır. Bu sadece sizin fikriniz hakkında bilgi edinmek için kullanılacaktır.</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="77"/>
+        <location filename="Core/SuggestIdea.py" line="71"/>
         <source>Contact Informations : </source>
         <translation>İletişim Bilgileri : </translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="123"/>
+        <location filename="Core/SuggestIdea.py" line="117"/>
         <source>Sending Your Idea</source>
         <translation>Öneriniz Gönderiliyor</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="125"/>
+        <location filename="Core/SuggestIdea.py" line="119"/>
         <source>Suggestion Received Successfully</source>
         <translation>Öneriniz Başarıyla Alındı</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="125"/>
+        <location filename="Core/SuggestIdea.py" line="119"/>
         <source>Thank you for sending us your idea. You have contributed a lot to make the next release even better.</source>
         <translation>Bize öneride bulunduğunuz için teşekkür ederiz. Bir sonraki sürümü daha iyi yapmamız için katkıda bulundunuz.</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="129"/>
+        <location filename="Core/SuggestIdea.py" line="123"/>
         <source>Suggestion Canceled</source>
         <translation>Önerme İptal Edildi</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="129"/>
+        <location filename="Core/SuggestIdea.py" line="123"/>
         <source>Suggestion canceled successfully.</source>
         <translation>Önerme işlemi başarıyla iptal edildi.</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="132"/>
+        <location filename="Core/SuggestIdea.py" line="126"/>
         <source>An Error Has Occurred.</source>
         <translation>Bir Hata Oluştu.</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="132"/>
+        <location filename="Core/SuggestIdea.py" line="126"/>
         <source>An unknown error has occurred. Please try again.</source>
         <translation>Bilinmeyen bir hata oluştu. Lütfen tekrar deneyiniz.</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="154"/>
+        <location filename="Core/SuggestIdea.py" line="148"/>
         <source>Note : You can check and delete your personal informations.</source>
         <translation>Not : Kişisel bilgilerinizi kontrol edip silebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="Core/SuggestIdea.py" line="46"/>
+        <location filename="Core/SuggestIdea.py" line="40"/>
         <source>Send my settings for more better default settings.</source>
         <translation>Daha iyi varsayılan ayarlar için benim ayarlarımı gönder.</translation>
     </message>

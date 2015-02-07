@@ -26,12 +26,22 @@ from Core import Universals as uni
 import FileUtils as fu
 
 if uni.isPython3k:
-    from urllib.parse import unquote, quote
+    from urllib.parse import unquote as ounquote
+    from urllib.parse import quote as oquote
 else:
-    from urllib import unquote, quote
+    from urllib import unquote as ounquote
+    from urllib import quote as oquote
 
 utf8ReplacementChars = uni.getUtf8Data("replacementChars")
 utf8LittleI = uni.getUtf8Data("little+I")
+
+
+def unquote(_inputString):
+    return ounquote(_inputString)
+
+
+def quote(_inputString):
+    return oquote(_inputString)
 
 
 def emend(_inputString, _type="text", _isCorrectCaseSensitive=True, _isRichText=False):

@@ -16,11 +16,11 @@
 # along with HamsiManager; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from urllib import unquote, quote
 import re
 import Amarok
 import Databases
 from Core import Universals as uni
+from Core import Organizer
 import FileUtils as fu
 
 
@@ -467,7 +467,7 @@ def changeFilePath(_oldPath, _newPath):
                                             "newPath": Databases.correctForSql(_newPath)
                 })
     _oldPath, _newPath = Databases.correctForSql(_oldPath), Databases.correctForSql(_newPath)
-    _oldPathUrl, _newPathUrl = Databases.correctForSql(quote(_oldPath)), Databases.correctForSql(quote(_newPath))
+    _oldPathUrl, _newPathUrl = Databases.correctForSql(Organizer.quote(_oldPath)), Databases.correctForSql(Organizer.quote(_newPath))
     db = Amarok.checkAndGetDB()
     db.query("UPDATE urls SET rpath='.%s' WHERE rpath='.%s'" % (_newPath, _oldPath))
     for withOutDevice in withOutDeviceValues:
@@ -501,7 +501,7 @@ def changeDirectoryPath(_oldPath, _newPath):
                                             "newPath": Databases.correctForSql(_newPath)
                 })
     _oldPath, _newPath = Databases.correctForSql(_oldPath), Databases.correctForSql(_newPath)
-    _oldPathUrl, _newPathUrl = Databases.correctForSql(quote(_oldPath)), Databases.correctForSql(quote(_newPath))
+    _oldPathUrl, _newPathUrl = Databases.correctForSql(Organizer.quote(_oldPath)), Databases.correctForSql(Organizer.quote(_newPath))
     db = Amarok.checkAndGetDB()
     db.query("UPDATE directories SET dir=REPLACE(dir, '.%s/', '.%s/')" % (_oldPath, _newPath))
     db.query("UPDATE urls SET rpath=REPLACE(rpath, '.%s/', '.%s/')" % (_oldPath, _newPath))

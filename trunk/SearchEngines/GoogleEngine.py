@@ -22,10 +22,9 @@ contentType = "value"
 
 from Core.MyObjects import *
 from Core import Dialogs
-import json
-import urllib
 from Core import Universals as uni
 from Core import ReportBug
+
 
 pluginName = "Google"
 

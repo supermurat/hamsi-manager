@@ -54,8 +54,7 @@ class SubFolderMusicTable(CoreTable):
         self.hblBoxOptions.addLayout(hblSubDirectory)
         MObject.connect(self.cbSubDirectoryDeep, SIGNAL("currentIndexChanged(int)"), self.subDirectoryDeepChanged)
         lblTagger = MLabel(translate("MusicTable", "Tag Module:"))
-        taggerMachineNames = uni.getTaggersMachineNames()
-        taggerNames = Taggers.getTaggerNames()
+        taggerMachineNames, taggerNames = Taggers.getTaggerNames()
         self.cbTagger = MyComboBox()
         self.cbTagger.addDataItems(taggerMachineNames, taggerNames)
         self.cbTagger.setCurrentIndex(

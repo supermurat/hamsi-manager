@@ -41,8 +41,7 @@ class MusicTable(CoreTable):
         self.mContextMenu.addMenu(SearchEngines.SearchEngines(self, "music", True))
         self.hblBoxOptions.addWidget(pbtnVerifyTableValues)
         lblTagger = MLabel(translate("MusicTable", "Tag Module:"))
-        taggerMachineNames = uni.getTaggersMachineNames()
-        taggerNames = Taggers.getTaggerNames()
+        taggerMachineNames, taggerNames = Taggers.getTaggerNames()
         self.cbTagger = MyComboBox()
         self.cbTagger.addDataItems(taggerMachineNames, taggerNames)
         self.cbTagger.setCurrentIndex(
