@@ -45,7 +45,7 @@ isWindows = os.name == "nt"
 Catalog = "HamsiManager"
 version = "2.0.0.9"
 intversion = 2009
-settingVersion = "2007"
+settingVersion = "2008"
 aboutOfHamsiManager = ""
 fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
 validSentenceStructureKeys = ["Title", "All Small", "All Caps", "Sentence", "Don`t Change"]

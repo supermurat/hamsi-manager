@@ -336,6 +336,10 @@ def updateOldSettings(_oldVersion, _newVersion):
             pass
     if oldVersion < 2007:
         newSettingsKeys += ["preferedTaggerModule"]
+    if oldVersion < 2008:
+        for f in fu.readDirectory(fu.joinPath(fu.HamsiManagerDirectory, "Taggers"), "file"):
+            if f.find("NewEyeD3Tagger") > -1:
+                fu.removeFile(f)
     return newSettingsKeys, changedDefaultValuesKeys
 
 
