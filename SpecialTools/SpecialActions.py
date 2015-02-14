@@ -391,11 +391,13 @@ class SpecialActionsCommandContainer(MFrame):
         self.setLayout(self.VBox)
         self.checkLabelMoveHere()
         self.setMinimumWidth(200)
+        self.setContentsMargins(0, 0, 0, 0)
+        self.layout().setContentsMargins(0, 0, 0, 0)
         self.setFrameShape(MFrame.StyledPanel)
         self.setFrameShadow(MFrame.Sunken)
 
     def addToLayout(self, _widget):
-        if self.HBox.count() < 8 or uni.isWindows:
+        if self.HBox.count() < 8:
             self.HBox.addWidget(_widget)
         elif self.HBox1.count() < 7:
             self.HBox1.addWidget(_widget)
@@ -507,6 +509,9 @@ class SpecialActionsCommandButton(MFrame):
         self.HBox.addWidget(self.lePoint)
         self.setLayout(self.HBox)
         self.lePoint.hide()
+        self.setMinimumHeight(20)
+        self.setContentsMargins(1, 0, 1, 0)
+        self.layout().setContentsMargins(1, 0, 1, 0)
         #self.setFrameShape(MFrame.Box)
         #self.setFrameShadow(MFrame.Plain)
 
