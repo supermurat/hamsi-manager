@@ -339,7 +339,7 @@ def updateOldSettings(_oldVersion, _newVersion):
     if oldVersion < 2008:
         for f in fu.readDirectory(fu.joinPath(fu.HamsiManagerDirectory, "Taggers"), "file"):
             if f.find("NewEyeD3Tagger") > -1:
-                fu.removeFile(f)
+                fu.removeFile(fu.joinPath(fu.HamsiManagerDirectory, "Taggers", f))
     return newSettingsKeys, changedDefaultValuesKeys
 
 
