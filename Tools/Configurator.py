@@ -258,20 +258,22 @@ class Configurator(MyDialog):
                                                   "<a href='https://sourceforge.net/projects/pywin32/'>'Python for Windows Extensions'</a> (pywin32) named module has NOT installed on your system."))
                     lblPywin32.setOpenExternalLinks(True)
                     self.vblAvailableModules.addWidget(lblPywin32)
+            if beautifulsoup4IsAvailable is False:
+                lblBeautifulsoup4 = MLabel(translate("Reconfigure",
+                                            "<a href='http://www.crummy.com/software/BeautifulSoup/'>'beautifulsoup4' / 'bs4'</a> (python-beautifulsoup4) named module has NOT installed in your system."))
+                lblBeautifulsoup4.setOpenExternalLinks(True)
+                self.vblAvailableModules.addWidget(lblBeautifulsoup4)
 
-            if eyeD3IsAvailable is False or mysqlIsAvailable is False or musicbrainzIsAvailable is False or scintillaIsAvailable is False or (
-                    uni.isWindows and (mysqlIsAvailable is False)):
+            if (mutagenIsAvailable is False or eyeD3IsAvailable is False or mysqlIsAvailable is False or
+                    musicbrainzIsAvailable is False or scintillaIsAvailable is False or
+                    (uni.isWindows and (pywin32IsAvailable is False)) or
+                    beautifulsoup4IsAvailable is False):
                 lblAlert = MLabel(translate("Reconfigure",
                                             "<b>You have to install above modules to use some features.<br>If you don't want to use all features, you can continue without these modules.</b>"))
                 self.vblAvailableModules.addWidget(lblAlert)
                 btnCheckAvailableModules = MPushButton(translate("Reconfigure", "Check Again"))
                 self.vblAvailableModules.addWidget(btnCheckAvailableModules)
                 self.connect(btnCheckAvailableModules, SIGNAL("clicked()"), self.checkAvailableModules)
-            if beautifulsoup4IsAvailable is False:
-                lblBeautifulsoup4 = MLabel(translate("Reconfigure",
-                                            "<a href='http://www.crummy.com/software/BeautifulSoup/'>'beautifulsoup4' / 'bs4'</a> (python-beautifulsoup4) named module has NOT installed in your system."))
-                lblBeautifulsoup4.setOpenExternalLinks(True)
-                self.vblAvailableModules.addWidget(lblBeautifulsoup4)
 
             self.wAvailableModules.setLayout(self.vblAvailableModules)
         except:
