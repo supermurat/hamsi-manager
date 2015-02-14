@@ -76,7 +76,10 @@ def getTaggerNames():
         names = []
         for tagger in taggerMachineNames:
             taggerModule = __import__("Taggers." + tagger, globals(), locals(), ["isAvailable", "Tagger"], 0)
-            names.append(taggerModule.Tagger().pluginName)
+            if taggerModule.isAvailable:
+                names.append(taggerModule.Tagger().pluginName)
+            else:
+                taggerMachineNames.remove(tagger)
         return taggerMachineNames, names
     except:
         ReportBug.ReportBug()

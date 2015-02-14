@@ -26,7 +26,6 @@ except: pass
 from Core.MyObjects import *
 import FileUtils as fu
 from Core import Universals as uni
-from datetime import datetime
 
 
 class Tagger():
