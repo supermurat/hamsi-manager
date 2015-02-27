@@ -194,11 +194,12 @@ class Configurator(MyDialog):
 
                 eyeD3IsAvailable = True
             except: pass
-            try:
-                import _mysql as mdb
+            if not uni.isWindows:
+                try:
+                    import _mysql as mdb
 
-                mysqlIsAvailable = True
-            except: pass
+                    mysqlIsAvailable = True
+                except: pass
             try:
                 from musicbrainz2 import webservice, model, utils
                 from musicbrainz2.webservice import Query, ArtistFilter, WebServiceError, ReleaseFilter, TrackFilter
@@ -237,7 +238,7 @@ class Configurator(MyDialog):
                                             "<a href='http://eyed3.nicfit.net/'>'eyeD3'</a> (python-eyed3) named module has NOT installed in your system."))
                 lblEyeD3.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblEyeD3)
-            if mysqlIsAvailable is False:
+            if not uni.isWindows and mysqlIsAvailable is False:
                 lblMysql = MLabel(translate("Reconfigure",
                                             "<a href='https://sourceforge.net/projects/mysql-python/'>'MySQL'</a> (python-mysql) named module has NOT installed on your system."))
                 lblMysql.setOpenExternalLinks(True)
@@ -264,7 +265,8 @@ class Configurator(MyDialog):
                 lblBeautifulsoup4.setOpenExternalLinks(True)
                 self.vblAvailableModules.addWidget(lblBeautifulsoup4)
 
-            if (mutagenIsAvailable is False or eyeD3IsAvailable is False or mysqlIsAvailable is False or
+            if (mutagenIsAvailable is False or eyeD3IsAvailable is False or
+                    (not uni.isWindows and mysqlIsAvailable is False) or
                     musicbrainzIsAvailable is False or scintillaIsAvailable is False or
                     (uni.isWindows and (pywin32IsAvailable is False)) or
                     beautifulsoup4IsAvailable is False):

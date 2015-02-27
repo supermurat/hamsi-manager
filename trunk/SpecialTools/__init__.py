@@ -186,13 +186,13 @@ class SpecialTools(MWidget):
             self.specialActions.saccAvailable.addToWidgetList(btn)
         for x in range(0, len(self.quickFill.leColumns)):
             if len(self.quickFill.leColumns) < 7:
-                columnNo = (x * 2) - ((x / 2) * (2 * 2))
-                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x / 2, columnNo)
-                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x / 2, columnNo + 1)
+                columnNo = (x * 2) - (int(x / 2) * (2 * 2))
+                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], int(x / 2), columnNo)
+                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], int(x / 2), columnNo + 1)
             else:
-                columnNo = (x * 4) - ((x / 4) * (4 * 4))
-                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], x / 4, columnNo)
-                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], x / 4, columnNo + 1)
+                columnNo = (x * 4) - (int(x / 4) * (4 * 4))
+                self.quickFill.gridLayout.addWidget(self.quickFill.lblColumns[x], int(x / 4), columnNo)
+                self.quickFill.gridLayout.addWidget(self.quickFill.leColumns[x], int(x / 4), columnNo + 1)
         self.specialActions.refreshBookmarks()
         if self.isShowAdvancedSelections is False:
             self.hideAdvancedSelections()
