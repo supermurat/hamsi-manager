@@ -20,6 +20,7 @@
 from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
+import Bars
 
 
 class ToolsBar(MToolBar):
@@ -27,7 +28,7 @@ class ToolsBar(MToolBar):
         MToolBar.__init__(self, _parent)
         _parent.addToolBar(Mt.TopToolBarArea, self)
         self.setWindowTitle(translate("ToolsBar", "Tools"))
-        self.setObjectName(translate("ToolsBar", "Tools"))
+        self.setObjectName("Tools")
         self.clearEmptyDirectories = MAction(MIcon("Images:clearEmptyDirectories.png"),
                                              translate("ToolsBar", "Clear Empty Directories"), self)
         self.clearEmptyDirectories.setObjectName(translate("ToolsBar", "Clear Empty Directories"))
@@ -120,6 +121,8 @@ class ToolsBar(MToolBar):
             getMainWindow().Menu.mTools.addAction(self.actCheckIcon)
         getMainWindow().Menu.insertMenu(getMainWindow().Menu.mSettings.menuAction(), getMainWindow().Menu.mTools)
         self.createScriptsMenu(_parent)
+
+        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Bars.clickedAnAction)
 
     def createScriptsMenu(self, _parent):
         getMainWindow().Menu.mScripts = MMenu(translate("MenuBar", "Scripts"), self)

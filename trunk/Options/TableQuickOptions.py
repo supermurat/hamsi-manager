@@ -31,7 +31,7 @@ class TableQuickOptions(MMenu):
     def __init__(self, _parent=None):
         MDialog.__init__(self, _parent)
         self.setTitle(translate("MenuBar", "Table Quick Options"))
-        self.setObjectName(translate("MenuBar", "Table Quick Options"))
+        self.setObjectName("Table Quick Options")
         self.values, self.hiddenKeys = [], []
         self.keysOfSettings = ["isChangeAll", "isChangeSelected",
                                "isRunOnDoubleClick", "isOpenDetailsInNewWindow",

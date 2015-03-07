@@ -21,6 +21,7 @@ from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 from Options import QuickOptions
+import Bars
 
 
 class MenuBar(MMenuBar):
@@ -121,7 +122,7 @@ class MenuBar(MMenuBar):
                 translate("MenuBar", "About Hamsi Manager"))
         self.mHelpMenu.addAction(translate("MenuBar", "About QT")).setObjectName(translate("MenuBar", "About QT"))
 
-        MObject.connect(self, SIGNAL("triggered(QAction *)"), getMainWindow().Bars.click)
+        MObject.connect(self, SIGNAL("triggered(QAction *)"), Bars.clickedAnAction)
 
     def refreshForTableType(self):
         #self.mView.clear()

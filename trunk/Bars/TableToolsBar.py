@@ -21,6 +21,7 @@ from Core import Universals as uni
 from Core.MyObjects import *
 from Core import ReportBug
 import Tables
+import Bars
 
 
 class TableToolsBar(MToolBar):
@@ -28,7 +29,7 @@ class TableToolsBar(MToolBar):
         MToolBar.__init__(self, _parent)
         _parent.addToolBar(Mt.TopToolBarArea, self)
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
-        self.setObjectName(translate("TableToolsBar", "Table Tools"))
+        self.setObjectName("Table Tools")
         actgActionGroupTableTypes = MActionGroup(self)
         actgActionGroupTableTypes.setObjectName(translate("ToolsBar", "Table Types"))
         tableTypesNames = uni.getTableTypesNames()
@@ -70,4 +71,6 @@ class TableToolsBar(MToolBar):
         getMainWindow().Menu.mTableTools.addActions(actgActionGroupReNamerTypes.actions())
         getMainWindow().Menu.insertMenu(getMainWindow().Menu.mTools.menuAction(), getMainWindow().Menu.mTableTools)
         #getMainWindow().Menu.mView.addActions(actgActionGroupTableTypes.actions())
+
+        MObject.connect(self, SIGNAL("actionTriggered(QAction *)"), Bars.clickedAnAction)
         
