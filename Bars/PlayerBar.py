@@ -27,7 +27,7 @@ class PlayerBar(MToolBar):
     def __init__(self, _parent):
         MToolBar.__init__(self, _parent)
         self.setWindowTitle(translate("PlayerBar", "Player Bar"))
-        self.setObjectName(translate("PlayerBar", "Player Bar"))
+        self.setObjectName("Player Bar")
         self.MusicPlayer = MusicPlayer.MusicPlayer(self, "bar")
         self.addWidget(self.MusicPlayer)
         

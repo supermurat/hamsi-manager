@@ -31,7 +31,7 @@ class QuickOptions(MMenu):
     def __init__(self, _parent=None):
         MDialog.__init__(self, _parent)
         self.setTitle(translate("MenuBar", "Quick Options"))
-        self.setObjectName(translate("MenuBar", "Quick Options"))
+        self.setObjectName("Quick Options")
         self.values, self.hiddenKeys = [], []
         self.keysOfSettings = ["isActiveCompleter", "isActiveClearGeneral", "isClearEmptyDirectoriesWhenSave",
                                "isAutoCleanSubFolderWhenSave",
