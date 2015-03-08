@@ -244,7 +244,7 @@ class CoreTable(MTableWidget):
         self.mContextMenuActionNames = [translate("Tables", "Cut"),
                                         translate("Tables", "Copy"),
                                         translate("Tables", "Paste"),
-                                        translate("Tables", "Replace"),
+                                        translate("Tables", "Modify"),
                                         translate("Tables", "Remove From System")]
         for actName in self.mContextMenuActionNames:
             self.mContextMenu.addAction(actName).setObjectName(actName)
@@ -255,8 +255,7 @@ class CoreTable(MTableWidget):
         for actName in self.mContextMenuOpenWithNames:
             self.mContextMenuOpenWith.addAction(actName).setObjectName(actName)
         self.mContextMenu.addMenu(self.mContextMenuColumns)
-        self.mContextMenu.addAction(translate("Tables", "Open Details")).setObjectName(
-            translate("Tables", "Open Details"))
+        self.mContextMenu.addAction(translate("Tables", "Open Details")).setObjectName("Open Details")
         self.mContextMenu.addMenu(self.mContextMenuOpenWith)
         self.checkActionsStates()
         self.fillSelectionInfo()
@@ -354,32 +353,38 @@ class CoreTable(MTableWidget):
                 self.mContextMenu.setGeometry(_event.globalX(), _event.globalY(), 1, 1)
                 selectedItem = self.mContextMenu.exec_()
                 if selectedItem is not None:
-                    if selectedItem.objectName() == self.mContextMenuActionNames[0]:
+                    selectedKey = selectedItem.objectName()
+                    if ((selectedKey in [self.mContextMenuActionNames[0],
+                                         self.mContextMenuActionNames[2],
+                                         self.mContextMenuActionNames[3]]) and
+                            self.checkReadOnlyColumn(currentItem.columnKey) is False):
+                        return False
+                    if selectedKey == self.mContextMenuActionNames[0]:
                         self.createHistoryPoint()
                         MApplication.clipboard().setText(currentItem.text())
                         currentItem.setText("")
-                    elif selectedItem.objectName() == self.mContextMenuActionNames[1]:
+                    elif selectedKey == self.mContextMenuActionNames[1]:
                         MApplication.clipboard().setText(currentItem.text())
-                    elif selectedItem.objectName() == self.mContextMenuActionNames[2]:
+                    elif selectedKey == self.mContextMenuActionNames[2]:
                         self.createHistoryPoint()
                         currentItem.setText(MApplication.clipboard().text())
-                    elif selectedItem.objectName() == self.mContextMenuActionNames[3]:
+                    elif selectedKey == self.mContextMenuActionNames[3]:
                         self.editItem(currentItem)
-                    elif selectedItem.objectName() == self.mContextMenuActionNames[4]:
+                    elif selectedKey == self.mContextMenuActionNames[4]:
                         self.createHistoryPoint()
                         for rowNo in self.getSelectedRows():
                             self.hideRow(rowNo)
-                    elif selectedItem.objectName() == translate("Tables", "Open Details"):
+                    elif selectedKey == "Open Details":
                         self.showDetails()
-                    elif selectedItem.objectName() == self.mContextMenuOpenWithNames[0]:
+                    elif selectedKey == self.mContextMenuOpenWithNames[0]:
                         from Core import Execute
 
                         Execute.openWith([fu.getRealDirName(self.values[currentItem.row()]["path"])])
-                    elif selectedItem.objectName() == self.mContextMenuOpenWithNames[1]:
+                    elif selectedKey == self.mContextMenuOpenWithNames[1]:
                         from Core import Execute
 
                         Execute.openWith([self.values[currentItem.row()]["path"]])
-                    elif uni.isWindows is False and selectedItem.objectName() == self.mContextMenuOpenWithNames[2]:
+                    elif uni.isWindows is False and selectedKey == self.mContextMenuOpenWithNames[2]:
                         from Core import Execute
 
                         Execute.execute(["konsole", "--workdir",

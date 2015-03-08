@@ -33,13 +33,13 @@ import FileUtils as fu
 def clickedAnAction(_action):
     try:
         actionName = _action.objectName()
-        if actionName == translate("MenuBar", "Open State"):
+        if actionName == "Open State":
             f = Dialogs.getOpenFileName(translate("MenuBar", "Open State Of Hamsi Manager"),
                                         fu.userDirectoryPath,
                                         translate("MenuBar", "Application Runner") + " (*.desktop)")
             if f is not None:
                 Settings.openStateOfSettings(f)
-        elif actionName == translate("MenuBar", "Save State"):
+        elif actionName == "Save State":
             f = Dialogs.getSaveFileName(translate("MenuBar", "Save State Of Hamsi Manager"),
                                         fu.joinPath(fu.userDirectoryPath, "HamsiManager.desktop"),
                                         translate("MenuBar", "Application Runner") + " (*.desktop)")
@@ -48,86 +48,86 @@ def clickedAnAction(_action):
                 Dialogs.show(translate("MenuBar", "Current State Saved"),
                              translate("MenuBar",
                                        "Current state saved with preferences.<br>You can continue where you left off."))
-        elif actionName == translate("MenuBar", "With This Profile (My Settings)"):
+        elif actionName == "With This Profile (My Settings)":
             if Execute.executeAsRootWithThread(["--sDirectoryPath", fu.pathOfSettingsDirectory], "HamsiManager"):
                 getMainWindow().close()
             else:
                 Dialogs.showError(translate("MenuBar", "Can Not Run As Root"),
                                   translate("MenuBar", "Hamsi Manager can not run as root."))
-        elif actionName == translate("MenuBar", "With Root Profile (Own Settings)"):
+        elif actionName == "With Root Profile (Own Settings)":
             if Execute.executeAsRootWithThread([], "HamsiManager"):
                 getMainWindow().close()
             else:
                 Dialogs.showError(translate("MenuBar", "Can Not Run As Root"),
                                   translate("MenuBar", "Hamsi Manager can not run as root."))
-        elif actionName == translate("MenuBar", "Quit"):
+        elif actionName == "Quit":
             getMainWindow().close()
-        elif actionName == translate("MenuBar", "HTML Format"):
-            if _action.parent().objectName() == translate("MenuBar", "Export To File"):
+        elif actionName == "HTML Format":
+            if _action.parent().objectName() == "Export To File":
                 getMainTable().exportValues("file", "html", "title")
-            elif _action.parent().objectName() == translate("MenuBar", "Show In New Window"):
+            elif _action.parent().objectName() == "Show In New Window":
                 getMainTable().exportValues("dialog", "html", "title")
-            elif _action.parent().objectName() == translate("MenuBar", "Copy To Clipboard"):
+            elif _action.parent().objectName() == "Copy To Clipboard":
                 getMainTable().exportValues("clipboard", "html", "title")
-        elif actionName == translate("MenuBar", "Text Format"):
-            if _action.parent().objectName() == translate("MenuBar", "Export To File"):
+        elif actionName == "Text Format":
+            if _action.parent().objectName() == "Export To File":
                 getMainTable().exportValues("file", "plainText", "title")
-            elif _action.parent().objectName() == translate("MenuBar", "Show In New Window"):
+            elif _action.parent().objectName() == "Show In New Window":
                 getMainTable().exportValues("dialog", "plainText", "title")
-            elif _action.parent().objectName() == translate("MenuBar", "Copy To Clipboard"):
+            elif _action.parent().objectName() == "Copy To Clipboard":
                 getMainTable().exportValues("clipboard", "plainText", "title")
-        elif actionName == translate("MenuBar", "HTML Format (File Tree)"):
-            if _action.parent().objectName() == translate("MenuBar", "Export To File"):
+        elif actionName == "HTML Format (File Tree)":
+            if _action.parent().objectName() == "Export To File":
                 fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "file", "html", "fileTree",
                                "title")
-            elif _action.parent().objectName() == translate("MenuBar", "Show In New Window"):
+            elif _action.parent().objectName() == "Show In New Window":
                 fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "dialog", "html", "fileTree",
                                "title")
-            elif _action.parent().objectName() == translate("MenuBar", "Copy To Clipboard"):
+            elif _action.parent().objectName() == "Copy To Clipboard":
                 fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "clipboard", "html", "fileTree",
                                "title")
-        elif actionName == translate("MenuBar", "Text Format (File Tree)"):
-            if _action.parent().objectName() == translate("MenuBar", "Export To File"):
+        elif actionName == "Text Format (File Tree)":
+            if _action.parent().objectName() == "Export To File":
                 fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "file", "plainText", "fileTree",
                                "title")
-            elif _action.parent().objectName() == translate("MenuBar", "Show In New Window"):
+            elif _action.parent().objectName() == "Show In New Window":
                 fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "dialog", "plainText", "fileTree",
                                "title")
-            elif _action.parent().objectName() == translate("MenuBar", "Copy To Clipboard"):
+            elif _action.parent().objectName() == "Copy To Clipboard":
                 fu.getFileTree((getMainWindow().FileManager.currentDirectory), 0, "clipboard", "plainText",
                                "fileTree", "title")
-        elif actionName == translate("MenuBar", "About QT"):
+        elif actionName == "About QT":
             if isActivePyKDE4:
                 QMessageBox.aboutQt(getMainWindow(), translate("MenuBar", "About QT"))
             else:
                 MMessageBox.aboutQt(getMainWindow(), translate("MenuBar", "About QT"))
-        elif actionName == translate("MenuBar", "Options"):
+        elif actionName == "Options":
             from Options import OptionsForm
 
             OptionsForm.OptionsForm(getMainWindow())
-        elif actionName == translate("MenuBar", "My Plugins"):
+        elif actionName == "My Plugins":
             import MyPlugins
 
             MyPlugins.MyPlugins()
-        elif actionName == translate("MenuBar", "Reconfigure"):
+        elif actionName == "Reconfigure":
             from Tools import Configurator
 
             Configurator.Configurator("configurePage")
-        elif actionName == translate("MenuBar", "My Plugins (System)"):
+        elif actionName == "My Plugins (System)":
             Execute.execute(["--qm", "--plugins", "--runAsRoot"], "HamsiManager")
-        elif actionName == translate("MenuBar", "Reconfigure (System)"):
+        elif actionName == "Reconfigure (System)":
             Execute.execute(["--qm", "--configurator", "--runAsRoot"], "HamsiManager")
-        elif actionName == translate("MenuBar", "Update"):
+        elif actionName == "Update":
             from Core import UpdateControl
 
             UpdateControl.UpdateControl(getMainWindow())
-        elif actionName == translate("MenuBar", "Report Bug"):
+        elif actionName == "Report Bug":
             ReportBug.ReportBug(True)
-        elif actionName == translate("MenuBar", "Suggest Idea"):
+        elif actionName == "Suggest Idea":
             from Core import SuggestIdea
 
             SuggestIdea.SuggestIdea()
-        elif actionName == translate("MenuBar", "About Hamsi Manager"):
+        elif actionName == "About Hamsi Manager":
             if isActivePyKDE4 is False:
                 MMessageBox.about(getMainWindow(), translate("MenuBar", "About Hamsi Manager"),
                                   uni.aboutOfHamsiManager)
@@ -138,7 +138,7 @@ def clickedAnAction(_action):
                          translate("ToolsBar",
                                    "Current directory icon checked.<br>The default action based on the data is executed."))
             getMainWindow().setEnabled(True)
-        elif actionName == translate("ToolsBar", "Clear Empty Directories"):
+        elif actionName == "Clear Empty Directories":
             if getMainTable().checkUnSavedValues() is False:
                 _action.setChecked(False)
                 return False
@@ -156,40 +156,40 @@ def clickedAnAction(_action):
                                            "The current directory is cleaned based on the criteria you set."))
                 getMainWindow().setEnabled(True)
                 getMainWindow().FileManager.makeRefresh()
-        elif actionName == translate("ToolsBar", "Pack"):
+        elif actionName == "Pack":
             from Tools import Packager
 
             Packager.Packager(getMainWindow().FileManager.getCurrentDirectoryPath())
-        elif actionName == translate("ToolsBar", "Hash"):
+        elif actionName == "Hash":
             from Tools import Hasher
 
             Hasher.Hasher(getMainWindow().FileManager.getCurrentDirectoryPath())
-        elif actionName == translate("ToolsBar", "Clear"):
+        elif actionName == "Clear":
             from Tools import Cleaner
 
             Cleaner.Cleaner(getMainWindow().FileManager.getCurrentDirectoryPath())
-        elif actionName == translate("ToolsBar", "Text Corrector"):
+        elif actionName == "Text Corrector":
             from Tools import TextCorrector
 
             TextCorrector.TextCorrector(getMainWindow().FileManager.getCurrentDirectoryPath())
-        elif actionName == translate("ToolsBar", "File Tree"):
+        elif actionName == "File Tree":
             from Tools import FileTreeBuilder
 
             FileTreeBuilder.FileTreeBuilder(getMainWindow().FileManager.getCurrentDirectoryPath())
-        elif actionName == translate("ToolsBar", "Search"):
+        elif actionName == "Search":
             from Tools import Searcher
 
             Searcher.Searcher([getMainWindow().FileManager.getCurrentDirectoryPath()])
-        elif actionName == translate("ToolsBar", "Script Manager"):
+        elif actionName == "Script Manager":
             from Tools import ScriptManager
 
             if ScriptManager.ScriptManager.checkScriptManager():
                 ScriptManager.ScriptManager(getMainWindow())
-        elif actionName == translate("ToolsBar", "Show Last Actions"):
+        elif actionName == "Show Last Actions":
             from Core import RecordsForm
 
             RecordsForm.RecordsForm(getMainWindow())
-        elif actionName == translate("ToolsBar", "Remove Sub Files"):
+        elif actionName == "Remove Sub Files":
             answer = Dialogs.ask(translate("ToolsBar", "All Files Will Be Removed"),
                                  str(translate("ToolsBar",
                                                "Are you sure you want to remove only all files in \"%s\"?<br>Note:Do not will remove directory and subfolders.")) % Organizer.getLink(
@@ -202,16 +202,16 @@ def clickedAnAction(_action):
                              str(translate("ToolsBar",
                                            "Removed only all files in \"%s\".<br>Note:Do not removed directory and subfolders.")) % Organizer.getLink(
                                  getMainWindow().FileManager.getCurrentDirectoryPath()))
-        elif actionName == translate("ToolsBar", "Amarok Embedded Database Configurator"):
+        elif actionName == "Amarok Embedded Database Configurator":
             import Amarok
 
             if Amarok.checkAmarok():
                 Amarok.openEmbeddedDBConfigurator()
-        elif _action.parent().objectName() == translate("ToolsBar", "Table Types"):
+        elif _action.parent().objectName() == "Table Types":
             changeTableType(_action)
-        elif _action.parent().objectName() == translate("ToolsBar", "File Renamer Types"):
+        elif _action.parent().objectName() == "File Renamer Types":
             changeReNamerType(_action)
-        elif _action.parent().objectName() == translate("MenuBar", "Scripts"):
+        elif _action.parent().objectName() == "Scripts":
             from Core import Scripts
 
             Scripts.runScriptFile(fu.joinPath(Scripts.pathOfScripsDirectory, actionName))
@@ -301,3 +301,9 @@ def changeReNamerType(_action):
     except:
         ReportBug.ReportBug()
 
+
+def getCopyOfMAction(_action):
+    a = MAction(MIcon(_action.icon()), _action.text(), _action.parent())
+    a.setObjectName(_action.objectName())
+    a.setToolTip(_action.toolTip())
+    return a

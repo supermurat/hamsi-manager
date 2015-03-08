@@ -112,7 +112,7 @@ class SpecialTools(MWidget):
         HBox.addLayout(VBox1)
         self.setLayout(HBox)
         _parent.dckSpecialTools = MDockWidget(translate("SpecialTools", "Special Tools"))
-        _parent.dckSpecialTools.setObjectName(translate("SpecialTools", "Special Tools"))
+        _parent.dckSpecialTools.setObjectName("Special Tools")
         _parent.dckSpecialTools.setWidget(self)
         _parent.dckSpecialTools.setAllowedAreas(Mt.AllDockWidgetAreas)
         _parent.dckSpecialTools.setFeatures(MDockWidget.AllDockWidgetFeatures)

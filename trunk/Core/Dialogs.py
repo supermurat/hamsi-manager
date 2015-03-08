@@ -167,7 +167,7 @@ def showState(_title, _value=0, _maxValue=100, _isShowCancel=False, _connectToCa
             if getMainWindow().isLockedMainForm is False:
                 getMainWindow().lockForm()
             getMainWindow().StateDialog = MDockWidget(translate("Dialogs", "Progress Bar"))
-            getMainWindow().StateDialog.setObjectName(translate("Dialogs", "Progress Bar"))
+            getMainWindow().StateDialog.setObjectName("Progress Bar")
             pnlState2 = MWidget(getMainWindow().StateDialog)
             getMainWindow().StateDialogTitle = MLabel()
             HBoxs.append(MHBoxLayout(pnlState2))

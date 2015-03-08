@@ -50,13 +50,13 @@ class SearchEngines(MMenu):
                     self.addMenu(self.mSearchDepth)
         if isAnyAvailable is False:
             self.actions.append(MAction(translate("SearchEngines", "You Have Not Any Search Engine"), self))
-            self.actions[-1].setObjectName(translate("SearchEngines", "You Have Not Any Search Engine"))
+            self.actions[-1].setObjectName("You Have Not Any Search Engine")
             self.addAction(self.actions[-1])
         MObject.connect(self, SIGNAL("triggered(QAction *)"), self.triggered)
 
     def triggered(self, _action):
         try:
-            if _action.objectName() == translate("SearchEngines", "You Have Not Any Search Engine"):
+            if _action.objectName() == "You Have Not Any Search Engine":
                 Dialogs.show(translate("SearchEngines", "You Have Not Any Search Engine"),
                              translate("SearchEngines",
                                        "Not found any search engine in your system. Please install a search engine module. Now supporting only musicbrainz module (python-musicbrainz2)."))

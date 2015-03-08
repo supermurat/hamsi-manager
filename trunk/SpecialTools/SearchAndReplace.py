@@ -47,14 +47,12 @@ class SearchAndReplace(MWidget):
         self.leReplace.setToolTip(str(srExamples + rExample + "</table>"))
         self.columns = MyComboBox()
         self.pbtnEditValueForSearch = MPushButton(translate("Options", "*"))
-        self.pbtnEditValueForSearch.setObjectName(
-            str(translate("Options", "Edit Values With Advanced Value Editor") + "For Search"))
+        self.pbtnEditValueForSearch.setObjectName("Edit Values With Advanced Value Editor For Search")
         self.pbtnEditValueForSearch.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForSearch.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForSearch, SIGNAL("clicked()"), self.pbtnEditValueClicked)
         self.pbtnEditValueForReplace = MPushButton(translate("Options", "*"))
-        self.pbtnEditValueForReplace.setObjectName(
-            str(translate("Options", "Edit Values With Advanced Value Editor") + "For Replace"))
+        self.pbtnEditValueForReplace.setObjectName("Edit Values With Advanced Value Editor For Replace")
         self.pbtnEditValueForReplace.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValueForReplace.setFixedWidth(25)
         MObject.connect(self.pbtnEditValueForReplace, SIGNAL("clicked()"), self.pbtnEditValueClicked)
