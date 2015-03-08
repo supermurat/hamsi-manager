@@ -55,27 +55,28 @@ def executeStringCommand(_command):
 def execute(_command=[], _executableName=None):
     if _executableName in ["HamsiManager", "HamsiManagerInstaller"]:
         pathOfExecutable = findExecutablePath(_executableName)
-        if pathOfExecutable is None:
-            from Core import Dialogs
-
-            Dialogs.showError(translate("Execute", "Cannot Find Executable File"),
-                              str(translate("Execute",
-                                            "\"%s\" : cannot find an executable file matched this name in directory of Hamsi Manager.<br>Please make sure that it exists and retry.")) % _executableName)
-            return None
-        if pathOfExecutable.find(".py") > -1 or pathOfExecutable.find(".py3") > -1 or pathOfExecutable.find(
-            ".pyw") > -1:
+        if pathOfExecutable.find(".py") > -1 or pathOfExecutable.find(".py3") > -1 or pathOfExecutable.find(".pyw") > -1:
             pathOfExecutable = [getPythonPath(), pathOfExecutable]
         else:
             pathOfExecutable = [pathOfExecutable]
-        Records.add("Execute >>> " + str(pathOfExecutable + _command))
-        try: correctedCommand = uni.trEncodeList(pathOfExecutable + _command, fu.fileSystemEncoding)
-        except: correctedCommand = pathOfExecutable + _command
-        return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+        _command = pathOfExecutable + _command
+    if len(_command) > 1 and _command[1][0] is not "-" and _command[0].find("kdesu") > -1:
+        tCommand = _command[0]
+        del _command[0]
+        for c in _command:
+            if c.find(" ") > -1 or c.find("'") > -1:
+                c = "'" + c + "'"
+        tCommand += " \"" + (" ".join(_command)) + "\""
+        _command = tCommand
+        Records.add("Execute >>> " + str(_command))
+        Records.saveAllRecords()
+        return subprocess.Popen(args=uni.trEncode(_command, fu.fileSystemEncoding), stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1, shell=True)
     else:
         Records.add("Execute >>> " + str(_command))
+        Records.saveAllRecords()
         try: correctedCommand = uni.trEncodeList(_command, fu.fileSystemEncoding)
         except: correctedCommand = _command
-        return subprocess.Popen(correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
+        return subprocess.Popen(args=correctedCommand, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=1)
 
 
 def findExecutableBaseName(_executableName):
@@ -109,10 +110,16 @@ def findExecutableBaseName(_executableName):
     return None
 
 
-def findExecutablePath(_executableName):
+def findExecutablePath(_executableName, _isAlertIfNotFound=True):
     executableBaseName = findExecutableBaseName(_executableName)
     if executableBaseName is not None:
         return fu.joinPath(fu.HamsiManagerDirectory, executableBaseName)
+    if _isAlertIfNotFound:
+        from Core import Dialogs
+
+        Dialogs.showError(translate("Execute", "Cannot Find Executable File"),
+                          str(translate("Execute",
+                                        "\"%s\" : cannot find an executable file matched this name in directory of Hamsi Manager.<br>Please make sure that it exists and retry.")) % _executableName)
     return None
 
 
