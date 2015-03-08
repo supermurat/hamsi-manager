@@ -89,8 +89,7 @@ class Searcher(MyDialog):
         self.cckbIsLineWrap = Options.MyCheckBox(self, translate("Searcher", "Wrap By Width"), 0, "SearcherIsLineWrap",
                                                  self.isLineWrap)
         self.pbtnEditValuePathToSeach = MPushButton(translate("Options", "*"))
-        self.pbtnEditValuePathToSeach.setObjectName(
-            str(translate("Options", "Edit Values With Advanced Value Editor") + "Path To Seach"))
+        self.pbtnEditValuePathToSeach.setObjectName("Edit Values With Advanced Value Editor Path To Seach")
         self.pbtnEditValuePathToSeach.setToolTip(translate("Options", "Edit values with Advanced Value Editor"))
         self.pbtnEditValuePathToSeach.setFixedWidth(25)
         MObject.connect(self.pbtnEditValuePathToSeach, SIGNAL("clicked()"), self.pbtnEditValuePathToSeachClicked)

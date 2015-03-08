@@ -108,7 +108,7 @@ class FileManager():
             self.actCollection.associateWidget(toolsFull)
 
             getMainWindow().DirOperator = MDockWidget(translate("FileManager", "Directory Operator"))
-            getMainWindow().DirOperator.setObjectName(translate("FileManager", "Directory Operator"))
+            getMainWindow().DirOperator.setObjectName("Directory Operator")
             getMainWindow().DirOperator.setWidget(self.dirOperator)
             getMainWindow().DirOperator.setAllowedAreas(Mt.AllDockWidgetAreas)
             getMainWindow().DirOperator.setFeatures(MDockWidget.AllDockWidgetFeatures)
@@ -140,7 +140,7 @@ class FileManager():
         tools.setIconSize(MSize(16, 16))
         self.tbarBrowserTools = MToolBar(_parent)
         self.tbarBrowserTools.setWindowTitle(translate("FileManager", "Browser Tools"))
-        self.tbarBrowserTools.setObjectName(translate("FileManager", "Browser Tools"))
+        self.tbarBrowserTools.setObjectName("Browser Tools")
         self.tbarBrowserTools.setIconSize(MSize(16, 16))
         self.tbarBrowserTools.addWidget(tools)
         _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserTools)
@@ -148,38 +148,38 @@ class FileManager():
             toolsFull.setIconSize(MSize(16, 16))
             self.tbarBrowserToolsFull = MToolBar(_parent)
             self.tbarBrowserToolsFull.setWindowTitle(translate("FileManager", "Browser Tools (KDE4)"))
-            self.tbarBrowserToolsFull.setObjectName(translate("FileManager", "Browser Tools (KDE4)"))
+            self.tbarBrowserToolsFull.setObjectName("Browser Tools (KDE4)")
             self.tbarBrowserToolsFull.setIconSize(MSize(16, 16))
             self.tbarBrowserToolsFull.addWidget(toolsFull)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarBrowserToolsFull)
             self.tbarLocationBar = MToolBar(_parent)
             self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar (KDE4)"))
-            self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar (KDE4)"))
+            self.tbarLocationBar.setObjectName("Location Bar (KDE4)")
             self.tbarLocationBar.setIconSize(MSize(16, 16))
             self.tbarLocationBar.addWidget(self.urlNavigator)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
         else:
             self.tbarLocationBar = MToolBar(_parent)
             self.tbarLocationBar.setWindowTitle(translate("FileManager", "Location Bar"))
-            self.tbarLocationBar.setObjectName(translate("FileManager", "Location Bar"))
+            self.tbarLocationBar.setObjectName("Location Bar")
             self.tbarLocationBar.setIconSize(MSize(16, 16))
             self.tbarLocationBar.addWidget(self.leNavigator)
             _parent.addToolBar(Mt.TopToolBarArea, self.tbarLocationBar)
         getMainWindow().Browser = MDockWidget(translate("FileManager", "Browser"))
-        getMainWindow().Browser.setObjectName(translate("FileManager", "Browser"))
+        getMainWindow().Browser.setObjectName("Browser")
         getMainWindow().Browser.setWidget(self.lstvFileManager)
         getMainWindow().Browser.setAllowedAreas(Mt.AllDockWidgetAreas)
         getMainWindow().Browser.setFeatures(MDockWidget.AllDockWidgetFeatures)
         _parent.addDockWidget(Mt.LeftDockWidgetArea, getMainWindow().Browser)
         getMainWindow().TreeBrowser = MDockWidget(translate("FileManager", "Tree Browser"))
-        getMainWindow().TreeBrowser.setObjectName(translate("FileManager", "Tree Browser"))
+        getMainWindow().TreeBrowser.setObjectName("Tree Browser")
         getMainWindow().TreeBrowser.setWidget(self.trvFileManager)
         getMainWindow().TreeBrowser.setAllowedAreas(Mt.AllDockWidgetAreas)
         getMainWindow().TreeBrowser.setFeatures(MDockWidget.AllDockWidgetFeatures)
         _parent.addDockWidget(Mt.LeftDockWidgetArea, getMainWindow().TreeBrowser)
         if isActivePyKDE4:
             getMainWindow().Places = MDockWidget(translate("FileManager", "Places"))
-            getMainWindow().Places.setObjectName(translate("FileManager", "Places"))
+            getMainWindow().Places.setObjectName("Places")
             getMainWindow().Places.setWidget(self.fpvPlaces)
             getMainWindow().Places.setAllowedAreas(Mt.AllDockWidgetAreas)
             getMainWindow().Places.setFeatures(MDockWidget.AllDockWidgetFeatures)
@@ -379,14 +379,13 @@ class BookmarksMenu(MMenu):
             self.clear()
             for fav in BookmarksOfDirectories.fetchAll():
                 self.addAction(str(fav[1])).setObjectName(str(fav[1]))
-            self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName(
-                translate("BookmarksMenu", "Edit Bookmarks"))
+            self.addAction(translate("BookmarksMenu", "Edit Bookmarks")).setObjectName("Edit Bookmarks")
         except:
             ReportBug.ReportBug()
 
     def triggered(self, _action):
         try:
-            if _action.objectName() == translate("BookmarksMenu", "Edit Bookmarks"):
+            if _action.objectName() == "Edit Bookmarks":
                 getMainWindow().FileManager.bookmarks.makeRefresh()
                 getMainWindow().FileManager.bookmarks.show()
                 return

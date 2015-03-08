@@ -30,97 +30,82 @@ class MenuBar(MMenuBar):
         self.mTableTools = None
         self.mQuickOptions = None
         self.mFile = self.addMenu(translate("MenuBar", "File"))
-        self.mFile.setObjectName(translate("MenuBar", "File"))
+        self.mFile.setObjectName("File")
         self.mEdit = self.addMenu(translate("MenuBar", "Edit"))
-        self.mEdit.setObjectName(translate("MenuBar", "Edit"))
+        self.mEdit.setObjectName("Edit")
         self.mView = self.addMenu(translate("MenuBar", "View"))
-        self.mView.setObjectName(translate("MenuBar", "View"))
+        self.mView.setObjectName("View")
         self.mSettings = self.addMenu(translate("MenuBar", "Settings"))
-        self.mSettings.setObjectName(translate("MenuBar", "Settings"))
+        self.mSettings.setObjectName("Settings")
         if isActivePyKDE4:
             self.mHelpMenu = getMainWindow().helpMenu()
             self.mHelpMenu.setObjectName(self.mHelpMenu.title())
             self.aHelpMenu = self.addMenu(self.mHelpMenu)
         else:
             self.mHelpMenu = self.addMenu(translate("MenuBar", "Help"))
-            self.mHelpMenu.setObjectName(translate("MenuBar", "Help"))
+            self.mHelpMenu.setObjectName("Help")
         mExport = MMenu(translate("MenuBar", "Export"), self.mEdit)
-        mExport.setObjectName(translate("MenuBar", "Export"))
+        mExport.setObjectName("Export")
         mExportToFile = MMenu(translate("MenuBar", "Export To File"), self.mEdit)
-        mExportToFile.setObjectName(translate("MenuBar", "Export To File"))
-        mExportToFile.addAction(translate("MenuBar", "HTML Format")).setObjectName(translate("MenuBar", "HTML Format"))
-        mExportToFile.addAction(translate("MenuBar", "Text Format")).setObjectName(translate("MenuBar", "Text Format"))
-        mExportToFile.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(
-            translate("MenuBar", "HTML Format (File Tree)"))
-        mExportToFile.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(
-            translate("MenuBar", "Text Format (File Tree)"))
+        mExportToFile.setObjectName("Export To File")
+        mExportToFile.addAction(translate("MenuBar", "HTML Format")).setObjectName("HTML Format")
+        mExportToFile.addAction(translate("MenuBar", "Text Format")).setObjectName("Text Format")
+        mExportToFile.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName("HTML Format (File Tree)")
+        mExportToFile.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName("Text Format (File Tree)")
         mShowInWindow = MMenu(translate("MenuBar", "Show In New Window"), self.mEdit)
-        mShowInWindow.setObjectName(translate("MenuBar", "Show In New Window"))
-        mShowInWindow.addAction(translate("MenuBar", "HTML Format")).setObjectName(translate("MenuBar", "HTML Format"))
-        mShowInWindow.addAction(translate("MenuBar", "Text Format")).setObjectName(translate("MenuBar", "Text Format"))
-        mShowInWindow.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(
-            translate("MenuBar", "HTML Format (File Tree)"))
-        mShowInWindow.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(
-            translate("MenuBar", "Text Format (File Tree)"))
+        mShowInWindow.setObjectName("Show In New Window")
+        mShowInWindow.addAction(translate("MenuBar", "HTML Format")).setObjectName("HTML Format")
+        mShowInWindow.addAction(translate("MenuBar", "Text Format")).setObjectName("Text Format")
+        mShowInWindow.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName("HTML Format (File Tree)")
+        mShowInWindow.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName("Text Format (File Tree)")
         mCopyToClipBoard = MMenu(translate("MenuBar", "Copy To Clipboard"), self.mEdit)
-        mCopyToClipBoard.setObjectName(translate("MenuBar", "Copy To Clipboard"))
-        mCopyToClipBoard.addAction(translate("MenuBar", "HTML Format")).setObjectName(
-            translate("MenuBar", "HTML Format"))
-        mCopyToClipBoard.addAction(translate("MenuBar", "Text Format")).setObjectName(
-            translate("MenuBar", "Text Format"))
-        mCopyToClipBoard.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName(
-            translate("MenuBar", "HTML Format (File Tree)"))
-        mCopyToClipBoard.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName(
-            translate("MenuBar", "Text Format (File Tree)"))
+        mCopyToClipBoard.setObjectName("Copy To Clipboard")
+        mCopyToClipBoard.addAction(translate("MenuBar", "HTML Format")).setObjectName("HTML Format")
+        mCopyToClipBoard.addAction(translate("MenuBar", "Text Format")).setObjectName("Text Format")
+        mCopyToClipBoard.addAction(translate("MenuBar", "HTML Format (File Tree)")).setObjectName("HTML Format (File Tree)")
+        mCopyToClipBoard.addAction(translate("MenuBar", "Text Format (File Tree)")).setObjectName("Text Format (File Tree)")
         mExport.addMenu(mExportToFile)
         mExport.addMenu(mShowInWindow)
         mExport.addMenu(mCopyToClipBoard)
-        self.mFile.addAction(translate("MenuBar", "Open State")).setObjectName(translate("MenuBar", "Open State"))
-        self.mFile.addAction(translate("MenuBar", "Save State")).setObjectName(translate("MenuBar", "Save State"))
+        self.mFile.addAction(translate("MenuBar", "Open State")).setObjectName("Open State")
+        self.mFile.addAction(translate("MenuBar", "Save State")).setObjectName("Save State")
         if uni.isRunableAsRoot():
             mRunAsRoot = MMenu(translate("MenuBar", "Run As Root"), self.mFile)
-            mRunAsRoot.addAction(translate("MenuBar", "With This Profile (My Settings)")).setObjectName(
-                translate("MenuBar", "With This Profile (My Settings)"))
-            mRunAsRoot.addAction(translate("MenuBar", "With Root Profile (Own Settings)")).setObjectName(
-                translate("MenuBar", "With Root Profile (Own Settings)"))
+            mRunAsRoot.addAction(translate("MenuBar", "With This Profile (My Settings)")).setObjectName("With This Profile (My Settings)")
+            mRunAsRoot.addAction(translate("MenuBar", "With Root Profile (Own Settings)")).setObjectName("With Root Profile (Own Settings)")
             self.mFile.addMenu(mRunAsRoot)
-        self.mFile.addAction(translate("MenuBar", "Quit")).setObjectName(translate("MenuBar", "Quit"))
+        self.mFile.addAction(translate("MenuBar", "Quit")).setObjectName("Quit")
         self.mEdit.addMenu(mExport)
         actOptions = self.mSettings.addAction(translate("MenuBar", "Options"))
-        actOptions.setObjectName(translate("MenuBar", "Options"))
+        actOptions.setObjectName("Options")
         actOptions.setIcon(MIcon("Images:options.png"))
-        self.mSettings.addAction(translate("MenuBar", "My Plugins")).setObjectName(translate("MenuBar", "My Plugins"))
-        self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName(translate("MenuBar", "Reconfigure"))
+        self.mSettings.addAction(translate("MenuBar", "My Plugins")).setObjectName("My Plugins")
+        self.mSettings.addAction(translate("MenuBar", "Reconfigure")).setObjectName("Reconfigure")
         if uni.isRunableAsRoot():
-            self.mSettings.addAction(translate("MenuBar", "My Plugins (System)")).setObjectName(
-                translate("MenuBar", "My Plugins (System)"))
-            self.mSettings.addAction(translate("MenuBar", "Reconfigure (System)")).setObjectName(
-                translate("MenuBar", "Reconfigure (System)"))
+            self.mSettings.addAction(translate("MenuBar", "My Plugins (System)")).setObjectName("My Plugins (System)")
+            self.mSettings.addAction(translate("MenuBar", "Reconfigure (System)")).setObjectName("Reconfigure (System)")
         if isActivePyKDE4:
             actReportBug = MAction(translate("MenuBar", "Report Bug"), self.mHelpMenu)
-            actReportBug.setObjectName(translate("MenuBar", "Report Bug"))
+            actReportBug.setObjectName("Report Bug")
             self.mHelpMenu.insertAction(self.mHelpMenu.actions()[3], actReportBug)
             actSuggestIdea = MAction(translate("MenuBar", "Suggest Idea"), self.mHelpMenu)
-            actSuggestIdea.setObjectName(translate("MenuBar", "Suggest Idea"))
+            actSuggestIdea.setObjectName("Suggest Idea")
             self.mHelpMenu.insertAction(self.mHelpMenu.actions()[3], actSuggestIdea)
             actUNo = 9
             while actUNo > 0:
                 try:
                     actUpdate = MAction(translate("MenuBar", "Update"), self.mHelpMenu)
-                    actUpdate.setObjectName(translate("MenuBar", "Update"))
+                    actUpdate.setObjectName("Update")
                     self.mHelpMenu.insertAction(self.mHelpMenu.actions()[actUNo], actUpdate)
                     break
                 except:
                     actUNo -= 3
         else:
-            self.mHelpMenu.addAction(translate("MenuBar", "Report Bug")).setObjectName(
-                translate("MenuBar", "Report Bug"))
-            self.mHelpMenu.addAction(translate("MenuBar", "Suggest Idea")).setObjectName(
-                translate("MenuBar", "Suggest Idea"))
-            self.mHelpMenu.addAction(translate("MenuBar", "Update")).setObjectName(translate("MenuBar", "Update"))
-            self.mHelpMenu.addAction(translate("MenuBar", "About Hamsi Manager")).setObjectName(
-                translate("MenuBar", "About Hamsi Manager"))
-        self.mHelpMenu.addAction(translate("MenuBar", "About QT")).setObjectName(translate("MenuBar", "About QT"))
+            self.mHelpMenu.addAction(translate("MenuBar", "Report Bug")).setObjectName("Report Bug")
+            self.mHelpMenu.addAction(translate("MenuBar", "Suggest Idea")).setObjectName("Suggest Idea")
+            self.mHelpMenu.addAction(translate("MenuBar", "Update")).setObjectName("Update")
+            self.mHelpMenu.addAction(translate("MenuBar", "About Hamsi Manager")).setObjectName("About Hamsi Manager")
+        self.mHelpMenu.addAction(translate("MenuBar", "About QT")).setObjectName("About QT")
 
         MObject.connect(self, SIGNAL("triggered(QAction *)"), Bars.clickedAnAction)
 

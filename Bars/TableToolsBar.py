@@ -31,7 +31,7 @@ class TableToolsBar(MToolBar):
         self.setWindowTitle(translate("TableToolsBar", "Table Tools"))
         self.setObjectName("Table Tools")
         actgActionGroupTableTypes = MActionGroup(self)
-        actgActionGroupTableTypes.setObjectName(translate("ToolsBar", "Table Types"))
+        actgActionGroupTableTypes.setObjectName("Table Types")
         tableTypesNames = uni.getTableTypesNames()
         for x in uni.tableTypeOrder:
             if x in tableTypesNames.keys():
@@ -48,7 +48,7 @@ class TableToolsBar(MToolBar):
                                      str(translate("ToolsBar", "Removable Media"))]
         buttonIcons = ["personalComputer.png", "webServer.png", "removableMedia.png"]
         actgActionGroupReNamerTypes = MActionGroup(self)
-        actgActionGroupReNamerTypes.setObjectName(translate("ToolsBar", "File Renamer Types"))
+        actgActionGroupReNamerTypes.setObjectName("File Renamer Types")
         self.actsFileReNamerTypes = []
         for x, name in enumerate(self.fileReNamerTypeNames):
             self.actsFileReNamerTypes.append(
@@ -65,7 +65,7 @@ class TableToolsBar(MToolBar):
         self.addActions(actgActionGroupReNamerTypes.actions())
         self.setIconSize(MSize(16, 16))
         getMainWindow().Menu.mTableTools = MMenu(translate("MenuBar", "Table Tools"), self)
-        getMainWindow().Menu.mTableTools.setObjectName(translate("MenuBar", "Table Tools"))
+        getMainWindow().Menu.mTableTools.setObjectName("Table Tools")
         getMainWindow().Menu.mTableTools.addActions(actgActionGroupTableTypes.actions())
         getMainWindow().Menu.mTableTools.addSeparator()
         getMainWindow().Menu.mTableTools.addActions(actgActionGroupReNamerTypes.actions())
