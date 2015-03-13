@@ -259,6 +259,23 @@ def getDetails(_oldPath):
         except: return None
 
 
+def getExtendedDetails(_oldPath):
+    details = getDetails(_oldPath)
+    extendedDetails = {}
+    extendedDetails["accessRights"] = oct(stat.S_IMODE(details[stat.ST_MODE]))
+    extendedDetails["numberOfHardLinks"] = details[stat.ST_NLINK]
+    extendedDetails["userIDOfOwner"] = details[stat.ST_UID]
+    extendedDetails["groupIDOfOwner"] = details[stat.ST_GID]
+    extendedDetails["size"] = details[stat.ST_SIZE]
+    extendedDetails["lastAccessed"] = details[stat.ST_ATIME]
+    extendedDetails["lastModified"] = details[stat.ST_MTIME]
+    extendedDetails["lastMetadataChanged"] = details[stat.ST_CTIME]
+    extendedDetails["userNameOfOwner"] = uni.getUserNameByID(details[stat.ST_UID])
+    extendedDetails["longUserNameOfOwner"] = uni.getUserLongNameByID(details[stat.ST_UID])
+    extendedDetails["groupNameOfOwner"] = uni.getGroupNameByID(details[stat.ST_GID])
+    return extendedDetails
+
+
 def getObjectType(_oldPath):
     objectType = "file"
     if isDir(_oldPath):

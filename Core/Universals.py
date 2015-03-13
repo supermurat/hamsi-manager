@@ -19,6 +19,8 @@
 
 import sys
 import os
+import pwd
+import grp
 import platform
 from datetime import datetime
 import FileUtils as fu
@@ -645,6 +647,20 @@ def checkMysqldSafe(_isAskIfNotFound=True):
     else:
         return True
 
+
+def getUserNameByID(_userID):
+    try:return pwd.getpwuid(_userID).pw_name
+    except:return str(_userID)
+
+
+def getUserLongNameByID(_userID):
+    try:return pwd.getpwuid(_userID).pw_gecos
+    except:return str(_userID)
+
+
+def getGroupNameByID(_groupID):
+    try:return grp.getgrgid(_groupID).gr_name
+    except:return str(_groupID)
 
 
 
