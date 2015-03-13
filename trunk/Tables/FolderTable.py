@@ -46,17 +46,18 @@ class FolderTable(CoreTable):
                              translate("FileTable", "Size"),
                              translate("FileTable", "Last Accessed"),
                              translate("FileTable", "Last Modified"),
-                             translate("FileTable", "Last Metadata Changed"),
-                             translate("FileTable", "Access Rights"),
-                             translate("FileTable", "User ID Of Owner"),
-                             translate("FileTable", "Group ID Of Owner"),
-                             translate("FileTable", "Number Of Hard Links")
+                             translate("FileTable", "Last Metadata Changed")
         ]
         self.tableColumnsKey = ["baseNameOfDirectory", "baseName", "size", "lastAccessed", "lastModified",
-                                "lastMetadataChanged", "accessRights", "userIDOfOwner", "groupIDOfOwner",
-                                "numberOfHardLinks"]
-        self.tableReadOnlyColumnsKey = ["size", "lastAccessed", "lastModified", "lastMetadataChanged",
-                                        "accessRights", "userIDOfOwner", "groupIDOfOwner", "numberOfHardLinks"]
+                                "lastMetadataChanged"]
+        self.tableReadOnlyColumnsKey = ["size", "lastAccessed", "lastModified", "lastMetadataChanged"]
+        if not uni.isWindows:
+            self.tableColumns += [translate("FileTable", "Access Rights"),
+                                  translate("FileTable", "User ID Of Owner"),
+                                  translate("FileTable", "Group ID Of Owner"),
+                                  translate("FileTable", "Number Of Hard Links")]
+            self.tableColumnsKey += ["accessRights", "userIDOfOwner", "groupIDOfOwner", "numberOfHardLinks"]
+            self.tableReadOnlyColumnsKey += ["accessRights", "userIDOfOwner", "groupIDOfOwner", "numberOfHardLinks"]
 
     def saveTable(self):
         self.checkFileExtensions("baseName", "baseName", True)
@@ -76,19 +77,12 @@ class FolderTable(CoreTable):
             if isContinueThreadAction:
                 try:
                     if fu.isReadableFileOrDir(fu.joinPath(_path, baseName), False, True):
-                        details = fu.getDetails(fu.joinPath(_path, baseName))
+                        details = fu.getExtendedDetails(fu.joinPath(_path, baseName))
                         content = {}
                         content["path"] = fu.joinPath(_path, baseName)
                         content["baseNameOfDirectory"] = baseNameOfDirectory
                         content["baseName"] = baseName
-                        content["accessRights"] = oct(stat.S_IMODE(details[stat.ST_MODE]))
-                        content["numberOfHardLinks"] = details[stat.ST_NLINK]
-                        content["userIDOfOwner"] = details[stat.ST_UID]
-                        content["groupIDOfOwner"] = details[stat.ST_GID]
-                        content["size"] = details[stat.ST_SIZE]
-                        content["lastAccessed"] = details[stat.ST_ATIME]
-                        content["lastModified"] = details[stat.ST_MTIME]
-                        content["lastMetadataChanged"] = details[stat.ST_CTIME]
+                        content.update(details)
                         self.values.append(content)
 
                         newBaseNameOfDirectory = Organizer.emend(content["baseNameOfDirectory"], "directory")
