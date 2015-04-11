@@ -647,6 +647,8 @@ def checkMysqldSafe(_isAskIfNotFound=True):
 
 
 def getUserNameByID(_userID):
+    if isWindows:
+        return str(_userID)
     import pwd
 
     try:return pwd.getpwuid(_userID).pw_name
@@ -654,6 +656,8 @@ def getUserNameByID(_userID):
 
 
 def getUserLongNameByID(_userID):
+    if isWindows:
+        return str(_userID)
     import pwd
 
     try:return pwd.getpwuid(_userID).pw_gecos
@@ -661,6 +665,8 @@ def getUserLongNameByID(_userID):
 
 
 def getGroupNameByID(_groupID):
+    if isWindows:
+        return str(_groupID)
     import grp
 
     try:return grp.getgrgid(_groupID).gr_name
