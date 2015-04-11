@@ -45,8 +45,8 @@ machineType = platform.machine()
 isPython3k = float(sys.version[:3]) >= 3.0
 isWindows = os.name == "nt"
 Catalog = "HamsiManager"
-version = "2.1"
-intversion = 2100
+version = "2.1.1"
+intversion = 2110
 settingVersion = "2100"
 aboutOfHamsiManager = ""
 fileReNamerTypeNamesKeys = ["Personal Computer", "Web Server", "Removable Media"]
