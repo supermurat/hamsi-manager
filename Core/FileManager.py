@@ -197,7 +197,7 @@ class FileManager():
                         if _isRemember:
                             self.future = []
                             self.history.append(self.currentDirectory)
-                        if _path[-1] == fu.sep:
+                        if len(_path) > 1 and _path[-1] == fu.sep:
                             _path = _path[:-1]
                         self.currentDirectory = str(_path)
                         if isActivePyKDE4:
