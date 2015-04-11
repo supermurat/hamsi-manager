@@ -116,13 +116,14 @@ class SubFolderTable(CoreTable):
                         self.createItem(rowNo, "lastMetadataChanged",
                                         Organizer.getCorrectedTime(content["lastMetadataChanged"]))
 
-                        self.createItem(rowNo, "accessRights", content["accessRights"])
+                        if not uni.isWindows:
+                            self.createItem(rowNo, "accessRights", content["accessRights"])
 
-                        self.createItem(rowNo, "userIDOfOwner", content["userIDOfOwner"])
+                            self.createItem(rowNo, "userIDOfOwner", content["userIDOfOwner"])
 
-                        self.createItem(rowNo, "groupIDOfOwner", content["groupIDOfOwner"])
+                            self.createItem(rowNo, "groupIDOfOwner", content["groupIDOfOwner"])
 
-                        self.createItem(rowNo, "numberOfHardLinks", content["numberOfHardLinks"])
+                            self.createItem(rowNo, "numberOfHardLinks", content["numberOfHardLinks"])
 
                         rowNo += 1
                     else:
