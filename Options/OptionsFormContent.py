@@ -65,8 +65,6 @@ class General(MWidget):
         self.valuesOfOptionsKeys = [uni.getInstalledLanguagesCodes(),
                                     ["1", "30"], ["10", "100000"]]
         _parent.createOptions(self)
-        if isActivePyKDE4:
-            _parent.setVisibleFormItems(self, "language", False)
         if self.visibleKeys.count("isSaveActions") > 0:
             MObject.connect(self.values[self.keysOfSettings.index("isSaveActions")], SIGNAL("currentIndexChanged(int)"),
                             self.saveActionsChanged)

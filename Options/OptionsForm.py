@@ -45,7 +45,7 @@ class OptionsForm(MDialog):
             pnlCategories = MHBoxLayout()
             pnlCategories.addWidget(self.tboxCategories, 1)
             self.setMinimumWidth(700)
-            self.setMinimumHeight(520)
+            self.setMinimumHeight(620)
             self.show()
         elif len(self.categories) > 1:
             pnlCategories = MTabWidget()

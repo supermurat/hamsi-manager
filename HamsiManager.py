@@ -55,8 +55,7 @@ if Core.checkMandatoryModules():
             version = uni.version
             appLicense = MAboutData.License_GPL_V3
             appCopyright = ki18n(str("Murat Demir (mopened@gmail.com)"))
-            kde4LangCode = (str(MLocale(uni.Catalog).language()) + "_" +
-                            str(MLocale(uni.Catalog).country()).upper())
+            kde4LangCode = uni.MySettings["language"]
             text = ki18n(str(""))
             homePage = str("hamsiapps.com")
             bugEmail = str("Murat Demir (mopened@gmail.com)")
@@ -87,7 +86,6 @@ if Core.checkMandatoryModules():
             MCmdLineArgs.addCmdLineOptions(options)
             uni.printForDevelopers("Before MApplication")
             HamsiManagerApp = MApplication()
-            kde4LangCode = str(MGlobal.locale().language())
             if len(kde4LangCode) != 5: kde4LangCode += "_" + str(MGlobal.locale().country()).upper()
             if uni.getInstalledLanguagesCodes().count(kde4LangCode) == 0:
                 for lcode in uni.getInstalledLanguagesCodes():
